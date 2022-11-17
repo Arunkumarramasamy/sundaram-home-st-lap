@@ -1,8 +1,8 @@
 import './App.css';
-import { Loginpage } from './components/Loginpage/Loginpage';
 import { Pagelayout } from './components/Pagelayout/Pagelayout';
-import { Signuppage } from './components/Signuppage/Signuppage';
-import { Routes, Route,Navigate } from "react-router-dom"
+import { Routes, Route,Navigate } from "react-router-dom";
+import Signuppage from './components/Signuppage/Signuppage';
+import Loginpage from './components/Loginpage/Loginpage';
 
 function App() {
   return (
