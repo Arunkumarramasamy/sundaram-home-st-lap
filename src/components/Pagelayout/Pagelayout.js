@@ -63,6 +63,7 @@ import Logo from '../../images/logo.png';
 import './PageLayout.css';
 import { Image } from '@mui/icons-material';
 import { TableFooter } from '@mui/material';
+import DisbursementRequestPage from '../DisbursementRequest/DisbursementRequestPage';
 
 
 
@@ -160,41 +161,59 @@ const PageLayout = () => {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <ListItemButton>
+      <ListItemButton onClick={handleClick}>
         <ListItemIcon>
           <img  id = 'layout-menu-image' src = {Nach}/>
         </ListItemIcon>
         <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH" />
        
+        {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-      </List>
-      </Collapse>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            </ListItemIcon>
+            <ListItemText primary="E-Nach/Nach Initiation Process" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            </ListItemIcon>
+            <ListItemText primary="E-Nach Initiation Process" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            </ListItemIcon>
+            <ListItemText primary="E-Nach Mandate Link Page" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            </ListItemIcon>
+            <ListItemText primary="Nach - Mandate Entry" />
+          </ListItemButton>
+
+          
+        </List>
+      </Collapse> 
       <ListItemButton>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Insurance}/>
         </ListItemIcon>
         <ListItemText primary="Insurance" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton >
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {disbusmentImage}/>
         </ListItemIcon>
         <ListItemText primary="Disbursment" sx = {{display:menuLableDisplay}} />
-       
       </ListItemButton>
-      {/* <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-          
-        </List>
-      </Collapse> */}
       <ListItemButton>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {AccountMaster}/>
@@ -240,9 +259,9 @@ const PageLayout = () => {
     </List>
             </Paper>
           </Box>
-          <Box sx={{ padding: "50px 25px 10px 25px", width: '1350px' }}>
+          <Box sx={{ padding: "50px 25px 10px 25px", width: '100%' }}>
             <Container>
-
+<DisbursementRequestPage />
              
             </Container>
           </Box>
