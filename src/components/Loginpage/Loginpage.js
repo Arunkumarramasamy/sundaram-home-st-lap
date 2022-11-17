@@ -85,7 +85,7 @@ export default function Loginpage() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#2F7DC4',width:'80px', height:'80px' }}>
+          <Avatar sx={{ m: 1, bgcolor: '#2F7DC4',width:'50px', height:'50px' }}>
           <LoginOutlined />
         </Avatar>
           <Typography component="h1" variant="h5" sx={{color:'black'}}>
@@ -102,6 +102,7 @@ export default function Loginpage() {
                   name="mobile"
                   autoComplete="mobile"
                   size="small"
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
