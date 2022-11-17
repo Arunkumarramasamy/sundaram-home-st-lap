@@ -1,5 +1,5 @@
 import './App.css';
-import { Pagelayout } from './components/Pagelayout/Pagelayout';
+import PageLayout from './components/Pagelayout/PageLayout';
 import { Routes, Route,Navigate } from "react-router-dom";
 import Signuppage from './components/Signuppage/Signuppage';
 import Loginpage from './components/Loginpage/Loginpage';
@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/home" element={ <Pagelayout/> } />
+        <Route path="/home" element={ <PageLayout/> } />
         <Route path="/login" element={ <Loginpage/> } />        
         <Route path="/signup" element={ <Signuppage/> } />
         <Route path="/disbursementRequest" element={ <DisbursementRequestPage /> } />

@@ -1,0 +1,53 @@
+#components-layout-demo-fixed .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+
+section {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+aside {
+  background-color: #fff !important;
+  padding: 4px;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 16px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#maindiv,
+#root {
+  height: 100%;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root .MuiListItemIcon-root {
+  color: white
+}
+
+#layout-menu-image {
+  width: 35px;
+}
+
+#menu-box {
+  border-right-style: groove;
+}
+
+#logoimage {
+  margin-top: 8px;
+}

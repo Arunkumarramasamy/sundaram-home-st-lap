@@ -1,119 +1,137 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 
+export default function DataGridDemo() {
+    const [pageSize, setPageSize] = React.useState(10);
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [rowValues,setRowValues] =  React.useState({});
+    const handleClose = () => {
+        setOpenDialog(false);
+      };
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: '#169BD5',
-      color: theme.palette.common.white,
-      fontFamily : 'Roboto',
-      fontWeight : 'Bold'
-    },
-    [`&.${tableCellClasses.body}`]: {
-      backgroundColor: '#D7D7D7',
-      fontFamily : 'Roboto'
-    },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  }));
-  
-
-
-function Row(props) {
-    
-
-    const handleChange = (event) => {
-        setStatus(event.target.value);
-    };
-
-  const { row } = props;
-  const [status, setStatus] = React.useState(row.status);
-  return (
-    <React.Fragment>
       
-      <StyledTableRow key={row.name}>
-              <StyledTableCell align="right">{row.sno}</StyledTableCell>
-              <StyledTableCell align="right">{row.date}</StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.amount}</StyledTableCell>
-              <StyledTableCell align="right"><Select
-          value={status}
-          onChange={handleChange}
-          displayEmpty
-        >
-          <MenuItem value={'Disbursed'}>Disbursed</MenuItem>
-          <MenuItem value={'Partially Disbursed'}>Partially Disbursed</MenuItem>
-          <MenuItem value={'Not Disbursed'}>Not Disbursed</MenuItem>
-          <MenuItem value={'Rejected'}>Rejected</MenuItem>
-        </Select></StyledTableCell>
-            </StyledTableRow>
-            </React.Fragment>
-  );
-}
+    const rows = [
+        { id: 1, trnno: 'STL20220001', name: 'Sundaram1' , date: '11/10/2022', amount: '5,00,000', status:'Not Disbursed' },
+        { id: 2, trnno: 'STL20220002', name: 'Sundaram2' , date: '11/10/2022', amount: '2,00,000', status:'Not Disbursed' },
+        { id: 3, trnno: 'STL20220003', name: 'Sundaram3' , date: '12/10/2022', amount: '12,00,000', status:'Not Disbursed' },
+        { id: 4, trnno: 'STL20220004', name: 'Sundaram4' , date: '12/10/2022', amount: '2,00,000', status:'Not Disbursed' },
+        { id: 5, trnno: 'STL20220005', name: 'Sundaram5' , date: '12/10/2022', amount: '13,00,000', status:'Not Disbursed' },
+        { id: 6, trnno: 'STL20220006', name: 'Sundaram6' , date: '13/10/2022', amount: '4,00,000', status:'Not Disbursed' },
+        { id: 7, trnno: 'STL20220007', name: 'Sundaram7' , date: '13/10/2022', amount: '6,00,000', status:'Not Disbursed' },
+        { id: 8, trnno: 'STL20220008', name: 'Sundaram8' , date: '14/10/2022', amount: '8,00,000', status:'Not Disbursed' },
+        { id: 9, trnno: 'STL20220009', name: 'Sundaram9' , date: '14/10/2022', amount: '9,00,000', status:'Not Disbursed' },
+        { id: 10, trnno: 'STL202200010', name: 'Sundaram10' , date: '15/11/2022', amount: '6,50,000', status:'Not Disbursed' },
+        { id: 11, trnno: 'STL202200011', name: 'Sundaram11' , date: '15/11/2022', amount: '5,05,000', status:'Not Disbursed' },
+        { id: 12, trnno: 'STL202200012', name: 'Sundaram12' , date: '15/11/2022', amount: '9,00,000', status:'Not Disbursed' },
+        { id: 13, trnno: 'STL202200013', name: 'Sundaram13' , date: '15/11/2022', amount: '3,00,000', status:'Not Disbursed' },
+      ];
 
 
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 90 },
+        {
+          field: 'trnno',
+          headerName: 'Trn No',
+          description: 'Click here to update the status.',
+          sortable: false,
+          width: 160,
+          renderCell: (params) =>{
+            const trnnoClickHandler = (event) => {
+                   const currentRow = params.row;
+                   setRowValues(JSON.parse(JSON.stringify(currentRow)));
+                   setOpenDialog(true);
+            };
+            return (<Button variant='contained' onClick={trnnoClickHandler}>{params.value}</Button>)
+          },
+        },
+        {
+          field: 'name',
+          headerName: 'Applicant Name',
+          width: 150,
+          editable: false,
+        },
+        {
+          field: 'date',
+          headerName: 'Loan Sanctioned Date',
+          type: 'number',
+          width: 190,
+          editable: false,
+        },
+        {
+          field: 'amount',
+          headerName: 'Sanctioned Amount',
+          type: 'number',
+          width: 190,
+          editable: false,
+        },
+        {
+          field: 'status',
+          headerName: 'Disbursement Status',
+          type: 'number',
+          width: 160,
+          editable: false,
+        },
+        
+      ];
+      
+      
 
-const rows = [
-    {
-        sno:'1',
-        date:'17/11/2022',
-        name:'Sundaram',
-        amount:'25Lakhs',
-        status:'Not Disbursed'
-    },
-    {
-        sno:'2',
-        date:'13/11/2022',
-        name:'Sundaram',
-        amount:'25Lakhs',
-        status:'Not Disbursed'
-    },
-    {
-        sno:'3',
-        date:'11/11/2022',
-        name:'Sundaram',
-        amount:'25Lakhs',
-        status:'Partially Disbursed'
-    },
 
-];
-
-export default function CollapsibleTable() {
   return (
-    <TableContainer component={Paper} >
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="right">Sno</StyledTableCell>
-            <StyledTableCell align="right">Sanctioned Date</StyledTableCell>
-            <StyledTableCell align="right">Name</StyledTableCell>
-            <StyledTableCell align="right">Amount</StyledTableCell>
-            <StyledTableCell align="right">Status</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box sx={{ height: 500 }}>
+      <DataGrid sx={{
+          boxShadow: 2,
+          border: 2,
+          borderColor: 'primary.light',
+          '& .MuiDataGrid-row:hover': {
+            color: 'primary.main',
+          },
+          '& .MuiDataGrid-columnHeaders':{
+            color: 'black',
+            fontFamily: 'Roboto',
+            backgroundColor:'grey',
+          },
+        }}
+        rows={rows}
+        columns={columns}
+        pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rowsPerPageOptions={[5, 10, 20]}
+        disableSelectionOnClick 
+      />
+       <Dialog open={openDialog} onClose={handleClose}>
+        <DialogTitle>Update Disbursement Status</DialogTitle>
+        <DialogContent>
+          <TextField
+            disabled
+            id=""
+            defaultValue={rowValues.trnno}
+            variant="filled"
+          />
+          <TextField
+            disabled
+            id=""
+            defaultValue={rowValues.date}
+          />
+          <TextField
+            disabled
+            id=""
+            defaultValue={rowValues.amount}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Update</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }
