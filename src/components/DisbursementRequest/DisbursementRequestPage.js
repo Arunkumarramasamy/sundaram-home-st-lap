@@ -5,11 +5,10 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 
-export default function DataGridDemo() {
+export default function DisbursementRequestPage() {
     const [pageSize, setPageSize] = React.useState(10);
     const [openDialog, setOpenDialog] = React.useState(false);
     const [rowValues,setRowValues] =  React.useState({});
@@ -36,10 +35,10 @@ export default function DataGridDemo() {
 
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 90 },
+        { field: 'id',  renderHeader: () => (<strong>ID</strong>), width: 90 },
         {
           field: 'trnno',
-          headerName: 'Trn No',
+          renderHeader: () => (<strong>Trn No</strong>),
           description: 'Click here to update the status.',
           sortable: false,
           width: 160,
@@ -54,27 +53,27 @@ export default function DataGridDemo() {
         },
         {
           field: 'name',
-          headerName: 'Applicant Name',
+          renderHeader: () => (<strong>Applicant Name</strong>),
           width: 150,
           editable: false,
         },
         {
           field: 'date',
-          headerName: 'Loan Sanctioned Date',
+          renderHeader: () => (<strong>Loan Sanctioned Date</strong>),
           type: 'number',
           width: 190,
           editable: false,
         },
         {
           field: 'amount',
-          headerName: 'Sanctioned Amount',
+          renderHeader: () => (<strong>Sanctioned Amount</strong>),
           type: 'number',
           width: 190,
           editable: false,
         },
         {
           field: 'status',
-          headerName: 'Disbursement Status',
+          renderHeader: () => (<strong>Disbursement Status</strong>),
           type: 'number',
           width: 160,
           editable: false,
@@ -97,7 +96,7 @@ export default function DataGridDemo() {
           '& .MuiDataGrid-columnHeaders':{
             color: 'black',
             fontFamily: 'Roboto',
-            backgroundColor:'grey',
+            backgroundColor:'#169BD5',
           },
         }}
         rows={rows}
