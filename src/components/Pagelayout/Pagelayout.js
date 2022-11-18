@@ -74,7 +74,7 @@ const PageLayout = () => {
 
   return (
     <div id='maindiv'>
-      <Stack sx={{ height: '100%' }}>
+      <Stack sx={{  height: "calc(100% - 82px)"}}>
 
       <AppBar position="static" sx = {{backgroundColor: '#004A92'}}>
         <Toolbar>
@@ -100,7 +100,7 @@ const PageLayout = () => {
         </Toolbar>
       </AppBar>
         <Stack direction="row" sx={{ height: '100%' }}>
-          <Box sx={{ bgcolor: 'primary.main', height: '100%' }}>
+          <Box sx={{ minWidth :expandWidth+10, maxHeight:'calc(100% - 0px)', overflowY:'auto'}}>
             <Paper id='menu-box' sx={{ height: '100%', width: expandWidth, maxWidth: '100%', color: 'black', fontWeight: 'bold' }}>
               <List
       sx={{  width: expandWidth, maxWidth: 360, bgcolor: 'background.paper' }}
@@ -124,56 +124,56 @@ const PageLayout = () => {
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="E-NACH/NACH Initiation Process" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="E-NACH/NACH Initiation Process" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="E-NACH Initiation Process" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="E-NACH Initiation Process" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="E-NACH Mandate Link Page" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="E-NACH Mandate Link Page" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="NACH - Mandate Entry" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Entry" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="NACH - Mandate Verification and Modification" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Verification and Modification" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="NACH - Mandate Bank Submission" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Bank Submission" />
           </ListItemButton>
           
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="NACH - Mandate Delete" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Delete" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="NACH - UMRN Updation/Upload" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - UMRN Updation/Upload" />
           </ListItemButton>
 
         </List>
@@ -185,7 +185,7 @@ const PageLayout = () => {
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Insurance}/>
         </ListItemIcon>
-        <ListItemText primary="Insurance" sx = {{display:menuLableDisplay}}/>
+        <ListItemText id='menu-lable' primary="Insurance" sx = {{display:menuLableDisplay}}/>
         {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
 
@@ -195,14 +195,14 @@ const PageLayout = () => {
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Insurance}/>
             </ListItemIcon>
-            <ListItemText primary="Insurance Master" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="Insurance Master" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Insurance}/>
             </ListItemIcon>
-            <ListItemText primary="Insurance Details-Appl level details" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="Insurance Details-Appl level details" />
           </ListItemButton>
         </List>
       </Collapse>
@@ -213,7 +213,7 @@ const PageLayout = () => {
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {disbusmentImage}/>
         </ListItemIcon>
-        <ListItemText primary="Disbursment" sx = {{display:menuLableDisplay}} />
+        <ListItemText id='menu-lable' primary="Disbursment" sx = {{display:menuLableDisplay}} />
       </ListItemButton>
 
       {/* AccountMaster */}
@@ -221,7 +221,7 @@ const PageLayout = () => {
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {AccountMaster}/>
         </ListItemIcon>
-        <ListItemText primary="Account Master Impact" sx = {{display:menuLableDisplay}}/>
+        <ListItemText id='menu-lable' primary="Account Master Impact" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
 
       {/* Memo */}
@@ -239,21 +239,21 @@ const PageLayout = () => {
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Memo}/>
             </ListItemIcon>
-            <ListItemText primary="Memo Defn. - Incl. of GST" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="Memo Defn. - Incl. of GST" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Memo}/>
             </ListItemIcon>
-            <ListItemText primary="Memo - GL Mapping" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}  primary="Memo - GL Mapping" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Memo}/>
             </ListItemIcon>
-            <ListItemText primary="Memo GL - GST Mapping" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}  primary="Memo GL - GST Mapping" />
           </ListItemButton>
         </List>
       </Collapse>
@@ -263,7 +263,7 @@ const PageLayout = () => {
         <ListItemIcon>
           <img id = 'layout-menu-image' src = {tdsImage}/>
         </ListItemIcon>
-        <ListItemText primary="TDS" sx = {{display:menuLableDisplay}}/>
+        <ListItemText id='menu-lable' primary="TDS" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
 
 
@@ -272,7 +272,7 @@ const PageLayout = () => {
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Receipt}/>
         </ListItemIcon>
-        <ListItemText primary="Receipt Process" sx = {{display:menuLableDisplay}}/>
+        <ListItemText id='menu-lable'  primary="Receipt Process" sx = {{display:menuLableDisplay}}/>
         {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
 
@@ -282,14 +282,15 @@ const PageLayout = () => {
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Receipt}/>
             </ListItemIcon>
-            <ListItemText primary="Create - Cash/Check/DD/RTGS/NEFT" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}  primary="Create - Cash/Check/DD/RTGS/NEFT" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Receipt}/>
             </ListItemIcon>
-            <ListItemText primary="Modify" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Create - Cash/Check/DD/RTGS/NEFT" />
+           
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
@@ -303,21 +304,21 @@ const PageLayout = () => {
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Receipt}/>
             </ListItemIcon>
-            <ListItemText primary="Realization Updation" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Realization Updation" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Receipt}/>
             </ListItemIcon>
-            <ListItemText primary="Create - Single" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Create - Single" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Receipt}/>
             </ListItemIcon>
-            <ListItemText primary="Create - Bulk" />
+            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Create - Bulk" />
           </ListItemButton>
         </List>
       </Collapse>
@@ -327,7 +328,7 @@ const PageLayout = () => {
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Return}/>
         </ListItemIcon>
-        <ListItemText primary="Return" sx = {{display:menuLableDisplay}}/>
+        <ListItemText id='menu-lable' primary="Return" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
 
 
@@ -336,7 +337,7 @@ const PageLayout = () => {
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {JV}/>
         </ListItemIcon>
-        <ListItemText primary="JV" sx = {{display:menuLableDisplay}}/>
+        <ListItemText id='menu-lable'  primary="JV" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
 
       {/* Query */}
@@ -344,7 +345,7 @@ const PageLayout = () => {
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Query}/>
         </ListItemIcon>
-        <ListItemText primary="Comprehensive Query" sx = {{display:menuLableDisplay}}/>
+        <ListItemText id='menu-lable'  primary="Comprehensive Query" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
     </List>
             </Paper>
@@ -355,7 +356,7 @@ const PageLayout = () => {
           {/* Page Body */}
           <Box sx={{ padding: "50px 25px 10px 25px", width: '100%' }}>
             <Container>
-               <DisbursementRequestPage />
+              
              
             </Container>
           </Box>
@@ -364,7 +365,9 @@ const PageLayout = () => {
 
 
         {/* Footer */}
-        <TableFooter style={{width:20}}></TableFooter>
+        <Box type = 'footer'   sx={{width:"100%", height:'64px'}}>
+          <Typography align="center"> Sundaram Home Finance Limited</Typography>
+        </Box>
       </Stack>
     </div>
   );
