@@ -41,6 +41,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import Dashboard from '../Dashboard';
 import EnachMandate from '../NACH/EnachMandate';
+import { Dashboard } from '../Dashboard/Dashboard';
 
 
 
@@ -417,7 +418,7 @@ const PageLayout = () => {
 
 
           {/* Page Body */}
-          <Box sx={{ padding: "50px 25px 10px 25px", width: '100%' }}>
+          <Box sx={{ padding: "8px 8px 10px 8px", width: '100%' }}>
             <Container>
              <Routes>  
             <Route path={`${search}/stlap/dashboard`} element={ <Dashboard/> } />   
