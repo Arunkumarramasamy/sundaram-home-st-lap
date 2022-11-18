@@ -45,7 +45,6 @@ export default function Loginpage() {
       <Box component="header" sx={{
         py: 3, px: 2, mt: 'auto',
         backgroundColor: '#004A92',
-        height: '60%',
         width: '100vw',
         backgroundImage: `url(${SfLogo})`,
         backgroundRepeat: 'no-repeat',
@@ -138,7 +137,7 @@ export default function Loginpage() {
                       </Link>
                     </Grid>
                     <Grid item justifyContent="center" sx={{ marginTop: 1 }}>
-                      <Link href="/signup" variant="body2" sx={{ color: 'black' }}>
+                      <Link href="/stlap/signup" variant="body2" sx={{ color: 'black' }}>
                         {<strong>Don't have an account? Sign Up</strong>}
                       </Link>
                     </Grid>

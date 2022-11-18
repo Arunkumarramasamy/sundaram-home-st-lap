@@ -50,3 +50,10 @@ body {
   margin-top: 8px;
   text-align: left !important;
 }
+#header-email-id{
+  font-family:  Roboto;
+  margin-top: 14px;
+}
+.scrollable-element {
+  scrollbar-width: thin;
+}
