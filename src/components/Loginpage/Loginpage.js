@@ -16,7 +16,7 @@ import { isMobile } from 'react-device-detect';
 import { InputAdornment, Paper } from '@material-ui/core';
 import { LoginOutlined, PasswordOutlined } from '@mui/icons-material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import PageLayout from '../Pagelayout/PageLayout';
+import PageLayout from '../Pagelayout/Pagelayout';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 

@@ -403,7 +403,7 @@ const PageLayout = () => {
             <Route path={`${search}/stlap/dashboard`} element={ <Dashboard/> } />   
             <Route path={`${search}/stlap/disbursement`} element={ <DisbursementRequestPage/> } />  
             <Route path={`${search}/stlap/nach/mandateentry`} element={ <EnachMandate/> } />      
-            <Route path="*" exact={true} component={ <Loginpage /> } />
+            <Route path="*" exact={true} element={ <Loginpage /> } />
              </Routes>
             </Container>
           </Box>
