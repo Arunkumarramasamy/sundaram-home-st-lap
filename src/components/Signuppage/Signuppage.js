@@ -62,15 +62,17 @@ export default function Signuppage() {
         <ThemeProvider theme={theme}>
           <Grid container component="main" sx={{
             height: '82vh',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
+            width:'100%'
           }}>
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={1} square={true} sx={{
+            <Grid item component={Paper} elevation={1} square={true} sx={{
               borderColor: '#AAAAAA',
               backgroundImage: 'linear-gradient(#019CAD,white,#4880EC,#004A92)',
-              backgroundRepeat: 'no-repeat', backgroundSize: 'cover'
+              backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
+              width:'100%'
             }}>
               <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
+                <Container component="main">
                   <CssBaseline />
                   <Box
                     sx={{
