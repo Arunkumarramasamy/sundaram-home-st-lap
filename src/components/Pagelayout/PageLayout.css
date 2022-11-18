@@ -14,9 +14,7 @@ section {
   height: 100%;
 }
 
-#root {
-  height: 100%;
-}
+
 
 aside {
   background-color: #fff !important;
@@ -32,7 +30,7 @@ body {
 }
 
 #maindiv,
-#root {
+#root, .App {
   height: 100%;
 }
 
@@ -50,4 +48,5 @@ body {
 
 #logoimage {
   margin-top: 8px;
+  text-align: left !important;
 }
