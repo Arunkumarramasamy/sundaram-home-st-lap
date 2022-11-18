@@ -12,7 +12,7 @@ function App() {
         <Route path="/stlap/login" element={ <Loginpage/> } />        
         <Route path="/stlap/signup" element={ <Signuppage/> } />
         <Route path="/stlap" element={ <PageLayout/> } />
-        <Route path="*" element={ <Navigate to="/login"/> } />
+        <Route path="*" exact={true} element={ <Loginpage /> } />
       </Routes>
     </div>
   );

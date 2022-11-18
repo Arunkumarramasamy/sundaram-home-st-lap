@@ -16,6 +16,9 @@ import { isMobile } from 'react-device-detect';
 import { InputAdornment, Paper } from '@material-ui/core';
 import { LoginOutlined, PasswordOutlined } from '@mui/icons-material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import PageLayout from '../Pagelayout/PageLayout';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -31,6 +34,8 @@ function Copyright() {
 const theme = createTheme();
 
 export default function Loginpage() {
+const history = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -38,9 +43,12 @@ export default function Loginpage() {
       mobile: data.get('mobile'),
       password: data.get('password'),
     });
+    Cookies.set('islogin',true);
+    history('/stlap/dashboard')
   };
 
   return (
+    (Cookies.get('islogin') ? <PageLayout /> :
     <React.Fragment>
       <Box component="header" sx={{
         py: 3, px: 2, mt: 'auto',
@@ -138,7 +146,7 @@ export default function Loginpage() {
                       </Link>
                     </Grid>
                     <Grid item justifyContent="center" sx={{ marginTop: 1 }}>
-                      <Link href="/signup" variant="body2" sx={{ color: 'black' }}>
+                      <Link href="/stlap/signup" variant="body2" sx={{ color: 'black' }}>
                         {<strong>Don't have an account? Sign Up</strong>}
                       </Link>
                     </Grid>
@@ -241,7 +249,7 @@ export default function Loginpage() {
                         </Link>
                       </Grid>
                       <Grid item justifyContent="center" sx={{ marginTop: 1 }}>
-                        <Link href="/signup" variant="body2" sx={{ color: 'black' }}>
+                        <Link href="/stlap/signup" variant="body2" sx={{ color: 'black' }}>
                           {<strong>Don't have an account? Sign Up</strong>}
                         </Link>
                       </Grid>
@@ -265,7 +273,7 @@ export default function Loginpage() {
           <Copyright />
         </Container>
       </Box>
-    </React.Fragment>
+    </React.Fragment>)
 
   );
 }

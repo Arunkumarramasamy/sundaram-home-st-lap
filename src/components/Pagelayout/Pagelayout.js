@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useMatch, useMatches, useResolvedPath } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -31,8 +31,13 @@ import Nach from '../../images/nach.png';
 import Logo from '../../images/logo.png';
 import './PageLayout.css';
 import DisbursementRequestPage from '../DisbursementRequest/DisbursementRequestPage';
-
-
+import { Routes, Route,Navigate } from "react-router-dom";
+import Signuppage from '../Signuppage/Signuppage';
+import Loginpage from '../Loginpage/Loginpage';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import Dashboard from '../Dashboard';
+import EnachMandate from '../NACH/EnachMandate';
 
 
 
@@ -41,9 +46,9 @@ const PageLayout = () => {
   const [openInsuranceSubMenu, setOpenInsuranceSubMenu] = useState(false);
   const [openMemoSubMenu, setOpenMemoSubMenu] = useState(false);
   const [openReceiptSubMenu, setopenReceiptSubMenu] = useState(false);
-  const {pathname} = useLocation();
+  const {search} = useLocation();
+  const history = useNavigate();
 
-  
   const [expanded, setExpanded] = React.useState(true);
   const [expandWidth, setMenuWidth] = React.useState(300);
   const [menuLableDisplay, setmenuLableDisplay] = React.useState('block');
@@ -62,6 +67,36 @@ const PageLayout = () => {
 
   const handleReceiptSubMenuClick = () => {
     setopenReceiptSubMenu(!openReceiptSubMenu);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove('islogin');
+    history('/stlap/login');
+  };
+
+  const menuClickHandler = (event) =>{
+
+     routeBasedOnKey(event.currentTarget.id);
+  };
+
+  const routeBasedOnKey = (key) => {
+    var path = '/stlap/dashboard';
+    switch(key){
+     case 'disbursement':
+    path = '/stlap/disbursement';
+    break;
+    case 'dashboard':
+      path = '/stlap/dashboard';
+      break;
+      case 'nachMandateEntry':
+      path = '/stlap/nach/mandateentry';
+      break;
+    default:
+      path='/stlap/dashboard';
+      break;
+  }
+  console.log(path);
+   history(path);
   };
 
 
@@ -96,7 +131,7 @@ const PageLayout = () => {
                 <NotificationsIcon sx = {{padding:18}}/>
               </Badge>
             </IconButton>
-          <Avatar ></Avatar>
+          <Avatar onClick={handleLogout}></Avatar>
         </Toolbar>
       </AppBar>
         <Stack direction="row" sx={{ height: '100%' }}>
@@ -107,6 +142,14 @@ const PageLayout = () => {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
+
+          {/* Dashboard */}
+        <ListItemButton id='dashboard' onClick={menuClickHandler}>
+        <ListItemIcon>
+        <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" sx = {{display:menuLableDisplay}} />
+      </ListItemButton>
 
       {/* NACH */}
       <ListItemButton onClick={handleNachMenuClick}>
@@ -120,7 +163,7 @@ const PageLayout = () => {
 
        <Collapse in={openNachSubMenu} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton  sx={{ pl: 4 }} > 
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
@@ -141,7 +184,7 @@ const PageLayout = () => {
             <ListItemText primary="E-NACH Mandate Link Page" />
           </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton sx={{ pl: 4 }} id='nachMandateEntry' onClick={menuClickHandler}>
             <ListItemIcon>
             <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
@@ -209,11 +252,11 @@ const PageLayout = () => {
 
 
       {/* Disbursement */}
-      <ListItemButton >
+      <ListItemButton id='disbursement' onClick={menuClickHandler}>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {disbusmentImage}/>
         </ListItemIcon>
-        <ListItemText primary="Disbursment" sx = {{display:menuLableDisplay}} />
+        <ListItemText primary="Disbursement" sx = {{display:menuLableDisplay}} />
       </ListItemButton>
 
       {/* AccountMaster */}
@@ -355,8 +398,12 @@ const PageLayout = () => {
           {/* Page Body */}
           <Box sx={{ padding: "50px 25px 10px 25px", width: '100%' }}>
             <Container>
-               <DisbursementRequestPage />
-             
+             <Routes>  
+            <Route path={`${search}/stlap/dashboard`} element={ <Dashboard/> } />   
+            <Route path={`${search}/stlap/disbursement`} element={ <DisbursementRequestPage/> } />  
+            <Route path={`${search}/stlap/nach/mandateentry`} element={ <EnachMandate/> } />      
+            <Route path="*" exact={true} component={ <Loginpage /> } />
+             </Routes>
             </Container>
           </Box>
    
