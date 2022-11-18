@@ -33,7 +33,7 @@ import './PageLayout.css';
 import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import DisbursementRequestPage from '../DisbursementRequest/DisbursementRequestPage';
-import { Label } from '@mui/icons-material';
+import { AppRegistrationTwoTone, DashboardTwoTone, Label } from '@mui/icons-material';
 import { Routes, Route,Navigate } from "react-router-dom";
 import Signuppage from '../Signuppage/Signuppage';
 import Loginpage from '../Loginpage/Loginpage';
@@ -164,7 +164,8 @@ const PageLayout = () => {
           {/* Dashboard */}
         <ListItemButton id='dashboard' onClick={menuClickHandler}>
         <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+        {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
+        <DashboardTwoTone fontSize='medium' sx={{color:'white'}}/>
         </ListItemIcon>
         <ListItemText primary="Dashboard" sx = {{display:menuLableDisplay}} />
       </ListItemButton>
@@ -172,7 +173,8 @@ const PageLayout = () => {
       {/* NACH */}
       <ListItemButton onClick={handleNachMenuClick}>
         <ListItemIcon>
-          <img  id = 'layout-menu-image' src = {Nach}/>
+          {/* <img  id = 'layout-menu-image' src = {Nach}/> */}
+          <AppRegistrationTwoTone fontSize='medium' sx={{color:'white'}}/>
         </ListItemIcon>
         <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH" />
        
