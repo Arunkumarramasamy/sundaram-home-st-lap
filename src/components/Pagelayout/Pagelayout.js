@@ -1,56 +1,27 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import { Paper,ListItemText,TableFooter } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import Paper from '@mui/material/Paper';
-import MenuList from '@mui/material/MenuList';
-import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ContentCut from '@mui/icons-material/AccountBalance';
-import ContentCopy from '@mui/icons-material/QueryStats';
-import ContentPaste from '@mui/icons-material/AppRegistration';
-import AccessibilityIcon from '@mui/icons-material/Accessibility';
-import GroupsIcon from '@mui/icons-material/Groups';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TextField from '@mui/material/TextField';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 import disbusmentImage from '../../images/disbursment.png';
 import tdsImage from '../../images/tds.png';
 import AccountMaster from '../../images/accountmaster.png';
 import JV from '../../images/jv.png';
-import Loan from '../../images/loan.png';
 import Memo from '../../images/memo.png';
 import Query from '../../images/query.png';
 import Receipt from '../../images/receipt.png';
@@ -58,74 +29,49 @@ import Return from '../../images/return.png';
 import Insurance from '../../images/insurance.png';
 import Nach from '../../images/nach.png';
 import Logo from '../../images/logo.png';
-
-
 import './PageLayout.css';
-import { Image } from '@mui/icons-material';
-import { TableFooter } from '@mui/material';
 import DisbursementRequestPage from '../DisbursementRequest/DisbursementRequestPage';
 
 
 
 
-function createData(name, calories, fat, carbs, protein, eleven, six, seven, eight, nine, ten) {
-  return { name, calories, fat, carbs, protein, eleven, six, seven, eight, nine, ten };
-}
-const data = [
-  {
-    title: 'Google',
-    value: 10,
-    color:'blue'
-  },
-  {
-    title: 'FaceBook',
-    value: 15,
-    color:'black'
-  },
-  {
-    title: 'Amazon',
-    value: 5,
-    color:'orange'
-  },
-  {
-    title: 'Infoview',
-    value: 18,
-    color:'red'
-  }
-];
-// const [value, setValue] = useState(0);
-
-// const handleChange = (event, newValue) => {
-//   setValue(newValue);
-// };
-const rows = [
-  createData('STLAP20220001', '02/11/2011', 'Lap Loan details', 500000, 0, 19, 10, '02/11/2021', 'Yes', 'Closed'),
-  createData('STLAP20220002', ' 15/11/2016', 'Lap Loan details', 500000, 450000, 19, 10, '15/11/2026', 'No', 'Inprogress'),
-  createData('STLAP20220003', '08/08/2018', 'Lap Loan details', 450000, 450000, 19, 10, '08/08/2028', 'Yes', 'Inprogress'),
-  createData('STLAP20220004', '05/01/2020', 'Lap Loan details', 200000, 450000, 19, 10, '05/01/2030', 'Yes', 'Inprogress'),
-  createData('STLAP20220005', '02/06/2022', 'Lap Loan details', 300000, 450000, 19, 10, '02/06/2032', 'Yes', 'New')
-];
-const pages = ['Loan Individual Details'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const PageLayout = () => {
-  const [open, setOpen] = React.useState(true);
+  const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
+  const [openInsuranceSubMenu, setOpenInsuranceSubMenu] = useState(false);
+  const [openMemoSubMenu, setOpenMemoSubMenu] = useState(false);
+  const [openReceiptSubMenu, setopenReceiptSubMenu] = useState(false);
+  const {pathname} = useLocation();
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  
   const [expanded, setExpanded] = React.useState(true);
   const [expandWidth, setMenuWidth] = React.useState(300);
   const [menuLableDisplay, setmenuLableDisplay] = React.useState('block');
   
+  const handleNachMenuClick = () => {
+    setOpenNachSubMenu(!openNachSubMenu);
+  };
+
+  const handleInsuranceMenuClick = () => {
+    setOpenInsuranceSubMenu(!openInsuranceSubMenu);
+  };
+
+  const handleMemoSubMenuClick = () => {
+    setOpenMemoSubMenu(!openMemoSubMenu);
+  };
+
+  const handleReceiptSubMenuClick = () => {
+    setopenReceiptSubMenu(!openReceiptSubMenu);
+  };
+
+
 
   const handleMenuExpandCollapse = () =>{
     setExpanded(!expanded);
     setMenuWidth(expanded?300:70);
     setmenuLableDisplay(expanded?'block':'none');
     }
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
   return (
     <div id='maindiv'>
       <Stack sx={{ height: '100%' }}>
@@ -161,95 +107,239 @@ const PageLayout = () => {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <ListItemButton onClick={handleClick}>
+
+      {/* NACH */}
+      <ListItemButton onClick={handleNachMenuClick}>
         <ListItemIcon>
           <img  id = 'layout-menu-image' src = {Nach}/>
         </ListItemIcon>
         <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH" />
        
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {openNachSubMenu ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-       <Collapse in={open} timeout="auto" unmountOnExit>
+
+       <Collapse in={openNachSubMenu} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="E-Nach/Nach Initiation Process" />
+            <ListItemText primary="E-NACH/NACH Initiation Process" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="E-Nach Initiation Process" />
+            <ListItemText primary="E-NACH Initiation Process" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="E-Nach Mandate Link Page" />
+            <ListItemText primary="E-NACH Mandate Link Page" />
           </ListItemButton>
 
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {disbusmentImage}/>
+            <img  id = 'layout-menu-image' src = {Nach}/>
             </ListItemIcon>
-            <ListItemText primary="Nach - Mandate Entry" />
+            <ListItemText primary="NACH - Mandate Entry" />
           </ListItemButton>
 
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Nach}/>
+            </ListItemIcon>
+            <ListItemText primary="NACH - Mandate Verification and Modification" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Nach}/>
+            </ListItemIcon>
+            <ListItemText primary="NACH - Mandate Bank Submission" />
+          </ListItemButton>
           
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Nach}/>
+            </ListItemIcon>
+            <ListItemText primary="NACH - Mandate Delete" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Nach}/>
+            </ListItemIcon>
+            <ListItemText primary="NACH - UMRN Updation/Upload" />
+          </ListItemButton>
+
         </List>
-      </Collapse> 
-      <ListItemButton>
+      </Collapse>
+
+
+      {/* Insurance  */}
+      <ListItemButton  onClick={handleInsuranceMenuClick}>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Insurance}/>
         </ListItemIcon>
         <ListItemText primary="Insurance" sx = {{display:menuLableDisplay}}/>
+        {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
+
+       <Collapse in={openInsuranceSubMenu} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Insurance}/>
+            </ListItemIcon>
+            <ListItemText primary="Insurance Master" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Insurance}/>
+            </ListItemIcon>
+            <ListItemText primary="Insurance Details-Appl level details" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+
+
+      {/* Disbursement */}
       <ListItemButton >
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {disbusmentImage}/>
         </ListItemIcon>
         <ListItemText primary="Disbursment" sx = {{display:menuLableDisplay}} />
       </ListItemButton>
+
+      {/* AccountMaster */}
       <ListItemButton>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {AccountMaster}/>
         </ListItemIcon>
         <ListItemText primary="Account Master Impact" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
-      <ListItemButton>
+
+      {/* Memo */}
+      <ListItemButton onClick={handleMemoSubMenuClick}>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Memo}/>
         </ListItemIcon>
         <ListItemText primary="Memo" sx = {{display:menuLableDisplay}}/>
+        {openMemoSubMenu ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
+
+       <Collapse in={openMemoSubMenu} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Memo}/>
+            </ListItemIcon>
+            <ListItemText primary="Memo Defn. - Incl. of GST" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Memo}/>
+            </ListItemIcon>
+            <ListItemText primary="Memo - GL Mapping" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Memo}/>
+            </ListItemIcon>
+            <ListItemText primary="Memo GL - GST Mapping" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+
+      {/* TDS */}
       <ListItemButton>
         <ListItemIcon>
           <img id = 'layout-menu-image' src = {tdsImage}/>
         </ListItemIcon>
         <ListItemText primary="TDS" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
-      <ListItemButton>
+
+
+      {/* Receipt */}
+      <ListItemButton onClick={handleReceiptSubMenuClick}>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Receipt}/>
         </ListItemIcon>
         <ListItemText primary="Receipt Process" sx = {{display:menuLableDisplay}}/>
+        {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
+
+       <Collapse in={openReceiptSubMenu} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Receipt}/>
+            </ListItemIcon>
+            <ListItemText primary="Create - Cash/Check/DD/RTGS/NEFT" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Receipt}/>
+            </ListItemIcon>
+            <ListItemText primary="Modify" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Receipt}/>
+            </ListItemIcon>
+            <ListItemText primary="Query" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Receipt}/>
+            </ListItemIcon>
+            <ListItemText primary="Realization Updation" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Receipt}/>
+            </ListItemIcon>
+            <ListItemText primary="Create - Single" />
+          </ListItemButton>
+
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+            <img  id = 'layout-menu-image' src = {Receipt}/>
+            </ListItemIcon>
+            <ListItemText primary="Create - Bulk" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+
+      {/* Return */}
       <ListItemButton>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Return}/>
         </ListItemIcon>
         <ListItemText primary="Return" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
+
+
+      {/* JV */}
       <ListItemButton>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {JV}/>
         </ListItemIcon>
         <ListItemText primary="JV" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
+
+      {/* Query */}
       <ListItemButton>
         <ListItemIcon>
         <img  id = 'layout-menu-image' src = {Query}/>
@@ -259,15 +349,22 @@ const PageLayout = () => {
     </List>
             </Paper>
           </Box>
+
+
+
+          {/* Page Body */}
           <Box sx={{ padding: "50px 25px 10px 25px", width: '100%' }}>
             <Container>
-<DisbursementRequestPage />
+               <DisbursementRequestPage />
              
             </Container>
           </Box>
    
         </Stack>
-<TableFooter style={{width:20}}></TableFooter>
+
+
+        {/* Footer */}
+        <TableFooter style={{width:20}}></TableFooter>
       </Stack>
     </div>
   );
