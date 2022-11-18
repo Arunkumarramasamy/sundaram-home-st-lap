@@ -31,6 +31,7 @@ import Nach from '../../images/nach.png';
 import Logo from '../../images/logo.png';
 import './PageLayout.css';
 import DisbursementRequestPage from '../DisbursementRequest/DisbursementRequestPage';
+import { Dashboard } from '../Dashboard/Dashboard';
 
 
 
@@ -354,10 +355,10 @@ const PageLayout = () => {
 
 
           {/* Page Body */}
-          <Box sx={{ padding: "50px 25px 10px 25px", width: '100%' }}>
+          <Box sx={{ padding: "8px 8px 10px 8px", width: '100%' }}>
             <Container>
               
-             
+             <Dashboard></Dashboard>
             </Container>
           </Box>
    
