@@ -53,7 +53,6 @@ const history = useNavigate();
       <Box component="header" sx={{
         py: 3, px: 2, mt: 'auto',
         backgroundColor: '#004A92',
-        height: '60%',
         width: '100vw',
         backgroundImage: `url(${SfLogo})`,
         backgroundRepeat: 'no-repeat',
