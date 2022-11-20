@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" sx={{ color: 'white' }}>
+    <Typography variant="footer" color="text.secondary" sx={{ color: 'white' }}>
       {'Copyright © Sundaram Home Finance Pvt Ltd '}
       {' '}
       {new Date().getFullYear()}
@@ -34,7 +34,7 @@ function Copyright() {
 const theme = createTheme();
 
 export default function Loginpage() {
-const history = useNavigate();
+const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,7 +44,7 @@ const history = useNavigate();
       password: data.get('password'),
     });
     Cookies.set('islogin',true);
-    history('/stlap/dashboard')
+    navigate('/stlap/home/dashboard')
   };
 
   return (
@@ -53,7 +53,7 @@ const history = useNavigate();
       <Box component="header" sx={{
         py: 3, px: 2, mt: 'auto',
         backgroundColor: '#004A92',
-        width: '100vw',
+        width: '100%',
         backgroundImage: `url(${SfLogo})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'left'
@@ -61,15 +61,13 @@ const history = useNavigate();
       />
       {isMobile ? <React.Fragment><ThemeProvider theme={theme}>
         <Grid container component="main" sx={{
-          height: '82vh',
           backgroundPosition: 'center',
-          width : '100%'
+          width : '100%',
         }}>
           <Grid item component={Paper} elevation={1} square={true} sx={{
-            borderColor: '#AAAAAA',
             backgroundImage: 'linear-gradient(#019CAD,white,#4880EC,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width:'100%'
+            width:'100%',
           }}>
             <ThemeProvider theme={theme}>
               <Container component="main">
@@ -80,6 +78,7 @@ const history = useNavigate();
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    height:'100vh'
                   }}
                 >
                   <Avatar sx={{ m: 1, bgcolor: '#2F7DC4', width: '50px', height: '50px' }}>
@@ -159,20 +158,22 @@ const history = useNavigate();
       </React.Fragment> :
         /* below for browser */
         <ThemeProvider theme={theme}>
-          <Grid container component="main" sx={{ height: '82vh' }}>
+          <Grid container component="main" sx={{ width:'100%' }}>
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7}
               sx={{
                 backgroundImage: `url(${SfTeam})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
+                width:'50%',
+                height:'81.8vh'
               }}
-            />
-            <Grid item xs={12} sm={8} md={5} square sx={{
+            ></Grid>
+            <Grid item xs={12} sm={8} md={5} square="true" sx={{
               borderColor: '#AAAAAA',
               backgroundImage: 'linear-gradient(#019CAD,white,#4880EC,#004A92)', borderRadius: '80%',
-              backgroundRepeat: 'no-repeat', backgroundSize: 'cover'
+              backgroundRepeat: 'no-repeat', backgroundSize: 'cover',width:'50%',height:'81.8vh'
             }}>
               <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
@@ -191,7 +192,7 @@ const history = useNavigate();
                     <Typography component="h1" variant="h5" sx={{ color: 'black' }}>
                       Login
                     </Typography>
-                    <Box component="form" validate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                       <Grid container spacing={1}>
                         <Grid item xs={12}>
                           <TextField

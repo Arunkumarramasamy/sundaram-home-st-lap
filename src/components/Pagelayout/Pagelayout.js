@@ -39,7 +39,6 @@ import Signuppage from '../Signuppage/Signuppage';
 import Loginpage from '../Loginpage/Loginpage';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import Dashboard from '../Dashboard';
 import EnachMandate from '../NACH/EnachMandate';
 import { Dashboard } from '../Dashboard/Dashboard';
 
@@ -84,19 +83,19 @@ const PageLayout = () => {
   };
 
   const routeBasedOnKey = (key) => {
-    var path = '/stlap/dashboard';
+    var path = '/stlap/home/dashboard';
     switch(key){
      case 'disbursement':
-    path = '/stlap/disbursement';
+    path = '/stlap/home/disbursement';
     break;
     case 'dashboard':
-      path = '/stlap/dashboard';
+      path = '/stlap/home/dashboard';
       break;
       case 'nachMandateEntry':
-      path = '/stlap/nach/mandateentry';
+      path = '/stlap/home/nach/mandateentry';
       break;
     default:
-      path='/stlap/dashboard';
+      path='/stlap/home/dashboard';
       break;
   }
   console.log(path);
@@ -421,9 +420,9 @@ const PageLayout = () => {
           <Box sx={{ padding: "8px 8px 10px 8px", width: '100%' }}>
             <Container>
              <Routes>  
-            <Route path={`${search}/stlap/dashboard`} element={ <Dashboard/> } />   
-            <Route path={`${search}/stlap/disbursement`} element={ <DisbursementRequestPage/> } />  
-            <Route path={`${search}/stlap/nach/mandateentry`} element={ <EnachMandate/> } />      
+            <Route path={`${search}/stlap/home/dashboard`} element={ <Dashboard/> } />   
+            <Route path={`${search}/stlap/home/disbursement`} element={ <DisbursementRequestPage/> } />  
+            <Route path={`${search}/stlap/home/nach/mandateentry`} element={ <EnachMandate/> } />      
             <Route path="*" exact={true} element={ <Loginpage /> } />
              </Routes>
             </Container>
