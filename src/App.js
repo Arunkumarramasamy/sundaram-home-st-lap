@@ -8,10 +8,10 @@ function App() {
   return (
     <div className="App">
       <Routes>   
-        <Route path="/" exact element={<Loginpage /> } />
         <Route path="/stlap/login" element={ <Loginpage/> } />        
         <Route path="/stlap/signup" element={ <Signuppage/> } />
-        <Route path="/stlap" element={ <PageLayout/> } />        
+        <Route path="/stlap/home" element={ <PageLayout/> } />
+        <Route path="/" exact element={<Navigate to ='/stlap/login' /> } />        
         <Route path="*" exact element={<Loginpage />} />
       </Routes>
     </div>
