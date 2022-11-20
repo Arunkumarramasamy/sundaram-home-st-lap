@@ -41,6 +41,8 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import EnachMandate from '../NACH/EnachMandate';
 import { Dashboard } from '../Dashboard/Dashboard';
+import SimpleBar from 'simplebar-react';
+import 'simplebar-react/dist/simplebar.min.css';
 
 
 
@@ -152,272 +154,276 @@ const PageLayout = () => {
           </Stack>
         </Toolbar>
       </AppBar>
+         
         <Stack direction="row" sx={{ height: 'calc(100% - 12px)',justifyContent:'flex-end' }}>
-          <Box sx={{ minWidth :expandWidth+10, maxHeight:'calc(100% - 0px)', overflowY:'auto'}}>
-            <Paper id='menu-box' sx={{ height: '100%', width: expandWidth, maxWidth: '100%', color: 'black', fontWeight: 'bold' }}>
-              <List 
-      sx={{  width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-    >
+          <Box sx={{ minWidth :expandWidth+10}}>
+            <SimpleBar style={{ maxHeight: '82vh' }}>
+              <Paper id='menu-box' sx={{ height: '100%', width: expandWidth, maxWidth: '100%', color: 'black', fontWeight: 'bold' }}>
+                <List
+                  sx={{ width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
+                  component="nav"
+                  aria-labelledby="nested-list-subheader"
+                >
 
-          {/* Dashboard */}
-        <ListItemButton id='dashboard' onClick={menuClickHandler}>
-        <ListItemIcon>
-        {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
-        <DashboardTwoTone fontSize='medium' sx={{color:'white'}}/>
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" sx = {{display:menuLableDisplay}} />
-      </ListItemButton>
+                  {/* Dashboard */}
+                  <ListItemButton id='dashboard' onClick={menuClickHandler}>
+                    <ListItemIcon>
+                      {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
+                      <DashboardTwoTone fontSize='medium' sx={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard" sx={{ display: menuLableDisplay }} />
+                  </ListItemButton>
 
-      {/* NACH */}
-      <ListItemButton onClick={handleNachMenuClick}>
-        <ListItemIcon>
-          {/* <img  id = 'layout-menu-image' src = {Nach}/> */}
-          <AppRegistrationTwoTone fontSize='medium' sx={{color:'white'}}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH" />
-       
-        {openNachSubMenu ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
+                  {/* NACH */}
+                  <ListItemButton onClick={handleNachMenuClick}>
+                    <ListItemIcon>
+                      {/* <img  id = 'layout-menu-image' src = {Nach}/> */}
+                      <AppRegistrationTwoTone fontSize='medium' sx={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH" />
 
-       <Collapse in={openNachSubMenu} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton  sx={{ pl: 4 }} > 
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="E-NACH/NACH Initiation Process" />
-          </ListItemButton>
+                    {openNachSubMenu ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="E-NACH Initiation Process" />
-          </ListItemButton>
+                  <Collapse in={openNachSubMenu} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <ListItemButton sx={{ pl: 4 }} >
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="E-NACH/NACH Initiation Process" />
+                      </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="E-NACH Mandate Link Page" />
-          </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="E-NACH Initiation Process" />
+                      </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }} id='nachMandateEntry' onClick={menuClickHandler}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Entry" />
-          </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="E-NACH Mandate Link Page" />
+                      </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Verification and Modification" />
-          </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }} id='nachMandateEntry' onClick={menuClickHandler}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Entry" />
+                      </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Bank Submission" />
-          </ListItemButton>
-          
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - Mandate Delete" />
-          </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Verification and Modification" />
+                      </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Nach}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH - UMRN Updation/Upload" />
-          </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Bank Submission" />
+                      </ListItemButton>
 
-        </List>
-      </Collapse>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Delete" />
+                      </ListItemButton>
 
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Nach} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - UMRN Updation/Upload" />
+                      </ListItemButton>
 
-      {/* Insurance  */}
-      <ListItemButton  onClick={handleInsuranceMenuClick}>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {Insurance}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable' primary="Insurance" sx = {{display:menuLableDisplay}}/>
-        {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-
-       <Collapse in={openInsuranceSubMenu} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Insurance}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="Insurance Master" />
-          </ListItemButton>
-
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Insurance}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="Insurance Details-Appl level details" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+                    </List>
+                  </Collapse>
 
 
-      {/* Disbursement */}
-      <ListItemButton id='disbursement' onClick={menuClickHandler}>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {disbusmentImage}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable' primary="Disbursement" sx = {{display:menuLableDisplay}} />
-      </ListItemButton>
+                  {/* Insurance  */}
+                  <ListItemButton onClick={handleInsuranceMenuClick}>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={Insurance} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="Insurance" sx={{ display: menuLableDisplay }} />
+                    {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
 
-      {/* AccountMaster */}
-      <ListItemButton>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {AccountMaster}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable' primary="Account Master Impact" sx = {{display:menuLableDisplay}}/>
-      </ListItemButton>
+                  <Collapse in={openInsuranceSubMenu} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Insurance} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Insurance Master" />
+                      </ListItemButton>
 
-      {/* Memo */}
-      <ListItemButton onClick={handleMemoSubMenuClick}>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {Memo}/>
-        </ListItemIcon>
-        <ListItemText primary="Memo" sx = {{display:menuLableDisplay}}/>
-        {openMemoSubMenu ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-
-       <Collapse in={openMemoSubMenu} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Memo}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="Memo Defn. - Incl. of GST" />
-          </ListItemButton>
-
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Memo}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}  primary="Memo - GL Mapping" />
-          </ListItemButton>
-
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Memo}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}  primary="Memo GL - GST Mapping" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-      {/* TDS */}
-      <ListItemButton>
-        <ListItemIcon>
-          <img id = 'layout-menu-image' src = {tdsImage}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable' primary="TDS" sx = {{display:menuLableDisplay}}/>
-      </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Insurance} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Insurance Details-Appl level details" />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
 
 
-      {/* Receipt */}
-      <ListItemButton onClick={handleReceiptSubMenuClick}>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {Receipt}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable'  primary="Receipt Process" sx = {{display:menuLableDisplay}}/>
-        {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
+                  {/* Disbursement */}
+                  <ListItemButton id='disbursement' onClick={menuClickHandler}>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={disbusmentImage} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="Disbursement" sx={{ display: menuLableDisplay }} />
+                  </ListItemButton>
 
-       <Collapse in={openReceiptSubMenu} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Receipt}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}  primary="Create - Cash/Check/DD/RTGS/NEFT" />
-          </ListItemButton>
+                  {/* AccountMaster */}
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={AccountMaster} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="Account Master Impact" sx={{ display: menuLableDisplay }} />
+                  </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Receipt}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Create - Cash/Check/DD/RTGS/NEFT" />
-           
-          </ListItemButton>
+                  {/* Memo */}
+                  <ListItemButton onClick={handleMemoSubMenuClick}>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={Memo} />
+                    </ListItemIcon>
+                    <ListItemText primary="Memo" sx={{ display: menuLableDisplay }} />
+                    {openMemoSubMenu ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Receipt}/>
-            </ListItemIcon>
-            <ListItemText primary="Query" />
-          </ListItemButton>
+                  <Collapse in={openMemoSubMenu} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Memo} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Memo Defn. - Incl. of GST" />
+                      </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Receipt}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Realization Updation" />
-          </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Memo} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Memo - GL Mapping" />
+                      </ListItemButton>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Receipt}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Create - Single" />
-          </ListItemButton>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Memo} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Memo GL - GST Mapping" />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
 
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-            <img  id = 'layout-menu-image' src = {Receipt}/>
-            </ListItemIcon>
-            <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}}   primary="Create - Bulk" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
-      {/* Return */}
-      <ListItemButton>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {Return}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable' primary="Return" sx = {{display:menuLableDisplay}}/>
-      </ListItemButton>
+                  {/* TDS */}
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={tdsImage} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="TDS" sx={{ display: menuLableDisplay }} />
+                  </ListItemButton>
 
 
-      {/* JV */}
-      <ListItemButton>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {JV}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable'  primary="JV" sx = {{display:menuLableDisplay}}/>
-      </ListItemButton>
+                  {/* Receipt */}
+                  <ListItemButton onClick={handleReceiptSubMenuClick}>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={Receipt} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="Receipt Process" sx={{ display: menuLableDisplay }} />
+                    {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
 
-      {/* Query */}
-      <ListItemButton>
-        <ListItemIcon>
-        <img  id = 'layout-menu-image' src = {Query}/>
-        </ListItemIcon>
-        <ListItemText id='menu-lable'  primary="Comprehensive Query" sx = {{display:menuLableDisplay}}/>
-      </ListItemButton>
-    </List>
-            </Paper>
+                  <Collapse in={openReceiptSubMenu} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Receipt} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Cash/Check/DD/RTGS/NEFT" />
+                      </ListItemButton>
+
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Receipt} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Cash/Check/DD/RTGS/NEFT" />
+
+                      </ListItemButton>
+
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Receipt} />
+                        </ListItemIcon>
+                        <ListItemText primary="Query" />
+                      </ListItemButton>
+
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Receipt} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Realization Updation" />
+                      </ListItemButton>
+
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Receipt} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Single" />
+                      </ListItemButton>
+
+                      <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                          <img id='layout-menu-image' src={Receipt} />
+                        </ListItemIcon>
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Bulk" />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
+
+                  {/* Return */}
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={Return} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="Return" sx={{ display: menuLableDisplay }} />
+                  </ListItemButton>
+
+
+                  {/* JV */}
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={JV} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="JV" sx={{ display: menuLableDisplay }} />
+                  </ListItemButton>
+
+                  {/* Query */}
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <img id='layout-menu-image' src={Query} />
+                    </ListItemIcon>
+                    <ListItemText id='menu-lable' primary="Comprehensive Query" sx={{ display: menuLableDisplay }} />
+                  </ListItemButton>
+                </List>
+              </Paper>
+            </SimpleBar>
           </Box>
 
 
 
           {/* Page Body */}
           <Box sx={{ padding: "8px 8px 10px 8px", width: '100%' }}>
+            <SimpleBar style={{ maxHeight: '80vh' }}>
             <Container>
              <Routes>  
             <Route path={`${search}/stlap/home/dashboard`} element={ <Dashboard/> } />   
@@ -426,14 +432,15 @@ const PageLayout = () => {
             <Route path="*" exact={true} element={ <Loginpage /> } />
              </Routes>
             </Container>
+            </SimpleBar>
           </Box>
    
         </Stack>
 
 
         {/* Footer */}
-        <Box type = 'footer'   sx={{width:"100%", height:'64px'}}>
-          <Typography align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
+        <Box component='footer' sx={{width:'100%'}}>
+            <Typography align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
         </Box>
       </Stack>
     </div>
