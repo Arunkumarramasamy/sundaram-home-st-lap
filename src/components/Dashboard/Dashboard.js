@@ -24,7 +24,7 @@ const bussinessplotoptions = {
     }],
       chart: {
       height: 250,
-      width: 500,
+      width: 250,
       type: 'line',
     },
     stroke: {
@@ -39,19 +39,6 @@ const bussinessplotoptions = {
     markers: {
       size: 0
     },
-    yaxis: [
-      {
-        title: {
-          text: 'Amount Disbursed in Lakhs',
-        },
-      },
-      {
-        opposite: true,
-        title: {
-          text: 'Loans Approved',
-        },
-      },
-    ],
     tooltip: {
       shared: true,
       intersect: false,
@@ -196,7 +183,7 @@ const nachoptions = {
       fontSize: '12px',
       position: 'left',
       labels: {
-        useSeriesColors: true,
+        useSeriesColors: false,
       },
       markers: {
         size: 0
@@ -401,7 +388,7 @@ export const Dashboard = (props) => {
       <Card sx={{
         backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-        width: '600px', height: '400px', margin: 2
+        width: '550px', height: '350px', margin: 2
       }}>
         <CardHeader
           action={
@@ -416,8 +403,8 @@ export const Dashboard = (props) => {
           title="Business Overview"
         />
         <CardContent>
-          <div id="businesschart" style={{ width: '550px', height: '350px' }}>
-          <ReactApexChart options={bussinessplotoptions} series={bussinessplotoptions.series} type="line" height={250} />
+          <div id="businesschart" style={{ width: '500px', height: '350px' }}>
+          <ReactApexChart options={bussinessplotoptions} series={bussinessplotoptions.series} type="line" height={200} />
           </div>
         </CardContent>
       </Card>
@@ -426,7 +413,7 @@ export const Dashboard = (props) => {
       <Card sx={{
         backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-        width: '300px', height: '400px', margin: 2
+        width: '300px', height: '350px', margin: 2
       }}>
         <CardHeader
           action={
@@ -438,14 +425,32 @@ export const Dashboard = (props) => {
         />
         <CardContent>
           <div id="paymentdonut" style={{ width: '300px' }}>
-          <ReactApexChart options={paymentplotoptions} series={paymentplotoptions.series} type="donut" height={250} />
+          <ReactApexChart options={paymentplotoptions} series={paymentplotoptions.series} type="donut" height={200} />
           </div>
         </CardContent>
       </Card>
 
       <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: '350px', height: '300px', margin: 2}}>
+            width: '200px', height: '330px', margin: 2}}>
+      <CardHeader
+        action={
+          <IconButton>
+            <OpenInFullIcon />
+          </IconButton>
+        }
+        title="Loan Insurance Cover"
+      />
+      <CardContent>
+          <div>
+            <ReactApexChart options={insuranceoptions.options} series={insuranceoptions.series} type="radialBar" height={200} />
+          </div>
+      </CardContent>
+    </Card>
+
+      <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
+            backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
+            width: '350px', height: '330px', margin: 2}}>
       <CardHeader
         action={
           <IconButton>
@@ -463,7 +468,25 @@ export const Dashboard = (props) => {
 
     <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: '400px', height: '300px', margin: '2%'}}>
+            width: '300px', height: '330px', margin: 2}}>
+      <CardHeader
+        action={
+          <IconButton>
+            <OpenInFullIcon />
+          </IconButton>
+        }
+        title="Complaints Status"
+      />
+      <CardContent>
+      <div id="complaintsdonut" style={{ width: '300px' }}>
+      <ReactApexChart options={complaintplotoptions} series={complaintplotoptions.series} type="donut" height={250} />
+      </div>
+      </CardContent>
+    </Card>
+
+    <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
+            backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
+            width: '400px', height: '300px', margin: 2}}>
       <CardHeader
         action={
           <IconButton>
@@ -479,23 +502,9 @@ export const Dashboard = (props) => {
       </CardContent>
     </Card>
     
-    <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
-            backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: '280px', height: '300px', margin: 2}}>
-      <CardHeader
-        action={
-          <IconButton>
-            <OpenInFullIcon />
-          </IconButton>
-        }
-        title="Loan Insurance Cover"
-      />
-      <CardContent>
-          <div>
-            <ReactApexChart options={insuranceoptions.options} series={insuranceoptions.series} type="radialBar" height={200} />
-          </div>
-      </CardContent>
-    </Card>
+
+    
+    
     
     <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
@@ -515,23 +524,7 @@ export const Dashboard = (props) => {
       </CardContent>
     </Card>
     
-    <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
-            backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: '300px', height: '300px', margin: 2}}>
-      <CardHeader
-        action={
-          <IconButton>
-            <OpenInFullIcon />
-          </IconButton>
-        }
-        title="Complaints Status"
-      />
-      <CardContent>
-      <div id="complaintsdonut" style={{ width: '300px' }}>
-      <ReactApexChart options={complaintplotoptions} series={complaintplotoptions.series} type="donut" height={250} />
-      </div>
-      </CardContent>
-    </Card>
+    
     </div>
   </React.Fragment>;
 };

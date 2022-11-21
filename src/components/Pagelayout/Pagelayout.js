@@ -132,8 +132,8 @@ const innerHeight =  window.innerHeight
           <Stack direction='row' sx = {{width:"100%",justifyContent:'flex-end'}}>
             <Stack direction='column' sx = {{paddingRight:'8px'}}>
 
-          <Typography sx = {{marginTop:"8px"}} >Kathir Venkatesan</Typography>
-          <Chip label="Emp-000001" component="div"  sx={{color:'white',bgcolor:'#727dff'}}/>
+          <Typography sx = {{marginTop:"8px",textAlign:'center'}} >Kathir Venkatesan</Typography>
+          <Chip label="Last Login:21/11/2022 05:00pm" component="div"  sx={{color:'white',bgcolor:'#727dff'}}/>
             </Stack>
             <Divider sx={{borderWidth:'2px',backgroundColor:'#fff' ,height:'50px', marginTop:'5px'}} orientation="vertical" flexItem />
           <IconButton color="inherit">
