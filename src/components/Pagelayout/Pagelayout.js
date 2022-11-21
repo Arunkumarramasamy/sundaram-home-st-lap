@@ -114,7 +114,7 @@ const PageLayout = () => {
 
   return (
     <div id='maindiv'>
-      <Stack sx={{  height: "calc(100% - 82px)"}}>
+      <Stack sx={{  height: "calc(100% - 82px)", width:'100%'}}>
 
       <AppBar position="static" sx = {{backgroundColor: '#004A92',height:"70px"}}>
         <Toolbar>
@@ -158,9 +158,9 @@ const PageLayout = () => {
         <Stack direction="row" sx={{ height: 'calc(100% - 12px)',justifyContent:'flex-end' }}>
           <Box sx={{ minWidth :expandWidth+10}}>
             <SimpleBar style={{ maxHeight: '82vh' }}>
-              <Paper id='menu-box' sx={{ height: '100%', width: expandWidth, maxWidth: '100%', color: 'black', fontWeight: 'bold' }}>
+              <Paper id='menu-box' sx={{ width: expandWidth, maxWidth: '100%', color: 'black', fontWeight: 'bold' }}>
                 <List
-                  sx={{ width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
+                  sx={{ width: expandWidth, height: '80vh', maxWidth: 360, bgcolor: '#169BD5' }}
                   component="nav"
                   aria-labelledby="nested-list-subheader"
                 >
@@ -439,8 +439,8 @@ const PageLayout = () => {
 
 
         {/* Footer */}
-        <Box component='footer' sx={{width:'100%'}}>
-            <Typography align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
+        <Box component='footer' sx={{width:'100%',height:'64px'}}>
+            <Typography sx={{color:'#004A92'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
         </Box>
       </Stack>
     </div>
