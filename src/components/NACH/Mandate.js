@@ -2,11 +2,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
+
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
-
+import StButton from "./CustomStyles/StButton";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,12 +24,12 @@ const Mandate = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={5} xs={12}>
+            <Grid item sm={12} lg={5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Collection Amount
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={7}>
+            <Grid item xs={12} lg={7} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -40,12 +40,12 @@ const Mandate = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={5} xs={12}>
+            <Grid item sm={12} lg={5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Maximum Collection Amount
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={7}>
+            <Grid item xs={12} lg={7} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -56,12 +56,12 @@ const Mandate = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={5} xs={12}>
+            <Grid item sm={12} lg={5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Collection Type
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={7}>
+            <Grid item xs={12} lg={7} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
@@ -76,12 +76,12 @@ const Mandate = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={5} xs={12}>
+            <Grid item sm={12} lg={5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Collection Frequency
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={7}>
+            <Grid item xs={12} lg={7} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
@@ -100,12 +100,12 @@ const Mandate = () => {
 
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={5} xs={12}>
+            <Grid item sm={12} lg={5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Collection First Date
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={7}>
+            <Grid item xs={12} lg={7} sm={12}>
               <FormControl>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -125,12 +125,12 @@ const Mandate = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={5} xs={12}>
+            <Grid item sm={12} lg={5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Collection Last Date
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={7}>
+            <Grid item xs={12} lg={7} sm={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   disableFuture
@@ -152,9 +152,7 @@ const Mandate = () => {
           marginTop: "2rem",
         }}
       >
-        <Button className="sub_btn" variant="contained">
-          Submit
-        </Button>
+        <StButton variant="contained">Register</StButton>
       </Box>
     </Box>
   );
