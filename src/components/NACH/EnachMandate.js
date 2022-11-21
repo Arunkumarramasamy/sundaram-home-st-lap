@@ -7,8 +7,9 @@ import TabPanel from "@mui/lab/TabPanel";
 import "./EnachMandate.css";
 import CustomerInformation from "./CustomerInformation";
 import DebitDetails from "./DebitDetails";
-import Button from "@mui/material/Button";
+
 import Mandate from "./Mandate";
+import StButton from "./CustomStyles/StButton";
 const EnachMandate = () => {
   const [value, setValue] = React.useState("1");
 
@@ -23,9 +24,14 @@ const EnachMandate = () => {
           justifyContent: "flex-end",
         }}
       >
-        <Button className="sub_btn" variant="contained">
-          Register e-Nach
-        </Button>
+        <StButton
+          variant="contained"
+          sx={{
+            marginBottom: "0.8rem",
+          }}
+        >
+          Register
+        </StButton>
       </Box>
       <Box sx={{ width: "100%", backgroundColor: "white" }}>
         <TabContext value={value}>
@@ -38,9 +44,28 @@ const EnachMandate = () => {
             <TabList
               onChange={handleChange}
               aria-label="lab API tabs example"
-              indicatorColor="white"
+              TabIndicatorProps={{ hidden: true }}
               variant="scrollable"
               allowScrollButtonsMobile
+              sx={{
+                "& button.Mui-selected": {
+                  backgroundColor: "#004a92",
+                  color: "white",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                  borderBottom: "none",
+                },
+
+                "& button": {
+                  outline: "none",
+                  marginRight: "0.2rem",
+                  background: "#fafafa",
+                  color: "#7f7f7f",
+                  transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  borderBottom: "2px solid black",
+                  textTransform: "none",
+                },
+              }}
             >
               <Tab label="Customer Information" value="1" />
               <Tab label="Debit Account Details" value="2" />

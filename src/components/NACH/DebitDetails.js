@@ -2,10 +2,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
+
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
+import StButton from "./CustomStyles/StButton";
 import * as React from "react";
 const DebitDetails = () => {
   const [dummyValue, setDummyValue] = React.useState("");
@@ -14,12 +15,12 @@ const DebitDetails = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Mode of Debit
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
@@ -35,12 +36,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Select Debit Bank
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
@@ -56,12 +57,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Debit Account Type
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
@@ -77,12 +78,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 IFSC Code
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -93,12 +94,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Select Authorize Bank
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
@@ -115,12 +116,12 @@ const DebitDetails = () => {
 
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Sponser Bank Code
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -131,12 +132,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Debit Type
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
@@ -151,12 +152,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Utility Code
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -167,12 +168,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Debit Account Number
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -183,12 +184,12 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel required sx={{ color: "#7f7f7f" }}>
                 Confirm Account Number
               </InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -199,10 +200,10 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel sx={{ color: "#7f7f7f" }}>Reference 1</InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -213,10 +214,10 @@ const DebitDetails = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
-            <Grid item sm={4} lg={4.5} xs={12}>
+            <Grid item sm={12} lg={4.5} xs={12}>
               <InputLabel sx={{ color: "#7f7f7f" }}>Reference 2</InputLabel>
             </Grid>
-            <Grid item xs={8} lg={6.5}>
+            <Grid item xs={12} lg={6.5} sm={12}>
               <TextField
                 id="outlined-basic"
                 variant="outlined"
@@ -231,9 +232,7 @@ const DebitDetails = () => {
           marginTop: "2rem",
         }}
       >
-        <Button className="sub_btn" variant="contained">
-          Submit
-        </Button>
+        <StButton variant="contained">Register</StButton>
       </Box>
     </Box>
   );
