@@ -65,7 +65,7 @@ const Mandate = () => {
               <FormControl sx={{ minWidth: 210 }}>
                 <Select displayEmpty value={dummyValue}>
                   <MenuItem value="">
-                    <p className="placeHolder_text">Select Collection type</p>
+                    <p className="placeHolder_text">Select coll. Type</p>
                   </MenuItem>
                   <MenuItem value={10}>Variable Amount</MenuItem>
                   <MenuItem value={21}>Fixed Amount</MenuItem>
