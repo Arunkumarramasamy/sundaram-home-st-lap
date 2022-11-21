@@ -3,7 +3,7 @@ import { useLocation, useMatch, useMatches, useResolvedPath } from 'react-router
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import { Paper,ListItemText,TableFooter, Chip, Divider } from '@mui/material';
+import { Paper,ListItemText,TableFooter, Chip, Divider, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -33,7 +33,7 @@ import './PageLayout.css';
 import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import DisbursementRequestPage from '../DisbursementRequest/DisbursementRequestPage';
-import { AppRegistrationTwoTone, DashboardTwoTone, Label } from '@mui/icons-material';
+import { AppRegistrationTwoTone, ArticleTwoTone, AssignmentReturnedTwoTone, AssignmentReturnTwoTone, BookOnlineTwoTone, ContactEmergencyTwoTone, ContactMailTwoTone, CurrencyRupee, CurrencyRupeeTwoTone, DashboardTwoTone, Label, PersonSearchTwoTone, ReceiptLongTwoTone, Security, SecurityTwoTone, SupervisedUserCircleTwoTone } from '@mui/icons-material';
 import { Routes, Route,Navigate } from "react-router-dom";
 import Signuppage from '../Signuppage/Signuppage';
 import Loginpage from '../Loginpage/Loginpage';
@@ -169,21 +169,22 @@ const PageLayout = () => {
                   <ListItemButton id='dashboard' onClick={menuClickHandler}>
                     <ListItemIcon>
                       {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
-                      <DashboardTwoTone fontSize='medium' sx={{ color: 'white' }} />
+                      <Tooltip title="Dashbard">
+        <DashboardTwoTone fontSize='large' sx={{ color: 'white' }}  /></Tooltip>
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" sx={{ display: menuLableDisplay }} />
                   </ListItemButton>
 
-                  {/* NACH */}
-                  <ListItemButton onClick={handleNachMenuClick}>
-                    <ListItemIcon>
-                      {/* <img  id = 'layout-menu-image' src = {Nach}/> */}
-                      <AppRegistrationTwoTone fontSize='medium' sx={{ color: 'white' }} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH" />
-
-                    {openNachSubMenu ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
+      {/* NACH */}
+      <ListItemButton onClick={handleNachMenuClick}>
+        <ListItemIcon>
+          {/* <img  id = 'layout-menu-image' src = {Nach}/> */}
+          <AppRegistrationTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH" />
+       
+        {openNachSubMenu ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
 
                   <Collapse in={openNachSubMenu} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
@@ -247,14 +248,15 @@ const PageLayout = () => {
                   </Collapse>
 
 
-                  {/* Insurance  */}
-                  <ListItemButton onClick={handleInsuranceMenuClick}>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={Insurance} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="Insurance" sx={{ display: menuLableDisplay }} />
-                    {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
+      {/* Insurance  */}
+      <ListItemButton  onClick={handleInsuranceMenuClick}>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {Insurance}/> */}
+        <SecurityTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable' primary="Insurance" sx = {{display:menuLableDisplay}}/>
+        {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
 
                   <Collapse in={openInsuranceSubMenu} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
@@ -275,30 +277,33 @@ const PageLayout = () => {
                   </Collapse>
 
 
-                  {/* Disbursement */}
-                  <ListItemButton id='disbursement' onClick={menuClickHandler}>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={disbusmentImage} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="Disbursement" sx={{ display: menuLableDisplay }} />
-                  </ListItemButton>
+      {/* Disbursement */}
+      <ListItemButton id='disbursement' onClick={menuClickHandler}>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
+        <CurrencyRupeeTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable' primary="Disbursement" sx = {{display:menuLableDisplay}} />
+      </ListItemButton>
 
-                  {/* AccountMaster */}
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={AccountMaster} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="Account Master Impact" sx={{ display: menuLableDisplay }} />
-                  </ListItemButton>
+      {/* AccountMaster */}
+      <ListItemButton>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {AccountMaster}/> */}
+        <ContactEmergencyTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable' primary="Account Master Impact" sx = {{display:menuLableDisplay}}/>
+      </ListItemButton>
 
-                  {/* Memo */}
-                  <ListItemButton onClick={handleMemoSubMenuClick}>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={Memo} />
-                    </ListItemIcon>
-                    <ListItemText primary="Memo" sx={{ display: menuLableDisplay }} />
-                    {openMemoSubMenu ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
+      {/* Memo */}
+      <ListItemButton onClick={handleMemoSubMenuClick}>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {Memo}/> */}
+        <ArticleTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText primary="Memo" sx = {{display:menuLableDisplay}}/>
+        {openMemoSubMenu ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
 
                   <Collapse in={openMemoSubMenu} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
@@ -325,23 +330,25 @@ const PageLayout = () => {
                     </List>
                   </Collapse>
 
-                  {/* TDS */}
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={tdsImage} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="TDS" sx={{ display: menuLableDisplay }} />
-                  </ListItemButton>
+      {/* TDS */}
+      <ListItemButton>
+        <ListItemIcon>
+          {/* <img id = 'layout-menu-image' src = {tdsImage}/> */}
+          <AssignmentReturnedTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable' primary="TDS" sx = {{display:menuLableDisplay}}/>
+      </ListItemButton>
 
 
-                  {/* Receipt */}
-                  <ListItemButton onClick={handleReceiptSubMenuClick}>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={Receipt} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="Receipt Process" sx={{ display: menuLableDisplay }} />
-                    {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
+      {/* Receipt */}
+      <ListItemButton onClick={handleReceiptSubMenuClick}>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {Receipt}/> */}
+        <ReceiptLongTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable'  primary="Receipt Process" sx = {{display:menuLableDisplay}}/>
+        {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
 
                   <Collapse in={openReceiptSubMenu} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
@@ -390,33 +397,35 @@ const PageLayout = () => {
                     </List>
                   </Collapse>
 
-                  {/* Return */}
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={Return} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="Return" sx={{ display: menuLableDisplay }} />
-                  </ListItemButton>
+      {/* Return */}
+      <ListItemButton>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {Return}/> */}
+        <AssignmentReturnTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable' primary="Return" sx = {{display:menuLableDisplay}}/>
+      </ListItemButton>
 
 
-                  {/* JV */}
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={JV} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="JV" sx={{ display: menuLableDisplay }} />
-                  </ListItemButton>
+      {/* JV */}
+      <ListItemButton>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {JV}/> */}
+        <BookOnlineTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable'  primary="JV" sx = {{display:menuLableDisplay}}/>
+      </ListItemButton>
 
-                  {/* Query */}
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <img id='layout-menu-image' src={Query} />
-                    </ListItemIcon>
-                    <ListItemText id='menu-lable' primary="Comprehensive Query" sx={{ display: menuLableDisplay }} />
-                  </ListItemButton>
-                </List>
-              </Paper>
-            </SimpleBar>
+      {/* Query */}
+      <ListItemButton>
+        <ListItemIcon>
+        {/* <img  id = 'layout-menu-image' src = {Query}/> */}
+        <PersonSearchTwoTone fontSize='large' sx={{color:'white'}}/>
+        </ListItemIcon>
+        <ListItemText id='menu-lable'  primary="Comprehensive Query" sx = {{display:menuLableDisplay}}/>
+      </ListItemButton>
+    </List>
+            </Paper>
           </Box>
 
 
