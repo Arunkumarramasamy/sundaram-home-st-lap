@@ -2,7 +2,6 @@
 body {
   font-family: "Roboto", sans-serif;
   background-color: #eeeeee !important;
-  overflow-y: auto;
   font-size: 62.5%;
 }
 .placeHolder_text {
