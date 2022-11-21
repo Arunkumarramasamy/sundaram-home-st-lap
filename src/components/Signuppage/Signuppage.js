@@ -78,7 +78,8 @@ export default function Signuppage() {
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      height: screenHeight - 184
+                      height: screenHeight - 184,
+                      textAlign:'center'
                     }}
                   >
                     <Avatar sx={{ m: 1, bgcolor: '#2F7DC4', width: '50px', height: '50px' }}>
@@ -208,6 +209,7 @@ export default function Signuppage() {
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
+                      textAlign:'center'
                     }}
                   >
                     <Avatar sx={{ m: 1, bgcolor: '#2F7DC4', width: '50px', height: '50px' }}>
@@ -314,6 +316,7 @@ export default function Signuppage() {
           px: 2,
           mt: 'auto',
           backgroundColor: '#004A92',
+          textAlign:'center'
         }}
       >
         <Container maxWidth="sm">
