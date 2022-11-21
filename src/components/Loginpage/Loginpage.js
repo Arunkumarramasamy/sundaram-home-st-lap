@@ -90,7 +90,7 @@ const navigate = useNavigate();
                   <Typography component="h1" variant="h5" sx={{ color: 'black' }}>
                     Login
                   </Typography>
-                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                  <Box component="form" validate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <Grid container spacing={1}>
                       <Grid item xs={12}>
                         <TextField
@@ -196,7 +196,7 @@ const navigate = useNavigate();
                     <Typography component="h1" variant="h5" sx={{ color: 'black' }}>
                       Login
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" validate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                       <Grid container spacing={1}>
                         <Grid item xs={12}>
                           <TextField

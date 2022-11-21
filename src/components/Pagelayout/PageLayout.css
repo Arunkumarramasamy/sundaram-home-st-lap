@@ -24,20 +24,6 @@ aside {
   margin-top: 16px;
 }
 
-html,
-body {
-  height: 100%;
-  width: max-content;
-    min-width: -webkit-fill-available;
-    height: -webkit-fill-available;
-}
-
-#maindiv,
-#root, .App {
-  height: 100%;
-  width:100%;
-}
-
 .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root .MuiListItemIcon-root {
   color: white
 }
@@ -47,10 +33,7 @@ body {
 }
 
 #menu-box {
-  border-right-style: groove;
-  height: 100%;
-  color: white;
-  /* overflow: hidden; */
+  background-color: #169BD5 !important;
 }
 
 #logoimage {
@@ -64,9 +47,6 @@ body {
 .scrollable-element {
   scrollbar-width: thin;
 }
-#menu-box nav{
-  height:100% !important;
-}
 
 .simplebar-wrapper{
   height:100%;
@@ -74,4 +54,5 @@ body {
 
 #simple-bar {
   height:100%;
+  overflow-x: hidden !important;
 }

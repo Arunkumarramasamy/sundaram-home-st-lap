@@ -207,7 +207,7 @@ const nachoptions = {
 };
 
 const insuranceoptions = {    
-  series: [89],
+  series: [70],
   options: {
     chart: {
       height: 250,

@@ -106,7 +106,7 @@ const innerHeight =  window.innerHeight
     <div id='maindiv'>
       <Stack sx={{  height: "calc(100% - 82px)", }}>
 
-      <AppBar position="static" sx = {{backgroundColor: '#004A92',height:"70px"}}>
+      <AppBar position="fixed" sx = {{backgroundColor: '#004A92',height:"70px"}}>
         <Toolbar>
           <IconButton
             size="large"
@@ -145,12 +145,13 @@ const innerHeight =  window.innerHeight
         </Toolbar>
       </AppBar>
          
-        <Stack direction="row" sx={{ height: 'calc(100% - 12px)',justifyContent:'flex-end' }}>
+        <Stack direction="row" sx={{ height: window.innerHeight - 142, justifyContent:'flex-end',marginTop:'70px' }}>
           <Box sx={{ minWidth :expandWidth+10}}>
-            <SimpleBar id = 'simple-bar' style={{ height: '100%' }}>
-              <Paper id='menu-box' sx={{ width: expandWidth, maxWidth: '100%', color: 'white', fontWeight: 'bold' }}>
+            <SimpleBar id = 'simple-bar' style={{ maxHeight: window.innerHeight - 142 }}>
+              <Paper elevation={0.5} id='menu-box' sx={{ width: expandWidth, maxWidth: '100%',
+                fontWeight: 'bold',height:window.innerHeight + 32}}>
                 <List
-                  sx={{ width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
+                  sx={{ width: expandWidth, maxWidth: 360 }}
                   component="nav"
                   aria-labelledby="nested-list-subheader"
                 >
@@ -528,9 +529,9 @@ const innerHeight =  window.innerHeight
 
 
           {/* Page Body */}
-          <Box sx={{ padding: "8px 8px 10px 8px", width: '100%' }}>
-            <SimpleBar style={{ maxHeight: '80vh' }}>
-            <Container>
+          <Box sx={{ padding: "8px 8px 10px 8px", width: '100%'}}>
+            <SimpleBar style={{ maxHeight: window.innerHeight - 150 }}>
+            <Container sx={{marginBottom:'8px'}}>
              <Routes>  
             <Route path={`${search}/stlap/home/dashboard`} element={ <Dashboard/> } />   
             <Route path={`${search}/stlap/home/disbursement`} element={ <DisbursementRequestPage/> } />  
@@ -545,7 +546,13 @@ const innerHeight =  window.innerHeight
 
 
         {/* Footer */}
-        <Box component='footer' sx={{width:'100%',height:'64px'}}>
+        <Box component='footer' sx={{
+          py: 3,
+          px: 2,
+          mt: 'auto',
+          backgroundColor: '#004A92',
+          textAlign:'center',
+        }}>
             <Typography sx={{color:'black'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
         </Box>
       </Stack>
