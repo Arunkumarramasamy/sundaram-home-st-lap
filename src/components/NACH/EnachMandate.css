@@ -12,42 +12,13 @@ body {
   padding: 0;
 }
 
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
-  border-radius: 2px 2px 0 0 !important;
-  padding: 6px 12px !important;
-  border: 1px solid #f0f0f0 !important;
-  outline: none !important;
-  margin-right: 2px !important;
-  background: #fafafa !important;
-  color: #7f7f7f !important;
-  transition: all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
-  border-bottom: 2px solid black !important;
-}
 .MuiTab-root.Mui-selected {
-  background-color: #004a92 !important;
-  color: white !important;
-  border-top-left-radius: 10px !important;
-  border-top-right-radius: 10px !important;
-  border-bottom: none !important;
   text-transform: uppercase !important;
 }
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
-  text-transform: none !important;
-}
+
 .MuiGrid-root {
   align-items: center;
 }
 .MuiFormLabel-asterisk {
   color: red;
-}
-.sub_btn {
-  background-color: #004a92 !important;
-  color: white !important;
-  margin-bottom: 0.5rem !important;
-}
-
-.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused
-  .MuiOutlinedInput-notchedOutline {
-  border-color: #004a92 !important;
-  border-width: 2px !important;
 }
