@@ -31,6 +31,7 @@ function Copyright() {
 }
 
 const theme = createTheme();
+const screenHeight = window.innerHeight;
 
 export default function Signuppage() {
   const handleSubmit = (event) => {
@@ -77,7 +78,7 @@ export default function Signuppage() {
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      height:'100vh'
+                      height: screenHeight - 184
                     }}
                   >
                     <Avatar sx={{ m: 1, bgcolor: '#2F7DC4', width: '50px', height: '50px' }}>

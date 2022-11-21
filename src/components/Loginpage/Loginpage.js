@@ -33,6 +33,8 @@ function Copyright() {
 
 const theme = createTheme();
 
+const screenHeight = window.innerHeight;
+
 export default function Loginpage() {
 const navigate = useNavigate();
 
@@ -78,7 +80,7 @@ const navigate = useNavigate();
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    height:'100vh'
+                      height: screenHeight - 184
                   }}
                 >
                   <Avatar sx={{ m: 1, bgcolor: '#2F7DC4', width: '50px', height: '50px' }}>
