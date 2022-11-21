@@ -10,11 +10,14 @@ import TextField from '@mui/material/TextField';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { darken, lighten } from '@mui/material/styles';
+
 
 export default function DisbursementRequestPage() {
     const [pageSize, setPageSize] = React.useState(10);
     const [openDialog, setOpenDialog] = React.useState(false);
     const [rowValues,setRowValues] =  React.useState({});
+    const [statusValue,setStatusValue] = React.useState('');
     const handleClose = () => {
         setOpenDialog(false);
       };
@@ -38,10 +41,11 @@ export default function DisbursementRequestPage() {
 
 
     const columns = [
-        { field: 'id',  renderHeader: () => (<strong>ID</strong>), width: 90 },
+        { field: 'id',   headerName : 'S.No', width: 90 },
         {
           field: 'trnno',
-          renderHeader: () => (<strong>Trn No</strong>),
+           headerName : 'Trn No',
+           type: 'string',
           description: 'Click here to update the status.',
           sortable: false,
           width: 160,
@@ -56,50 +60,60 @@ export default function DisbursementRequestPage() {
         },
         {
           field: 'name',
-          renderHeader: () => (<strong>Applicant Name</strong>),
+           headerName : 'Applicant Name',
+           type: 'string',
           width: 150,
           editable: false,
         },
         {
           field: 'date',
-          renderHeader: () => (<strong>Loan Sanctioned Date</strong>),
-          type: 'number',
+           headerName : 'Loan Sanctioned Date',
+          type: 'string',
           width: 190,
           editable: false,
         },
         {
           field: 'amount',
-          renderHeader: () => (<strong>Sanctioned Amount</strong>),
-          type: 'number',
+          headerName : 'Sanctioned Amount',
+          type: 'string',
           width: 190,
           editable: false,
         },
         {
           field: 'status',
-          renderHeader: () => (<strong>Disbursement Status</strong>),
-          type: 'number',
+          headerName : 'Disbursement Status',
+          type: 'string',
           width: 160,
           editable: false,
         },
         
       ];
       
+      const statusChangeHandler = (event) => {
+          setStatusValue(event.target.value);
+      };
       
 
 
   return (
-    <Box sx={{ height: 500 }}>
+    <Box sx={{ height: 500 ,'& .super-app-theme--odd': {
+      bgcolor:lighten('#D7D7D7', 0.15),
+    },
+    '& .super-app-theme--even': {
+      bgcolor: lighten('#AAAAAA', 0.15),
+    }, }}>
       <DataGrid sx={{
           boxShadow: 2,
           border: 2,
-          borderColor: 'primary.light',
+          borderColor: 'white',
           '& .MuiDataGrid-row:hover': {
-            color: 'primary.main',
+            color: '#004A92',
+            backgroundColor:'#B8E4F4',
           },
           '& .MuiDataGrid-columnHeaders':{
-            color: 'black',
+            color: 'white',
             fontFamily: 'Roboto',
-            backgroundColor:'#169BD5',
+            backgroundColor:'#7f7f7f',
           },
         }}
         rows={rows}
@@ -108,6 +122,8 @@ export default function DisbursementRequestPage() {
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[5, 10, 20]}
         disableSelectionOnClick 
+        getRowClassName={(params) => (
+          (params.id % 2 ) ? `super-app-theme--even` : `super-app-theme--odd`)}
       />
        <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Update Disbursement Status</DialogTitle>
@@ -155,7 +171,7 @@ export default function DisbursementRequestPage() {
                <InputLabel required sx={{ color: "#7f7f7f" }}>
                Disbursement Status:
               </InputLabel>
-              <Select displayEmpty value='' variant='filled'>
+              <Select displayEmpty value={statusValue} variant='filled' onChange={statusChangeHandler}>
                   <MenuItem value="">
                     <p className="placeHolder_text">Select Mode of Debit</p>
                   </MenuItem>
@@ -171,5 +187,6 @@ export default function DisbursementRequestPage() {
         </DialogActions>
       </Dialog>
     </Box>
+
   );
 }
