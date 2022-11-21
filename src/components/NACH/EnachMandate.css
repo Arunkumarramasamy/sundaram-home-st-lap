@@ -22,3 +22,8 @@ body {
 .MuiFormLabel-asterisk {
   color: red;
 }
+@media (max-width: 34em) {
+  .css-1o83tna-MuiFormControl-root {
+    min-width: 20px !important;
+  }
+}
