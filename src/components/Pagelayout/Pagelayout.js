@@ -44,9 +44,9 @@ const innerHeight =  window.innerHeight
   const {search} = useLocation();
   const history = useNavigate();
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
   const [expandWidth, setMenuWidth] = React.useState(70);
-  const [menuLableDisplay, setmenuLableDisplay] = React.useState('block');
+  const [menuLableDisplay, setmenuLableDisplay] = React.useState('none');
   
   const handleNachMenuClick = () => {
     setOpenNachSubMenu(!openNachSubMenu);
@@ -494,7 +494,7 @@ const innerHeight =  window.innerHeight
         <ListItemText id='menu-lable'  primary="Comprehensive Query" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
 
-
+      
 
 
       {/* Change Password */}

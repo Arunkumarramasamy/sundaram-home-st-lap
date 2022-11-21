@@ -50,7 +50,7 @@ body {
   border-right-style: groove;
   height: 100%;
   color: white;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 #logoimage {
@@ -74,7 +74,4 @@ body {
 
 #simple-bar {
   height:100%;
-}
-.simplebar-content-wrapper, .simplebar-content{
-  height:100% !important;
 }
