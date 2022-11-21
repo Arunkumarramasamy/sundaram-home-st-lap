@@ -7,6 +7,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 export default function DisbursementRequestPage() {
     const [pageSize, setPageSize] = React.useState(10);
@@ -109,22 +112,58 @@ export default function DisbursementRequestPage() {
        <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Update Disbursement Status</DialogTitle>
         <DialogContent>
-          <TextField
-            disabled
-            id=""
-            defaultValue={rowValues.trnno}
-            variant="filled"
-          />
-          <TextField
-            disabled
-            id=""
-            defaultValue={rowValues.date}
-          />
-          <TextField
-            disabled
-            id=""
-            defaultValue={rowValues.amount}
-          />
+        <InputLabel required sx={{ color: "#7f7f7f" }}>
+                Trn No:
+              </InputLabel>
+        <TextField
+                id="outlined-basic"
+                variant="outlined"
+                placeholder=""
+                defaultValue={rowValues.trnno}
+                disabled
+              />
+              <InputLabel required sx={{ color: "#7f7f7f" }}>
+                Applicant Name:
+              </InputLabel>
+        <TextField
+                id="outlined-basic"
+                variant="outlined"
+                placeholder=""
+                defaultValue={rowValues.name}
+                disabled
+              />
+              <InputLabel required sx={{ color: "#7f7f7f" }}>
+               Loan Sanctioned Date:
+              </InputLabel>
+        <TextField
+                id="outlined-basic"
+                variant="outlined"
+                placeholder=""
+                defaultValue={rowValues.date}
+                disabled
+              />
+              <InputLabel required sx={{ color: "#7f7f7f" }}>
+               Sanctioned Amount:
+              </InputLabel>
+        <TextField
+                id="outlined-basic"
+                variant="outlined"
+                placeholder=""
+                defaultValue={rowValues.amount}
+                disabled
+              />
+               <InputLabel required sx={{ color: "#7f7f7f" }}>
+               Disbursement Status:
+              </InputLabel>
+              <Select displayEmpty value='' variant='filled'>
+                  <MenuItem value="">
+                    <p className="placeHolder_text">Select Mode of Debit</p>
+                  </MenuItem>
+                  <MenuItem value={10}>Disbursed</MenuItem>
+                  <MenuItem value={21}>Not Disbursed</MenuItem>
+                  <MenuItem value={22}>Rejected</MenuItem>
+                </Select>
+        
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

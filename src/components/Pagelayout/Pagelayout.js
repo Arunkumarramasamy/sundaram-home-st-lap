@@ -160,7 +160,7 @@ const PageLayout = () => {
             <SimpleBar style={{ maxHeight: '82vh' }}>
               <Paper id='menu-box' sx={{ width: expandWidth, maxWidth: '100%', color: 'black', fontWeight: 'bold' }}>
                 <List
-                  sx={{ width: expandWidth, height: '80vh', maxWidth: 360, bgcolor: '#169BD5' }}
+                  sx={{ width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
                   component="nav"
                   aria-labelledby="nested-list-subheader"
                 >
@@ -426,6 +426,7 @@ const PageLayout = () => {
       </ListItemButton>
     </List>
             </Paper>
+            </SimpleBar>
           </Box>
 
 
