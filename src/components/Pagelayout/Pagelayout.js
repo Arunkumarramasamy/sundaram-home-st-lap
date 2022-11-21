@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { useLocation, useMatch, useMatches, useResolvedPath } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import { Paper,ListItemText,TableFooter, Chip, Divider, Tooltip } from '@mui/material';
+import { Paper,ListItemText, Chip, Divider, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -18,24 +16,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import disbusmentImage from '../../images/disbursment.png';
-import tdsImage from '../../images/tds.png';
-import AccountMaster from '../../images/accountmaster.png';
-import JV from '../../images/jv.png';
-import Memo from '../../images/memo.png';
-import Query from '../../images/query.png';
-import Receipt from '../../images/receipt.png';
-import Return from '../../images/return.png';
-import Insurance from '../../images/insurance.png';
-import Nach from '../../images/nach.png';
 import Logo from '../../images/logo.png';
 import './PageLayout.css';
 import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import DisbursementRequestPage from '../DisbursementRequest/DisbursementRequestPage';
-import { AppRegistrationTwoTone, ArticleTwoTone, AssignmentReturnedTwoTone, AssignmentReturnTwoTone, BookOnlineTwoTone, ContactEmergencyTwoTone, ContactMailTwoTone, CurrencyRupee, CurrencyRupeeTwoTone, DashboardTwoTone, Label, PersonSearchTwoTone, ReceiptLongTwoTone, Security, SecurityTwoTone, SupervisedUserCircleTwoTone } from '@mui/icons-material';
-import { Routes, Route,Navigate } from "react-router-dom";
-import Signuppage from '../Signuppage/Signuppage';
+import { AppRegistrationTwoTone, ArticleTwoTone, AssignmentReturnedTwoTone, AssignmentReturnTwoTone, BookOnlineTwoTone, ContactEmergencyTwoTone, ContactMailTwoTone, CurrencyRupee, CurrencyRupeeTwoTone, DashboardTwoTone, Label, LogoutTwoTone, PersonSearchTwoTone, PublishedWithChangesTwoTone, ReceiptLongTwoTone, Security, SecurityTwoTone, SupervisedUserCircleTwoTone } from '@mui/icons-material';
+import { Routes, Route } from "react-router-dom";
 import Loginpage from '../Loginpage/Loginpage';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -43,6 +30,7 @@ import EnachMandate from '../NACH/EnachMandate';
 import { Dashboard } from '../Dashboard/Dashboard';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
+import Stack from '@mui/material/Stack';
 
 
 
@@ -54,7 +42,7 @@ const PageLayout = () => {
   const {search} = useLocation();
   const history = useNavigate();
 
-  const [expanded, setExpanded] = React.useState(true);
+  const [expanded, setExpanded] = React.useState(false);
   const [expandWidth, setMenuWidth] = React.useState(300);
   const [menuLableDisplay, setmenuLableDisplay] = React.useState('block');
   
@@ -131,7 +119,7 @@ const PageLayout = () => {
           <Stack direction = 'row' sx={{width : 'calc(100% - 600px)'}}>
 
           {/* <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
-          <img id = 'logoimage'src = {Logo} onClick={handleLogout}></img>
+          <img id = 'logoimage'src = {Logo} ></img>
           <DraftsOutlinedIcon sx = {{marginTop:"15px",marginLeft:"60px"}}>
             </DraftsOutlinedIcon>
           {/* </Typography> */}
@@ -158,7 +146,7 @@ const PageLayout = () => {
         <Stack direction="row" sx={{ height: 'calc(100% - 12px)',justifyContent:'flex-end' }}>
           <Box sx={{ minWidth :expandWidth+10}}>
             <SimpleBar style={{ maxHeight: '82vh' }}>
-              <Paper id='menu-box' sx={{ width: expandWidth, maxWidth: '100%', color: 'black', fontWeight: 'bold' }}>
+              <Paper id='menu-box' sx={{ width: expandWidth, maxWidth: '100%', color: 'white', fontWeight: 'bold' }}>
                 <List
                   sx={{ width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
                   component="nav"
@@ -169,8 +157,9 @@ const PageLayout = () => {
                   <ListItemButton id='dashboard' onClick={menuClickHandler}>
                     <ListItemIcon>
                       {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
-                      <Tooltip title="Dashbard">
-        <DashboardTwoTone fontSize='large' sx={{ color: 'white' }}  /></Tooltip>
+                      <Tooltip title="Dashbard" disableHoverListener={!expanded}>
+                        <DashboardTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" sx={{ display: menuLableDisplay }} />
                   </ListItemButton>
@@ -179,7 +168,9 @@ const PageLayout = () => {
       <ListItemButton onClick={handleNachMenuClick}>
         <ListItemIcon>
           {/* <img  id = 'layout-menu-image' src = {Nach}/> */}
-          <AppRegistrationTwoTone fontSize='large' sx={{color:'white'}}/>
+          <Tooltip title="NACH" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable' sx = {{display:menuLableDisplay}} primary="NACH" />
        
@@ -190,56 +181,80 @@ const PageLayout = () => {
                     <List component="div" disablePadding>
                       <ListItemButton sx={{ pl: 4 }} >
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="E-NACH/NACH Initiation Process" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="E-NACH/NACH Initiation Process" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="E-NACH Initiation Process" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="E-NACH Initiation Process" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="E-NACH Mandate Link Page" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="E-NACH Mandate Link Page" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }} id='nachMandateEntry' onClick={menuClickHandler}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="NACH - Mandate Entry" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Entry" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="NACH - Mandate Verification and Modification" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Verification and Modification" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="NACH - Mandate Bank Submission" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Bank Submission" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="NACH - Mandate Delete" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - Mandate Delete" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Nach} />
+                          {/* <img id='layout-menu-image' src={Nach} /> */}
+                          <Tooltip title="NACH - UMRN Updation/Upload" disableHoverListener={!expanded}>
+                        <AppRegistrationTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="NACH - UMRN Updation/Upload" />
                       </ListItemButton>
@@ -252,7 +267,9 @@ const PageLayout = () => {
       <ListItemButton  onClick={handleInsuranceMenuClick}>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {Insurance}/> */}
-        <SecurityTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="Insurance" disableHoverListener={!expanded}>
+                        <SecurityTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable' primary="Insurance" sx = {{display:menuLableDisplay}}/>
         {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
@@ -262,14 +279,20 @@ const PageLayout = () => {
                     <List component="div" disablePadding>
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Insurance} />
+                          {/* <img id='layout-menu-image' src={Insurance} /> */}
+                          <Tooltip title="Insurance Master" disableHoverListener={!expanded}>
+                        <SecurityTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Insurance Master" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Insurance} />
+                          {/* <img id='layout-menu-image' src={Insurance} /> */}
+                          <Tooltip title="Insurance Details-Appl level details" disableHoverListener={!expanded}>
+                        <SecurityTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Insurance Details-Appl level details" />
                       </ListItemButton>
@@ -281,7 +304,9 @@ const PageLayout = () => {
       <ListItemButton id='disbursement' onClick={menuClickHandler}>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
-        <CurrencyRupeeTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="Disbursement" disableHoverListener={!expanded}>
+                        <CurrencyRupeeTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable' primary="Disbursement" sx = {{display:menuLableDisplay}} />
       </ListItemButton>
@@ -290,7 +315,9 @@ const PageLayout = () => {
       <ListItemButton>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {AccountMaster}/> */}
-        <ContactEmergencyTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="Account Master Impact" disableHoverListener={!expanded}>
+                        <ContactEmergencyTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable' primary="Account Master Impact" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
@@ -299,7 +326,9 @@ const PageLayout = () => {
       <ListItemButton onClick={handleMemoSubMenuClick}>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {Memo}/> */}
-        <ArticleTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="Memo" disableHoverListener={!expanded}>
+                        <ArticleTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText primary="Memo" sx = {{display:menuLableDisplay}}/>
         {openMemoSubMenu ? <ExpandLess /> : <ExpandMore />}
@@ -309,21 +338,30 @@ const PageLayout = () => {
                     <List component="div" disablePadding>
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Memo} />
+                          {/* <img id='layout-menu-image' src={Memo} /> */}
+                          <Tooltip title="Memo Defn. - Incl. of GST" disableHoverListener={!expanded}>
+                        <ArticleTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Memo Defn. - Incl. of GST" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Memo} />
+                          {/* <img id='layout-menu-image' src={Memo} /> */}
+                          <Tooltip title="Memo - GL Mapping" disableHoverListener={!expanded}>
+                        <ArticleTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Memo - GL Mapping" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Memo} />
+                          {/* <img id='layout-menu-image' src={Memo} /> */}
+                          <Tooltip title="Memo GL - GST Mapping" disableHoverListener={!expanded}>
+                        <ArticleTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Memo GL - GST Mapping" />
                       </ListItemButton>
@@ -334,7 +372,10 @@ const PageLayout = () => {
       <ListItemButton>
         <ListItemIcon>
           {/* <img id = 'layout-menu-image' src = {tdsImage}/> */}
-          <AssignmentReturnedTwoTone fontSize='large' sx={{color:'white'}}/>
+          
+          <Tooltip title="TDS" disableHoverListener={!expanded}>
+                        <AssignmentReturnedTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable' primary="TDS" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
@@ -344,7 +385,9 @@ const PageLayout = () => {
       <ListItemButton onClick={handleReceiptSubMenuClick}>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {Receipt}/> */}
-        <ReceiptLongTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="Receipt Process" disableHoverListener={!expanded}>
+                        <ReceiptLongTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable'  primary="Receipt Process" sx = {{display:menuLableDisplay}}/>
         {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
@@ -354,43 +397,61 @@ const PageLayout = () => {
                     <List component="div" disablePadding>
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Receipt} />
+                          {/* <img id='layout-menu-image' src={Receipt} /> */}
+                          <Tooltip title="Create - Cash/Check/DD/RTGS/NEFT" disableHoverListener={!expanded}>
+                        <ReceiptLongTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Cash/Check/DD/RTGS/NEFT" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Receipt} />
+                          {/* <img id='layout-menu-image' src={Receipt} /> */}
+                          <Tooltip title="Modify" disableHoverListener={!expanded}>
+                        <ReceiptLongTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
-                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Cash/Check/DD/RTGS/NEFT" />
+                        <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Modify" />
 
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Receipt} />
+                          {/* <img id='layout-menu-image' src={Receipt} /> */}
+                          <Tooltip title="Query" disableHoverListener={!expanded}>
+                        <ReceiptLongTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText primary="Query" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Receipt} />
+                          {/* <img id='layout-menu-image' src={Receipt} /> */}
+                          <Tooltip title="Realization Updation" disableHoverListener={!expanded}>
+                        <ReceiptLongTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Realization Updation" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Receipt} />
+                          {/* <img id='layout-menu-image' src={Receipt} /> */}
+                          <Tooltip title="Create - Single" disableHoverListener={!expanded}>
+                        <ReceiptLongTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Single" />
                       </ListItemButton>
 
                       <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
-                          <img id='layout-menu-image' src={Receipt} />
+                          {/* <img id='layout-menu-image' src={Receipt} /> */}
+                          <Tooltip title="Create - Bulk" disableHoverListener={!expanded}>
+                        <ReceiptLongTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
                         </ListItemIcon>
                         <ListItemText id='menu-lable' sx={{ display: menuLableDisplay }} primary="Create - Bulk" />
                       </ListItemButton>
@@ -401,7 +462,9 @@ const PageLayout = () => {
       <ListItemButton>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {Return}/> */}
-        <AssignmentReturnTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="Return" disableHoverListener={!expanded}>
+                        <AssignmentReturnTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable' primary="Return" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
@@ -411,7 +474,9 @@ const PageLayout = () => {
       <ListItemButton>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {JV}/> */}
-        <BookOnlineTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="JV" disableHoverListener={!expanded}>
+                        <BookOnlineTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable'  primary="JV" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
@@ -420,10 +485,39 @@ const PageLayout = () => {
       <ListItemButton>
         <ListItemIcon>
         {/* <img  id = 'layout-menu-image' src = {Query}/> */}
-        <PersonSearchTwoTone fontSize='large' sx={{color:'white'}}/>
+        <Tooltip title="Comprehensive Query" disableHoverListener={!expanded}>
+                        <PersonSearchTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
         </ListItemIcon>
         <ListItemText id='menu-lable'  primary="Comprehensive Query" sx = {{display:menuLableDisplay}}/>
       </ListItemButton>
+
+
+
+
+      {/* Change Password */}
+      <ListItemButton>
+        <ListItemIcon>
+        <Tooltip title="Change Password" disableHoverListener={!expanded}>
+                        <PublishedWithChangesTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
+        </ListItemIcon>
+        <ListItemText id='menu-lable'  primary="Change Password" sx = {{display:menuLableDisplay}}/>
+      </ListItemButton>
+
+       {/* Change Password */}
+       <ListItemButton onClick={handleLogout}>
+        <ListItemIcon>
+        <Tooltip title="Logout" disableHoverListener={!expanded}>
+                        <LogoutTwoTone fontSize='large' sx={{ color: 'white' }}  />
+                        </Tooltip>
+        </ListItemIcon>
+        <ListItemText id='menu-lable'  primary="Logout" sx = {{display:menuLableDisplay}}/>
+      </ListItemButton>
+
+
+
+      
     </List>
             </Paper>
             </SimpleBar>
