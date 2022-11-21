@@ -35,6 +35,8 @@ import Stack from '@mui/material/Stack';
 
 
 const PageLayout = () => {
+const innerHeight =  window.innerHeight
+
   const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
   const [openInsuranceSubMenu, setOpenInsuranceSubMenu] = useState(false);
   const [openMemoSubMenu, setOpenMemoSubMenu] = useState(false);
@@ -43,7 +45,7 @@ const PageLayout = () => {
   const history = useNavigate();
 
   const [expanded, setExpanded] = React.useState(false);
-  const [expandWidth, setMenuWidth] = React.useState(300);
+  const [expandWidth, setMenuWidth] = React.useState(70);
   const [menuLableDisplay, setmenuLableDisplay] = React.useState('block');
   
   const handleNachMenuClick = () => {
@@ -102,7 +104,7 @@ const PageLayout = () => {
 
   return (
     <div id='maindiv'>
-      <Stack sx={{  height: "calc(100% - 82px)", width:'100%'}}>
+      <Stack sx={{  height: "calc(100% - 82px)", }}>
 
       <AppBar position="static" sx = {{backgroundColor: '#004A92',height:"70px"}}>
         <Toolbar>
@@ -145,7 +147,7 @@ const PageLayout = () => {
          
         <Stack direction="row" sx={{ height: 'calc(100% - 12px)',justifyContent:'flex-end' }}>
           <Box sx={{ minWidth :expandWidth+10}}>
-            <SimpleBar style={{ maxHeight: '82vh' }}>
+            <SimpleBar id = 'simple-bar' style={{ height: '100%' }}>
               <Paper id='menu-box' sx={{ width: expandWidth, maxWidth: '100%', color: 'white', fontWeight: 'bold' }}>
                 <List
                   sx={{ width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
@@ -544,7 +546,7 @@ const PageLayout = () => {
 
         {/* Footer */}
         <Box component='footer' sx={{width:'100%',height:'64px'}}>
-            <Typography sx={{color:'#004A92'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
+            <Typography sx={{color:'black'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
         </Box>
       </Stack>
     </div>

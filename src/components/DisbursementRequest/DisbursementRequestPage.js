@@ -90,7 +90,6 @@ export default function DisbursementRequestPage() {
       ];
       
       const statusChangeHandler = (event) => {
-         // console.log(event.target.value);
           setStatusValue(event.target.value);
       };
       
@@ -99,22 +98,17 @@ export default function DisbursementRequestPage() {
   return (
     <Box sx={{ height: 500 ,'& .super-app-theme--odd': {
       bgcolor:lighten('#D7D7D7', 0.15),
-      '&:hover': {
-        bgcolor: darken('#D7D7D7', 0.50),
-      },
     },
     '& .super-app-theme--even': {
       bgcolor: lighten('#AAAAAA', 0.15),
-      '&:hover': {
-        bgcolor: darken('#AAAAAA',0.60),
-      },
     }, }}>
       <DataGrid sx={{
           boxShadow: 2,
           border: 2,
           borderColor: 'white',
           '& .MuiDataGrid-row:hover': {
-            color: 'primary.main',
+            color: '#004A92',
+            backgroundColor:'#B8E4F4',
           },
           '& .MuiDataGrid-columnHeaders':{
             color: 'white',
