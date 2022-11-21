@@ -1,33 +1,16 @@
 import PropTypes from "prop-types";
 import "./Dashboard.css";
 import React from 'react';
-import ProfileImg from '../../images/insurance.png'
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import { Paper } from "@mui/material";
-import { GridColumnHeaderFilterIconButton } from "@mui/x-data-grid";
 import { Chip } from "@material-ui/core";
 import Stack from '@mui/material/Stack';
 import ApexCharts from 'apexcharts'
 import ReactApexChart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
 import { useEffect } from "react";
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
 
 const bussinessplotoptions = {
     series: [{
@@ -41,7 +24,7 @@ const bussinessplotoptions = {
     }],
       chart: {
       height: 250,
-      width:550,
+      width: 500,
       type: 'line',
     },
     stroke: {
@@ -408,18 +391,7 @@ export const Dashboard = (props) => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    const chart = new ApexCharts(document.querySelector("#businesschart"), bussinessplotoptions);
-    chart.render();
-    let donut = new ApexCharts(
-      document.querySelector("#paymentdonut"),
-      paymentplotoptions
-    )
-    donut.render();
-    let complaints = new ApexCharts(
-      document.querySelector("#complaintsdonut"),
-      complaintplotoptions
-    )
-    complaints.render();
+    
   }, []);
 
   
@@ -429,7 +401,7 @@ export const Dashboard = (props) => {
       <Card sx={{
         backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-        width: '580px', height: '400px', margin: 2
+        width: '600px', height: '400px', margin: 2
       }}>
         <CardHeader
           action={
@@ -444,7 +416,8 @@ export const Dashboard = (props) => {
           title="Business Overview"
         />
         <CardContent>
-          <div id="businesschart" style={{ width: '600px', height: '350px' }}>
+          <div id="businesschart" style={{ width: '550px', height: '350px' }}>
+          <ReactApexChart options={bussinessplotoptions} series={bussinessplotoptions.series} type="line" height={250} />
           </div>
         </CardContent>
       </Card>
@@ -453,7 +426,7 @@ export const Dashboard = (props) => {
       <Card sx={{
         backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-        width: '300px', height: '300px', margin: 2
+        width: '300px', height: '400px', margin: 2
       }}>
         <CardHeader
           action={
@@ -465,6 +438,7 @@ export const Dashboard = (props) => {
         />
         <CardContent>
           <div id="paymentdonut" style={{ width: '300px' }}>
+          <ReactApexChart options={paymentplotoptions} series={paymentplotoptions.series} type="donut" height={250} />
           </div>
         </CardContent>
       </Card>
@@ -554,6 +528,7 @@ export const Dashboard = (props) => {
       />
       <CardContent>
       <div id="complaintsdonut" style={{ width: '300px' }}>
+      <ReactApexChart options={complaintplotoptions} series={complaintplotoptions.series} type="donut" height={250} />
       </div>
       </CardContent>
     </Card>
