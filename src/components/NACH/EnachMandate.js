@@ -62,7 +62,7 @@ const EnachMandate = () => {
                   background: "#fafafa",
                   color: "#7f7f7f",
                   transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
-                  borderBottom: "2px solid black",
+                  borderBottom: "2px solid #AAAAAA",
                   textTransform: "none",
                 },
               }}

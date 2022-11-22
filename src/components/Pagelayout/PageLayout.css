@@ -14,8 +14,6 @@ section {
   height: 100%;
 }
 
-
-
 aside {
   background-color: #fff !important;
   padding: 4px;
@@ -25,7 +23,7 @@ aside {
 }
 
 .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root .MuiListItemIcon-root {
-  color: white
+  color: white;
 }
 
 #layout-menu-image {
@@ -33,26 +31,27 @@ aside {
 }
 
 #menu-box {
-  background-color: #169BD5 !important;
+  background-color: #169bd5 !important;
+  color: white;
 }
 
 #logoimage {
   margin-top: 8px;
   text-align: left !important;
 }
-#header-email-id{
-  font-family:  Roboto;
+#header-email-id {
+  font-family: Roboto;
   margin-top: 14px;
 }
 .scrollable-element {
   scrollbar-width: thin;
 }
 
-.simplebar-wrapper{
-  height:100%;
+.simplebar-wrapper {
+  height: 100%;
 }
 
 #simple-bar {
-  height:100%;
+  height: 100%;
   overflow-x: hidden !important;
 }

@@ -2,12 +2,14 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import StButton from "./CustomStyles/StButton";
 import * as React from "react";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 const DebitDetails = () => {
   const [dummyValue, setDummyValue] = React.useState("");
   return (
@@ -138,14 +140,23 @@ const DebitDetails = () => {
               </InputLabel>
             </Grid>
             <Grid item xs={12} lg={6.5} sm={12}>
-              <FormControl sx={{ minWidth: 210 }}>
-                <Select displayEmpty value={dummyValue}>
-                  <MenuItem value="">
-                    <p className="placeHolder_text">Select Debit Type</p>
-                  </MenuItem>
-                  <MenuItem value={10}>Fixed Amount</MenuItem>
-                  <MenuItem value={21}>Maximum Amount</MenuItem>
-                </Select>
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel
+                    value="fixed"
+                    control={<Radio />}
+                    label="Fixed Amount"
+                  />
+                  <FormControlLabel
+                    value="maximum"
+                    control={<Radio />}
+                    label="Maximum amount"
+                  />
+                </RadioGroup>
               </FormControl>
             </Grid>
           </Grid>
