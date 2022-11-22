@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import Grid from "@mui/material/Grid";
 import { lighten } from "@mui/material/styles";
 
 export default function DisbursementRequestPage() {
@@ -224,62 +225,102 @@ export default function DisbursementRequestPage() {
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Update Disbursement Status</DialogTitle>
         <DialogContent>
-          <InputLabel required sx={{ color: "#7f7f7f" }}>
-            Trn No:
-          </InputLabel>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            placeholder=""
-            defaultValue={rowValues.trnno}
-            disabled
-          />
-          <InputLabel required sx={{ color: "#7f7f7f" }}>
-            Applicant Name:
-          </InputLabel>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            placeholder=""
-            defaultValue={rowValues.name}
-            disabled
-          />
-          <InputLabel required sx={{ color: "#7f7f7f" }}>
-            Loan Sanctioned Date:
-          </InputLabel>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            placeholder=""
-            defaultValue={rowValues.date}
-            disabled
-          />
-          <InputLabel required sx={{ color: "#7f7f7f" }}>
-            Sanctioned Amount:
-          </InputLabel>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            placeholder=""
-            defaultValue={rowValues.amount}
-            disabled
-          />
-          <InputLabel required sx={{ color: "#7f7f7f" }}>
-            Disbursement Status:
-          </InputLabel>
-          <Select
-            displayEmpty
-            value={statusValue}
-            variant="filled"
-            onChange={statusChangeHandler}
-          >
-            <MenuItem value="">
-              <p className="placeHolder_text">Select Mode of Debit</p>
-            </MenuItem>
-            <MenuItem value={10}>Disbursed</MenuItem>
-            <MenuItem value={21}>Not Disbursed</MenuItem>
-            <MenuItem value={22}>Rejected</MenuItem>
-          </Select>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <Grid container spacing={1}>
+                <Grid item sm={12} lg={12} xs={12}>
+                  <InputLabel required sx={{ color: "#7f7f7f" }}>
+                    Trn No:
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={12} lg={12} sm={12}>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    placeholder="Enter Collection Amount"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Grid container spacing={1}>
+                <Grid item sm={12} lg={12} xs={12}>
+                  <InputLabel required sx={{ color: "#7f7f7f" }}>
+                    Applicant Name:
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={12} lg={12} sm={12}>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    placeholder=""
+                    defaultValue={rowValues.name}
+                    disabled
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Grid container spacing={1}>
+                <Grid item sm={12} lg={12} xs={12}>
+                  <InputLabel required sx={{ color: "#7f7f7f" }}>
+                    Loan Sanctioned Date:
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={12} lg={12} sm={12}>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    placeholder=""
+                    defaultValue={rowValues.date}
+                    disabled
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Grid container spacing={1}>
+                <Grid item sm={12} lg={12} xs={12}>
+                  <InputLabel required sx={{ color: "#7f7f7f" }}>
+                    Sanctioned Amount:
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={12} lg={12} sm={12}>
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    placeholder=""
+                    defaultValue={rowValues.amount}
+                    disabled
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Grid container spacing={1}>
+                <Grid item sm={12} lg={12} xs={12}>
+                  <InputLabel required sx={{ color: "#7f7f7f" }}>
+                    Disbursement Status:
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={12} lg={12} sm={12}>
+                  <Select
+                    displayEmpty
+                    value={statusValue}
+                    variant="filled"
+                    onChange={statusChangeHandler}
+                  >
+                    <MenuItem value="">
+                      <p className="placeHolder_text">Select Mode of Debit</p>
+                    </MenuItem>
+                    <MenuItem value={10}>Disbursed</MenuItem>
+                    <MenuItem value={21}>Not Disbursed</MenuItem>
+                    <MenuItem value={22}>Rejected</MenuItem>
+                  </Select>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
