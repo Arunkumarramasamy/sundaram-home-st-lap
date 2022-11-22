@@ -147,11 +147,13 @@ const DebitDetails = () => {
                   name="radio-buttons-group"
                 >
                   <FormControlLabel
+                    sx={{ color: "#7f7f7f" }}
                     value="fixed"
                     control={<Radio />}
                     label="Fixed Amount"
                   />
                   <FormControlLabel
+                    sx={{ color: "#7f7f7f" }}
                     value="maximum"
                     control={<Radio />}
                     label="Maximum amount"
