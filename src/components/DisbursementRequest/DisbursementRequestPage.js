@@ -14,7 +14,7 @@ import Grid from "@mui/material/Grid";
 import { lighten } from "@mui/material/styles";
 
 export default function DisbursementRequestPage() {
-  const [pageSize, setPageSize] = React.useState(10);
+  const [pageSize, setPageSize] = React.useState(20);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [rowValues, setRowValues] = React.useState({});
   const [statusValue, setStatusValue] = React.useState("");
@@ -188,7 +188,7 @@ export default function DisbursementRequestPage() {
   return (
     <Box
       sx={{
-        height: 500,
+        height: window.innerHeight - 160,
         "& .super-app-theme--odd": {
           bgcolor: lighten("#D7D7D7", 0.15),
         },

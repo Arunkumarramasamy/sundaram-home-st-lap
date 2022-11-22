@@ -108,7 +108,7 @@ const PageLayout = () => {
   };
 
   const menuClickHandler = (event) => {
-   (window.innerWidth < 1024  && !expanded) ?  handleMenuExpandCollapse() : <></>;
+    window.innerWidth < 1024 && !expanded ? handleMenuExpandCollapse() : <></>;
     routeBasedOnKey(event.currentTarget.id);
   };
 
@@ -135,9 +135,7 @@ const PageLayout = () => {
   const handleMenuExpandCollapse = () => {
     setExpanded(!expanded);
     setMenuWidth(expanded ? 300 : 70);
-    setmenuLableDisplay(
-      expanded ? "block" : "none"
-    );
+    setmenuLableDisplay(expanded ? "block" : "none");
   };
 
   return (
@@ -148,18 +146,17 @@ const PageLayout = () => {
           sx={{ backgroundColor: "#004A92", height: "70px" }}
         >
           <Toolbar>
-        
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-                onClick={() => handleMenuExpandCollapse()}
-              >
-                <MenuIcon />
-              </IconButton>
-        
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={() => handleMenuExpandCollapse()}
+            >
+              <MenuIcon />
+            </IconButton>
+
             <MediaQuery query="(min-device-width: 1024px)">
               <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
                 <img id="logoimage" src={Logo}></img>
