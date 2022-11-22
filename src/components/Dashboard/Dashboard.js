@@ -450,6 +450,7 @@ export const Dashboard = (props) => {
             height: "350px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -513,6 +514,7 @@ export const Dashboard = (props) => {
             height: "350px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -544,6 +546,7 @@ export const Dashboard = (props) => {
             height: !props.menuExpanded ? "330px" : "350px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -575,6 +578,7 @@ export const Dashboard = (props) => {
             height: "330px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -606,6 +610,7 @@ export const Dashboard = (props) => {
             height: "330px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -637,6 +642,7 @@ export const Dashboard = (props) => {
             height: !props.menuExpanded ? "300px" : "330px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -668,6 +674,7 @@ export const Dashboard = (props) => {
             height: "300px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
