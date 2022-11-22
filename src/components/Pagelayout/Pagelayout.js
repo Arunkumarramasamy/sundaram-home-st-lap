@@ -163,13 +163,14 @@ const innerHeight =  window.innerHeight
             <MediaQuery query="(max-device-width: 1023px)">
               <Stack direction='row' sx={{ width: 'calc(100% - 600px)' }}>
                 <img id='logoimage' src={SFLogoSmall} width={50} height={50} ></img>
-                <DraftsOutlinedIcon sx={{ marginTop: "15px", marginLeft: "60px" }}>
-                </DraftsOutlinedIcon>
-                <Typography id='header-email-id' align='left'>sundaram.help@sundaram.com</Typography>
-                <LocalPhoneOutlinedIcon sx={{ marginTop: "15px", marginLeft: "16px" }} />
-                <Typography id='header-email-id' align='left'>9876543210</Typography>
+                
                 </Stack>
                 <Stack direction='row' sx={{ width: "100%", justifyContent: 'flex-end' }}>
+                <DraftsOutlinedIcon sx={{ marginTop: "15px", marginLeft: "60px" }}>
+                </DraftsOutlinedIcon>
+                {/* <Typography id='header-email-id' align='left'>sundaram.help@sundaram.com</Typography> */}
+                <LocalPhoneOutlinedIcon sx={{ marginTop: "15px", marginLeft: "16px" }} />
+                {/* <Typography id='header-email-id' align='left'>9876543210</Typography> */}
                 <Tooltip title="Account settings">
                   <IconButton
                     onClick={handleClick}
@@ -234,11 +235,13 @@ const innerHeight =  window.innerHeight
                 <Divider />
                 <MenuItem>
                 <ListItemButton onClick={handleLogout}>
-                <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                    <strong>Logout</strong>
-                </ListItemButton>
+        <ListItemIcon>
+        <Tooltip title="Logout" disableHoverListener={!expanded}>
+                        <LogoutTwoTone fontSize='large' sx={{ color: 'black' }}  />
+                        </Tooltip>
+        </ListItemIcon>
+        <ListItemText id='menu-lable'  primary="Logout" />
+      </ListItemButton>
                 </MenuItem>
               </Menu>
             </MediaQuery>
@@ -654,7 +657,7 @@ const innerHeight =  window.innerHeight
           backgroundColor: '#004A92',
           textAlign:'center',
         }}>
-            <Typography sx={{color:'black'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
+            <Typography sx={{color:'white'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
         </Box>
       </Stack>
     </div>
