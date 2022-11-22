@@ -18,6 +18,8 @@ import { InputAdornment, Paper } from '@material-ui/core';
 import { PasswordOutlined } from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import Snackbar from '@mui/material/Snackbar';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -34,6 +36,16 @@ const theme = createTheme();
 const screenHeight = window.innerHeight;
 
 export default function Signuppage() {
+  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -41,6 +53,10 @@ export default function Signuppage() {
       mobile: data.get('mobile'),
       password: data.get('password'),
     });
+    setOpen(true);
+    setTimeout(() => {
+      navigate('/stlap/login');
+    }, 4500);
   };
 
   return (
@@ -88,7 +104,7 @@ export default function Signuppage() {
                     <Typography component="h1" variant="h5" sx={{ color: 'black' }}>
                       Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" validate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                       <Grid container spacing={1}>
                         <Grid item xs={12} sm={6}>
                           <TextField
@@ -218,7 +234,7 @@ export default function Signuppage() {
                     <Typography component="h1" variant="h5" sx={{ color: 'black' }}>
                       Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" validate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                       <Grid container spacing={1}>
                         <Grid item xs={12} sm={6}>
                           <TextField
@@ -310,6 +326,12 @@ export default function Signuppage() {
             </Grid>
           </Grid>
         </ThemeProvider>}
+      <Snackbar
+        open={open}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        message="Registration Success"
+      />
       <Box component="footer"
         sx={{
           py: 3,

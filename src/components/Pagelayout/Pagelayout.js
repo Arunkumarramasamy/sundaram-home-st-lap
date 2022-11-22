@@ -31,6 +31,14 @@ import { Dashboard } from '../Dashboard/Dashboard';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import Stack from '@mui/material/Stack';
+import MediaQuery from 'react-responsive';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import Avatar from '@mui/material/Avatar';
+import SFLogoSmall from '../../images/SFLogo.png';
 
 
 
@@ -48,6 +56,15 @@ const innerHeight =  window.innerHeight
   const [expandWidth, setMenuWidth] = React.useState(70);
   const [menuLableDisplay, setmenuLableDisplay] = React.useState('none');
   
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleNachMenuClick = () => {
     setOpenNachSubMenu(!openNachSubMenu);
   };
@@ -95,20 +112,20 @@ const innerHeight =  window.innerHeight
   };
 
 
-
+  const screenWidth = window.innerWidth;
   const handleMenuExpandCollapse = () =>{
     setExpanded(!expanded);
-    setMenuWidth(expanded?300:70);
-    setmenuLableDisplay(expanded?'block':'none');
+    setMenuWidth(screenWidth < 1024 ? 70 : expanded?300:70);
+    setmenuLableDisplay(screenWidth < 1024 ? 'none' : expanded?'block':'none');
     }
 
   return (
     <div id='maindiv'>
       <Stack sx={{  height: "calc(100% - 82px)", }}>
 
-      <AppBar position="static" sx = {{backgroundColor: '#004A92',height:"70px"}}>
+      <AppBar position="fixed" sx = {{backgroundColor: '#004A92',height:"70px"}}>
         <Toolbar>
-          <IconButton
+          {screenWidth < 1024 ? <React.Fragment></React.Fragment> :  <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -117,40 +134,128 @@ const innerHeight =  window.innerHeight
             onClick={()=>handleMenuExpandCollapse()}
           >
             <MenuIcon />
-          </IconButton>
-          <Stack direction = 'row' sx={{width : 'calc(100% - 600px)'}}>
+          </IconButton>}
+            <MediaQuery query="(min-device-width: 1024px)">
+              <Stack direction='row' sx={{ width: 'calc(100% - 600px)' }}>
 
-          {/* <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
-          <img id = 'logoimage'src = {Logo} ></img>
-          <DraftsOutlinedIcon sx = {{marginTop:"15px",marginLeft:"60px"}}>
-            </DraftsOutlinedIcon>
-          {/* </Typography> */}
-          <Typography id = 'header-email-id' align='left'>sundaram.help@sundaram.com</Typography>
-          <LocalPhoneOutlinedIcon sx = {{marginTop:"15px",marginLeft:"16px"}}/>
-          <Typography id = 'header-email-id' align='left'>9876543210</Typography>
-          </Stack>
-          <Stack direction='row' sx = {{width:"100%",justifyContent:'flex-end'}}>
-            <Stack direction='column' sx = {{paddingRight:'8px'}}>
+                <img id='logoimage' src={Logo} ></img>
 
-          <Typography sx = {{marginTop:"8px"}} >Kathir Venkatesan</Typography>
-          <Chip label="Emp-000001" component="div"  sx={{color:'white',bgcolor:'#727dff'}}/>
-            </Stack>
-            <Divider sx={{borderWidth:'2px',backgroundColor:'#fff' ,height:'50px', marginTop:'5px'}} orientation="vertical" flexItem />
-          <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon sx = {{padding:18}}/>
-              </Badge>
-            </IconButton>
-          </Stack>
+                <DraftsOutlinedIcon sx={{ marginTop: "15px", marginLeft: "60px" }}>
+                </DraftsOutlinedIcon>
+                <Typography id='header-email-id' align='left'>sundaram.help@sundaram.com</Typography>
+                <LocalPhoneOutlinedIcon sx={{ marginTop: "15px", marginLeft: "16px" }} />
+                <Typography id='header-email-id' align='left'>9876543210</Typography>
+              </Stack>
+              <Stack direction='row' sx={{ width: "100%", justifyContent: 'flex-end' }}>
+                <Stack direction='column' sx={{ paddingRight: '8px' }}>
+
+                  <Typography sx={{ marginTop: "8px", textAlign: 'center' }} >Kathir Venkatesan</Typography>
+                  <Chip label="Last Login:21/11/2022 05:00pm" component="div" sx={{ color: 'white', bgcolor: '#727dff' }} />
+                </Stack>
+                <Divider sx={{ borderWidth: '2px', backgroundColor: '#fff', height: '50px', marginTop: '5px' }} orientation="vertical" flexItem />
+                <IconButton color="inherit">
+                  <Badge badgeContent={4} color="secondary">
+                    <NotificationsIcon sx={{ padding: 18 }} />
+                  </Badge>
+                </IconButton>
+              </Stack>
+            </MediaQuery>
+            <MediaQuery query="(max-device-width: 1023px)">
+              <Stack direction='row' sx={{ width: 'calc(100% - 600px)' }}>
+                <img id='logoimage' src={SFLogoSmall} width={50} height={50} ></img>
+                
+                </Stack>
+                <Stack direction='row' sx={{ width: "100%", justifyContent: 'flex-end' }}>
+                <DraftsOutlinedIcon sx={{ marginTop: "15px", marginLeft: "60px" }}>
+                </DraftsOutlinedIcon>
+                {/* <Typography id='header-email-id' align='left'>sundaram.help@sundaram.com</Typography> */}
+                <LocalPhoneOutlinedIcon sx={{ marginTop: "15px", marginLeft: "16px" }} />
+                {/* <Typography id='header-email-id' align='left'>9876543210</Typography> */}
+                <Tooltip title="Account settings">
+                  <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                  >
+                    <Avatar sx={{ width: 32, height: 32 }}>KV</Avatar>
+                  </IconButton>
+                </Tooltip>
+                </Stack>
+              
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    '&:before': {
+                      content: '""',
+                      display: 'block',
+                      position: 'absolute',
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: 'background.paper',
+                      transform: 'translateY(-50%) rotate(45deg)',
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                <MenuItem>
+                  <Stack direction='column' sx={{ paddingRight: '8px' }}>
+                    <Typography sx={{ marginTop: "8px", textAlign: 'center' }} ><strong>Kathir Venkatesan</strong></Typography>
+                    <Chip label="Last Login:21/11/2022 05:00pm" component="div" sx={{ color: 'white', bgcolor: '#727dff' }} />
+                  </Stack>
+                  <Divider sx={{ borderWidth: '2px', backgroundColor: '#fff', height: '50px', marginTop: '5px' }} orientation="vertical" flexItem />
+                  <IconButton color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                      <NotificationsIcon sx={{ padding: 18 }} />
+                    </Badge>
+                  </IconButton>
+                </MenuItem>
+                <Divider />
+                <MenuItem>
+                <ListItemButton onClick={handleLogout}>
+        <ListItemIcon>
+        <Tooltip title="Logout" disableHoverListener={!expanded}>
+                        <LogoutTwoTone fontSize='large' sx={{ color: 'black' }}  />
+                        </Tooltip>
+        </ListItemIcon>
+        <ListItemText id='menu-lable'  primary="Logout" />
+      </ListItemButton>
+                </MenuItem>
+              </Menu>
+            </MediaQuery>
+          
         </Toolbar>
       </AppBar>
          
-        <Stack direction="row" sx={{ height: 'calc(100% - 12px)',justifyContent:'flex-end' }}>
+        <Stack direction="row" sx={{ height: window.innerHeight - 142, justifyContent:'flex-end',marginTop:'70px' }}>
           <Box sx={{ minWidth :expandWidth+10}}>
-            <SimpleBar id = 'simple-bar' style={{ height: '100%' }}>
-              <Paper id='menu-box' sx={{ width: expandWidth, maxWidth: '100%', color: 'white', fontWeight: 'bold' }}>
+            <SimpleBar id = 'simple-bar' style={{ maxHeight: window.innerHeight - 142 }}>
+              <Paper elevation={0.5} id='menu-box' sx={{ width: expandWidth, maxWidth: '100%',
+                fontWeight: 'bold',height:window.innerHeight + 32}}>
                 <List
-                  sx={{ width: expandWidth, maxWidth: 360, bgcolor: '#169BD5' }}
+                  sx={{ width: expandWidth, maxWidth: 360 }}
                   component="nav"
                   aria-labelledby="nested-list-subheader"
                 >
@@ -528,9 +633,9 @@ const innerHeight =  window.innerHeight
 
 
           {/* Page Body */}
-          <Box sx={{ padding: "8px 8px 10px 8px", width: '100%' }}>
-            <SimpleBar style={{ maxHeight: '80vh' }}>
-            <Container>
+          <Box sx={{ padding: "8px 8px 10px 8px", width: '100%'}}>
+            <SimpleBar style={{ maxHeight: window.innerHeight - 150 }}>
+            <Container sx={{marginBottom:'8px'}}>
              <Routes>  
             <Route path={`${search}/stlap/home/dashboard`} element={ <Dashboard/> } />   
             <Route path={`${search}/stlap/home/disbursement`} element={ <DisbursementRequestPage/> } />  
@@ -545,8 +650,14 @@ const innerHeight =  window.innerHeight
 
 
         {/* Footer */}
-        <Box component='footer' sx={{width:'100%',height:'64px'}}>
-            <Typography sx={{color:'black'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
+        <Box component='footer' sx={{
+          py: 3,
+          px: 2,
+          mt: 'auto',
+          backgroundColor: '#004A92',
+          textAlign:'center',
+        }}>
+            <Typography sx={{color:'white'}} align="center"> Copyright © Sundaram Home Finance Pvt Ltd 2022.</Typography>
         </Box>
       </Stack>
     </div>
