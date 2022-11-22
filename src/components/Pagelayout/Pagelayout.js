@@ -233,10 +233,12 @@ const innerHeight =  window.innerHeight
                 </MenuItem>
                 <Divider />
                 <MenuItem>
-                  <ListItemIcon>
+                <ListItemButton onClick={handleLogout}>
+                <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
                     <strong>Logout</strong>
+                </ListItemButton>
                 </MenuItem>
               </Menu>
             </MediaQuery>
