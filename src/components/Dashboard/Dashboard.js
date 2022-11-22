@@ -388,7 +388,7 @@ export const Dashboard = (props) => {
       <Card sx={{
         backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-        width: '550px', height: '350px', margin: 2
+        width: '550px', height: '350px', margin: 2, overflow: window.innerWidth < 1024 ?  'auto' : 'hidden'
       }}>
         <CardHeader
           action={
@@ -413,7 +413,7 @@ export const Dashboard = (props) => {
       <Card sx={{
         backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-        width: '300px', height: '350px', margin: 2
+        width: '300px', height: '350px', margin: 2, overflow: window.innerWidth < 1024 ?  'auto' : 'hidden'
       }}>
         <CardHeader
           action={
@@ -432,7 +432,7 @@ export const Dashboard = (props) => {
 
       <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: '200px', height: (!props.menuExpanded)?'330px' : '350px', margin: 2}}>
+            width: '200px', height: (!props.menuExpanded)?'330px' : '350px', margin: 2, overflow: window.innerWidth < 1024 ?  'auto' : 'hidden'}}>
       <CardHeader
         action={
           <IconButton>
@@ -450,7 +450,7 @@ export const Dashboard = (props) => {
 
       <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: '350px', height: '330px', margin: 2}}>
+            width: '350px', height: '330px', margin: 2, overflow: window.innerWidth < 1024 ?  'auto' : 'hidden'}}>
       <CardHeader
         action={
           <IconButton>
@@ -468,7 +468,7 @@ export const Dashboard = (props) => {
 
     <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: '285px', height: '330px', margin: 2}}>
+            width: '285px', height: '330px', margin: 2, overflow: window.innerWidth < 1024 ?  'auto' : 'hidden'}}>
       <CardHeader
         action={
           <IconButton>
@@ -486,7 +486,7 @@ export const Dashboard = (props) => {
 
     <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: (!props.menuExpanded)?'420px':'400px', height: (!props.menuExpanded)? '300px' : '330px', margin: 2}}>
+            width: (!props.menuExpanded)?'420px':'400px', height: (!props.menuExpanded)? '300px' : '330px', margin: 2, overflow: window.innerWidth < 1024 ?  'auto' : 'hidden'}}>
       <CardHeader
         action={
           <IconButton>
@@ -508,7 +508,7 @@ export const Dashboard = (props) => {
     
     <Card sx={{ backgroundImage: 'linear-gradient(#019CAD,white,#004A92)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
-            width: (!props.menuExpanded)?'450px':'98%', height: '300px', margin: 2}}>
+            width: (!props.menuExpanded)?'450px':'98%', height: '300px', margin: 2, overflow: window.innerWidth < 1024 ?  'auto' : 'hidden'}}>
       <CardHeader
         action={
           <IconButton>

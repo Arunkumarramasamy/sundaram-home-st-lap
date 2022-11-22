@@ -30,9 +30,10 @@ aside {
   width: 35px;
 }
 
-#menu-box {
+#menu-box nav{
   background-color: #169bd5 !important;
   color: white;
+  height: 100%;
 }
 
 #logoimage {
