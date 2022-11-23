@@ -21,6 +21,7 @@ import "./PageLayout.css";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DisbursementRequestPage from "../DisbursementRequest/DisbursementRequestPage";
+import ListExample from '../Samples/ListExample';
 import {
   AppRegistrationTwoTone,
   ArticleTwoTone,
@@ -138,6 +139,9 @@ const PageLayout = () => {
       case "nachMandateEntry":
         path = "/stlap/home/nach/mandateentry";
         break;
+        case "tds":
+          path = "/stlap/home/tds";
+          break;
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -769,7 +773,7 @@ const PageLayout = () => {
                   </Collapse>
 
                   {/* TDS */}
-                  <ListItemButton>
+                  <ListItemButton id="tds" onClick={menuClickHandler}>
                     <ListItemIcon>
                       {/* <img id = 'layout-menu-image' src = {tdsImage}/> */}
 
@@ -1048,6 +1052,11 @@ const PageLayout = () => {
                     path={`${search}/stlap/home/nach/mandateentry`}
                     element={<EnachMandate />}
                   />
+                  <Route
+                    path={`${search}/stlap/home/tds`}
+                    element={<ListExample />}
+                  />
+
                   <Route path="*" exact={true} element={<Loginpage />} />
                 </Routes>
               </Container>
