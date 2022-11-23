@@ -50,9 +50,23 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import SFLogoSmall from "../../images/SFLogo.png";
+import AnalyticsTwoToneIcon from '@mui/icons-material/AnalyticsTwoTone';
+import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone';
+import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
+import PollTwoToneIcon from '@mui/icons-material/PollTwoTone';
+import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
+import CloudDoneTwoToneIcon from '@mui/icons-material/CloudDoneTwoTone';
+import AccessibilityTwoToneIcon from '@mui/icons-material/AccessibilityTwoTone';
+import AddModeratorTwoToneIcon from '@mui/icons-material/AddModeratorTwoTone';
+import SpeakerNotesTwoToneIcon from '@mui/icons-material/SpeakerNotesTwoTone';
+import StickyNote2TwoToneIcon from '@mui/icons-material/StickyNote2TwoTone';
+import ShortTextTwoToneIcon from '@mui/icons-material/ShortTextTwoTone';
+import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone';
+import CreateTwoToneIcon from '@mui/icons-material/CreateTwoTone';
+import UpdateTwoToneIcon from '@mui/icons-material/UpdateTwoTone';
 
 const PageLayout = () => {
-  const innerHeight = window.innerHeight;
 
   const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
   const [openInsuranceSubMenu, setOpenInsuranceSubMenu] = useState(false);
@@ -344,7 +358,7 @@ const PageLayout = () => {
                   width: expandWidth,
                   maxWidth: "100%",
                   fontWeight: "bold",
-                  height: window.innerHeight + 32,
+                  height: window.innerWidth < 1024 ? window.innerHeight + 32 : window.innerHeight + 22,
                 }}
               >
                 <List
@@ -421,7 +435,7 @@ const PageLayout = () => {
                             title="E-NACH Initiation Process"
                             disableHoverListener={!expanded}
                           >
-                            <AppRegistrationTwoTone
+                            <AnalyticsTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -441,7 +455,7 @@ const PageLayout = () => {
                             title="E-NACH Mandate Link Page"
                             disableHoverListener={!expanded}
                           >
-                            <AppRegistrationTwoTone
+                            <AssuredWorkloadTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -465,7 +479,7 @@ const PageLayout = () => {
                             title="NACH - Mandate Entry"
                             disableHoverListener={!expanded}
                           >
-                            <AppRegistrationTwoTone
+                            <ModeEditOutlineTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -485,7 +499,7 @@ const PageLayout = () => {
                             title="NACH - Mandate Verification and Modification"
                             disableHoverListener={!expanded}
                           >
-                            <AppRegistrationTwoTone
+                            <PollTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -505,7 +519,7 @@ const PageLayout = () => {
                             title="NACH - Mandate Bank Submission"
                             disableHoverListener={!expanded}
                           >
-                            <AppRegistrationTwoTone
+                            <DescriptionTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -525,7 +539,7 @@ const PageLayout = () => {
                             title="NACH - Mandate Delete"
                             disableHoverListener={!expanded}
                           >
-                            <AppRegistrationTwoTone
+                            <DisplaySettingsTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -545,7 +559,7 @@ const PageLayout = () => {
                             title="NACH - UMRN Updation/Upload"
                             disableHoverListener={!expanded}
                           >
-                            <AppRegistrationTwoTone
+                            <CloudDoneTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -595,7 +609,7 @@ const PageLayout = () => {
                             title="Insurance Master"
                             disableHoverListener={!expanded}
                           >
-                            <SecurityTwoTone
+                            <AccessibilityTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -615,7 +629,7 @@ const PageLayout = () => {
                             title="Insurance Details-Appl level details"
                             disableHoverListener={!expanded}
                           >
-                            <SecurityTwoTone
+                            <AddModeratorTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -699,7 +713,7 @@ const PageLayout = () => {
                             title="Memo Defn. - Incl. of GST"
                             disableHoverListener={!expanded}
                           >
-                            <ArticleTwoTone
+                            <SpeakerNotesTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -719,7 +733,7 @@ const PageLayout = () => {
                             title="Memo - GL Mapping"
                             disableHoverListener={!expanded}
                           >
-                            <ArticleTwoTone
+                            <StickyNote2TwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -739,7 +753,7 @@ const PageLayout = () => {
                             title="Memo GL - GST Mapping"
                             disableHoverListener={!expanded}
                           >
-                            <ArticleTwoTone
+                            <ShortTextTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -848,7 +862,7 @@ const PageLayout = () => {
                             title="Query"
                             disableHoverListener={!expanded}
                           >
-                            <ReceiptLongTwoTone
+                            <ListAltTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -864,7 +878,7 @@ const PageLayout = () => {
                             title="Realization Updation"
                             disableHoverListener={!expanded}
                           >
-                            <ReceiptLongTwoTone
+                            <CreateTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -884,7 +898,7 @@ const PageLayout = () => {
                             title="Create - Single"
                             disableHoverListener={!expanded}
                           >
-                            <ReceiptLongTwoTone
+                            <UpdateTwoToneIcon 
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -1024,7 +1038,7 @@ const PageLayout = () => {
                 <Routes>
                   <Route
                     path={`${search}/stlap/home/dashboard`}
-                    element={<Dashboard />}
+                    element={<Dashboard menuExpanded={expanded}/>}
                   />
                   <Route
                     path={`${search}/stlap/home/disbursement`}
