@@ -16,7 +16,7 @@ const Success = (props) => {
             sx={{
               textAlign: "center",
               textTransform: "uppercase",
-              color: "#2F7DC4",
+              color: "#004a92",
             }}
           >
             E-mandate Registeration is Successful{" "}
@@ -94,7 +94,7 @@ const Success = (props) => {
       </Container>
       <Box
         sx={{
-          marginTop: "2rem",
+          marginTop: "1.2rem",
           display: "flex",
           justifyContent: "flex-end",
         }}
