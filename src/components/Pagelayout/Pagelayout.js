@@ -21,6 +21,7 @@ import "./PageLayout.css";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DisbursementRequestPage from "../DisbursementRequest/DisbursementRequestPage";
+
 import {
   AppRegistrationTwoTone,
   ArticleTwoTone,
@@ -41,6 +42,7 @@ import Loginpage from "../Loginpage/Loginpage";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import EnachMandate from "../NACH/EnachMandate";
+import ENach from "../NachNew/ENach";
 import { Dashboard } from "../Dashboard/Dashboard";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
@@ -50,24 +52,23 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import SFLogoSmall from "../../images/SFLogo.png";
-import AnalyticsTwoToneIcon from '@mui/icons-material/AnalyticsTwoTone';
-import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone';
-import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
-import PollTwoToneIcon from '@mui/icons-material/PollTwoTone';
-import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
-import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
-import CloudDoneTwoToneIcon from '@mui/icons-material/CloudDoneTwoTone';
-import AccessibilityTwoToneIcon from '@mui/icons-material/AccessibilityTwoTone';
-import AddModeratorTwoToneIcon from '@mui/icons-material/AddModeratorTwoTone';
-import SpeakerNotesTwoToneIcon from '@mui/icons-material/SpeakerNotesTwoTone';
-import StickyNote2TwoToneIcon from '@mui/icons-material/StickyNote2TwoTone';
-import ShortTextTwoToneIcon from '@mui/icons-material/ShortTextTwoTone';
-import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone';
-import CreateTwoToneIcon from '@mui/icons-material/CreateTwoTone';
-import UpdateTwoToneIcon from '@mui/icons-material/UpdateTwoTone';
+import AnalyticsTwoToneIcon from "@mui/icons-material/AnalyticsTwoTone";
+import AssuredWorkloadTwoToneIcon from "@mui/icons-material/AssuredWorkloadTwoTone";
+import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
+import PollTwoToneIcon from "@mui/icons-material/PollTwoTone";
+import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
+import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone";
+import CloudDoneTwoToneIcon from "@mui/icons-material/CloudDoneTwoTone";
+import AccessibilityTwoToneIcon from "@mui/icons-material/AccessibilityTwoTone";
+import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
+import SpeakerNotesTwoToneIcon from "@mui/icons-material/SpeakerNotesTwoTone";
+import StickyNote2TwoToneIcon from "@mui/icons-material/StickyNote2TwoTone";
+import ShortTextTwoToneIcon from "@mui/icons-material/ShortTextTwoTone";
+import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
+import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
+import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
 
 const PageLayout = () => {
-
   const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
   const [openInsuranceSubMenu, setOpenInsuranceSubMenu] = useState(false);
   const [openMemoSubMenu, setOpenMemoSubMenu] = useState(false);
@@ -137,6 +138,9 @@ const PageLayout = () => {
         break;
       case "nachMandateEntry":
         path = "/stlap/home/nach/mandateentry";
+        break;
+      case "bank":
+        path = "/stlap/home/nach/bank";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -355,7 +359,10 @@ const PageLayout = () => {
                   width: expandWidth,
                   maxWidth: "100%",
                   fontWeight: "bold",
-                  height: window.innerWidth < 1024 ? window.innerHeight + 32 : window.innerHeight + 22,
+                  height:
+                    window.innerWidth < 1024
+                      ? window.innerHeight + 32
+                      : window.innerHeight + 22,
                 }}
               >
                 <List
@@ -452,7 +459,7 @@ const PageLayout = () => {
                             title="E-NACH Mandate Link Page"
                             disableHoverListener={!expanded}
                           >
-                            <AssuredWorkloadTwoToneIcon 
+                            <AssuredWorkloadTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -476,7 +483,7 @@ const PageLayout = () => {
                             title="NACH - Mandate Entry"
                             disableHoverListener={!expanded}
                           >
-                            <ModeEditOutlineTwoToneIcon 
+                            <ModeEditOutlineTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -496,7 +503,7 @@ const PageLayout = () => {
                             title="NACH - Mandate Verification and Modification"
                             disableHoverListener={!expanded}
                           >
-                            <PollTwoToneIcon 
+                            <PollTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -509,14 +516,18 @@ const PageLayout = () => {
                         />
                       </ListItemButton>
 
-                      <ListItemButton sx={{ pl: 4 }}>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        id="bank"
+                        onClick={menuClickHandler}
+                      >
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Nach} /> */}
                           <Tooltip
                             title="NACH - Mandate Bank Submission"
                             disableHoverListener={!expanded}
                           >
-                            <DescriptionTwoToneIcon 
+                            <DescriptionTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -536,7 +547,7 @@ const PageLayout = () => {
                             title="NACH - Mandate Delete"
                             disableHoverListener={!expanded}
                           >
-                            <DisplaySettingsTwoToneIcon 
+                            <DisplaySettingsTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -606,7 +617,7 @@ const PageLayout = () => {
                             title="Insurance Master"
                             disableHoverListener={!expanded}
                           >
-                            <AccessibilityTwoToneIcon 
+                            <AccessibilityTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -626,7 +637,7 @@ const PageLayout = () => {
                             title="Insurance Details-Appl level details"
                             disableHoverListener={!expanded}
                           >
-                            <AddModeratorTwoToneIcon 
+                            <AddModeratorTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -710,7 +721,7 @@ const PageLayout = () => {
                             title="Memo Defn. - Incl. of GST"
                             disableHoverListener={!expanded}
                           >
-                            <SpeakerNotesTwoToneIcon 
+                            <SpeakerNotesTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -730,7 +741,7 @@ const PageLayout = () => {
                             title="Memo - GL Mapping"
                             disableHoverListener={!expanded}
                           >
-                            <StickyNote2TwoToneIcon 
+                            <StickyNote2TwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -750,7 +761,7 @@ const PageLayout = () => {
                             title="Memo GL - GST Mapping"
                             disableHoverListener={!expanded}
                           >
-                            <ShortTextTwoToneIcon 
+                            <ShortTextTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -859,7 +870,7 @@ const PageLayout = () => {
                             title="Query"
                             disableHoverListener={!expanded}
                           >
-                            <ListAltTwoToneIcon 
+                            <ListAltTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -875,7 +886,7 @@ const PageLayout = () => {
                             title="Realization Updation"
                             disableHoverListener={!expanded}
                           >
-                            <CreateTwoToneIcon 
+                            <CreateTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -895,7 +906,7 @@ const PageLayout = () => {
                             title="Create - Single"
                             disableHoverListener={!expanded}
                           >
-                            <UpdateTwoToneIcon 
+                            <UpdateTwoToneIcon
                               fontSize="large"
                               sx={{ color: "white" }}
                             />
@@ -1035,7 +1046,7 @@ const PageLayout = () => {
                 <Routes>
                   <Route
                     path={`${search}/stlap/home/dashboard`}
-                    element={<Dashboard menuExpanded={expanded}/>}
+                    element={<Dashboard menuExpanded={expanded} />}
                   />
                   <Route
                     path={`${search}/stlap/home/disbursement`}
@@ -1044,6 +1055,10 @@ const PageLayout = () => {
                   <Route
                     path={`${search}/stlap/home/nach/mandateentry`}
                     element={<EnachMandate />}
+                  />
+                  <Route
+                    path={`${search}/stlap/home/nach/bank`}
+                    element={<ENach />}
                   />
                   <Route path="*" exact={true} element={<Loginpage />} />
                 </Routes>
