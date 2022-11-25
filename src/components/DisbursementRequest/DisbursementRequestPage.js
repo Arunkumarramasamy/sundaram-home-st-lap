@@ -181,6 +181,18 @@ export default function DisbursementRequestPage() {
     },
   ];
 
+let visibility = {
+  status: false,
+  amount: false,
+  id: false,
+  date: false,
+  name: false
+};
+
+if(window.innerWidth > 700){
+  visibility = {};
+}
+
   const statusChangeHandler = (event) => {
     setStatusValue(event.target.value);
   };
@@ -221,6 +233,7 @@ export default function DisbursementRequestPage() {
         getRowClassName={(params) =>
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
+        columnVisibilityModel={visibility}
       />
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Update Disbursement Status</DialogTitle>
