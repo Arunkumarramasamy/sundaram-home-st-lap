@@ -41,7 +41,7 @@ export default function Loginpage() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      mobile: data.get("mobile"),
+      userId: data.get("userId"),
       password: data.get("password"),
     });
     Cookies.set("islogin", true);
@@ -83,7 +83,7 @@ export default function Loginpage() {
                 square={true}
                 sx={{
                   backgroundImage:
-                    "linear-gradient(#019CAD,white,#4880EC,#004A92)",
+                  "linear-gradient(90deg, rgba(94,188,207,1) 5%, rgba(0,0,0,0.01726628151260501) 100%)",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   width: "100%",
@@ -130,10 +130,10 @@ export default function Loginpage() {
                             <TextField
                               required
                               fullWidth
-                              id="User"
+                              id="userId"
                               label="User ID"
-                              name="User ID"
-                              autoComplete="User"
+                              name="userId"
+                              autoComplete="userId"
                               size="small"
                               autoFocus
                               sx={{ color: "#7F7F7F" }}
@@ -259,10 +259,10 @@ export default function Loginpage() {
                           <TextField
                             required
                             fullWidth
-                            id="mobile"
+                            id="userId"
                             label="User ID"
-                            name="mobile"
-                            autoComplete="mobile"
+                            name="userId"
+                            autoComplete="userId"
                             size="small"
                             autoFocus
                             sx={{ color: "#7F7F7F" }}
