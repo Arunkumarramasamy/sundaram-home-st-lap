@@ -82,8 +82,8 @@ export default function Loginpage() {
                 elevation={1}
                 square={true}
                 sx={{
-                  backgroundImage:
-                  "linear-gradient(90deg, rgba(94,188,207,1) 5%, rgba(0,0,0,0.01726628151260501) 100%)",
+                  backgroundColor:
+                "#b1e3dc",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   width: "100%",
@@ -134,6 +134,7 @@ export default function Loginpage() {
                               label="User ID"
                               name="userId"
                               autoComplete="userId"
+                              placeholder="Enter Emp Id / Mobile No."
                               size="small"
                               autoFocus
                               sx={{ color: "#7F7F7F" }}
@@ -155,6 +156,7 @@ export default function Loginpage() {
                               type="password"
                               id="password"
                               autoComplete="new-password"
+                              placeholder="Enter the Password"
                               size="small"
                               sx={{ color: "#7F7F7F" }}
                               InputProps={{
@@ -210,8 +212,8 @@ export default function Loginpage() {
               square="true"
               sx={{
                 borderColor: "#AAAAAA",
-                backgroundImage:
-                  "linear-gradient(90deg, rgba(94,188,207,1) 5%, rgba(0,0,0,0.01726628151260501) 100%)",
+                backgroundColor:
+                "#b1e3dc",
                 borderRadius: "80%",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
@@ -263,6 +265,7 @@ export default function Loginpage() {
                             label="User ID"
                             name="userId"
                             autoComplete="userId"
+                            placeholder="Enter Emp Id / Mobile No."
                             size="small"
                             autoFocus
                             sx={{ color: "#7F7F7F" }}
@@ -284,6 +287,7 @@ export default function Loginpage() {
                             type="password"
                             id="password"
                             autoComplete="new-password"
+                            placeholder="Enter the Password"
                             size="small"
                             sx={{ color: "#7F7F7F" }}
                             InputProps={{

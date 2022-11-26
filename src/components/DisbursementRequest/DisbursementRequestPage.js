@@ -10,14 +10,18 @@ import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import Grid from "@mui/material/Grid";
 import { lighten } from "@mui/material/styles";
+import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
+
 
 export default function DisbursementRequestPage() {
-  const [pageSize, setPageSize] = React.useState(20);
+  const [pageSize, setPageSize] = React.useState(4);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [rowValues, setRowValues] = React.useState({});
   const [statusValue, setStatusValue] = React.useState("");
+  const [dummyValue, setDummyValue] = React.useState("");
+
   const handleClose = () => {
     setOpenDialog(false);
   };
@@ -30,14 +34,25 @@ export default function DisbursementRequestPage() {
       date: "11/10/2022",
       amount: "5,00,000",
       status: "Not Disbursed",
+      amount1: "5,00,000",
+      disbursementDate: "02/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220001"
+      
     },
     {
       id: 2,
       trnno: "STL20220002",
       name: "Sundaram2",
-      date: "11/10/2022",
+      date: "01/11/2022",
       amount: "2,00,000",
       status: "Not Disbursed",
+      amount1: "1,90,000",
+      disbursementDate: "20/11/2022",
+      rate: "18%",
+      sanctionedDate: "10/11/2022",
+      file: "STL20220002"
     },
     {
       id: 3,
@@ -46,6 +61,11 @@ export default function DisbursementRequestPage() {
       date: "12/10/2022",
       amount: "12,00,000",
       status: "Not Disbursed",
+      amount1: "11,50,000",
+      disbursementDate: "01/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220003"
     },
     {
       id: 4,
@@ -54,6 +74,11 @@ export default function DisbursementRequestPage() {
       date: "12/10/2022",
       amount: "2,00,000",
       status: "Not Disbursed",
+      amount1: "2,00,000",
+      disbursementDate: "22/10/2022",
+      rate: "18%",
+      sanctionedDate: "19/10/2022",
+      file: "STL20220004"
     },
     {
       id: 5,
@@ -62,6 +87,11 @@ export default function DisbursementRequestPage() {
       date: "12/10/2022",
       amount: "13,00,000",
       status: "Not Disbursed",
+      amount1: "5,00,00",
+      disbursementDate: "25/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220005"
     },
     {
       id: 6,
@@ -70,6 +100,11 @@ export default function DisbursementRequestPage() {
       date: "13/10/2022",
       amount: "4,00,000",
       status: "Not Disbursed",
+      amount1: "5,00,00",
+      disbursementDate: "25/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220006"
     },
     {
       id: 7,
@@ -78,6 +113,11 @@ export default function DisbursementRequestPage() {
       date: "13/10/2022",
       amount: "6,00,000",
       status: "Not Disbursed",
+      amount1: "5,00,00",
+      disbursementDate: "25/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220007"
     },
     {
       id: 8,
@@ -86,6 +126,11 @@ export default function DisbursementRequestPage() {
       date: "14/10/2022",
       amount: "8,00,000",
       status: "Not Disbursed",
+      amount1: "5,00,00",
+      disbursementDate: "25/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220008"
     },
     {
       id: 9,
@@ -94,6 +139,11 @@ export default function DisbursementRequestPage() {
       date: "14/10/2022",
       amount: "9,00,000",
       status: "Not Disbursed",
+      amount1: "5,00,00",
+      disbursementDate: "25/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220009"
     },
     {
       id: 10,
@@ -102,6 +152,11 @@ export default function DisbursementRequestPage() {
       date: "15/11/2022",
       amount: "6,50,000",
       status: "Not Disbursed",
+      amount1: "5,00,00",
+      disbursementDate: "25/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/10/2022",
+      file: "STL20220010"
     },
     {
       id: 11,
@@ -110,6 +165,11 @@ export default function DisbursementRequestPage() {
       date: "15/11/2022",
       amount: "5,05,000",
       status: "Not Disbursed",
+      amount1: "5,00,000",
+      disbursementDate: "25/11/2022",
+      rate: "18%",
+      sanctionedDate: "20/11/2022",
+      file: "STL20220011"
     },
     {
       id: 12,
@@ -118,6 +178,11 @@ export default function DisbursementRequestPage() {
       date: "15/11/2022",
       amount: "9,00,000",
       status: "Not Disbursed",
+      amount1: "9,00,000",
+      disbursementDate: "29/11/2022",
+      rate: "18%",
+      sanctionedDate: "25/11/2022",
+      file: "STL20220012"
     },
     {
       id: 13,
@@ -126,15 +191,19 @@ export default function DisbursementRequestPage() {
       date: "15/11/2022",
       amount: "3,00,000",
       status: "Not Disbursed",
+      amount1: "2,50,000",
+      disbursementDate: "01/12/2022",
+      rate: "18%",
+      sanctionedDate: "25/11/2022",
+      file: "STL20220013"
     },
   ];
 
   const columns = [
-    { field: "id", headerName: "S.No", width: 90 },
     {
       field: "trnno",
       headerName: "Trn No",
-      type: "string",
+      headerAlign: 'center',type: "string",
       description: "Click here to update the status.",
       sortable: false,
       width: 160,
@@ -154,21 +223,56 @@ export default function DisbursementRequestPage() {
     {
       field: "name",
       headerName: "Applicant Name",
-      type: "string",
+      headerAlign: 'center',type: "string",
       width: 150,
       editable: false,
     },
     {
       field: "date",
-      headerName: "Loan Sanctioned Date",
-      type: "string",
+      headerName: "Loan Request Date",
+      headerAlign: 'center',type: "string",
       width: 190,
       editable: false,
     },
     {
       field: "amount",
-      headerName: "Sanctioned Amount",
-      type: "string",
+      headerName: "Total Disbursement Amount",
+      headerAlign: 'center',type: "string",
+      width: 190,
+      editable: false,
+    },
+    {
+      field: "amount1",
+      headerName: "Current Disbursement Amount",
+      headerAlign: 'center',type: "string",
+      width: 190,
+      editable: false,
+    },
+    {
+      field: "disbursementDate",
+      headerName: "Disbursement Date",
+      headerAlign: 'center',type: "string",
+      width: 190,
+      editable: false,
+    },
+    {
+      field: "rate",
+      headerName: "Effective Rate",
+      headerAlign: 'center',type: "string",
+      width: 190,
+      editable: false,
+    },
+    {
+      field: "sanctionedDate",
+      headerName: "Sanction Date",
+      headerAlign: 'center',type: "string",
+      width: 190,
+      editable: false,
+    },
+    {
+      field: "file",
+      headerName: "File Number",
+      headerAlign: 'center',type: "string",
       width: 190,
       editable: false,
     },
@@ -176,17 +280,22 @@ export default function DisbursementRequestPage() {
       field: "status",
       headerName: "Disbursement Status",
       type: "string",
-      width: 160,
+      width: 160, 
       editable: false,
     },
+
   ];
 
 let visibility = {
   status: false,
   amount: false,
-  id: false,
   date: false,
-  name: false
+  name: false,
+  amount1: false,
+  rate: false,
+  sanctionedDate: false,
+  disbursementDate: false,
+  file: false
 };
 
 if(window.innerWidth > 700){
@@ -209,10 +318,68 @@ if(window.innerWidth > 700){
         },
       }}
     >
+
+
+    <Box sx={{border: '3px grey',marginTop:'2%'}}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <Grid container spacing={2}>
+            <Grid item sm={12} lg={4.5} xs={12}>
+              <InputLabel required sx={{ color: "#7f7f7f" }}>
+                Branch
+              </InputLabel>
+            </Grid>
+            <Grid item xs={12} lg={6.5} sm={12}>
+              <FormControl sx={{ minWidth: 210 }}>
+                <Select displayEmpty value={dummyValue}>
+                  <MenuItem value="">
+                    <p className="placeHolder_text">Branch</p>
+                  </MenuItem>
+                  <MenuItem value={10}>Royapettah</MenuItem>
+                  <MenuItem value={21}>Mylapore</MenuItem>
+                  <MenuItem value={22}>Light House</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Grid container spacing={2}>
+            <Grid item sm={12} lg={4.5} xs={12}>
+              <InputLabel required sx={{ color: "#7f7f7f" }}>
+                TRN Number
+              </InputLabel>
+            </Grid>
+            <Grid item xs={12} lg={6.5} sm={12}>
+              <TextField
+                fullWidth 
+                id="outlined-basic"
+                variant="outlined"
+                placeholder="Enter TRN Number"
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        
+      </Grid>
+      <Box
+        sx={{
+          marginTop: "1rem",
+          marginBottom: "1rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button variant="contained">Search</Button>
+        <Button sx={{marginLeft:"1rem",backgroundColor:"black"}} variant="contained">Clear</Button>
+      </Box>
+    </Box>
+
       <DataGrid
         sx={{
           boxShadow: 2,
           border: 2,
+          height: "70%",
           borderColor: "white",
           "& .MuiDataGrid-row:hover": {
             color: "#004A92",
@@ -228,7 +395,7 @@ if(window.innerWidth > 700){
         columns={columns}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        rowsPerPageOptions={[5, 10, 20]}
+        rowsPerPageOptions={[4, 8, 12, 16]}
         disableSelectionOnClick
         getRowClassName={(params) =>
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
