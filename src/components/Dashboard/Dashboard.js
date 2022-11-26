@@ -11,89 +11,15 @@ import Stack from "@mui/material/Stack";
 import ApexCharts from "apexcharts";
 import ReactApexChart from "react-apexcharts";
 import { useEffect } from "react";
-
-const bussinessplotoptions = {
-  series: [
-    {
-      name: "Amount in Lakhs",
-      type: "line",
-      data: [
-        44, 55, 31, 47, 31, 43, 86, 41, 31, 47, 33, 31, 43, 26, 41, 31, 47, 223,
-        12,
-      ],
-    },
-    {
-      name: "Loans Approved",
-      type: "line",
-      data: [
-        5, 20, 7, 14, 2, 8, 27, 32, 15, 6, 10, 5, 20, 7, 14, 27, 12, 25, 8,
-      ],
-    },
-  ],
-  chart: {
-    height: 250,
-    width: 250,
-    type: "line",
-  },
-  stroke: {
-    curve: "smooth",
-  },
-  fill: {
-    type: "solid",
-    opacity: [0.35, 1],
-  },
-  labels: [
-    "Nov 01",
-    "Nov 02",
-    "Nov 03",
-    "Nov 04",
-    "Nov 05",
-    "Nov 06",
-    "Nov 07",
-    "Nov 08",
-    "Nov 09 ",
-    "Nov 10",
-    "Nov 11",
-    "Nov 12",
-    "Nov 13",
-    "Nov 14",
-    "Nov 15",
-    "Nov 16",
-    "Nov 17",
-    "Nov 18",
-    "Nov 19",
-  ],
-  markers: {
-    size: 0,
-  },
-  tooltip: {
-    shared: true,
-    intersect: false,
-    y: {
-      formatter: function (y) {
-        if (typeof y !== "undefined") {
-          return y.toFixed(0);
-        }
-        return y;
-      },
-    },
-  },
-};
+import { Divider, Grid, Typography } from "@mui/material";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 var paymentplotoptions = {
   chart: {
     type: "donut",
     width: "100%",
-    height: 200,
-    events: {
-      click(event, chartContext, config) {
-        console.log(config.config.series[config.seriesIndex]);
-        console.log(config.config.series[config.seriesIndex].name);
-        console.log(
-          config.config.series[config.seriesIndex].data[config.dataPointIndex]
-        );
-      },
-    },
+    height: 350,
   },
   dataLabels: {
     enabled: false,
@@ -104,34 +30,69 @@ var paymentplotoptions = {
       donut: {
         size: "50%",
       },
-      offsetY: 20,
+      offsetY: -20,
     },
     stroke: {
       colors: undefined,
     },
   },
-  series: [1930, 1123, 830],
-  labels: ["Paid", "Dues", "Upcoming"],
+  series: [23, 19, 83],
+  labels: ["Yesterday","Today","Non-Disbursed"],
   legend: {
-    position: "left",
-    offsetY: 80,
+    position: "bottom",
+    offsetY: 0,
   },
+};
+
+var distrnstatus = {
+  series: [98],
+  options: {
+    chart: {
+      height: 350,
+      type: 'radialBar',
+      offsetY: -10
+    },
+    plotOptions: {
+      radialBar: {
+        startAngle: -135,
+        endAngle: 135,
+        dataLabels: {
+          value: {
+            offsetY: 76,
+            fontSize: '22px',
+            color: undefined,
+            formatter: function (val) {
+              return val + "%";
+            }
+          }
+        }
+      }
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'dark',
+        shadeIntensity: 0.15,
+        inverseColors: false,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 65, 91]
+      },
+    },
+    stroke: {
+      dashArray: 4
+    },
+    labels:['Success']
+  },
+
+
 };
 
 var complaintplotoptions = {
   chart: {
-    type: "donut",
+    type: "pie",
     width: "100%",
-    height: 200,
-    events: {
-      click(event, chartContext, config) {
-        console.log(config.config.series[config.seriesIndex]);
-        console.log(config.config.series[config.seriesIndex].name);
-        console.log(
-          config.config.series[config.seriesIndex].data[config.dataPointIndex]
-        );
-      },
-    },
+    height: 250,
   },
   dataLabels: {
     enabled: false,
@@ -142,41 +103,17 @@ var complaintplotoptions = {
       donut: {
         size: "50%",
       },
-      offsetY: 20,
+      offsetY: -20,
     },
     stroke: {
       colors: undefined,
     },
   },
   series: [1930, 430],
-  labels: ["Closed", "Open"],
+  labels: ["Commenced", "Not Commenced"],
   legend: {
-    position: "left",
-    offsetY: 80,
-  },
-};
-
-const disbursementOptions = {
-  series: [240, 550, 330],
-  options: {
-    chart: {
-      width: 380,
-      type: "pie",
-    },
-    labels: ["Fully-Disbursed", "Partial-Disbursed", "Non-Disbursed"],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
+    position: "bottom",
+    offsetY: 0,
   },
 };
 
@@ -184,7 +121,7 @@ const nachoptions = {
   series: [76, 27, 50, 19],
   options: {
     chart: {
-      height: 200,
+      height: 250,
       type: "radialBar",
     },
     plotOptions: {
@@ -194,7 +131,7 @@ const nachoptions = {
         endAngle: 270,
         hollow: {
           margin: 5,
-          size: "30%",
+          size: "50%",
           background: "transparent",
           image: undefined,
         },
@@ -247,7 +184,7 @@ const nachoptions = {
 };
 
 const insuranceoptions = {
-  series: [70],
+  series: [89],
   options: {
     chart: {
       height: 250,
@@ -324,7 +261,7 @@ const insuranceoptions = {
     stroke: {
       lineCap: "round",
     },
-    labels: ["Insured %"],
+    labels: ["Authorised %"],
   },
 };
 
@@ -441,80 +378,91 @@ export const Dashboard = (props) => {
           overflowY: "auto",
         }}
       >
-        <Card
-          sx={{
-            backgroundImage: "linear-gradient(#019CAD,white,#004A92)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            width: "550px",
-            height: "350px",
-            margin: 2,
-            borderRadius: "20px",
-            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
-          }}
-        >
-          <CardHeader
-            action={
-              <Stack
-                direction="row"
-                spacing={0.5}
-                sx={{ marginLeft: 4, marginTop: 2 }}
-              >
+        <Card  sx={{width: 400, height: "320px",margin: 2,borderRadius: "20px" }}
+          >
+            <CardHeader
+              action={<IconButton onClick={handleOpen}>
+              {" "}
+              <OpenInFullIcon />
+            </IconButton>
+              }
+              title="Disbursement Amount Overview"
+              titleTypographyProps={{color:'black'}}
+            />
+            <CardContent>
+              <div style={{width:400}}>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Typography variant="body2" >Date Range</Typography>
+                <Divider  orientation="vertical" />
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="body2" >Loans</Typography>
+                <Divider  orientation="vertical" />
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography variant="body2">Amount Disbursed</Typography>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} sx={{marginTop:1}}>
+                <Grid item xs={4}>
                 <Chip
-                  sx={{ marginLeft: "4px" }}
-                  label="Current Month"
-                  size="small"
-                  variant="outlined"
-                  color="primary"
-                />
+                    label="Nov 1 - Nov 10"
+                    size="small"
+                    sx={{marginRight:1}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="body2" >13 <sub><ArrowDropDownIcon fontSize='medium' sx={{color:'red'}}/></sub></Typography>
+                <Divider  orientation="vertical" />
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography variant="subtitle1"><sup>₹</sup> 49 <sub>Lakhs</sub></Typography>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} sx={{marginTop:1}}>
+                <Grid item xs={4}>
                 <Chip
-                  sx={{ marginLeft: "4px" }}
-                  label="3 Months"
-                  size="small"
-                  variant="outlined"
-                />
+                    label="Nov 11 - Nov 20"
+                    size="small"
+                    sx={{marginRight:1}}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="body2" >19 <sub><ArrowDropUpIcon fontSize='medium' sx={{color:'green'}}/></sub></Typography>
+                <Divider  orientation="vertical" />
+                </Grid>
+                <Grid item xs={4}>
+                <Typography variant="subtitle1"><sup>₹</sup> 75 <sub>Lakhs</sub></Typography>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} sx={{marginTop:1}}>
+                <Grid item xs={4}>
                 <Chip
-                  sx={{ marginLeft: "4px" }}
-                  label="6 Months"
-                  size="small"
-                  variant="outlined"
-                />
-                <Chip
-                  sx={{ marginLeft: "4px" }}
-                  label="12 Months"
-                  size="small"
-                  variant="outlined"
-                />
-                <IconButton onClick={handleOpen}>
-                  {" "}
-                  <OpenInFullIcon />
-                </IconButton>
-              </Stack>
-            }
-            title="Business Overview"
-          />
-          <CardContent>
-            <div id="businesschart" style={{ width: "500px", height: "350px" }}>
-              <ReactApexChart
-                options={bussinessplotoptions}
-                series={bussinessplotoptions.series}
-                type="line"
-                height={200}
-              />
-            </div>
-          </CardContent>
-        </Card>
+                    label="Nov 21 - Nov 30"
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="body2" >3 <sub><ArrowDropDownIcon fontSize='medium' sx={{color:'red'}}/></sub></Typography>
+                <Divider  orientation="vertical" />
+                </Grid>
+                <Grid item xs={4}>
+                <Typography variant="subtitle1"><sup>₹</sup> 10 <sub>Lakhs</sub></Typography>
+                </Grid>
+              </Grid>
+              </div>
+              
+            </CardContent>
+          </Card>
 
         <Card
           sx={{
-            backgroundImage: "linear-gradient(#019CAD,white,#004A92)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
             width: "300px",
-            height: "350px",
+            height: "320px",
             margin: 2,
             borderRadius: "20px",
-            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -523,7 +471,8 @@ export const Dashboard = (props) => {
                 <OpenInFullIcon />
               </IconButton>
             }
-            title="Loan EMI Payments"
+            title="Disbursement Status"
+            titleTypographyProps={{color:'black'}}
           />
           <CardContent>
             <div id="paymentdonut" style={{ width: "300px" }}>
@@ -531,7 +480,7 @@ export const Dashboard = (props) => {
                 options={paymentplotoptions}
                 series={paymentplotoptions.series}
                 type="donut"
-                height={200}
+                height={250}
               />
             </div>
           </CardContent>
@@ -539,14 +488,11 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            backgroundImage: "linear-gradient(#019CAD,white,#004A92)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            width: "200px",
-            height: !props.menuExpanded ? "330px" : "350px",
+            width: "300px",
+            height: !props.menuExpanded ? "320px" : "320px",
             margin: 2,
             borderRadius: "20px",
-            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
+            // overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -555,7 +501,8 @@ export const Dashboard = (props) => {
                 <OpenInFullIcon />
               </IconButton>
             }
-            title="Loan Insurance Cover"
+            title="Voucher Authorised"
+            titleTypographyProps={{color:'black'}}
           />
           <CardContent>
             <div>
@@ -571,14 +518,11 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            backgroundImage: "linear-gradient(#019CAD,white,#004A92)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            width: "350px",
-            height: "330px",
+            width: "400px",
+            height: "300px",
             margin: 2,
             borderRadius: "20px",
-            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
+            // overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -588,9 +532,10 @@ export const Dashboard = (props) => {
               </IconButton>
             }
             title="E-Nach/Nach Mandate"
+            titleTypographyProps={{color:'black'}}
           />
           <CardContent>
-            <div id="nachradial" style={{ width: "350px" }}>
+            <div id="nachradial" style={{ width: "400px" }}>
               <ReactApexChart
                 options={nachoptions.options}
                 series={nachoptions.series}
@@ -600,14 +545,38 @@ export const Dashboard = (props) => {
             </div>
           </CardContent>
         </Card>
-
         <Card
           sx={{
-            backgroundImage: "linear-gradient(#019CAD,white,#004A92)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            width: "285px",
-            height: "330px",
+            width: "300px",
+            height: "300px",
+            margin: 2,
+            borderRadius: "20px",
+          }}
+        >
+          <CardHeader
+            action={
+              <IconButton>
+                <OpenInFullIcon />
+              </IconButton>
+            }
+            title="Disbursement Transcation Status"
+            titleTypographyProps={{color:'black'}}
+          />
+          <CardContent>
+            <div id="paymentdonut" style={{ width: "300px" }}>
+              <ReactApexChart
+                options={distrnstatus.options}
+                series={distrnstatus.series}
+                type="radialBar"
+                height={200}
+              />
+            </div>
+          </CardContent>
+        </Card>
+        <Card
+          sx={{
+            width: "300px",
+            height: "300px",
             margin: 2,
             borderRadius: "20px",
             overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
@@ -619,14 +588,15 @@ export const Dashboard = (props) => {
                 <OpenInFullIcon />
               </IconButton>
             }
-            title="Complaints Status"
+            title="EMI Commenced"
+            titleTypographyProps={{color:'black'}}
           />
           <CardContent>
             <div id="complaintsdonut" style={{ width: "300px" }}>
               <ReactApexChart
                 options={complaintplotoptions}
                 series={complaintplotoptions.series}
-                type="donut"
+                type="pie"
                 height={250}
               />
             </div>
@@ -635,42 +605,8 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            backgroundImage: "linear-gradient(#019CAD,white,#004A92)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            width: !props.menuExpanded ? "420px" : "400px",
-            height: !props.menuExpanded ? "300px" : "330px",
-            margin: 2,
-            borderRadius: "20px",
-            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
-          }}
-        >
-          <CardHeader
-            action={
-              <IconButton>
-                <OpenInFullIcon />
-              </IconButton>
-            }
-            title="Loans Disbursement"
-          />
-          <CardContent>
-            <div id="disbursementspie" style={{ width: "400px" }}>
-              <ReactApexChart
-                options={disbursementOptions.options}
-                series={disbursementOptions.series}
-                type="pie"
-                width={380}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card
-          sx={{
-            backgroundImage: "linear-gradient(#019CAD,white,#004A92)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            width: !props.menuExpanded ? "450px" : "98%",
+            // width: !props.menuExpanded ? "450px" : "98%",
+            width:'98%',
             height: "300px",
             margin: 2,
             borderRadius: "20px",
