@@ -64,6 +64,7 @@ import ShortTextTwoToneIcon from "@mui/icons-material/ShortTextTwoTone";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
 import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
+import Process from "../Disbursement/Process";
 
 const PageLayout = () => {
   const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
@@ -142,6 +143,9 @@ const PageLayout = () => {
     switch (key) {
       case "dashboard":
         path = "/stlap/home/dashboard";
+        break;
+      case "disbursementProcess":
+        path = "/stlap/home/disbursementProcess";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -1139,6 +1143,10 @@ const PageLayout = () => {
                   <Route
                     path={`${search}/stlap/home/dashboard`}
                     element={<Dashboard menuExpanded={expanded} />}
+                  />
+                  <Route
+                    path={`${search}/stlap/home/disbursementProcess`}
+                    element={<Process />}
                   />
                  
 
