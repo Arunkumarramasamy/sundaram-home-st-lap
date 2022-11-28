@@ -155,7 +155,7 @@ const PageLayout = () => {
 
   const handleMenuExpandCollapse = () => {
     setExpanded(!expanded);
-    setMenuWidth(expanded ? 300 : 70);
+    setMenuWidth(expanded ? 230 : 70);
     setmenuLableDisplay(expanded ? "block" : "none");
   };
 

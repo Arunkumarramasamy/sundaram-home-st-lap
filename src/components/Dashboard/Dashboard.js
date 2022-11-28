@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { Divider, Grid, Typography } from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 var paymentplotoptions = {
   chart: {
@@ -288,7 +289,7 @@ const tdsplotoptions = {
     dataLabels: {
       enabled: true,
       formatter: function (val) {
-        return val + "Lakhs";
+        return val;
       },
       offsetY: -20,
       style: {
@@ -345,18 +346,15 @@ const tdsplotoptions = {
       labels: {
         show: false,
         formatter: function (val) {
-          return val + "Lakhs";
+          return val;
         },
       },
     },
     title: {
-      text: "TDS",
-      floating: true,
-      offsetY: 330,
+      text: "TDS Amount in Lakhs",
+      floating: false,
+      offsetY: 180,
       align: "center",
-      style: {
-        color: "#444",
-      },
     },
   },
 };
@@ -378,7 +376,7 @@ export const Dashboard = (props) => {
           overflowY: "auto",
         }}
       >
-        <Card  sx={{width: 400, height: "320px",margin: 2,borderRadius: "20px" }}
+        <Card  sx={{width: 400, height: "350px",margin: 2,borderRadius: "20px" }}
           >
             <CardHeader
               action={<IconButton onClick={handleOpen}>
@@ -393,15 +391,27 @@ export const Dashboard = (props) => {
               <div style={{width:400}}>
               <Grid container spacing={2}>
                 <Grid item xs={4}>
-                  <Typography variant="body2" >Date Range</Typography>
+                <Chip
+                    label="Date Range"
+                    size="small" color="primary" variant="outlined"
+                    sx={{marginRight:1}}
+                  />
                 <Divider  orientation="vertical" />
                 </Grid>
                 <Grid item xs={2}>
-                  <Typography variant="body2" >Loans</Typography>
+                <Chip
+                    label="Loans"
+                    size="small" color="primary" variant="outlined"
+                    sx={{marginRight:1}}
+                  />
                 <Divider  orientation="vertical" />
                 </Grid>
                 <Grid item xs={4}>
-                  <Typography variant="body2">Amount Disbursed</Typography>
+                <Chip
+                    label="Amount Disbursed"
+                    size="small" color="primary" variant="outlined"
+                    sx={{marginRight:1}}
+                  />
                 </Grid>
               </Grid>
 
@@ -413,12 +423,13 @@ export const Dashboard = (props) => {
                     sx={{marginRight:1}}
                   />
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="body2" >13 <sub><ArrowDropDownIcon fontSize='medium' sx={{color:'red'}}/></sub></Typography>
+                <Grid item xs={2} sx={{display:'inline-flex'}}>
+                  <Typography variant="subtitle1" >13</Typography>
+                  <ArrowDropDownIcon fontSize='large' sx={{color:'red'}}/>
                 <Divider  orientation="vertical" />
                 </Grid>
                 <Grid item xs={4}>
-                  <Typography variant="subtitle1"><sup>₹</sup> 49 <sub>Lakhs</sub></Typography>
+                  <Typography variant="subtitle1"><sup><CurrencyRupeeIcon fontSize="medium" sx={{color:'grey'}}/></sup> 49,00,000 </Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} sx={{marginTop:1}}>
@@ -429,12 +440,13 @@ export const Dashboard = (props) => {
                     sx={{marginRight:1}}
                   />
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="body2" >19 <sub><ArrowDropUpIcon fontSize='medium' sx={{color:'green'}}/></sub></Typography>
+                <Grid item xs={2} sx={{display:'inline-flex'}}>
+                  <Typography variant="subtitle1" >19</Typography>
+                  <ArrowDropUpIcon fontSize='large' sx={{color:'green'}}/>
                 <Divider  orientation="vertical" />
                 </Grid>
                 <Grid item xs={4}>
-                <Typography variant="subtitle1"><sup>₹</sup> 75 <sub>Lakhs</sub></Typography>
+                <Typography variant="subtitle1"><sup><CurrencyRupeeIcon fontSize="medium" sx={{color:'grey'}}/></sup> 75,00,000 </Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} sx={{marginTop:1}}>
@@ -444,12 +456,13 @@ export const Dashboard = (props) => {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="body2" >3 <sub><ArrowDropDownIcon fontSize='medium' sx={{color:'red'}}/></sub></Typography>
+                <Grid item xs={2} sx={{display:'inline-flex'}}>
+                  <Typography variant="subtitle1" >3</Typography>
+                  <ArrowDropDownIcon fontSize='large' sx={{color:'red'}}/>
                 <Divider  orientation="vertical" />
                 </Grid>
                 <Grid item xs={4}>
-                <Typography variant="subtitle1"><sup>₹</sup> 10 <sub>Lakhs</sub></Typography>
+                <Typography variant="subtitle1"><sup><CurrencyRupeeIcon fontSize="medium" sx={{color:'grey'}}/></sup> 10,00,000</Typography>
                 </Grid>
               </Grid>
               </div>
@@ -460,7 +473,7 @@ export const Dashboard = (props) => {
         <Card
           sx={{
             width: "300px",
-            height: "320px",
+            height: "350px",
             margin: 2,
             borderRadius: "20px",
           }}
@@ -488,8 +501,8 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            width: "300px",
-            height: !props.menuExpanded ? "320px" : "320px",
+            width: !props.menuExpanded ? "250px" : "300px",
+            height: "350px",
             margin: 2,
             borderRadius: "20px",
             // overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
@@ -575,7 +588,7 @@ export const Dashboard = (props) => {
         </Card>
         <Card
           sx={{
-            width: "300px",
+            width: !props.menuExpanded ? "250px" : "300px",
             height: "300px",
             margin: 2,
             borderRadius: "20px",
@@ -592,7 +605,7 @@ export const Dashboard = (props) => {
             titleTypographyProps={{color:'black'}}
           />
           <CardContent>
-            <div id="complaintsdonut" style={{ width: "300px" }}>
+            <div id="complaintsdonut">
               <ReactApexChart
                 options={complaintplotoptions}
                 series={complaintplotoptions.series}
