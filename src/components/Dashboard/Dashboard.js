@@ -428,8 +428,9 @@ export const Dashboard = (props) => {
                   <ArrowDropDownIcon fontSize='large' sx={{color:'red'}}/>
                 <Divider  orientation="vertical" />
                 </Grid>
-                <Grid item xs={4}>
-                  <Typography variant="subtitle1"><sup><CurrencyRupeeIcon fontSize="medium" sx={{color:'grey'}}/></sup> 49,00,000 </Typography>
+                <Grid item xs={4} sx={{display:'inline-flex'}}>
+                <CurrencyRupeeIcon fontSize="small" sx={{color:'grey'}}/>
+                  <Typography variant="subtitle1"> 49,00,000 </Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} sx={{marginTop:1}}>
@@ -445,8 +446,9 @@ export const Dashboard = (props) => {
                   <ArrowDropUpIcon fontSize='large' sx={{color:'green'}}/>
                 <Divider  orientation="vertical" />
                 </Grid>
-                <Grid item xs={4}>
-                <Typography variant="subtitle1"><sup><CurrencyRupeeIcon fontSize="medium" sx={{color:'grey'}}/></sup> 75,00,000 </Typography>
+                <Grid item xs={4} sx={{display:'inline-flex'}}>
+                <CurrencyRupeeIcon fontSize="small" sx={{color:'grey'}}/>
+                <Typography variant="subtitle1"> 75,00,000 </Typography>
                 </Grid>
               </Grid>
               <Grid container spacing={2} sx={{marginTop:1}}>
@@ -461,8 +463,9 @@ export const Dashboard = (props) => {
                   <ArrowDropDownIcon fontSize='large' sx={{color:'red'}}/>
                 <Divider  orientation="vertical" />
                 </Grid>
-                <Grid item xs={4}>
-                <Typography variant="subtitle1"><sup><CurrencyRupeeIcon fontSize="medium" sx={{color:'grey'}}/></sup> 10,00,000</Typography>
+                <Grid item xs={4} sx={{display:'inline-flex'}}>
+                <CurrencyRupeeIcon fontSize="small" sx={{color:'grey'}}/>
+                <Typography variant="subtitle1"> 10,00,000</Typography>
                 </Grid>
               </Grid>
               </div>
