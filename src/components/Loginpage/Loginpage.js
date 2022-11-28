@@ -112,13 +112,13 @@ export default function Loginpage() {
                       >
                         <LoginOutlined />
                       </Avatar>
-                      <Typography
+                      {/* <Typography
                         component="h1"
                         variant="h5"
                         sx={{ color: "black" }}
                       >
                         Login
-                      </Typography>
+                      </Typography> */}
                       <Box
                         component="form"
                         validate
@@ -134,7 +134,7 @@ export default function Loginpage() {
                               label="User ID"
                               name="userId"
                               autoComplete="userId"
-                              placeholder="Enter Emp Id / Mobile No."
+                              placeholder="Enter Employee Id / Mobile No."
                               size="small"
                               autoFocus
                               sx={{ color: "#7F7F7F" }}
@@ -243,13 +243,13 @@ export default function Loginpage() {
                     >
                       <LoginOutlined />
                     </Avatar>
-                    <Typography
+                    {/* <Typography
                       component="h1"
                       variant="h5"
                       sx={{ color: "black" }}
                     >
                       Login
-                    </Typography>
+                    </Typography> */}
                     <Box
                       component="form"
                       validate
@@ -265,7 +265,7 @@ export default function Loginpage() {
                             label="User ID"
                             name="userId"
                             autoComplete="userId"
-                            placeholder="Enter Emp Id / Mobile No."
+                            placeholder="Enter Employee Id / Mobile Number"
                             size="small"
                             autoFocus
                             sx={{ color: "#7F7F7F" }}

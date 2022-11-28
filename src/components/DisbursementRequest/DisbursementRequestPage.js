@@ -331,7 +331,7 @@ if(window.innerWidth > 700){
             </Grid>
             <Grid item xs={12} lg={6.5} sm={12}>
               <FormControl sx={{ minWidth: 210 }}>
-                <Select displayEmpty value={dummyValue}>
+                <Select displayEmpty value={dummyValue} >
                   <MenuItem value="">
                     <p className="placeHolder_text">Branch</p>
                   </MenuItem>

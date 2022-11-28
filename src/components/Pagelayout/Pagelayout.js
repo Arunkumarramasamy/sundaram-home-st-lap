@@ -182,7 +182,7 @@ const PageLayout = () => {
               <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
                 <img id="logoimage" src={Logo}></img>
 
-                <DraftsOutlinedIcon
+                {/* <DraftsOutlinedIcon
                   sx={{ marginTop: "15px", marginLeft: "60px" }}
                 ></DraftsOutlinedIcon>
                 <Typography id="header-email-id" align="left">
@@ -193,7 +193,7 @@ const PageLayout = () => {
                 />
                 <Typography id="header-email-id" align="left">
                   9876543210
-                </Typography>
+                </Typography> */}
               </Stack>
               <Stack
                 direction="row"
@@ -239,13 +239,13 @@ const PageLayout = () => {
                 direction="row"
                 sx={{ width: "100%", justifyContent: "flex-end" }}
               >
-                <DraftsOutlinedIcon
+                {/* <DraftsOutlinedIcon
                   sx={{ marginTop: "15px", marginLeft: "60px" }}
                 ></DraftsOutlinedIcon>
                 {/* <Typography id='header-email-id' align='left'>sundaram.help@sundaram.com</Typography> */}
-                <LocalPhoneOutlinedIcon
+                {/* <LocalPhoneOutlinedIcon
                   sx={{ marginTop: "15px", marginLeft: "16px" }}
-                />
+                />  */}
                 {/* <Typography id='header-email-id' align='left'>9876543210</Typography> */}
                 <Tooltip title="Account settings">
                   <IconButton
