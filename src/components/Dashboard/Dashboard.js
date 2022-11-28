@@ -376,7 +376,8 @@ export const Dashboard = (props) => {
           overflowY: "auto",
         }}
       >
-        <Card  sx={{width: 400, height: "350px",margin: 2,borderRadius: "20px" }}
+        <Card  sx={{width: window.innerWidth > 1200 ? 400 : '90%', height: "350px",margin: 2,borderRadius: "20px",
+          overflowX:window.innerWidth < 900 ? 'auto' : 'hidden' }}
           >
             <CardHeader
               action={<IconButton onClick={handleOpen}>
@@ -475,10 +476,11 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            width: "300px",
+            width: window.innerWidth > 1200 ? "300px" : '90%',
             height: "350px",
             margin: 2,
             borderRadius: "20px",
+            overflowX:window.innerWidth < 900 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -504,11 +506,11 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            width: !props.menuExpanded ? "250px" : "300px",
+            width: window.innerWidth > 1200 ? !props.menuExpanded ? "250px" : "300px" : '90%',
             height: "350px",
             margin: 2,
             borderRadius: "20px",
-            // overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
+            overflowX:window.innerWidth < 900 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -534,11 +536,11 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            width: "400px",
+            width: window.innerWidth > 1200 ? "400px" :'90%',
             height: "300px",
             margin: 2,
             borderRadius: "20px",
-            // overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
+            overflow:window.innerWidth < 900 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -563,10 +565,11 @@ export const Dashboard = (props) => {
         </Card>
         <Card
           sx={{
-            width: "300px",
+            width: window.innerWidth > 1200 ? "300px" : '90%',
             height: "300px",
             margin: 2,
             borderRadius: "20px",
+            overflow:window.innerWidth < 900 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -591,11 +594,11 @@ export const Dashboard = (props) => {
         </Card>
         <Card
           sx={{
-            width: !props.menuExpanded ? "250px" : "300px",
+            width: window.innerWidth > 1200 ? !props.menuExpanded ? "250px" : "300px" : '90%',
             height: "300px",
             margin: 2,
             borderRadius: "20px",
-            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
+            overflowX:window.innerWidth < 900 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
@@ -621,12 +624,11 @@ export const Dashboard = (props) => {
 
         <Card
           sx={{
-            // width: !props.menuExpanded ? "450px" : "98%",
-            width:'98%',
+            width:'90%',
             height: "300px",
             margin: 2,
             borderRadius: "20px",
-            overflow:window.innerWidth < 1024 ? 'auto' : 'hidden'
+            overflow:window.innerWidth < 900 ? 'auto' : 'hidden'
           }}
         >
           <CardHeader
