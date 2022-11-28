@@ -1,18 +1,31 @@
 import { Autocomplete, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
-const FilterCondition = () => {
+const FilterCondition = (props) => {
+
+  const branchNames = [
+    { label: 'Mylapore'},
+    { label: 'Royapettah'},
+    { label: 'Light House'},
+    { label: 'Chennai'},
+    { label: 'Tambaram'},
+    { label: 'Egmore'},
+  ];
+
+
+   const [branch,setBranch] = useState(branchNames[0]);
+   const [trnNo,setTrnNo] = useState('STLMYL202200001');
+   const [inputBranchValue, setInputBranchValue] = React.useState('');
 
     
 
-    const branchNames = [
-        { label: 'Mylapore'},
-        { label: 'Royapettah'},
-        { label: 'Light House'},
-        { label: 'Chennai'},
-        { label: 'Tambaram'},
-        { label: 'Egmore'},
-      ];
+      const searchButtonClickHandler = () =>{
+        console.log(branch);
+        console.log(trnNo);
+        props.searchButtonClickHandler(branch,trnNo);
+      }
+
+     
 
     return (
         
@@ -26,7 +39,16 @@ const FilterCondition = () => {
             </InputLabel>
           </Grid>
           <Grid item xs={8}>
-          <Autocomplete options={branchNames} fullWidth  renderInput={(params) => <TextField placeholder="Select the Branch"  {...params}/>}
+          <Autocomplete  
+           value={branch}
+           onChange={(event, newValue) => {
+             setBranch(newValue.label);
+           }}
+           inputValue={inputBranchValue}
+           onInputChange={(event, newInputValue) => {
+             setInputBranchValue(newInputValue);
+           }}
+          options={branchNames} fullWidth  renderInput={(params) => <TextField placeholder="Select the Branch"   {...params}/>}
     />
           </Grid>
         </Grid>
@@ -40,6 +62,9 @@ const FilterCondition = () => {
           </Grid>
           <Grid item xs={8}>
             <TextField
+              onChange={(event) => {
+             setTrnNo(event.target.value);
+           }}
               fullWidth 
               id="outlined-basic"
               variant="outlined"
@@ -58,7 +83,7 @@ const FilterCondition = () => {
         justifyContent: "center",
       }}
     >
-      <Button variant="contained">Search</Button>
+      <Button variant="contained" onClick={searchButtonClickHandler}>Search</Button>
       <Button sx={{marginLeft:"1rem",backgroundColor:"black"}} variant="contained">Clear</Button>
     </Box>
   </Box>
