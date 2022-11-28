@@ -3,19 +3,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SfTeam from "../../images/sundaramteam.png";
 import SfLogo from "../../images/SF_Logo.png";
-import LoginImg from "../../images/login.jpg";
 import { Container } from "@mui/material";
 import { isMobile } from "react-device-detect";
-import { InputAdornment, Paper } from "@material-ui/core";
+import { InputAdornment, Paper } from "@mui/material";
 import { LoginOutlined, PasswordOutlined } from "@mui/icons-material";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import PersonIcon from "@mui/icons-material/Person";
 import PageLayout from "../Pagelayout/Pagelayout";
 import Cookies from "js-cookie";
@@ -112,13 +109,6 @@ export default function Loginpage() {
                       >
                         <LoginOutlined />
                       </Avatar>
-                      {/* <Typography
-                        component="h1"
-                        variant="h5"
-                        sx={{ color: "black" }}
-                      >
-                        Login
-                      </Typography> */}
                       <Box
                         component="form"
                         validate
@@ -243,13 +233,6 @@ export default function Loginpage() {
                     >
                       <LoginOutlined />
                     </Avatar>
-                    {/* <Typography
-                      component="h1"
-                      variant="h5"
-                      sx={{ color: "black" }}
-                    >
-                      Login
-                    </Typography> */}
                     <Box
                       component="form"
                       validate
@@ -333,5 +316,3 @@ export default function Loginpage() {
     </React.Fragment>
   );
 }
-
-Loginpage.propTypes = {};

@@ -1,14 +1,10 @@
-import PropTypes from "prop-types";
-import "./Dashboard.css";
 import React from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
-import { Chip } from "@material-ui/core";
-import Stack from "@mui/material/Stack";
-import ApexCharts from "apexcharts";
+import { Chip } from "@mui/material";
 import ReactApexChart from "react-apexcharts";
 import { useEffect } from "react";
 import { Divider, Grid, Typography } from "@mui/material";

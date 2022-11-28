@@ -9,8 +9,8 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import Badge from "@mui/material/Badge";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
@@ -18,10 +18,6 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Logo from "../../images/logo.png";
 import "./PageLayout.css";
-import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import DisbursementRequestPage from "../DisbursementRequest/DisbursementRequestPage";
-import ListExample from "../Samples/ListExample";
 import {
   AppRegistrationTwoTone,
   ArticleTwoTone,
@@ -41,8 +37,6 @@ import { Routes, Route } from "react-router-dom";
 import Loginpage from "../Loginpage/Loginpage";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import EnachMandate from "../NACH/EnachMandate";
-import ENach from "../NachNew/ENach";
 import { Dashboard } from "../Dashboard/Dashboard";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
@@ -221,7 +215,7 @@ const PageLayout = () => {
                 />
                 <IconButton color="inherit">
                   <Badge badgeContent={4} color="secondary">
-                    <NotificationsIcon sx={{ padding: 18 }} />
+                    <NotificationsIcon  />
                   </Badge>
                 </IconButton>
               </Stack>
@@ -319,7 +313,7 @@ const PageLayout = () => {
                   />
                   <IconButton color="inherit">
                     <Badge badgeContent={4} color="secondary">
-                      <NotificationsIcon sx={{ padding: 18 }} />
+                      <NotificationsIcon  />
                     </Badge>
                   </IconButton>
                 </MenuItem>
@@ -1051,22 +1045,7 @@ const PageLayout = () => {
                     path={`${search}/stlap/home/dashboard`}
                     element={<Dashboard menuExpanded={expanded} />}
                   />
-                  <Route
-                    path={`${search}/stlap/home/disbursement`}
-                    element={<DisbursementRequestPage />}
-                  />
-                  <Route
-                    path={`${search}/stlap/home/nach/mandateentry`}
-                    element={<EnachMandate />}
-                  />
-                  <Route
-                    path={`${search}/stlap/home/nach/bank`}
-                    element={<ENach />}
-                  />
-                  <Route
-                    path={`${search}/stlap/home/tds`}
-                    element={<ListExample />}
-                  />
+                 
 
                   <Route path="*" exact={true} element={<Loginpage />} />
                 </Routes>
