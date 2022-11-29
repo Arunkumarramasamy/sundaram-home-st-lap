@@ -34,7 +34,7 @@ var distrnstatus = {
   series: [98],
   options: {
     chart: {
-      height: 200,
+      height: 300,
       type: 'radialBar',
       offsetY: -10
     },
@@ -76,7 +76,7 @@ var distrnstatus = {
    options={distrnstatus.options}
    series={distrnstatus.series}
    type="radialBar"
-   height={250}
+   height={300}
  />);
 }
 
@@ -85,7 +85,7 @@ function EMICommenced() {
     chart: {
       type: "pie",
       width: "100%",
-      height: 200,
+      height: 300,
     },
     dataLabels: {
       enabled: false,
@@ -114,7 +114,7 @@ function EMICommenced() {
       options={complaintplotoptions}
       series={complaintplotoptions.series}
       type="pie"
-      height={250}
+      height={300}
     />);
 }
 
@@ -123,7 +123,7 @@ function EnachMandateGraph() {
     series: [76, 27, 50, 19],
     options: {
       chart: {
-        height: 300,
+        height: 280,
         type: "radialBar",
       },
       plotOptions: {
@@ -179,7 +179,7 @@ function EnachMandateGraph() {
       options={nachoptions.options}
       series={nachoptions.series}
       type="radialBar"
-      height={300}
+      height={280}
     />);
 }
 
@@ -368,7 +368,7 @@ function DisbursementStatus() {
     chart: {
       type: "donut",
       width: "100%",
-      height: 350,
+      height: 280,
     },
     dataLabels: {
       enabled: false,
@@ -398,7 +398,7 @@ function DisbursementStatus() {
       options={paymentplotoptions}
       series={paymentplotoptions.series}
       type="donut"
-      height={250}
+      height={280}
     />);
 
 }
@@ -408,7 +408,7 @@ function VoucherAuthorised() {
     series: [89],
     options: {
       chart: {
-        height: 250,
+        height: 200,
         type: "radialBar",
         toolbar: {
           show: true,
@@ -517,7 +517,7 @@ export const Dashboard = (props) => {
   }));  
 
   return (
-    <Grid container spacing={{ xs: 2, sm:2, md: 4, lg:4, xl:4}} columns={{ xs: 1, sm: 4, md: 6, lg:6, xl:12 }} mt={16}>
+    <Grid container spacing={{ xs: 2, sm:2, md: 4, lg:4, xl:4}} columns={{ xs: 1, sm: 4, md: 6, lg:10, xl:12 }} mt={32}>
       <Grid item>
       <Card>
         <CardHeader
