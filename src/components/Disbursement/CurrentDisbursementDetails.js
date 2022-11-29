@@ -97,7 +97,7 @@ const CurrentDisbursementDetails = () => {
             <Grid container spacing={1} sx={{ alignItems: "center" }}>
               <Grid item sm={12} lg={4} xs={12}>
                 <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  EMI Options
+                  Cheque Mode
                 </InputLabel>
               </Grid>
               <Grid item xs={12} lg={8} sm={12}>
@@ -247,6 +247,7 @@ const CurrentDisbursementDetails = () => {
           }}
           rows={rows}
           columns={columns}
+          rowsPerPageOptions={[4, 8, 12, 16]}
         ></DataGrid>
       </Box>
 
