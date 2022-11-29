@@ -7,6 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import STButton from "../CustomComponents/STButton";
 
 const CurrentDisbursementDetails = () => {
   const [ReadValue, setReadValue] = React.useState(false);
@@ -101,7 +102,12 @@ const CurrentDisbursementDetails = () => {
               </Grid>
               <Grid item xs={12} lg={8} sm={12}>
                 <FormControl sx={{ minWidth: 210 }}>
-                  <Select displayEmpty value={dummyValue} disabled={ReadValue}>
+                  <Select
+                    displayEmpty
+                    value={dummyValue}
+                    disabled={ReadValue}
+                    fullWidth
+                  >
                     <MenuItem value="">
                       <p className="placeHolder_text">Cheque Mode</p>
                     </MenuItem>
@@ -242,6 +248,16 @@ const CurrentDisbursementDetails = () => {
           rows={rows}
           columns={columns}
         ></DataGrid>
+      </Box>
+
+      <Box
+        sx={{
+          marginTop: "1rem",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <STButton variant="contained">Submit and Download</STButton>
       </Box>
     </>
   );
