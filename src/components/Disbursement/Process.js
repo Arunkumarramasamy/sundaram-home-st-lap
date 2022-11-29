@@ -2,6 +2,7 @@ import FilterCondition from "./FilterCondition";
 import BasicInformation from "./BasicInformation";
 import { useState } from "react";
 import TabsIntegrator from "./TabsIntegrator";
+import NoDataFound from "./NoDataFound";
 
  const Process = () =>{
 
@@ -29,7 +30,7 @@ import TabsIntegrator from "./TabsIntegrator";
 
     return (<>
     { showFilter ? <FilterCondition onSearchButtonClick={searchButtonClickHandler}/> : null  }
-    {openBasic ? <BasicInformation onProcessButtonClick={openProcessHandler}/> : null}
+    {openBasic ? <BasicInformation onProcessButtonClick={openProcessHandler}/> : openProcess ? null : <NoDataFound/>}
     {openProcess ? <TabsIntegrator onBackButtonClick={backButtonHandler}/> : null}
     </>);
 };
