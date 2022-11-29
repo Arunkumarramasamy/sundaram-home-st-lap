@@ -22,9 +22,15 @@ const FilterCondition = (props) => {
       const searchButtonClickHandler = () =>{
         console.log(branch);
         console.log(trnNo);
-        props.searchButtonClickHandler(branch,trnNo);
+        props.onSearchButtonClick(branch,trnNo,true);
       }
+      
 
+      const clearButtonClickHandler = () =>{
+        setBranch("");
+        setTrnNo("");
+        props.onSearchButtonClick(branch,trnNo,false);
+      }
      
 
     return (
@@ -69,6 +75,7 @@ const FilterCondition = (props) => {
               id="outlined-basic"
               variant="outlined"
               placeholder="Enter TRN Number"
+              value={trnNo}
             />
           </Grid>
         </Grid>
@@ -84,7 +91,7 @@ const FilterCondition = (props) => {
       }}
     >
       <Button variant="contained" onClick={searchButtonClickHandler}>Search</Button>
-      <Button sx={{marginLeft:"1rem",backgroundColor:"black"}} variant="contained">Clear</Button>
+      <Button sx={{marginLeft:"1rem",backgroundColor:"black"}} onClick={clearButtonClickHandler} variant="contained">Clear</Button>
     </Box>
   </Box>
 );

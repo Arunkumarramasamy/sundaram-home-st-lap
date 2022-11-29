@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import React from "react";
 
 
-const BasicInformation = () => {
+const BasicInformation = (props) => {
 
     const [disbursementDate, setDisbursementDate] = React.useState(dayjs("2022-11-28T21:11:54"));
     const [sanctionDate, setSanctionedDate] = React.useState(dayjs("2022-11-22T21:11:54"));
@@ -19,6 +19,10 @@ const BasicInformation = () => {
         { label: 'Site'},
         { label: 'Shop'},
       ];
+
+      const processButtonClickHandler =() =>{
+        props.onProcessButtonClick();
+      };
 
     return ( 
         
@@ -233,7 +237,7 @@ const BasicInformation = () => {
         justifyContent: "center",
       }}
     >
-      <Button variant="contained">Process</Button>
+      <Button variant="contained" onClick={processButtonClickHandler}>Process</Button>
 
     </Box>
         </Box>

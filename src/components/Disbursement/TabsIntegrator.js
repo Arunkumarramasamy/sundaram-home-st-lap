@@ -9,16 +9,25 @@ import FeesOutstanding from "./FeesOutstanding";
 import FilePendingProcess from "./FilePendingProcess";
 import EmiCommencementDate from "./EmiCommencementDate";
 import "./TabsIntegrator.css";
+import { Button } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 
-const TabsIntegrator = () => {
+const TabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const backButtonClickHandler =() => {
+    props.onBackButtonClick();
+  };
+
+
   return (
     <>
       <Box sx={{ width: "100%", backgroundColor: "white" }}>
+        <Box sx={{float:"right"}}> <Button variant="contained" onClick={backButtonClickHandler}><ArrowBack />Back</Button></Box>
         <TabContext value={value}>
           <Box
             sx={{
