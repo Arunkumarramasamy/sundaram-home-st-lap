@@ -11,7 +11,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import * as React from "react";
 import dayjs from "dayjs";
 import Switch from "@mui/material/Switch";
-import Button from "@mui/material/Button";
+import STButton from "../CustomComponents/STButton";
 const EmiCommencementDate = (props) => {
   const [ReadValue, setReadValue] = React.useState(false);
   const [value, setValue] = React.useState(dayjs("2022-11-28T21:11:54"));
@@ -159,9 +159,9 @@ const EmiCommencementDate = (props) => {
           justifyContent: "center",
         }}
       >
-        <Button variant="contained" onClick={EmiOnClick}>
+        <STButton variant="contained" onClick={EmiOnClick}>
           Next
-        </Button>
+        </STButton>
       </Box>
     </Box>
   );
