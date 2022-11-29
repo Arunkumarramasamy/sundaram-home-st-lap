@@ -7,18 +7,26 @@ import IconButton from '@mui/material/IconButton';
 import { Stack } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
 import DoneIcon from '@mui/icons-material/Done';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 import EcPatta from '../../images/ec_cert.png';
+import Aadhar from '../../images/aadhar.png';
+import pan from '../../images/pan.png';
+import passbook from '../../images/passbook.png';
+import patta from '../../images/patta.png';
+import chitta from '../../images/Chitta.png';
 
 const FilePendingProcess = () => {
     const [open, setOpen] = React.useState(false);
     const [url, setUrl] = React.useState('');
+    const [name,setName] = React.useState('');
 const handleCellEvent =(event)=>{
 if(event.field==='preview'){
     setUrl(event.value);
+    setName(event.row.name);
     setOpen(true);
 }else{
-    setOpen(true); 
+    setOpen(false); 
 }
 }
     const handleClickOpen = () => {
@@ -42,7 +50,7 @@ if(event.field==='preview'){
             name: "Aadhar",
             type: "3000",
             status: "2500",
-            preview: "500",
+            preview: Aadhar,
            
         },
         {
@@ -50,7 +58,7 @@ if(event.field==='preview'){
             name: "Pan",
             type: "5000",
             status: "5000",
-            preview: "0",
+            preview: pan,
             
         },
         {
@@ -58,7 +66,7 @@ if(event.field==='preview'){
             name: "Bank Pass Book",
             type: "80",
             status: "80",
-            preview: "0",
+            preview: passbook,
            
         },
         {
@@ -66,7 +74,7 @@ if(event.field==='preview'){
             name: "Patta",
             type: "1000",
             status: "1000",
-            preview: "0",
+            preview: patta,
             
         },
         {
@@ -74,7 +82,7 @@ if(event.field==='preview'){
           name: "Chitta",
           type: "10000",
           status: "7000",
-          preview: "3000",
+          preview: chitta,
           
         },
         {
@@ -92,25 +100,7 @@ if(event.field==='preview'){
             status: "30000",
             preview: "0",
             
-        },
-        {
-            id: 9,
-            name: "",
-            type: "250",
-            status: "0",
-            preview: "250",
-            
-        },
-        {
-            id: 10,
-            name: "Recovery Charge",
-            type: "2000",
-            status: "2000",
-            preview: "2000",
-           
-        },
-        
-        
+        },        
       ];
     
       const columns = [
@@ -119,40 +109,36 @@ if(event.field==='preview'){
           headerName: "S.No",
           headerAlign: 'center',type: "string",
           sortable: false,
-          width: 50,
+          width: 80,
         },
         
         {
           field: "name",
           headerName: "File Name",
           headerAlign: 'center',type: "string",
-          width: 300,
+          width: 500,
           align:'left',
+          sortable: false,
           editable: false,
         },
-        {
-            field: "type",
-            headerName: "File Type",
-            headerAlign: 'center',type: "string",
-            width: 150,
-            align:'center',
-            editable: false,
-            visibile:false,
-          },
+        
+        
         {
           field: "status",
           headerName: "Status",
           headerAlign: 'center',type: "string",
-          width: 190, align:'center',
+          width: 210, align:'center',
           editable: false,
-          renderCell:(row)=>row.id%2==0?<DoneIcon/>:<RemoveDoneIcon/>
+          sortable: false,
+          renderCell:(row)=>row.id%2===0?<DoneIcon sx={{color:'green'}}/>:<PendingActionsIcon sx={{color:'darkgray'}}/>
          
         },
         {
           field: "preview",
           headerName: "Preview",
           headerAlign: 'center',type: "string",
-          width: '200',
+          width: 200,
+          sortable: false,
           editable: false,
           align:'center',
           renderHeader:()=> <ImageIcon/>,
@@ -182,7 +168,7 @@ if(event.field==='preview'){
         }}
         rows={rows}
         columns={columns}
-        disableSelectionOnClick
+        rowsPerPageOptions={[4, 8, 12, 16]}
         getRowClassName={(params) =>
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
@@ -190,7 +176,7 @@ if(event.field==='preview'){
         // columnVisibilityModel={visibility}
       />
             <Dialog onClose={handleClose} handleClose={handleClose} open={open}>
-                <PreviewImage onClose={handleClose} url={url} open={open}></PreviewImage>
+                <PreviewImage onClose={handleClose} url={url} name = {name} open={open}></PreviewImage>
 
             </Dialog>
         </React.Fragment>

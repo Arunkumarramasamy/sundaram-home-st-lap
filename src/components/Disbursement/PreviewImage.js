@@ -3,14 +3,14 @@ import { Lightbox } from "react-modal-image";
 
 import React from "react";
 
-const PreviewImage = ({onClose,url,open}) => {
-console.log(url);
+const PreviewImage = ({onClose,url,name}) => {
         return(
     <React.Fragment >
 <Lightbox
       medium={url}
-      hideDownload = {false}
-      alt="preview"
+      hideDownload = 'false'
+      hideZoom = 'false'
+      alt={name}
       onClose={onClose}
     />
     </React.Fragment>

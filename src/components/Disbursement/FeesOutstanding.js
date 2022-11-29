@@ -4,8 +4,6 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const FeesOutstanding = () => {
     const [pageSize, setPageSize] = React.useState(4);
-    const [rowValues, setRowValues] = React.useState({});
-    const [openDialog, setOpenDialog] = React.useState(false);
     const rows = [
         {
             id: 7,
