@@ -16,6 +16,9 @@ const TabsIntegrator = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const NavigateToCurrentDis = () => {
+    setValue("4");
+  };
   return (
     <>
       <Box sx={{ width: "100%", backgroundColor: "white" }}>
@@ -65,7 +68,7 @@ const TabsIntegrator = () => {
             <FeesOutstanding />
           </TabPanel>
           <TabPanel value="3">
-            <EmiCommencementDate />
+            <EmiCommencementDate nav={NavigateToCurrentDis} />
           </TabPanel>
           <TabPanel value="4">
             <CurrentDisbursementDetails />
