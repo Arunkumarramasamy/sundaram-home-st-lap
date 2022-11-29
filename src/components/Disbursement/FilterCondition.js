@@ -37,15 +37,16 @@ const FilterCondition = (props) => {
         
         <Box sx={{border: '2px solid grey',padding: '0.3rem',borderRadius:'10px'}}>
     <Grid container spacing={2} sx={{marginTop:'2%'}}>
-      <Grid item xs={12} sm={6}>
-        <Grid container spacing={2}>
-          <Grid item >
-            <InputLabel required sx={{ color: "#7f7f7f" }}>
-              Branch
-            </InputLabel>
-          </Grid>
-          <Grid item xs={8}>
-          <Autocomplete  
+      
+    <Grid item xs={12} sm={6}>
+            <Grid container spacing={1} sx={{ alignItems: "center" }}>
+              <Grid item sm={12} lg={4} xs={12}>
+                <InputLabel required sx={{ color: "#7f7f7f" }}>
+                Branch
+                </InputLabel>
+              </Grid>
+              <Grid item xs={12} lg={8} sm={12}>
+              <Autocomplete  
            value={branch}
            onChange={(event, newValue) => {
              setBranch(newValue.label);
@@ -56,18 +57,19 @@ const FilterCondition = (props) => {
            }}
           options={branchNames} fullWidth  renderInput={(params) => <TextField placeholder="Select the Branch"   {...params}/>}
     />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <InputLabel required sx={{ color: "#7f7f7f" }}>
-              TRN Number
-            </InputLabel>
-          </Grid>
-          <Grid item xs={8}>
-            <TextField
+
+          <Grid item xs={12} sm={6}>
+            <Grid container spacing={1} sx={{ alignItems: "center" }}>
+              <Grid item sm={12} lg={4} xs={12}>
+                <InputLabel required sx={{ color: "#7f7f7f" }}>
+                Trn No.
+                </InputLabel>
+              </Grid>
+              <Grid item xs={12} lg={8} sm={12}>
+              <TextField
               onChange={(event) => {
              setTrnNo(event.target.value);
            }}
@@ -77,9 +79,9 @@ const FilterCondition = (props) => {
               placeholder="Enter TRN Number"
               value={trnNo}
             />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
       
     </Grid>
     <Box

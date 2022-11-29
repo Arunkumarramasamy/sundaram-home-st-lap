@@ -116,7 +116,7 @@ if(event.field==='preview'){
           field: "name",
           headerName: "File Name",
           headerAlign: 'center',type: "string",
-          width: 500,
+          width: 300,
           align:'left',
           sortable: false,
           editable: false,
