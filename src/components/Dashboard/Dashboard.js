@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-import "./Dashboard.css";
 import React from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -7,8 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import { Chip } from "@material-ui/core";
-import Stack from "@mui/material/Stack";
-import ApexCharts from "apexcharts";
 import ReactApexChart from "react-apexcharts";
 import { useEffect } from "react";
 import { Divider, Grid, Typography } from "@mui/material";
@@ -17,6 +13,8 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
 
 const style = {
   position: 'absolute',
@@ -36,7 +34,7 @@ var distrnstatus = {
   series: [98],
   options: {
     chart: {
-      height: 350,
+      height: 200,
       type: 'radialBar',
       offsetY: -10
     },
@@ -73,14 +71,13 @@ var distrnstatus = {
     labels: ['Success']
   },
 };
- return (<div id="paymentdonut" style={{ width: "300px" }}>
+ return (
  <ReactApexChart
    options={distrnstatus.options}
    series={distrnstatus.series}
    type="radialBar"
-   height={200}
- />
-</div>);
+   height={250}
+ />);
 }
 
 function EMICommenced() {
@@ -88,7 +85,7 @@ function EMICommenced() {
     chart: {
       type: "pie",
       width: "100%",
-      height: 250,
+      height: 200,
     },
     dataLabels: {
       enabled: false,
@@ -112,14 +109,13 @@ function EMICommenced() {
       offsetY: 0,
     },
   };
-  return (<div id="complaintsdonut">
+  return (
     <ReactApexChart
       options={complaintplotoptions}
       series={complaintplotoptions.series}
       type="pie"
       height={250}
-    />
-  </div>);
+    />);
 }
 
 function EnachMandateGraph() {
@@ -127,7 +123,7 @@ function EnachMandateGraph() {
     series: [76, 27, 50, 19],
     options: {
       chart: {
-        height: 250,
+        height: 300,
         type: "radialBar",
       },
       plotOptions: {
@@ -162,7 +158,7 @@ function EnachMandateGraph() {
         show: true,
         floating: false,
         fontSize: "12px",
-        position: "left",
+        position: "bottom",
         labels: {
           useSeriesColors: false,
         },
@@ -176,26 +172,15 @@ function EnachMandateGraph() {
           vertical: 3,
         },
       },
-      responsive: [
-        {
-          breakpoint: 300,
-          options: {
-            legend: {
-              show: false,
-            },
-          },
-        },
-      ],
     },
   };
-  return (<div id="nachradial" style={{ width: "400px" }}>
+  return (
     <ReactApexChart
       options={nachoptions.options}
       series={nachoptions.series}
       type="radialBar"
-      height={200}
-    />
-  </div>);
+      height={300}
+    />);
 }
 
 function CompanyTds() {
@@ -208,12 +193,12 @@ function CompanyTds() {
     ],
     options: {
       chart: {
-        height: 200,
+        height: 250,
         type: "bar",
       },
       plotOptions: {
         bar: {
-          borderRadius: 10,
+          borderRadius: 4,
           dataLabels: {
             position: "top", // top, center, bottom
           },
@@ -241,10 +226,6 @@ function CompanyTds() {
           "Sep",
           "Oct",
           "Nov",
-          "Dec",
-          "Jan",
-          "Feb",
-          "Mar",
         ],
         position: "top",
         axisBorder: {
@@ -286,99 +267,94 @@ function CompanyTds() {
       title: {
         text: "TDS Amount in Lakhs",
         floating: false,
-        offsetY: 180,
+        offsetY: 230,
         align: "center",
       },
     },
   };
-  return (<div>
+  return (
     <ReactApexChart
       options={tdsplotoptions.options}
       series={tdsplotoptions.series}
       type="bar"
-      height={200}
-    />
-  </div>);
+      height={250}
+    />);
 }
 
 function DisbursementOverview() {
   return (
-    <div style={{ width: 400 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
+    <div>
+      <Grid container>
+        <Grid item sx={{margin:1}}>
           <Chip
             label="Date Range"
             size="small" color="primary" variant="outlined"
-            sx={{ marginRight: 1 }}
           />
           <Divider orientation="vertical" />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item sx={{margin:1}}>
           <Chip
             label="Loans"
             size="small" color="primary" variant="outlined"
-            sx={{ marginRight: 1 }}
           />
           <Divider orientation="vertical" />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item sx={{margin:1}}>
           <Chip
             label="Amount Disbursed"
             size="small" color="primary" variant="outlined"
-            sx={{ marginRight: 1 }}
           />
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} sx={{ marginTop: 1 }}>
-        <Grid item xs={4}>
+      <Grid container sx={{ marginTop: 1 }}>
+        <Grid item sx={{margin:1}}>
           <Chip
             label="Nov 1 - Nov 10"
             size="small"
-            sx={{ marginRight: 1 }}
           />
         </Grid>
-        <Grid item xs={2} sx={{ display: 'inline-flex' }}>
+        <Grid item  sx={{ display: 'inline-flex',margin:1}}>
           <Typography variant="subtitle1" >13</Typography>
           <ArrowDropDownIcon fontSize='large' sx={{ color: 'red' }} />
           <Divider orientation="vertical" />
         </Grid>
-        <Grid item xs={4} sx={{ display: 'inline-flex' }}>
+        <Grid item  sx={{ display: 'inline-flex',margin:1}}>
           <CurrencyRupeeIcon fontSize="small" sx={{ color: 'grey' }} />
           <Typography variant="subtitle1"> 49,00,000 </Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={2} sx={{ marginTop: 1 }}>
-        <Grid item xs={4}>
+      <Grid container sx={{ marginTop: 1 }}>
+        <Grid item >
           <Chip
             label="Nov 11 - Nov 20"
             size="small"
-            sx={{ marginRight: 1 }}
+            sx={{ display: 'inline-flex',margin:1}}
           />
         </Grid>
-        <Grid item xs={2} sx={{ display: 'inline-flex' }}>
+        <Grid item  sx={{ display: 'inline-flex',margin:1}}>
           <Typography variant="subtitle1" >19</Typography>
           <ArrowDropUpIcon fontSize='large' sx={{ color: 'green' }} />
           <Divider orientation="vertical" />
         </Grid>
-        <Grid item xs={4} sx={{ display: 'inline-flex' }}>
+        <Grid item  sx={{ display: 'inline-flex',margin:1}}>
           <CurrencyRupeeIcon fontSize="small" sx={{ color: 'grey' }} />
           <Typography variant="subtitle1"> 75,00,000 </Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={2} sx={{ marginTop: 1 }}>
-        <Grid item xs={4}>
+      <Grid container sx={{ marginTop: 1 }}>
+        <Grid item >
           <Chip
             label="Nov 21 - Nov 30"
             size="small"
           />
         </Grid>
-        <Grid item xs={2} sx={{ display: 'inline-flex' }}>
+        <Grid item  sx={{ display: 'inline-flex',margin:1}}>
           <Typography variant="subtitle1" >3</Typography>
           <ArrowDropDownIcon fontSize='large' sx={{ color: 'red' }} />
           <Divider orientation="vertical" />
         </Grid>
-        <Grid item xs={4} sx={{ display: 'inline-flex' }}>
+        <Grid item  sx={{ display: 'inline-flex',margin:1}}>
           <CurrencyRupeeIcon fontSize="small" sx={{ color: 'grey' }} />
           <Typography variant="subtitle1"> 10,00,000</Typography>
         </Grid>
@@ -417,14 +393,13 @@ function DisbursementStatus() {
     },
   };
 
-  return (<div id="paymentdonut" style={{ width: "300px" }}>
+  return (
     <ReactApexChart
       options={paymentplotoptions}
       series={paymentplotoptions.series}
       type="donut"
       height={250}
-    />
-  </div>);
+    />);
 
 }
 
@@ -510,14 +485,13 @@ function VoucherAuthorised() {
       labels: ["Authorised %"],
     },
   };
-  return (<div>
+  return (
     <ReactApexChart
       options={insuranceoptions.options}
       series={insuranceoptions.series}
       type="radialBar"
-      height={200}
-    />
-  </div>);
+      height={250}
+    />);
 }
 
 export const Dashboard = (props) => {
@@ -534,66 +508,50 @@ export const Dashboard = (props) => {
 
   useEffect(() => { }, []);
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));  
+
   return (
-    <React.Fragment>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          overflowY: "auto",
-        }}
-      >
-        <Card sx={{
-          width: window.innerWidth > 1200 ? 400 : '90%', height: "350px", margin: 2, borderRadius: "20px",
-          overflowX: window.innerWidth < 900 ? 'auto' : 'hidden'
-        }}
-        >
-          <CardHeader
-            action={<IconButton onClick={() => handleOpen('disbursement-overview')}>
-              {" "}
+    <Grid container spacing={{ xs: 2, sm:2, md: 4, lg:4, xl:4}} columns={{ xs: 1, sm: 4, md: 6, lg:6, xl:12 }} mt={16}>
+      <Grid item>
+      <Card>
+        <CardHeader
+          action={<IconButton onClick={() => handleOpen('disbursement-overview')}>
+            {" "}
+            <OpenInFullIcon />
+          </IconButton>
+          }
+          title="Disbursement Amount Overview"
+          titleTypographyProps={{ color: 'black' }}
+        />
+        <CardContent>
+          <DisbursementOverview />
+        </CardContent>
+      </Card>
+      </Grid>
+      <Grid item>
+      <Card>
+        <CardHeader
+          action={
+            <IconButton onClick={() => handleOpen('disbursement-status')}>
               <OpenInFullIcon />
             </IconButton>
-            }
-            title="Disbursement Amount Overview"
-            titleTypographyProps={{ color: 'black' }}
-          />
-          <CardContent>
-            <DisbursementOverview />
-          </CardContent>
-        </Card>
-        <Card
-          sx={{
-            width: window.innerWidth > 1200 ? "300px" : '90%',
-            height: "350px",
-            margin: 2,
-            borderRadius: "20px",
-            overflowX: window.innerWidth < 900 ? 'auto' : 'hidden'
-          }}
-        >
-          <CardHeader
-            action={
-              <IconButton onClick={() => handleOpen('disbursement-status')}>
-                <OpenInFullIcon />
-              </IconButton>
-            }
-            title="Disbursement Status"
-            titleTypographyProps={{ color: 'black' }}
-          />
-          <CardContent>
-            <DisbursementStatus />
-          </CardContent>
-        </Card>
-
-        <Card
-          sx={{
-            width: window.innerWidth > 1200 ? !props.menuExpanded ? "250px" : "300px" : '90%',
-            height: "350px",
-            margin: 2,
-            borderRadius: "20px",
-            overflowX: window.innerWidth < 900 ? 'auto' : 'hidden'
-          }}
-        >
+          }
+          title="Disbursement Status"
+          titleTypographyProps={{ color: 'black' }}
+        />
+        <CardContent>
+          <DisbursementStatus />
+        </CardContent>
+      </Card>
+      </Grid>
+      <Grid item>
+        <Card>
           <CardHeader
             action={
               <IconButton onClick={() => handleOpen('voucher-authorised')}>
@@ -607,16 +565,9 @@ export const Dashboard = (props) => {
             <VoucherAuthorised />
           </CardContent>
         </Card>
-
-        <Card
-          sx={{
-            width: window.innerWidth > 1200 ? "400px" : '90%',
-            height: "300px",
-            margin: 2,
-            borderRadius: "20px",
-            overflow: window.innerWidth < 900 ? 'auto' : 'hidden'
-          }}
-        >
+      </Grid>
+      <Grid item>
+        <Card>
           <CardHeader
             action={
               <IconButton onClick={() => handleOpen('enach-mandate')}>
@@ -630,15 +581,9 @@ export const Dashboard = (props) => {
             <EnachMandateGraph />
           </CardContent>
         </Card>
-        <Card
-          sx={{
-            width: window.innerWidth > 1200 ? "300px" : '90%',
-            height: "300px",
-            margin: 2,
-            borderRadius: "20px",
-            overflow: window.innerWidth < 900 ? 'auto' : 'hidden'
-          }}
-        >
+      </Grid>
+      <Grid item>
+        <Card>
           <CardHeader
             action={
               <IconButton onClick={() => handleOpen('disbursement-trnstatus')}>
@@ -652,15 +597,9 @@ export const Dashboard = (props) => {
             <DisbursementTrnStatus />
           </CardContent>
         </Card>
-        <Card
-          sx={{
-            width: window.innerWidth > 1200 ? !props.menuExpanded ? "250px" : "300px" : '90%',
-            height: "300px",
-            margin: 2,
-            borderRadius: "20px",
-            overflowX: window.innerWidth < 900 ? 'auto' : 'hidden'
-          }}
-        >
+      </Grid>
+      <Grid item>
+        <Card>
           <CardHeader
             action={
               <IconButton onClick={() => handleOpen('emi-commenced')}>
@@ -674,16 +613,9 @@ export const Dashboard = (props) => {
             <EMICommenced />
           </CardContent>
         </Card>
-
-        <Card
-          sx={{
-            width: '90%',
-            height: "300px",
-            margin: 2,
-            borderRadius: "20px",
-            overflow: window.innerWidth < 900 ? 'auto' : 'hidden'
-          }}
-        >
+      </Grid>
+      <Grid item>
+        <Card>
           <CardHeader
             action={
               <IconButton onClick={() => handleOpen('company-tds')}>
@@ -696,7 +628,8 @@ export const Dashboard = (props) => {
             <CompanyTds />
           </CardContent>
         </Card>
-      </div>
+      </Grid>
+      
       <Modal
         open={open}
         onClose={handleClose}
@@ -717,7 +650,8 @@ export const Dashboard = (props) => {
           })()}
         </Box>
       </Modal>
-    </React.Fragment>
+      
+    </Grid>
   );
 };
 
