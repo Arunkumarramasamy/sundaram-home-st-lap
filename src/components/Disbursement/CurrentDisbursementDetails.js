@@ -79,8 +79,8 @@ const CurrentDisbursementDetails = () => {
               <Grid item xs={12} lg={8} sm={12}>
                 <FormControl sx={{ minWidth: 210 }}>
                   <Select  displayEmpty value={dummyValue} disabled={ReadValue}>
-                    <MenuItem value="">
-                      Select Payment Mode
+                  <MenuItem value="">
+                      <p className="placeHolder_text">Select Payment Mode</p>
                     </MenuItem>
                     <MenuItem value={1}>Cash</MenuItem>
                     <MenuItem value={2}>Checks</MenuItem>
