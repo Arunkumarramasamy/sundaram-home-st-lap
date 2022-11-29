@@ -182,7 +182,7 @@ const PageLayout = () => {
 
             <MediaQuery query="(min-device-width: 1024px)">
               <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
-                <img id="logoimage" src={Logo}></img>
+                <img id="logoimage" src={Logo} alt="No Logo"></img>
 
                 {/* <DraftsOutlinedIcon
                   sx={{ marginTop: "15px", marginLeft: "60px" }}
@@ -235,6 +235,7 @@ const PageLayout = () => {
                   src={SFLogoSmall}
                   width={50}
                   height={50}
+                  alt="No Logo"
                 ></img>
               </Stack>
               <Stack
