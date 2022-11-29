@@ -1,5 +1,5 @@
 import { CurrencyRupee, Percent } from "@mui/icons-material";
-import { Autocomplete, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {  Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -13,14 +13,7 @@ const BasicInformation = (props) => {
     const [sanctionDate, setSanctionedDate] = React.useState(dayjs("2022-11-22T21:11:54"));
     const [requestDate, setRequestDate] = React.useState(dayjs("2022-11-18T21:11:54"));
 
-    const propertyType = [
-        { label: 'Land'},
-        { label: 'House'},
-        { label: 'Site'},
-        { label: 'Shop'},
-      ];
-
-      const processButtonClickHandler =() =>{
+       const processButtonClickHandler =() =>{
         props.onProcessButtonClick();
       };
 

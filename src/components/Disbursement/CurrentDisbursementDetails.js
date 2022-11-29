@@ -10,8 +10,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import STButton from "../CustomComponents/STButton";
 
 const CurrentDisbursementDetails = () => {
-  const [ReadValue, setReadValue] = React.useState(false);
-  const [dummyValue, setDummyValue] = React.useState("");
+  const [ReadValue, ] = React.useState(false);
+  const [dummyValue, ] = React.useState("");
   const columns = [
     { field: "id", headerName: "ID" },
     {

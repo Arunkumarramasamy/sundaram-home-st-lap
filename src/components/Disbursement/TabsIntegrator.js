@@ -9,8 +9,8 @@ import FeesOutstanding from "./FeesOutstanding";
 import FilePendingProcess from "./FilePendingProcess";
 import EmiCommencementDate from "./EmiCommencementDate";
 import "./TabsIntegrator.css";
-import { Button, IconButton } from "@mui/material";
-import { ArrowBack, ArrowBackTwoTone } from "@mui/icons-material";
+import {  IconButton } from "@mui/material";
+import {  ArrowBackTwoTone } from "@mui/icons-material";
 
 const TabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");

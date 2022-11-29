@@ -1,5 +1,4 @@
-import { DescriptionTwoTone, LogoutTwoTone } from "@mui/icons-material";
-import { Box, Button, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import query from "../../images/query.png";
 
 const NoDataFound = () => {
@@ -13,7 +12,7 @@ const NoDataFound = () => {
         }}
       >
 
-          <img id='layout-menu-image' src={query} />
+          <img id='layout-menu-image' src={query} alt="No Data"/>
          
       </Box>
       <Box

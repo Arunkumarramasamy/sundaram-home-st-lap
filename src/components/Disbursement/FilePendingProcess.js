@@ -1,14 +1,10 @@
 import React from "react";
-import Button from '@mui/material/Button';
-import { Dialog, DialogTitle, Typography } from "@mui/material";
+import { Dialog } from "@mui/material";
 import PreviewImage from "./PreviewImage";
 import ImageIcon from '@mui/icons-material/Image';
-import IconButton from '@mui/material/IconButton';
-import { Stack } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
 import DoneIcon from '@mui/icons-material/Done';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 import EcPatta from '../../images/ec_cert.png';
 import Aadhar from '../../images/aadhar.png';
 import pan from '../../images/pan.png';
@@ -29,9 +25,7 @@ if(event.field==='preview'){
     setOpen(false); 
 }
 }
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+ 
 
     const handleClose = () => {
         setOpen(false);

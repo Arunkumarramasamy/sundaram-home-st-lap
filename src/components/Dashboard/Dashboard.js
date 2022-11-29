@@ -13,8 +13,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+
 
 const style = {
   position: 'absolute',
@@ -508,13 +507,13 @@ export const Dashboard = (props) => {
 
   useEffect(() => { }, []);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));  
+  // const Item = styled(Paper)(({ theme }) => ({
+  //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(1),
+  //   textAlign: 'center',
+  //   color: theme.palette.text.secondary,
+  // }));  
 
   return (
     <Grid container spacing={{ xs: 2, sm:2, md: 4, lg:4, xl:4}} columns={{ xs: 1, sm: 4, md: 6, lg:10, xl:12 }} mt={32}>
@@ -646,6 +645,7 @@ export const Dashboard = (props) => {
               case 'disbursement-trnstatus': return <DisbursementTrnStatus />;
               case 'emi-commenced': return <EMICommenced />;
               case 'company-tds': return <CompanyTds />;
+              default : return <></>;
             }
           })()}
         </Box>
