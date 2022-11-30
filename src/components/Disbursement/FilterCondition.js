@@ -20,8 +20,6 @@ const FilterCondition = (props) => {
     
 
       const searchButtonClickHandler = () =>{
-        console.log(branch);
-        console.log(trnNo);
         props.onSearchButtonClick(branch,trnNo,true);
       }
       
