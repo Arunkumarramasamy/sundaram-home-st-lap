@@ -20,8 +20,8 @@ const TabsIntegrator = (props) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const NavigateToCurrentDis = () => {
-    setValue("4");
+  const NavigateToNext = (tabValue) => {
+    setValue(tabValue);
   };
 
   const backButtonClickHandler = () => {
@@ -75,16 +75,16 @@ const TabsIntegrator = (props) => {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <FilePendingProcess />
+            <FilePendingProcess nav={NavigateToNext} />
           </TabPanel>
           <TabPanel value="2">
-            <FeesOutstanding />
+            <FeesOutstanding nav={NavigateToNext} />
           </TabPanel>
           <TabPanel value="3">
-            <EmiCommencementDate nav={NavigateToCurrentDis} />
+            <EmiCommencementDate nav={NavigateToNext} />
           </TabPanel>
           <TabPanel value="4">
-            <CurrentDisbursementDetails showGrid={true}/>
+            <CurrentDisbursementDetails  showGrid={true}/>
           </TabPanel>
         </TabContext>
       </Box>

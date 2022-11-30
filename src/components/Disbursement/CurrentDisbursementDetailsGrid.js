@@ -1,6 +1,7 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
+import STButton from "../CustomComponents/STButton";
 
 const columns = [
   { field: "id", headerName: "ID" },
@@ -58,7 +59,7 @@ const rows = [
 
 const CurrentDisbursementDetailsGrid = () => {
 
-  return (
+  return (<>
     <Box sx={{ height: 210, marginTop: "3rem" }}>
       <DataGrid
         sx={{
@@ -74,7 +75,20 @@ const CurrentDisbursementDetailsGrid = () => {
         columns={columns}
         rowsPerPageOptions={[4, 8, 12, 16]}
       ></DataGrid>
-    </Box>
+      </Box>
+     <Box
+        sx={{
+          marginTop: "1rem",
+          marginBottom: "1rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <STButton variant="contained" >
+          Submit & Download
+        </STButton>
+      </Box>
+      </>
   );
 };
 

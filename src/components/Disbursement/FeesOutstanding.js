@@ -1,9 +1,17 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import STButton from "../CustomComponents/STButton";
+import { Box } from "@mui/material";
 
 
-const FeesOutstanding = () => {
+const FeesOutstanding = (props) => {
     const [pageSize, setPageSize] = React.useState(4);
+
+    const nextClickHandler = () => {
+      props.nav("3");
+    };
+
+
     const rows = [
         {
             id: 7,
@@ -186,6 +194,17 @@ const FeesOutstanding = () => {
         }
         // columnVisibilityModel={visibility}
       />
+      <Box
+        sx={{
+          marginTop: "2rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <STButton variant="contained" onClick={nextClickHandler}>
+          Next
+        </STButton>
+      </Box>
 </React.Fragment>
     )
 };

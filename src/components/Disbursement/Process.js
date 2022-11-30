@@ -29,6 +29,7 @@ import NoDataFound from "./NoDataFound";
 
 
     return (<>
+    <h4>Disbursement Process:</h4>
     { showFilter ? <FilterCondition onSearchButtonClick={searchButtonClickHandler}/> : null  }
     {openBasic ? <BasicInformation onProcessButtonClick={openProcessHandler}/> : openProcess ? null : <NoDataFound/>}
     {openProcess ? <TabsIntegrator onBackButtonClick={backButtonHandler}/> : null}

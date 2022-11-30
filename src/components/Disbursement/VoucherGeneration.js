@@ -16,7 +16,7 @@ const VoucherGeneration = () => {
 
     return (
     <>
-    {/* <h4>Authorised Voucher Generation:</h4> */}
+    <h4>Authorised Voucher Generation:</h4>
     <FilterCondition onSearchButtonClick={searchButtonClickHandler}/>
     {showResult ? <CurrentDisbursementDetails showGrid={false} /> : <NoDataFound/> }
     </>

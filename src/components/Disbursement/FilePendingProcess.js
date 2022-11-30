@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog } from "@mui/material";
+import { Box, Dialog } from "@mui/material";
 import PreviewImage from "./PreviewImage";
 import ImageIcon from '@mui/icons-material/Image';
 import { DataGrid } from "@mui/x-data-grid";
@@ -11,8 +11,9 @@ import pan from '../../images/pan.png';
 import passbook from '../../images/passbook.png';
 import patta from '../../images/patta.png';
 import chitta from '../../images/Chitta.png';
+import STButton from "../CustomComponents/STButton";
 
-const FilePendingProcess = () => {
+const FilePendingProcess = (props) => {
     const [open, setOpen] = React.useState(false);
     const [url, setUrl] = React.useState('');
     const [name,setName] = React.useState('');
@@ -25,6 +26,11 @@ if(event.field==='preview'){
     setOpen(false); 
 }
 }
+
+const nextClickHandler = () => {
+  props.nav("2");
+};
+
  
 
     const handleClose = () => {
@@ -173,6 +179,17 @@ if(event.field==='preview'){
                 <PreviewImage onClose={handleClose} url={url} name = {name} open={open}></PreviewImage>
 
             </Dialog>
+            <Box
+        sx={{
+          marginTop: "2rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <STButton variant="contained" onClick={nextClickHandler}>
+          Next
+        </STButton>
+      </Box>
         </React.Fragment>
     )
 };

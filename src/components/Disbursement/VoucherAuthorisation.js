@@ -15,7 +15,7 @@ const VoucherAuthorisation = () => {
 
     return (
     <>
-    {/* <h4>Voucher Authorisation:</h4> */}
+    <h4>Voucher Authorisation:</h4>
     <FilterCondition onSearchButtonClick={searchButtonClickHandler}/>
     {showResult ? <CurrentDisbursementDetails showGrid={false}/> : <NoDataFound/> }
     </>

@@ -21,7 +21,7 @@ const EmiCommencementDate = (props) => {
   );
   const [dummyValue, ] = React.useState("");
   const EmiOnClick = () => {
-    props.nav();
+    props.nav("4");
   };
   return (
     <Box sx={{ marginTop: "0.5rem" }}>
