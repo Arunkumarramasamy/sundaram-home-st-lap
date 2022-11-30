@@ -24,7 +24,6 @@ const VoucherAuthorisation = () => {
     setShowResult(show);
   };
   const [ReadValue] = useState(false);
-  const [dummyValue] = useState("");
   const handleClickOpen = () => {
     setOpenDialog(true);
   };

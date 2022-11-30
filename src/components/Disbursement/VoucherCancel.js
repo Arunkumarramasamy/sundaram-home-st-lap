@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import {  Grid } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
@@ -16,9 +16,7 @@ import STButton from "../CustomComponents/STButton";
 const VoucherCancel = () => {
     
   const [showResult, setShowResult] = useState(false);
-  const [requestDate, setRequestDate] = React.useState(
-    dayjs("2022-11-18T21:11:54")
-  );
+ 
 
   const searchButtonClickHandler = (branch, trnNo, show) => {
     console.log(branch);
@@ -26,7 +24,6 @@ const VoucherCancel = () => {
     setShowResult(show);
   };
   const [ReadValue] = React.useState(false);
-  const [value, setValue] = React.useState(dayjs("2022-11-28T21:11:54"));
   const [FEDDValue, FEDDSetValue] = React.useState(
     dayjs("2022-08-01T21:11:54")
   );
