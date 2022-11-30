@@ -9,12 +9,10 @@ import FeesOutstanding from "./FeesOutstanding";
 import FilePendingProcess from "./FilePendingProcess";
 import EmiCommencementDate from "./EmiCommencementDate";
 import "./TabsIntegrator.css";
-import {  IconButton } from "@mui/material";
-import {  ArrowBackTwoTone } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import { ArrowBackTwoTone } from "@mui/icons-material";
 
 const TabsIntegrator = (props) => {
-
- 
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
@@ -30,11 +28,11 @@ const TabsIntegrator = (props) => {
 
   return (
     <>
- 
-          <IconButton sx={{ float: "right" }} onClick={backButtonClickHandler} ><ArrowBackTwoTone color="primary" fontSize="large"/></IconButton>
-         
+      <IconButton sx={{ float: "right" }} onClick={backButtonClickHandler}>
+        <ArrowBackTwoTone color="primary" fontSize="large" />
+      </IconButton>
+
       <Box sx={{ width: "100%", backgroundColor: "white" }}>
-       
         <TabContext value={value}>
           <Box
             sx={{
@@ -56,7 +54,9 @@ const TabsIntegrator = (props) => {
                   borderTopRightRadius: "1rem",
                   borderBottom: "none",
                 },
-
+                "& div.MuiTabs-flexContainer": {
+                  flexWrap: "wrap",
+                },
                 "& button": {
                   outline: "none",
                   marginRight: "0.2rem",
@@ -84,7 +84,7 @@ const TabsIntegrator = (props) => {
             <EmiCommencementDate nav={NavigateToNext} />
           </TabPanel>
           <TabPanel value="4">
-            <CurrentDisbursementDetails  showGrid={true}/>
+            <CurrentDisbursementDetails showGrid={true} />
           </TabPanel>
         </TabContext>
       </Box>
