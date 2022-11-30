@@ -65,6 +65,9 @@ import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
 import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
 import Process from "../Disbursement/Process";
+import VoucherGeneration from "../Disbursement/VoucherGeneration";
+import VoucherAuthorisation from "../Disbursement/VoucherAuthorisation";
+import VoucherCancel from "../Disbursement/VoucherCancel";
 
 const PageLayout = () => {
   const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
@@ -146,6 +149,15 @@ const PageLayout = () => {
         break;
       case "disbursementProcess":
         path = "/stlap/home/disbursementProcess";
+        break;
+      case "voucherGeneration":
+        path = "/stlap/home/voucherGeneration";
+        break;
+      case "voucherAuthorisation":
+        path = "/stlap/home/voucherAuthorisation";
+        break;
+      case "voucherCancel":
+        path = "/stlap/home/voucherCancel";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -706,7 +718,7 @@ const PageLayout = () => {
                         />
                       </ListItemButton>
 
-                      <ListItemButton sx={{ pl: 4 }} id="disbursementVoucherGeneration" onClick={menuClickHandler}>
+                      <ListItemButton sx={{ pl: 4 }} id="voucherGeneration" onClick={menuClickHandler}>
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Insurance} /> */}
                           <Tooltip
@@ -727,7 +739,7 @@ const PageLayout = () => {
                       </ListItemButton>
 
 
-                      <ListItemButton sx={{ pl: 4 }} onClick={menuClickHandler}>
+                      <ListItemButton sx={{ pl: 4 }} id="voucherAuthorisation" onClick={menuClickHandler}>
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Insurance} /> */}
                           <Tooltip
@@ -748,7 +760,7 @@ const PageLayout = () => {
                       </ListItemButton>
 
 
-                      <ListItemButton sx={{ pl: 4 }} onClick={menuClickHandler}>
+                      <ListItemButton sx={{ pl: 4 }} id="voucherCancel" onClick={menuClickHandler}>
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Insurance} /> */}
                           <Tooltip
@@ -1148,6 +1160,18 @@ const PageLayout = () => {
                   <Route
                     path={`${search}/stlap/home/disbursementProcess`}
                     element={<Process />}
+                  />
+                   <Route
+                    path={`${search}/stlap/home/voucherGeneration`}
+                    element={<VoucherGeneration />}
+                  />
+                   <Route
+                    path={`${search}/stlap/home/voucherAuthorisation`}
+                    element={<VoucherAuthorisation />}
+                  />
+                   <Route
+                    path={`${search}/stlap/home/voucherCancel`}
+                    element={<VoucherCancel />}
                   />
                  
 
