@@ -12,7 +12,7 @@ import passbook from "../../images/passbook.png";
 import patta from "../../images/patta.png";
 import chitta from "../../images/Chitta.png";
 import STButton from "../CustomComponents/STButton";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 const FilePendingProcess = (props) => {
   const [open, setOpen] = React.useState(false);
   const [url, setUrl] = React.useState("");
@@ -185,13 +185,11 @@ const FilePendingProcess = (props) => {
           marginTop: "2rem",
           display: "flex",
           justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
-        <STButton
-          variant="contained"
-          startIcon={<ArrowBackIcon />}
-          onClick={props.back}
-        >
+        <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
         <STButton variant="contained" onClick={nextClickHandler}>

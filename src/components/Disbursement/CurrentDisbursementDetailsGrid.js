@@ -2,7 +2,7 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import STButton from "../CustomComponents/STButton";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 const columns = [
   { field: "id", headerName: "ID" },
   {
@@ -83,13 +83,11 @@ const CurrentDisbursementDetailsGrid = (props) => {
           marginBottom: "1rem",
           display: "flex",
           justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
-        <STButton
-          variant="contained"
-          startIcon={<ArrowBackIcon />}
-          onClick={props.back}
-        >
+        <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
         <STButton variant="contained">Submit & Download</STButton>

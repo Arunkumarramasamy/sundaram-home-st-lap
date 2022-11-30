@@ -2,7 +2,6 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import STButton from "../CustomComponents/STButton";
 import { Box } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const FeesOutstanding = (props) => {
   const [pageSize, setPageSize] = React.useState(4);
@@ -201,13 +200,11 @@ const FeesOutstanding = (props) => {
           marginTop: "2rem",
           display: "flex",
           justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
-        <STButton
-          variant="contained"
-          startIcon={<ArrowBackIcon />}
-          onClick={props.back}
-        >
+        <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
         <STButton variant="contained" onClick={nextClickHandler}>

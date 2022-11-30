@@ -12,7 +12,7 @@ import * as React from "react";
 import dayjs from "dayjs";
 import Switch from "@mui/material/Switch";
 import STButton from "../CustomComponents/STButton";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 const EmiCommencementDate = (props) => {
   const [ReadValue] = React.useState(false);
   const [value, setValue] = React.useState(dayjs("2022-11-28T21:11:54"));
@@ -158,13 +158,11 @@ const EmiCommencementDate = (props) => {
           marginTop: "2rem",
           display: "flex",
           justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
-        <STButton
-          variant="contained"
-          startIcon={<ArrowBackIcon />}
-          onClick={props.back}
-        >
+        <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
         <STButton variant="contained" onClick={EmiOnClick}>
