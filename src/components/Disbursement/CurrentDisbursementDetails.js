@@ -181,7 +181,9 @@ const CurrentDisbursementDetails = (props) => {
           </Grid>
         </Grid>
       </Box>
-      {props.showGrid ? <CurrentDisbursementDetailsGrid /> : null}
+      {props.showGrid ? (
+        <CurrentDisbursementDetailsGrid back={props.back} />
+      ) : null}
     </>
   );
 };

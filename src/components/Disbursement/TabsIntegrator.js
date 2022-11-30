@@ -28,9 +28,13 @@ const TabsIntegrator = (props) => {
 
   return (
     <>
-      <Tooltip title="Back To Search"><IconButton sx={{ float: "right" }} onClick={backButtonClickHandler}>
-        <ArrowBackTwoTone color="primary" fontSize="large" />
-      </IconButton></Tooltip>
+      {/* <Box sx={{ marginBottom: "0rem" }}>
+        <Tooltip title="Back To Search">
+          <IconButton sx={{ float: "right" }} onClick={backButtonClickHandler}>
+            <ArrowBackTwoTone color="primary" fontSize="large" />
+          </IconButton>
+        </Tooltip>
+      </Box> */}
 
       <Box sx={{ width: "100%", backgroundColor: "white" }}>
         <TabContext value={value}>
@@ -44,8 +48,6 @@ const TabsIntegrator = (props) => {
               onChange={handleChange}
               aria-label="lab API tabs example"
               TabIndicatorProps={{ hidden: true }}
-              variant="scrollable"
-              allowScrollButtonsMobile
               sx={{
                 "& button.Mui-selected": {
                   backgroundColor: "#004a92",
@@ -75,16 +77,28 @@ const TabsIntegrator = (props) => {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <FilePendingProcess nav={NavigateToNext} />
+            <FilePendingProcess
+              nav={NavigateToNext}
+              back={backButtonClickHandler}
+            />
           </TabPanel>
           <TabPanel value="2">
-            <FeesOutstanding nav={NavigateToNext} />
+            <FeesOutstanding
+              nav={NavigateToNext}
+              back={backButtonClickHandler}
+            />
           </TabPanel>
           <TabPanel value="3">
-            <EmiCommencementDate nav={NavigateToNext} />
+            <EmiCommencementDate
+              nav={NavigateToNext}
+              back={backButtonClickHandler}
+            />
           </TabPanel>
           <TabPanel value="4">
-            <CurrentDisbursementDetails showGrid={true} />
+            <CurrentDisbursementDetails
+              showGrid={true}
+              back={backButtonClickHandler}
+            />
           </TabPanel>
         </TabContext>
       </Box>

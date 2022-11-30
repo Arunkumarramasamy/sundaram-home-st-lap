@@ -2,7 +2,7 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import STButton from "../CustomComponents/STButton";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const columns = [
   { field: "id", headerName: "ID" },
   {
@@ -58,38 +58,43 @@ const rows = [
   },
 ];
 
-const CurrentDisbursementDetailsGrid = () => {
-
-  return (<>
-    <Box sx={{ height: 210, marginTop: "3rem" }}>
-      <DataGrid
-        sx={{
-          "& div.MuiDataGrid-columnHeaders": {
-            backgroundColor: "#2f7dc4",
-            color: "white",
-          },
-          "& button.MuiIconButton-root": {
-            color: "white",
-          },
-        }}
-        rows={rows}
-        columns={columns}
-        rowsPerPageOptions={[4, 8, 12, 16]}
-      ></DataGrid>
+const CurrentDisbursementDetailsGrid = (props) => {
+  return (
+    <>
+      <Box sx={{ height: 210, marginTop: "3rem" }}>
+        <DataGrid
+          sx={{
+            "& div.MuiDataGrid-columnHeaders": {
+              backgroundColor: "#2f7dc4",
+              color: "white",
+            },
+            "& button.MuiIconButton-root": {
+              color: "white",
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          rowsPerPageOptions={[4, 8, 12, 16]}
+        ></DataGrid>
       </Box>
-     <Box
+      <Box
         sx={{
           marginTop: "1rem",
           marginBottom: "1rem",
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "space-between",
         }}
       >
-        <STButton variant="contained" >
-          Submit & Download
+        <STButton
+          variant="contained"
+          startIcon={<ArrowBackIcon />}
+          onClick={props.back}
+        >
+          Back to search
         </STButton>
+        <STButton variant="contained">Submit & Download</STButton>
       </Box>
-      </>
+    </>
   );
 };
 
