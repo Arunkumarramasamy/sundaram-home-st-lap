@@ -118,7 +118,7 @@ const FeesOutstanding = (props) => {
           field: "details",
           headerName: "Details",
           headerAlign: 'center',type: "string",
-          
+          hideable: false,
           sortable: false,
           width: 250,
         

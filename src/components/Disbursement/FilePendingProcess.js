@@ -120,6 +120,7 @@ const nextClickHandler = () => {
           align:'left',
           sortable: false,
           editable: false,
+          hideable: false,
         },
         
         

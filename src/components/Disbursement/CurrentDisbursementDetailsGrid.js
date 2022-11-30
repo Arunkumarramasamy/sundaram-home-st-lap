@@ -9,6 +9,7 @@ const columns = [
     field: "amout",
     headerName: "Amount",
     width: 150,
+    hideable: false,
   },
   {
     field: "paymentMode",

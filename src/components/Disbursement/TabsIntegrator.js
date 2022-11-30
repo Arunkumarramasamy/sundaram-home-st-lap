@@ -9,7 +9,7 @@ import FeesOutstanding from "./FeesOutstanding";
 import FilePendingProcess from "./FilePendingProcess";
 import EmiCommencementDate from "./EmiCommencementDate";
 import "./TabsIntegrator.css";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { ArrowBackTwoTone } from "@mui/icons-material";
 
 const TabsIntegrator = (props) => {
@@ -28,9 +28,9 @@ const TabsIntegrator = (props) => {
 
   return (
     <>
-      <IconButton sx={{ float: "right" }} onClick={backButtonClickHandler}>
+      <Tooltip title="Back To Search"><IconButton sx={{ float: "right" }} onClick={backButtonClickHandler}>
         <ArrowBackTwoTone color="primary" fontSize="large" />
-      </IconButton>
+      </IconButton></Tooltip>
 
       <Box sx={{ width: "100%", backgroundColor: "white" }}>
         <TabContext value={value}>
