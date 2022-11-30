@@ -13,6 +13,8 @@ import {  IconButton } from "@mui/material";
 import {  ArrowBackTwoTone } from "@mui/icons-material";
 
 const TabsIntegrator = (props) => {
+
+ 
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
@@ -82,7 +84,7 @@ const TabsIntegrator = (props) => {
             <EmiCommencementDate nav={NavigateToCurrentDis} />
           </TabPanel>
           <TabPanel value="4">
-            <CurrentDisbursementDetails />
+            <CurrentDisbursementDetails showGrid={true}/>
           </TabPanel>
         </TabContext>
       </Box>

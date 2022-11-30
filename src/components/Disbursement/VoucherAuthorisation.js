@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
 import FilterCondition from "./FilterCondition";
+import NoDataFound from "./NoDataFound";
 
 const VoucherAuthorisation = () => {
 
@@ -13,9 +14,10 @@ const VoucherAuthorisation = () => {
     }
 
     return (
-    <><h4>Voucher Authorisation:</h4>
+    <>
+    {/* <h4>Voucher Authorisation:</h4> */}
     <FilterCondition onSearchButtonClick={searchButtonClickHandler}/>
-    {showResult ? <CurrentDisbursementDetails /> : null }
+    {showResult ? <CurrentDisbursementDetails showGrid={false}/> : <NoDataFound/> }
     </>
     );
 

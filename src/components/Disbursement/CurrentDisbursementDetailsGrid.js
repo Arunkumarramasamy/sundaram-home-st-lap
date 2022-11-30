@@ -57,7 +57,8 @@ const rows = [
 ];
 
 const CurrentDisbursementDetailsGrid = () => {
-  const component = (
+
+  return (
     <Box sx={{ height: 210, marginTop: "3rem" }}>
       <DataGrid
         sx={{
@@ -75,8 +76,6 @@ const CurrentDisbursementDetailsGrid = () => {
       ></DataGrid>
     </Box>
   );
-
-  return <component />;
 };
 
 export default CurrentDisbursementDetailsGrid;
