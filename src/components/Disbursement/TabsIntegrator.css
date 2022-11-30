@@ -15,3 +15,8 @@ body {
   padding: 0;
   margin: 0;
 }
+@media (max-width: 34em) {
+  .MuiTabs-flexContainer {
+    gap: 0.5rem;
+  }
+}

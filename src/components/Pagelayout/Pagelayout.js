@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Badge from "@mui/material/Badge";
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
@@ -235,7 +235,7 @@ const PageLayout = () => {
                 />
                 <IconButton color="inherit">
                   <Badge badgeContent={4} color="secondary">
-                    <NotificationsIcon  />
+                    <NotificationsIcon />
                   </Badge>
                 </IconButton>
               </Stack>
@@ -334,7 +334,7 @@ const PageLayout = () => {
                   />
                   <IconButton color="inherit">
                     <Badge badgeContent={4} color="secondary">
-                      <NotificationsIcon  />
+                      <NotificationsIcon />
                     </Badge>
                   </IconButton>
                 </MenuItem>
@@ -671,7 +671,10 @@ const PageLayout = () => {
                   </Collapse>
 
                   {/* Disbursement */}
-                  <ListItemButton id="disbursement" onClick={handleDisbursementMenuClick}>
+                  <ListItemButton
+                    id="disbursement"
+                    onClick={handleDisbursementMenuClick}
+                  >
                     <ListItemIcon>
                       {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
                       <Tooltip
@@ -689,7 +692,7 @@ const PageLayout = () => {
                       primary="Disbursement"
                       sx={{ display: menuLableDisplay }}
                     />
-                  {openDisbursementSubMenu ? <ExpandLess /> : <ExpandMore />}
+                    {openDisbursementSubMenu ? <ExpandLess /> : <ExpandMore />}
                   </ListItemButton>
 
                   <Collapse
@@ -698,7 +701,11 @@ const PageLayout = () => {
                     unmountOnExit
                   >
                     <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }} id="disbursementProcess" onClick={menuClickHandler}>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        id="disbursementProcess"
+                        onClick={menuClickHandler}
+                      >
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Insurance} /> */}
                           <Tooltip
@@ -718,7 +725,11 @@ const PageLayout = () => {
                         />
                       </ListItemButton>
 
-                      <ListItemButton sx={{ pl: 4 }} id="voucherGeneration" onClick={menuClickHandler}>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        id="voucherGeneration"
+                        onClick={menuClickHandler}
+                      >
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Insurance} /> */}
                           <Tooltip
@@ -738,8 +749,11 @@ const PageLayout = () => {
                         />
                       </ListItemButton>
 
-
-                      <ListItemButton sx={{ pl: 4 }} id="voucherAuthorisation" onClick={menuClickHandler}>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        id="voucherAuthorisation"
+                        onClick={menuClickHandler}
+                      >
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Insurance} /> */}
                           <Tooltip
@@ -759,8 +773,11 @@ const PageLayout = () => {
                         />
                       </ListItemButton>
 
-
-                      <ListItemButton sx={{ pl: 4 }} id="voucherCancel" onClick={menuClickHandler}>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        id="voucherCancel"
+                        onClick={menuClickHandler}
+                      >
                         <ListItemIcon>
                           {/* <img id='layout-menu-image' src={Insurance} /> */}
                           <Tooltip
@@ -1161,19 +1178,18 @@ const PageLayout = () => {
                     path={`${search}/stlap/home/disbursementProcess`}
                     element={<Process />}
                   />
-                   <Route
+                  <Route
                     path={`${search}/stlap/home/voucherGeneration`}
                     element={<VoucherGeneration />}
                   />
-                   <Route
+                  <Route
                     path={`${search}/stlap/home/voucherAuthorisation`}
                     element={<VoucherAuthorisation />}
                   />
-                   <Route
+                  <Route
                     path={`${search}/stlap/home/voucherCancel`}
                     element={<VoucherCancel />}
                   />
-                 
 
                   <Route path="*" exact={true} element={<Loginpage />} />
                 </Routes>
