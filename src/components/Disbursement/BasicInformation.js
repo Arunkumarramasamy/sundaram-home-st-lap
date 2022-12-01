@@ -19,7 +19,7 @@ const BasicInformation = (props) => {
 
     return ( 
         
-        <Box sx={{border: '2px solid grey',padding: '0.3rem',borderRadius:'10px'}}>
+        <Box sx={{backgroundColor: "white",padding: '0.3rem',borderRadius:'10px'}}>
             <h4>Basic Information:</h4>
             <Grid container spacing={3} sx={{marginTop:'2%'}}>
 
