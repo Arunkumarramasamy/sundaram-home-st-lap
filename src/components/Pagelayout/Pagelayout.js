@@ -16,7 +16,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import Logo from "../../images/logo.png";
+import Logo from "../../images/SF_Logo.png";
 import "./PageLayout.css";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
@@ -180,7 +180,7 @@ const PageLayout = () => {
 
             <MediaQuery query="(min-device-width: 1024px)">
               <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
-                <img id="logoimage" src={Logo}></img>
+                <img id="logoimage" src={Logo} height="50%"></img>
 
                 {/* <DraftsOutlinedIcon
                   sx={{ marginTop: "15px", marginLeft: "60px" }}
@@ -201,7 +201,7 @@ const PageLayout = () => {
               >
                 <Stack direction="column" sx={{ paddingRight: "8px" }}>
                   <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-                    Kathir Venkatesan
+                    User 0001
                   </Typography>
                   <Chip
                     label="Last Login:21/11/2022 05:00pm"
@@ -299,7 +299,7 @@ const PageLayout = () => {
                 <MenuItem>
                   <Stack direction="column" sx={{ paddingRight: "8px" }}>
                     <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-                      <strong>Kathir Venkatesan</strong>
+                      <strong>User 0001</strong>
                     </Typography>
                     <Chip
                       label="Last Login:21/11/2022 05:00pm"
@@ -1088,7 +1088,7 @@ const PageLayout = () => {
         >
           <Typography sx={{ color: "white" }} align="center">
             {" "}
-            Copyright © Sundaram Home Finance Pvt Ltd 2022.
+            Copyright © Sundaram Home Finance 2022.
           </Typography>
         </Box>
       </Stack>

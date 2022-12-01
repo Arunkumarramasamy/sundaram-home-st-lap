@@ -37,8 +37,8 @@ aside {
 }
 
 #logoimage {
-  margin-top: 8px;
   text-align: left !important;
+  height: 60px;
 }
 #header-email-id {
   font-family: Roboto;

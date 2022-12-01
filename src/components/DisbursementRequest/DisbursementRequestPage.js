@@ -207,6 +207,7 @@ export default function DisbursementRequestPage() {
       description: "Click here to update the status.",
       sortable: false,
       width: 160,
+      hideable: false,
       renderCell: (params) => {
         const trnnoClickHandler = (event) => {
           const currentRow = params.row;
@@ -286,21 +287,21 @@ export default function DisbursementRequestPage() {
 
   ];
 
-let visibility = {
-  status: false,
-  amount: false,
-  date: false,
-  name: false,
-  amount1: false,
-  rate: false,
-  sanctionedDate: false,
-  disbursementDate: false,
-  file: false
-};
+// let visibility = {
+//   status: false,
+//   amount: false,
+//   date: false,
+//   name: false,
+//   amount1: false,
+//   rate: false,
+//   sanctionedDate: false,
+//   disbursementDate: false,
+//   file: false
+// };
 
-if(window.innerWidth > 700){
-  visibility = {};
-}
+// if(window.innerWidth > 700){
+//   visibility = {};
+// }
 
   const statusChangeHandler = (event) => {
     setStatusValue(event.target.value);
@@ -400,7 +401,7 @@ if(window.innerWidth > 700){
         getRowClassName={(params) =>
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
-        columnVisibilityModel={visibility}
+        // columnVisibilityModel={visibility}
       />
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Update Disbursement Status</DialogTitle>

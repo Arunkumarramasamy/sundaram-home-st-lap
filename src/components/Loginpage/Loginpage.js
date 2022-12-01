@@ -63,6 +63,7 @@ export default function Loginpage() {
           backgroundImage: `url(${SfLogo})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "left",
+          backgroundSize:"20%"
         }}
       />
       {isMobile ? (
@@ -156,7 +157,7 @@ export default function Loginpage() {
                               type="password"
                               id="password"
                               autoComplete="new-password"
-                              placeholder="Enter the Password"
+                              placeholder="Enter the Password / OTP"
                               size="small"
                               sx={{ color: "#7F7F7F" }}
                               InputProps={{
@@ -287,7 +288,7 @@ export default function Loginpage() {
                             type="password"
                             id="password"
                             autoComplete="new-password"
-                            placeholder="Enter the Password"
+                            placeholder="Enter the Password / OTP"
                             size="small"
                             sx={{ color: "#7F7F7F" }}
                             InputProps={{
