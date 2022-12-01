@@ -16,7 +16,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import Logo from "../../images/logo.png";
+import Logo from "../../images/SF_Logo.png";
 import "./PageLayout.css";
 import {
   AccountTreeTwoTone,
@@ -215,7 +215,7 @@ const PageLayout = () => {
               >
                 <Stack direction="column" sx={{ paddingRight: "8px" }}>
                   <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-                    Kathir Venkatesan
+                    User 00001
                   </Typography>
                   <Chip
                     label="Last Login:21/11/2022 05:00pm"
@@ -314,7 +314,7 @@ const PageLayout = () => {
                 <MenuItem>
                   <Stack direction="column" sx={{ paddingRight: "8px" }}>
                     <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-                      <strong>Kathir Venkatesan</strong>
+                      <strong>User 00001</strong>
                     </Typography>
                     <Chip
                       label="Last Login:21/11/2022 05:00pm"
@@ -1168,7 +1168,9 @@ const PageLayout = () => {
           {/* Page Body */}
           <Box sx={{ padding: "8px 8px 10px 0px", width: "100%" }}>
             <SimpleBar style={{ maxHeight: window.innerHeight - 150 }}>
-              <Container sx={{padding:"0px !important" ,marginBottom: "8px" }}>
+              <Container
+                sx={{ padding: "0px !important", marginBottom: "8px" }}
+              >
                 <Routes>
                   <Route
                     path={`${search}/stlap/home/dashboard`}
@@ -1211,7 +1213,7 @@ const PageLayout = () => {
         >
           <Typography sx={{ color: "white" }} align="center">
             {" "}
-            Copyright © Sundaram Home Finance Pvt Ltd 2022.
+            Copyright © Sundaram Home 2022.
           </Typography>
         </Box>
       </Stack>

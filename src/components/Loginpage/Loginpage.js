@@ -60,6 +60,7 @@ export default function Loginpage() {
           backgroundImage: `url(${SfLogo})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "left",
+          backgroundSize: "20%",
         }}
       />
       {isMobile ? (
@@ -79,8 +80,7 @@ export default function Loginpage() {
                 elevation={1}
                 square={true}
                 sx={{
-                  backgroundColor:
-                "#b1e3dc",
+                  backgroundColor: "#b1e3dc",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   width: "100%",
@@ -146,7 +146,7 @@ export default function Loginpage() {
                               type="password"
                               id="password"
                               autoComplete="new-password"
-                              placeholder="Enter the Password"
+                              placeholder="Enter the Password / OTP"
                               size="small"
                               sx={{ color: "#7F7F7F" }}
                               InputProps={{
@@ -202,8 +202,7 @@ export default function Loginpage() {
               square="true"
               sx={{
                 borderColor: "#AAAAAA",
-                backgroundColor:
-                "#b1e3dc",
+                backgroundColor: "#b1e3dc",
                 borderRadius: "80%",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
@@ -270,7 +269,7 @@ export default function Loginpage() {
                             type="password"
                             id="password"
                             autoComplete="new-password"
-                            placeholder="Enter the Password"
+                            placeholder="Enter the Password / OTP"
                             size="small"
                             sx={{ color: "#7F7F7F" }}
                             InputProps={{
