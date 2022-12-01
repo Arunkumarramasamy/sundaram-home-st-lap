@@ -287,21 +287,21 @@ export default function DisbursementRequestPage() {
 
   ];
 
-// let visibility = {
-//   status: false,
-//   amount: false,
-//   date: false,
-//   name: false,
-//   amount1: false,
-//   rate: false,
-//   sanctionedDate: false,
-//   disbursementDate: false,
-//   file: false
-// };
+let visibility = {
+  status: false,
+  amount: false,
+  date: false,
+  name: false,
+  amount1: false,
+  rate: false,
+  sanctionedDate: false,
+  disbursementDate: false,
+  file: false
+};
 
-// if(window.innerWidth > 700){
-//   visibility = {};
-// }
+if(window.innerWidth > 700){
+  visibility = {};
+}
 
   const statusChangeHandler = (event) => {
     setStatusValue(event.target.value);
@@ -393,7 +393,7 @@ export default function DisbursementRequestPage() {
           },
         }}
         rows={rows}
-        columns={columns}
+        columns={columns }
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[4, 8, 12, 16]}
@@ -401,7 +401,13 @@ export default function DisbursementRequestPage() {
         getRowClassName={(params) =>
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
-        // columnVisibilityModel={visibility}
+        initialState={{
+          columns: {
+            columnVisibilityModel: {
+             ...visibility
+            },
+          },
+        }}
       />
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Update Disbursement Status</DialogTitle>
