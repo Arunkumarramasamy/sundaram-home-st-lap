@@ -14,7 +14,7 @@ import { isMobile } from "react-device-detect";
 import { InputAdornment, Paper } from "@mui/material";
 import { LoginOutlined, PasswordOutlined } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
-import PageLayout from "../Pagelayout/Pagelayout";
+import Pagelayout from "../Pagelayout/Pagelayout";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +46,7 @@ export default function Loginpage() {
   };
 
   return Cookies.get("islogin") ? (
-    <PageLayout />
+    <Pagelayout />
   ) : (
     <React.Fragment>
       <Box
@@ -60,6 +60,7 @@ export default function Loginpage() {
           backgroundImage: `url(${SfLogo})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "left",
+          backgroundSize:"20%"
         }}
       />
       {isMobile ? (
@@ -146,7 +147,7 @@ export default function Loginpage() {
                               type="password"
                               id="password"
                               autoComplete="new-password"
-                              placeholder="Enter the Password"
+                              placeholder="Enter the Password / OTP"
                               size="small"
                               sx={{ color: "#7F7F7F" }}
                               InputProps={{
@@ -270,7 +271,7 @@ export default function Loginpage() {
                             type="password"
                             id="password"
                             autoComplete="new-password"
-                            placeholder="Enter the Password"
+                            placeholder="Enter the Password / OTP"
                             size="small"
                             sx={{ color: "#7F7F7F" }}
                             InputProps={{
