@@ -1043,9 +1043,10 @@ const PageLayout = () => {
           </Box>
 
           {/* Page Body */}
-          <Box sx={{ padding: "8px 8px 10px 8px", width: "100%" }}>
+          <Box sx={{ padding: "8px 8px 10px 0px", width: "100%" }}>
             <SimpleBar style={{ maxHeight: window.innerHeight - 150 }}>
-              <Container sx={{ marginBottom: "8px" }}>
+              <Container sx={{padding:"0px !important", marginLeft: window.innerWidth > 1200 ? 
+                  '0px' : 'auto', marginBottom: "8px" }}>
                 <Routes>
                   <Route
                     path={`${search}/stlap/home/dashboard`}
