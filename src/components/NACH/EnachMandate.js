@@ -55,7 +55,9 @@ const EnachMandate = () => {
                   borderTopRightRadius: "1rem",
                   borderBottom: "none",
                 },
-
+                "& div.MuiTabs-flexContainer": {
+                  flexWrap: "wrap",
+                },
                 "& button": {
                   outline: "none",
                   marginRight: "0.2rem",

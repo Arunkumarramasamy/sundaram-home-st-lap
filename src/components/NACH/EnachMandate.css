@@ -27,3 +27,8 @@ body {
     min-width: 20px !important;
   }
 }
+@media (max-width: 34em) {
+  .MuiTabs-flexContainer {
+    gap: 0.5rem;
+  }
+}

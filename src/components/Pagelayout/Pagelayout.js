@@ -67,6 +67,7 @@ import ShortTextTwoToneIcon from "@mui/icons-material/ShortTextTwoTone";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
 import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
+import { useEffect } from "react";
 
 const PageLayout = () => {
   const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
@@ -158,6 +159,8 @@ const PageLayout = () => {
     setMenuWidth(expanded ? 230 : 70);
     setmenuLableDisplay(expanded ? "block" : "none");
   };
+
+  useEffect(() => {setExpanded(!expanded) }, []);
 
   return (
     <div id="maindiv">

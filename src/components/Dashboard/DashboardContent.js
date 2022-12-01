@@ -275,74 +275,74 @@ function CompanyTds() {
 function DisbursementOverview() {
   return (
     <div>
-      <Grid container>
-        <Grid item sx={{ margin: 0.5 }}>
+      <Grid container spacing={2}>
+        <Grid item sx={{ marginRight: 2 }}>
           <Chip
-            label="Date Range"
+            label="Date"
             size="small" color="primary" variant="outlined"
           />
         </Grid>
-        <Grid item sx={{ margin: 0.5 }}>
+        <Grid item sx={{ marginRight: 2 }}>
           <Chip
             label="Loans"
             size="small" color="primary" variant="outlined"
           />
         </Grid>
-        <Grid item sx={{ margin: 0.5 }}>
+        <Grid item>
           <Chip
-            label="Amount Disbursed"
+            label="Amount"
             size="small" color="primary" variant="outlined"
           />
         </Grid>
       </Grid>
 
-      <Grid container sx={{ marginTop: 1 }}>
-        <Grid item sx={{ margin: 1 }}>
+      <Grid container spacing={2} sx={{ marginTop: 0.5 }}>
+        <Grid item >
           <Chip
-            label="Nov 1 - Nov 10"
+            label="Nov 01-10"
             size="small"
           />
         </Grid>
-        <Grid item sx={{ display: 'inline-flex', margin: 1 }}>
+        <Grid item sx={{ display: 'inline-flex' }}>
           <Typography variant="subtitle1" >13</Typography>
-          <ArrowDropDownIcon fontSize='large' sx={{ color: 'red' }} />
+          <ArrowDropDownIcon fontSize='medium' sx={{ color: 'red' }} />
         </Grid>
-        <Grid item sx={{ display: 'inline-flex', margin: 1 }}>
+        <Grid item sx={{ display: 'inline-flex' }}>
           <CurrencyRupeeIcon fontSize="small" sx={{ color: 'grey' }} />
-          <Typography variant="subtitle1"> 49,00,000 </Typography>
+          <Typography variant="subtitle1"> 49 Lakhs </Typography>
         </Grid>
       </Grid>
-      <Grid container sx={{ marginTop: 1 }}>
+      <Grid container spacing={0.5} sx={{ marginTop: 0.5 }}>
         <Grid item >
           <Chip
-            label="Nov 11 - Nov 20"
+            label="Nov 11-20"
             size="small"
-            sx={{ display: 'inline-flex', margin: 1 }}
+            sx={{ display: 'inline-flex'}}
           />
         </Grid>
         <Grid item sx={{ display: 'inline-flex', margin: 1 }}>
           <Typography variant="subtitle1" >19</Typography>
-          <ArrowDropUpIcon fontSize='large' sx={{ color: 'green' }} />
+          <ArrowDropUpIcon fontSize='medium' sx={{ color: 'green' }} />
         </Grid>
-        <Grid item sx={{ display: 'inline-flex', margin: 1 }}>
+        <Grid item sx={{ display: 'inline-flex', margin: 0.5 }}>
           <CurrencyRupeeIcon fontSize="small" sx={{ color: 'grey' }} />
-          <Typography variant="subtitle1"> 75,00,000 </Typography>
+          <Typography variant="subtitle1"> 75 Lakhs </Typography>
         </Grid>
       </Grid>
       <Grid container sx={{ marginTop: 1 }}>
         <Grid item >
           <Chip
-            label="Nov 21 - Nov 30"
+            label="Nov 21-30"
             size="small"
           />
         </Grid>
         <Grid item sx={{ display: 'inline-flex', margin: 1 }}>
-          <Typography variant="subtitle1" >3</Typography>
-          <ArrowDropDownIcon fontSize='large' sx={{ color: 'red' }} />
+          <Typography variant="subtitle1" >03</Typography>
+          <ArrowDropDownIcon fontSize='medium' sx={{ color: 'red' }} />
         </Grid>
-        <Grid item sx={{ display: 'inline-flex', margin: 1 }}>
+        <Grid item sx={{ display: 'inline-flex', margin: 0.5 }}>
           <CurrencyRupeeIcon fontSize="small" sx={{ color: 'grey' }} />
-          <Typography variant="subtitle1"> 10,00,000</Typography>
+          <Typography variant="subtitle1"> 10 Lakhs</Typography>
         </Grid>
       </Grid>
     </div>
@@ -503,7 +503,7 @@ export const DashboardContent = () => {
               <OpenInFullIcon />
             </IconButton>
             }
-            subheader="Disbursement Amount Overview"
+            subheader="Disbursement Overview"
             subheaderTypographyProps={{ color: 'black' }}
           />
           <CardContent>
@@ -600,6 +600,7 @@ export const DashboardContent = () => {
               </IconButton>
             }
             subheader="Company TDS View"
+            subheaderTypographyProps={{ color: 'black' }}
           />
           <CardContent>
             <CompanyTds />
