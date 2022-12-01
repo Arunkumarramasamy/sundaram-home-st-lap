@@ -202,49 +202,53 @@ const AdvancedSearchValues = (<><Grid container spacing={2} >
      
 
     return ( <>
-    <Box sx={{border: '2px solid grey',padding: '0.3rem',borderRadius:'10px'}}>
-      <TabContext value={value}>
-        <TabList
-          onChange={handleChange}
-          aria-label="lab API tabs example"
-          TabIndicatorProps={{ hidden: true }}
-          variant="scrollable"
-          allowScrollButtonsMobile
-          sx={{
-            "& button.Mui-selected": {
-              backgroundColor: "#004a92",
-              color: "white",
-              borderTopLeftRadius: "1rem",
-              borderTopRightRadius: "1rem",
-              borderBottom: "none",
-            },
-
-            "& button": {
-              outline: "none",
-              marginRight: "0.2rem",
-              background: "#fafafa",
-              color: "#7f7f7f",
-              transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
-              borderBottom: "2px solid #AAAAAA",
-              textTransform: "none",
-            },
-          }}
-        >
-          <Tab label="Basic Search" value="1" />
-          <Tab label="Advanced Search" value="2" />
-        </TabList>
-      
-      <TabPanel value="1">
-       {BasicSearchValues}
-      </TabPanel>
-      <TabPanel value="2">
-        {AdvancedSearchValues}
-      </TabPanel>
-    </TabContext>
-
-        
-    
-  </Box></>
+    <Box sx={{ width: "100%", backgroundColor: "white" }}>
+        <TabContext value={value}>
+          <Box
+            sx={{
+              borderColor: "divider",
+              backgroundColor: "#eeeeee",
+            }}
+          >
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              TabIndicatorProps={{ hidden: true }}
+              sx={{
+                "& button.Mui-selected": {
+                  backgroundColor: "#004a92",
+                  color: "white",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                  borderBottom: "none",
+                },
+                "& div.MuiTabs-flexContainer": {
+                  flexWrap: "wrap",
+                },
+                "& button": {
+                  outline: "none",
+                  marginRight: "0.2rem",
+                  background: "#fafafa",
+                  color: "#7f7f7f",
+                  transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  borderBottom: "2px solid #AAAAAA",
+                  textTransform: "none",
+                },
+              }}
+            >
+              <Tab label="Basic Search" value="1" />
+              <Tab label="Advanced Search" value="2" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            {BasicSearchValues}
+          </TabPanel>
+          <TabPanel value="2">
+           {AdvancedSearchValues}
+          </TabPanel>
+         
+        </TabContext>
+      </Box></>
 );
 
 };
