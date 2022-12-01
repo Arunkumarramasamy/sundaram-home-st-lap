@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SfTeam from "../../images/sundaramteam.png";
 import SfLogo from "../../images/SF_Logo.png";
-import LoginImg from "../../images/login.jpg";
+import SfLogoSmall from "../../images/SFLogo.png";
 import { Container } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import { InputAdornment, Paper } from "@material-ui/core";
@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 function Copyright() {
   return (
     <Typography variant="footer" color="text.secondary" sx={{ color: "white" }}>
-      {"Copyright © Sundaram Home Finance Pvt Ltd "} {new Date().getFullYear()}
+      {"Copyright © Sundaram Home Ltd "} {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -60,10 +60,11 @@ export default function Loginpage() {
           mt: "auto",
           backgroundColor: "#004A92",
           width: "100%",
-          backgroundImage: `url(${SfLogo})`,
+          backgroundImage: `url(${isMobile ? SfLogoSmall : SfLogo})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "left",
-          backgroundSize:"20%"
+          backgroundSize:`${isMobile ? window.innerWidth < 500 ? '12%': '6%' : '16%'}`,
+          backgroundPositionX:8
         }}
       />
       {isMobile ? (
