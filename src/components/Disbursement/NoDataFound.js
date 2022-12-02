@@ -12,7 +12,7 @@ const NoDataFound = () => {
         }}
       >
 
-          <img id='layout-menu-image' src={query} alt="No Data"/>
+          <img className="noDataImage" id='layout-menu-image' src={query} alt="No Data"/>
          
       </Box>
       <Box
