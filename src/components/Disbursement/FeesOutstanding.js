@@ -156,16 +156,15 @@ const FeesOutstanding = (props) => {
       editable: false,
     },
   ];
-  //   let visibility = {
-  //     details: false,
-  //     due: false,
-  //     paid: false,
-  //     waited: false,
-  //     deduction: false,
-  //   };
-  //   if(window.innerWidth > 700){
-  //     visibility = {};
-  //   }
+    let visibility = {
+      due: false,
+      paid: false,
+      waited: false,
+      deduction: false,
+    };
+    if(window.innerWidth > 700){
+      visibility = {};
+    }
   return (
     <React.Fragment sx={{ height: "100%" }}>
       <DataGrid
@@ -193,7 +192,13 @@ const FeesOutstanding = (props) => {
         getRowClassName={(params) =>
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
-        // columnVisibilityModel={visibility}
+        initialState={{
+          columns: {
+            columnVisibilityModel: {
+             ...visibility
+            },
+          },
+        }}
       />
       <Box
         sx={{
@@ -206,9 +211,6 @@ const FeesOutstanding = (props) => {
       >
         <STButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
-        <STButton variant="contained" onClick={nextClickHandler}>
-          Next
         </STButton>
       </Box>
     </React.Fragment>

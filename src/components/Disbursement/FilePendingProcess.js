@@ -101,6 +101,7 @@ const FilePendingProcess = (props) => {
       type: "string",
       sortable: false,
       width: 80,
+      align: "right",
     },
 
     {
@@ -145,6 +146,15 @@ const FilePendingProcess = (props) => {
     },
   ];
 
+  let visibility = {
+    id: false,
+    status: false,
+    preview: false,
+  };
+  if(window.innerWidth > 700){
+    visibility = {};
+  }
+
   return (
     <React.Fragment sx={{ height: "100%" }}>
       <DataGrid
@@ -170,7 +180,13 @@ const FilePendingProcess = (props) => {
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
         onCellClick={handleCellEvent}
-        // columnVisibilityModel={visibility}
+        initialState={{
+          columns: {
+            columnVisibilityModel: {
+             ...visibility
+            },
+          },
+        }}
       />
       <Dialog onClose={handleClose} handleClose={handleClose} open={open}>
         <PreviewImage
@@ -191,9 +207,6 @@ const FilePendingProcess = (props) => {
       >
         <STButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
-        <STButton variant="contained" onClick={nextClickHandler}>
-          Next
         </STButton>
       </Box>
     </React.Fragment>

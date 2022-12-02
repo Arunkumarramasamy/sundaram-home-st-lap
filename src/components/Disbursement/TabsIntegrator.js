@@ -1,9 +1,12 @@
+import { ExpandMore } from "@mui/icons-material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import * as React from "react";
+import BasicInformation from "./BasicInformation";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
 import EmiCommencementDate from "./EmiCommencementDate";
 import FeesOutstanding from "./FeesOutstanding";
@@ -12,6 +15,8 @@ import "./TabsIntegrator.css";
 
 const TabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
+
+  const[openAccordian,setOpenAccordian] = React.useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -26,9 +31,20 @@ const TabsIntegrator = (props) => {
 
   return (
     <>
+ <Accordion expanded={openAccordian} onChange={() => {setOpenAccordian(!openAccordian)} }>
+        <AccordionSummary
+          expandIcon={<ExpandMore />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Basic Information</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <BasicInformation />
+        </AccordionDetails>
+      </Accordion>
 
-
-      <Box sx={{ width: "100%", backgroundColor: "white" }}>
+      <Box sx={{ width: "100%",marginTop:"2%",  backgroundColor: "white" }}>
         <TabContext value={value}>
           <Box
             sx={{

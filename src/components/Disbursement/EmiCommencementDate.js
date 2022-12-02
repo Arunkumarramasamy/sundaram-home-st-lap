@@ -105,9 +105,6 @@ const EmiCommencementDate = (props) => {
         <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
-        <STButton variant="contained" onClick={EmiOnClick}>
-          Next
-        </STButton>
       </Box>
     </Box>
   );

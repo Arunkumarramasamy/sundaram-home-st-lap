@@ -4,37 +4,45 @@ import Box from "@mui/material/Box";
 import STButton from "../CustomComponents/STButton";
 
 const columns = [
-  { field: "id", headerName: "ID" },
+  { field: "id", headerName: "ID",headerAlign: "center",align: "right", },
   {
     field: "amout",
     headerName: "Amount",
     width: 150,
     hideable: false,
+    headerAlign: "center",
+    align: "right",
   },
   {
     field: "paymentMode",
     headerName: "Payment Mode",
     width: 150,
+    headerAlign: "center",
   },
   {
     field: "emiType",
     headerName: "EMI Type",
     width: 150,
+    headerAlign: "center",
   },
   {
     field: "entityName",
     headerName: "Entity Name",
     width: 150,
+    headerAlign: "center",
   },
   {
     field: "accountNumber",
     headerName: "Account Number",
     width: 150,
+    headerAlign: "center",
+    align: "right",
   },
   {
     field: "ifscCode",
     headerName: "IFSC Code",
     width: 150,
+    headerAlign: "center",
   },
 ];
 const rows = [
@@ -58,23 +66,44 @@ const rows = [
   },
 ];
 
+let visibility = {
+  id: false,
+  paymentMode: false,
+  emiType: false,
+  entityName: false,
+  accountNumber: false,
+  ifscCode: false
+};
+if(window.innerWidth > 700){
+  visibility = {};
+}
+
 const CurrentDisbursementDetailsGrid = (props) => {
   return (
     <>
       <Box sx={{ height: 210, marginTop: "3rem" }}>
         <DataGrid
           sx={{
-            "& div.MuiDataGrid-columnHeaders": {
-              backgroundColor: "#2f7dc4",
-              color: "white",
+            "& .MuiDataGrid-row:hover": {
+              color: "#004A92",
+              backgroundColor: "#B8E4F4",
             },
-            "& button.MuiIconButton-root": {
+            "& .MuiDataGrid-columnHeaders": {
               color: "white",
+              fontFamily: "Roboto",
+              backgroundColor: "#7f7f7f",
             },
           }}
           rows={rows}
           columns={columns}
           rowsPerPageOptions={[4, 8, 12, 16]}
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+               ...visibility
+              },
+            },
+          }}
         ></DataGrid>
       </Box>
       <Box

@@ -11,9 +11,6 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 const BasicInformation = (props) => {
 
 
-  const processButtonClickHandler = () => {
-    props.onProcessButtonClick();
-  };
 
   const proposalTypeValues = [
     {
@@ -38,7 +35,7 @@ const BasicInformation = (props) => {
     <Box
       sx={{ backgroundColor: "white", padding: "0.3rem", borderRadius: "10px" }}
     >
-      <h4>Basic Information:</h4>
+    
 
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -159,18 +156,7 @@ const BasicInformation = (props) => {
         </Grid>
       </Grid>
 
-      <Box
-        sx={{
-          marginTop: "1rem",
-          marginBottom: "1rem",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Button variant="contained" onClick={processButtonClickHandler}>
-          Process
-        </Button>
-      </Box>
+      
     </Box>
   );
 };

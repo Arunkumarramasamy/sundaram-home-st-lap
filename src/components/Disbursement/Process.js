@@ -3,6 +3,7 @@ import BasicInformation from "./BasicInformation";
 import { useState } from "react";
 import TabsIntegrator from "./TabsIntegrator";
 import NoDataFound from "../CustomComponents/NoDataFound";
+import { Box, Button } from "@mui/material";
 
 const Process = () => {
   const [openProcess, setOpenProcess] = useState(false);
@@ -26,14 +27,30 @@ const Process = () => {
     setShowFilter(true);
   };
 
+
+
   return (
     <>
-      <h4>Disbursement Process:</h4>
-      {showFilter ? (
-        <FilterCondition onSearchButtonClick={searchButtonClickHandler} />
+      
+      {showFilter ? (<>
+        <h4>Disbursement Basic Search:</h4>
+        <FilterCondition onSearchButtonClick={searchButtonClickHandler} /></>
       ) : null}
-      {openBasic ? (
-        <BasicInformation onProcessButtonClick={openProcessHandler} />
+      {openBasic ? (<>
+          <h4>Basic Information:</h4>
+        <BasicInformation  />
+        <Box
+        sx={{
+          marginTop: "1rem",
+          marginBottom: "1rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button variant="contained" onClick={openProcessHandler}>
+          Process
+        </Button>
+      </Box></>
       ) : openProcess ? null : (
         <NoDataFound />
       )}
