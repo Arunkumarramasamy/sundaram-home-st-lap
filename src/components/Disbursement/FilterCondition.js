@@ -1,6 +1,8 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Autocomplete, Box, Button, Grid, InputLabel, Tab, TextField } from "@mui/material";
 import React, { useState } from "react";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
 
 const FilterCondition = (props) => {
 
@@ -36,55 +38,38 @@ const FilterCondition = (props) => {
         props.onSearchButtonClick(branch,trnNo,false);
       }
 
+      const branchValues = [
+        {
+        value:1,
+        text:"Royapettah"
+        },
+        {
+          value:2,
+          text:"Mylapore"
+        },
+        {
+          value:3,
+          text:"Light House"
+        },
+        {
+          value:4,
+          text:"Egmore"
+        }          
+    ];
 
-      const BasicSearchValues = (<><Grid container spacing={2} >
-      
-      <Grid item xs={12} sm={6}>
-              <Grid container spacing={1} sx={{ alignItems: "center" }}>
-                <Grid item sm={12} lg={4} xs={12}>
-                  <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Branch
-                  </InputLabel>
-                </Grid>
-                <Grid item xs={12} lg={8} sm={12}>
-                <Autocomplete  
-             value={""}
-             onChange={(event, newValue) => {
-               setBranch(newValue.label);
-             }}
-             inputValue={inputBranchValue}
-             onInputChange={(event, newInputValue) => {
-               setInputBranchValue(newInputValue);
-             }}
-            options={branchNames} fullWidth  renderInput={(params) => <TextField placeholder="Select the Branch"   {...params}/>}
-      />
-                </Grid>
+
+      const BasicSearchValues = (<>
+               <Grid container spacing={2}>
+
+               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <CustomDropDown required={true} label="Branch" id="branch" value={""} placeholder="Property Type" displayEmpty={true} dropDownValue={branchValues}/>
               </Grid>
-            </Grid>
-  
-            <Grid item xs={12} sm={6}>
-              <Grid container spacing={1} sx={{ alignItems: "center" }}>
-                <Grid item sm={12} lg={4} xs={12}>
-                  <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Trn No.
-                  </InputLabel>
-                </Grid>
-                <Grid item xs={12} lg={8} sm={12}>
-                <TextField
-                onChange={(event) => {
-               setTrnNo(event.target.value);
-             }}
-                fullWidth 
-                id="outlined-basic"
-                variant="outlined"
-                placeholder="Enter TRN Number"
-                value={""}
-              />
-                </Grid>
+
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+              <CustomTextField required={true} label="Trn No." id="trnno"  variant="outlined" value={""} type="text" placeholder="Enter Trn No."/>
               </Grid>
-            </Grid>
-        
-      </Grid>
+
+              </Grid>
       <Box
         sx={{
           marginTop: "1rem",
@@ -98,107 +83,37 @@ const FilterCondition = (props) => {
 
 
 
-const AdvancedSearchValues = (<><Grid container spacing={2} >
-      
-  <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              Branch
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <Autocomplete  
-         value={""}
-         onChange={(event, newValue) => {
-           setBranch(newValue.label);
-         }}
-         inputValue={inputBranchValue}
-         onInputChange={(event, newInputValue) => {
-           setInputBranchValue(newInputValue);
-         }}
-        options={branchNames} fullWidth  renderInput={(params) => <TextField placeholder="Select the Branch"   {...params}/>}
-  />
-            </Grid>
-          </Grid>
-        </Grid>
+const AdvancedSearchValues = (<>
+  <Grid container spacing={2}>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              Trn No.
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <TextField
-            onChange={(event) => {
-           setTrnNo(event.target.value);
-         }}
-            fullWidth 
-            id="outlined-basic"
-            variant="outlined"
-            placeholder="Enter TRN Number"
-            value={""}
-          />
-            </Grid>
-          </Grid>
-        </Grid>
+  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+   <CustomDropDown required={true} label="Branch" id="branch" value={""} placeholder="Property Type" displayEmpty={true} dropDownValue={branchValues}/>
+ </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              Applicant Name
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <TextField
-            fullWidth 
-            id="outlined-basic"
-            variant="outlined"
-            placeholder="Enter Applicant Name"
-            value={""}
-          />
-            </Grid>
-          </Grid>
-        </Grid>
+ <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+ <CustomTextField required={true} label="Trn No." id="trnno"  variant="outlined" value={""} type="text" placeholder="Enter Trn No."/>
+ </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              File Number
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <TextField
-            onChange={(event) => {
-           setTrnNo(event.target.value);
-         }}
-            fullWidth 
-            id="outlined-basic"
-            variant="outlined"
-            placeholder="Enter File Number"
-            value={""}
-          />
-            </Grid>
-          </Grid>
-        </Grid>
+ <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+ <CustomTextField required={true} label="Applicant Name" id="applicantName"  variant="outlined" value="" type="text" placeholder="Enter Applicant Name"/>
+ </Grid>
 
-        
-    
-  </Grid>
-  <Box
-    sx={{
-      marginTop: "1rem",
-      display: "flex",
-      justifyContent: "center",
-    }}
-  >
-    <Button variant="contained" onClick={searchButtonClickHandler}>Search</Button>
-    <Button sx={{marginLeft:"1rem"}} onClick={clearButtonClickHandler} variant="contained">Clear</Button>
-  </Box></>);
+ <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+ <CustomTextField required={true} label="File Number" id="fileNumber"  variant="outlined" value="" type="text" placeholder="Enter File Number"/>
+ </Grid>
+
+
+ </Grid>
+<Box
+sx={{
+marginTop: "1rem",
+display: "flex",
+justifyContent: "center",
+}}
+>
+<Button variant="contained" onClick={searchButtonClickHandler}>Search</Button>
+<Button sx={{marginLeft:"1rem"}} onClick={clearButtonClickHandler} variant="contained">Clear</Button>
+</Box></>);
      
 
     return ( <>
