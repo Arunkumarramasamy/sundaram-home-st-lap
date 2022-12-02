@@ -15,7 +15,6 @@ import STButton from "../CustomComponents/STButton";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 
-
 const EmiCommencementDate = (props) => {
   const [ReadValue] = React.useState(false);
   const [value, setValue] = React.useState(dayjs("2022-11-28T21:11:54"));
@@ -27,50 +26,84 @@ const EmiCommencementDate = (props) => {
     props.nav("4");
   };
 
-
-
   const emiOptionValues = [
     {
-    value:1,
-    text:"Commence EMI"
+      value: 1,
+      text: "Commence EMI",
     },
     {
-      value:2,
-      text:"Continue EMI"
-    }         
-];
+      value: 2,
+      text: "Continue EMI",
+    },
+  ];
 
   return (
     <Box sx={{ marginTop: "0.5rem" }}>
       <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <InputLabel required sx={{ color: "#7f7f7f" }}>
+            Moratorium
+          </InputLabel>
+          <Switch disabled={ReadValue} />
+        </Grid>
 
-<Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-<InputLabel required sx={{ color: "#7f7f7f" }}>
-                Moratorium
-              </InputLabel>
-              <Switch disabled={ReadValue} />
-</Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="Number of Months"
+            id="months"
+            variant="outlined"
+            value=""
+            type="number"
+            placeholder="Enter Number of Months"
+          />
+        </Grid>
 
-<Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-<CustomTextField required={true} label="Number of Months" id="months"  variant="outlined" value="" type="number" placeholder="Enter Number of Months"/>
-</Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDropDown
+            required={true}
+            label="EMI Options"
+            id="emiOptions"
+            value={""}
+            placeholder="EMI Options"
+            displayEmpty={true}
+            dropDownValue={emiOptionValues}
+          />
+        </Grid>
 
-<Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-<CustomDropDown required={true} label="EMI Options" id="emiOptions" value={""} placeholder="EMI Options" displayEmpty={true} dropDownValue={emiOptionValues}/>
-</Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="ECD"
+            id="ecd"
+            variant="outlined"
+            value={""}
+            type="date"
+          />
+        </Grid>
 
-<Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-<CustomTextField required={true} label="ECD" id="ecd"  variant="outlined" value={""} type="date"/>
-</Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="FBD"
+            id="fbd"
+            variant="outlined"
+            value={""}
+            type="date"
+          />
+        </Grid>
 
-<Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-<CustomTextField required={true} label="FBD" id="fbd"  variant="outlined" value={""} type="date"/>
-</Grid>
-
-<Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-<CustomTextField required={true} label="FEDD" id="fedd"  variant="outlined" value={""} type="date"/>
-</Grid>
-</Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="FEDD"
+            id="fedd"
+            variant="outlined"
+            value={""}
+            type="date"
+          />
+        </Grid>
+      </Grid>
       <Box
         sx={{
           marginTop: "2rem",

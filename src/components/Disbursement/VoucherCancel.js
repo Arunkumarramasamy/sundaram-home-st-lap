@@ -1,4 +1,4 @@
-import {  Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
@@ -14,9 +14,7 @@ import InputLabel from "@mui/material/InputLabel";
 import STButton from "../CustomComponents/STButton";
 
 const VoucherCancel = () => {
-    
   const [showResult, setShowResult] = useState(false);
- 
 
   const searchButtonClickHandler = (branch, trnNo, show) => {
     console.log(branch);
