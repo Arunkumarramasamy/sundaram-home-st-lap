@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
 import FilterCondition from "./FilterCondition";
-import NoDataFound from "./NoDataFound";
+import NoDataFound from "../CustomComponents/NoDataFound";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
 import FilterCondition from "./FilterCondition";
-import NoDataFound from "./NoDataFound";
+import NoDataFound from "../CustomComponents/NoDataFound";
 
 const VoucherGeneration = () => {
   const [showResult, setShowResult] = useState(false);

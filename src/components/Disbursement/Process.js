@@ -2,7 +2,7 @@ import FilterCondition from "./FilterCondition";
 import BasicInformation from "./BasicInformation";
 import { useState } from "react";
 import TabsIntegrator from "./TabsIntegrator";
-import NoDataFound from "./NoDataFound";
+import NoDataFound from "../CustomComponents/NoDataFound";
 
 const Process = () => {
   const [openProcess, setOpenProcess] = useState(false);

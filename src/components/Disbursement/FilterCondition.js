@@ -32,7 +32,8 @@ const FilterCondition = (props) => {
     setValue(newValue);
   };
 
-  const searchButtonClickHandler = () => {
+  const searchButtonClickHandler = (event) => {
+    event.preventDefault();
     props.onSearchButtonClick(branch, trnNo, true);
   };
 
@@ -62,7 +63,7 @@ const FilterCondition = (props) => {
   ];
 
   const BasicSearchValues = (
-    <>
+    <><Box component="form"  validate    onSubmit={searchButtonClickHandler}  >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
@@ -95,7 +96,7 @@ const FilterCondition = (props) => {
           justifyContent: "center",
         }}
       >
-        <Button variant="contained" onClick={searchButtonClickHandler}>
+        <Button variant="contained" type="submit">
           Search
         </Button>
         <Button
@@ -105,6 +106,7 @@ const FilterCondition = (props) => {
         >
           Clear
         </Button>
+      </Box>
       </Box>
     </>
   );
