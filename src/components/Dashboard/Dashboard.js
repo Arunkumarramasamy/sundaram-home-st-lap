@@ -9,12 +9,14 @@ export const Dashboard = (props) => {
   return (
     <React.Fragment>
       <MediaQuery query="(min-device-width: 1201px)">
-        <Masonry spacing={1} columns={{ xs: 12, sm: 8, md: 6, lg: 4, xl: 4 }} >
+        <Masonry spacing={1} columns={{ xs: 12, sm: 8, md: 6, lg: 4, xl: 4 }} sx={{height:window.innerHeight-110}} >
           <DashboardContent />
         </Masonry>
       </MediaQuery>
       <MediaQuery query="(max-device-width: 1200px)">
-        <Grid container spacing={1} columns={{ xs: 12, sm: 8, md: 6, lg: 4, xl: 4 }}><DashboardContent /></Grid>
+        <Grid container spacing={1} columns={{ xs: 12, sm: 8, md: 6, lg: 4, xl: 4 }} sx={{height:window.innerHeight-110}}>
+          <DashboardContent />
+          </Grid>
       </MediaQuery>
     </React.Fragment>
   );
