@@ -1,12 +1,8 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {
-  Autocomplete,
   Box,
   Button,
-  Grid,
-  InputLabel,
-  Tab,
-  TextField,
+  Grid, Tab
 } from "@mui/material";
 import React, { useState } from "react";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
@@ -24,11 +20,11 @@ const FilterCondition = (props) => {
 
   const [branch, setBranch] = useState(branchNames[0]);
   const [trnNo, setTrnNo] = useState("STLMYL202200001");
-  const [inputBranchValue, setInputBranchValue] = React.useState("");
 
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
+    clearButtonClickHandler();
     setValue(newValue);
   };
 

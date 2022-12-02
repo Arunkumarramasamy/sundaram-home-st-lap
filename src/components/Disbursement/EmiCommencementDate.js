@@ -1,27 +1,16 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import * as React from "react";
-import dayjs from "dayjs";
 import Switch from "@mui/material/Switch";
-import STButton from "../CustomComponents/STButton";
-import CustomTextField from "../CustomComponents/CustomTextField";
+import * as React from "react";
+import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
+import STButton from "../CustomComponents/STButton";
 
 const EmiCommencementDate = (props) => {
   const [ReadValue] = React.useState(false);
-  const [value, setValue] = React.useState(dayjs("2022-11-28T21:11:54"));
-  const [FEDDValue, FEDDSetValue] = React.useState(
-    dayjs("2022-08-01T21:11:54")
-  );
-  const [dummyValue] = React.useState("");
+
   const EmiOnClick = () => {
     props.nav("4");
   };
@@ -72,7 +61,7 @@ const EmiCommencementDate = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
+          <CustomDateField
             required={true}
             label="ECD"
             id="ecd"
@@ -83,7 +72,7 @@ const EmiCommencementDate = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
+          <CustomDateField
             required={true}
             label="FBD"
             id="fbd"
@@ -94,7 +83,7 @@ const EmiCommencementDate = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
+          <CustomDateField
             required={true}
             label="FEDD"
             id="fedd"

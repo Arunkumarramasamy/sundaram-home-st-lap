@@ -1,32 +1,15 @@
-import { CurrencyRupee, Percent } from "@mui/icons-material";
 import {
   Box,
   Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
+  Grid
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
 import React from "react";
-import CustomTextField from "../CustomComponents/CustomTextField";
+import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
 
 const BasicInformation = (props) => {
-  const [disbursementDate, setDisbursementDate] = React.useState(
-    dayjs("2022-11-28T21:11:54")
-  );
-  const [sanctionDate, setSanctionedDate] = React.useState(
-    dayjs("2022-11-22T21:11:54")
-  );
-  const [requestDate, setRequestDate] = React.useState(
-    dayjs("2022-11-18T21:11:54")
-  );
+
 
   const processButtonClickHandler = () => {
     props.onProcessButtonClick();
@@ -71,7 +54,7 @@ const BasicInformation = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
+          <CustomDateField
             required={true}
             label="Loan Request Date"
             id="loanRequestDate"
@@ -142,7 +125,7 @@ const BasicInformation = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
+          <CustomDateField
             required={true}
             label="Sanction Date"
             id="sanctionDate"
@@ -165,7 +148,7 @@ const BasicInformation = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
+          <CustomDateField
             required={true}
             label="Date of Disbursement"
             id="dateOfDisbursement"

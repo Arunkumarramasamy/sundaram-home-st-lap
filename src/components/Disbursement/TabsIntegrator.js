@@ -1,16 +1,14 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import * as React from "react";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
+import EmiCommencementDate from "./EmiCommencementDate";
 import FeesOutstanding from "./FeesOutstanding";
 import FilePendingProcess from "./FilePendingProcess";
-import EmiCommencementDate from "./EmiCommencementDate";
 import "./TabsIntegrator.css";
-import { IconButton, Tooltip } from "@mui/material";
-import { ArrowBackTwoTone } from "@mui/icons-material";
 
 const TabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
@@ -28,13 +26,7 @@ const TabsIntegrator = (props) => {
 
   return (
     <>
-      {/* <Box sx={{ marginBottom: "0rem" }}>
-        <Tooltip title="Back To Search">
-          <IconButton sx={{ float: "right" }} onClick={backButtonClickHandler}>
-            <ArrowBackTwoTone color="primary" fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box> */}
+
 
       <Box sx={{ width: "100%", backgroundColor: "white" }}>
         <TabContext value={value}>

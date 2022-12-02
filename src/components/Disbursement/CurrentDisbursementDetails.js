@@ -1,18 +1,11 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
-import CurrentDisbursementDetailsGrid from "./CurrentDisbursementDetailsGrid";
-import CustomTextField from "../CustomComponents/CustomTextField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
+import CurrentDisbursementDetailsGrid from "./CurrentDisbursementDetailsGrid";
 
 const CurrentDisbursementDetails = (props) => {
-  const [ReadValue] = React.useState(false);
-  const [dummyValue] = React.useState("");
 
   const paymentModeValues = [
     {
