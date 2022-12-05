@@ -1065,8 +1065,8 @@ export default function Pagelayout() {
           >
             <MenuIcon />
           </IconButton>
-          {useMediaQuery('(min-width:1024px)') && {desktopHeader}}
-          {useMediaQuery('(max-width:1023px)') && {mobileHeader}}
+          {useMediaQuery('(min-width:1024px)') && desktopHeader}
+          {useMediaQuery('(max-width:1023px)') && mobileHeader}
         </Toolbar>
       </AppBar>
       <div>
