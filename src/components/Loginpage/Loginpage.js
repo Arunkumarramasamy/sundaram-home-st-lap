@@ -9,7 +9,7 @@ import SfTeam from "../../images/sundaramteam.png";
 import "./LoginPage.css";
 import Slider from "./Slider";
 const LoginPage = () => {
-  const loginPage = useSelector((state) => state.login.loginScreen);
+  const loginPages = useSelector((state) => state.login.loginScreen);
   const EmployeeIDPage = useSelector((state) => state.login.EmployeeIDScreen);
   const MobilePage = useSelector((state) => state.login.MobileScreen);
 
@@ -49,7 +49,7 @@ const LoginPage = () => {
         >
           <Slider />
         </Box>
-        {loginPage && <Login />}
+        {loginPages && <Login />}
         {EmployeeIDPage && <Idlogin />}
         {MobilePage && <MobileLogin />}
       </div>
