@@ -1,0 +1,9 @@
+.login-info {
+  width: 87%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  border-top: 1px solid #d8d8d8;
+  bottom: 0.5rem;
+  position: absolute;
+}

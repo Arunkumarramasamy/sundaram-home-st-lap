@@ -1,0 +1,27 @@
+body {
+  background-color: #eeeeee !important;
+  padding: "2rem" !important;
+}
+.contain {
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding: 2rem;
+}
+.add {
+  box-shadow: 0 2px 5px 0 rgb(113 113 113 / 64%);
+}
+@media (max-width: 34em) {
+  .contain {
+    grid-template-columns: 1fr;
+  }
+  .add {
+    order: 1;
+  }
+}
+@media (max-width: 59em) {
+  .add {
+    display: none;
+  }
+}
