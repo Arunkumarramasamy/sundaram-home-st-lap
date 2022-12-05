@@ -3,6 +3,7 @@ import { Grid } from "@mui/material";
 import Masonry from '@mui/lab/Masonry';
 import { DashboardContent } from "./DashboardContent";
 import useMediaQuery from '@mui/material/useMediaQuery';
+import DashboardBoardNewContent from "./DashBoardNewContent";
 
 
 export const Dashboard = (props) => {
@@ -10,14 +11,15 @@ export const Dashboard = (props) => {
   const lt1200px = useMediaQuery('(max-width:1200px)');
   return (
     <React.Fragment>
-      {gt1200px &&
+      {/* {gt1200px &&
         <Masonry spacing={1} columns={{ xs: 12, sm: 8, md: 6, lg: 4, xl: 4 }} sx={{height:window.innerHeight-110}} >
           <DashboardContent />
         </Masonry>}
         {lt1200px && 
         <Grid container spacing={1} columns={{ xs: 12, sm: 8, md: 6, lg: 4, xl: 4 }} sx={{height:window.innerHeight-110}}>
           <DashboardContent />
-          </Grid>}
+          </Grid>} */}
+          <DashboardBoardNewContent />
     </React.Fragment>
   );
 };
