@@ -4,7 +4,6 @@ import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import ReactApexChart from "react-apexcharts";
 
 
 const style = {
@@ -62,13 +61,13 @@ function DisbursementTrnStatus() {
       labels: ['Success']
     },
   };
-  return (
-    <ReactApexChart
-      options={distrnstatus.options}
-      series={distrnstatus.series}
-      type="radialBar"
-      height={150}
-    />);
+  return (<></>);
+    // <ReactApexChart
+    //   options={distrnstatus.options}
+    //   series={distrnstatus.series}
+    //   type="radialBar"
+    //   height={150}
+    // />);
 }
 
 function EMICommenced() {
@@ -100,13 +99,13 @@ function EMICommenced() {
       offsetY: 0,
     },
   };
-  return (
-    <ReactApexChart
-      options={complaintplotoptions}
-      series={complaintplotoptions.series}
-      type="pie"
-      height={180}
-    />);
+  return (<></>);
+    // <ReactApexChart
+    //   options={complaintplotoptions}
+    //   series={complaintplotoptions.series}
+    //   type="pie"
+    //   height={180}
+    // />);
 }
 
 function EnachMandateGraph() {
@@ -165,13 +164,13 @@ function EnachMandateGraph() {
       },
     },
   };
-  return (
-    <ReactApexChart
-      options={nachoptions.options}
-      series={nachoptions.series}
-      type="radialBar"
-      height={300}
-    />);
+  return (<></>);
+    // <ReactApexChart
+    //   options={nachoptions.options}
+    //   series={nachoptions.series}
+    //   type="radialBar"
+    //   height={300}
+    // />);
 }
 
 function CompanyTds() {
@@ -263,13 +262,13 @@ function CompanyTds() {
       },
     },
   };
-  return (
-    <ReactApexChart
-      options={tdsplotoptions.options}
-      series={tdsplotoptions.series}
-      type="bar"
-      height={120}
-    />);
+  return (<></>);
+    // <ReactApexChart
+    //   options={tdsplotoptions.options}
+    //   series={tdsplotoptions.series}
+    //   type="bar"
+    //   height={120}
+    // />);
 }
 
 function DisbursementOverview() {
@@ -379,13 +378,13 @@ function DisbursementStatus() {
     },
   };
 
-  return (
-    <ReactApexChart
-      options={paymentplotoptions}
-      series={paymentplotoptions.series}
-      type="donut"
-      height={180}
-    />);
+  return (<></>);
+    // <ReactApexChart
+    //   options={paymentplotoptions}
+    //   series={paymentplotoptions.series}
+    //   type="donut"
+    //   height={180}
+    // />);
 
 }
 
@@ -471,13 +470,13 @@ function VoucherAuthorised() {
       labels: ["Authorised %"],
     },
   };
-  return (
-    <ReactApexChart
-      options={insuranceoptions.options}
-      series={insuranceoptions.series}
-      type="radialBar"
-      height={150}
-    />);
+  return (<></>);
+    // <ReactApexChart
+    //   options={insuranceoptions.options}
+    //   series={insuranceoptions.series}
+    //   type="radialBar"
+    //   height={150}
+    // />);
 }
 
 export const DashboardContent = () => {
@@ -523,7 +522,7 @@ export const DashboardContent = () => {
             subheaderTypographyProps={{ color: 'black' }}
           />
           <CardContent>
-            <DisbursementStatus />
+            {/* <DisbursementStatus /> */}
           </CardContent>
         </Card>
       </Grid>
@@ -539,7 +538,7 @@ export const DashboardContent = () => {
             subheaderTypographyProps={{ color: 'black' }}
           />
           <CardContent>
-            <EnachMandateGraph />
+            {/* <EnachMandateGraph /> */}
           </CardContent>
         </Card>
       </Grid>
@@ -555,7 +554,7 @@ export const DashboardContent = () => {
             subheaderTypographyProps={{ color: 'black' }}
           />
           <CardContent>
-            <VoucherAuthorised />
+            {/* <VoucherAuthorised /> */}
           </CardContent>
         </Card>
       </Grid>
@@ -587,7 +586,7 @@ export const DashboardContent = () => {
             subheaderTypographyProps={{ color: 'black' }}
           />
           <CardContent>
-            <EMICommenced />
+            {/* <EMICommenced /> */}
           </CardContent>
         </Card>
       </Grid>
@@ -603,7 +602,7 @@ export const DashboardContent = () => {
             subheaderTypographyProps={{ color: 'black' }}
           />
           <CardContent>
-            <CompanyTds />
+            {/* <CompanyTds /> */}
           </CardContent>
         </Card>
       </Grid>

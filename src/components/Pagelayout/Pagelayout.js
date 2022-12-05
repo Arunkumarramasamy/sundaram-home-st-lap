@@ -8,6 +8,7 @@ import {
   Tooltip,
   Collapse,
   Container,
+  useMediaQuery,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -20,9 +21,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Logo from "../../images/SF_Logo.png";
 import "./PageLayout.css";
 import Cookies from "js-cookie";
-import "simplebar-react/dist/simplebar.min.css";
+// import "simplebar-react/dist/simplebar.min.css";
 import Stack from "@mui/material/Stack";
-import MediaQuery from "react-responsive";
+// import MediaQuery from "react-responsive";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
@@ -1064,13 +1065,8 @@ export default function Pagelayout() {
           >
             <MenuIcon />
           </IconButton>
-
-          <MediaQuery query="(min-device-width: 1024px)">
-            {desktopHeader}
-          </MediaQuery>
-          <MediaQuery query="(max-device-width: 1023px)">
-            {mobileHeader}
-          </MediaQuery>
+          {useMediaQuery('(min-width:1024px)') && {desktopHeader}}
+          {useMediaQuery('(max-width:1023px)') && {mobileHeader}}
         </Toolbar>
       </AppBar>
       <div>
