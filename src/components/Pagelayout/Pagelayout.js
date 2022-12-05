@@ -21,9 +21,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Logo from "../../images/SF_Logo.png";
 import "./PageLayout.css";
 import Cookies from "js-cookie";
-// import "simplebar-react/dist/simplebar.min.css";
 import Stack from "@mui/material/Stack";
-// import MediaQuery from "react-responsive";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
@@ -104,7 +102,7 @@ export default function Pagelayout() {
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { search } = useLocation();
   const open = Boolean(anchorEl);
 
@@ -124,11 +122,7 @@ export default function Pagelayout() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleDrawerCheck = (event) => {
-    // let node = <div id="drawerId"></div>;
-    // event.target.appendChild(node);
-    // console.log(event);
-  };
+
   const handleNachMenuClick = () => {
     setOpenNachSubMenu(!openNachSubMenu);
     setOpenInsuranceSubMenu(false);
@@ -171,10 +165,11 @@ export default function Pagelayout() {
 
   const handleLogout = () => {
     Cookies.remove("islogin");
-    history("/stlap/login");
+    navigate("/stlap/login");
   };
 
   const menuClickHandler = (event) => {
+    setExpanded(false);
     routeBasedOnKey(event.currentTarget.id);
   };
 
@@ -183,6 +178,7 @@ export default function Pagelayout() {
     switch (key) {
       case "dashboard":
         path = "/stlap/home/dashboard";
+
         break;
       case "disbursementProcess":
         path = "/stlap/home/disbursementProcess";
@@ -200,17 +196,16 @@ export default function Pagelayout() {
         path = "/stlap/home/dashboard";
         break;
     }
-    history(path);
+    navigate(path);
   };
 
   const list = (
     <Box
-      sx={{ width: 300, backgroundColor: "#169BD5", color: "white" }}
+      sx={{ width: 300,display:'block', height:'100%', backgroundColor: "#169BD5", color: "white" }}
       role="presentation"
-      onClick={handleDrawerOpen}
-      onKeyDown={handleDrawerOpen}
+     
     >
-      <List component="nav" aria-labelledby="nested-list-subheader">
+      <List  sx = {{ width: 300, backgroundColor: "#169BD5"}} component="nav" aria-labelledby="nested-list-subheader">
         {/* Dashboard */}
         <ListItemButton id="dashboard" onClick={menuClickHandler}>
           <ListItemIcon>
@@ -899,17 +894,18 @@ export default function Pagelayout() {
           />
         </ListItemButton>
       </List>
+      <div id = 'drawer-closer' onClick={handleDrawerClose}></div>
     </Box>
   );
 
   const desktopHeader = (
     <>
       <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
-        <img id="logoimage" src={Logo} alt="No Logo"></img>
+        <img height="36px" src={Logo} alt="No Logo"></img>
       </Stack>
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
+          <Typography sx={{textAlign: "center" }}>
             User 00001
           </Typography>
           <Chip
@@ -941,7 +937,7 @@ export default function Pagelayout() {
     <>
       <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
         <img
-          id="logoimage"
+         id="logoimage"
           src={SFLogoSmall}
           width={50}
           height={50}
@@ -1050,11 +1046,11 @@ export default function Pagelayout() {
         backgroundColor="black"
       ></div>
       <CssBaseline />
-      <AppBar
+      <AppBar 
         position="fixed"
-        sx={{ backgroundColor: "#004A92", height: "70px" }}
+        sx={{ backgroundColor: "#004A92" ,height:'70px', justifyContent:'center' }}
       >
-        <Toolbar>
+        <Toolbar >
           <IconButton
             size="large"
             edge="start"
@@ -1065,21 +1061,19 @@ export default function Pagelayout() {
           >
             <MenuIcon />
           </IconButton>
-          {useMediaQuery('(min-width:1024px)') && desktopHeader}
-          {useMediaQuery('(max-width:1023px)') && mobileHeader}
+          {useMediaQuery("(min-width:1024px)") && desktopHeader}
+          {useMediaQuery("(max-width:1023px)") && mobileHeader}
         </Toolbar>
       </AppBar>
       <div>
-        <Drawer
+        <Drawer 
           anchor="left"
           id="drawer-menu"
           open={expanded}
           onClose={handleDrawerClose}
-          onBlur={handleDrawerCheck}
         >
           {list}
         </Drawer>
-        <div></div>
       </div>
 
       {/* Page Body */}
@@ -1088,7 +1082,7 @@ export default function Pagelayout() {
           <Routes>
             <Route
               path={`${search}/stlap/home/dashboard`}
-              element={<Dashboard menuExpanded={expanded} />}
+              element={<Dashboard  />}
             />
             <Route
               path={`${search}/stlap/home/disbursementProcess`}
@@ -1107,7 +1101,7 @@ export default function Pagelayout() {
               element={<VoucherCancel />}
             />
 
-            <Route path="*" exact={true} element={<Loginpage />} />
+            {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
           </Routes>
         </Container>
       </Box>
