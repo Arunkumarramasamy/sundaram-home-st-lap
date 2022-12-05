@@ -107,14 +107,15 @@ export default function Pagelayout() {
   const { search } = useLocation();
   const open = Boolean(anchorEl);
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = (event) => {
     setExpanded(true);
   };
 
-  const handleDrawerClose = () => {
+  const handleDrawerClose = (event) => {
     setExpanded(false);
+    visibleAnchorElement();
   };
-
+  const visibleAnchorElement = () => {};
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -122,7 +123,11 @@ export default function Pagelayout() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleDrawerCheck = (event) => {
+    // let node = <div id="drawerId"></div>;
+    // event.target.appendChild(node);
+    // console.log(event);
+  };
   const handleNachMenuClick = () => {
     setOpenNachSubMenu(!openNachSubMenu);
     setOpenInsuranceSubMenu(false);
@@ -904,7 +909,7 @@ export default function Pagelayout() {
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
           <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-            Kathir Venkatesan
+            User 00001
           </Typography>
           <Chip
             label="Last Login:21/11/2022 05:00pm"
@@ -995,7 +1000,7 @@ export default function Pagelayout() {
         <MenuItem>
           <Stack direction="column" sx={{ paddingRight: "8px" }}>
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-              <strong>Kathir Venkatesan</strong>
+              <strong>User 00001</strong>
             </Typography>
             <Chip
               label="Last Login:21/11/2022 05:00pm"
@@ -1036,6 +1041,13 @@ export default function Pagelayout() {
 
   return (
     <Box sx={{ display: "flex" }}>
+      <div
+        className="anchor"
+        onClick={handleDrawerOpen}
+        height="100%"
+        width="4px"
+        backgroundColor="black"
+      ></div>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -1061,9 +1073,18 @@ export default function Pagelayout() {
           </MediaQuery>
         </Toolbar>
       </AppBar>
-      <Drawer anchor="left" open={expanded} onClose={handleDrawerClose}>
-        {list}
-      </Drawer>
+      <div>
+        <Drawer
+          anchor="left"
+          id="drawer-menu"
+          open={expanded}
+          onClose={handleDrawerClose}
+          onBlur={handleDrawerCheck}
+        >
+          {list}
+        </Drawer>
+        <div></div>
+      </div>
 
       {/* Page Body */}
       <Box sx={{ width: "100%", marginTop: "70px" }}>
@@ -1093,22 +1114,6 @@ export default function Pagelayout() {
             <Route path="*" exact={true} element={<Loginpage />} />
           </Routes>
         </Container>
-        {/* Footer */}
-        <Box
-          component="footer"
-          sx={{
-            py: 1,
-            px: 1,
-            mt: "auto",
-            backgroundColor: "#004A92",
-            textAlign: "center",
-          }}
-        >
-          <Typography sx={{ color: "white" }} align="center">
-            {" "}
-            Copyright © Sundaram Home Finance 2022.
-          </Typography>
-        </Box>
       </Box>
     </Box>
   );

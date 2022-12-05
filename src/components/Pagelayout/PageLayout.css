@@ -1,3 +1,15 @@
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+#root{
+  height: 100%;
+}
+.app{
+  height: 100%;
+}
 #components-layout-demo-fixed .logo {
   float: left;
   width: 120px;
@@ -22,10 +34,6 @@ aside {
   margin-top: 16px;
 }
 
-.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root .MuiListItemIcon-root {
-  color: white;
-}
-
 #layout-menu-image {
   width: 10%;
 }
@@ -37,22 +45,40 @@ aside {
 }
 
 #logoimage {
-  height: 60px;
+  height: 36px;
   text-align: left !important;
+  margin-top: 5px;
 }
 #header-email-id {
   font-family: Roboto;
   margin-top: 14px;
 }
-.scrollable-element {
-  scrollbar-width: thin;
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-.simplebar-wrapper {
-  height: 100%;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-#simple-bar {
-  height: 100%;
-  overflow-x: hidden !important;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.anchor {
+  height: 50px;
+  width: 20px;
+  position: absolute;
+  z-index: 1200;
+  background-color: grey;
+  top:48%;
+  clip-path:polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
 }
