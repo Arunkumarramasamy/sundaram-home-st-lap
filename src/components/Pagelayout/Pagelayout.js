@@ -201,11 +201,20 @@ export default function Pagelayout() {
 
   const list = (
     <Box
-      sx={{ width: 300,display:'block', height:'100%', backgroundColor: "#169BD5", color: "white" }}
+      sx={{
+        width: 300,
+        display: "block",
+        height: "100%",
+        backgroundColor: "#169BD5",
+        color: "white",
+      }}
       role="presentation"
-     
     >
-      <List  sx = {{ width: 300, backgroundColor: "#169BD5"}} component="nav" aria-labelledby="nested-list-subheader">
+      <List
+        sx={{ width: 300, backgroundColor: "#169BD5" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
         {/* Dashboard */}
         <ListItemButton id="dashboard" onClick={menuClickHandler}>
           <ListItemIcon>
@@ -894,7 +903,7 @@ export default function Pagelayout() {
           />
         </ListItemButton>
       </List>
-      <div id = 'drawer-closer' onClick={handleDrawerClose}></div>
+      <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
   );
 
@@ -905,9 +914,7 @@ export default function Pagelayout() {
       </Stack>
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{textAlign: "center" }}>
-            User 00001
-          </Typography>
+          <Typography sx={{ textAlign: "center" }}>User 00001</Typography>
           <Chip
             label="Last Login:21/11/2022 05:00pm"
             component="div"
@@ -937,7 +944,7 @@ export default function Pagelayout() {
     <>
       <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
         <img
-         id="logoimage"
+          id="logoimage"
           src={SFLogoSmall}
           width={50}
           height={50}
@@ -1046,11 +1053,15 @@ export default function Pagelayout() {
         backgroundColor="black"
       ></div>
       <CssBaseline />
-      <AppBar 
+      <AppBar
         position="fixed"
-        sx={{ backgroundColor: "#004A92" ,height:'70px', justifyContent:'center' }}
+        sx={{
+          backgroundColor: "#004A92",
+          height: "70px",
+          justifyContent: "center",
+        }}
       >
-        <Toolbar >
+        <Toolbar>
           <IconButton
             size="large"
             edge="start"
@@ -1066,7 +1077,7 @@ export default function Pagelayout() {
         </Toolbar>
       </AppBar>
       <div>
-        <Drawer 
+        <Drawer
           anchor="left"
           id="drawer-menu"
           open={expanded}
@@ -1078,11 +1089,13 @@ export default function Pagelayout() {
 
       {/* Page Body */}
       <Box sx={{ width: "100%", marginTop: "70px" }}>
-        <Container sx={{ padding: "0px !important", marginBottom: "8px" }}>
+        <Container
+          sx={{ padding: "16px !important", maxWidth: "unset !important" }}
+        >
           <Routes>
             <Route
               path={`${search}/stlap/home/dashboard`}
-              element={<Dashboard  />}
+              element={<Dashboard />}
             />
             <Route
               path={`${search}/stlap/home/disbursementProcess`}
