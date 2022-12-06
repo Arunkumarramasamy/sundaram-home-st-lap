@@ -71,6 +71,9 @@ const Idlogin = () => {
       console.log(response.status);
       if (response.status) {
         Cookies.set("islogin", true);
+        Cookies.set("Token",response['data']['jwToken']);
+        Cookies.set("userName",response['data']['userId']);
+        Cookies.set("lastLogin",response['data']['lastLoginTime']);
         navigate("/stlap/home/dashboard");
         dispatch(loginAction.updateEmployeeIDScreen(false));
         dispatch(loginAction.updateLogin(true));

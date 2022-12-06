@@ -886,9 +886,9 @@ export default function Pagelayout() {
       
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>User 00001</Typography>
+          <Typography sx={{ textAlign: "center" }}>{Cookies.get("userName")}</Typography>
           <Chip
-            label="Last Login:21/11/2022 05:00pm"
+            label={Cookies.get("lastLogin")}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -908,7 +908,7 @@ export default function Pagelayout() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <Stack direction="row" sx={{ paddingLeft:"5px" , marginTop: "1%" }}>
+        <Stack direction="row">
       <Tooltip title="Change Password" >
       <IconButton>
               <PublishedWithChangesTwoTone
@@ -992,10 +992,10 @@ export default function Pagelayout() {
         <MenuItem>
           <Stack direction="column" sx={{ paddingRight: "8px" }}>
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-              <strong>User 00001</strong>
+              <strong>{Cookies.get("userName")}</strong>
             </Typography>
             <Chip
-              label="Last Login:21/11/2022 05:00pm"
+              label={Cookies.get("lastLogin")}
               component="div"
               sx={{ color: "white", bgcolor: "#727dff" }}
             />
