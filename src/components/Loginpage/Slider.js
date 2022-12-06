@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 
 import "./Slider.css";
-import one from "./img/one.jpg";
+
 import two from "./img/two.jpg";
 import three from "./img/three.png";
 const sliderData = [
-  { image: one, title: "First images" },
   { image: two, title: "Second images" },
   { image: three, title: "three images" },
 ];

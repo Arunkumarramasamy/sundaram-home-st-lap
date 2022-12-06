@@ -13,7 +13,32 @@ import Button from "@mui/material/Button";
 import "./Idlogin.css";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import Alert from "@mui/material/Alert";
+
+import Snackbar from "@mui/material/Snackbar";
+
+import Pagelayout from "../Pagelayout/Pagelayout";
 const Idlogin = () => {
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+  const [alert, setAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const openAlertHandler = () => {
+    setAlert(true);
+  };
+  const closeAlertHandler = () => {
+    setAlert(false);
+  };
+  const employeeOnClickHandler = () => {
+    closeAlertHandler();
+  };
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const navigateToMobileNumberLogin = () => {
     dispatch(loginAction.updateLogin(false));
@@ -36,21 +61,36 @@ const Idlogin = () => {
   const onChangePassword = (event) => {
     setPassword(event.target.value);
   };
+
   const SendData = async () => {
     try {
       const response = await axios.post("http://localhost:8080/authenticate", {
         employeeId: employeeID,
         password: password,
       });
-      console.log(response);
+      console.log(response.status);
+      if (response.status) {
+        Cookies.set("islogin", true);
+        navigate("/stlap/home/dashboard");
+        dispatch(loginAction.updateEmployeeIDScreen(false));
+        dispatch(loginAction.updateLogin(true));
+      }
     } catch (e) {
-      console.log(e);
+      // console.log(e.response.data);
+      console.log(e.code);
+      if (e.code === "ERR_NETWORK") {
+        setErrorMessage(e.message);
+      } else {
+        setErrorMessage(e.response.data);
+      }
+
+      openAlertHandler();
     }
   };
   const loginHandler = () => {
-    SendData();
     setPasswordIsTouched(true);
     if (nameValid && passwordValid) {
+      SendData();
       console.log(employeeID, password);
     }
   };
@@ -90,6 +130,7 @@ const Idlogin = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onClick={employeeOnClickHandler}
                 placeholder="Enter Employee ID"
                 error={nameHasError ? true : false}
                 value={employeeID}
@@ -119,6 +160,7 @@ const Idlogin = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                type="password"
                 placeholder="Enter Password"
                 error={passwordHasError ? true : false}
                 value={password}
@@ -169,6 +211,21 @@ const Idlogin = () => {
           Login with Mobile Number
         </Link>
       </Box>
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={closeAlertHandler}
+      >
+        <Alert
+          onClose={closeAlertHandler}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

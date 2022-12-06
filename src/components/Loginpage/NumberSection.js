@@ -8,9 +8,37 @@ import { MobileLoginAction } from "../Store/MobileLogin";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import axios from "axios";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 const NumberSection = () => {
-  const dispatch = useDispatch();
+  // Alert Content
+  const [state, setState] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+  const [alert, setAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const openAlertHandler = () => {
+    setAlert(true);
+  };
+  const closeAlertHandler = () => {
+    setAlert(false);
+  };
+  //Success Alert
 
+  // const [Salert, SsetAlert] = useState(false);
+  // const [SMessage, setSMessage] = useState("");
+  // const openSAlertHandler = () => {
+  //   SsetAlert(true);
+  // };
+  // const closeSAlertHandler = () => {
+  //   SsetAlert(false);
+  // };
+
+  const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneNumberIsTouched, setPhoneNumberIsTouched] = useState(false);
   const phoneNumberISValid = phoneNumber.trim().length == 10;
@@ -25,8 +53,29 @@ const NumberSection = () => {
   const getOTP = () => {
     setPhoneNumberIsTouched(true);
     if (phoneNumberISValid) {
+      dispatch(MobileLoginAction.updateMobileNumber(phoneNumber));
+      getOTPData();
+    }
+  };
+  const getOTPData = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/generateOtp", {
+        employeeId: phoneNumber,
+        password: "",
+      });
+      console.log(response);
+      // setSMessage(response.data);
+      // openSAlertHandler();
       dispatch(MobileLoginAction.updateNumberSection(false));
       dispatch(MobileLoginAction.updateOTPSection(true));
+    } catch (e) {
+      console.log(e);
+      if (e.code === "ERR_NETWORK") {
+        setErrorMessage(e.message);
+      } else {
+        setErrorMessage(e.response.data);
+      }
+      openAlertHandler();
     }
   };
   return (
@@ -78,6 +127,36 @@ const NumberSection = () => {
           Get OTP
         </Button>
       </Box>
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={closeAlertHandler}
+      >
+        <Alert
+          onClose={closeAlertHandler}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+      {/* <Snackbar
+        open={Salert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={closeSAlertHandler}
+      >
+        <Alert
+          onClose={closeSAlertHandler}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {SMessage}
+        </Alert>
+      </Snackbar> */}
     </Box>
   );
 };

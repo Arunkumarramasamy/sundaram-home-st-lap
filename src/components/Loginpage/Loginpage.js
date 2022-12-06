@@ -6,26 +6,37 @@ import Idlogin from "./Idlogin";
 import MobileLogin from "./MobileLogin";
 import { useSelector } from "react-redux/es/exports";
 import SfTeam from "../../images/sundaramteam.png";
+import Pagelayout from "../Pagelayout/Pagelayout";
 import "./LoginPage.css";
 import Slider from "./Slider";
+import Cookies from "js-cookie";
 const LoginPage = () => {
   const loginPages = useSelector((state) => state.login.loginScreen);
   const EmployeeIDPage = useSelector((state) => state.login.EmployeeIDScreen);
   const MobilePage = useSelector((state) => state.login.MobileScreen);
 
-  return (
+  return Cookies.get("islogin") ? (
+    <Pagelayout />
+  ) : (
     <>
       <Box
         sx={{
           width: "100%",
           backgroundColor: "#004A92",
           height: "3.5rem",
-          backgroundImage: `url(${SfLogo})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "left",
-          backgroundSize: "15rem",
         }}
-      ></Box>
+      >
+        <Box
+          sx={{
+            marginLeft: "0.5rem",
+            height: "3.5rem",
+            backgroundImage: `url(${SfLogo})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "left",
+            backgroundSize: "15rem",
+          }}
+        ></Box>
+      </Box>
       <div
         className="contain"
         // sx={{
