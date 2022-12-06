@@ -1,5 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { useState } from "react";
+import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import STButton from "../CustomComponents/STButton";
@@ -16,16 +17,24 @@ const VoucherGeneration = () => {
     setShowResult(show);
   };
 
+  const dataMap = {CurrentDisbursementDetails : {
+    paymentMode:1,
+      chequeMode:1,
+      chequePrintAt:"Unknown",
+      entityName:"Sundaram Home",
+      favourName:"Sundaram Finance",
+      accountNumber:"1242112176865264",
+      debitAccountType:1,
+      ifscCode:"HDFC000500",
+
+  },};
+
+
   return (
     <>
-      <h4>Authorised Voucher Generation:</h4>
-      <FilterCondition onSearchButtonClick={searchButtonClickHandler} />
-      {showResult ? (
-        <CurrentDisbursementDetails showGrid={false} />
-      ) : (
-        <NoDataFound />
-      )}
-      {showResult ? (
+      <FilterCondition onSearchButtonClick={searchButtonClickHandler} title="Authorised Voucher Generation:"/>
+      {showResult ? (<><AccordianContainer title="Disbursement Details" initialOpen={true}>
+        <CurrentDisbursementDetails showGrid={false} dataMap={dataMap}/>
         <Box>
           <Box sx={{ marginTop: "1.4rem" }}>
 
@@ -68,8 +77,10 @@ const VoucherGeneration = () => {
               Generate
             </STButton>
           </Box>
-        </Box>
-      ) : null}
+        </Box></AccordianContainer></>
+      ) : (
+        <NoDataFound />
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
-import { Grid } from "@mui/material";
+import {  Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import React, { useState } from "react";
+import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
@@ -11,23 +12,33 @@ import FilterCondition from "./FilterCondition";
 const VoucherCancel = () => {
   const [showResult, setShowResult] = useState(false);
 
+
+
   const searchButtonClickHandler = (branch, trnNo, show) => {
     console.log(branch);
     console.log(trnNo);
     setShowResult(show);
   };
+
+  const dataMap = {CurrentDisbursementDetails : {
+    paymentMode:1,
+      chequeMode:1,
+      chequePrintAt:"Unknown",
+      entityName:"Sundaram Home",
+      favourName:"Sundaram Finance",
+      accountNumber:"1242112176865264",
+      debitAccountType:1,
+      ifscCode:"HDFC000500",
+
+  },};
   
   return (
     <>
-      <h4>Voucher Cancel:</h4>
-      <FilterCondition onSearchButtonClick={searchButtonClickHandler} />
-      {showResult ? (
-        <CurrentDisbursementDetails showGrid={false} />
-      ) : (
-        <NoDataFound />
-      )}
-      {showResult ? (
-        <>
+      <FilterCondition onSearchButtonClick={searchButtonClickHandler} title="Voucher Cancel:"/>
+      
+      {showResult ? ( <><AccordianContainer title="Disbursement Details" initialOpen={true}>
+        <CurrentDisbursementDetails showGrid={false} dataMap={dataMap}/>
+       
           <Box sx={{ marginTop: "1.5rem" }}>
           <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -77,8 +88,12 @@ const VoucherCancel = () => {
           >
             <STButton variant="contained">Cancel </STButton>
           </Box>
+          </AccordianContainer>
         </>
-      ) : null}
+      ) : (
+        <NoDataFound />
+      )}
+      
     </>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import STButton from "../CustomComponents/STButton";
+import axios from "axios";
 
 const columns = [
   { field: "id", headerName: "ID",headerAlign: "center",align: "right", },
@@ -18,18 +19,21 @@ const columns = [
     headerName: "Payment Mode",
     width: 150,
     headerAlign: "center",
+    align:"center",
   },
   {
     field: "emiType",
     headerName: "EMI Type",
     width: 150,
     headerAlign: "center",
+    align:"center",
   },
   {
     field: "entityName",
     headerName: "Entity Name",
     width: 150,
     headerAlign: "center",
+    align:"center",
   },
   {
     field: "accountNumber",
@@ -43,26 +47,7 @@ const columns = [
     headerName: "IFSC Code",
     width: 150,
     headerAlign: "center",
-  },
-];
-const rows = [
-  {
-    id: 1,
-    amout: 10000,
-    paymentMode: "Cash",
-    emiType: "Fixed Amount",
-    entityName: "Tom",
-    accountNumber: "182728928282",
-    ifscCode: "HDFC000007",
-  },
-  {
-    id: 2,
-    amout: 10000,
-    paymentMode: "Cash",
-    emiType: "Fixed Amount",
-    entityName: "Tom",
-    accountNumber: "182728928282",
-    ifscCode: "HDFC000007",
+    align:"center",
   },
 ];
 
@@ -79,6 +64,21 @@ if(window.innerWidth > 700){
 }
 
 const CurrentDisbursementDetailsGrid = (props) => {
+
+const submitButtonClickHandler = () =>{
+  try {
+    const response = axios.post("http://localhost:8080/authenticate", {
+      dataMap: props.dataMap,
+      token: "Check"
+    });
+    console.log(response);
+
+  } catch (e) {
+     console.log("Error Occured");
+  }
+}
+
+
   return (
     <>
       <Box sx={{ height: 210, marginTop: "3rem" }}>
@@ -94,7 +94,7 @@ const CurrentDisbursementDetailsGrid = (props) => {
               backgroundColor: "#7f7f7f",
             },
           }}
-          rows={rows}
+          rows={props.dataMap.CurrentDisbursementDetails.historyGrid}
           columns={columns}
           rowsPerPageOptions={[4, 8, 12, 16]}
           initialState={{
@@ -119,7 +119,7 @@ const CurrentDisbursementDetailsGrid = (props) => {
         <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
-        <STButton variant="contained">Submit & Download</STButton>
+        <STButton variant="contained" onClick={submitButtonClickHandler}>Submit & Download</STButton>
       </Box>
     </>
   );

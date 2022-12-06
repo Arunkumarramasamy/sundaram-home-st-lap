@@ -9,11 +9,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import STButton from "../CustomComponents/STButton";
 
 const EmiCommencementDate = (props) => {
-  const [ReadValue] = React.useState(false);
 
-  const EmiOnClick = () => {
-    props.nav("4");
-  };
 
   const emiOptionValues = [
     {
@@ -33,7 +29,7 @@ const EmiCommencementDate = (props) => {
           <InputLabel required sx={{ color: "#7f7f7f" }}>
             Moratorium
           </InputLabel>
-          <Switch disabled={ReadValue} />
+          <Switch  checked={props.dataMap.EmiCommencementDate.moratorium}/>
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -42,7 +38,7 @@ const EmiCommencementDate = (props) => {
             label="Number of Months"
             id="months"
             variant="outlined"
-            value=""
+            value={props.dataMap.EmiCommencementDate.numberofMonths}
             type="number"
             placeholder="Enter Number of Months"
           />
@@ -53,7 +49,7 @@ const EmiCommencementDate = (props) => {
             required={true}
             label="EMI Options"
             id="emiOptions"
-            value={""}
+            value={props.dataMap.EmiCommencementDate.emiOptions}
             placeholder="EMI Options"
             displayEmpty={true}
             dropDownValue={emiOptionValues}
@@ -66,7 +62,7 @@ const EmiCommencementDate = (props) => {
             label="ECD"
             id="ecd"
             variant="outlined"
-            value={""}
+            value={props.dataMap.EmiCommencementDate.ecd}
             type="date"
           />
         </Grid>
@@ -77,7 +73,7 @@ const EmiCommencementDate = (props) => {
             label="FBD"
             id="fbd"
             variant="outlined"
-            value={""}
+            value={props.dataMap.EmiCommencementDate.fbd}
             type="date"
           />
         </Grid>
@@ -88,7 +84,7 @@ const EmiCommencementDate = (props) => {
             label="FEDD"
             id="fedd"
             variant="outlined"
-            value={""}
+            value={props.dataMap.EmiCommencementDate.fedd}
             type="date"
           />
         </Grid>
