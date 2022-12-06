@@ -70,15 +70,35 @@ const OTPSection = () => {
     setOtpValueIsTouched(true);
   };
   const resendOTPHadler = () => {
-    setOtpValueIsTouched(false);
-    setSeconds(10);
-    setVerifyState(true);
-    setResendState(false);
+    regenerateOTP();
   };
   const VerifyHandler = () => {
     setOtpValueIsTouched(true);
     if (otpValueIsValid) {
       verifyData();
+    }
+  };
+  const regenerateOTP = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/generateOtp", {
+        employeeId: mobileNumber,
+        password: "",
+      });
+      console.log(response);
+      // setSMessage(response.data);
+      // openSAlertHandler();
+      setOtpValueIsTouched(false);
+      setSeconds(60);
+      setVerifyState(true);
+      setResendState(false);
+    } catch (e) {
+      console.log(e);
+      if (e.code === "ERR_NETWORK" || e.code === "ERR_BAD_RESPONSE") {
+        setErrorMessage(e.message);
+      } else {
+        setErrorMessage(e.response.data);
+      }
+      openAlertHandler();
     }
   };
   const verifyData = async () => {
