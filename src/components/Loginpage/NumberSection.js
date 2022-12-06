@@ -70,8 +70,8 @@ const NumberSection = () => {
       dispatch(MobileLoginAction.updateOTPSection(true));
     } catch (e) {
       console.log(e);
-      if (e.code === "ERR_NETWORK") {
-        setErrorMessage(e.message);
+      if (e.code === "ERR_NETWORK" || e.code === "ERR_BAD_RESPONSE") {
+        setErrorMessage("Network Error");
       } else {
         setErrorMessage(e.response.data);
       }

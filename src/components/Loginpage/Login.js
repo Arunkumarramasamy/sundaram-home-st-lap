@@ -9,6 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import ArrowRightAltSharpIcon from "@mui/icons-material/ArrowRightAltSharp";
 import { loginAction } from "../Store/LoginAuth";
 import TextField from "@mui/material/TextField";
+import { MobileLoginAction } from "../Store/MobileLogin";
 import "./Login.css";
 const Login = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const Login = () => {
     dispatch(loginAction.updateLogin(false));
     dispatch(loginAction.updateEmployeeIDScreen(false));
     dispatch(loginAction.updateMobileScreen(true));
+    dispatch(MobileLoginAction.updateNumberSection(true));
   };
   return (
     <Box
