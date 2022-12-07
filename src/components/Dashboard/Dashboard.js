@@ -14,9 +14,10 @@ export const Dashboard = (props) => {
       {gt && (
         <Masonry id= 'mansory-id'
           spacing={1}
+          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           sx={{
-            height: window.innerHeight - 110,
-            width: window.innerWidth - 32,
+            height: 'auto',
+           
             display: "-webkit-inline-box",
           }}
         >
@@ -28,18 +29,19 @@ export const Dashboard = (props) => {
         <Grid
           container
           spacing={1}
-          columns={{ xs: 12, sm: 8, md: 6, lg: 6, xl: 4 }}
+          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           sx={{
-            width: window.innerWidth - 32,
+            width: window.innerWidth - 8,
+            height:'auto'
           }}
         >
-          <DashboardContent />
-          {/* <DashboardBoardNewContent /> */}
+          {/* <DashboardContent /> */}
+          <DashboardBoardNewContent />
         </Grid>
       )}
       <Box
         component="footer"
-        sx={{ mt: "auto", textAlign: "center", marginTop: "206px" }}
+        sx={{ mt: "auto", textAlign: "center",  marginTop:'8px'}}
       >
         <Typography sx={{ color: "black" }} align="center">
           {" "}
