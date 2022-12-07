@@ -17,10 +17,12 @@
 .css-9npbnl-MuiFormLabel-root-MuiInputLabel-root {
         font-family: Roboto !important; 
         color: rgba(0, 0, 0, 0.699) !important;
+        font-weight: bold !important;
 }
 
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
     -webkit-text-fill-color: rgb(29 38 36 / 95%) !important;
+    
 }
 
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
@@ -29,4 +31,10 @@
 
 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
     -webkit-text-fill-color: rgb(29 38 36 / 95%) !important;
+}
+
+.css-1rzse1j-MuiFormLabel-root-MuiInputLabel-root {
+    font-family: Roboto !important; 
+        color: rgba(0, 0, 0, 0.699) !important;
+        font-weight: bold !important;
 }
