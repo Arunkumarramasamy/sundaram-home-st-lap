@@ -3,7 +3,7 @@ import { InputLabel, MenuItem, Select } from "@mui/material";
 const CustomDropDown = (props) => {
 
     return (<><InputLabel required={props.required} >{props.label}</InputLabel>
-    <Select displayEmpty={props.displayEmpty} value={props.value} fullWidth id={props.id} disabled={props.disabled}>
+    <Select onChange={props.onChange} displayEmpty={props.displayEmpty} value={props.value} fullWidth id={props.id} disabled={props.disabled}>
                     <MenuItem value="">
                       <p className="placeHolder_text">{props.placeholder}</p>
                     </MenuItem>
