@@ -6,8 +6,7 @@ const NoDataFound = () => {
     <Box>
       <Box
         sx={{
-          marginTop: "1rem",
-          marginBottom: "1rem",
+          marginTop: "10%",
           display: "flex",
           justifyContent: "center",
         }}
@@ -21,8 +20,6 @@ const NoDataFound = () => {
       </Box>
       <Box
         sx={{
-          marginTop: "1rem",
-          marginBottom: "1rem",
           display: "flex",
           justifyContent: "center",
         }}

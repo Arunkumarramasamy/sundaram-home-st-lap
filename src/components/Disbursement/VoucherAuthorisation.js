@@ -7,6 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
+import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import STButton from "../CustomComponents/STButton";
@@ -30,16 +31,25 @@ const VoucherAuthorisation = () => {
   const handleClose = () => {
     setOpenDialog(false);
   };
+
+
+  const dataMap = {CurrentDisbursementDetails : {
+    paymentMode:1,
+      chequeMode:1,
+      chequePrintAt:"Unknown",
+      entityName:"Sundaram Home",
+      favourName:"Sundaram Finance",
+      accountNumber:"1242112176865264",
+      debitAccountType:1,
+      ifscCode:"HDFC000500",
+
+  },};
+
   return (
     <>
-      <h4>Voucher Authorisation:</h4>
-      <FilterCondition onSearchButtonClick={searchButtonClickHandler} />
-      {showResult ? (
-        <CurrentDisbursementDetails showGrid={false} />
-      ) : (
-        <NoDataFound />
-      )}
-      {showResult ? (
+      <FilterCondition onSearchButtonClick={searchButtonClickHandler} title="Voucher Authorisation:"/>
+      {showResult ? (<><AccordianContainer title="Disbursement Details" initialOpen={true}>
+        <CurrentDisbursementDetails showGrid={false} dataMap={dataMap}/>
         <Box>
           <Box sx={{ marginTop: "1.4rem" }}>
 
@@ -82,8 +92,11 @@ const VoucherAuthorisation = () => {
               Approve
             </STButton>
           </Box>
-        </Box>
-      ) : null}
+        </Box></AccordianContainer></>
+      ) : (
+        <NoDataFound />
+      )}
+    
       <Dialog
         open={openDialog}
         onClose={handleClose}

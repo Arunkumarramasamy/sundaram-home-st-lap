@@ -1,8 +1,6 @@
-import { ExpandMore } from "@mui/icons-material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import * as React from "react";
@@ -16,7 +14,7 @@ import "./TabsIntegrator.css";
 const TabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
 
-  const[openAccordian,setOpenAccordian] = React.useState(true);
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -31,18 +29,7 @@ const TabsIntegrator = (props) => {
 
   return (
     <>
- <Accordion expanded={openAccordian} onChange={() => {setOpenAccordian(!openAccordian)} }>
-        <AccordionSummary
-          expandIcon={<ExpandMore />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Basic Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        <BasicInformation />
-        </AccordionDetails>
-      </Accordion>
+  <BasicInformation dataMap={props.dataMap}/>
 
       <Box sx={{ width: "100%",marginTop:"2%",  backgroundColor: "white" }}>
         <TabContext value={value}>
@@ -75,6 +62,9 @@ const TabsIntegrator = (props) => {
                   transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
                   borderBottom: "2px solid #AAAAAA",
                   textTransform: "none",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                  backgroundColor:"#D7D7D7",
                 },
               }}
             >
@@ -88,24 +78,28 @@ const TabsIntegrator = (props) => {
             <FilePendingProcess
               nav={NavigateToNext}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
           <TabPanel value="2">
             <FeesOutstanding
               nav={NavigateToNext}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
           <TabPanel value="3">
             <EmiCommencementDate
               nav={NavigateToNext}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
           <TabPanel value="4">
             <CurrentDisbursementDetails
               showGrid={true}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
         </TabContext>
