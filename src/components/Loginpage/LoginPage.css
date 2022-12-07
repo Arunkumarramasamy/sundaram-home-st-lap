@@ -21,6 +21,9 @@ body {
   }
 }
 @media (max-width: 59em) {
+  .contain {
+    grid-template-columns: 1fr;
+  }
   .add {
     display: none;
   }

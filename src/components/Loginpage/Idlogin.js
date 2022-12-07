@@ -91,6 +91,7 @@ const Idlogin = () => {
     }
   };
   const loginHandler = () => {
+    setEmployeeIdIsTouched(true);
     setPasswordIsTouched(true);
     if (nameValid && passwordValid) {
       SendData();
@@ -103,7 +104,12 @@ const Idlogin = () => {
   const passwordBlurHandler = () => {
     setPasswordIsTouched(true);
   };
-
+  // Enter key Handler
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      loginHandler();
+    }
+  };
   return (
     <Box
       sx={{
@@ -134,6 +140,7 @@ const Idlogin = () => {
             <Grid item xs={12}>
               <TextField
                 onClick={employeeOnClickHandler}
+                onKeyDown={handleKeypress}
                 placeholder="Enter Employee ID"
                 error={nameHasError ? true : false}
                 value={employeeID}
@@ -167,6 +174,7 @@ const Idlogin = () => {
                 placeholder="Enter Password"
                 error={passwordHasError ? true : false}
                 value={password}
+                onKeyDown={handleKeypress}
                 onBlur={passwordBlurHandler}
                 onChange={onChangePassword}
                 sx={{

@@ -78,6 +78,13 @@ const NumberSection = () => {
       openAlertHandler();
     }
   };
+
+  // Enter key Handler
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      getOTP();
+    }
+  };
   return (
     <Box>
       <Grid container spacing={1} sx={{ marginTop: "1.5rem" }}>
@@ -97,6 +104,7 @@ const NumberSection = () => {
                 error={phoneNumberError ? true : false}
                 onChange={phoneNumberChangeHandler}
                 onBlur={phoneNumberTouchHandler}
+                onKeyDown={handleKeypress}
                 sx={{
                   boxShadow: "0 2px 5px 0 rgb(113 113 113 / 24%)",
                   border: "none",
