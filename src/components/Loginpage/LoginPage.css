@@ -8,13 +8,16 @@ body {
   gap: 2rem;
   margin-top: 2rem;
   padding: 2rem;
+  top: 50%;
+  position: absolute;
+  transform: translate(0, -50%);
+  margin: auto;
 }
 .add {
   box-shadow: 0 2px 5px 0 rgb(113 113 113 / 64%);
 }
-@media (max-width: 45em) {
+@media (max-width: 800px) {
   .contain {
-    margin-top: 246px;
     grid-template-columns: 1fr;
   }
   .add {
@@ -23,12 +26,18 @@ body {
   }
 }
 
-@media (max-width: 34em) {
+@media (max-width: 770px) {
+  .contain {
+    margin-left: 68px;
+  }
+}
+@media (max-width: 500px) {
   .contain {
     grid-template-columns: 1fr;
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
+    margin-left: 0;
     margin-top: 0;
     margin: auto;
   }
