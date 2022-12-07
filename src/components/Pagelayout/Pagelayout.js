@@ -1089,35 +1089,35 @@ export default function Pagelayout() {
       </div>
 
       {/* Page Body */}
-      <Box sx={{ width: "100%", marginTop: "70px" }}>
-        <Container
-          sx={{ padding: "16px !important", maxWidth: "unset !important" }}
-        >
-          <Routes>
-            <Route
-              path={`${search}/stlap/home/dashboard`}
-              element={<Dashboard />}
-            />
-            <Route
-              path={`${search}/stlap/home/disbursementProcess`}
-              element={<Process />}
-            />
-            <Route
-              path={`${search}/stlap/home/voucherGeneration`}
-              element={<VoucherGeneration />}
-            />
-            <Route
-              path={`${search}/stlap/home/voucherAuthorisation`}
-              element={<VoucherAuthorisation />}
-            />
-            <Route
-              path={`${search}/stlap/home/voucherCancel`}
-              element={<VoucherCancel />}
-            />
+      <Box sx={{ width: "100%", marginTop: "70px", padding: "8px 0px 0px 8px" }}>
+        {/* <Container
+          sx={{ maxWidth:'unset !important' }}
+        > */}
+        <Routes>
+          <Route
+            path={`${search}/stlap/home/dashboard`}
+            element={<Dashboard />}
+          />
+          <Route
+            path={`${search}/stlap/home/disbursementProcess`}
+            element={<Process />}
+          />
+          <Route
+            path={`${search}/stlap/home/voucherGeneration`}
+            element={<VoucherGeneration />}
+          />
+          <Route
+            path={`${search}/stlap/home/voucherAuthorisation`}
+            element={<VoucherAuthorisation />}
+          />
+          <Route
+            path={`${search}/stlap/home/voucherCancel`}
+            element={<VoucherCancel />}
+          />
 
-            {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
-          </Routes>
-        </Container>
+          {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
+        </Routes>
+        {/* </Container> */}
       </Box>
     </Box>
   );
