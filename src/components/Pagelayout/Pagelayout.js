@@ -166,6 +166,7 @@ export default function Pagelayout() {
   const handleLogout = () => {
     Cookies.remove("islogin");
     navigate("/stlap/login");
+    Cookies.remove("Token");
   };
 
   const menuClickHandler = (event) => {
@@ -871,8 +872,6 @@ export default function Pagelayout() {
             sx={{ display: "block" }}
           />
         </ListItemButton>
-
-      
       </List>
       <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
@@ -883,10 +882,12 @@ export default function Pagelayout() {
       <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
         <img height="36px" src={Logo} alt="No Logo"></img>
       </Stack>
-      
+
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>{Cookies.get("userName")}</Typography>
+          <Typography sx={{ textAlign: "center" }}>
+            {Cookies.get("userName")}
+          </Typography>
           <Chip
             label={Cookies.get("lastLogin")}
             component="div"
@@ -909,21 +910,21 @@ export default function Pagelayout() {
           </Badge>
         </IconButton>
         <Stack direction="row">
-      <Tooltip title="Change Password" >
-      <IconButton>
+          <Tooltip title="Change Password">
+            <IconButton>
               <PublishedWithChangesTwoTone
                 sx={{ color: "white" }}
                 fontSize="large"
               />
-              </IconButton>
-      </Tooltip>
+            </IconButton>
+          </Tooltip>
 
-      < Tooltip title="Logout" >
-      <IconButton onClick={handleLogout} >
-                <LogoutTwoTone  sx={{ color: "white" }} fontSize="large" />
-                </IconButton>
-      </Tooltip>
-      </Stack>
+          <Tooltip title="Logout">
+            <IconButton onClick={handleLogout}>
+              <LogoutTwoTone sx={{ color: "white" }} fontSize="large" />
+            </IconButton>
+          </Tooltip>
+        </Stack>
       </Stack>
     </>
   );
@@ -1018,14 +1019,14 @@ export default function Pagelayout() {
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemButton >
+          <ListItemButton>
             <ListItemIcon>
-            <Tooltip title="Change Password" disableHoverListener={!expanded}>
-              <PublishedWithChangesTwoTone
-                fontSize="large"
-                sx={{ color: "black" }}
-              />
-            </Tooltip>
+              <Tooltip title="Change Password" disableHoverListener={!expanded}>
+                <PublishedWithChangesTwoTone
+                  fontSize="large"
+                  sx={{ color: "black" }}
+                />
+              </Tooltip>
             </ListItemIcon>
             <ListItemText id="menu-lable" primary="Change Password" />
           </ListItemButton>
@@ -1040,7 +1041,7 @@ export default function Pagelayout() {
             <ListItemText id="menu-lable" primary="Logout" />
           </ListItemButton>
         </MenuItem>
-       </Menu>
+      </Menu>
     </>
   );
 
@@ -1089,7 +1090,9 @@ export default function Pagelayout() {
       </div>
 
       {/* Page Body */}
-      <Box sx={{ width: "100%", marginTop: "70px", padding: "8px 0px 0px 8px" }}>
+      <Box
+        sx={{ width: "100%", marginTop: "70px", padding: "8px 0px 0px 8px" }}
+      >
         {/* <Container
           sx={{ maxWidth:'unset !important' }}
         > */}
