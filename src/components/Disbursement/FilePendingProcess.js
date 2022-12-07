@@ -5,12 +5,6 @@ import ImageIcon from "@mui/icons-material/Image";
 import { DataGrid } from "@mui/x-data-grid";
 import DoneIcon from "@mui/icons-material/Done";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import EcPatta from "../../images/ec_cert.png";
-import Aadhar from "../../images/aadhar.png";
-import pan from "../../images/pan.png";
-import passbook from "../../images/passbook.png";
-import patta from "../../images/patta.png";
-import chitta from "../../images/Chitta.png";
 import STButton from "../CustomComponents/STButton";
 
 const FilePendingProcess = (props) => {
@@ -27,72 +21,11 @@ const FilePendingProcess = (props) => {
     }
   };
 
-  const nextClickHandler = () => {
-    props.nav("2");
-  };
 
   const handleClose = () => {
     setOpen(false);
   };
-  const rows = [
-    {
-      id: 1,
-      name: "Legal Document",
-      type: "450",
-      status: "450",
-      preview: EcPatta,
-    },
-    {
-      id: 2,
-      name: "Aadhar",
-      type: "3000",
-      status: "2500",
-      preview: Aadhar,
-    },
-    {
-      id: 3,
-      name: "Pan",
-      type: "5000",
-      status: "5000",
-      preview: pan,
-    },
-    {
-      id: 4,
-      name: "Bank Pass Book",
-      type: "80",
-      status: "80",
-      preview: passbook,
-    },
-    {
-      id: 5,
-      name: "Patta",
-      type: "1000",
-      status: "1000",
-      preview: patta,
-    },
-    {
-      id: 6,
-      name: "Chitta",
-      type: "10000",
-      status: "7000",
-      preview: chitta,
-    },
-    {
-      id: 7,
-      name: "Adangal",
-      type: "100000",
-      status: "50000",
-      preview: "50000",
-    },
-    {
-      id: 8,
-      name: "EC document",
-      type: "30000",
-      status: "30000",
-      preview: "0",
-    },
-  ];
-
+  
   const columns = [
     {
       field: "id",
@@ -101,6 +34,7 @@ const FilePendingProcess = (props) => {
       type: "string",
       sortable: false,
       width: 80,
+      align: "right",
     },
 
     {
@@ -109,7 +43,7 @@ const FilePendingProcess = (props) => {
       headerAlign: "center",
       type: "string",
       width: 300,
-      align: "left",
+      align: "center",
       sortable: false,
       editable: false,
       hideable: false,
@@ -145,6 +79,15 @@ const FilePendingProcess = (props) => {
     },
   ];
 
+  let visibility = {
+    id: false,
+    status: false,
+    preview: false,
+  };
+  if(window.innerWidth > 700){
+    visibility = {};
+  }
+
   return (
     <React.Fragment sx={{ height: "100%" }}>
       <DataGrid
@@ -163,14 +106,20 @@ const FilePendingProcess = (props) => {
             backgroundColor: "#7f7f7f",
           },
         }}
-        rows={rows}
+        rows={props.dataMap.FilePendingProcess.filesGrid}
         columns={columns}
         rowsPerPageOptions={[4, 8, 12, 16]}
         getRowClassName={(params) =>
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
         onCellClick={handleCellEvent}
-        // columnVisibilityModel={visibility}
+        initialState={{
+          columns: {
+            columnVisibilityModel: {
+             ...visibility
+            },
+          },
+        }}
       />
       <Dialog onClose={handleClose} handleClose={handleClose} open={open}>
         <PreviewImage
@@ -191,9 +140,6 @@ const FilePendingProcess = (props) => {
       >
         <STButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
-        <STButton variant="contained" onClick={nextClickHandler}>
-          Next
         </STButton>
       </Box>
     </React.Fragment>

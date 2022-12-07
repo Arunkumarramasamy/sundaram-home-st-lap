@@ -1,89 +1,98 @@
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Autocomplete, Box, Button, Grid, InputLabel, Tab, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid
+} from "@mui/material";
 import React, { useState } from "react";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
+import AccordianContainer from "../CustomComponents/AccordianContainer";
 
 const FilterCondition = (props) => {
-
   const branchNames = [
-    { label: 'Mylapore'},
-    { label: 'Royapettah'},
-    { label: 'Light House'},
-    { label: 'Chennai'},
-    { label: 'Tambaram'},
-    { label: 'Egmore'},
+    { label: "Mylapore" },
+    { label: "Royapettah" },
+    { label: "Light House" },
+    { label: "Chennai" },
+    { label: "Tambaram" },
+    { label: "Egmore" },
   ];
 
+  const [branch, setBranch] = useState(branchNames[0]);
+  const [trnNo, setTrnNo] = useState("STLMYL202200001");
 
-   const [branch,setBranch] = useState(branchNames[0]);
-   const [trnNo,setTrnNo] = useState('STLMYL202200001');
-   const [inputBranchValue, setInputBranchValue] = React.useState('');
 
-    
-   const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const searchButtonClickHandler = (event) => {
+    event.preventDefault();
+    props.onSearchButtonClick(branch, trnNo, true);
   };
 
-      const searchButtonClickHandler = () =>{
-        props.onSearchButtonClick(branch,trnNo,true);
-      }
-      
+  const clearButtonClickHandler = () => {
+    setBranch("");
+    setTrnNo("");
+    props.onSearchButtonClick(branch, trnNo, false);
+  };
 
-      const clearButtonClickHandler = () =>{
-        setBranch("");
-        setTrnNo("");
-        props.onSearchButtonClick(branch,trnNo,false);
-      }
+  const branchValues = [
+    {
+      value: 1,
+      text: "Royapettah",
+    },
+    {
+      value: 2,
+      text: "Mylapore",
+    },
+    {
+      value: 3,
+      text: "Light House",
+    },
+    {
+      value: 4,
+      text: "Egmore",
+    },
+  ];
+
+  const BasicSearchValues = (
+    <><Box component="form"  validate    onSubmit={searchButtonClickHandler}  >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDropDown
+            required={true}
+            label="Branch"
+            id="branch"
+            value={""}
+            placeholder="Property Type"
+            displayEmpty={true}
+            dropDownValue={branchValues}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="Trn No."
+            id="trnno"
+            variant="outlined"
+            value={""}
+            type="text"
+            placeholder="Enter Trn No."
+          />
+        </Grid>
 
 
-      const BasicSearchValues = (<><Grid container spacing={2} >
-      
-      <Grid item xs={12} sm={6}>
-              <Grid container spacing={1} sx={{ alignItems: "center" }}>
-                <Grid item sm={12} lg={4} xs={12}>
-                  <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Branch
-                  </InputLabel>
-                </Grid>
-                <Grid item xs={12} lg={8} sm={12}>
-                <Autocomplete  
-             value={""}
-             onChange={(event, newValue) => {
-               setBranch(newValue.label);
-             }}
-             inputValue={inputBranchValue}
-             onInputChange={(event, newInputValue) => {
-               setInputBranchValue(newInputValue);
-             }}
-            options={branchNames} fullWidth  renderInput={(params) => <TextField placeholder="Select the Branch"   {...params}/>}
-      />
-                </Grid>
-              </Grid>
-            </Grid>
-  
-            <Grid item xs={12} sm={6}>
-              <Grid container spacing={1} sx={{ alignItems: "center" }}>
-                <Grid item sm={12} lg={4} xs={12}>
-                  <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Trn No.
-                  </InputLabel>
-                </Grid>
-                <Grid item xs={12} lg={8} sm={12}>
-                <TextField
-                onChange={(event) => {
-               setTrnNo(event.target.value);
-             }}
-                fullWidth 
-                id="outlined-basic"
-                variant="outlined"
-                placeholder="Enter TRN Number"
-                value={""}
-              />
-                </Grid>
-              </Grid>
-            </Grid>
-        
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Applicant Name"
+            id="applicantName"
+            variant="outlined"
+            value={""}
+            type="text"
+            placeholder="Applicant Name"
+          />
+        </Grid>
+
+
       </Grid>
       <Box
         sx={{
@@ -92,165 +101,30 @@ const FilterCondition = (props) => {
           justifyContent: "center",
         }}
       >
-        <Button variant="contained" onClick={searchButtonClickHandler}>Search</Button>
-        <Button sx={{marginLeft:"1rem"}} onClick={clearButtonClickHandler} variant="contained">Clear</Button>
-      </Box></>);
+        <Button variant="contained" type="submit">
+          Search
+        </Button>
+        <Button
+          sx={{ marginLeft: "1rem",backgroundColor:"black" }}
+          onClick={clearButtonClickHandler}
+          variant="contained"
+        >
+          Clear
+        </Button>
+      </Box>
+      </Box>
+    </>
+  );
 
 
-
-const AdvancedSearchValues = (<><Grid container spacing={2} >
-      
-  <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              Branch
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <Autocomplete  
-         value={""}
-         onChange={(event, newValue) => {
-           setBranch(newValue.label);
-         }}
-         inputValue={inputBranchValue}
-         onInputChange={(event, newInputValue) => {
-           setInputBranchValue(newInputValue);
-         }}
-        options={branchNames} fullWidth  renderInput={(params) => <TextField placeholder="Select the Branch"   {...params}/>}
-  />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              Trn No.
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <TextField
-            onChange={(event) => {
-           setTrnNo(event.target.value);
-         }}
-            fullWidth 
-            id="outlined-basic"
-            variant="outlined"
-            placeholder="Enter TRN Number"
-            value={""}
-          />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              Applicant Name
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <TextField
-            fullWidth 
-            id="outlined-basic"
-            variant="outlined"
-            placeholder="Enter Applicant Name"
-            value={""}
-          />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-              File Number
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-            <TextField
-            onChange={(event) => {
-           setTrnNo(event.target.value);
-         }}
-            fullWidth 
-            id="outlined-basic"
-            variant="outlined"
-            placeholder="Enter File Number"
-            value={""}
-          />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        
-    
-  </Grid>
-  <Box
-    sx={{
-      marginTop: "1rem",
-      display: "flex",
-      justifyContent: "center",
-    }}
-  >
-    <Button variant="contained" onClick={searchButtonClickHandler}>Search</Button>
-    <Button sx={{marginLeft:"1rem"}} onClick={clearButtonClickHandler} variant="contained">Clear</Button>
-  </Box></>);
-     
-
-    return ( <>
-    <Box sx={{ width: "100%", backgroundColor: "white" }}>
-        <TabContext value={value}>
-          <Box
-            sx={{
-              borderColor: "divider",
-              backgroundColor: "#eeeeee",
-            }}
-          >
-            <TabList
-              onChange={handleChange}
-              aria-label="lab API tabs example"
-              TabIndicatorProps={{ hidden: true }}
-              sx={{
-                "& button.Mui-selected": {
-                  backgroundColor: "#004a92",
-                  color: "white",
-                  borderTopLeftRadius: "1rem",
-                  borderTopRightRadius: "1rem",
-                  borderBottom: "none",
-                },
-                "& div.MuiTabs-flexContainer": {
-                  flexWrap: "wrap",
-                },
-                "& button": {
-                  outline: "none",
-                  marginRight: "0.2rem",
-                  background: "#fafafa",
-                  color: "#7f7f7f",
-                  transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
-                  borderBottom: "2px solid #AAAAAA",
-                  textTransform: "none",
-                },
-              }}
-            >
-              <Tab label="Basic Search" value="1" />
-              <Tab label="Advanced Search" value="2" />
-            </TabList>
-          </Box>
-          <TabPanel value="1">
-            {BasicSearchValues}
-          </TabPanel>
-          <TabPanel value="2">
-           {AdvancedSearchValues}
-          </TabPanel>
-         
-        </TabContext>
-      </Box></>
-);
-
+  return (
+    <><AccordianContainer title={props.title} initialOpen={true}>
+      <Box sx={{ width: "100%", backgroundColor: "white" }}>
+        {BasicSearchValues}
+      </Box>
+      </AccordianContainer>
+    </>
+  );
 };
 
 export default FilterCondition;

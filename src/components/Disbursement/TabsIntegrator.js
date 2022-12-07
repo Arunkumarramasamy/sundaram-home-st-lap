@@ -1,19 +1,20 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import * as React from "react";
+import BasicInformation from "./BasicInformation";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
+import EmiCommencementDate from "./EmiCommencementDate";
 import FeesOutstanding from "./FeesOutstanding";
 import FilePendingProcess from "./FilePendingProcess";
-import EmiCommencementDate from "./EmiCommencementDate";
 import "./TabsIntegrator.css";
-import { IconButton, Tooltip } from "@mui/material";
-import { ArrowBackTwoTone } from "@mui/icons-material";
 
 const TabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
+
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -28,15 +29,9 @@ const TabsIntegrator = (props) => {
 
   return (
     <>
-      {/* <Box sx={{ marginBottom: "0rem" }}>
-        <Tooltip title="Back To Search">
-          <IconButton sx={{ float: "right" }} onClick={backButtonClickHandler}>
-            <ArrowBackTwoTone color="primary" fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box> */}
+  <BasicInformation dataMap={props.dataMap}/>
 
-      <Box sx={{ width: "100%", backgroundColor: "white" }}>
+      <Box sx={{ width: "100%",marginTop:"2%",  backgroundColor: "white" }}>
         <TabContext value={value}>
           <Box
             sx={{
@@ -67,6 +62,9 @@ const TabsIntegrator = (props) => {
                   transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
                   borderBottom: "2px solid #AAAAAA",
                   textTransform: "none",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                  backgroundColor:"#D7D7D7",
                 },
               }}
             >
@@ -80,24 +78,28 @@ const TabsIntegrator = (props) => {
             <FilePendingProcess
               nav={NavigateToNext}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
           <TabPanel value="2">
             <FeesOutstanding
               nav={NavigateToNext}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
           <TabPanel value="3">
             <EmiCommencementDate
               nav={NavigateToNext}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
           <TabPanel value="4">
             <CurrentDisbursementDetails
               showGrid={true}
               back={backButtonClickHandler}
+              dataMap={props.dataMap}
             />
           </TabPanel>
         </TabContext>

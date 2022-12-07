@@ -38,17 +38,6 @@ aside {
   width: 10%;
 }
 
-#menu-box nav {
-  background-color: #169bd5 !important;
-  color: white;
-  height: 100%;
-}
-
-#logoimage {
-  height: 36px;
-  text-align: left !important;
-  margin-top: 5px;
-}
 #header-email-id {
   font-family: Roboto;
   margin-top: 14px;
@@ -76,9 +65,22 @@ aside {
 .anchor {
   height: 50px;
   width: 20px;
-  position: absolute;
+  position: fixed;
   z-index: 1200;
-  background-color: grey;
+  cursor:pointer;
+  background-color: #169bd5;
   top:48%;
   clip-path:polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
+
+#drawer-closer{
+  height: 50px;
+  width: 20px;
+  cursor: pointer;
+  position: fixed;
+  z-index: 1200;
+  background-color: #169bd5;
+  top:48%;
+  clip-path:polygon(25% 0%, 100% 1%, 100% 100%, 25% 100%, 0% 50%);
+  margin-left: 300px;
 }

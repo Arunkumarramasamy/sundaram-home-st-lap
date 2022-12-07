@@ -1,18 +1,18 @@
-import { useState } from "react";
-import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
-import FilterCondition from "./FilterCondition";
-import NoDataFound from "./NoDataFound";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
-import STButton from "../CustomComponents/STButton";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
+import { useState } from "react";
+import AccordianContainer from "../CustomComponents/AccordianContainer";
+import CustomTextField from "../CustomComponents/CustomTextField";
+import NoDataFound from "../CustomComponents/NoDataFound";
+import STButton from "../CustomComponents/STButton";
+import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
+import FilterCondition from "./FilterCondition";
 
 const VoucherAuthorisation = () => {
   const [showResult, setShowResult] = useState(false);
@@ -23,7 +23,7 @@ const VoucherAuthorisation = () => {
     console.log(trnNo);
     setShowResult(show);
   };
-  const [ReadValue] = useState(false);
+
   const handleClickOpen = () => {
     setOpenDialog(true);
   };
@@ -31,54 +31,55 @@ const VoucherAuthorisation = () => {
   const handleClose = () => {
     setOpenDialog(false);
   };
+
+
+  const dataMap = {CurrentDisbursementDetails : {
+    paymentMode:1,
+      chequeMode:1,
+      chequePrintAt:"Unknown",
+      entityName:"Sundaram Home",
+      favourName:"Sundaram Finance",
+      accountNumber:"1242112176865264",
+      debitAccountType:1,
+      ifscCode:"HDFC000500",
+
+  },};
+
   return (
     <>
-      <h4>Voucher Authorisation:</h4>
-      <FilterCondition onSearchButtonClick={searchButtonClickHandler} />
-      {showResult ? (
-        <CurrentDisbursementDetails showGrid={false} />
-      ) : (
-        <NoDataFound />
-      )}
-      {showResult ? (
+      <FilterCondition onSearchButtonClick={searchButtonClickHandler} title="Voucher Authorisation:"/>
+      {showResult ? (<><AccordianContainer title="Disbursement Details" initialOpen={true}>
+        <CurrentDisbursementDetails showGrid={false} dataMap={dataMap}/>
         <Box>
           <Box sx={{ marginTop: "1.4rem" }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <Grid container spacing={1} sx={{ alignItems: "center" }}>
-                  <Grid item sm={12} lg={4} xs={12}>
-                    <InputLabel required sx={{ color: "#7f7f7f" }}>
-                      Cheque Number
-                    </InputLabel>
-                  </Grid>
-                  <Grid item xs={12} lg={8} sm={12}>
-                    <TextField
-                      disabled={ReadValue}
-                      id="outlined-basic"
-                      variant="outlined"
-                      placeholder="Enter Cheque Number"
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Grid container spacing={1} sx={{ alignItems: "center" }}>
-                  <Grid item sm={12} lg={4} xs={12}>
-                    <InputLabel required sx={{ color: "#7f7f7f" }}>
-                      UTRAN Number
-                    </InputLabel>
-                  </Grid>
-                  <Grid item xs={12} lg={8} sm={12}>
-                    <TextField
-                      disabled={ReadValue}
-                      id="outlined-basic"
-                      variant="outlined"
-                      placeholder="Enter UTRAN Number"
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+
+
+          <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="Cheque Number"
+            id="chequeNumber"
+            variant="outlined"
+            value=""
+            type="text"
+            placeholder="Enter Cheque Number"
+          />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="UTRAN Number"
+            id="utranNumber"
+            variant="outlined"
+            value=""
+            type="text"
+            placeholder="Enter UTRAN Number"
+          />
+          </Grid>
+</Grid>
+
+           
           </Box>
           <Box
             sx={{
@@ -91,8 +92,11 @@ const VoucherAuthorisation = () => {
               Approve
             </STButton>
           </Box>
-        </Box>
-      ) : null}
+        </Box></AccordianContainer></>
+      ) : (
+        <NoDataFound />
+      )}
+    
       <Dialog
         open={openDialog}
         onClose={handleClose}

@@ -1,188 +1,172 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
 import CurrentDisbursementDetailsGrid from "./CurrentDisbursementDetailsGrid";
 
 const CurrentDisbursementDetails = (props) => {
-  const [ReadValue] = React.useState(false);
-  const [dummyValue] = React.useState("");
+
+  const paymentModeValues = [
+    {
+      value: 1,
+      text: "Cash",
+    },
+    {
+      value: 2,
+      text: "Cheque",
+    },
+    {
+      value: 3,
+      text: "Debit Card",
+    },
+    {
+      value: 4,
+      text: "Credit Card",
+    },
+    {
+      value: 5,
+      text: "Mobile Payments",
+    },
+  ];
+
+  const chequeModeValues = [
+    {
+      value: 1,
+      text: "Crossed Cheque",
+    },
+    {
+      value: 2,
+      text: "Open Cheque",
+    },
+    {
+      value: 3,
+      text: "Post-Dated Cheque",
+    },
+    {
+      value: 4,
+      text: "Stale Cheque",
+    },
+    {
+      value: 5,
+      text: "Traveller's Cheque",
+    },
+  ];
+
+  const debitAccountTypeValues = [
+    {
+      value: 1,
+      text: "Savings Account",
+    },
+    {
+      value: 2,
+      text: "Current Account",
+    },
+  ];
 
   return (
     <>
       <Box sx={{ marginTop: "0.5rem" }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Payment Mode
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <FormControl sx={{ minWidth: 210 }}>
-                  <Select displayEmpty value={dummyValue} disabled={ReadValue}>
-                    <MenuItem value="">
-                      <p className="placeHolder_text">Select Payment Mode</p>
-                    </MenuItem>
-                    <MenuItem value={1}>Cash</MenuItem>
-                    <MenuItem value={2}>Checks</MenuItem>
-                    <MenuItem value={3}>Debit cards</MenuItem>
-                    <MenuItem value={4}>Credit cards</MenuItem>
-                    <MenuItem value={5}>Mobile payments</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomDropDown
+              required={true}
+              label="Payment Mode"
+              id="paymentMod{e"
+              value={props.dataMap.CurrentDisbursementDetails.paymentMode}
+              placeholder="Payment Mode"
+              displayEmpty={true}
+              dropDownValue={paymentModeValues}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Cheque Mode
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <FormControl sx={{ minWidth: 210 }}>
-                  <Select
-                    displayEmpty
-                    value={dummyValue}
-                    disabled={ReadValue}
-                    fullWidth
-                  >
-                    <MenuItem value="">
-                      <p className="placeHolder_text">Cheque Mode</p>
-                    </MenuItem>
-                    <MenuItem value={1}>Crossed Cheque</MenuItem>
-                    <MenuItem value={2}>Open cheque</MenuItem>
-                    <MenuItem value={3}>Post-Dated Cheque</MenuItem>
-                    <MenuItem value={4}>Stale Cheque</MenuItem>
-                    <MenuItem value={5}>Traveller's cheque</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomDropDown
+              required={true}
+              label="Cheque Mode"
+              id="chequeMode"
+              value={props.dataMap.CurrentDisbursementDetails.chequeMode}
+              placeholder="Cheque Mode"
+              displayEmpty={true}
+              dropDownValue={chequeModeValues}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Cheque Print
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <TextField
-                  disabled={ReadValue}
-                  id="outlined-basic"
-                  variant="outlined"
-                  placeholder="Enter Cheque Print"
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomTextField
+              required={true}
+              label="Cheque Print at"
+              id="chequePrintAt"
+              variant="outlined"
+              value={props.dataMap.CurrentDisbursementDetails.chequePrintAt}
+              type="text"
+              placeholder="Enter Cheque Print At"
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Entity Name
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <TextField
-                  disabled={ReadValue}
-                  id="outlined-basic"
-                  variant="outlined"
-                  placeholder="Enter Entity Name"
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomTextField
+              required={true}
+              label="Entity Name"
+              id="entityName"
+              variant="outlined"
+              value={props.dataMap.CurrentDisbursementDetails.entityName}
+              type="text"
+              placeholder="Enter Entity Name"
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Favour Name
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <TextField
-                  disabled={ReadValue}
-                  id="outlined-basic"
-                  variant="outlined"
-                  placeholder="Enter Favour Name"
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomTextField
+              required={true}
+              label="Favour Name"
+              id="favourName"
+              variant="outlined"
+              value={props.dataMap.CurrentDisbursementDetails.favourName}
+              type="text"
+              placeholder="Enter Favour Name"
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Account Number
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <TextField
-                  disabled={ReadValue}
-                  id="outlined-basic"
-                  variant="outlined"
-                  placeholder="Enter Account Number"
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomTextField
+              required={true}
+              label="Account Number"
+              id="accountNumber"
+              variant="outlined"
+              value={props.dataMap.CurrentDisbursementDetails.accountNumber}
+              type="text"
+              placeholder="Enter Account Number"
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  Debit Account Type
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <FormControl>
-                  <Select displayEmpty value={dummyValue}>
-                    <MenuItem value="">
-                      <p className="placeHolder_text">Select Account Type</p>
-                    </MenuItem>
-                    <MenuItem value={10}>Saving Account</MenuItem>
-                    <MenuItem value={21}>Current Account</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomDropDown
+              required={true}
+              label="Debit Account Type"
+              id="debitAccountType"
+              value={props.dataMap.CurrentDisbursementDetails.debitAccountType}
+              placeholder="Debit Account Type"
+              displayEmpty={true}
+              dropDownValue={debitAccountTypeValues}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                  IFSC Code
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-                <TextField
-                  disabled={ReadValue}
-                  id="outlined-basic"
-                  variant="outlined"
-                  placeholder="Enter IFSC Code"
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomTextField
+              required={true}
+              label="IFSC Code"
+              id="ifsc"
+              variant="outlined"
+              value={props.dataMap.CurrentDisbursementDetails.ifscCode}
+              type="text"
+              placeholder="Enter IFSC Code"
+            />
           </Grid>
         </Grid>
       </Box>
       {props.showGrid ? (
-        <CurrentDisbursementDetailsGrid back={props.back} />
+        <CurrentDisbursementDetailsGrid back={props.back} dataMap={props.dataMap}/>
       ) : null}
     </>
   );

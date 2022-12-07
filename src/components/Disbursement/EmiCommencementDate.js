@@ -1,156 +1,92 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import * as React from "react";
-import dayjs from "dayjs";
 import Switch from "@mui/material/Switch";
+import * as React from "react";
+import CustomDateField from "../CustomComponents/CustomDateField";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
 import STButton from "../CustomComponents/STButton";
 
 const EmiCommencementDate = (props) => {
-  const [ReadValue] = React.useState(false);
-  const [value, setValue] = React.useState(dayjs("2022-11-28T21:11:54"));
-  const [FEDDValue, FEDDSetValue] = React.useState(
-    dayjs("2022-08-01T21:11:54")
-  );
-  const [dummyValue] = React.useState("");
-  const EmiOnClick = () => {
-    props.nav("4");
-  };
+
+
+  const emiOptionValues = [
+    {
+      value: 1,
+      text: "Commence EMI",
+    },
+    {
+      value: 2,
+      text: "Continue EMI",
+    },
+  ];
+
   return (
     <Box sx={{ marginTop: "0.5rem" }}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Moratorium
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-              <Switch disabled={ReadValue} />
-            </Grid>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <InputLabel required sx={{ color: "#7f7f7f" }}>
+            Moratorium
+          </InputLabel>
+          <Switch  checked={props.dataMap.EmiCommencementDate.moratorium}/>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Number of Months
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-              <TextField
-                disabled={ReadValue}
-                id="outlined-basic"
-                variant="outlined"
-                placeholder="Enter Number of months"
-              />
-            </Grid>
-          </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={true}
+            label="Number of Months"
+            id="months"
+            variant="outlined"
+            value={props.dataMap.EmiCommencementDate.numberofMonths}
+            type="number"
+            placeholder="Enter Number of Months"
+          />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-                EMI Options
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-              <FormControl sx={{ minWidth: 210 }}>
-                <Select displayEmpty value={dummyValue} disabled={ReadValue}>
-                  <MenuItem value="">
-                    <p className="placeHolder_text">Select EMI Options</p>
-                  </MenuItem>
-                  <MenuItem value={1}>Commence EMI</MenuItem>
-                  <MenuItem value={2}>Continue EMI</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDropDown
+            required={true}
+            label="EMI Options"
+            id="emiOptions"
+            value={props.dataMap.EmiCommencementDate.emiOptions}
+            placeholder="EMI Options"
+            displayEmpty={true}
+            dropDownValue={emiOptionValues}
+          />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-                ECD
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  disabled={ReadValue}
-                  disableFuture
-                  openTo="year"
-                  views={["year", "month", "day"]}
-                  value={value}
-                  onChange={(newValue) => {
-                    setValue(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            required={true}
+            label="ECD"
+            id="ecd"
+            variant="outlined"
+            value={props.dataMap.EmiCommencementDate.ecd}
+            type="date"
+          />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-                FBD
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  disabled={ReadValue}
-                  disableFuture
-                  openTo="year"
-                  views={["year", "month", "day"]}
-                  value={value}
-                  onChange={(newValue) => {
-                    setValue(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            required={true}
+            label="FBD"
+            id="fbd"
+            variant="outlined"
+            value={props.dataMap.EmiCommencementDate.fbd}
+            type="date"
+          />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            <Grid item sm={12} lg={4} xs={12}>
-              <InputLabel required sx={{ color: "#7f7f7f" }}>
-                FEDD
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} lg={8} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  disabled={ReadValue}
-                  disableFuture
-                  openTo="year"
-                  views={["year", "month", "day"]}
-                  value={FEDDValue}
-                  onChange={(newValue) => {
-                    FEDDSetValue(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            required={true}
+            label="FEDD"
+            id="fedd"
+            variant="outlined"
+            value={props.dataMap.EmiCommencementDate.fedd}
+            type="date"
+          />
         </Grid>
       </Grid>
       <Box
@@ -164,9 +100,6 @@ const EmiCommencementDate = (props) => {
       >
         <STButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
-        <STButton variant="contained" onClick={EmiOnClick}>
-          Next
         </STButton>
       </Box>
     </Box>

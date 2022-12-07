@@ -8,6 +8,7 @@ import {
   Tooltip,
   Collapse,
   Container,
+  useMediaQuery,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -20,9 +21,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Logo from "../../images/SF_Logo.png";
 import "./PageLayout.css";
 import Cookies from "js-cookie";
-import "simplebar-react/dist/simplebar.min.css";
 import Stack from "@mui/material/Stack";
-import MediaQuery from "react-responsive";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
@@ -103,7 +102,7 @@ export default function Pagelayout() {
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { search } = useLocation();
   const open = Boolean(anchorEl);
 
@@ -123,11 +122,7 @@ export default function Pagelayout() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleDrawerCheck = (event) => {
-    // let node = <div id="drawerId"></div>;
-    // event.target.appendChild(node);
-    // console.log(event);
-  };
+
   const handleNachMenuClick = () => {
     setOpenNachSubMenu(!openNachSubMenu);
     setOpenInsuranceSubMenu(false);
@@ -170,10 +165,11 @@ export default function Pagelayout() {
 
   const handleLogout = () => {
     Cookies.remove("islogin");
-    history("/stlap/login");
+    navigate("/stlap/login");
   };
 
   const menuClickHandler = (event) => {
+    setExpanded(false);
     routeBasedOnKey(event.currentTarget.id);
   };
 
@@ -182,6 +178,7 @@ export default function Pagelayout() {
     switch (key) {
       case "dashboard":
         path = "/stlap/home/dashboard";
+
         break;
       case "disbursementProcess":
         path = "/stlap/home/disbursementProcess";
@@ -199,17 +196,25 @@ export default function Pagelayout() {
         path = "/stlap/home/dashboard";
         break;
     }
-    history(path);
+    navigate(path);
   };
 
   const list = (
     <Box
-      sx={{ width: 300, backgroundColor: "#169BD5", color: "white" }}
+      sx={{
+        width: 300,
+        display: "block",
+        height: "100%",
+        backgroundColor: "#169BD5",
+        color: "white",
+      }}
       role="presentation"
-      onClick={handleDrawerOpen}
-      onKeyDown={handleDrawerOpen}
     >
-      <List component="nav" aria-labelledby="nested-list-subheader">
+      <List
+        sx={{ width: 300, backgroundColor: "#169BD5" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
         {/* Dashboard */}
         <ListItemButton id="dashboard" onClick={menuClickHandler}>
           <ListItemIcon>
@@ -867,52 +872,23 @@ export default function Pagelayout() {
           />
         </ListItemButton>
 
-        {/* Change Password */}
-        <ListItemButton>
-          <ListItemIcon>
-            <Tooltip title="Change Password" disableHoverListener={!expanded}>
-              <PublishedWithChangesTwoTone
-                fontSize="large"
-                sx={{ color: "white" }}
-              />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Change Password"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
-
-        {/* Change Password */}
-        <ListItemButton onClick={handleLogout}>
-          <ListItemIcon>
-            <Tooltip title="Logout" disableHoverListener={!expanded}>
-              <LogoutTwoTone fontSize="large" sx={{ color: "white" }} />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Logout"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
+      
       </List>
+      <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
   );
 
   const desktopHeader = (
     <>
       <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
-        <img id="logoimage" src={Logo} alt="No Logo"></img>
+        <img height="36px" src={Logo} alt="No Logo"></img>
       </Stack>
+      
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-            User 00001
-          </Typography>
+          <Typography sx={{ textAlign: "center" }}>{Cookies.get("userName")}</Typography>
           <Chip
-            label="Last Login:21/11/2022 05:00pm"
+            label={Cookies.get("lastLogin")}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -932,6 +908,22 @@ export default function Pagelayout() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
+        <Stack direction="row">
+      <Tooltip title="Change Password" >
+      <IconButton>
+              <PublishedWithChangesTwoTone
+                sx={{ color: "white" }}
+                fontSize="large"
+              />
+              </IconButton>
+      </Tooltip>
+
+      < Tooltip title="Logout" >
+      <IconButton onClick={handleLogout} >
+                <LogoutTwoTone  sx={{ color: "white" }} fontSize="large" />
+                </IconButton>
+      </Tooltip>
+      </Stack>
       </Stack>
     </>
   );
@@ -1000,10 +992,10 @@ export default function Pagelayout() {
         <MenuItem>
           <Stack direction="column" sx={{ paddingRight: "8px" }}>
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-              <strong>User 00001</strong>
+              <strong>{Cookies.get("userName")}</strong>
             </Typography>
             <Chip
-              label="Last Login:21/11/2022 05:00pm"
+              label={Cookies.get("lastLogin")}
               component="div"
               sx={{ color: "white", bgcolor: "#727dff" }}
             />
@@ -1026,6 +1018,19 @@ export default function Pagelayout() {
         </MenuItem>
         <Divider />
         <MenuItem>
+          <ListItemButton >
+            <ListItemIcon>
+            <Tooltip title="Change Password" disableHoverListener={!expanded}>
+              <PublishedWithChangesTwoTone
+                fontSize="large"
+                sx={{ color: "black" }}
+              />
+            </Tooltip>
+            </ListItemIcon>
+            <ListItemText id="menu-lable" primary="Change Password" />
+          </ListItemButton>
+        </MenuItem>
+        <MenuItem>
           <ListItemButton onClick={handleLogout}>
             <ListItemIcon>
               <Tooltip title="Logout" disableHoverListener={!expanded}>
@@ -1035,7 +1040,7 @@ export default function Pagelayout() {
             <ListItemText id="menu-lable" primary="Logout" />
           </ListItemButton>
         </MenuItem>
-      </Menu>
+       </Menu>
     </>
   );
 
@@ -1051,7 +1056,11 @@ export default function Pagelayout() {
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: "#004A92", height: "70px" }}
+        sx={{
+          backgroundColor: "#004A92",
+          height: "70px",
+          justifyContent: "center",
+        }}
       >
         <Toolbar>
           <IconButton
@@ -1064,13 +1073,8 @@ export default function Pagelayout() {
           >
             <MenuIcon />
           </IconButton>
-
-          <MediaQuery query="(min-device-width: 1024px)">
-            {desktopHeader}
-          </MediaQuery>
-          <MediaQuery query="(max-device-width: 1023px)">
-            {mobileHeader}
-          </MediaQuery>
+          {useMediaQuery("(min-width:1024px)") && desktopHeader}
+          {useMediaQuery("(max-width:1023px)") && mobileHeader}
         </Toolbar>
       </AppBar>
       <div>
@@ -1079,41 +1083,41 @@ export default function Pagelayout() {
           id="drawer-menu"
           open={expanded}
           onClose={handleDrawerClose}
-          onBlur={handleDrawerCheck}
         >
           {list}
         </Drawer>
-        <div></div>
       </div>
 
       {/* Page Body */}
-      <Box sx={{ width: "100%", marginTop: "70px" }}>
-        <Container sx={{ padding: "0px !important", marginBottom: "8px" }}>
-          <Routes>
-            <Route
-              path={`${search}/stlap/home/dashboard`}
-              element={<Dashboard menuExpanded={expanded} />}
-            />
-            <Route
-              path={`${search}/stlap/home/disbursementProcess`}
-              element={<Process />}
-            />
-            <Route
-              path={`${search}/stlap/home/voucherGeneration`}
-              element={<VoucherGeneration />}
-            />
-            <Route
-              path={`${search}/stlap/home/voucherAuthorisation`}
-              element={<VoucherAuthorisation />}
-            />
-            <Route
-              path={`${search}/stlap/home/voucherCancel`}
-              element={<VoucherCancel />}
-            />
+      <Box sx={{ width: "100%", marginTop: "70px", padding: "8px 0px 0px 8px" }}>
+        {/* <Container
+          sx={{ maxWidth:'unset !important' }}
+        > */}
+        <Routes>
+          <Route
+            path={`${search}/stlap/home/dashboard`}
+            element={<Dashboard />}
+          />
+          <Route
+            path={`${search}/stlap/home/disbursementProcess`}
+            element={<Process />}
+          />
+          <Route
+            path={`${search}/stlap/home/voucherGeneration`}
+            element={<VoucherGeneration />}
+          />
+          <Route
+            path={`${search}/stlap/home/voucherAuthorisation`}
+            element={<VoucherAuthorisation />}
+          />
+          <Route
+            path={`${search}/stlap/home/voucherCancel`}
+            element={<VoucherCancel />}
+          />
 
-            <Route path="*" exact={true} element={<Loginpage />} />
-          </Routes>
-        </Container>
+          {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
+        </Routes>
+        {/* </Container> */}
       </Box>
     </Box>
   );

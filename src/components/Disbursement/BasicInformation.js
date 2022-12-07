@@ -1,258 +1,177 @@
-import { CurrencyRupee, Percent } from "@mui/icons-material";
-import {  Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import {
+  Box,
+  Grid
+} from "@mui/material";
 import React from "react";
+import CustomDateField from "../CustomComponents/CustomDateField";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
+import AccordianContainer from "../CustomComponents/AccordianContainer";
 
 
 const BasicInformation = (props) => {
 
-    const [disbursementDate, setDisbursementDate] = React.useState(dayjs("2022-11-28T21:11:54"));
-    const [sanctionDate, setSanctionedDate] = React.useState(dayjs("2022-11-22T21:11:54"));
-    const [requestDate, setRequestDate] = React.useState(dayjs("2022-11-18T21:11:54"));
+  const proposalTypeValues = [
+    {
+      value: 1,
+      text: "Agri Land",
+    },
+    {
+      value: 2,
+      text: "Site",
+    },
+    {
+      value: 3,
+      text: "Individual House",
+    },
+    {
+      value: 4,
+      text: "Apartment",
+    },
+  ];
 
-       const processButtonClickHandler =() =>{
-        props.onProcessButtonClick();
-      };
-
-    return ( 
-        
-        <Box sx={{backgroundColor: "white",padding: '0.3rem',borderRadius:'10px'}}>
-            <h4>Basic Information:</h4>
-            <Grid container spacing={3} sx={{marginTop:'2%'}}>
-
-            <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Applicant Name
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <TextField
-              id="outlined-basic"
-              variant="outlined"
-              value={"Sundaram"}
-              type="text"
-            />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Loan Request Date
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  disableFuture
-                  openTo="year"
-                  views={["year", "month", "day"]}
-                  value={requestDate}
-                  onChange={(newValue) => {
-                    setRequestDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-              </Grid>
-            </Grid>
-          </Grid>
+  return (
 
 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Total Disbursement Amount(<CurrencyRupee fontSize="small"/>)
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <TextField
-               
-              id="outlined-basic"
-              variant="outlined"
-              type="number"
-              value={1000000}
-            />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Current Disbursement Amount(<CurrencyRupee fontSize="small"/>)
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <TextField
-               
-              id="outlined-basic"
-              variant="outlined"
-              type="number"
-              value={1000000}
-            />
-              </Grid>
-            </Grid>
-          </Grid>
-
-
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Effective Rate(<Percent fontSize="small"/>)
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <TextField
-               
-              id="outlined-basic"
-              variant="outlined"
-              value={18}
-              type="number"
-            />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Number of Disbursement
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <TextField
-               
-              id="outlined-basic"
-              variant="outlined"
-              type="number"
-              value={1}
-            />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Proposal Type
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <FormControl sx={{ minWidth: 220 }}>
-              <Select displayEmpty value={1} >
-                    <MenuItem value="">
-                      <p className="placeHolder_text">Property Type</p>
-                    </MenuItem>
-                    <MenuItem value={1}>Agri Land</MenuItem>
-                    <MenuItem value={2}>Site</MenuItem>
-                    <MenuItem value={3}>Individual House</MenuItem>
-                    <MenuItem value={3}>Apartment</MenuItem>
-                  </Select>
-                  </FormControl>
-               </Grid>
-            </Grid>
-          </Grid>
-          
-
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Sanction Date
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  disableFuture
-                  openTo="year"
-                  views={["year", "month", "day"]}
-                  value={sanctionDate}
-                  onChange={(newValue) => {
-                    setSanctionedDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                File Number
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <TextField
-               
-              id="outlined-basic"
-              variant="outlined"
-              value={"Not Applicable"}
-            />
-              </Grid>
-            </Grid>
-          </Grid>
- 
-          <Grid item xs={12} sm={6}>
-            <Grid container spacing={1} sx={{ alignItems: "center" }}>
-              <Grid item sm={12} lg={4} xs={12}>
-                <InputLabel required sx={{ color: "#7f7f7f" }}>
-                Date of Disbursement
-                </InputLabel>
-              </Grid>
-              <Grid item xs={12} lg={8} sm={12}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  disableFuture
-                  openTo="year"
-                  views={["year", "month", "day"]}
-                  value={disbursementDate}
-                  onChange={(newValue) => {
-                    setDisbursementDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-              </Grid>
-            </Grid>
-          </Grid>
-
-
-          
-
-         
-
-         
-      
-    </Grid>
+    <AccordianContainer title="Basic Information:" initialOpen={props.initialOpen}>
     <Box
-      sx={{
-        marginTop: "1rem",
-        marginBottom: "1rem",
-        display: "flex",
-        justifyContent: "center",
-      }}
+      sx={{ backgroundColor: "white", padding: "0.3rem", borderRadius: "10px" }}
     >
-      <Button variant="contained" onClick={processButtonClickHandler}>Process</Button>
+    
 
+      <Grid container spacing={2} >
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Applicant Name"
+            id="applicantName"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.applicantName}
+            type="text"
+            placeholder="Enter Applicant Name"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            required={false}
+            label="Loan Request Date"
+            id="loanRequestDate"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.loanrequestDate}
+            type="date"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Total Disbursement Amount"
+            id="totalDisbursementAmount"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.totalDisbursementAmount}
+            type="number"
+            placeholder="Enter Total Disbursement Amount"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Current Disbursement Amount"
+            id="currentDisbursementAmount"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.currentDisbursementAmount}
+            type="number"
+            placeholder="Enter Current Disbursement Amount"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Effective Rate"
+            id="effectiveRate"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.effectiveRate}
+            type="number"
+            placeholder="Enter Effective Rate"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Number of Disbursement"
+            id="disbursementNo"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.numberofDisbursement}
+            type="number"
+            placeholder="Enter Number of Disbursement"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDropDown
+            required={false}
+            label="Proposal Type"
+            id="proposalType"
+            value={props.dataMap.BasicInformation.proposalType}
+            placeholder="Property Type"
+            displayEmpty={true}
+            dropDownValue={proposalTypeValues}
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            required={false}
+            label="Sanction Date"
+            id="sanctionDate"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.sanctionedDate}
+            type="date"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="File Number"
+            id="fileNumber"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.fileNumber}
+            type="text"
+            placeholder="Enter File Number"
+            disabled={true}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            required={false}
+            label="Date of Disbursement"
+            id="dateOfDisbursement"
+            variant="outlined"
+            value={props.dataMap.BasicInformation.dateofDisbursement}
+            type="date"
+            disabled={true}
+          />
+        </Grid>
+      </Grid>
+
+      
     </Box>
-        </Box>
-    );
+    </AccordianContainer>
+    
+  );
 };
 export default BasicInformation;
