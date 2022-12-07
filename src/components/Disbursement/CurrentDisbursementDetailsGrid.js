@@ -2,11 +2,13 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import STButton from "../CustomComponents/STButton";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const columns = [
   { field: "id", headerName: "ID",headerAlign: "center",align: "right", },
   {
-    field: "amout",
+    field: "amount",
     headerName: "Amount",
     width: 150,
     hideable: false,
@@ -18,18 +20,21 @@ const columns = [
     headerName: "Payment Mode",
     width: 150,
     headerAlign: "center",
+    align:"center",
   },
   {
     field: "emiType",
     headerName: "EMI Type",
     width: 150,
     headerAlign: "center",
+    align:"center",
   },
   {
     field: "entityName",
     headerName: "Entity Name",
     width: 150,
     headerAlign: "center",
+    align:"center",
   },
   {
     field: "accountNumber",
@@ -43,26 +48,7 @@ const columns = [
     headerName: "IFSC Code",
     width: 150,
     headerAlign: "center",
-  },
-];
-const rows = [
-  {
-    id: 1,
-    amout: 10000,
-    paymentMode: "Cash",
-    emiType: "Fixed Amount",
-    entityName: "Tom",
-    accountNumber: "182728928282",
-    ifscCode: "HDFC000007",
-  },
-  {
-    id: 2,
-    amout: 10000,
-    paymentMode: "Cash",
-    emiType: "Fixed Amount",
-    entityName: "Tom",
-    accountNumber: "182728928282",
-    ifscCode: "HDFC000007",
+    align:"center",
   },
 ];
 
@@ -79,6 +65,60 @@ if(window.innerWidth > 700){
 }
 
 const CurrentDisbursementDetailsGrid = (props) => {
+
+
+  const formDataMap = (dataMap) =>{
+
+    return ( {
+      "accountNumber": dataMap.CurrentDisbursementDetails.accountNumber,
+      "applicantName": dataMap.BasicInformation.applicantName,
+      "chequeMode": dataMap.CurrentDisbursementDetails.chequeMode,
+      "chequePrintAt": dataMap.CurrentDisbursementDetails.chequePrintAt,
+      "currentDisbursment":  dataMap.BasicInformation.currentDisbursementAmount,
+      "dateOfDisbursment":  dataMap.BasicInformation.dateofDisbursment,
+      "debitAccountDetail": dataMap.CurrentDisbursementDetails.debitAccountType,
+      "disbursmentCurrent": dataMap.CurrentDisbursementDetails.historyGrid,
+      "effectiveDate":  dataMap.BasicInformation.effectiveRate,
+      "entityName": dataMap.CurrentDisbursementDetails.entityName,
+      "favourName": dataMap.CurrentDisbursementDetails.favourName,
+      "fileNumber":  dataMap.BasicInformation.fileNumber,
+      "ifscCode": dataMap.CurrentDisbursementDetails.ifscCode,
+      "loanRequestDate":  dataMap.BasicInformation.loanrequestDate,
+      "numberOfDisbursment": dataMap.BasicInformation.numberofDisbursement,
+      "paymentMode": dataMap.CurrentDisbursementDetails.paymentMode,
+      "proposalType": dataMap.BasicInformation.proposalType,
+      "sanctionDate": dataMap.BasicInformation.sanctionedDate,
+      "totalDisbursmentAmt":dataMap.BasicInformation.totalDisbursementAmount
+    });
+
+  };
+
+
+  const submitButtonClickHandler = () =>{
+    try {
+      const response = axios.post("http://localhost:8080/generateReport", {
+             ...formDataMap(props.dataMap)     
+          }, {
+        headers: {
+          'Authorization':'Bearer '+ Cookies.get('Token')
+        }
+      }).then(function (response) {
+        const filename='sample';
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.download = `${filename}.pdf`;
+        link.href = window.URL.createObjectURL(blob);
+        
+        link.click();
+        console.log(response);
+      });
+      console.log(response);
+  
+    } catch (e) {
+       console.log("Error Occured");
+    }
+  };
+
   return (
     <>
       <Box sx={{ height: 210, marginTop: "3rem" }}>
@@ -94,7 +134,7 @@ const CurrentDisbursementDetailsGrid = (props) => {
               backgroundColor: "#7f7f7f",
             },
           }}
-          rows={rows}
+          rows={props.dataMap.CurrentDisbursementDetails.historyGrid}
           columns={columns}
           rowsPerPageOptions={[4, 8, 12, 16]}
           initialState={{
@@ -119,7 +159,7 @@ const CurrentDisbursementDetailsGrid = (props) => {
         <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
-        <STButton variant="contained">Submit & Download</STButton>
+        <STButton variant="contained" onClick={submitButtonClickHandler}>Submit & Download</STButton>
       </Box>
     </>
   );

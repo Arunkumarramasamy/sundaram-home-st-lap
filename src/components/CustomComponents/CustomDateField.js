@@ -13,7 +13,8 @@ const CustomDateField = (props) => {
         <InputLabel required={props.required} >{props.label}</InputLabel>
         
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker        
+        <DatePicker      
+        disabled={props.disabled}  
           disableFuture
           openTo="year"
           views={['year', 'month', 'day']}
@@ -21,7 +22,7 @@ const CustomDateField = (props) => {
           onChange={(newValue) => {
             setValue(newValue);
           }}
-          renderInput={(params) => <TextField fullWidth  id={props.id}  variant={props.variant}  value={props.value}  type={props.type} placeholder={props.placeholder} {...params} />}
+          renderInput={(params) => <TextField fullWidth   id={props.id}  variant={props.variant}  value={props.value}  type={props.type} placeholder={props.placeholder} {...params} />}
         /> </LocalizationProvider>  
     </>);
 

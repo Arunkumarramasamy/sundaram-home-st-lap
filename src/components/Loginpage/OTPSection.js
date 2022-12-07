@@ -8,8 +8,36 @@ import "./MobileLogin.css";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-
+import { useSelector } from "react-redux/es/exports";
+import Alert from "@mui/material/Alert";
+import { useDispatch } from "react-redux";
+import Snackbar from "@mui/material/Snackbar";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { MobileLoginAction } from "../Store/MobileLogin";
+import { loginAction } from "../Store/LoginAuth";
 const OTPSection = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  //Alert Content
+
+  const [state, setState] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+  const [alert, setAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const openAlertHandler = () => {
+    setAlert(true);
+  };
+  const closeAlertHandler = () => {
+    setAlert(false);
+  };
+
+  // --------------------------------------
+  const mobileNumber = useSelector((state) => state.mob.MobileNumber);
   const [otpValue, setOtpValue] = useState("");
   const [otpValueIsTouched, setOtpValueIsTouched] = useState(false);
   const otpValueIsValid = otpValue.trim().length === 6;
@@ -17,7 +45,7 @@ const OTPSection = () => {
 
   const [resendState, setResendState] = useState(false);
   const [verifyState, setVerifyState] = useState(true);
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(120);
   var timer;
 
   useEffect(() => {
@@ -42,15 +70,54 @@ const OTPSection = () => {
     setOtpValueIsTouched(true);
   };
   const resendOTPHadler = () => {
-    setOtpValueIsTouched(false);
-    setSeconds(10);
-    setVerifyState(true);
-    setResendState(false);
+    regenerateOTP();
   };
   const VerifyHandler = () => {
     setOtpValueIsTouched(true);
+    if (otpValueIsValid) {
+      verifyData();
+    }
   };
-
+  const regenerateOTP = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/generateOtp", {
+        employeeId: mobileNumber,
+        password: "",
+      });
+      console.log(response);
+      // setSMessage(response.data);
+      // openSAlertHandler();
+      setOtpValueIsTouched(false);
+      setSeconds(60);
+      setVerifyState(true);
+      setResendState(false);
+    } catch (e) {
+      console.log(e);
+      if (e.code === "ERR_NETWORK" || e.code === "ERR_BAD_RESPONSE") {
+        setErrorMessage(e.message);
+      } else {
+        setErrorMessage(e.response.data);
+      }
+      openAlertHandler();
+    }
+  };
+  const verifyData = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/authenticate", {
+        employeeId: mobileNumber,
+        password: otpValue,
+      });
+      console.log(response);
+      Cookies.set("islogin", true);
+      navigate("/stlap/home/dashboard");
+      dispatch(MobileLoginAction.updateOTPSection(false));
+      dispatch(loginAction.updateLogin(true));
+    } catch (e) {
+      setErrorMessage("Please Enter Valid OTP");
+      openAlertHandler();
+      console.log(e);
+    }
+  };
   return (
     <Box>
       <Grid container spacing={1} sx={{ marginTop: "1.5rem" }}>
@@ -115,6 +182,21 @@ const OTPSection = () => {
           Verify
         </Button>
       </Box>
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={closeAlertHandler}
+      >
+        <Alert
+          onClose={closeAlertHandler}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

@@ -14,7 +14,7 @@ const CurrentDisbursementDetails = (props) => {
     },
     {
       value: 2,
-      text: "Check",
+      text: "Cheque",
     },
     {
       value: 3,
@@ -72,8 +72,8 @@ const CurrentDisbursementDetails = (props) => {
             <CustomDropDown
               required={true}
               label="Payment Mode"
-              id="paymentMode"
-              value={""}
+              id="paymentMod{e"
+              value={props.dataMap.CurrentDisbursementDetails.paymentMode}
               placeholder="Payment Mode"
               displayEmpty={true}
               dropDownValue={paymentModeValues}
@@ -85,7 +85,7 @@ const CurrentDisbursementDetails = (props) => {
               required={true}
               label="Cheque Mode"
               id="chequeMode"
-              value={""}
+              value={props.dataMap.CurrentDisbursementDetails.chequeMode}
               placeholder="Cheque Mode"
               displayEmpty={true}
               dropDownValue={chequeModeValues}
@@ -98,7 +98,7 @@ const CurrentDisbursementDetails = (props) => {
               label="Cheque Print at"
               id="chequePrintAt"
               variant="outlined"
-              value={""}
+              value={props.dataMap.CurrentDisbursementDetails.chequePrintAt}
               type="text"
               placeholder="Enter Cheque Print At"
             />
@@ -110,7 +110,7 @@ const CurrentDisbursementDetails = (props) => {
               label="Entity Name"
               id="entityName"
               variant="outlined"
-              value={""}
+              value={props.dataMap.CurrentDisbursementDetails.entityName}
               type="text"
               placeholder="Enter Entity Name"
             />
@@ -122,7 +122,7 @@ const CurrentDisbursementDetails = (props) => {
               label="Favour Name"
               id="favourName"
               variant="outlined"
-              value={""}
+              value={props.dataMap.CurrentDisbursementDetails.favourName}
               type="text"
               placeholder="Enter Favour Name"
             />
@@ -134,7 +134,7 @@ const CurrentDisbursementDetails = (props) => {
               label="Account Number"
               id="accountNumber"
               variant="outlined"
-              value={""}
+              value={props.dataMap.CurrentDisbursementDetails.accountNumber}
               type="text"
               placeholder="Enter Account Number"
             />
@@ -145,7 +145,7 @@ const CurrentDisbursementDetails = (props) => {
               required={true}
               label="Debit Account Type"
               id="debitAccountType"
-              value={""}
+              value={props.dataMap.CurrentDisbursementDetails.debitAccountType}
               placeholder="Debit Account Type"
               displayEmpty={true}
               dropDownValue={debitAccountTypeValues}
@@ -158,7 +158,7 @@ const CurrentDisbursementDetails = (props) => {
               label="IFSC Code"
               id="ifsc"
               variant="outlined"
-              value={""}
+              value={props.dataMap.CurrentDisbursementDetails.ifscCode}
               type="text"
               placeholder="Enter IFSC Code"
             />
@@ -166,7 +166,7 @@ const CurrentDisbursementDetails = (props) => {
         </Grid>
       </Box>
       {props.showGrid ? (
-        <CurrentDisbursementDetailsGrid back={props.back} />
+        <CurrentDisbursementDetailsGrid back={props.back} dataMap={props.dataMap}/>
       ) : null}
     </>
   );

@@ -872,36 +872,7 @@ export default function Pagelayout() {
           />
         </ListItemButton>
 
-        {/* Change Password */}
-        <ListItemButton>
-          <ListItemIcon>
-            <Tooltip title="Change Password" disableHoverListener={!expanded}>
-              <PublishedWithChangesTwoTone
-                fontSize="large"
-                sx={{ color: "white" }}
-              />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Change Password"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
-
-        {/* Change Password */}
-        <ListItemButton onClick={handleLogout}>
-          <ListItemIcon>
-            <Tooltip title="Logout" disableHoverListener={!expanded}>
-              <LogoutTwoTone fontSize="large" sx={{ color: "white" }} />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Logout"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
+      
       </List>
       <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
@@ -912,11 +883,12 @@ export default function Pagelayout() {
       <Stack direction="row" sx={{ width: "calc(100% - 600px)" }}>
         <img height="36px" src={Logo} alt="No Logo"></img>
       </Stack>
+      
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>User 00001</Typography>
+          <Typography sx={{ textAlign: "center" }}>{Cookies.get("userName")}</Typography>
           <Chip
-            label="Last Login:21/11/2022 05:00pm"
+            label={Cookies.get("lastLogin")}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -936,6 +908,22 @@ export default function Pagelayout() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
+        <Stack direction="row">
+      <Tooltip title="Change Password" >
+      <IconButton>
+              <PublishedWithChangesTwoTone
+                sx={{ color: "white" }}
+                fontSize="large"
+              />
+              </IconButton>
+      </Tooltip>
+
+      < Tooltip title="Logout" >
+      <IconButton onClick={handleLogout} >
+                <LogoutTwoTone  sx={{ color: "white" }} fontSize="large" />
+                </IconButton>
+      </Tooltip>
+      </Stack>
       </Stack>
     </>
   );
@@ -1004,10 +992,10 @@ export default function Pagelayout() {
         <MenuItem>
           <Stack direction="column" sx={{ paddingRight: "8px" }}>
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-              <strong>User 00001</strong>
+              <strong>{Cookies.get("userName")}</strong>
             </Typography>
             <Chip
-              label="Last Login:21/11/2022 05:00pm"
+              label={Cookies.get("lastLogin")}
               component="div"
               sx={{ color: "white", bgcolor: "#727dff" }}
             />
@@ -1030,6 +1018,19 @@ export default function Pagelayout() {
         </MenuItem>
         <Divider />
         <MenuItem>
+          <ListItemButton >
+            <ListItemIcon>
+            <Tooltip title="Change Password" disableHoverListener={!expanded}>
+              <PublishedWithChangesTwoTone
+                fontSize="large"
+                sx={{ color: "black" }}
+              />
+            </Tooltip>
+            </ListItemIcon>
+            <ListItemText id="menu-lable" primary="Change Password" />
+          </ListItemButton>
+        </MenuItem>
+        <MenuItem>
           <ListItemButton onClick={handleLogout}>
             <ListItemIcon>
               <Tooltip title="Logout" disableHoverListener={!expanded}>
@@ -1039,7 +1040,7 @@ export default function Pagelayout() {
             <ListItemText id="menu-lable" primary="Logout" />
           </ListItemButton>
         </MenuItem>
-      </Menu>
+       </Menu>
     </>
   );
 
