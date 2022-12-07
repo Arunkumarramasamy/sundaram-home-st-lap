@@ -210,7 +210,7 @@ const Process = () => {
       historyGrid : [
         {
           id: 1,
-          amout: 10000,
+          amount: 10000,
           paymentMode: "Cash",
           emiType: "Fixed Amount",
           entityName: "Tom",
@@ -219,7 +219,7 @@ const Process = () => {
         },
         {
           id: 2,
-          amout: 10000,
+          amount: 10000,
           paymentMode: "Cash",
           emiType: "Fixed Amount",
           entityName: "Tom",

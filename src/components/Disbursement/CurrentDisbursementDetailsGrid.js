@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 const columns = [
   { field: "id", headerName: "ID",headerAlign: "center",align: "right", },
   {
-    field: "amout",
+    field: "amount",
     headerName: "Amount",
     width: 150,
     hideable: false,
@@ -66,63 +66,38 @@ if(window.innerWidth > 700){
 
 const CurrentDisbursementDetailsGrid = (props) => {
 
-  const dataMap = {
-    // "accountNumber": props.dataMap.CurrentDisbursementDetails.accountNumber,
-    // "applicantName": props.dataMap.BasicInformation.applicantName,
-    // "chequeMode": props.dataMap.CurrentDisbursementDetails.chequeMode,
-    // "chequePrintAt": props.dataMap.CurrentDisbursementDetails.chequePrintAt,
-    // "currentDisbursment":  props.dataMap.BasicInformation.currentDisbursementAmount,
-    // "dateOfDisbursment":  props.dataMap.BasicInformation.dateofDisbursment,
-    // "debitAccountDetail": props.dataMap.CurrentDisbursementDetails.debitAccountType,
-    // "disbursmentCurrent": props.dataMap.CurrentDisbursementDetails.historyGrid,
-    // "effectiveDate":  props.dataMap.BasicInformation.effectiveRate,
-    // "entityName": props.dataMap.CurrentDisbursementDetails.entityName,
-    // "favourName": props.dataMap.CurrentDisbursementDetails.favourName,
-    // "fileNumber":  props.dataMap.BasicInformation.fileNumber,
-    // "ifscCode": props.dataMap.CurrentDisbursementDetails.ifscCode,
-    // "loanRequestDate":  props.dataMap.BasicInformation.loanrequestDate,
-    // "numberOfDisbursment": 0,
-    // "paymentMode": props.dataMap.CurrentDisbursementDetails.paymentMode,
-    // "proposalType": props.dataMap.BasicInformation.proposalType,
-    // "sanctionDate": props.dataMap.BasicInformation.sanctionedDate,
-    // "totalDisbursmentAmt":props.dataMap.BasicInformation.totalDisbursementAmount
-    "accountNumber": "string",
-    "applicantName": "string",
-    "chequeMode": "string",
-    "chequePrintAt": "string",
-    "currentDisbursment": 0,
-    "dateOfDisbursment": "string",
-    "debitAccountDetail": "string",
-    "disbursmentCurrent": [
-      {
-        "accountNumber": "string",
-        "amount": 0,
-        "emiType": "string",
-        "entityName": "string",
-        "id": 0,
-        "ifscCode": "string",
-        "paymentMode": "string"
-      }
-    ],
-    "effectiveDate": "string",
-    "entityName": "string",
-    "favourName": "string",
-    "fileNumber": "string",
-    "ifscCode": "string",
-    "loanRequestDate": "string",
-    "numberOfDisbursment": 0,
-    "paymentMode": "string",
-    "proposalType": "string",
-    "sanctionDate": "string",
-    "totalDisbursmentAmt": 0
-  }
+
+  const formDataMap = (dataMap) =>{
+
+    return ( {
+      "accountNumber": dataMap.CurrentDisbursementDetails.accountNumber,
+      "applicantName": dataMap.BasicInformation.applicantName,
+      "chequeMode": dataMap.CurrentDisbursementDetails.chequeMode,
+      "chequePrintAt": dataMap.CurrentDisbursementDetails.chequePrintAt,
+      "currentDisbursment":  dataMap.BasicInformation.currentDisbursementAmount,
+      "dateOfDisbursment":  dataMap.BasicInformation.dateofDisbursment,
+      "debitAccountDetail": dataMap.CurrentDisbursementDetails.debitAccountType,
+      "disbursmentCurrent": dataMap.CurrentDisbursementDetails.historyGrid,
+      "effectiveDate":  dataMap.BasicInformation.effectiveRate,
+      "entityName": dataMap.CurrentDisbursementDetails.entityName,
+      "favourName": dataMap.CurrentDisbursementDetails.favourName,
+      "fileNumber":  dataMap.BasicInformation.fileNumber,
+      "ifscCode": dataMap.CurrentDisbursementDetails.ifscCode,
+      "loanRequestDate":  dataMap.BasicInformation.loanrequestDate,
+      "numberOfDisbursment": dataMap.BasicInformation.numberofDisbursement,
+      "paymentMode": dataMap.CurrentDisbursementDetails.paymentMode,
+      "proposalType": dataMap.BasicInformation.proposalType,
+      "sanctionDate": dataMap.BasicInformation.sanctionedDate,
+      "totalDisbursmentAmt":dataMap.BasicInformation.totalDisbursementAmount
+    });
+
+  };
+
 
 const submitButtonClickHandler = () =>{
-
-   
   try {
     const response = axios.post("http://localhost:8080/generateReport", {
-      dataMap: dataMap
+      dataMap: formDataMap(props.dataMap)
         }, {
       headers: {
         'Authorization':'Bearer '+ Cookies.get('Token')
