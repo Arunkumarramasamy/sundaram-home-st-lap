@@ -12,19 +12,24 @@ body {
 .add {
   box-shadow: 0 2px 5px 0 rgb(113 113 113 / 64%);
 }
-@media (max-width: 34em) {
+@media (max-width: 45em) {
   .contain {
-    grid-template-columns: 1fr;
-  }
-  .add {
-    order: 1;
-  }
-}
-@media (max-width: 59em) {
-  .contain {
+    margin-top: 246px;
     grid-template-columns: 1fr;
   }
   .add {
     display: none;
+    order: 1;
+  }
+}
+
+@media (max-width: 34em) {
+  .contain {
+    grid-template-columns: 1fr;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    margin-top: 0;
+    margin: auto;
   }
 }

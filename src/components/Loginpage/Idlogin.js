@@ -71,20 +71,21 @@ const Idlogin = () => {
       console.log(response.status);
       if (response.status) {
         Cookies.set("islogin", true);
-        Cookies.set("Token",response['data']['jwToken']);
-        Cookies.set("userName",response['data']['userId']);
-        Cookies.set("lastLogin",response['data']['lastLoginTime']);
+        Cookies.set("Token", response["data"]["jwToken"]);
+        Cookies.set("userName", response["data"]["userId"]);
+        Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
         navigate("/stlap/home/dashboard");
         dispatch(loginAction.updateEmployeeIDScreen(false));
         dispatch(loginAction.updateLogin(true));
       }
     } catch (e) {
       // console.log(e.response.data);
+      console.log(e);
       console.log(e.code);
       if (e.code === "ERR_NETWORK") {
         setErrorMessage(e.message);
       } else {
-        setErrorMessage(e.response.data);
+        setErrorMessage("Invalid UserId/Password");
       }
 
       openAlertHandler();

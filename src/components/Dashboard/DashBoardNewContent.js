@@ -148,7 +148,7 @@ function DashboardContent() {
 
   return (
     <React.Fragment>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -157,7 +157,7 @@ function DashboardContent() {
               </IconButton>
             }
             subheader="Total Income"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
             sx={{ textAlign: "center" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
@@ -171,7 +171,7 @@ function DashboardContent() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -180,7 +180,7 @@ function DashboardContent() {
               </IconButton>
             }
             subheader="Net Profit"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
             sx={{ textAlign: "center" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
@@ -194,7 +194,7 @@ function DashboardContent() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -203,7 +203,7 @@ function DashboardContent() {
               </IconButton>
             }
             subheader="Total Expenses"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
             sx={{ textAlign: "center" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
@@ -217,7 +217,7 @@ function DashboardContent() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -227,7 +227,7 @@ function DashboardContent() {
             }
             sx={{ textAlign: "center" }}
             subheader="Cash at end of month"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
           />
           <CardContent sx={{ textAlign: "center" }}>
             <Typography variant="h5" component="h5">
@@ -241,7 +241,7 @@ function DashboardContent() {
         </Card>
       </Grid>
 
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -250,7 +250,7 @@ function DashboardContent() {
               </IconButton>
             }
             subheader="Accounts Receivable"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
             sx={{ textAlign: "center" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
@@ -264,7 +264,7 @@ function DashboardContent() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -273,7 +273,7 @@ function DashboardContent() {
               </IconButton>
             }
             subheader="Quick Ratio"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
             sx={{ textAlign: "center" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
@@ -285,7 +285,7 @@ function DashboardContent() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -294,7 +294,7 @@ function DashboardContent() {
               </IconButton>
             }
             subheader="Current Ratio"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
             sx={{ textAlign: "center" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
@@ -306,7 +306,7 @@ function DashboardContent() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Card>
           <CardHeader
             action={
@@ -315,7 +315,7 @@ function DashboardContent() {
               </IconButton>
             }
             subheader="Accounts Payable"
-            subheaderTypographyProps={{ color: "black" }}
+            subheaderTypographyProps={{ color: "grey" ,fontWeight:'700'}}
             sx={{ textAlign: "center" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
@@ -328,9 +328,10 @@ function DashboardContent() {
             <Typography variant="subtitle2">vs previous month</Typography>
           </CardContent>
         </Card>
-      </Grid><Grid item>
+      </Grid>
+      <Grid item sx={{flex: "1 auto"}}>
         <Paper width={200} height={200} sx={{alignContent:'center', textAlign:'center'}}>
-        <Typography variant="subtitle2" sx={{pt:'8px'}}>Net Profit Margin</Typography>
+        <Typography variant="subtitle2" sx={{pt:'8px',color: "grey" ,fontWeight:'700', fontSize:'1rem'}}>Net Profit Margin</Typography>
         <PieChart width={200} height={140}>
           <Pie
             data={data}
@@ -353,9 +354,9 @@ function DashboardContent() {
         </PieChart>
         </Paper>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Paper width={200} height={200} sx={{alignContent:'center', textAlign:'center'}}>
-        <Typography variant="subtitle2" sx={{pt:'8px'}}>% of Income Budget</Typography>
+        <Typography variant="subtitle2" sx={{pt:'8px', color: "grey" ,fontWeight:'700',fontSize:'1rem'}}>% of Income Budget</Typography>
         <PieChart width={200} height={140}>
           <Pie
             data={Ibdata}
@@ -378,9 +379,9 @@ function DashboardContent() {
         </PieChart>
         </Paper>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Paper width={200} height={200} sx={{alignContent:'center', textAlign:'center'}}>
-        <Typography variant="subtitle2" sx={{pt:'8px'}}>% of Expenses Budget</Typography>
+        <Typography variant="subtitle2" sx={{pt:'8px',color: "grey" ,fontWeight:'700',fontSize:'1rem'}}>% of Expenses Budget</Typography>
         <PieChart width={200} height={140}>
           <Pie
             data={ebdata}
@@ -403,9 +404,9 @@ function DashboardContent() {
         </PieChart>
         </Paper>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Paper width={200} height={200} sx={{alignContent:'center', textAlign:'center'}}>
-        <Typography variant="subtitle2" sx={{pt:'8px'}}>Authorised Voucher %</Typography>
+        <Typography variant="subtitle2" sx={{pt:'8px',color: "grey" ,fontWeight:'700',fontSize:'1rem'}}>Authorised Voucher %</Typography>
         <PieChart width={200} height={140}>
           <Pie
             data={vaData}
@@ -428,9 +429,9 @@ function DashboardContent() {
         </PieChart>
         </Paper>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
         <Paper width={200} height={200} sx={{alignContent:'center', textAlign:'center'}}>
-        <Typography variant="subtitle2" sx={{pt:'8px'}}>Disbursement Status</Typography>
+        <Typography variant="subtitle2" sx={{pt:'8px',color: "grey" ,fontWeight:'700',fontSize:'1rem'}}>Disbursement Status</Typography>
         <PieChart width={200} height={140}>
           <Pie
             data={dstdata}
@@ -453,7 +454,7 @@ function DashboardContent() {
         </PieChart>
         </Paper>
       </Grid>
-      <Grid item>
+      <Grid item sx={{flex: "1 auto"}}>
       <Paper height={200}>
         <BarChart width={250} height={170} data={barchartData}>
           <CartesianGrid strokeDasharray="3 3" />
@@ -467,8 +468,8 @@ function DashboardContent() {
         </BarChart>
         </Paper>
       </Grid>
-      <Grid item>
-      <Paper height={200} sx={{alignContent:'center', textAlign:'center'}}>
+      <Grid item sx={{flex: "1 auto"}}>
+      <Paper height={200} sx={{alignContent:'center', textAlign:'center',lineHeight:'1rem'}}>
         <LineChart
           width={250}
           height={140}
@@ -490,6 +491,7 @@ function DashboardContent() {
         <Typography variant="subtitle2" sx={{pt:'8px', color:'#82ca9d'}}>Cash at the end of month</Typography>
         </Paper>
       </Grid>
+    
       
     </React.Fragment>
   );
