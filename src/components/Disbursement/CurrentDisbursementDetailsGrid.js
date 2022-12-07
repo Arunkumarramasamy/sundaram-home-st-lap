@@ -94,22 +94,30 @@ const CurrentDisbursementDetailsGrid = (props) => {
   };
 
 
-const submitButtonClickHandler = () =>{
-  try {
-    const response = axios.post("http://localhost:8080/generateReport", {
-      dataMap: formDataMap(props.dataMap)
-        }, {
-      headers: {
-        'Authorization':'Bearer '+ Cookies.get('Token')
-      }
-    });
-    console.log(response);
-
-  } catch (e) {
-     console.log("Error Occured");
-  }
-};
-
+  const submitButtonClickHandler = () =>{
+    try {
+      const response = axios.post("http://localhost:8080/generateReport", {
+             ...formDataMap(props.dataMap)     
+          }, {
+        headers: {
+          'Authorization':'Bearer '+ Cookies.get('Token')
+        }
+      }).then(function (response) {
+        const filename='sample';
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.download = `${filename}.pdf`;
+        link.href = window.URL.createObjectURL(blob);
+        
+        link.click();
+        console.log(response);
+      });
+      console.log(response);
+  
+    } catch (e) {
+       console.log("Error Occured");
+    }
+  };
 
   return (
     <>
