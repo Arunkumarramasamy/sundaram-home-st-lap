@@ -109,6 +109,9 @@ const OTPSection = () => {
       });
       console.log(response);
       Cookies.set("islogin", true);
+      Cookies.set("Token", response["data"]["jwToken"]);
+      Cookies.set("userName", response["data"]["userId"]);
+      Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
       navigate("/stlap/home/dashboard");
       dispatch(MobileLoginAction.updateOTPSection(false));
       dispatch(loginAction.updateLogin(true));

@@ -92,11 +92,13 @@ const CurrentDisbursementDetailsGrid = (props) => {
   const submitButtonClickHandler = () => {
     try {
       const response = axios
-        .post("http://localhost:8080/generateReport", {
-          ...formDataMap(props.dataMap),
+        .get("http://localhost:8080/generateReport", 
+        
+        {
+          responseType: 'blob'
         })
         .then(function (response) {
-          const filename = "sample";
+          const filename = "Disbursment Report";
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.download = `${filename}.pdf`;
