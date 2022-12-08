@@ -121,7 +121,9 @@ const FilterCondition = (props) => {
           Search
         </Button>
         <Button
-          sx={{ marginLeft: "1rem",backgroundColor:"black" }}
+          sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
+          onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
+          
           onClick={clearButtonClickHandler}
           variant="contained"
         >
