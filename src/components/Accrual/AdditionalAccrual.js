@@ -1,9 +1,4 @@
 import {
-  Accordion,
-  AccordionActions,
-  AccordionDetails,
-  AccordionSummary,
-  Autocomplete,
   Box,
   Button,
   Grid,
@@ -12,13 +7,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DataGrid, GridExpandMoreIcon } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import STButton from "../CustomComponents/STButton";
-import BasicInformation from "../Disbursement/BasicInformation";
 import "./Accrual.css";
 
 const AdditionalAccrual = () => {
@@ -377,7 +370,7 @@ const AdditionalAccrual = () => {
     },
     {
       field: "waited",
-      headerName: "Additional Accural(₹)",
+      headerName: "Additional Accrual(₹)",
       headerAlign: "center",
       type: "string",
       width: 190,
@@ -491,12 +484,12 @@ const AdditionalAccrual = () => {
         }}
       >
         <div>
-          <h4>Fee Accural Waiver</h4>
+          <h4>Fee Accural</h4>
         </div>
         <AccordianContainer id = 'accord' title="Basic Search:" initialOpen={false}>
           <Box id = 'accord-box' component="form"  validate onSubmit={searchButtonClickHandler}>
             <Grid container spacing={2}>
-              <Grid item >
+              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomDropDown
                   required={false}
                   label="Branch"
@@ -509,7 +502,7 @@ const AdditionalAccrual = () => {
                 />
               </Grid>
 
-              <Grid item >
+              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
                   required={false}
                   label="Application Number"
@@ -560,7 +553,7 @@ const AdditionalAccrual = () => {
         </AccordianContainer>
       </Grid>
       <div style={{ display: girdVisible }}>
-        <h4 sx={{ display: girdVisible }}>Fee Structure</h4>
+        <h4 sx={{ display: girdVisible }}>Application Details</h4>
       </div>
       <div style={{ display: girdVisible }}>
         <Paper sx={{ padding: "8px" }}>

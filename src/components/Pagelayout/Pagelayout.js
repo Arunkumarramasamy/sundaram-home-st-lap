@@ -209,7 +209,7 @@ export default function Pagelayout() {
       case "additionalAccrual":
         path = "/stlap/home/additionalAccrual";
         break;
-      case "accrualWaiver":
+      case "additionalWaiver":
         path = "/stlap/home/accrualWaiver";
         break;
       default:
@@ -603,15 +603,15 @@ export default function Pagelayout() {
           </List>
         </Collapse>
         {/* Accrual */}
-        <ListItemButton id="accrual" onClick={handleAccrualSubMenu}>
+        <ListItemButton id="fee" onClick={handleAccrualSubMenu}>
           <ListItemIcon>
-            <Tooltip title="Accrual" disableHoverListener={!expanded}>
+            <Tooltip title="Additional Fee" disableHoverListener={!expanded}>
               <CurrencyRupeeTwoTone fontSize="large" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText
             id="menu-lable"
-            primary="Accrual"
+            primary="Additional Fee"
             sx={{ display: "block" }}
           />
           {openAccrualSubMenu ? <ExpandLess /> : <ExpandMore />}
@@ -636,7 +636,7 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Additional Accrual"
+                primary="Accrual"
               />
             </ListItemButton>
 
@@ -647,7 +647,7 @@ export default function Pagelayout() {
             >
               <ListItemIcon>
                 <Tooltip
-                  title="Accrual Waiver"
+                  title="Waiver"
                   disableHoverListener={!expanded}
                 >
                   <AddModeratorTwoToneIcon
@@ -659,7 +659,7 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Accrual Waiver"
+                primary="Waiver"
               />
             </ListItemButton>
 
@@ -1207,7 +1207,7 @@ export default function Pagelayout() {
             element={<AdditionalAccrual />}
           />
           <Route
-            path={`${search}/stlap/home/accrualWaiver`}
+            path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
           />
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
