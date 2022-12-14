@@ -72,6 +72,8 @@ import Process from "../Disbursement/Process";
 import VoucherGeneration from "../Disbursement/VoucherGeneration";
 import VoucherAuthorisation from "../Disbursement/VoucherAuthorisation";
 import VoucherCancel from "../Disbursement/VoucherCancel";
+import AdditionalAccrual from "../Accrual/AdditionalAccrual";
+import AccrualWaiver from "../Accrual/AccrualWaiver";
 import Loginpage from "../Loginpage/Loginpage";
 
 const drawerWidth = 300;
@@ -101,6 +103,7 @@ export default function Pagelayout() {
   const [openReceiptSubMenu, setopenReceiptSubMenu] = useState(false);
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openAccrualSubMenu, setOpenAccrualSubMenu] = useState(false);
 
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -129,6 +132,7 @@ export default function Pagelayout() {
     setOpenMemoSubMenu(false);
     setopenReceiptSubMenu(false);
     setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
   };
 
   const handleInsuranceMenuClick = () => {
@@ -137,6 +141,7 @@ export default function Pagelayout() {
     setOpenMemoSubMenu(false);
     setopenReceiptSubMenu(false);
     setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
   };
 
   const handleMemoSubMenuClick = () => {
@@ -145,6 +150,7 @@ export default function Pagelayout() {
     setOpenInsuranceSubMenu(false);
     setopenReceiptSubMenu(false);
     setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
   };
 
   const handleReceiptSubMenuClick = () => {
@@ -153,6 +159,7 @@ export default function Pagelayout() {
     setOpenInsuranceSubMenu(false);
     setOpenMemoSubMenu(false);
     setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
   };
 
   const handleDisbursementMenuClick = () => {
@@ -161,8 +168,15 @@ export default function Pagelayout() {
     setOpenNachSubMenu(false);
     setOpenInsuranceSubMenu(false);
     setOpenMemoSubMenu(false);
+    setOpenAccrualSubMenu(false);
   };
-
+  const handleAccrualSubMenu = () => {
+    setopenReceiptSubMenu(false);
+    setOpenNachSubMenu(false);
+    setOpenInsuranceSubMenu(false);
+    setOpenMemoSubMenu(false);
+    setOpenAccrualSubMenu(!openAccrualSubMenu);
+  };
   const handleLogout = () => {
     Cookies.remove("islogin");
     navigate("/stlap/login");
@@ -192,6 +206,12 @@ export default function Pagelayout() {
         break;
       case "voucherCancel":
         path = "/stlap/home/voucherCancel";
+        break;
+      case "additionalAccrual":
+        path = "/stlap/home/additionalAccrual";
+        break;
+      case "accrualWaiver":
+        path = "/stlap/home/accrualWaiver";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -517,7 +537,6 @@ export default function Pagelayout() {
               onClick={menuClickHandler}
             >
               <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Insurance} /> */}
                 <Tooltip
                   title="Authorised Voucher Generation"
                   disableHoverListener={!expanded}
@@ -584,7 +603,74 @@ export default function Pagelayout() {
             </ListItemButton>
           </List>
         </Collapse>
+        {/* Accrual */}
+        <ListItemButton id="accrual" onClick={handleAccrualSubMenu}>
+          <ListItemIcon>
+            <Tooltip title="Accrual" disableHoverListener={!expanded}>
+              <CurrencyRupeeTwoTone fontSize="large" sx={{ color: "white" }} />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText
+            id="menu-lable"
+            primary="Accrual"
+            sx={{ display: "block" }}
+          />
+          {openAccrualSubMenu ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
 
+        <Collapse in={openAccrualSubMenu} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="additionalAccrual"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                {/* <img id='layout-menu-image' src={Insurance} /> */}
+                <Tooltip title="Process" disableHoverListener={!expanded}>
+                  <AccountTreeTwoTone
+                    fontSize="large"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Additional Accrual"
+              />
+            </ListItemButton>
+
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="accrualWaiver"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip
+                  title="Accrual Waiver"
+                  disableHoverListener={!expanded}
+                >
+                  <AddModeratorTwoToneIcon
+                    fontSize="large"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Accrual Waiver"
+              />
+            </ListItemButton>
+
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="voucherAuthorisation"
+              onClick={menuClickHandler}
+            ></ListItemButton>
+          </List>
+        </Collapse>
         {/* AccountMaster */}
         <ListItemButton>
           <ListItemIcon>
@@ -1117,13 +1203,18 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/voucherCancel`}
             element={<VoucherCancel />}
           />
-
+          <Route
+            path={`${search}/stlap/home/additionalAccrual`}
+            element={<AdditionalAccrual />}
+          />
+          <Route
+            path={`${search}/stlap/home/accrualWaiver`}
+            element={<AccrualWaiver />}
+          />
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
         {/* </Container> */}
-
       </Box>
-      
     </Box>
   );
 }
