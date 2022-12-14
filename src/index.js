@@ -6,6 +6,16 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import store from "./components/Store/index";
+import axios from "axios";
+import Cookies from "js-cookie";
+
+axios.interceptors.request.use((request) => {
+  if (Cookies.get("Token")) {
+    request.headers.Authorization = "Bearer " + Cookies.get("Token");
+  }
+
+  return request;
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

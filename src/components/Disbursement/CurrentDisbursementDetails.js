@@ -70,6 +70,7 @@ const CurrentDisbursementDetails = (props) => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomDropDown
+              variant="standard"
               required={true}
               label="Payment Mode"
               id="paymentMod{e"
@@ -82,6 +83,7 @@ const CurrentDisbursementDetails = (props) => {
 
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomDropDown
+              variant="standard"
               required={true}
               label="Cheque Mode"
               id="chequeMode"
@@ -97,7 +99,7 @@ const CurrentDisbursementDetails = (props) => {
               required={true}
               label="Cheque Print at"
               id="chequePrintAt"
-              variant="outlined"
+              variant="standard"
               value={props.dataMap.CurrentDisbursementDetails.chequePrintAt}
               type="text"
               placeholder="Enter Cheque Print At"
@@ -109,7 +111,7 @@ const CurrentDisbursementDetails = (props) => {
               required={true}
               label="Entity Name"
               id="entityName"
-              variant="outlined"
+              variant="standard"
               value={props.dataMap.CurrentDisbursementDetails.entityName}
               type="text"
               placeholder="Enter Entity Name"
@@ -121,7 +123,7 @@ const CurrentDisbursementDetails = (props) => {
               required={true}
               label="Favour Name"
               id="favourName"
-              variant="outlined"
+              variant="standard"
               value={props.dataMap.CurrentDisbursementDetails.favourName}
               type="text"
               placeholder="Enter Favour Name"
@@ -133,7 +135,7 @@ const CurrentDisbursementDetails = (props) => {
               required={true}
               label="Account Number"
               id="accountNumber"
-              variant="outlined"
+              variant="standard"
               value={props.dataMap.CurrentDisbursementDetails.accountNumber}
               type="text"
               placeholder="Enter Account Number"
@@ -142,6 +144,7 @@ const CurrentDisbursementDetails = (props) => {
 
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomDropDown
+              variant="standard"
               required={true}
               label="Debit Account Type"
               id="debitAccountType"
@@ -157,7 +160,7 @@ const CurrentDisbursementDetails = (props) => {
               required={true}
               label="IFSC Code"
               id="ifsc"
-              variant="outlined"
+              variant="standard"
               value={props.dataMap.CurrentDisbursementDetails.ifscCode}
               type="text"
               placeholder="Enter IFSC Code"

@@ -6,7 +6,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const columns = [
-  { field: "id", headerName: "ID",headerAlign: "center",align: "right", },
+  { field: "id", headerName: "ID", headerAlign: "center", align: "right" },
   {
     field: "amount",
     headerName: "Amount",
@@ -20,21 +20,21 @@ const columns = [
     headerName: "Payment Mode",
     width: 150,
     headerAlign: "center",
-    align:"center",
+    align: "center",
   },
   {
     field: "emiType",
     headerName: "EMI Type",
     width: 150,
     headerAlign: "center",
-    align:"center",
+    align: "center",
   },
   {
     field: "entityName",
     headerName: "Entity Name",
     width: 150,
     headerAlign: "center",
-    align:"center",
+    align: "center",
   },
   {
     field: "accountNumber",
@@ -48,7 +48,7 @@ const columns = [
     headerName: "IFSC Code",
     width: 150,
     headerAlign: "center",
-    align:"center",
+    align: "center",
   },
 ];
 
@@ -58,64 +58,58 @@ let visibility = {
   emiType: false,
   entityName: false,
   accountNumber: false,
-  ifscCode: false
+  ifscCode: false,
 };
-if(window.innerWidth > 700){
+if (window.innerWidth > 700) {
   visibility = {};
 }
 
 const CurrentDisbursementDetailsGrid = (props) => {
-
-
-  const formDataMap = (dataMap) =>{
-
-    return ( {
-      "accountNumber": dataMap.CurrentDisbursementDetails.accountNumber,
-      "applicantName": dataMap.BasicInformation.applicantName,
-      "chequeMode": dataMap.CurrentDisbursementDetails.chequeMode,
-      "chequePrintAt": dataMap.CurrentDisbursementDetails.chequePrintAt,
-      "currentDisbursment":  dataMap.BasicInformation.currentDisbursementAmount,
-      "dateOfDisbursment":  dataMap.BasicInformation.dateofDisbursment,
-      "debitAccountDetail": dataMap.CurrentDisbursementDetails.debitAccountType,
-      "disbursmentCurrent": dataMap.CurrentDisbursementDetails.historyGrid,
-      "effectiveDate":  dataMap.BasicInformation.effectiveRate,
-      "entityName": dataMap.CurrentDisbursementDetails.entityName,
-      "favourName": dataMap.CurrentDisbursementDetails.favourName,
-      "fileNumber":  dataMap.BasicInformation.fileNumber,
-      "ifscCode": dataMap.CurrentDisbursementDetails.ifscCode,
-      "loanRequestDate":  dataMap.BasicInformation.loanrequestDate,
-      "numberOfDisbursment": dataMap.BasicInformation.numberofDisbursement,
-      "paymentMode": dataMap.CurrentDisbursementDetails.paymentMode,
-      "proposalType": dataMap.BasicInformation.proposalType,
-      "sanctionDate": dataMap.BasicInformation.sanctionedDate,
-      "totalDisbursmentAmt":dataMap.BasicInformation.totalDisbursementAmount
-    });
-
+  const formDataMap = (dataMap) => {
+    return {
+      accountNumber: dataMap.CurrentDisbursementDetails.accountNumber,
+      applicantName: dataMap.BasicInformation.applicantName,
+      chequeMode: dataMap.CurrentDisbursementDetails.chequeMode,
+      chequePrintAt: dataMap.CurrentDisbursementDetails.chequePrintAt,
+      currentDisbursment: dataMap.BasicInformation.currentDisbursementAmount,
+      dateOfDisbursment: dataMap.BasicInformation.dateofDisbursment,
+      debitAccountDetail: dataMap.CurrentDisbursementDetails.debitAccountType,
+      disbursmentCurrent: dataMap.CurrentDisbursementDetails.historyGrid,
+      effectiveDate: dataMap.BasicInformation.effectiveRate,
+      entityName: dataMap.CurrentDisbursementDetails.entityName,
+      favourName: dataMap.CurrentDisbursementDetails.favourName,
+      fileNumber: dataMap.BasicInformation.fileNumber,
+      ifscCode: dataMap.CurrentDisbursementDetails.ifscCode,
+      loanRequestDate: dataMap.BasicInformation.loanrequestDate,
+      numberOfDisbursment: dataMap.BasicInformation.numberofDisbursement,
+      paymentMode: dataMap.CurrentDisbursementDetails.paymentMode,
+      proposalType: dataMap.BasicInformation.proposalType,
+      sanctionDate: dataMap.BasicInformation.sanctionedDate,
+      totalDisbursmentAmt: dataMap.BasicInformation.totalDisbursementAmount,
+    };
   };
 
-
-  const submitButtonClickHandler = () =>{
+  const submitButtonClickHandler = () => {
     try {
-      const response = axios.post("http://localhost:8080/generateReport", {
-             ...formDataMap(props.dataMap)     
-          }, {
-        headers: {
-          'Authorization':'Bearer '+ Cookies.get('Token')
-        }
-      }).then(function (response) {
-        const filename='sample';
-        const blob = new Blob([response.data], { type: 'application/pdf' });
-        const link = document.createElement('a');
-        link.download = `${filename}.pdf`;
-        link.href = window.URL.createObjectURL(blob);
+      const response = axios
+        .get("http://localhost:8080/generateReport", 
         
-        link.click();
-        console.log(response);
-      });
+        {
+          responseType: 'blob'
+        })
+        .then(function (response) {
+          const filename = "Disbursment Report";
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const link = document.createElement("a");
+          link.download = `${filename}.pdf`;
+          link.href = window.URL.createObjectURL(blob);
+
+          link.click();
+          console.log(response);
+        });
       console.log(response);
-  
     } catch (e) {
-       console.log("Error Occured");
+      console.log("Error Occured");
     }
   };
 
@@ -140,7 +134,7 @@ const CurrentDisbursementDetailsGrid = (props) => {
           initialState={{
             columns: {
               columnVisibilityModel: {
-               ...visibility
+                ...visibility,
               },
             },
           }}
@@ -159,7 +153,9 @@ const CurrentDisbursementDetailsGrid = (props) => {
         <STButton variant="contained" onClick={props.back}>
           Back to search
         </STButton>
-        <STButton variant="contained" onClick={submitButtonClickHandler}>Submit & Download</STButton>
+        <STButton variant="contained" onClick={submitButtonClickHandler}>
+          Submit & Download
+        </STButton>
       </Box>
     </>
   );

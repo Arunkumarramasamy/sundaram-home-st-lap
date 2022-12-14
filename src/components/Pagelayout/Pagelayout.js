@@ -180,6 +180,7 @@ export default function Pagelayout() {
   const handleLogout = () => {
     Cookies.remove("islogin");
     navigate("/stlap/login");
+    Cookies.remove("Token");
   };
 
   const menuClickHandler = (event) => {

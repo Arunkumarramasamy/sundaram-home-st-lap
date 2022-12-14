@@ -18,8 +18,9 @@ const FilterCondition = (props) => {
     { label: "Egmore" },
   ];
 
-  const [branch, setBranch] = useState(branchNames[0]);
-  const [trnNo, setTrnNo] = useState("STLMYL202200001");
+  const [branch, setBranch] = useState("");
+  const [trnNo, setTrnNo] = useState("");
+  const [applicantName, setApplicantName] = useState("");
 
 
   const searchButtonClickHandler = (event) => {
@@ -52,18 +53,32 @@ const FilterCondition = (props) => {
     },
   ];
 
+  const branchNameChangeHandler = (evt) => {
+    setBranch(evt.target.value);
+  }
+
+  const trnNoChangeHandler = (evt) => {
+    setTrnNo(evt.target.value);
+  }
+
+  const applicantNameChangeHandler = (evt) => {
+    setApplicantName(evt.target.value);
+  }
+
   const BasicSearchValues = (
     <><Box component="form"  validate    onSubmit={searchButtonClickHandler}  >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
+            variant="standard"
             required={true}
             label="Branch"
             id="branch"
-            value={""}
+            value={branch}
             placeholder="Property Type"
             displayEmpty={true}
             dropDownValue={branchValues}
+            onChange={branchNameChangeHandler}
           />
         </Grid>
 
@@ -72,10 +87,11 @@ const FilterCondition = (props) => {
             required={true}
             label="Trn No."
             id="trnno"
-            variant="outlined"
-            value={""}
+            variant="standard"
+            value={trnNo}
             type="text"
             placeholder="Enter Trn No."
+            onChange={trnNoChangeHandler}
           />
         </Grid>
 
@@ -85,10 +101,11 @@ const FilterCondition = (props) => {
             required={false}
             label="Applicant Name"
             id="applicantName"
-            variant="outlined"
-            value={""}
+            variant="standard"
+            value={applicantName}
             type="text"
             placeholder="Applicant Name"
+            onChange={applicantNameChangeHandler}
           />
         </Grid>
 
@@ -105,7 +122,9 @@ const FilterCondition = (props) => {
           Search
         </Button>
         <Button
-          sx={{ marginLeft: "1rem",backgroundColor:"black" }}
+          sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
+          onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
+          
           onClick={clearButtonClickHandler}
           variant="contained"
         >
