@@ -210,8 +210,8 @@ export default function Pagelayout() {
       case "additionalAccrual":
         path = "/stlap/home/additionalAccrual";
         break;
-      case "accrualWaiver":
-        path = "/stlap/home/accrualWaiver";
+      case "additionalWaiver":
+        path = "/stlap/home/additionalWaiver";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -604,15 +604,15 @@ export default function Pagelayout() {
           </List>
         </Collapse>
         {/* Accrual */}
-        <ListItemButton id="accrual" onClick={handleAccrualSubMenu}>
+        <ListItemButton id="fee" onClick={handleAccrualSubMenu}>
           <ListItemIcon>
-            <Tooltip title="Accrual" disableHoverListener={!expanded}>
+            <Tooltip title="Additional Fee" disableHoverListener={!expanded}>
               <CurrencyRupeeTwoTone fontSize="large" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText
             id="menu-lable"
-            primary="Accrual"
+            primary="Additional Fee"
             sx={{ display: "block" }}
           />
           {openAccrualSubMenu ? <ExpandLess /> : <ExpandMore />}
@@ -637,20 +637,17 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Additional Accrual"
+                primary="Accrual"
               />
             </ListItemButton>
 
             <ListItemButton
               sx={{ pl: 4 }}
-              id="accrualWaiver"
+              id="additionalWaiver"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
-                <Tooltip
-                  title="Accrual Waiver"
-                  disableHoverListener={!expanded}
-                >
+                <Tooltip title="Waiver" disableHoverListener={!expanded}>
                   <AddModeratorTwoToneIcon
                     fontSize="large"
                     sx={{ color: "white" }}
@@ -660,7 +657,7 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Accrual Waiver"
+                primary="Waiver"
               />
             </ListItemButton>
 
@@ -1208,7 +1205,7 @@ export default function Pagelayout() {
             element={<AdditionalAccrual />}
           />
           <Route
-            path={`${search}/stlap/home/accrualWaiver`}
+            path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
           />
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}

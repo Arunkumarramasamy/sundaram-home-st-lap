@@ -1,9 +1,4 @@
 import {
-  Accordion,
-  AccordionActions,
-  AccordionDetails,
-  AccordionSummary,
-  Autocomplete,
   Box,
   Button,
   Grid,
@@ -12,13 +7,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DataGrid, GridExpandMoreIcon } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import STButton from "../CustomComponents/STButton";
-import BasicInformation from "../Disbursement/BasicInformation";
 import "./Accrual.css";
 
 const AdditionalAccrual = () => {
@@ -377,7 +370,7 @@ const AdditionalAccrual = () => {
     },
     {
       field: "waited",
-      headerName: "Additional Accural(₹)",
+      headerName: "Additional Accrual(₹)",
       headerAlign: "center",
       type: "string",
       width: 190,
@@ -491,34 +484,35 @@ const AdditionalAccrual = () => {
         }}
       >
         <div>
-          <h4>Fee Accural Waiver</h4>
+          <h4>Fee Accural</h4>
         </div>
         <AccordianContainer id = 'accord' title="Basic Search:" initialOpen={false}>
           <Box id = 'accord-box' component="form"  validate onSubmit={searchButtonClickHandler}>
             <Grid container spacing={2}>
-              <Grid item >
+              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomDropDown
-                  required={false}
-                  label="Branch"
-                  id="branch"
-                  value={branchValue}
-                  placeholder="Branch"
-                  displayEmpty={true}
-                  dropDownValue={branchValues}
+                   variant="standard"
+                   required={false}
+                   label="Branch"
+                   id="branch"
+                   value={branchValue}
+                   placeholder=" Branch"
+                   displayEmpty={true}
+                   dropDownValue={branchValues}
                   
                 />
               </Grid>
 
-              <Grid item >
+              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
-                  required={false}
-                  label="Application Number"
-                  id="trnno"
-                  variant="outlined"
-                  value={accountNumber}
-                  type="text"
-                  onClick = {(event)=>setAccountNumber(event.target.value)}
-                  placeholder="Enter Application No."
+                   required={false}
+                   label="Application Number"
+                   id="trnno"
+                   variant="standard"
+                   value={""}
+                   type="text"
+                   placeholder="Application No."
+                  //  onChange={trnNoChangeHandler}
                 />
               </Grid>
 
@@ -560,21 +554,23 @@ const AdditionalAccrual = () => {
         </AccordianContainer>
       </Grid>
       <div style={{ display: girdVisible }}>
-        <h4 sx={{ display: girdVisible }}>Fee Structure</h4>
+        <h4 sx={{ display: girdVisible }}>Application Details</h4>
       </div>
       <div style={{ display: girdVisible }}>
         <Paper sx={{ padding: "8px" }}>
           <Stack direction="row">
             <Grid sx={{width:'320px'}} >
               <CustomTextField
-                required={false}
-                disabled={true}
+                disabled={false}
                 label="Reference Number"
                 id="refno"
-                variant="outlined"
                 value={"STLAPKARA0001"}
                 type="text"
                 placeholder=""
+
+                required={false}
+                variant="standard"
+                // onChange={trnNoChangeHandler}
               />
             </Grid>
 
@@ -584,10 +580,12 @@ const AdditionalAccrual = () => {
                 disabled={true}
                 label="Reference Date"
                 id="refdate"
-                variant="outlined"
                 value={"07/09/2007"}
                 type="text"
                 placeholder=""
+                variant="standard"
+                // type="text"
+                // onChange={trnNoChangeHandler}
               />
             </Grid>
           </Stack>
