@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Grid,
+  Paper,
   Stack,
   TextField,
   Typography,
@@ -23,6 +24,8 @@ import "./Accrual.css";
 const AdditionalAccrual = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
+  const [branchValue,setBranchValue] = useState('');
+  const [accountNumber,setAccountNumber] = useState('');
   const handleSearch = (event) => {
     event.preventDefault();
     setGridVisible("block");
@@ -490,29 +493,31 @@ const AdditionalAccrual = () => {
         <div>
           <h4>Fee Accural Waiver</h4>
         </div>
-        <AccordianContainer title="Basic Search:" initialOpen={false}>
-          <Box component="form" validate onSubmit={searchButtonClickHandler}>
+        <AccordianContainer id = 'accord' title="Basic Search:" initialOpen={false}>
+          <Box id = 'accord-box' component="form"  validate onSubmit={searchButtonClickHandler}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+              <Grid item >
                 <CustomDropDown
-                  required={true}
+                  required={false}
                   label="Branch"
                   id="branch"
-                  value={""}
-                  placeholder="Property Type"
+                  value={branchValue}
+                  placeholder="Branch"
                   displayEmpty={true}
                   dropDownValue={branchValues}
+                  
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+              <Grid item >
                 <CustomTextField
-                  required={true}
+                  required={false}
                   label="Application Number"
                   id="trnno"
                   variant="outlined"
-                  value={""}
+                  value={accountNumber}
                   type="text"
+                  onClick = {(event)=>setAccountNumber(event.target.value)}
                   placeholder="Enter Application No."
                 />
               </Grid>
@@ -536,7 +541,11 @@ const AdditionalAccrual = () => {
                 justifyContent: "center",
               }}
             >
-              <Button variant="contained" type="submit" onClick={(event)=>handleSearch(event)}>
+              <Button
+                variant="contained"
+                type="submit"
+                onClick={(event) => handleSearch(event)}
+              >
                 Search
               </Button>
               <Button
@@ -552,6 +561,41 @@ const AdditionalAccrual = () => {
       </Grid>
       <div style={{ display: girdVisible }}>
         <h4 sx={{ display: girdVisible }}>Fee Structure</h4>
+      </div>
+      <div style={{ display: girdVisible }}>
+        <Paper sx={{ padding: "8px" }}>
+          <Stack direction="row">
+            <Grid sx={{width:'320px'}} >
+              <CustomTextField
+                required={false}
+                disabled={true}
+                label="Reference Number"
+                id="refno"
+                variant="outlined"
+                value={"STLAPKARA0001"}
+                type="text"
+                placeholder=""
+              />
+            </Grid>
+
+            <Grid sx={{width:'320px',paddingLeft:'18px'}}>
+              <CustomTextField
+                required={false}
+                disabled={true}
+                label="Reference Date"
+                id="refdate"
+                variant="outlined"
+                value={"07/09/2007"}
+                type="text"
+                placeholder=""
+              />
+            </Grid>
+          </Stack>
+        </Paper>
+      </div>
+
+      <div style={{ display: girdVisible }}>
+        <h4 sx={{ display: girdVisible }}>Waived Details</h4>
       </div>
       <Grid
         container
