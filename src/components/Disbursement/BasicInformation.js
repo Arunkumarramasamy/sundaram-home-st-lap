@@ -45,7 +45,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Applicant Name"
             id="applicantName"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.applicantName}
             type="text"
             placeholder="Enter Applicant Name"
@@ -58,7 +58,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Loan Request Date"
             id="loanRequestDate"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.loanrequestDate}
             type="date"
             disabled={true}
@@ -70,7 +70,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Total Disbursement Amount"
             id="totalDisbursementAmount"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.totalDisbursementAmount}
             type="number"
             placeholder="Enter Total Disbursement Amount"
@@ -83,7 +83,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.currentDisbursementAmount}
             type="number"
             placeholder="Enter Current Disbursement Amount"
@@ -96,7 +96,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Effective Rate"
             id="effectiveRate"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.effectiveRate}
             type="number"
             placeholder="Enter Effective Rate"
@@ -109,7 +109,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Number of Disbursement"
             id="disbursementNo"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.numberofDisbursement}
             type="number"
             placeholder="Enter Number of Disbursement"
@@ -119,6 +119,7 @@ const BasicInformation = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
+            variant="standard"
             required={false}
             label="Proposal Type"
             id="proposalType"
@@ -135,7 +136,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Sanction Date"
             id="sanctionDate"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.sanctionedDate}
             type="date"
             disabled={true}
@@ -147,7 +148,7 @@ const BasicInformation = (props) => {
             required={false}
             label="File Number"
             id="fileNumber"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.fileNumber}
             type="text"
             placeholder="Enter File Number"
@@ -160,7 +161,7 @@ const BasicInformation = (props) => {
             required={false}
             label="Date of Disbursement"
             id="dateOfDisbursement"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.BasicInformation.dateofDisbursement}
             type="date"
             disabled={true}

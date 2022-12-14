@@ -46,7 +46,7 @@ const VoucherCancel = () => {
             required={true}
             label="Effective Date"
             id="effectiveDate"
-            variant="outlined"
+            variant="standard"
             value=""
             type="date"
             placeholder=""
@@ -57,7 +57,7 @@ const VoucherCancel = () => {
             required={true}
             label="Cancel Date"
             id="cancelDate"
-            variant="outlined"
+            variant="standard"
             value=""
             type="date"
             placeholder=""
@@ -68,7 +68,7 @@ const VoucherCancel = () => {
             required={true}
             label="Remarks"
             id="remarks"
-            variant="outlined"
+            variant="standard"
             value=""
             type="text"
             placeholder="Enter Remarks"

@@ -60,7 +60,7 @@ const VoucherAuthorisation = () => {
             required={true}
             label="Cheque Number"
             id="chequeNumber"
-            variant="outlined"
+            variant="standard"
             value=""
             type="text"
             placeholder="Enter Cheque Number"
@@ -71,7 +71,7 @@ const VoucherAuthorisation = () => {
             required={true}
             label="UTRAN Number"
             id="utranNumber"
-            variant="outlined"
+            variant="standard"
             value=""
             type="text"
             placeholder="Enter UTRAN Number"

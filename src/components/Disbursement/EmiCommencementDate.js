@@ -37,7 +37,7 @@ const EmiCommencementDate = (props) => {
             required={true}
             label="Number of Months"
             id="months"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.EmiCommencementDate.numberofMonths}
             type="number"
             placeholder="Enter Number of Months"
@@ -46,6 +46,7 @@ const EmiCommencementDate = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
+            variant="standard"
             required={true}
             label="EMI Options"
             id="emiOptions"
@@ -61,7 +62,7 @@ const EmiCommencementDate = (props) => {
             required={true}
             label="ECD"
             id="ecd"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.EmiCommencementDate.ecd}
             type="date"
           />
@@ -72,7 +73,7 @@ const EmiCommencementDate = (props) => {
             required={true}
             label="FBD"
             id="fbd"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.EmiCommencementDate.fbd}
             type="date"
           />
@@ -83,7 +84,7 @@ const EmiCommencementDate = (props) => {
             required={true}
             label="FEDD"
             id="fedd"
-            variant="outlined"
+            variant="standard"
             value={props.dataMap.EmiCommencementDate.fedd}
             type="date"
           />

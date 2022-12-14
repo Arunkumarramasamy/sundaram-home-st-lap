@@ -70,6 +70,7 @@ const FilterCondition = (props) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
+            variant="standard"
             required={true}
             label="Branch"
             id="branch"
@@ -86,7 +87,7 @@ const FilterCondition = (props) => {
             required={true}
             label="Trn No."
             id="trnno"
-            variant="outlined"
+            variant="standard"
             value={trnNo}
             type="text"
             placeholder="Enter Trn No."
@@ -100,7 +101,7 @@ const FilterCondition = (props) => {
             required={false}
             label="Applicant Name"
             id="applicantName"
-            variant="outlined"
+            variant="standard"
             value={applicantName}
             type="text"
             placeholder="Applicant Name"
