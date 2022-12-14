@@ -505,30 +505,32 @@ const AdditionalWaiver = () => {
               onSubmit={searchButtonClickHandler}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                  <CustomDropDown
-                    required={false}
-                    label="Branch"
-                    id="branch"
-                    value={branchValue}
-                    placeholder="Branch"
-                    displayEmpty={true}
-                    dropDownValue={branchValues}
-                  />
-                </Grid>
+              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
+                <CustomDropDown
+                   variant="standard"
+                   required={false}
+                   label="Branch"
+                   id="branch"
+                   value={branchValue}
+                   placeholder=" Branch"
+                   displayEmpty={true}
+                   dropDownValue={branchValues}
+                  
+                />
+              </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                  <CustomTextField
-                    required={false}
-                    label="Application Number"
-                    id="trnno"
-                    variant="outlined"
-                    value={accountNumber}
-                    type="text"
-                    onClick={(event) => setAccountNumber(event.target.value)}
-                    placeholder="Enter Application No."
-                  />
-                </Grid>
+              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
+                <CustomTextField
+                   required={false}
+                   label="Application Number"
+                   id="trnno"
+                   variant="standard"
+                   value={""}
+                   type="text"
+                   placeholder="Application No."
+                  //  onChange={trnNoChangeHandler}
+                />
+              </Grid>
 
                 {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
@@ -574,29 +576,33 @@ const AdditionalWaiver = () => {
           <Paper sx={{ padding: "8px" }}>
             <Stack direction="row">
               <Grid sx={{ width: "320px" }}>
-                <CustomTextField
-                  required={false}
-                  disabled={true}
-                  label="Reference Number"
-                  id="refno"
-                  variant="outlined"
-                  value={"STLAPKARA0001"}
-                  type="text"
-                  placeholder=""
-                />
-              </Grid>
+              <CustomTextField
+                disabled={false}
+                label="Reference Number"
+                id="refno"
+                value={"STLAPKARA0001"}
+                type="text"
+                placeholder=""
 
-              <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
-                <CustomTextField
-                  required={false}
-                  disabled={true}
-                  label="Reference Date"
-                  id="refdate"
-                  variant="outlined"
-                  value={"07/09/2007"}
-                  type="text"
-                  placeholder=""
-                />
+                required={false}
+                variant="standard"
+                // onChange={trnNoChangeHandler}
+              />
+            </Grid>
+
+            <Grid sx={{width:'320px',paddingLeft:'18px'}}>
+              <CustomTextField
+                required={false}
+                disabled={true}
+                label="Reference Date"
+                id="refdate"
+                value={"07/09/2007"}
+                type="text"
+                placeholder=""
+                variant="standard"
+                // type="text"
+                // onChange={trnNoChangeHandler}
+              />
               </Grid>
             </Stack>
           </Paper>

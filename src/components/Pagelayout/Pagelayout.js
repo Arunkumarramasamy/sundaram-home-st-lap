@@ -211,7 +211,7 @@ export default function Pagelayout() {
         path = "/stlap/home/additionalAccrual";
         break;
       case "additionalWaiver":
-        path = "/stlap/home/accrualWaiver";
+        path = "/stlap/home/additionalWaiver";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -643,14 +643,11 @@ export default function Pagelayout() {
 
             <ListItemButton
               sx={{ pl: 4 }}
-              id="accrualWaiver"
+              id="additionalWaiver"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
-                <Tooltip
-                  title="Waiver"
-                  disableHoverListener={!expanded}
-                >
+                <Tooltip title="Waiver" disableHoverListener={!expanded}>
                   <AddModeratorTwoToneIcon
                     fontSize="large"
                     sx={{ color: "white" }}
