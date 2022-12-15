@@ -577,7 +577,7 @@ const AdditionalWaiver = () => {
             <Stack direction="row">
               <Grid sx={{ width: "320px" }}>
               <CustomTextField
-                disabled={false}
+                disabled={true}
                 label="Reference Number"
                 id="refno"
                 value={"STLAPKARA0001"}
