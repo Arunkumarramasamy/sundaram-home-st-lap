@@ -1,3 +1,4 @@
-.MuiPaper-root{
-    /* width: 100%; */
+
+#footer-removefor-datagrid .MuiDataGrid-footerContainer{
+    display:none;
 }
