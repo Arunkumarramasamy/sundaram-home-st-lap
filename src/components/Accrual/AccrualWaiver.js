@@ -2,8 +2,11 @@ import {
   Box,
   Button,
   Grid,
+  lighten,
   Paper,
   Stack,
+  TextareaAutosize,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -12,8 +15,10 @@ import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
+import STButton from "../CustomComponents/STButton";
+import StlapFooter from "../CustomComponents/StlapFooter";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
@@ -29,7 +34,11 @@ const AdditionalWaiver = () => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
   };
-  const resonValue=[{value:'1',text:'reason one'},{value:'2',text:'reason two'},{value:'3',text:'reason three'}];
+  const resonValue = [
+    { value: "1", text: "Reverse Payment" },
+    { value: "2", text: "intrest increases" },
+    { value: "3", text: "intrest reduced" },
+  ];
   const customerColumn = [
     // {
     //   field: "customerId",
@@ -92,16 +101,6 @@ const AdditionalWaiver = () => {
       align: "center",
     },
     {
-      field: "alternativeNo",
-      headerName: "Alternative Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
       field: "branchName",
       headerName: "Branch Name",
       headerAlign: "center",
@@ -112,7 +111,7 @@ const AdditionalWaiver = () => {
       align: "center",
     },
     {
-      field: "ApplicationNo",
+      field: "applicationNo",
       headerName: "Application Number",
       headerAlign: "center",
       type: "string",
@@ -126,7 +125,7 @@ const AdditionalWaiver = () => {
     {
       id: 1,
       customerId: "0001",
-      accountNo:'0000898980',
+      accountNo: "0000898980",
       customerName: "Raagesh",
       aadhar: "4567-xxxx-7645",
       pan: "ABCD000G",
@@ -138,7 +137,7 @@ const AdditionalWaiver = () => {
     {
       id: 2,
       customerId: "0002",
-      accountNo:'0000898980',
+      accountNo: "0000898980",
       customerName: "Sherif",
       aadhar: "4356-xxxx-9870",
       pan: "ABCD000G",
@@ -147,7 +146,6 @@ const AdditionalWaiver = () => {
       branchName: "karapakam",
       applicationNo: "STLAPKARA0001",
     },
-    
   ];
   const branchValues = [
     {
@@ -355,22 +353,44 @@ const AdditionalWaiver = () => {
       width: "200",
       editable: false,
       align: "center",
-      renderCell: () =>{
-        return  <CustomDropDown id = '1' label = '' dropDownValue={resonValue}/>;
-      }
-      
+      renderCell: () => {
+        return <CustomDropDown id="1" label="" value = '1' dropDownValue={resonValue} />;
+      },
     },
     {
       field: "remark",
       headerName: "Remark",
       headerAlign: "center",
       type: "string",
-      width: "500",
+      width: "250",
       editable: true,
       align: "left",
+      // renderCell: () => {
+      //   return (
+      //     <TextField
+      //       sx={{
+      //         whiteSpace: "unset",
+      //         wordBreak: "break-all",
+      //         width: "100%",
+      //       }}
+      //       // style={{
+      //       //   height: "40px !important",
+      //       //   width: "250px !important",
+      //       //   border: "#fff !important",
+      //       // }}
+      //     />
+      //     //           <TextField
+      //     //   id="outlined-multiline-static"
+      //     //   label="Multiline"
+      //     //   multiline
+      //     //   rows={10}
+      //     //   variant="outlined"
+      //     // />
+      //   );
+      // },
     },
   ];
- 
+
   let visibility = {
     due: false,
     paid: false,
@@ -399,7 +419,7 @@ const AdditionalWaiver = () => {
   ];
   return (
     <div>
-      <div>
+     <div style={{minHeight:'calc(100vh - 120px)'}}>
         <Grid
           container
           spacing={2}
@@ -409,12 +429,9 @@ const AdditionalWaiver = () => {
             margin: "unset",
           }}
         >
-          <div>
-            <h4>Fee Waiver</h4>
-          </div>
           <AccordianContainer
             id="accord"
-            title="Basic Search:"
+            title="Fee Waiver Basic Search"
             initialOpen={true}
           >
             <Box
@@ -424,33 +441,84 @@ const AdditionalWaiver = () => {
               onSubmit={searchButtonClickHandler}
             >
               <Grid container spacing={2}>
-              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
-                <CustomDropDown
-                   variant="standard"
-                   required={false}
-                   label="Branch"
-                   id="branch"
-                   value={branchValue}
-                   placeholder=" Branch"
-                   displayEmpty={true}
-                   dropDownValue={branchValues}
-                  
-                />
-              </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  sx={{ paddingTop: "unset !important" }}
+                >
+                  <CustomDropDown
+                    variant="standard"
+                    required={true}
+                    label="Branch"
+                    id="branch"
+                    value={branchValue}
+                    placeholder=" Branch"
+                    displayEmpty={true}
+                    dropDownValue={branchValues}
+                  />
+                </Grid>
 
-              <Grid item  xs={12} sm={6} md={4} lg={3} xl={3}>
-                <CustomTextField
-                   required={false}
-                   label="Application Number"
-                   id="trnno"
-                   variant="standard"
-                   value={""}
-                   type="text"
-                   placeholder="Application No."
-                  //  onChange={trnNoChangeHandler}
-                />
-              </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  sx={{ paddingTop: "unset !important" }}
+                >
+                  <CustomTextField
+                    required={true}
+                    label="Application Number"
+                    id="trnno"
+                    variant="standard"
+                    value={""}
+                    type="text"
+                    placeholder="Application Number"
+                    //  onChange={trnNoChangeHandler}
+                  />
+                </Grid>
+                <Grid
+                  sx={{
+                    width: "320px",
+                    paddingLeft: "18px",
+                    paddingTop: "unset",
+                  }}
+                >
+                  <CustomTextField
+                    disabled={true}
+                    label="Reference Number"
+                    id="refno"
+                    value={""}
+                    type="text"
+                    placeholder=""
+                    required={false}
+                    variant="standard"
+                    // onChange={trnNoChangeHandler}
+                  />
+                </Grid>
 
+                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+                  <CustomTextField
+                    required={false}
+                    disabled={true}
+                    label="Reference Date"
+                    id="refdate"
+                    value={""}
+                    type="text"
+                    placeholder=""
+                    variant="standard"
+                    // type="text"
+                    // onChange={trnNoChangeHandler}
+                  />
+                </Grid>
+                <Tooltip title="Current Date" placement="top-end">
+                  <InfoIcon />
+                </Tooltip>
                 {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
                   required={false}
@@ -488,163 +556,147 @@ const AdditionalWaiver = () => {
             </Box>
           </AccordianContainer>
         </Grid>
-        <div style={{ display: girdVisible }}>
-          <Paper sx={{ padding: "8px" , width:'calc(100% - 8px)',marginTop:'8px'}}>
-            <Stack direction="row">
-              <Grid sx={{ width: "320px" }}>
-              <CustomTextField
-                disabled={true}
-                label="Reference Number"
-                id="refno"
-                value={"STLAPKARA0001"}
-                type="text"
-                placeholder=""
 
-                required={false}
-                variant="standard"
-                // onChange={trnNoChangeHandler}
+        <div
+          style={{
+            display: girdVisible,
+            width: "calc(100% - 8px)",
+            paddingTop: "8px",
+          }}
+        >
+          <AccordianContainer
+            id="accord"
+            title="Customer Data (Reference Number) : STLAPCHET0001"
+            initialOpen={true}
+          >
+            <Grid
+              id="footer-removefor-datagrid"
+              container
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+              sx={{
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                paddingBottom: "8px",
+                display: girdVisible,
+                backgroundColor: "#fff",
+              }}
+            >
+              <DataGrid
+                sx={{
+                  boxShadow: 2,
+                  border: 2,
+                  height: "180px",
+                  borderColor: "white",
+                  "& .MuiDataGrid-row:hover": {
+                    color: "#004A92",
+                    backgroundColor: "#B8E4F4",
+                  },
+                  "& .MuiDataGrid-columnHeaders": {
+                    color: "white",
+                    fontFamily: "Roboto",
+                    backgroundColor: "#7f7f7f",
+                  },"& .super-app-theme--odd": {
+                    bgcolor: lighten("#D7D7D7", 0.15),
+                  },
+                  "& .super-app-theme--even": {
+                    bgcolor: lighten("#AAAAAA", 0.15),
+                  },
+                }}
+                rows={customerData}
+                columns={customerColumn}
+                pageSize={pageSize}
+                hideFooterPagination
+                hideFooterSelectedRowCount
+                disableSelectionOnClick
+                getRowClassName={(params) =>
+                  params.id % 2
+                    ? `super-app-theme--even`
+                    : `super-app-theme--odd`
+                }
+                initialState={{
+                  columns: {
+                    columnVisibilityModel: {
+                      ...visibility,
+                    },
+                  },
+                }}
               />
             </Grid>
-
-            <Grid sx={{width:'320px',paddingLeft:'18px'}}>
-              <CustomTextField
-                required={false}
-                disabled={true}
-                label="Reference Date"
-                id="refdate"
-                value={"07/09/2007"}
-                type="text"
-                placeholder=""
-                variant="standard"
-                // type="text"
-                // onChange={trnNoChangeHandler}
+          </AccordianContainer>
+        </div>
+        <div
+          style={{
+            display: girdVisible,
+            width: "calc(100% - 8px)",
+            paddingTop: "8px",
+          }}
+        >
+          <AccordianContainer
+            id="accord"
+            title="Accrual Details"
+            initialOpen={true}
+          >
+            <Grid
+              container
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+              sx={{
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                display: girdVisible,
+                backgroundColor: "#fff",
+              }}
+            >
+              <DataGrid
+                sx={{
+                  boxShadow: 2,
+                  border: 2,
+                  height: "400px",
+                  borderColor: "white",
+                  "& .MuiDataGrid-row:hover": {
+                    color: "#004A92",
+                    backgroundColor: "#B8E4F4",
+                  },
+                  "& .MuiDataGrid-columnHeaders": {
+                    color: "white",
+                    fontFamily: "Roboto",
+                    backgroundColor: "#7f7f7f",
+                  },
+                  "& .super-app-theme--odd": {
+                    bgcolor: lighten("#D7D7D7", 0.15),
+                  },
+                  "& .super-app-theme--even": {
+                    bgcolor: lighten("#AAAAAA", 0.15),
+                  },
+                }}
+                rows={rows}
+                columns={columns}
+                pageSize={pageSize}
+                disableSelectionOnClick
+                getRowClassName={(params) =>
+                  params.id % 2
+                    ? `super-app-theme--even`
+                    : `super-app-theme--odd`
+                }
+                initialState={{
+                  columns: {
+                    columnVisibilityModel: {
+                      ...visibility,
+                    },
+                  },
+                }}
               />
-              </Grid>
-              <Tooltip title="Current Date" >
-             <InfoIcon/>
-              </Tooltip>
-            </Stack>
-          </Paper>
+              <div style={{ padding: "8px", direction: "rtl" }}>
+                <Button variant="contained" sx={{ fontWeight: "bold" }}>
+                  Update
+                </Button>
+              </div>
+            </Grid>
+          </AccordianContainer>
         </div>
-
-       
-        <div style={{ display: girdVisible }}>
-          <h4>Customer Data</h4>
-        </div>
-        <Grid  id='footer-removefor-datagrid'
-          container
-          spacing={2}
-          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-          sx={{
-            width: "calc(100% - 8px)",
-            margin: "unset",
-            paddingBottom: "8px",
-            display: girdVisible,
-            backgroundColor:'#fff'
-          }}
-        >
-          <DataGrid
-            sx={{
-              boxShadow: 2,
-              border: 2,
-              height: "180px",
-              borderColor: "white",
-              "& .MuiDataGrid-row:hover": {
-                color: "#004A92",
-                backgroundColor: "#B8E4F4",
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                color: "white",
-                fontFamily: "Roboto",
-                backgroundColor: "#7f7f7f",
-              },
-            }}
-           
-            rows={customerData}
-            columns={customerColumn}
-            pageSize={pageSize}
-            hideFooterPagination
-            hideFooterSelectedRowCount
-            disableSelectionOnClick
-            getRowClassName={(params) =>
-              params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-            }
-            initialState={{
-              columns: {
-                columnVisibilityModel: {
-                  ...visibility,
-                },
-              },
-            }}
-          />
-        </Grid>
-        <div style={{ display: girdVisible }}>
-          <h4 sx={{ display: girdVisible }}>Waived Details</h4>
-        </div>
-        <Grid
-          container
-          spacing={2}
-          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-          sx={{
-            width: "calc(100% - 8px)",
-            margin: "unset",
-            display: girdVisible,
-            backgroundColor:'#fff'
-          }}
-        >
-          <DataGrid
-            sx={{
-              boxShadow: 2,
-              border: 2,
-              height: "400px",
-              borderColor: "white",
-              "& .MuiDataGrid-row:hover": {
-                color: "#004A92",
-                backgroundColor: "#B8E4F4",
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                color: "white",
-                fontFamily: "Roboto",
-                backgroundColor: "#7f7f7f",
-              },
-            }}
-            rows={rows}
-            columns={columns}
-            pageSize={pageSize}
-        
-            disableSelectionOnClick
-            getRowClassName={(params) =>
-              params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-            }
-            initialState={{
-              columns: {
-                columnVisibilityModel: {
-                  ...visibility,
-                },
-              },
-            }}
-          />
-        </Grid>
       </div>
-      <Box
-        component="footer"
-        sx={{
-          mt: "auto",
-          textAlign: "center",
-          marginTop: "8px",
-
-          left: "0",
-          bottom: "0",
-          right: "0",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <Typography sx={{ color: "black" }} align="center">
-          {" "}
-          Copyright © Sundaram Home Finance 2022.
-        </Typography>
-      </Box>
+      <StlapFooter/>
     </div>
   );
 };
