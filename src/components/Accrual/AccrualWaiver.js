@@ -354,7 +354,16 @@ const AdditionalWaiver = () => {
       editable: false,
       align: "center",
       renderCell: () => {
-        return <CustomDropDown id="1" label="" value = '1' dropDownValue={resonValue} />;
+        return (
+          <CustomDropDown
+            id="1"
+            label=""
+            value="1"
+            defaultValue="1"
+            dropDownValue={resonValue}
+            // required={true}
+          />
+        );
       },
     },
     {
@@ -365,29 +374,11 @@ const AdditionalWaiver = () => {
       width: "250",
       editable: true,
       align: "left",
-      // renderCell: () => {
-      //   return (
-      //     <TextField
-      //       sx={{
-      //         whiteSpace: "unset",
-      //         wordBreak: "break-all",
-      //         width: "100%",
-      //       }}
-      //       // style={{
-      //       //   height: "40px !important",
-      //       //   width: "250px !important",
-      //       //   border: "#fff !important",
-      //       // }}
-      //     />
-      //     //           <TextField
-      //     //   id="outlined-multiline-static"
-      //     //   label="Multiline"
-      //     //   multiline
-      //     //   rows={10}
-      //     //   variant="outlined"
-      //     // />
-      //   );
-      // },
+      renderCell: (params) =>  (
+              <Tooltip placement="right-end" title={params.value} >
+              <span >{params.value}</span>
+              </Tooltip>
+            ),
     },
   ];
 
@@ -419,7 +410,7 @@ const AdditionalWaiver = () => {
   ];
   return (
     <div>
-     <div style={{minHeight:'calc(100vh - 120px)'}}>
+      <div style={{ minHeight: "calc(100vh - 120px)" }}>
         <Grid
           container
           spacing={2}
@@ -596,7 +587,8 @@ const AdditionalWaiver = () => {
                     color: "white",
                     fontFamily: "Roboto",
                     backgroundColor: "#7f7f7f",
-                  },"& .super-app-theme--odd": {
+                  },
+                  "& .super-app-theme--odd": {
                     bgcolor: lighten("#D7D7D7", 0.15),
                   },
                   "& .super-app-theme--even": {
@@ -696,7 +688,7 @@ const AdditionalWaiver = () => {
           </AccordianContainer>
         </div>
       </div>
-      <StlapFooter/>
+      <StlapFooter />
     </div>
   );
 };

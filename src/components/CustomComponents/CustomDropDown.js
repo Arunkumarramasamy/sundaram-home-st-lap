@@ -8,11 +8,13 @@ const CustomDropDown = (props) => {
       <InputLabel required={props.required}>{props.label}</InputLabel>
       <FormControl fullWidth variant={props.variant}>
         <Select
-          onChange={props.onChange}
+          onChange={(event)=>setValue(event.target.value)}
           displayEmpty={props.displayEmpty}
-          value={props.value}
+          value={value}
           id={props.id}
           disabled={props.disabled}
+          defaultValue={props.defaultValue}
+          required={props.required}
         >
           <MenuItem value="">
             <p className="placeHolder_text">{props.placeholder}</p>
