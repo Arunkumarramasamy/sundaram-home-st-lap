@@ -10,7 +10,7 @@ const CustomDropDown = (props) => {
         <Select
           onChange={(event)=>setValue(event.target.value)}
           displayEmpty={props.displayEmpty}
-          value={value}
+          value={props.value}
           id={props.id}
           disabled={props.disabled}
           defaultValue={props.defaultValue}

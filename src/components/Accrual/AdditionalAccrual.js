@@ -23,9 +23,8 @@ const AdditionalAccrual = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
-  const [footerHeight, setFooterHeight] = useState("8px");
-  const [footerPosition, setFooterPosition] = useState("inherit");
+  const [referenceName,setReferenceName]= useState();
+ 
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -35,34 +34,14 @@ const AdditionalAccrual = () => {
     event.preventDefault();
     setGridVisible("block");
   };
-  useEffect(() => {
-    //  let footer=document.getElementsByTagName('footer');
-    //   if(window.innerHeight>footer[0].offsetTop){
-    //     let value = window.innerHeight-(footer[0].offsetTop+40);
-    //     setFooterHeight(value+'px');
-    //     setFooterPosition('absolute');
-    //   }else{
-    //     setFooterHeight('8px');
-    //     setFooterPosition('inherit');
-    //   }
-  }, []);
+
 
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
   };
   const customerColumn = [
-    // {
-    //   field: "customerId",
-    //   headerName: "Customer ID",
-    //   headerAlign: "center",
-    //   type: "string",
-    //   hide: true,
-    //   sortable: false,
-    //   width: 250,
-    //   align: "center",
-    //   visibility: false,
-    // },
+    
     {
       field: "customerName",
       headerName: "Customer Name",
@@ -374,7 +353,7 @@ const AdditionalAccrual = () => {
             value="1"
             defaultValue="1"
             dropDownValue={resonValue}
-            // required={true}
+            
           />
         );
       },
@@ -549,12 +528,13 @@ const AdditionalAccrual = () => {
                     disabled={true}
                     label="Reference Number"
                     id="refno"
-                    value={"STLAPKARA0001"}
+                    value="ReferenceAccrual0001"
                     type="text"
                     placeholder=""
                     required={false}
                     variant="standard"
                     // onChange={trnNoChangeHandler}
+                    // onChange={(event)=>setReferenceName(event.target.value)}
                   />
                 </Grid>
 
@@ -564,12 +544,12 @@ const AdditionalAccrual = () => {
                     disabled={true}
                     label="Reference Date"
                     id="refdate"
-                    value={"07/09/2007"}
+                    value="16/12/2022"
                     type="text"
                     placeholder=""
                     variant="standard"
                     // type="text"
-                    // onChange={trnNoChangeHandler}
+                    // onChange={()=>set}
                   />
                 </Grid>
                 <Tooltip title="Current Date" placement="top-end">

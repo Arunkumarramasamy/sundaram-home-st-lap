@@ -484,9 +484,9 @@ const AdditionalWaiver = () => {
                     disabled={true}
                     label="Reference Number"
                     id="refno"
-                    value={""}
+                    value="ReferenceWaiver0001"
                     type="text"
-                    placeholder=""
+                    placeholder="ReferenceWaiver0001"
                     required={false}
                     variant="standard"
                     // onChange={trnNoChangeHandler}
@@ -499,7 +499,7 @@ const AdditionalWaiver = () => {
                     disabled={true}
                     label="Reference Date"
                     id="refdate"
-                    value={""}
+                    value="16/12/2022"
                     type="text"
                     placeholder=""
                     variant="standard"
@@ -626,7 +626,7 @@ const AdditionalWaiver = () => {
         >
           <AccordianContainer
             id="accord"
-            title="Accrual Details"
+            title="Waiver Details"
             initialOpen={true}
           >
             <Grid

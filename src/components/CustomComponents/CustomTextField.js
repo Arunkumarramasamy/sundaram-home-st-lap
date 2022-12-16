@@ -11,8 +11,8 @@ const CustomTextField = (props) => {
         fullWidth
         id={props.id}
         variant={props.variant}
-        onChange={(event) => setTextValue(event.target.value)}
-        value={textValue}
+        onChange={props.onChange}
+        value={props.value}
         type={props.type}
         placeholder={props.placeholder}
         disabled={props.disabled}
