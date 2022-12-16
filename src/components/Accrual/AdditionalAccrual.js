@@ -17,14 +17,15 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import STButton from "../CustomComponents/STButton";
 import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
+import StlapFooter from "../CustomComponents/StlapFooter";
 
 const AdditionalAccrual = () => {
-
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [footerHeight, setFooterHeight] = useState("8px");
+  const [footerPosition, setFooterPosition] = useState("inherit");
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -35,15 +36,16 @@ const AdditionalAccrual = () => {
     setGridVisible("block");
   };
   useEffect(() => {
-   
-   let footer=document.getElementsByTagName('footer');
-    // if(window.innerHeight>footer[0].offsetTop){
-    //   let value = window.innerHeight-(footer[0].offsetTop+40);
-    //   setFooterHeight(value+'px');
-    // }else{
-    //   setFooterHeight('8px');
-    // }
-  },[]);
+    //  let footer=document.getElementsByTagName('footer');
+    //   if(window.innerHeight>footer[0].offsetTop){
+    //     let value = window.innerHeight-(footer[0].offsetTop+40);
+    //     setFooterHeight(value+'px');
+    //     setFooterPosition('absolute');
+    //   }else{
+    //     setFooterHeight('8px');
+    //     setFooterPosition('inherit');
+    //   }
+  }, []);
 
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
@@ -471,101 +473,101 @@ const AdditionalAccrual = () => {
   ];
   return (
     <div>
-      <Grid
-        container
-        spacing={2}
-        // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-        sx={{
-          width: "calc(100% - 8px)",
-          paddingBottom: "8px",
-          margin: "unset",
-        }}
-      >
-        <AccordianContainer
-          id="accord"
-          title="Fee Accural Basic Search"
-          initialOpen={true}
+      <div style={{ minHeight: "calc(100vh - 120px)" }}>
+        <Grid
+          container
+          spacing={2}
+          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+          sx={{
+            width: "calc(100% - 8px)",
+            margin: "unset",
+          }}
         >
-          <Box
-            id="accord-box"
-            component="form"
-            validate
-            onSubmit={searchButtonClickHandler}
+          <AccordianContainer
+            id="accord"
+            title="Fee Accural Basic Search"
+            initialOpen={true}
           >
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                xl={3}
-                sx={{ paddingTop: "unset !important" }}
-              >
-                <CustomDropDown
-                  variant="standard"
-                  required={true}
-                  label="Branch"
-                  id="branch"
-                  value={branchValue}
-                  placeholder=" Branch"
-                  displayEmpty={true}
-                  dropDownValue={branchValues}
-                />
-              </Grid>
+            <Box
+              id="accord-box"
+              component="form"
+              validate
+              onSubmit={searchButtonClickHandler}
+            >
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  sx={{ paddingTop: "unset !important" }}
+                >
+                  <CustomDropDown
+                    variant="standard"
+                    required={true}
+                    label="Branch"
+                    id="branch"
+                    value={branchValue}
+                    placeholder=" Branch"
+                    displayEmpty={true}
+                    dropDownValue={branchValues}
+                  />
+                </Grid>
 
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                xl={3}
-                sx={{ paddingTop: "unset !important" }}
-              >
-                <CustomTextField
-                  required={true}
-                  label="Application Number"
-                  id="trnno"
-                  variant="standard"
-                  value={""}
-                  type="text"
-                  placeholder="Application No."
-                  //  onChange={trnNoChangeHandler}
-                />
-              </Grid>
-              <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
-                <CustomTextField
-                  disabled={true}
-                  label="Reference Number"
-                  id="refno"
-                  value={"STLAPKARA0001"}
-                  type="text"
-                  placeholder=""
-                  required={false}
-                  variant="standard"
-                  // onChange={trnNoChangeHandler}
-                />
-              </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  sx={{ paddingTop: "unset !important" }}
+                >
+                  <CustomTextField
+                    required={true}
+                    label="Application Number"
+                    id="trnno"
+                    variant="standard"
+                    value={""}
+                    type="text"
+                    placeholder="Application No."
+                    //  onChange={trnNoChangeHandler}
+                  />
+                </Grid>
+                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+                  <CustomTextField
+                    disabled={true}
+                    label="Reference Number"
+                    id="refno"
+                    value={"STLAPKARA0001"}
+                    type="text"
+                    placeholder=""
+                    required={false}
+                    variant="standard"
+                    // onChange={trnNoChangeHandler}
+                  />
+                </Grid>
 
-              <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
-                <CustomTextField
-                  required={false}
-                  disabled={true}
-                  label="Reference Date"
-                  id="refdate"
-                  value={"07/09/2007"}
-                  type="text"
-                  placeholder=""
-                  variant="standard"
-                  // type="text"
-                  // onChange={trnNoChangeHandler}
-                />
-              </Grid>
-              <Tooltip title="Current Date" placement="top-end">
-                <InfoIcon />
-              </Tooltip>
-              {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+                  <CustomTextField
+                    required={false}
+                    disabled={true}
+                    label="Reference Date"
+                    id="refdate"
+                    value={"07/09/2007"}
+                    type="text"
+                    placeholder=""
+                    variant="standard"
+                    // type="text"
+                    // onChange={trnNoChangeHandler}
+                  />
+                </Grid>
+                <Tooltip title="Current Date" placement="top-end">
+                  <InfoIcon />
+                </Tooltip>
+                {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
                   required={false}
                   label="Applicant Name"
@@ -576,187 +578,175 @@ const AdditionalAccrual = () => {
                   placeholder="Applicant Name"
                 />
               </Grid> */}
-            </Grid>
-            <Box
+              </Grid>
+              <Box
+                sx={{
+                  marginTop: "1rem",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  type="submit"
+                  onClick={(event) => handleSearch(event)}
+                >
+                  Search
+                </Button>
+                <Button
+                  sx={{ marginLeft: "1rem", backgroundColor: "black" }}
+                  //   onClick={clearButtonClickHandler}
+                  variant="contained"
+                >
+                  Clear
+                </Button>
+              </Box>
+            </Box>
+          </AccordianContainer>
+        </Grid>
+        <div
+          style={{
+            display: girdVisible,
+            width: "calc(100% - 8px)",
+            paddingTop: "8px",
+          }}
+        >
+          <AccordianContainer
+            id="accord"
+            title="Customer Data (Reference Number) : STLAPCHET0001"
+            initialOpen={true}
+          >
+            <Grid
+              container
+              id="footer-removefor-datagrid"
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
               sx={{
-                marginTop: "1rem",
-                display: "flex",
-                justifyContent: "center",
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                paddingBottom: "8px",
+                display: girdVisible,
+                backgroundColor: "#fff",
               }}
             >
-              <Button
-                variant="contained"
-                type="submit"
-                onClick={(event) => handleSearch(event)}
-              >
-                Search
-              </Button>
-              <Button
-                sx={{ marginLeft: "1rem", backgroundColor: "black" }}
-                //   onClick={clearButtonClickHandler}
-                variant="contained"
-              >
-                Clear
-              </Button>
-            </Box>
-          </Box>
-        </AccordianContainer>
-      </Grid>
-      <div
-        style={{
-          display: girdVisible,
-          width: "calc(100% - 8px)",
-          paddingTop: "8px",
-        }}
-      >
-        <AccordianContainer
-          id="accord"
-          title="Customer Data (Reference Number) : STLAPCHET0001"
-          initialOpen={true}
-        >
-          <Grid
-            container
-            id="footer-removefor-datagrid"
-            spacing={2}
-            // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-            sx={{
-              width: "calc(100% - 8px)",
-              margin: "unset",
-              paddingBottom: "8px",
-              display: girdVisible,
-              backgroundColor: "#fff",
-            }}
-          >
-            <DataGrid
-              sx={{
-                boxShadow: 2,
-                border: 2,
-                height: "180px",
-                borderColor: "white",
-                "& .MuiDataGrid-row:hover": {
-                  color: "#004A92",
-                  backgroundColor: "#B8E4F4",
-                },
-                "& .MuiDataGrid-columnHeaders": {
-                  color: "white",
-                  fontFamily: "Roboto",
-                  backgroundColor: "#7f7f7f",
-                },
-                "& .super-app-theme--odd": {
-                  bgcolor: lighten("#D7D7D7", 0.15),
-                },
-                "& .super-app-theme--even": {
-                  bgcolor: lighten("#AAAAAA", 0.15),
-                },
-              }}
-              rows={customerData}
-              columns={customerColumn}
-              pageSize={pageSize}
-              hideFooterPagination
-              hideFooterSelectedRowCount
-              disableSelectionOnClick
-              getRowClassName={(params) =>
-                params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-              }
-              initialState={{
-                columns: {
-                  columnVisibilityModel: {
-                    ...visibility,
+              <DataGrid
+                sx={{
+                  boxShadow: 2,
+                  border: 2,
+                  height: "180px",
+                  borderColor: "white",
+                  "& .MuiDataGrid-row:hover": {
+                    color: "#004A92",
+                    backgroundColor: "#B8E4F4",
                   },
-                },
-              }}
-            />
-          </Grid>
-        </AccordianContainer>
-      </div>
-      <div
-        style={{
-          display: girdVisible,
-          width: "calc(100% - 8px)",
-          paddingTop: "8px",
-        }}
-      >
-        <AccordianContainer
-          id="accord"
-          title="Accrual Details"
-          initialOpen={true}
-        >
-          <Grid
-            container
-            spacing={2}
-            // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-            sx={{
-              width: "calc(100% - 8px)",
-              margin: "unset",
-              display: girdVisible,
-              backgroundColor: "#fff",
-            }}
-          >
-            <DataGrid
-              sx={{
-                boxShadow: 2,
-                border: 2,
-                height: "400px",
-                borderColor: "white",
-                "& .MuiDataGrid-row:hover": {
-                  color: "#004A92",
-                  backgroundColor: "#B8E4F4",
-                },
-                "& .MuiDataGrid-columnHeaders": {
-                  color: "white",
-                  fontFamily: "Roboto",
-                  backgroundColor: "#7f7f7f",
-                },"& .super-app-theme--odd": {
-                  bgcolor: lighten("#D7D7D7", 0.15),
-                },
-                "& .super-app-theme--even": {
-                  bgcolor: lighten("#AAAAAA", 0.15),
-                },
-              }}
-              rows={rows}
-              columns={columns}
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[4, 8, 12, 16]}
-              disableSelectionOnClick
-              getRowClassName={(params) =>
-                params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-              }
-              initialState={{
-                columns: {
-                  columnVisibilityModel: {
-                    ...visibility,
+                  "& .MuiDataGrid-columnHeaders": {
+                    color: "white",
+                    fontFamily: "Roboto",
+                    backgroundColor: "#7f7f7f",
                   },
-                },
+                  "& .super-app-theme--odd": {
+                    bgcolor: lighten("#D7D7D7", 0.15),
+                  },
+                  "& .super-app-theme--even": {
+                    bgcolor: lighten("#AAAAAA", 0.15),
+                  },
+                }}
+                rows={customerData}
+                columns={customerColumn}
+                pageSize={pageSize}
+                hideFooterPagination
+                hideFooterSelectedRowCount
+                disableSelectionOnClick
+                getRowClassName={(params) =>
+                  params.id % 2
+                    ? `super-app-theme--even`
+                    : `super-app-theme--odd`
+                }
+                initialState={{
+                  columns: {
+                    columnVisibilityModel: {
+                      ...visibility,
+                    },
+                  },
+                }}
+              />
+            </Grid>
+          </AccordianContainer>
+        </div>
+        <div
+          style={{
+            display: girdVisible,
+            width: "calc(100% - 8px)",
+            paddingTop: "8px",
+          }}
+        >
+          <AccordianContainer
+            id="accord"
+            title="Accrual Details"
+            initialOpen={true}
+          >
+            <Grid
+              container
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+              sx={{
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                display: girdVisible,
+                backgroundColor: "#fff",
               }}
-            />
-            <div style={{ padding: "8px", direction: "rtl" }}>
-              <Button variant="contained" sx={{ fontWeight: "bold" }}>
-                Update
-              </Button>
-            </div>
-          </Grid>
-        </AccordianContainer>
+            >
+              <DataGrid
+                sx={{
+                  boxShadow: 2,
+                  border: 2,
+                  height: "400px",
+                  borderColor: "white",
+                  "& .MuiDataGrid-row:hover": {
+                    color: "#004A92",
+                    backgroundColor: "#B8E4F4",
+                  },
+                  "& .MuiDataGrid-columnHeaders": {
+                    color: "white",
+                    fontFamily: "Roboto",
+                    backgroundColor: "#7f7f7f",
+                  },
+                  "& .super-app-theme--odd": {
+                    bgcolor: lighten("#D7D7D7", 0.15),
+                  },
+                  "& .super-app-theme--even": {
+                    bgcolor: lighten("#AAAAAA", 0.15),
+                  },
+                }}
+                rows={rows}
+                columns={columns}
+                pageSize={pageSize}
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rowsPerPageOptions={[4, 8, 12, 16]}
+                disableSelectionOnClick
+                getRowClassName={(params) =>
+                  params.id % 2
+                    ? `super-app-theme--even`
+                    : `super-app-theme--odd`
+                }
+                initialState={{
+                  columns: {
+                    columnVisibilityModel: {
+                      ...visibility,
+                    },
+                  },
+                }}
+              />
+              <div style={{ padding: "8px", direction: "rtl" }}>
+                <Button variant="contained" sx={{ fontWeight: "bold" }}>
+                  Update
+                </Button>
+              </div>
+            </Grid>
+          </AccordianContainer>
+        </div>
       </div>
-      <Box
-        component="footer"
-        sx={{
-          
-          textAlign: "center",
-          marginTop: footerHeight,
-
-          left: "0",
-          bottom: "0",
-          right: "0",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <Typography sx={{ color: "black" }} align="center">
-          {" "}
-          Copyright © Sundaram Home Finance 2022.
-        </Typography>
-      </Box>
+      <StlapFooter/>
     </div>
   );
 };

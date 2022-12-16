@@ -18,6 +18,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
 import STButton from "../CustomComponents/STButton";
+import StlapFooter from "../CustomComponents/StlapFooter";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
@@ -418,7 +419,7 @@ const AdditionalWaiver = () => {
   ];
   return (
     <div>
-      <div>
+     <div style={{minHeight:'calc(100vh - 120px)'}}>
         <Grid
           container
           spacing={2}
@@ -695,25 +696,7 @@ const AdditionalWaiver = () => {
           </AccordianContainer>
         </div>
       </div>
-      <Box
-        component="footer"
-        sx={{
-          mt: "auto",
-          textAlign: "center",
-          marginTop: "8px",
-
-          left: "0",
-          bottom: "0",
-          right: "0",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <Typography sx={{ color: "black" }} align="center">
-          {" "}
-          Copyright © Sundaram Home Finance 2022.
-        </Typography>
-      </Box>
+      <StlapFooter/>
     </div>
   );
 };
