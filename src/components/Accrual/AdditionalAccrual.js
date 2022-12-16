@@ -372,7 +372,9 @@ const AdditionalAccrual = () => {
             id="1"
             label=""
             value="1"
+            defaultValue="1"
             dropDownValue={resonValue}
+            // required={true}
           />
         );
       },
@@ -385,6 +387,11 @@ const AdditionalAccrual = () => {
       width: "250",
       editable: true,
       align: "left",
+      renderCell: (params) =>  (
+        <Tooltip placement="right-end" title={params.value} >
+        <span >{params.value}</span>
+        </Tooltip>
+      ),
     },
   ];
   const data = [
@@ -513,6 +520,7 @@ const AdditionalAccrual = () => {
                     placeholder=" Branch"
                     displayEmpty={true}
                     dropDownValue={branchValues}
+                    defaultValue={1}
                   />
                 </Grid>
 
