@@ -53,6 +53,7 @@ import VoucherAuthorisation from "../Demo_Disbursement/VoucherAuthorisation";
 import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
 import AdditionalAccrual from "../Accrual/AdditionalAccrual";
 import AccrualWaiver from "../Accrual/AccrualWaiver";
+import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
 
 const drawerWidth = 300;
 
@@ -101,21 +102,17 @@ export default function Pagelayout() {
     setAnchorEl(null);
   };
 
- 
-
   const handleDisbursementMenuClick = () => {
     setOpenDisbursementSubMenu(!openDisbursementSubMenu);
     setOpenAccrualSubMenu(false);
     setOpenDemoSubMenu(false);
   };
 
-  
   const handleDemoMenuClick = () => {
     setOpenDisbursementSubMenu(false);
     setOpenAccrualSubMenu(false);
     setOpenDemoSubMenu(!openDemoSubmenu);
   };
-
 
   const handleAccrualSubMenu = () => {
     setOpenDisbursementSubMenu(false);
@@ -166,7 +163,7 @@ export default function Pagelayout() {
         break;
       case "disbursementList":
         path = "/stlap/home/disbursementList";
-        break;  
+        break;
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -203,18 +200,19 @@ export default function Pagelayout() {
 
         {/* Parameter Maintenance */}
         <ListItemButton id="parameter" onClick={menuClickHandler}>
-            <ListItemIcon>
-              <Tooltip
-                title="Parameter Maintenance"
-                disableHoverListener={!expanded}
-              >
-                <EngineeringTwoTone fontSize="large" sx={{ color: "white" }} />
-              </Tooltip>
-            </ListItemIcon>
-            <ListItemText primary="Parameter Maintenance" sx={{ display: "block" }} />
-          </ListItemButton>
-       
-        
+          <ListItemIcon>
+            <Tooltip
+              title="Parameter Maintenance"
+              disableHoverListener={!expanded}
+            >
+              <EngineeringTwoTone fontSize="large" sx={{ color: "white" }} />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText
+            primary="Parameter Maintenance"
+            sx={{ display: "block" }}
+          />
+        </ListItemButton>
 
         {/* Disbursement */}
         <ListItemButton id="disbursement" onClick={handleDisbursementMenuClick}>
@@ -241,11 +239,11 @@ export default function Pagelayout() {
             >
               <ListItemIcon>
                 {/* <img id='layout-menu-image' src={Insurance} /> */}
-                <Tooltip title="Disbursement Request Create" disableHoverListener={!expanded}>
-                  <CreateTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
+                <Tooltip
+                  title="Disbursement Request Create"
+                  disableHoverListener={!expanded}
+                >
+                  <CreateTwoToneIcon fontSize="large" sx={{ color: "white" }} />
                 </Tooltip>
               </ListItemIcon>
               <ListItemText
@@ -279,7 +277,6 @@ export default function Pagelayout() {
             </ListItemButton>
           </List>
         </Collapse>
-
 
         {/* Accrual */}
         <ListItemButton id="fee" onClick={handleAccrualSubMenu}>
@@ -347,8 +344,8 @@ export default function Pagelayout() {
           </List>
         </Collapse>
 
-                {/* Demo */}
-                <ListItemButton id="demo" onClick={handleDemoMenuClick}>
+        {/* Demo */}
+        <ListItemButton id="demo" onClick={handleDemoMenuClick}>
           <ListItemIcon>
             {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
             <Tooltip title="Demo" disableHoverListener={!expanded}>
@@ -458,8 +455,6 @@ export default function Pagelayout() {
             </ListItemButton>
           </List>
         </Collapse>
-
-        
       </List>
       <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
@@ -698,6 +693,10 @@ export default function Pagelayout() {
             element={<Process />}
           />
           <Route
+            path={`${search}/stlap/home/disbursementList`}
+            element={<DisbursementRequestList />}
+          />
+          <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}
             element={<VoucherGeneration />}
           />
@@ -717,7 +716,7 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
           />
-          
+
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
         {/* </Container> */}

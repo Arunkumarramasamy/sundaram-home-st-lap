@@ -18,6 +18,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { visuallyHidden } from "@mui/utils";
 import { MoreVert, Preview } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 
 function createData(reqno, branch, appno, name, status, user, date) {
   return { reqno, branch, appno, name, status, user, date };
@@ -437,23 +438,27 @@ export default function DisbursementRequestList() {
                       <TableCell align="left">{row.date}</TableCell>
                       {row.status === "Paid" || row.status === "Cancelled" ? (
                         <TableCell>
-                          <IconButton>
-                            <Preview />
-                          </IconButton>
+                          <Tooltip title="View">
+                            <IconButton>
+                              <Preview />
+                            </IconButton>
+                          </Tooltip>
                         </TableCell>
                       ) : (
                         <TableCell>
                           <div>
-                            <IconButton
-                              aria-label="more"
-                              id="long-button"
-                              aria-controls={open ? "long-menu" : undefined}
-                              aria-expanded={open ? "true" : undefined}
-                              aria-haspopup="true"
-                              onClick={handleMenuClick}
-                            >
-                              <MoreVert />
-                            </IconButton>
+                            <Tooltip title="More Actions">
+                              <IconButton
+                                aria-label="more"
+                                id="long-button"
+                                aria-controls={open ? "long-menu" : undefined}
+                                aria-expanded={open ? "true" : undefined}
+                                aria-haspopup="true"
+                                onClick={handleMenuClick}
+                              >
+                                <MoreVert />
+                              </IconButton>
+                            </Tooltip>
                             <Menu
                               id="long-menu"
                               MenuListProps={{
