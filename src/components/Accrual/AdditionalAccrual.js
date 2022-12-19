@@ -152,24 +152,7 @@ const AdditionalAccrual = () => {
       applicationNo: "STLAPKARA0001",
     },
   ];
-  const branchValues = [
-    {
-      value: 1,
-      text: "Royapettah",
-    },
-    {
-      value: 2,
-      text: "Mylapore",
-    },
-    {
-      value: 3,
-      text: "Light House",
-    },
-    {
-      value: 4,
-      text: "Egmore",
-    },
-  ];
+
   const rows = [
     {
       id: 7,
@@ -397,15 +380,16 @@ const AdditionalAccrual = () => {
               validate
               onSubmit={searchButtonClickHandler}
             >
-              <Grid container spacing={2}>
+              <Grid item
+                 container spacing={2}>
                 <Grid
                   item
                   xs={12}
                   sm={6}
-                  md={4}
+                  md={3}
                   lg={3}
                   xl={3}
-                  sx={{ paddingTop: "unset !important" }}
+                  sx={{width: "350px !importance", paddingTop: "unset !important" }}
                 >
                   <CustomAutoComplete
                     required={false}
@@ -429,7 +413,7 @@ const AdditionalAccrual = () => {
                   md={4}
                   lg={3}
                   xl={3}
-                  sx={{ paddingTop: "unset !important" }}
+                  sx={{width: "350px", paddingTop: "unset !important" }}
                 >
                   <CustomAutoComplete
                     required={true}
@@ -444,7 +428,15 @@ const AdditionalAccrual = () => {
                     autoCompleteValues={applicationNumberList}
                   />
                 </Grid>
-                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  sx={{ width: "350px", paddingLeft: "24px",paddingTop: "unset !important" }}
+                >
                   <CustomTextField
                     disabled={true}
                     label="Reference Number"
@@ -459,7 +451,19 @@ const AdditionalAccrual = () => {
                   />
                 </Grid>
 
-                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+                <Grid
+                  sx={{
+                    width: "350px",
+                    paddingLeft: "24px",
+                    paddingTop: "unset !important"
+                  }}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                >
                   <CustomTextField
                     required={false}
                     disabled={true}
