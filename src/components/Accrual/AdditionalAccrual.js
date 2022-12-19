@@ -23,9 +23,8 @@ const AdditionalAccrual = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
-  const [footerHeight, setFooterHeight] = useState("8px");
-  const [footerPosition, setFooterPosition] = useState("inherit");
+  const [referenceName,setReferenceName]= useState();
+ 
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -35,34 +34,14 @@ const AdditionalAccrual = () => {
     event.preventDefault();
     setGridVisible("block");
   };
-  useEffect(() => {
-    //  let footer=document.getElementsByTagName('footer');
-    //   if(window.innerHeight>footer[0].offsetTop){
-    //     let value = window.innerHeight-(footer[0].offsetTop+40);
-    //     setFooterHeight(value+'px');
-    //     setFooterPosition('absolute');
-    //   }else{
-    //     setFooterHeight('8px');
-    //     setFooterPosition('inherit');
-    //   }
-  }, []);
+
 
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
   };
   const customerColumn = [
-    // {
-    //   field: "customerId",
-    //   headerName: "Customer ID",
-    //   headerAlign: "center",
-    //   type: "string",
-    //   hide: true,
-    //   sortable: false,
-    //   width: 250,
-    //   align: "center",
-    //   visibility: false,
-    // },
+    
     {
       field: "customerName",
       headerName: "Customer Name",
@@ -182,131 +161,122 @@ const AdditionalAccrual = () => {
     {
       id: 7,
       details: "Mod Charges",
-      receiveable: "678",
-      received: "0",
-      due: "450",
-      paid: "450",
-      waited: "80",
-      deduction: "Nill",
+      receiveable: 5000,
+      received: 0,
+      due: 5000,
+      paid: 2000,
+      waited: 500,
+      deduction: 2500,
     },
     {
       id: 8,
       details: "Legal Charges",
-      receiveable: "678",
-      received: "0",
-      due: "3000",
-      paid: "2500",
-      waited: "500",
-      deduction: "Nill",
+      receiveable: 7000,
+      received: 7000,
+      due: 0,
+      paid: 0,
+      waited:0,
+      deduction: 0,
     },
     {
       id: 9,
       details: "Technical Assistance Charges",
-      due: "5000",
-      receiveable: "678",
-      paid: "5000",
-      received: "0",
-      waited: "0",
-      deduction: "Nill",
+      due: 3000,
+      receiveable: 3000,
+      paid: 3000,
+      received:0,
+      waited: 0,
+      deduction: 0,
     },
     {
       id: 10,
       details: "Documentation Charges",
-      due: "80",
-      receiveable: "678",
-      paid: "80",
-      received: "0",
-      waited: "0",
-      deduction: "Nill",
+      due: 25000,
+      receiveable: 25000,
+      paid: 10000,
+      received: 0,
+      waited: 3000,
+      deduction: 12000,
     },
     {
       id: 11,
       details: "File Processing Charges",
-      due: "1000",
-      receiveable: "678",
-      paid: "1000",
-      received: "0",
-      waited: "0",
-      deduction: "Nill",
+      due: 1000,
+      receiveable: 1000,
+      paid: 500,
+      received: 500,
+      waited: 500,
+      deduction: 0,
     },
     {
       id: 1,
       details: "Application Fee",
-      due: "10000",
-      receiveable: "678",
-      received: "0",
-      paid: "7000",
-      waited: "3000",
-      deduction: "3000",
+      due: 8000,
+      receiveable: 8000,
+      received: 8000,
+      paid: 0,
+      waited: 0,
+      deduction: 0,
     },
     {
       id: 2,
       details: "Prepayment Charge",
-      due: "100000",
-      receiveable: "678",
-      paid: "50000",
-      received: "0",
-      waited: "50000",
-      deduction: "Nill",
+      due: 1000,
+      receiveable: 1000,
+      paid: 1000,
+      received: 1000,
+      waited: 0,
+      deduction: 0,
     },
     {
       id: 3,
       details: "Partial prepayment charge",
-      due: "30000",
-      received: "0",
-      receiveable: "678",
-      paid: "30000",
-      waited: "0",
-      deduction: "Nill",
+      due: 20000,
+      received: 10000,
+      receiveable: 30000,
+      paid: 5000,
+      waited:5000,
+      deduction: 10000,
     },
     {
       id: 4,
       details: "Late Fee charge",
-      due: "250",
-      receiveable: "678",
-      received: "0",
-      paid: "0",
-      waited: "250",
-      deduction: "250",
+      due: 250,
+      receiveable: 500,
+      received: 250,
+      paid: 250,
+      waited: 0,
+      deduction: 0,
     },
     {
       id: 5,
       details: "Recovery Charge",
-      due: "2000",
-      paid: "2000",
-      receiveable: "678",
-      received: "0",
-      waited: "2000",
+      due: 300,
+      paid: 300,
+      receiveable: 0,
+      received: 300,
+      waited: 50,
       deduction: "Nill",
     },
     {
       id: 6,
       details: "Insurance Premium Charge",
-      due: "784",
-      paid: "784",
-      received: "0",
-      receiveable: "678",
-      waited: "0",
-      deduction: "Nill",
+      due: 7000,
+      paid: 7000,
+      received: 7000,
+      receiveable: 0,
+      waited: 0,
+      deduction: 0,
     },
 
-    {
-      id: 12,
-      received: "0",
-      details: "Other Charges",
-      due: "0",
-      paid: "0",
-      receiveable: "678",
-      waited: "0",
-      deduction: "Nill",
-    },
+   
   ];
   const columns = [
     {
       field: "details",
       headerName: "Fee Description",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       hideable: false,
       sortable: false,
       width: 250,
@@ -316,7 +286,7 @@ const AdditionalAccrual = () => {
       field: "receiveable",
       headerName: "Amount Receivable",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       hideable: false,
       sortable: false,
       width: 250,
@@ -326,7 +296,7 @@ const AdditionalAccrual = () => {
       field: "received",
       headerName: "Amout Received(₹)",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: 150,
       align: "right",
       editable: false,
@@ -335,7 +305,7 @@ const AdditionalAccrual = () => {
       field: "paid",
       headerName: "Early Waived (₹)",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: 190,
       align: "right",
       editable: false,
@@ -344,16 +314,16 @@ const AdditionalAccrual = () => {
       field: "waited",
       headerName: "Additional Accrual(₹)",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: 190,
       align: "right",
-      editable: false,
+      editable: true,
     },
     {
       field: "deduction",
       headerName: "Outstanding Amout",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: "200",
       editable: false,
       align: "center",
@@ -362,7 +332,7 @@ const AdditionalAccrual = () => {
       field: "reason",
       headerName: "Reason",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: "200",
       editable: false,
       align: "center",
@@ -374,7 +344,7 @@ const AdditionalAccrual = () => {
             value="1"
             defaultValue="1"
             dropDownValue={resonValue}
-            // required={true}
+            
           />
         );
       },
@@ -549,12 +519,13 @@ const AdditionalAccrual = () => {
                     disabled={true}
                     label="Reference Number"
                     id="refno"
-                    value={"STLAPKARA0001"}
+                    value="ReferenceAccrual0001"
                     type="text"
                     placeholder=""
                     required={false}
                     variant="standard"
                     // onChange={trnNoChangeHandler}
+                    // onChange={(event)=>setReferenceName(event.target.value)}
                   />
                 </Grid>
 
@@ -564,12 +535,12 @@ const AdditionalAccrual = () => {
                     disabled={true}
                     label="Reference Date"
                     id="refdate"
-                    value={"07/09/2007"}
+                    value="16/12/2022"
                     type="text"
                     placeholder=""
                     variant="standard"
                     // type="text"
-                    // onChange={trnNoChangeHandler}
+                    // onChange={()=>set}
                   />
                 </Grid>
                 <Tooltip title="Current Date" placement="top-end">
