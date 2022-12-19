@@ -7,23 +7,49 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
+import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [applicationSearchDisable, setApplicationSearchDisable] =
+    useState(true);
+  const [branchName, setBranchName] = useState("");
   const handleSearch = (event) => {
     event.preventDefault();
     setGridVisible("block");
   };
+  const applicationNumberList = [
+    { label: "Application1234", value: "" },
+    { label: "Application1235", value: "" },
+    { label: "Application1236", value: "" },
+    { label: "Application1237", value: "" },
+    { label: "Application1238", value: "" },
+    { label: "Application1239", value: "" },
+  ];
 
+  const branchNames = [
+    { label: "Mylapore", value: "" },
+    { label: "Royapettah", value: "" },
+    { label: "Light House", value: "" },
+    { label: "Chennai", value: "" },
+    { label: "Tambaram", value: "" },
+    { label: "Egmore", value: "" },
+  ];
   const handleCellChangedEvent = (event) => {
     console.log(event.value);
   };
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
+  };
+  const onChangeForBranchEvent = (event, newValue) => {
+    setBranchName(newValue);
+    newValue === null
+      ? setApplicationSearchDisable(true)
+      : setApplicationSearchDisable(false);
   };
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
@@ -385,15 +411,18 @@ const AdditionalWaiver = () => {
                   xl={3}
                   sx={{ paddingTop: "unset !important" }}
                 >
-                  <CustomDropDown
+                  <CustomAutoComplete
+                    required={false}
+                    label="Branch Name"
+                    id="applicantName"
                     variant="standard"
-                    required={true}
-                    label="Branch"
-                    id="branch"
-                    value={branchValue}
-                    placeholder=" Branch"
-                    displayEmpty={true}
-                    dropDownValue={branchValues}
+                    value={branchName}
+                    onChange={(event, newValue) =>
+                      onChangeForBranchEvent(event, newValue)
+                    }
+                    type="text"
+                    placeholder="Branch Name"
+                    autoCompleteValues={branchNames}
                   />
                 </Grid>
 
@@ -406,15 +435,16 @@ const AdditionalWaiver = () => {
                   xl={3}
                   sx={{ paddingTop: "unset !important" }}
                 >
-                  <CustomTextField
+                  <CustomAutoComplete
                     required={true}
+                    disabled = {applicationSearchDisable}
                     label="Application Number"
-                    id="trnno"
+                    id="applicantName"
                     variant="standard"
-                    value={""}
+                    // value={applicantName}
                     type="text"
                     placeholder="Application Number"
-                    //  onChange={trnNoChangeHandler}
+                    autoCompleteValues={applicationNumberList}
                   />
                 </Grid>
                 <Grid
