@@ -17,8 +17,16 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { visuallyHidden } from "@mui/utils";
-import { MoreVert, Preview } from "@mui/icons-material";
+import {
+  CancelScheduleSend,
+  Edit,
+  MoreVert,
+  Preview,
+} from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
+import AdditionalAccrual from "../Accrual/AdditionalAccrual";
+import NoDataFound from "../CustomComponents/NoDataFound";
+import StlapFooter from "../CustomComponents/StlapFooter";
 
 function createData(reqno, branch, appno, name, status, user, date) {
   return { reqno, branch, appno, name, status, user, date };
@@ -185,46 +193,46 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "RequestNumber",
+    id: "request_number",
     numeric: false,
     disablePadding: true,
     label: "Request Number",
   },
   {
-    id: "DisbursementBranch",
+    id: "disbursement_branch",
     numeric: false,
     disablePadding: false,
     label: "Disbursement Branch",
   },
   {
-    id: "ApplicationNumber",
+    id: "application_number",
     numeric: false,
     disablePadding: false,
     label: "Application Number",
   },
   {
-    id: "CustomerName",
+    id: "customer_name",
     numeric: false,
     disablePadding: false,
     label: "Customer Name",
   },
   {
-    id: "Status",
+    id: "status",
     numeric: false,
     disablePadding: false,
     label: "Status",
   },
   {
-    id: "Created_Modified_User",
+    id: "user",
     numeric: false,
     disablePadding: false,
-    label: "Created/ Modified User",
+    label: "User",
   },
   {
-    id: "Created_Modified_Date",
+    id: "last_modified_time",
     numeric: false,
     disablePadding: false,
-    label: "Created/ Modified Date",
+    label: "Last Modified Time",
   },
 ];
 
@@ -267,7 +275,7 @@ function EnhancedTableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell />
+        <TableCell padding={"none"} />
       </TableRow>
     </TableHead>
   );
@@ -328,7 +336,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function DisbursementRequestList() {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("RequestNumber");
+  const [orderBy, setOrderBy] = React.useState("request_number");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
@@ -385,141 +393,202 @@ export default function DisbursementRequestList() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: window.innerWidth - 16 }}>
-      <Paper sx={{ width: window.innerWidth - 16, mb: 1 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ width: window.innerWidth - 16 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+    <React.Fragment>
+      <Box
+        sx={{ width: window.innerWidth - 20, minHeight: "calc(100vh - 120px)" }}
+      >
+        <Paper sx={{ width: window.innerWidth - 20 }}>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <TableContainer
+            sx={{
+              maxHeight: window.innerHeight - 100,
+              width: window.innerWidth - 20,
+            }}
           >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              aria-labelledby="tableTitle"
+              size={"small"}
+              sx={{ width: window.innerWidth - 20 }}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              {rows.length > 0 ? (
+                <TableBody>
+                  {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.sort(getComparator(order, orderBy)).slice() */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  {stableSort(rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.name);
+                      const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.reqno)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.reqno}
-                      selected={isItemSelected}
-                      sx={{ cursor: "pointer" }}
-                    >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="normal"
-                      >
-                        {row.reqno}
-                      </TableCell>
-                      <TableCell align="left">{row.branch}</TableCell>
-                      <TableCell align="left">{row.appno}</TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left">{row.user}</TableCell>
-                      <TableCell align="left">{row.date}</TableCell>
-                      {row.status === "Paid" || row.status === "Cancelled" ? (
-                        <TableCell>
-                          <Tooltip title="View">
-                            <IconButton>
-                              <Preview />
-                            </IconButton>
-                          </Tooltip>
-                        </TableCell>
-                      ) : (
-                        <TableCell>
-                          <div>
-                            <Tooltip title="More Actions">
-                              <IconButton
-                                aria-label="more"
-                                id="long-button"
-                                aria-controls={open ? "long-menu" : undefined}
-                                aria-expanded={open ? "true" : undefined}
-                                aria-haspopup="true"
-                                onClick={handleMenuClick}
-                              >
-                                <MoreVert />
-                              </IconButton>
-                            </Tooltip>
-                            <Menu
-                              id="long-menu"
-                              MenuListProps={{
-                                "aria-labelledby": "long-button",
-                              }}
-                              anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "right",
-                              }}
-                              transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                              }}
-                              anchorEl={anchorEl}
-                              open={open}
-                              onClose={handleClose}
-                              PaperProps={{
-                                style: {
-                                  maxHeight: ITEM_HEIGHT * 4.5,
-                                  width: "100px",
-                                },
-                              }}
-                            >
-                              {req_mod_options.map((option) => (
-                                <MenuItem
-                                  key={option}
-                                  selected={option === "Pyxis"}
-                                  onClick={handleClose}
+                      return (
+                        <TableRow
+                          hover
+                          // onClick={(event) => handleClick(event, row.reqno)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.reqno}
+                          selected={isItemSelected}
+                          // sx={{ cursor: "pointer" }}
+                        >
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="normal"
+                          >
+                            {row.reqno}
+                          </TableCell>
+                          <TableCell align="left">{row.branch}</TableCell>
+                          <TableCell align="left">{row.appno}</TableCell>
+                          <TableCell align="left">{row.name}</TableCell>
+                          <TableCell align="left">{row.status}</TableCell>
+                          <TableCell align="left">{row.user}</TableCell>
+                          <TableCell align="left">{row.date}</TableCell>
+                          {row.status === "Paid" ||
+                          row.status === "Cancelled" ? (
+                            <TableCell>
+                              <Tooltip title="View">
+                                <IconButton>
+                                  <Preview />
+                                </IconButton>
+                              </Tooltip>
+                            </TableCell>
+                          ) : (
+                            <TableCell>
+                              <div>
+                                <Tooltip title="More Actions">
+                                  <IconButton
+                                    aria-label="more"
+                                    id="long-button"
+                                    aria-controls={
+                                      open ? "long-menu" : undefined
+                                    }
+                                    aria-expanded={open ? "true" : undefined}
+                                    aria-haspopup="true"
+                                    onClick={handleMenuClick}
+                                  >
+                                    <MoreVert />
+                                  </IconButton>
+                                </Tooltip>
+                                <Menu
+                                  id="long-menu"
+                                  MenuListProps={{
+                                    "aria-labelledby": "long-button",
+                                  }}
+                                  anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "right",
+                                  }}
+                                  transformOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "right",
+                                  }}
+                                  anchorEl={anchorEl}
+                                  open={open}
+                                  onClose={handleClose}
+                                  PaperProps={{
+                                    style: {
+                                      maxHeight: ITEM_HEIGHT * 4.5,
+                                      width: "100px",
+                                    },
+                                  }}
                                 >
-                                  {option}
-                                </MenuItem>
-                              ))}
-                            </Menu>
-                          </div>
-                        </TableCell>
-                      )}
+                                  {req_mod_options.map((option, index) => (
+                                    <MenuItem
+                                      key={option}
+                                      selected={option === "Pyxis"}
+                                      onClick={handleClose}
+                                    >
+                                      {(() => {
+                                        switch (index) {
+                                          case 0:
+                                            return (
+                                              <IconButton size="small">
+                                                <Preview fontSize="small" />
+                                              </IconButton>
+                                            );
+                                          case 1:
+                                            return (
+                                              <IconButton size="small">
+                                                <Edit
+                                                  fontSize="small"
+                                                  color="inherit"
+                                                />
+                                              </IconButton>
+                                            );
+                                          case 2:
+                                            return (
+                                              <IconButton size="small">
+                                                <CancelScheduleSend
+                                                  fontSize="small"
+                                                  color="inherit"
+                                                />
+                                              </IconButton>
+                                            );
+                                        }
+                                      })()}
+                                      <Typography
+                                        color="inherit"
+                                        variant="inherit"
+                                        component="div"
+                                        fontSize="14px"
+                                        fontWeight="inherit"
+                                      >
+                                        {option}
+                                      </Typography>
+                                    </MenuItem>
+                                  ))}
+                                </Menu>
+                              </div>
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: (dense ? 33 : 53) * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
                     </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
+                  )}
+                </TableBody>
+              ) : (
+                <React.Fragment></React.Fragment>
               )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+            </Table>
+          </TableContainer>
+          {rows.length > 0 ? (
+            <TablePagination
+              rowsPerPageOptions={[5]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          ) : (
+            <NoDataFound />
+          )}
+        </Paper>
+      </Box>
+      <Box>
+        <StlapFooter />
+      </Box>
+    </React.Fragment>
   );
 }
