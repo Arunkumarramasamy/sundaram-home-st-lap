@@ -4,10 +4,10 @@ html {
 body {
   min-height: 100%;
 }
-#root{
+#root {
   height: 100%;
 }
-.app{
+.app {
   height: 100%;
 }
 #components-layout-demo-fixed .logo {
@@ -45,8 +45,8 @@ aside {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 
 /* Track */
@@ -68,20 +68,20 @@ aside {
   width: 20px;
   position: fixed;
   z-index: 1200;
-  cursor:pointer;
+  cursor: pointer;
   background-color: #169bd5;
-  top:48%;
-  clip-path:polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+  top: 48%;
+  clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
 }
 
-#drawer-closer{
+#drawer-closer {
   height: 50px;
   width: 20px;
   cursor: pointer;
   position: fixed;
   z-index: 1200;
   background-color: #169bd5;
-  top:48%;
-  clip-path:polygon(25% 0%, 100% 1%, 100% 100%, 25% 100%, 0% 50%);
+  top: 48%;
+  clip-path: polygon(25% 0%, 100% 1%, 100% 100%, 25% 100%, 0% 50%);
   margin-left: 300px;
 }

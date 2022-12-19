@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  lighten,
-  Paper,
-  Stack,
-  TextareaAutosize,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, lighten, Tooltip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -17,7 +6,6 @@ import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
-import STButton from "../CustomComponents/STButton";
 import StlapFooter from "../CustomComponents/StlapFooter";
 
 const AdditionalWaiver = () => {
@@ -31,7 +19,7 @@ const AdditionalWaiver = () => {
   };
 
   const handleCellChangedEvent = (event) => {
-    console.log(event.target);
+    console.log(event.value);
   };
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
@@ -43,16 +31,6 @@ const AdditionalWaiver = () => {
     { value: "3", text: "intrest reduced" },
   ];
   const customerColumn = [
-    // {
-    //   field: "customerId",
-    //   headerName: "Customer ID",
-    //   headerAlign: "center",
-    //   type: "string",
-    //   hide: true,
-    //   sortable: false,
-    //   width: 250,
-    //   align: "center",
-    // },
     {
       field: "customerName",
       headerName: "Customer Name",
@@ -176,8 +154,7 @@ const AdditionalWaiver = () => {
       received: 0,
       due: 5000,
       paid: 2000,
-      waited: 500,
-      deduction: 2500,
+      waived: 500,
     },
     {
       id: 8,
@@ -186,8 +163,7 @@ const AdditionalWaiver = () => {
       received: 7000,
       due: 0,
       paid: 0,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 9,
@@ -196,8 +172,7 @@ const AdditionalWaiver = () => {
       receiveable: 3000,
       paid: 3000,
       received: 0,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 10,
@@ -206,8 +181,7 @@ const AdditionalWaiver = () => {
       receiveable: 25000,
       paid: 10000,
       received: 0,
-      waited: 3000,
-      deduction: 12000,
+      waived: 3000,
     },
     {
       id: 11,
@@ -216,8 +190,7 @@ const AdditionalWaiver = () => {
       receiveable: 1000,
       paid: 500,
       received: 500,
-      waited: 500,
-      deduction: 0,
+      waived: 500,
     },
     {
       id: 1,
@@ -226,8 +199,7 @@ const AdditionalWaiver = () => {
       receiveable: 8000,
       received: 8000,
       paid: 0,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 2,
@@ -236,8 +208,7 @@ const AdditionalWaiver = () => {
       receiveable: 1000,
       paid: 1000,
       received: 1000,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 3,
@@ -246,8 +217,7 @@ const AdditionalWaiver = () => {
       received: 10000,
       receiveable: 30000,
       paid: 5000,
-      waited: 5000,
-      deduction: 10000,
+      waived: 5000,
     },
     {
       id: 4,
@@ -256,8 +226,7 @@ const AdditionalWaiver = () => {
       receiveable: 500,
       received: 250,
       paid: 250,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 5,
@@ -266,8 +235,7 @@ const AdditionalWaiver = () => {
       paid: 300,
       receiveable: 0,
       received: 300,
-      waited: 50,
-      deduction: "Nill",
+      waived: 50,
     },
     {
       id: 6,
@@ -276,8 +244,7 @@ const AdditionalWaiver = () => {
       paid: 7000,
       received: 7000,
       receiveable: 0,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
   ];
   const columns = [
@@ -308,7 +275,7 @@ const AdditionalWaiver = () => {
       type: "number",
       width: 150,
       align: "right",
-      editable: false,
+      editable: true,
     },
     {
       field: "paid",
@@ -317,10 +284,10 @@ const AdditionalWaiver = () => {
       type: "number",
       width: 190,
       align: "right",
-      editable: false,
+      editable: true,
     },
     {
-      field: "waited",
+      field: "waived",
       headerName: "Additional Accrual(₹)",
       headerAlign: "center",
       type: "number",
@@ -336,6 +303,8 @@ const AdditionalWaiver = () => {
       width: "200",
       editable: false,
       align: "center",
+      editable: true,
+      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
     },
     {
       field: "reason",
@@ -376,29 +345,13 @@ const AdditionalWaiver = () => {
   let visibility = {
     due: false,
     paid: false,
-    waited: false,
+    waived: false,
     deduction: false,
   };
   if (window.innerWidth > 700) {
     visibility = {};
   }
-  const branchList = [
-    {
-      label: "Karapakam",
-      label: "Kottivakam",
-      label: "rayapet",
-      label: "chetpet",
-      label: "tambaram",
-    },
-  ];
-  const applicationNumberList = [
-    {
-      label: "STLAPKARA0001",
-      label: "STLAPRAYA0001",
-      label: "STLAPCHET0001",
-      label: "STLAPTAMB0001",
-    },
-  ];
+
   return (
     <div>
       <div style={{ minHeight: "calc(100vh - 120px)" }}>
@@ -413,7 +366,7 @@ const AdditionalWaiver = () => {
         >
           <AccordianContainer
             id="accord"
-            title="Fee Waiver Basic Search"
+            title="Fee Waiver Details"
             initialOpen={true}
           >
             <Box
@@ -498,20 +451,6 @@ const AdditionalWaiver = () => {
                     // onChange={trnNoChangeHandler}
                   />
                 </Grid>
-                <Tooltip title="Current Date" placement="top-end">
-                  <InfoIcon />
-                </Tooltip>
-                {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                <CustomTextField
-                  required={false}
-                  label="Applicant Name"
-                  id="applicantName"
-                  variant="outlined"
-                  value={""}
-                  type="text"
-                  placeholder="Applicant Name"
-                />
-              </Grid> */}
               </Grid>
               <Box
                 sx={{
@@ -657,7 +596,8 @@ const AdditionalWaiver = () => {
                 columns={columns}
                 pageSize={pageSize}
                 disableSelectionOnClick
-                onCellClick={() => handleCellChangedEvent}
+                autoHeight
+                // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
                 getRowClassName={(params) =>
                   params.id % 2
                     ? `super-app-theme--even`
