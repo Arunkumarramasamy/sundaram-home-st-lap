@@ -27,6 +27,7 @@ import { Tooltip } from "@mui/material";
 import AdditionalAccrual from "../Accrual/AdditionalAccrual";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
+import FilterCondition from "./FilterCondition";
 
 function createData(reqno, branch, appno, name, status, user, date) {
   return { reqno, branch, appno, name, status, user, date };
@@ -394,6 +395,7 @@ export default function DisbursementRequestList() {
 
   return (
     <React.Fragment>
+      <FilterCondition />
       <Box
         sx={{ width: window.innerWidth - 20, minHeight: "calc(100vh - 120px)" }}
       >
