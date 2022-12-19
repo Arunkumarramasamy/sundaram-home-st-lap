@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  lighten,
-  Paper,
-  Stack,
-  TextareaAutosize,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, lighten, Tooltip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -17,22 +6,50 @@ import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
-import STButton from "../CustomComponents/STButton";
 import StlapFooter from "../CustomComponents/StlapFooter";
+import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [applicationSearchDisable, setApplicationSearchDisable] =
+    useState(true);
+  const [branchName, setBranchName] = useState("");
   const handleSearch = (event) => {
     event.preventDefault();
     setGridVisible("block");
   };
+  const applicationNumberList = [
+    { label: "Application1234", value: "" },
+    { label: "Application1235", value: "" },
+    { label: "Application1236", value: "" },
+    { label: "Application1237", value: "" },
+    { label: "Application1238", value: "" },
+    { label: "Application1239", value: "" },
+  ];
 
+  const branchNames = [
+    { label: "Mylapore", value: "" },
+    { label: "Royapettah", value: "" },
+    { label: "Light House", value: "" },
+    { label: "Chennai", value: "" },
+    { label: "Tambaram", value: "" },
+    { label: "Egmore", value: "" },
+  ];
+  const handleCellChangedEvent = (event) => {
+    console.log(event.value);
+  };
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
+  };
+  const onChangeForBranchEvent = (event, newValue) => {
+    setBranchName(newValue);
+    newValue === null
+      ? setApplicationSearchDisable(true)
+      : setApplicationSearchDisable(false);
   };
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
@@ -40,16 +57,6 @@ const AdditionalWaiver = () => {
     { value: "3", text: "intrest reduced" },
   ];
   const customerColumn = [
-    // {
-    //   field: "customerId",
-    //   headerName: "Customer ID",
-    //   headerAlign: "center",
-    //   type: "string",
-    //   hide: true,
-    //   sortable: false,
-    //   width: 250,
-    //   align: "center",
-    // },
     {
       field: "customerName",
       headerName: "Customer Name",
@@ -169,123 +176,101 @@ const AdditionalWaiver = () => {
     {
       id: 7,
       details: "Mod Charges",
-      receiveable: "678",
-      received: "0",
-      due: "450",
-      paid: "450",
-      waited: "80",
-      deduction: "Nill",
+      receiveable: 5000,
+      received: 0,
+      due: 5000,
+      paid: 2000,
+      waived: 500,
     },
     {
       id: 8,
       details: "Legal Charges",
-      receiveable: "678",
-      received: "0",
-      due: "3000",
-      paid: "2500",
-      waited: "500",
-      deduction: "Nill",
+      receiveable: 7000,
+      received: 7000,
+      due: 0,
+      paid: 0,
+      waived: 0,
     },
     {
       id: 9,
       details: "Technical Assistance Charges",
-      due: "5000",
-      receiveable: "678",
-      paid: "5000",
-      received: "0",
-      waited: "0",
-      deduction: "Nill",
+      due: 3000,
+      receiveable: 3000,
+      paid: 3000,
+      received: 0,
+      waived: 0,
     },
     {
       id: 10,
       details: "Documentation Charges",
-      due: "80",
-      receiveable: "678",
-      paid: "80",
-      received: "0",
-      waited: "0",
-      deduction: "Nill",
+      due: 25000,
+      receiveable: 25000,
+      paid: 10000,
+      received: 0,
+      waived: 3000,
     },
     {
       id: 11,
       details: "File Processing Charges",
-      due: "1000",
-      receiveable: "678",
-      paid: "1000",
-      received: "0",
-      waited: "0",
-      deduction: "Nill",
+      due: 1000,
+      receiveable: 1000,
+      paid: 500,
+      received: 500,
+      waived: 500,
     },
     {
       id: 1,
       details: "Application Fee",
-      due: "10000",
-      receiveable: "678",
-      received: "0",
-      paid: "7000",
-      waited: "3000",
-      deduction: "3000",
+      due: 8000,
+      receiveable: 8000,
+      received: 8000,
+      paid: 0,
+      waived: 0,
     },
     {
       id: 2,
       details: "Prepayment Charge",
-      due: "100000",
-      receiveable: "678",
-      paid: "50000",
-      received: "0",
-      waited: "50000",
-      deduction: "Nill",
+      due: 1000,
+      receiveable: 1000,
+      paid: 1000,
+      received: 1000,
+      waived: 0,
     },
     {
       id: 3,
       details: "Partial prepayment charge",
-      due: "30000",
-      received: "0",
-      receiveable: "678",
-      paid: "30000",
-      waited: "0",
-      deduction: "Nill",
+      due: 20000,
+      received: 10000,
+      receiveable: 30000,
+      paid: 5000,
+      waived: 5000,
     },
     {
       id: 4,
       details: "Late Fee charge",
-      due: "250",
-      receiveable: "678",
-      received: "0",
-      paid: "0",
-      waited: "250",
-      deduction: "250",
+      due: 250,
+      receiveable: 500,
+      received: 250,
+      paid: 250,
+      waived: 0,
     },
     {
       id: 5,
       details: "Recovery Charge",
-      due: "2000",
-      paid: "2000",
-      receiveable: "678",
-      received: "0",
-      waited: "2000",
-      deduction: "Nill",
+      due: 300,
+      paid: 300,
+      receiveable: 0,
+      received: 300,
+      waived: 50,
     },
     {
       id: 6,
       details: "Insurance Premium Charge",
-      due: "784",
-      paid: "784",
-      received: "0",
-      receiveable: "678",
-      waited: "0",
-      deduction: "Nill",
-    },
-
-    {
-      id: 12,
-      received: "0",
-      details: "Other Charges",
-      due: "0",
-      paid: "0",
-      receiveable: "678",
-      waited: "0",
-      deduction: "Nill",
+      due: 7000,
+      paid: 7000,
+      received: 7000,
+      receiveable: 0,
+      waived: 0,
     },
   ];
   const columns = [
@@ -293,7 +278,7 @@ const AdditionalWaiver = () => {
       field: "details",
       headerName: "Fee Description",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       hideable: false,
       sortable: false,
       width: 250,
@@ -301,9 +286,9 @@ const AdditionalWaiver = () => {
     },
     {
       field: "receiveable",
-      headerName: "Amount Receivable(₹)",
+      headerName: "Amount Receivable",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       hideable: false,
       sortable: false,
       width: 250,
@@ -313,48 +298,58 @@ const AdditionalWaiver = () => {
       field: "received",
       headerName: "Amout Received(₹)",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: 150,
       align: "right",
-      editable: false,
+      editable: true,
     },
     {
       field: "paid",
       headerName: "Early Waived (₹)",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: 190,
       align: "right",
-      editable: false,
+      editable: true,
     },
     {
-      field: "waited",
+      field: "waived",
       headerName: "Additional Waiver(₹)",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: 190,
       align: "right",
-      editable: false,
+      editable: true,
     },
     {
       field: "deduction",
       headerName: "Outstanding Amout",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: "200",
       editable: false,
       align: "center",
+      editable: true,
+      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
     },
     {
       field: "reason",
       headerName: "Reason",
       headerAlign: "center",
-      type: "string",
+      type: "number",
       width: "200",
       editable: false,
       align: "center",
       renderCell: () => {
-        return <CustomDropDown id="1" label="" value = '1' dropDownValue={resonValue} />;
+        return (
+          <CustomDropDown
+            id="1"
+            label=""
+            value="1"
+            defaultValue="1"
+            dropDownValue={resonValue}
+          />
+        );
       },
     },
     {
@@ -365,61 +360,27 @@ const AdditionalWaiver = () => {
       width: "250",
       editable: true,
       align: "left",
-      // renderCell: () => {
-      //   return (
-      //     <TextField
-      //       sx={{
-      //         whiteSpace: "unset",
-      //         wordBreak: "break-all",
-      //         width: "100%",
-      //       }}
-      //       // style={{
-      //       //   height: "40px !important",
-      //       //   width: "250px !important",
-      //       //   border: "#fff !important",
-      //       // }}
-      //     />
-      //     //           <TextField
-      //     //   id="outlined-multiline-static"
-      //     //   label="Multiline"
-      //     //   multiline
-      //     //   rows={10}
-      //     //   variant="outlined"
-      //     // />
-      //   );
-      // },
+      renderCell: (params) => (
+        <Tooltip placement="right-end" title={params.value}>
+          <span>{params.value}</span>
+        </Tooltip>
+      ),
     },
   ];
 
   let visibility = {
     due: false,
     paid: false,
-    waited: false,
+    waived: false,
     deduction: false,
   };
   if (window.innerWidth > 700) {
     visibility = {};
   }
-  const branchList = [
-    {
-      label: "Karapakam",
-      label: "Kottivakam",
-      label: "rayapet",
-      label: "chetpet",
-      label: "tambaram",
-    },
-  ];
-  const applicationNumberList = [
-    {
-      label: "STLAPKARA0001",
-      label: "STLAPRAYA0001",
-      label: "STLAPCHET0001",
-      label: "STLAPTAMB0001",
-    },
-  ];
+
   return (
     <div>
-     <div style={{minHeight:'calc(100vh - 120px)'}}>
+      <div style={{ minHeight: "calc(100vh - 120px)" }}>
         <Grid
           container
           spacing={2}
@@ -431,7 +392,7 @@ const AdditionalWaiver = () => {
         >
           <AccordianContainer
             id="accord"
-            title="Fee Waiver Basic Search"
+            title="Fee Waiver Details"
             initialOpen={true}
           >
             <Box
@@ -450,15 +411,18 @@ const AdditionalWaiver = () => {
                   xl={3}
                   sx={{ paddingTop: "unset !important" }}
                 >
-                  <CustomDropDown
+                  <CustomAutoComplete
+                    required={false}
+                    label="Branch Name"
+                    id="applicantName"
                     variant="standard"
-                    required={true}
-                    label="Branch"
-                    id="branch"
-                    value={branchValue}
-                    placeholder=" Branch"
-                    displayEmpty={true}
-                    dropDownValue={branchValues}
+                    value={branchName}
+                    onChange={(event, newValue) =>
+                      onChangeForBranchEvent(event, newValue)
+                    }
+                    type="text"
+                    placeholder="Branch Name"
+                    autoCompleteValues={branchNames}
                   />
                 </Grid>
 
@@ -471,15 +435,16 @@ const AdditionalWaiver = () => {
                   xl={3}
                   sx={{ paddingTop: "unset !important" }}
                 >
-                  <CustomTextField
+                  <CustomAutoComplete
                     required={true}
+                    disabled = {applicationSearchDisable}
                     label="Application Number"
-                    id="trnno"
+                    id="applicantName"
                     variant="standard"
-                    value={""}
+                    // value={applicantName}
                     type="text"
                     placeholder="Application Number"
-                    //  onChange={trnNoChangeHandler}
+                    autoCompleteValues={applicationNumberList}
                   />
                 </Grid>
                 <Grid
@@ -493,9 +458,9 @@ const AdditionalWaiver = () => {
                     disabled={true}
                     label="Reference Number"
                     id="refno"
-                    value={""}
+                    value="ReferenceWaiver0001"
                     type="text"
-                    placeholder=""
+                    placeholder="ReferenceWaiver0001"
                     required={false}
                     variant="standard"
                     // onChange={trnNoChangeHandler}
@@ -508,7 +473,7 @@ const AdditionalWaiver = () => {
                     disabled={true}
                     label="Reference Date"
                     id="refdate"
-                    value={""}
+                    value="16/12/2022"
                     type="text"
                     placeholder=""
                     variant="standard"
@@ -516,20 +481,6 @@ const AdditionalWaiver = () => {
                     // onChange={trnNoChangeHandler}
                   />
                 </Grid>
-                <Tooltip title="Current Date" placement="top-end">
-                  <InfoIcon />
-                </Tooltip>
-                {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                <CustomTextField
-                  required={false}
-                  label="Applicant Name"
-                  id="applicantName"
-                  variant="outlined"
-                  value={""}
-                  type="text"
-                  placeholder="Applicant Name"
-                />
-              </Grid> */}
               </Grid>
               <Box
                 sx={{
@@ -596,7 +547,8 @@ const AdditionalWaiver = () => {
                     color: "white",
                     fontFamily: "Roboto",
                     backgroundColor: "#7f7f7f",
-                  },"& .super-app-theme--odd": {
+                  },
+                  "& .super-app-theme--odd": {
                     bgcolor: lighten("#D7D7D7", 0.15),
                   },
                   "& .super-app-theme--even": {
@@ -634,7 +586,7 @@ const AdditionalWaiver = () => {
         >
           <AccordianContainer
             id="accord"
-            title="Accrual Details"
+            title="Waiver Details"
             initialOpen={true}
           >
             <Grid
@@ -674,6 +626,8 @@ const AdditionalWaiver = () => {
                 columns={columns}
                 pageSize={pageSize}
                 disableSelectionOnClick
+                autoHeight
+                // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
                 getRowClassName={(params) =>
                   params.id % 2
                     ? `super-app-theme--even`
@@ -696,7 +650,7 @@ const AdditionalWaiver = () => {
           </AccordianContainer>
         </div>
       </div>
-      <StlapFooter/>
+      <StlapFooter />
     </div>
   );
 };
