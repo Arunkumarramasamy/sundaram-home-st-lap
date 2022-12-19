@@ -7,7 +7,6 @@ import {
   Divider,
   Tooltip,
   Collapse,
-  Container,
   useMediaQuery,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -34,47 +33,26 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   AccountTreeTwoTone,
   AdminPanelSettingsTwoTone,
-  AppRegistrationTwoTone,
-  ArticleTwoTone,
-  AssignmentReturnedTwoTone,
-  AssignmentReturnTwoTone,
-  BookOnlineTwoTone,
-  ContactEmergencyTwoTone,
   CurrencyRupeeTwoTone,
   DashboardTwoTone,
   DisabledByDefaultTwoTone,
+  EngineeringTwoTone,
   ExpandLess,
   ExpandMore,
   LogoutTwoTone,
-  PersonSearchTwoTone,
   PublishedWithChangesTwoTone,
-  ReceiptLongTwoTone,
-  SecurityTwoTone,
 } from "@mui/icons-material";
-import AnalyticsTwoToneIcon from "@mui/icons-material/AnalyticsTwoTone";
-import AssuredWorkloadTwoToneIcon from "@mui/icons-material/AssuredWorkloadTwoTone";
-import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
-import PollTwoToneIcon from "@mui/icons-material/PollTwoTone";
-import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
-import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone";
-import CloudDoneTwoToneIcon from "@mui/icons-material/CloudDoneTwoTone";
-import AccessibilityTwoToneIcon from "@mui/icons-material/AccessibilityTwoTone";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
-import SpeakerNotesTwoToneIcon from "@mui/icons-material/SpeakerNotesTwoTone";
-import StickyNote2TwoToneIcon from "@mui/icons-material/StickyNote2TwoTone";
-import ShortTextTwoToneIcon from "@mui/icons-material/ShortTextTwoTone";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
-import UpdateTwoToneIcon from "@mui/icons-material/UpdateTwoTone";
 import { useState } from "react";
 import { Dashboard } from "../Dashboard/Dashboard";
-import Process from "../Disbursement/Process";
-import VoucherGeneration from "../Disbursement/VoucherGeneration";
-import VoucherAuthorisation from "../Disbursement/VoucherAuthorisation";
-import VoucherCancel from "../Disbursement/VoucherCancel";
+import Process from "../Demo_Disbursement/Process";
+import VoucherGeneration from "../Demo_Disbursement/VoucherGeneration";
+import VoucherAuthorisation from "../Demo_Disbursement/VoucherAuthorisation";
+import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
 import AdditionalAccrual from "../Accrual/AdditionalAccrual";
 import AccrualWaiver from "../Accrual/AccrualWaiver";
-import Loginpage from "../Loginpage/Loginpage";
 
 const drawerWidth = 300;
 
@@ -97,13 +75,10 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Pagelayout() {
   const [expanded, setExpanded] = useState(false);
-  const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
-  const [openInsuranceSubMenu, setOpenInsuranceSubMenu] = useState(false);
-  const [openMemoSubMenu, setOpenMemoSubMenu] = useState(false);
-  const [openReceiptSubMenu, setopenReceiptSubMenu] = useState(false);
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openAccrualSubMenu, setOpenAccrualSubMenu] = useState(false);
+  const [openDemoSubmenu, setOpenDemoSubMenu] = useState(false);
 
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -126,57 +101,28 @@ export default function Pagelayout() {
     setAnchorEl(null);
   };
 
-  const handleNachMenuClick = () => {
-    setOpenNachSubMenu(!openNachSubMenu);
-    setOpenInsuranceSubMenu(false);
-    setOpenMemoSubMenu(false);
-    setopenReceiptSubMenu(false);
-    setOpenDisbursementSubMenu(false);
-    setOpenAccrualSubMenu(false);
-  };
-
-  const handleInsuranceMenuClick = () => {
-    setOpenInsuranceSubMenu(!openInsuranceSubMenu);
-    setOpenNachSubMenu(false);
-    setOpenMemoSubMenu(false);
-    setopenReceiptSubMenu(false);
-    setOpenDisbursementSubMenu(false);
-    setOpenAccrualSubMenu(false);
-  };
-
-  const handleMemoSubMenuClick = () => {
-    setOpenMemoSubMenu(!openMemoSubMenu);
-    setOpenNachSubMenu(false);
-    setOpenInsuranceSubMenu(false);
-    setopenReceiptSubMenu(false);
-    setOpenDisbursementSubMenu(false);
-    setOpenAccrualSubMenu(false);
-  };
-
-  const handleReceiptSubMenuClick = () => {
-    setopenReceiptSubMenu(!openReceiptSubMenu);
-    setOpenNachSubMenu(false);
-    setOpenInsuranceSubMenu(false);
-    setOpenMemoSubMenu(false);
-    setOpenDisbursementSubMenu(false);
-    setOpenAccrualSubMenu(false);
-  };
+ 
 
   const handleDisbursementMenuClick = () => {
     setOpenDisbursementSubMenu(!openDisbursementSubMenu);
-    setopenReceiptSubMenu(false);
-    setOpenNachSubMenu(false);
-    setOpenInsuranceSubMenu(false);
-    setOpenMemoSubMenu(false);
     setOpenAccrualSubMenu(false);
+    setOpenDemoSubMenu(false);
   };
+
+  
+  const handleDemoMenuClick = () => {
+    setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
+    setOpenDemoSubMenu(!openDemoSubmenu);
+  };
+
+
   const handleAccrualSubMenu = () => {
-    setopenReceiptSubMenu(false);
-    setOpenNachSubMenu(false);
-    setOpenInsuranceSubMenu(false);
-    setOpenMemoSubMenu(false);
+    setOpenDisbursementSubMenu(false);
     setOpenAccrualSubMenu(!openAccrualSubMenu);
+    setOpenDemoSubMenu(false);
   };
+
   const handleLogout = () => {
     Cookies.remove("islogin");
     navigate("/stlap/login");
@@ -193,19 +139,21 @@ export default function Pagelayout() {
     switch (key) {
       case "dashboard":
         path = "/stlap/home/dashboard";
-
         break;
-      case "disbursementProcess":
-        path = "/stlap/home/disbursementProcess";
+      case "parameter":
+        path = "/stlap/home/parameter";
         break;
-      case "voucherGeneration":
-        path = "/stlap/home/voucherGeneration";
+      case "disbursementProcessDemo":
+        path = "/stlap/home/disbursementProcessDemo";
         break;
-      case "voucherAuthorisation":
-        path = "/stlap/home/voucherAuthorisation";
+      case "voucherGenerationDemo":
+        path = "/stlap/home/voucherGenerationDemo";
         break;
-      case "voucherCancel":
-        path = "/stlap/home/voucherCancel";
+      case "voucherAuthorisationDemo":
+        path = "/stlap/home/voucherAuthorisationDemo";
+        break;
+      case "voucherCancelDemo":
+        path = "/stlap/home/voucherCancelDemo";
         break;
       case "additionalAccrual":
         path = "/stlap/home/additionalAccrual";
@@ -213,6 +161,12 @@ export default function Pagelayout() {
       case "additionalWaiver":
         path = "/stlap/home/additionalWaiver";
         break;
+      case "disbursementCreate":
+        path = "/stlap/home/disbursementCreate";
+        break;
+      case "disbursementList":
+        path = "/stlap/home/disbursementList";
+        break;  
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -247,250 +201,20 @@ export default function Pagelayout() {
           <ListItemText primary="Dashboard" sx={{ display: "block" }} />
         </ListItemButton>
 
-        {/* NACH */}
-        <ListItemButton onClick={handleNachMenuClick}>
-          <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {Nach}/> */}
-            <Tooltip title="NACH" disableHoverListener={!expanded}>
-              <AppRegistrationTwoTone
-                fontSize="large"
-                sx={{ color: "white" }}
-              />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            sx={{ display: "block" }}
-            primary="NACH"
-          />
-
-          {openNachSubMenu ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-
-        <Collapse in={openNachSubMenu} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="E-NACH/NACH Initiation Process"
-                  disableHoverListener={!expanded}
-                >
-                  <AppRegistrationTwoTone
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="E-NACH/NACH Initiation Process"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="E-NACH Initiation Process"
-                  disableHoverListener={!expanded}
-                >
-                  <AnalyticsTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="E-NACH Initiation Process"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="E-NACH Mandate Link Page"
-                  disableHoverListener={!expanded}
-                >
-                  <AssuredWorkloadTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="E-NACH Mandate Link Page"
-              />
-            </ListItemButton>
-
-            <ListItemButton
-              sx={{ pl: 4 }}
-              id="nachMandateEntry"
-              onClick={menuClickHandler}
-            >
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="NACH - Mandate Entry"
-                  disableHoverListener={!expanded}
-                >
-                  <ModeEditOutlineTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="NACH - Mandate Entry"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="NACH - Mandate Verification and Modification"
-                  disableHoverListener={!expanded}
-                >
-                  <PollTwoToneIcon fontSize="large" sx={{ color: "white" }} />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="NACH - Mandate Verification and Modification"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }} id="bank" onClick={menuClickHandler}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="NACH - Mandate Bank Submission"
-                  disableHoverListener={!expanded}
-                >
-                  <DescriptionTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="NACH - Mandate Bank Submission"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="NACH - Mandate Delete"
-                  disableHoverListener={!expanded}
-                >
-                  <DisplaySettingsTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="NACH - Mandate Delete"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Nach} /> */}
-                <Tooltip
-                  title="NACH - UMRN Updation/Upload"
-                  disableHoverListener={!expanded}
-                >
-                  <CloudDoneTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="NACH - UMRN Updation/Upload"
-              />
-            </ListItemButton>
-          </List>
-        </Collapse>
-
-        {/* Insurance  */}
-        <ListItemButton onClick={handleInsuranceMenuClick}>
-          <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {Insurance}/> */}
-            <Tooltip title="Insurance" disableHoverListener={!expanded}>
-              <SecurityTwoTone fontSize="large" sx={{ color: "white" }} />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Insurance"
-            sx={{ display: "block" }}
-          />
-          {openInsuranceSubMenu ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-
-        <Collapse in={openInsuranceSubMenu} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Insurance} /> */}
-                <Tooltip
-                  title="Insurance Master"
-                  disableHoverListener={!expanded}
-                >
-                  <AccessibilityTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Insurance Master"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Insurance} /> */}
-                <Tooltip
-                  title="Insurance Details-Appl level details"
-                  disableHoverListener={!expanded}
-                >
-                  <AddModeratorTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Insurance Details-Appl level details"
-              />
-            </ListItemButton>
-          </List>
-        </Collapse>
+        {/* Parameter Maintenance */}
+        <ListItemButton id="parameter" onClick={menuClickHandler}>
+            <ListItemIcon>
+              <Tooltip
+                title="Parameter Maintenance"
+                disableHoverListener={!expanded}
+              >
+                <EngineeringTwoTone fontSize="large" sx={{ color: "white" }} />
+              </Tooltip>
+            </ListItemIcon>
+            <ListItemText primary="Parameter Maintenance" sx={{ display: "block" }} />
+          </ListItemButton>
+       
+        
 
         {/* Disbursement */}
         <ListItemButton id="disbursement" onClick={handleDisbursementMenuClick}>
@@ -512,13 +236,13 @@ export default function Pagelayout() {
           <List component="div" disablePadding>
             <ListItemButton
               sx={{ pl: 4 }}
-              id="disbursementProcess"
+              id="disbursementCreate"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
                 {/* <img id='layout-menu-image' src={Insurance} /> */}
-                <Tooltip title="Process" disableHoverListener={!expanded}>
-                  <AccountTreeTwoTone
+                <Tooltip title="Disbursement Request Create" disableHoverListener={!expanded}>
+                  <CreateTwoToneIcon
                     fontSize="large"
                     sx={{ color: "white" }}
                   />
@@ -527,21 +251,21 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Process"
+                primary="Disbursement Request Create"
               />
             </ListItemButton>
 
             <ListItemButton
               sx={{ pl: 4 }}
-              id="voucherGeneration"
+              id="disbursementList"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
                 <Tooltip
-                  title="Authorised Voucher Generation"
+                  title="Disbursement List"
                   disableHoverListener={!expanded}
                 >
-                  <AddModeratorTwoToneIcon
+                  <ListAltTwoToneIcon
                     fontSize="large"
                     sx={{ color: "white" }}
                   />
@@ -550,59 +274,13 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Authorised Voucher Generation"
-              />
-            </ListItemButton>
-
-            <ListItemButton
-              sx={{ pl: 4 }}
-              id="voucherAuthorisation"
-              onClick={menuClickHandler}
-            >
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Insurance} /> */}
-                <Tooltip
-                  title="Voucher Authorisation"
-                  disableHoverListener={!expanded}
-                >
-                  <AdminPanelSettingsTwoTone
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Voucher Authorisation"
-              />
-            </ListItemButton>
-
-            <ListItemButton
-              sx={{ pl: 4 }}
-              id="voucherCancel"
-              onClick={menuClickHandler}
-            >
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Insurance} /> */}
-                <Tooltip
-                  title="Voucher Cancel"
-                  disableHoverListener={!expanded}
-                >
-                  <DisabledByDefaultTwoTone
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Voucher Cancel"
+                primary="Disbursement List"
               />
             </ListItemButton>
           </List>
         </Collapse>
+
+
         {/* Accrual */}
         <ListItemButton id="fee" onClick={handleAccrualSubMenu}>
           <ListItemIcon>
@@ -627,7 +305,7 @@ export default function Pagelayout() {
             >
               <ListItemIcon>
                 {/* <img id='layout-menu-image' src={Insurance} /> */}
-                <Tooltip title="Process" disableHoverListener={!expanded}>
+                <Tooltip title="Accrual" disableHoverListener={!expanded}>
                   <AccountTreeTwoTone
                     fontSize="large"
                     sx={{ color: "white" }}
@@ -668,49 +346,34 @@ export default function Pagelayout() {
             ></ListItemButton>
           </List>
         </Collapse>
-        {/* AccountMaster */}
-        <ListItemButton>
+
+                {/* Demo */}
+                <ListItemButton id="demo" onClick={handleDemoMenuClick}>
           <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {AccountMaster}/> */}
-            <Tooltip
-              title="Account Master Impact"
-              disableHoverListener={!expanded}
-            >
-              <ContactEmergencyTwoTone
-                fontSize="large"
-                sx={{ color: "white" }}
-              />
+            {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
+            <Tooltip title="Demo" disableHoverListener={!expanded}>
+              <CurrencyRupeeTwoTone fontSize="large" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText
             id="menu-lable"
-            primary="Account Master Impact"
+            primary="Demo"
             sx={{ display: "block" }}
           />
+          {openDemoSubmenu ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
-        {/* Memo */}
-        <ListItemButton onClick={handleMemoSubMenuClick}>
-          <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {Memo}/> */}
-            <Tooltip title="Memo" disableHoverListener={!expanded}>
-              <ArticleTwoTone fontSize="large" sx={{ color: "white" }} />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText primary="Memo" sx={{ display: "block" }} />
-          {openMemoSubMenu ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-
-        <Collapse in={openMemoSubMenu} timeout="auto" unmountOnExit>
+        <Collapse in={openDemoSubmenu} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="disbursementProcessDemo"
+              onClick={menuClickHandler}
+            >
               <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Memo} /> */}
-                <Tooltip
-                  title="Memo Defn. - Incl. of GST"
-                  disableHoverListener={!expanded}
-                >
-                  <SpeakerNotesTwoToneIcon
+                {/* <img id='layout-menu-image' src={Insurance} /> */}
+                <Tooltip title="Process Demo" disableHoverListener={!expanded}>
+                  <AccountTreeTwoTone
                     fontSize="large"
                     sx={{ color: "white" }}
                   />
@@ -719,18 +382,21 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Memo Defn. - Incl. of GST"
+                primary="Process Demo"
               />
             </ListItemButton>
 
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="voucherGenerationDemo"
+              onClick={menuClickHandler}
+            >
               <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Memo} /> */}
                 <Tooltip
-                  title="Memo - GL Mapping"
+                  title="Authorised Voucher Generation Demo"
                   disableHoverListener={!expanded}
                 >
-                  <StickyNote2TwoToneIcon
+                  <AddModeratorTwoToneIcon
                     fontSize="large"
                     sx={{ color: "white" }}
                   />
@@ -739,18 +405,22 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Memo - GL Mapping"
+                primary="Authorised Voucher Generation Demo"
               />
             </ListItemButton>
 
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="voucherAuthorisationDemo"
+              onClick={menuClickHandler}
+            >
               <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Memo} /> */}
+                {/* <img id='layout-menu-image' src={Insurance} /> */}
                 <Tooltip
-                  title="Memo GL - GST Mapping"
+                  title="Voucher Authorisation Demo"
                   disableHoverListener={!expanded}
                 >
-                  <ShortTextTwoToneIcon
+                  <AdminPanelSettingsTwoTone
                     fontSize="large"
                     sx={{ color: "white" }}
                   />
@@ -759,202 +429,37 @@ export default function Pagelayout() {
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Memo GL - GST Mapping"
+                primary="Voucher Authorisation Demo"
+              />
+            </ListItemButton>
+
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="voucherCancelDemo"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                {/* <img id='layout-menu-image' src={Insurance} /> */}
+                <Tooltip
+                  title="Voucher Cancel Demo"
+                  disableHoverListener={!expanded}
+                >
+                  <DisabledByDefaultTwoTone
+                    fontSize="large"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Voucher Cancel Demo"
               />
             </ListItemButton>
           </List>
         </Collapse>
 
-        {/* TDS */}
-        <ListItemButton id="tds" onClick={menuClickHandler}>
-          <ListItemIcon>
-            {/* <img id = 'layout-menu-image' src = {tdsImage}/> */}
-
-            <Tooltip title="TDS" disableHoverListener={!expanded}>
-              <AssignmentReturnedTwoTone
-                fontSize="large"
-                sx={{ color: "white" }}
-              />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="TDS"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
-
-        {/* Receipt */}
-        <ListItemButton onClick={handleReceiptSubMenuClick}>
-          <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {Receipt}/> */}
-            <Tooltip title="Receipt Process" disableHoverListener={!expanded}>
-              <ReceiptLongTwoTone fontSize="large" sx={{ color: "white" }} />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Receipt Process"
-            sx={{ display: "block" }}
-          />
-          {openReceiptSubMenu ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-
-        <Collapse in={openReceiptSubMenu} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Receipt} /> */}
-                <Tooltip
-                  title="Create - Cash/Check/DD/RTGS/NEFT"
-                  disableHoverListener={!expanded}
-                >
-                  <ReceiptLongTwoTone
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Create - Cash/Check/DD/RTGS/NEFT"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Receipt} /> */}
-                <Tooltip title="Modify" disableHoverListener={!expanded}>
-                  <ReceiptLongTwoTone
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Modify"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Receipt} /> */}
-                <Tooltip title="Query" disableHoverListener={!expanded}>
-                  <ListAltTwoToneIcon
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText primary="Query" />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Receipt} /> */}
-                <Tooltip
-                  title="Realization Updation"
-                  disableHoverListener={!expanded}
-                >
-                  <CreateTwoToneIcon fontSize="large" sx={{ color: "white" }} />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Realization Updation"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Receipt} /> */}
-                <Tooltip
-                  title="Create - Single"
-                  disableHoverListener={!expanded}
-                >
-                  <UpdateTwoToneIcon fontSize="large" sx={{ color: "white" }} />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Create - Single"
-              />
-            </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                {/* <img id='layout-menu-image' src={Receipt} /> */}
-                <Tooltip title="Create - Bulk" disableHoverListener={!expanded}>
-                  <ReceiptLongTwoTone
-                    fontSize="large"
-                    sx={{ color: "white" }}
-                  />
-                </Tooltip>
-              </ListItemIcon>
-              <ListItemText
-                id="menu-lable"
-                sx={{ display: "block" }}
-                primary="Create - Bulk"
-              />
-            </ListItemButton>
-          </List>
-        </Collapse>
-
-        {/* Return */}
-        <ListItemButton>
-          <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {Return}/> */}
-            <Tooltip title="Return" disableHoverListener={!expanded}>
-              <AssignmentReturnTwoTone
-                fontSize="large"
-                sx={{ color: "white" }}
-              />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Return"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
-
-        {/* JV */}
-        <ListItemButton>
-          <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {JV}/> */}
-            <Tooltip title="JV" disableHoverListener={!expanded}>
-              <BookOnlineTwoTone fontSize="large" sx={{ color: "white" }} />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="JV"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
-
-        {/* Query */}
-        <ListItemButton>
-          <ListItemIcon>
-            {/* <img  id = 'layout-menu-image' src = {Query}/> */}
-            <Tooltip
-              title="Comprehensive Query"
-              disableHoverListener={!expanded}
-            >
-              <PersonSearchTwoTone fontSize="large" sx={{ color: "white" }} />
-            </Tooltip>
-          </ListItemIcon>
-          <ListItemText
-            id="menu-lable"
-            primary="Comprehensive Query"
-            sx={{ display: "block" }}
-          />
-        </ListItemButton>
+        
       </List>
       <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
@@ -1184,20 +689,24 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/dashboard`}
             element={<Dashboard />}
           />
+          {/* <Route
+           path={`${search}/stlap/home/parameter`}
+           element={<ParameterMaintenance />}
+          /> */}
           <Route
-            path={`${search}/stlap/home/disbursementProcess`}
+            path={`${search}/stlap/home/disbursementProcessDemo`}
             element={<Process />}
           />
           <Route
-            path={`${search}/stlap/home/voucherGeneration`}
+            path={`${search}/stlap/home/voucherGenerationDemo`}
             element={<VoucherGeneration />}
           />
           <Route
-            path={`${search}/stlap/home/voucherAuthorisation`}
+            path={`${search}/stlap/home/voucherAuthorisationDemo`}
             element={<VoucherAuthorisation />}
           />
           <Route
-            path={`${search}/stlap/home/voucherCancel`}
+            path={`${search}/stlap/home/voucherCancelDemo`}
             element={<VoucherCancel />}
           />
           <Route
@@ -1208,6 +717,7 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
           />
+          
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
         {/* </Container> */}

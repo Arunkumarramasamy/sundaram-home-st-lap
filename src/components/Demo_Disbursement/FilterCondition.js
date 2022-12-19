@@ -4,6 +4,7 @@ import {
   Grid
 } from "@mui/material";
 import React, { useState } from "react";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
@@ -172,7 +173,25 @@ const FilterCondition = (props) => {
     props.onSearchButtonClick(branch, trnNo, false);
   };
 
-  
+  const branchValues = [
+    {
+      value: 1,
+      text: "Royapettah",
+    },
+    {
+      value: 2,
+      text: "Mylapore",
+    },
+    {
+      value: 3,
+      text: "Light House",
+    },
+    {
+      value: 4,
+      text: "Egmore",
+    },
+  ];
+
   const branchNameChangeHandler = (evt) => {
     setBranch(evt.target.value);
   }
@@ -227,6 +246,9 @@ const FilterCondition = (props) => {
             onChange={applicantNameChangeHandler}
           />
         </Grid>
+
+
+
 
       </Grid>
       <Box
