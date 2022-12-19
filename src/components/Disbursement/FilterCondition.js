@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
+import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 
 const FilterCondition = (props) => {
   const branchNames = [
@@ -106,6 +107,20 @@ const FilterCondition = (props) => {
             type="text"
             placeholder="Applicant Name"
             onChange={applicantNameChangeHandler}
+          />
+        </Grid>
+
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomAutoComplete
+            required={false}
+            label="Branch Name"
+            id="applicantName"
+            variant="standard"
+            // value={applicantName}
+            type="text"
+            placeholder="Branch Name"
+            autoCompleteValues={branchNames}
           />
         </Grid>
 
