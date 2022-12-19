@@ -100,7 +100,7 @@ const rows = [
   createData(
     "DR-DEC2022-00451",
     "Tiruchirupalli",
-    "STLAP-TPU-2022-00410",
+    "STLAP-TPJ-2022-00410",
     "Customer_Name_00234",
     "Requested",
     "CPC_User_10",
@@ -136,7 +136,7 @@ const rows = [
   createData(
     "DR-DEC2022-000931",
     "Tirunelveli",
-    "STLAP-MLY-TEN-0129",
+    "STLAP-TEN-2022-0129",
     "Customer_Name_00469",
     "Modified",
     "CPC_User_10",
@@ -145,7 +145,7 @@ const rows = [
   createData(
     "DR-DEC2022-000430",
     "Karaikuddi",
-    "STLAP-MLY-KDU-049",
+    "STLAP-KDK-2022-049",
     "Customer_Name_00910",
     "Requested",
     "CPC_User_04",
@@ -318,13 +318,16 @@ function EnhancedTableToolbar(props) {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Disbursement Information
+        // <Typography
+        //   sx={{ flex: "1 1 100%" }}
+        //   variant="h6"
+        //   id="tableTitle"
+        //   component="div"
+        // >
+        //   Disbursement Information
+        // </Typography>
+        <Typography>
+          <h4>Disbursement Information</h4>
         </Typography>
       )}
     </Toolbar>
@@ -341,7 +344,7 @@ export default function DisbursementRequestList() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const req_mod_options = ["View", "Modify", "Cancel"];
@@ -395,15 +398,15 @@ export default function DisbursementRequestList() {
 
   return (
     <React.Fragment>
-      <FilterCondition />
+      <FilterCondition title="Disbursement Information Search Filter" />
       <Box
-        sx={{ width: window.innerWidth - 20, minHeight: "calc(100vh - 120px)" }}
+        sx={{ width: window.innerWidth - 20, minHeight: "calc(100vh - 500px)"}}
       >
         <Paper sx={{ width: window.innerWidth - 20 }}>
           <EnhancedTableToolbar numSelected={selected.length} />
           <TableContainer
             sx={{
-              maxHeight: window.innerHeight - 100,
+              // maxHeight: window.innerHeight - 100,
               width: window.innerWidth - 20,
             }}
           >
@@ -561,7 +564,7 @@ export default function DisbursementRequestList() {
                   {emptyRows > 0 && (
                     <TableRow
                       style={{
-                        height: (dense ? 33 : 53) * emptyRows,
+                        height: (dense ? 10 : 53) * emptyRows,
                       }}
                     >
                       <TableCell colSpan={6} />
