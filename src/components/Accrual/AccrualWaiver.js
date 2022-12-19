@@ -288,7 +288,7 @@ const AdditionalWaiver = () => {
     },
     {
       field: "waived",
-      headerName: "Additional Accrual(₹)",
+      headerName: "Additional Waiver(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
