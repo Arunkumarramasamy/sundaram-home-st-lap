@@ -1,20 +1,9 @@
-import {
-  Box,
-  Button,
-  Grid,
-  lighten,
-  Paper,
-  Stack,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Button, Grid, lighten, Tooltip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import STButton from "../CustomComponents/STButton";
 import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
@@ -23,8 +12,7 @@ const AdditionalAccrual = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
-  const [referenceName,setReferenceName]= useState();
- 
+
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -35,13 +23,11 @@ const AdditionalAccrual = () => {
     setGridVisible("block");
   };
 
-
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
   };
   const customerColumn = [
-    
     {
       field: "customerName",
       headerName: "Customer Name",
@@ -165,8 +151,7 @@ const AdditionalAccrual = () => {
       received: 0,
       due: 5000,
       paid: 2000,
-      waited: 500,
-      deduction: 2500,
+      waived: 500,
     },
     {
       id: 8,
@@ -175,8 +160,7 @@ const AdditionalAccrual = () => {
       received: 7000,
       due: 0,
       paid: 0,
-      waited:0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 9,
@@ -184,9 +168,8 @@ const AdditionalAccrual = () => {
       due: 3000,
       receiveable: 3000,
       paid: 3000,
-      received:0,
-      waited: 0,
-      deduction: 0,
+      received: 0,
+      waived: 0,
     },
     {
       id: 10,
@@ -195,8 +178,7 @@ const AdditionalAccrual = () => {
       receiveable: 25000,
       paid: 10000,
       received: 0,
-      waited: 3000,
-      deduction: 12000,
+      waived: 3000,
     },
     {
       id: 11,
@@ -205,8 +187,7 @@ const AdditionalAccrual = () => {
       receiveable: 1000,
       paid: 500,
       received: 500,
-      waited: 500,
-      deduction: 0,
+      waived: 500,
     },
     {
       id: 1,
@@ -215,8 +196,7 @@ const AdditionalAccrual = () => {
       receiveable: 8000,
       received: 8000,
       paid: 0,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 2,
@@ -225,8 +205,7 @@ const AdditionalAccrual = () => {
       receiveable: 1000,
       paid: 1000,
       received: 1000,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 3,
@@ -235,8 +214,7 @@ const AdditionalAccrual = () => {
       received: 10000,
       receiveable: 30000,
       paid: 5000,
-      waited:5000,
-      deduction: 10000,
+      waived: 5000,
     },
     {
       id: 4,
@@ -245,8 +223,7 @@ const AdditionalAccrual = () => {
       receiveable: 500,
       received: 250,
       paid: 250,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
     {
       id: 5,
@@ -255,8 +232,7 @@ const AdditionalAccrual = () => {
       paid: 300,
       receiveable: 0,
       received: 300,
-      waited: 50,
-      deduction: "Nill",
+      waived: 50,
     },
     {
       id: 6,
@@ -265,11 +241,8 @@ const AdditionalAccrual = () => {
       paid: 7000,
       received: 7000,
       receiveable: 0,
-      waited: 0,
-      deduction: 0,
+      waived: 0,
     },
-
-   
   ];
   const columns = [
     {
@@ -311,7 +284,7 @@ const AdditionalAccrual = () => {
       editable: false,
     },
     {
-      field: "waited",
+      field: "waived",
       headerName: "Additional Accrual(₹)",
       headerAlign: "center",
       type: "number",
@@ -327,6 +300,7 @@ const AdditionalAccrual = () => {
       width: "200",
       editable: false,
       align: "center",
+      valueGetter: (param) => param.row.due - param.row.paid + param.row.waived,
     },
     {
       field: "reason",
@@ -344,7 +318,6 @@ const AdditionalAccrual = () => {
             value="1"
             defaultValue="1"
             dropDownValue={resonValue}
-            
           />
         );
       },
@@ -357,97 +330,23 @@ const AdditionalAccrual = () => {
       width: "250",
       editable: true,
       align: "left",
-      renderCell: (params) =>  (
-        <Tooltip placement="right-end" title={params.value} >
-        <span >{params.value}</span>
+      renderCell: (params) => (
+        <Tooltip placement="right-end" title={params.value}>
+          <span>{params.value}</span>
         </Tooltip>
       ),
-    },
-  ];
-  const data = [
-    {
-      id: 1,
-      name: "Legal Document",
-      type: "450",
-      status: "450",
-      preview: "",
-    },
-    {
-      id: 2,
-      name: "Aadhar",
-      type: "3000",
-      status: "2500",
-      preview: "",
-    },
-    {
-      id: 3,
-      name: "Pan",
-      type: "5000",
-      status: "5000",
-      preview: "",
-    },
-    {
-      id: 4,
-      name: "Bank Pass Book",
-      type: "80",
-      status: "80",
-      preview: "",
-    },
-    {
-      id: 5,
-      name: "Patta",
-      type: "1000",
-      status: "1000",
-      preview: "",
-    },
-    {
-      id: 6,
-      name: "Chitta",
-      type: "10000",
-      status: "7000",
-      preview: "",
-    },
-    {
-      id: 7,
-      name: "Adangal",
-      type: "100000",
-      status: "50000",
-      preview: "50000",
-    },
-    {
-      id: 8,
-      name: "EC document",
-      type: "30000",
-      status: "30000",
-      preview: "0",
     },
   ];
   let visibility = {
     due: false,
     paid: false,
-    waited: false,
+    waived: false,
     deduction: false,
   };
   if (window.innerWidth > 700) {
     visibility = {};
   }
-  const branchList = [
-    {
-      label: "Karapakam",
-      label: "Kottivakam",
-      label: "rayapet",
-      label: "chetpet",
-      label: "tambaram",
-    },
-  ];
-  const applicationNumberList = [
-    {
-      label: "STLAPKARA0001",
-      label: "STLAPRAYA0001",
-      label: "STLAPCHET0001",
-      label: "STLAPTAMB0001",
-    },
-  ];
+
   return (
     <div>
       <div style={{ minHeight: "calc(100vh - 120px)" }}>
@@ -462,7 +361,7 @@ const AdditionalAccrual = () => {
         >
           <AccordianContainer
             id="accord"
-            title="Fee Accural Basic Search"
+            title="Fee Accural Details"
             initialOpen={true}
           >
             <Box
@@ -543,20 +442,6 @@ const AdditionalAccrual = () => {
                     // onChange={()=>set}
                   />
                 </Grid>
-                <Tooltip title="Current Date" placement="top-end">
-                  <InfoIcon />
-                </Tooltip>
-                {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                <CustomTextField
-                  required={false}
-                  label="Applicant Name"
-                  id="applicantName"
-                  variant="outlined"
-                  value={""}
-                  type="text"
-                  placeholder="Applicant Name"
-                />
-              </Grid> */}
               </Grid>
               <Box
                 sx={{
@@ -725,7 +610,7 @@ const AdditionalAccrual = () => {
           </AccordianContainer>
         </div>
       </div>
-      <StlapFooter/>
+      <StlapFooter />
     </div>
   );
 };
