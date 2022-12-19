@@ -1,31 +1,30 @@
 import {
-  Accordion,
-  AccordionActions,
-  AccordionDetails,
-  AccordionSummary,
-  Autocomplete,
   Box,
   Button,
   Grid,
+  lighten,
   Paper,
   Stack,
+  TextareaAutosize,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import { DataGrid, GridExpandMoreIcon } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import STButton from "../CustomComponents/STButton";
-import BasicInformation from "../Disbursement/BasicInformation";
+import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
+import STButton from "../CustomComponents/STButton";
+import StlapFooter from "../CustomComponents/StlapFooter";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
-  const [branchValue,setBranchValue] = useState('');
-  const [accountNumber,setAccountNumber] = useState('');
+  const [branchValue, setBranchValue] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
   const handleSearch = (event) => {
     event.preventDefault();
     setGridVisible("block");
@@ -35,17 +34,22 @@ const AdditionalWaiver = () => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
   };
+  const resonValue = [
+    { value: "1", text: "Reverse Payment" },
+    { value: "2", text: "intrest increases" },
+    { value: "3", text: "intrest reduced" },
+  ];
   const customerColumn = [
-    {
-      field: "customerId",
-      headerName: "Customer ID",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
+    // {
+    //   field: "customerId",
+    //   headerName: "Customer ID",
+    //   headerAlign: "center",
+    //   type: "string",
+    //   hide: true,
+    //   sortable: false,
+    //   width: 250,
+    //   align: "center",
+    // },
     {
       field: "customerName",
       headerName: "Customer Name",
@@ -97,16 +101,6 @@ const AdditionalWaiver = () => {
       align: "center",
     },
     {
-      field: "alternativeNo",
-      headerName: "Alternative Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
       field: "branchName",
       headerName: "Branch Name",
       headerAlign: "center",
@@ -117,7 +111,7 @@ const AdditionalWaiver = () => {
       align: "center",
     },
     {
-      field: "ApplicationNo",
+      field: "applicationNo",
       headerName: "Application Number",
       headerAlign: "center",
       type: "string",
@@ -131,8 +125,9 @@ const AdditionalWaiver = () => {
     {
       id: 1,
       customerId: "0001",
+      accountNo: "0000898980",
       customerName: "Raagesh",
-      aadhar: "xxxx-xxxx-xxxx",
+      aadhar: "4567-xxxx-7645",
       pan: "ABCD000G",
       mobileNo: "9876543210",
       alternativeNo: "9877657575",
@@ -142,52 +137,9 @@ const AdditionalWaiver = () => {
     {
       id: 2,
       customerId: "0002",
+      accountNo: "0000898980",
       customerName: "Sherif",
-      aadhar: "xxxx-xxxx-xxxx",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-    {
-      id: 3,
-      customerId: "0003",
-      customerName: "Vikash",
-      aadhar: "xxxx-xxxx-xxxx",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-    {
-      id: 4,
-      customerId: "0004",
-      customerName: "Arun",
-      aadhar: "xxxx-xxxx-xxxx",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-    {
-      id: 5,
-      customerId: "0005",
-      customerName: "Gopi",
-      aadhar: "xxxx-xxxx-xxxx",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-    {
-      id: 6,
-      customerId: "0006",
-      customerName: "Naveen",
-      aadhar: "xxxx-xxxx-xxxx",
+      aadhar: "4356-xxxx-9870",
       pan: "ABCD000G",
       mobileNo: "9876543210",
       alternativeNo: "9877657575",
@@ -349,7 +301,7 @@ const AdditionalWaiver = () => {
     },
     {
       field: "receiveable",
-      headerName: "Amount Receivable",
+      headerName: "Amount Receivable(₹)",
       headerAlign: "center",
       type: "string",
       hideable: false,
@@ -377,7 +329,7 @@ const AdditionalWaiver = () => {
     },
     {
       field: "waited",
-      headerName: "Additional Accural(₹)",
+      headerName: "Additional Waiver(₹)",
       headerAlign: "center",
       type: "string",
       width: 190,
@@ -393,65 +345,43 @@ const AdditionalWaiver = () => {
       editable: false,
       align: "center",
     },
-  ];
-  const data = [
     {
-      id: 1,
-      name: "Legal Document",
-      type: "450",
-      status: "450",
-      preview: "",
+      field: "reason",
+      headerName: "Reason",
+      headerAlign: "center",
+      type: "string",
+      width: "200",
+      editable: false,
+      align: "center",
+      renderCell: () => {
+        return (
+          <CustomDropDown
+            id="1"
+            label=""
+            value="1"
+            defaultValue="1"
+            dropDownValue={resonValue}
+            // required={true}
+          />
+        );
+      },
     },
     {
-      id: 2,
-      name: "Aadhar",
-      type: "3000",
-      status: "2500",
-      preview: "",
-    },
-    {
-      id: 3,
-      name: "Pan",
-      type: "5000",
-      status: "5000",
-      preview: "",
-    },
-    {
-      id: 4,
-      name: "Bank Pass Book",
-      type: "80",
-      status: "80",
-      preview: "",
-    },
-    {
-      id: 5,
-      name: "Patta",
-      type: "1000",
-      status: "1000",
-      preview: "",
-    },
-    {
-      id: 6,
-      name: "Chitta",
-      type: "10000",
-      status: "7000",
-      preview: "",
-    },
-    {
-      id: 7,
-      name: "Adangal",
-      type: "100000",
-      status: "50000",
-      preview: "50000",
-    },
-    {
-      id: 8,
-      name: "EC document",
-      type: "30000",
-      status: "30000",
-      preview: "0",
+      field: "remark",
+      headerName: "Remark",
+      headerAlign: "center",
+      type: "string",
+      width: "250",
+      editable: true,
+      align: "left",
+      renderCell: (params) =>  (
+              <Tooltip placement="right-end" title={params.value} >
+              <span >{params.value}</span>
+              </Tooltip>
+            ),
     },
   ];
+
   let visibility = {
     due: false,
     paid: false,
@@ -480,49 +410,107 @@ const AdditionalWaiver = () => {
   ];
   return (
     <div>
-      <Grid
-        container
-        spacing={2}
-        // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-        sx={{
-          width: "calc(100% - 8px)",
-          paddingBottom: "8px",
-          margin: "unset",
-        }}
-      >
-        <div>
-          <h4>Fee Accural Waiver</h4>
-        </div>
-        <AccordianContainer id = 'accord' title="Basic Search:" initialOpen={false}>
-          <Box id = 'accord-box' component="form"  validate onSubmit={searchButtonClickHandler}>
-            <Grid container spacing={2}>
-              <Grid item >
-                <CustomDropDown
-                  required={false}
-                  label="Branch"
-                  id="branch"
-                  value={branchValue}
-                  placeholder="Branch"
-                  displayEmpty={true}
-                  dropDownValue={branchValues}
-                  
-                />
-              </Grid>
+      <div style={{ minHeight: "calc(100vh - 120px)" }}>
+        <Grid
+          container
+          spacing={2}
+          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+          sx={{
+            width: "calc(100% - 8px)",
+            margin: "unset",
+          }}
+        >
+          <AccordianContainer
+            id="accord"
+            title="Fee Waiver Basic Search"
+            initialOpen={true}
+          >
+            <Box
+              id="accord-box"
+              component="form"
+              validate
+              onSubmit={searchButtonClickHandler}
+            >
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  sx={{ paddingTop: "unset !important" }}
+                >
+                  <CustomDropDown
+                    variant="standard"
+                    required={true}
+                    label="Branch"
+                    id="branch"
+                    value={branchValue}
+                    placeholder=" Branch"
+                    displayEmpty={true}
+                    dropDownValue={branchValues}
+                  />
+                </Grid>
 
-              <Grid item >
-                <CustomTextField
-                  required={false}
-                  label="Application Number"
-                  id="trnno"
-                  variant="outlined"
-                  value={accountNumber}
-                  type="text"
-                  onClick = {(event)=>setAccountNumber(event.target.value)}
-                  placeholder="Enter Application No."
-                />
-              </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  sx={{ paddingTop: "unset !important" }}
+                >
+                  <CustomTextField
+                    required={true}
+                    label="Application Number"
+                    id="trnno"
+                    variant="standard"
+                    value={""}
+                    type="text"
+                    placeholder="Application Number"
+                    //  onChange={trnNoChangeHandler}
+                  />
+                </Grid>
+                <Grid
+                  sx={{
+                    width: "320px",
+                    paddingLeft: "18px",
+                    paddingTop: "unset",
+                  }}
+                >
+                  <CustomTextField
+                    disabled={true}
+                    label="Reference Number"
+                    id="refno"
+                    value={""}
+                    type="text"
+                    placeholder=""
+                    required={false}
+                    variant="standard"
+                    // onChange={trnNoChangeHandler}
+                  />
+                </Grid>
 
-              {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+                  <CustomTextField
+                    required={false}
+                    disabled={true}
+                    label="Reference Date"
+                    id="refdate"
+                    value={""}
+                    type="text"
+                    placeholder=""
+                    variant="standard"
+                    // type="text"
+                    // onChange={trnNoChangeHandler}
+                  />
+                </Grid>
+                <Tooltip title="Current Date" placement="top-end">
+                  <InfoIcon />
+                </Tooltip>
+                {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
                   required={false}
                   label="Applicant Name"
@@ -533,181 +521,174 @@ const AdditionalWaiver = () => {
                   placeholder="Applicant Name"
                 />
               </Grid> */}
-            </Grid>
-            <Box
+              </Grid>
+              <Box
+                sx={{
+                  marginTop: "1rem",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  type="submit"
+                  onClick={(event) => handleSearch(event)}
+                >
+                  Search
+                </Button>
+                <Button
+                  sx={{ marginLeft: "1rem", backgroundColor: "black" }}
+                  //   onClick={clearButtonClickHandler}
+                  variant="contained"
+                >
+                  Clear
+                </Button>
+              </Box>
+            </Box>
+          </AccordianContainer>
+        </Grid>
+
+        <div
+          style={{
+            display: girdVisible,
+            width: "calc(100% - 8px)",
+            paddingTop: "8px",
+          }}
+        >
+          <AccordianContainer
+            id="accord"
+            title="Customer Data (Reference Number) : STLAPCHET0001"
+            initialOpen={true}
+          >
+            <Grid
+              id="footer-removefor-datagrid"
+              container
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
               sx={{
-                marginTop: "1rem",
-                display: "flex",
-                justifyContent: "center",
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                paddingBottom: "8px",
+                display: girdVisible,
+                backgroundColor: "#fff",
               }}
             >
-              <Button
-                variant="contained"
-                type="submit"
-                onClick={(event) => handleSearch(event)}
-              >
-                Search
-              </Button>
-              <Button
-                sx={{ marginLeft: "1rem", backgroundColor: "black" }}
-                //   onClick={clearButtonClickHandler}
-                variant="contained"
-              >
-                Clear
-              </Button>
-            </Box>
-          </Box>
-        </AccordianContainer>
-      </Grid>
-      <div style={{ display: girdVisible }}>
-        <h4 sx={{ display: girdVisible }}>Fee Structure</h4>
-      </div>
-      <div style={{ display: girdVisible }}>
-        <Paper sx={{ padding: "8px" }}>
-          <Stack direction="row">
-            <Grid sx={{width:'320px'}} >
-              <CustomTextField
-                required={false}
-                disabled={true}
-                label="Reference Number"
-                id="refno"
-                variant="outlined"
-                value={"STLAPKARA0001"}
-                type="text"
-                placeholder=""
+              <DataGrid
+                sx={{
+                  boxShadow: 2,
+                  border: 2,
+                  height: "180px",
+                  borderColor: "white",
+                  "& .MuiDataGrid-row:hover": {
+                    color: "#004A92",
+                    backgroundColor: "#B8E4F4",
+                  },
+                  "& .MuiDataGrid-columnHeaders": {
+                    color: "white",
+                    fontFamily: "Roboto",
+                    backgroundColor: "#7f7f7f",
+                  },
+                  "& .super-app-theme--odd": {
+                    bgcolor: lighten("#D7D7D7", 0.15),
+                  },
+                  "& .super-app-theme--even": {
+                    bgcolor: lighten("#AAAAAA", 0.15),
+                  },
+                }}
+                rows={customerData}
+                columns={customerColumn}
+                pageSize={pageSize}
+                hideFooterPagination
+                hideFooterSelectedRowCount
+                disableSelectionOnClick
+                getRowClassName={(params) =>
+                  params.id % 2
+                    ? `super-app-theme--even`
+                    : `super-app-theme--odd`
+                }
+                initialState={{
+                  columns: {
+                    columnVisibilityModel: {
+                      ...visibility,
+                    },
+                  },
+                }}
               />
             </Grid>
-
-            <Grid sx={{width:'320px',paddingLeft:'18px'}}>
-              <CustomTextField
-                required={false}
-                disabled={true}
-                label="Reference Date"
-                id="refdate"
-                variant="outlined"
-                value={"07/09/2007"}
-                type="text"
-                placeholder=""
+          </AccordianContainer>
+        </div>
+        <div
+          style={{
+            display: girdVisible,
+            width: "calc(100% - 8px)",
+            paddingTop: "8px",
+          }}
+        >
+          <AccordianContainer
+            id="accord"
+            title="Accrual Details"
+            initialOpen={true}
+          >
+            <Grid
+              container
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+              sx={{
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                display: girdVisible,
+                backgroundColor: "#fff",
+              }}
+            >
+              <DataGrid
+                sx={{
+                  boxShadow: 2,
+                  border: 2,
+                  height: "400px",
+                  borderColor: "white",
+                  "& .MuiDataGrid-row:hover": {
+                    color: "#004A92",
+                    backgroundColor: "#B8E4F4",
+                  },
+                  "& .MuiDataGrid-columnHeaders": {
+                    color: "white",
+                    fontFamily: "Roboto",
+                    backgroundColor: "#7f7f7f",
+                  },
+                  "& .super-app-theme--odd": {
+                    bgcolor: lighten("#D7D7D7", 0.15),
+                  },
+                  "& .super-app-theme--even": {
+                    bgcolor: lighten("#AAAAAA", 0.15),
+                  },
+                }}
+                rows={rows}
+                columns={columns}
+                pageSize={pageSize}
+                disableSelectionOnClick
+                getRowClassName={(params) =>
+                  params.id % 2
+                    ? `super-app-theme--even`
+                    : `super-app-theme--odd`
+                }
+                initialState={{
+                  columns: {
+                    columnVisibilityModel: {
+                      ...visibility,
+                    },
+                  },
+                }}
               />
+              <div style={{ padding: "8px", direction: "rtl" }}>
+                <Button variant="contained" sx={{ fontWeight: "bold" }}>
+                  Update
+                </Button>
+              </div>
             </Grid>
-          </Stack>
-        </Paper>
+          </AccordianContainer>
+        </div>
       </div>
-
-      <div style={{ display: girdVisible }}>
-        <h4 sx={{ display: girdVisible }}>Waived Details</h4>
-      </div>
-      <Grid
-        container
-        spacing={2}
-        // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-        sx={{
-          width: "calc(100% - 8px)",
-          margin: "unset",
-          display: girdVisible,
-        }}
-      >
-        <DataGrid
-          sx={{
-            boxShadow: 2,
-            border: 2,
-            height: "400px",
-            borderColor: "white",
-            "& .MuiDataGrid-row:hover": {
-              color: "#004A92",
-              backgroundColor: "#B8E4F4",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              color: "white",
-              fontFamily: "Roboto",
-              backgroundColor: "#7f7f7f",
-            },
-          }}
-          rows={rows}
-          columns={columns}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[4, 8, 12, 16]}
-          disableSelectionOnClick
-          getRowClassName={(params) =>
-            params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-          }
-          initialState={{
-            columns: {
-              columnVisibilityModel: {
-                ...visibility,
-              },
-            },
-          }}
-        />
-      </Grid>
-      <div style={{ display: girdVisible }}>
-        <h4>Customer Data</h4>
-      </div>
-      <Grid
-        container
-        spacing={2}
-        // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-        sx={{
-          width: "calc(100% - 8px)",
-          margin: "unset",
-          paddingBottom: "8px",
-          display: girdVisible,
-        }}
-      >
-        <DataGrid
-          sx={{
-            boxShadow: 2,
-            border: 2,
-            height: "400px",
-            borderColor: "white",
-            "& .MuiDataGrid-row:hover": {
-              color: "#004A92",
-              backgroundColor: "#B8E4F4",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              color: "white",
-              fontFamily: "Roboto",
-              backgroundColor: "#7f7f7f",
-            },
-          }}
-          rows={customerData}
-          columns={customerColumn}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[4, 8, 12, 16]}
-          disableSelectionOnClick
-          getRowClassName={(params) =>
-            params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-          }
-          initialState={{
-            columns: {
-              columnVisibilityModel: {
-                ...visibility,
-              },
-            },
-          }}
-        />
-      </Grid>
-      <Box
-        component="footer"
-        sx={{
-          mt: "auto",
-          textAlign: "center",
-          marginTop: "8px",
-
-          left: "0",
-          bottom: "0",
-          right: "0",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <Typography sx={{ color: "black" }} align="center">
-          {" "}
-          Copyright © Sundaram Home 2022.
-        </Typography>
-      </Box>
+      <StlapFooter />
     </div>
   );
 };

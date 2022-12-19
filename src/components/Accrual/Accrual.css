@@ -1,3 +1,16 @@
-.MuiPaper-root{
-    /* width: 100%; */
+#footer-removefor-datagrid .MuiDataGrid-footerContainer {
+  display: none;
 }
+
+.super-app-theme--odd {
+  background-color: lighten("#D7D7D7", 0.15);
+}
+.super-app-theme--even {
+  background-color: lighten("#AAAAAA", 0.15);
+}
+
+
+.MuiDataGrid-root .MuiDataGrid-cell{
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  }
