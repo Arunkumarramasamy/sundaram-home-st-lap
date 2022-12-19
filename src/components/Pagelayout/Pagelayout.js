@@ -54,6 +54,7 @@ import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
 import AdditionalAccrual from "../Accrual/AdditionalAccrual";
 import AccrualWaiver from "../Accrual/AccrualWaiver";
 import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
+import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
 
 const drawerWidth = 300;
 
@@ -688,14 +689,26 @@ export default function Pagelayout() {
            path={`${search}/stlap/home/parameter`}
            element={<ParameterMaintenance />}
           /> */}
+
+
           <Route
-            path={`${search}/stlap/home/disbursementProcessDemo`}
-            element={<Process />}
+            path={`${search}/stlap/home/disbursementCreate`}
+            element={<DisbursementCreatePortal />}
           />
+
           <Route
             path={`${search}/stlap/home/disbursementList`}
             element={<DisbursementRequestList />}
           />
+
+
+
+          {/* Demo */ }
+          <Route
+            path={`${search}/stlap/home/disbursementProcessDemo`}
+            element={<Process />}
+          />
+ 
           <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}
             element={<VoucherGeneration />}

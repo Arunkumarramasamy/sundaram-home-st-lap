@@ -1,14 +1,66 @@
 import {
   Box,
   Button,
-  Grid
+  ButtonGroup,
+  Grid,
+  Tab
 } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { useReducer } from "react";
+
+
+const filterValues = {
+  tabIndex: 'tabIndex',
+  applicationNumber: 'applicationNumber',
+  applicantName: 'applicantName',
+  customerType: 'customerType',
+  roi: 'roi',
+  loanAmountRangeFrom: 'loanAmountRangeFrom',
+  loanAmountRangeTo: 'loanAmountRangeTo',
+
+};
+
+const initialState = {
+  tabIndex: '1',
+  applicationNumber: '',
+  applicantName: '',
+  customerType: '',
+  roi: '',
+  loanAmountRangeFrom: '',
+  loanAmountRangeTo: '',
+  branchName: "",
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case filterValues.tabIndex:
+      return { ...state, tabIndex: action.value }
+    case filterValues.applicationNumber:
+      return { ...state, applicationNumber: action.value }
+    case filterValues.applicantName:
+      return { ...state, applicantName: action.value }
+    case filterValues.customerType:
+      return { ...state, customerType: action.value }
+    case filterValues.roi:
+      return { ...state, roi: action.value }
+    case filterValues.loanAmountRangeFrom:
+      return { ...state, loanAmountRangeFrom: action.value }
+      case filterValues.loanAmountRangeTo:
+        return { ...state, loanAmountRangeTo: action.value }
+    case filterValues.branchName:
+        return { ...state, branchName: action.value }
+    default:
+      return initialState;
+  }
+}
 
 const FilterCondition = (props) => {
+
   const branchNames = [
     { label: "Red Hills" },
     { label: "Royapuram" },
@@ -156,37 +208,19 @@ const FilterCondition = (props) => {
     { label: "Kottivakkam" },    
   ];
 
-  const [branch, setBranch] = useState("");
-  const [trnNo, setTrnNo] = useState("");
-  const [applicantName, setApplicantName] = useState("");
-
+  
+  
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
-    props.onSearchButtonClick(branch, trnNo, true);
+    console.log(state);
   };
 
-  const clearButtonClickHandler = () => {
-    setBranch("");
-    setTrnNo("");
-    props.onSearchButtonClick(branch, trnNo, false);
-  };
 
-  
-  const branchNameChangeHandler = (evt) => {
-    setBranch(evt.target.value);
-  }
-
-  const trnNoChangeHandler = (evt) => {
-    setTrnNo(evt.target.value);
-  }
-
-  const applicantNameChangeHandler = (evt) => {
-    setApplicantName(evt.target.value);
-  }
 
   const BasicSearchValues = (
-    <><Box component="form"  validate    onSubmit={searchButtonClickHandler}  >
+    <><Box component="form"  validate   onSubmit={searchButtonClickHandler}  >
       <Grid container spacing={2}>
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -198,19 +232,25 @@ const FilterCondition = (props) => {
             type="text"
             placeholder="Branch"
             autoCompleteValues={branchNames}
+            value={state.branchName}
+            onChange={(event,value) => {
+              dispatch({ type: filterValues.branchName, value: value.label })
+            }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             required={true}
-            label="Trn No."
-            id="trnno"
+            label="Application Number"
+            id="applicationNumber"
             variant="standard"
-            value={trnNo}
+            value={state.applicationNumber}
             type="text"
-            placeholder="Enter Trn No."
-            onChange={trnNoChangeHandler}
+            placeholder="Enter Application No."
+            onChange={event => {
+              dispatch({ type: filterValues.applicationNumber, value: event.target.value })
+            }}
           />
         </Grid>
 
@@ -221,10 +261,12 @@ const FilterCondition = (props) => {
             label="Applicant Name"
             id="applicantName"
             variant="standard"
-            value={applicantName}
+            value={state.applicantName}
             type="text"
             placeholder="Applicant Name"
-            onChange={applicantNameChangeHandler}
+            onChange={event => {
+              dispatch({ type: filterValues.applicantName, value: event.target.value })
+            }}
           />
         </Grid>
 
@@ -242,9 +284,156 @@ const FilterCondition = (props) => {
         <Button
           sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
           onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
-          
-          onClick={clearButtonClickHandler}
           variant="contained"
+          onClick={event => {
+            dispatch({ type: "", value: "" })
+          }}
+        >
+          Clear
+        </Button>
+      </Box>
+      </Box>
+    </>
+  );
+
+  const AdvancedSearchValues = (
+    <><Box component="form"  validate    onSubmit={searchButtonClickHandler}  >
+      <Grid container spacing={2}>
+        
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomAutoComplete
+            required={false}
+            label="Branch"
+            id="branch"
+            variant="standard"
+            type="text"
+            placeholder="Branch"
+            autoCompleteValues={branchNames}
+            value={state.branchName}
+            onChange={event => {
+              dispatch({ type: filterValues.branchName, value: event.target.value })
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Application Number"
+            id="applicationNumber"
+            variant="standard"
+            value={state.applicationNumber}
+            type="text"
+            placeholder="Enter Application No."
+            onChange={event => {
+              dispatch({ type: filterValues.applicationNumber, value: event.target.value })
+            }}
+          />
+        </Grid>
+
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Applicant Name"
+            id="applicantName"
+            variant="standard"
+            value={state.applicantName}
+            type="text"
+            placeholder="Applicant Name"
+            onChange={event => {
+              dispatch({ type: filterValues.applicantName, value: event.target.value })
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDropDown
+            required={false}
+            label="Customer Type"
+            id="customerType"
+            variant="standard"
+            type="text"
+            placeholder="Customer Type"
+            dropDownValue={[{value:0,text:"New"},{value:1,text:"Old"}]}
+            value={state.customerType}
+            onChange={event => {
+              dispatch({ type: filterValues.customerType, value: event.target.value })
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Rate of Interest(%)"
+            id="roi"
+            variant="standard"
+            value={state.roi}
+            type="text"
+            placeholder="Enter Rate of Interest."
+            onChange={event => {
+              dispatch({ type: filterValues.roi, value: event.target.value })
+            }}
+          />
+        </Grid>
+
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Loan Amount Range From"
+            id="loanAmountRangeFrom"
+            variant="standard"
+            value={state.loanAmountRangeFrom}
+            type="text"
+            placeholder="From"
+            onChange={event => {
+              dispatch({ type: filterValues.loanAmountRangeFrom, value: event.target.value })
+            }}
+          />
+        </Grid>
+
+        
+    
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            required={false}
+            label="Loan Amount Range To"
+            id="loanAmountRangeTo"
+            variant="standard"
+            value={state.loanAmountRangeTo}
+            type="text"
+            placeholder="To"
+            onChange={event => {
+              dispatch({ type: filterValues.loanAmountRangeTo, value: event.target.value })
+            }}
+          /></Grid>
+          
+       
+
+
+
+
+
+      </Grid>
+      <Box
+        sx={{
+          marginTop: "1rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button variant="contained" type="submit">
+          Search
+        </Button>
+        <Button
+          sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
+          onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
+          variant="contained"
+          onClick={event => {
+            dispatch({ type: "", value: "" })
+          }}
         >
           Clear
         </Button>
@@ -256,8 +445,58 @@ const FilterCondition = (props) => {
 
   return (
     <><AccordianContainer title={props.title} initialOpen={true}>
-      <Box sx={{ width: "100%", backgroundColor: "white" }}>
-        {BasicSearchValues}
+      <Box sx={{ width: "100%",  backgroundColor: "white" }}>
+        <TabContext value={state.tabIndex}>
+          <Box
+            sx={{
+              borderColor: "divider",
+              backgroundColor: "#eeeeee",
+            }}
+          >
+            <TabList
+               onChange={(event,value) => {
+                dispatch({ type: filterValues.tabIndex, value: value })
+              }}
+              aria-label="lab API tabs example"
+              TabIndicatorProps={{ hidden: true }}
+              sx={{
+                "& button.Mui-selected": {
+                  backgroundColor: "#004a92",
+                  color: "white",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                  borderBottom: "none",
+                },
+                "& div.MuiTabs-flexContainer": {
+                  flexWrap: "wrap",
+                },
+                "& button": {
+                  outline: "none",
+                  marginRight: "0.2rem",
+                  background: "#fafafa",
+                  color: "#7f7f7f",
+                  transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  borderBottom: "2px solid #AAAAAA",
+                  textTransform: "none",
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                  backgroundColor:"#D7D7D7",
+                },
+              }}
+            >
+              <Tab label="Basic Details:" value="1" />
+              <Tab label="Advanced Details:" value="2" />
+
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            {BasicSearchValues}
+          </TabPanel>
+          <TabPanel value="2">
+            {AdvancedSearchValues}
+          </TabPanel>
+         
+        </TabContext>
       </Box>
       </AccordianContainer>
     </>
