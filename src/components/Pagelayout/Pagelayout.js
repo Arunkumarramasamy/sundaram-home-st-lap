@@ -54,6 +54,7 @@ import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
 import AdditionalAccrual from "../Accrual/AdditionalAccrual";
 import AccrualWaiver from "../Accrual/AccrualWaiver";
 import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
+import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
 
 const drawerWidth = 300;
 
