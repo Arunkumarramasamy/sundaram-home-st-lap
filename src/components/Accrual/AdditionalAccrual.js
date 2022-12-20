@@ -17,7 +17,11 @@ const AdditionalAccrual = () => {
     useState(true);
   const [branchName, setBranchName] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
-  const [currentDate,setCurrentDate] = useState(`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`);
+  const [currentDate, setCurrentDate] = useState(
+    `${new Date().getDate()}/${
+      new Date().getMonth() + 1
+    }/${new Date().getFullYear()}`
+  );
 
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
@@ -47,9 +51,12 @@ const AdditionalAccrual = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
-    newValue === null
-      ? setApplicationSearchDisable(true)
-      : setApplicationSearchDisable(false);
+    if (newValue === null||newValue === '') {
+      setApplicationSearchDisable(true);
+      setReferenceNumber('');
+    } else {
+      setApplicationSearchDisable(false);
+    }
   };
   const onChangeForReferenceEvent = (event, newValue) => {
     setReferenceNumber(newValue.value);
@@ -388,12 +395,12 @@ const AdditionalAccrual = () => {
               <Grid item container spacing={2}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
-                    required={false}
+                    required={true}
                     label="Branch Name"
                     id="applicantName"
                     variant="standard"
                     value={branchName}
-                    onChange={(event, newValue) =>
+                    onInputChange={(event, newValue) =>
                       onChangeForBranchEvent(event, newValue)
                     }
                     type="text"
@@ -484,7 +491,7 @@ const AdditionalAccrual = () => {
         >
           <AccordianContainer
             id="accord"
-            title={"Customer Data (Reference Number) : "+referenceNumber}
+            title={"Customer Data (Reference Number) : " + referenceNumber}
             initialOpen={true}
           >
             <Grid

@@ -410,7 +410,7 @@ const AdditionalWaiver = () => {
               <Grid item container spacing={2}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
-                    required={false}
+                    required={true}
                     label="Branch Name"
                     id="applicantName"
                     variant="standard"
