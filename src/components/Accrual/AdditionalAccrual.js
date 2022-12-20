@@ -16,6 +16,12 @@ const AdditionalAccrual = () => {
   const [applicationSearchDisable, setApplicationSearchDisable] =
     useState(true);
   const [branchName, setBranchName] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState("");
+  const [currentDate, setCurrentDate] = useState(
+    `${new Date().getDate()}/${
+      new Date().getMonth() + 1
+    }/${new Date().getFullYear()}`
+  );
 
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
@@ -23,12 +29,12 @@ const AdditionalAccrual = () => {
     { value: "3", text: "intrest reduced" },
   ];
   const applicationNumberList = [
-    { label: "Application1234", value: "" },
-    { label: "Application1235", value: "" },
-    { label: "Application1236", value: "" },
-    { label: "Application1237", value: "" },
-    { label: "Application1238", value: "" },
-    { label: "Application1239", value: "" },
+    { label: "Application1234", value: "ReferenceNumber_0001" },
+    { label: "Application1235", value: "ReferenceNumber_0002" },
+    { label: "Application1236", value: "ReferenceNumber_0003" },
+    { label: "Application1237", value: "ReferenceNumber_0004" },
+    { label: "Application1238", value: "ReferenceNumber_0005" },
+    { label: "Application1239", value: "ReferenceNumber_0006" },
   ];
 
   const branchNames = [
@@ -45,9 +51,15 @@ const AdditionalAccrual = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
-    newValue === null
-      ? setApplicationSearchDisable(true)
-      : setApplicationSearchDisable(false);
+    if (newValue === null||newValue === '') {
+      setApplicationSearchDisable(true);
+      setReferenceNumber('');
+    } else {
+      setApplicationSearchDisable(false);
+    }
+  };
+  const onChangeForReferenceEvent = (event, newValue) => {
+    setReferenceNumber(newValue.value);
   };
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
@@ -152,24 +164,7 @@ const AdditionalAccrual = () => {
       applicationNo: "STLAPKARA0001",
     },
   ];
-  const branchValues = [
-    {
-      value: 1,
-      text: "Royapettah",
-    },
-    {
-      value: 2,
-      text: "Mylapore",
-    },
-    {
-      value: 3,
-      text: "Light House",
-    },
-    {
-      value: 4,
-      text: "Egmore",
-    },
-  ];
+
   const rows = [
     {
       id: 7,
@@ -397,23 +392,15 @@ const AdditionalAccrual = () => {
               validate
               onSubmit={searchButtonClickHandler}
             >
-              <Grid container spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  xl={3}
-                  sx={{ paddingTop: "unset !important" }}
-                >
+              <Grid item container spacing={2}>
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
-                    required={false}
+                    required={true}
                     label="Branch Name"
                     id="applicantName"
                     variant="standard"
                     value={branchName}
-                    onChange={(event, newValue) =>
+                    onInputChange={(event, newValue) =>
                       onChangeForBranchEvent(event, newValue)
                     }
                     type="text"
@@ -422,15 +409,7 @@ const AdditionalAccrual = () => {
                   />
                 </Grid>
 
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  xl={3}
-                  sx={{ paddingTop: "unset !important" }}
-                >
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
                     required={true}
                     clearText={() => console.log("log")}
@@ -438,34 +417,38 @@ const AdditionalAccrual = () => {
                     label="Application Number"
                     id="applicantName"
                     variant="standard"
+                    onChange={(event, newValue) =>
+                      onChangeForReferenceEvent(event, newValue)
+                    }
                     // value={applicantName}
                     type="text"
                     placeholder="Application Number"
                     autoCompleteValues={applicationNumberList}
                   />
                 </Grid>
-                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomTextField
                     disabled={true}
                     label="Reference Number"
                     id="refno"
-                    value="ReferenceAccrual0001"
                     type="text"
                     placeholder=""
                     required={false}
                     variant="standard"
+                    value={referenceNumber}
                     // onChange={trnNoChangeHandler}
                     // onChange={(event)=>setReferenceName(event.target.value)}
                   />
                 </Grid>
-
-                <Grid sx={{ width: "320px", paddingLeft: "18px" }}>
+                <Grid xs={0} sm={0} md={0} lg={3} xl={3}></Grid>
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomTextField
                     required={false}
                     disabled={true}
                     label="Reference Date"
                     id="refdate"
-                    value="16/12/2022"
+                    value={currentDate}
                     type="text"
                     placeholder=""
                     variant="standard"
@@ -508,7 +491,7 @@ const AdditionalAccrual = () => {
         >
           <AccordianContainer
             id="accord"
-            title="Customer Data (Reference Number) : STLAPCHET0001"
+            title={"Customer Data (Reference Number) : " + referenceNumber}
             initialOpen={true}
           >
             <Grid
