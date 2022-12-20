@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Grid,
   Tab
 } from "@mui/material";
@@ -37,7 +36,7 @@ const initialState = {
   roi: '',
   loanAmount: '',
   sanctionedAmount: '',
-  applicationDateFromValue: ((today.getMonth() + 1) + '/' + '01' + '/' + today.getFullYear()),
+  applicationDateFromValue: ((today.getMonth() + 1) + "/" + "01" + "/" + today.getFullYear()),
   applicationDateToValue: ((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()),
   branchName: "",
 };
@@ -262,7 +261,7 @@ const FilterCondition = (props) => {
 
 
   const BasicSearchValues = (
-    <><Box component="form"  validate   onSubmit={searchButtonClickHandler}  >
+    <><Box component="form"   onSubmit={searchButtonClickHandler}  >
       <Grid container spacing={2}>
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>

@@ -3,25 +3,54 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Tooltip from "@mui/material/Tooltip";
 import SaveIcon from "@mui/icons-material/Save";
+import { Skeleton } from "@mui/material";
+import axios from "axios";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
 const ParameterMaintenance = () => {
   useEffect(() => {
-    // setminimumDisbursementAmount(99999);
-    // setPaymentMode("RTGS");
-    // setallowableCash(100000);
-    // setstaleDays(10);
+    const getData = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/parameter/getParameterById",
+          {
+            parameterId: 1,
+          }
+        );
+        console.log(response);
+        if (response.status === 200) {
+          setminimumDisbursementAmount(
+            response.data.minimumDisbursementAmount.toLocaleString("en-IN")
+          );
+          setPaymentMode(response.data.paymentMode);
+          setallowableCash(
+            response.data.maximumAllowableCashReceipt.toLocaleString("en-IN")
+          );
+          setstaleDays(response.data.chequeStaleDays);
+          console.log(response.data);
+        }
+      } catch {
+        setErrorMessage("Network Error");
+        openAlertHandler();
+      }
+    };
+    getData();
   }, []);
 
   /** Button Handler */
   const [editButton, setEditButton] = useState(true);
   const [saveButton, setSaveButton] = useState(false);
   const [disabled, setDisabled] = useState(true);
+
+  /**Skeleton State */
+  const [skeletonState, setskeletonState] = useState(false);
 
   /** Parameter Values state*/
   const [minimumDisbursementAmount, setminimumDisbursementAmount] =
@@ -45,7 +74,8 @@ const ParameterMaintenance = () => {
   const paymentModeIsValid = paymentMode.trim() !== "";
   const allowableCashIsValid =
     allowableCash.length !== 0 && allowableCash !== "0";
-  const staleDaysIsValid = staleDays.length !== 0 && staleDays !== "0";
+  const staleDaysIsValid =
+    staleDays.length !== 0 && staleDays !== "0" && staleDays >= "0";
 
   /** Has Error */
   const minimumDisbursementAmountHasError =
@@ -61,10 +91,30 @@ const ParameterMaintenance = () => {
     setSaveButton(true);
   };
 
+  /**Alert Handler state and methods */
+  const [alert, setAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const openAlertHandler = () => {
+    setAlert(true);
+  };
+  const closeAlertHandler = () => {
+    setAlert(false);
+  };
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+
   /** Save Button Handler */
   const saveButtonHandler = () => {
-    setSaveButton(false);
-    setEditButton(true);
+    console.log(
+      typeof minimumDisbursementAmount,
+      typeof paymentMode,
+      typeof allowableCash,
+      typeof staleDays
+    );
   };
 
   return (
@@ -74,13 +124,8 @@ const ParameterMaintenance = () => {
         backgroundColor: "white",
       }}
     >
-      <Typography
-        variant="h6"
-        gutterBottom
-        sx={{ color: "#004a92", fontWeight: 500 }}
-      >
-        Parameter Maintenance
-      </Typography>
+      <h4> Parameter Maintenance</h4>
+
       <Box
         sx={{
           marginTop: "5px",
@@ -119,28 +164,30 @@ const ParameterMaintenance = () => {
           <CustomTextField
             type="text"
             onChange={(event) => {
-              let value = event.target.value.replace(/\D/g, "");
-              setminimumDisbursementAmount(
-                Number(value.replaceAll(",", "")).toLocaleString("en-IN")
-              );
+              let Value = event.target.value.replace(/\D/g, "");
+              if (Value === "") {
+                setminimumDisbursementAmount(Value);
+              } else {
+                setminimumDisbursementAmount(
+                  parseInt(Value.replaceAll(",", "")).toLocaleString("en-IN")
+                );
+              }
             }}
             onBlur={() => {
               setminimumDisbursementAmountTouched(true);
             }}
-            label="Minimum disbursement Amount"
+            label="Minimum Disbursement Amount"
             variant="standard"
             disabled={disabled}
             value={minimumDisbursementAmount}
             error={minimumDisbursementAmountHasError}
           />
           {minimumDisbursementAmountHasError && (
-            <p className="error">
-              Please Enter Minimum valid disbursement Amount{" "}
-            </p>
+            <p className="error">Please Enter valid disbursement Amount </p>
           )}
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-          <CustomTextField
+          {/* <CustomTextField
             type="text"
             onChange={(event) => {
               setPaymentMode(event.target.value);
@@ -153,6 +200,25 @@ const ParameterMaintenance = () => {
             disabled={disabled}
             value={paymentMode}
             error={paymentModeTouchedhasError}
+          /> */}
+          <CustomDropDown
+            label="Payment Mode"
+            variant="standard"
+            type="text"
+            error={paymentModeTouchedhasError}
+            disabled={disabled}
+            defaultValue={"RTGS"}
+            dropDownValue={[
+              { value: "RTGS", text: "RTGS", key: "1" },
+              { value: "NEFT ", text: "NEFT ", key: "2" },
+            ]}
+            value={paymentMode}
+            onChange={(event) => {
+              setPaymentMode(event.target.value);
+            }}
+            onBlur={() => {
+              setPaymentModeTouched(true);
+            }}
           />
           {paymentModeTouchedhasError && (
             <p className="error">Please Enter valid Payment Mode</p>
@@ -163,24 +229,26 @@ const ParameterMaintenance = () => {
         <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
           <CustomTextField
             onChange={(event) => {
-              let value = event.target.value.replace(/\D/g, "");
-              setallowableCash(
-                Number(value.replaceAll(",", "")).toLocaleString("en-IN")
-              );
+              let Value = event.target.value.replace(/\D/g, "");
+              if (Value === "") {
+                setallowableCash(Value);
+              } else {
+                setallowableCash(
+                  parseInt(Value.replaceAll(",", "")).toLocaleString("en-IN")
+                );
+              }
             }}
             onBlur={() => {
               setallowableCashTouched(true);
             }}
-            label="Maximum allowable Cash Receipt"
+            label="Maximum Allowable Cash Receipt"
             variant="standard"
             disabled={disabled}
             value={allowableCash}
             error={allowableCashHasError}
           />
           {allowableCashHasError && (
-            <p className="error">
-              Please Enter valid Maximum allowable Cash Receipt
-            </p>
+            <p className="error">Please Enter valid Cash Receipt</p>
           )}
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
@@ -199,10 +267,25 @@ const ParameterMaintenance = () => {
             error={staleDaysTouchedHasError}
           />
           {staleDaysTouchedHasError && (
-            <p className="error">Please Enter valid Cheque Stale Days</p>
+            <p className="error">Please Enter valid Stale Days</p>
           )}
         </Grid>
       </Grid>
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={closeAlertHandler}
+      >
+        <Alert
+          onClose={closeAlertHandler}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
