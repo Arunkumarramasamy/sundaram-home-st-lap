@@ -24,7 +24,7 @@ const AdditionalWaiver = () => {
 
   const [referenceNumber, setReferenceNumber] = useState("");
   const [currentDate,setCurrentDate] = useState(`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`);
-
+  const [applicationNumber, setApplicationNumber] = useState("");
   const applicationNumberList = [
     { label: "Application1234", value: "ReferenceNumber_0001" },
     { label: "Application1235", value: "ReferenceNumber_0002" },
@@ -34,7 +34,14 @@ const AdditionalWaiver = () => {
     { label: "Application1239", value: "ReferenceNumber_0006" },
   ];
   const onChangeForReferenceEvent = (event, newValue) => {
-    setReferenceNumber(newValue.value);
+    if (newValue === null) {
+      setApplicationNumber("");
+      setReferenceNumber("");
+      setGridVisible("none");
+    } else {
+      setApplicationNumber(newValue.label);
+      setReferenceNumber(newValue.value);
+    }
   };
   const branchNames = [
     { label: "Mylapore", value: "" },
@@ -53,9 +60,17 @@ const AdditionalWaiver = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
-    newValue === null
-      ? setApplicationSearchDisable(true)
-      : setApplicationSearchDisable(false);
+    if (newValue === null || newValue === "") {
+      setApplicationSearchDisable(true);
+      setReferenceNumber("");
+      setApplicationNumber("");
+      setGridVisible("none");
+    } else {
+      setApplicationSearchDisable(false);
+    }
+  };
+  const clearButtonClickHandler = () => {
+    setBranchName("");
   };
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
@@ -429,6 +444,7 @@ const AdditionalWaiver = () => {
                     required={true}
                     clearText={() => console.log("log")}
                     disabled={applicationSearchDisable}
+                    value={applicationNumber}
                     label="Application Number"
                     id="applicantName"
                     variant="standard"
@@ -448,7 +464,7 @@ const AdditionalWaiver = () => {
                     label="Reference Number"
                     id="refno"
                     type="text"
-                    placeholder=""
+                    placeholder="Reference Number"
                     required={false}
                     variant="standard"
                     value={referenceNumber}
@@ -488,7 +504,7 @@ const AdditionalWaiver = () => {
                 </Button>
                 <Button
                   sx={{ marginLeft: "1rem", backgroundColor: "black" }}
-                  //   onClick={clearButtonClickHandler}
+                  onClick={() => clearButtonClickHandler()}
                   variant="contained"
                 >
                   Clear
@@ -507,7 +523,7 @@ const AdditionalWaiver = () => {
         >
           <AccordianContainer
             id="accord"
-            title={"Customer Data (Reference Number) : "+referenceNumber}
+            title={"Customer Data (Reference Number)  "+referenceNumber}
             initialOpen={true}
           >
             <Grid

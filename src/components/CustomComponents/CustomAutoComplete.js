@@ -21,7 +21,7 @@ const CustomAutoComplete = (props) => {
           clearicon={(event) => console.log("cleared")}
           options={props.autoCompleteValues}
           renderInput={(params) => (
-            <TextField
+            <TextField required={props.required}
               {...params}
               variant={props.variant}
               placeholder={props.placeholder}
