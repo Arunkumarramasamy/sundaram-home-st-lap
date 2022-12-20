@@ -89,6 +89,16 @@ const AdditionalWaiver = () => {
       align: "center",
     },
     {
+      field: "customerCapacity",
+      headerName: "Capacity",
+      headerAlign: "center",
+      type: "string",
+      hideable: false,
+      sortable: false,
+      width: 250,
+      align: "center",
+    },
+    {
       field: "aadhar",
       headerName: "AADHAR Number",
       headerAlign: "center",
@@ -153,6 +163,7 @@ const AdditionalWaiver = () => {
     {
       id: 1,
       customerId: "0001",
+      customerCapacity:'Applicant',
       accountNo: "0000898980",
       customerName: "Raagesh",
       aadhar: "4567-xxxx-7645",
@@ -166,6 +177,7 @@ const AdditionalWaiver = () => {
       id: 2,
       customerId: "0002",
       accountNo: "0000898980",
+      customerCapacity:'Co Applicant',
       customerName: "Sherif",
       aadhar: "4356-xxxx-9870",
       pan: "ABCD000G",
@@ -496,6 +508,7 @@ const AdditionalWaiver = () => {
                 }}
               >
                 <Button
+                sx={{fontWeight:'bold' }}
                   variant="contained"
                   type="submit"
                   onClick={(event) => handleSearch(event)}
@@ -503,9 +516,11 @@ const AdditionalWaiver = () => {
                   Search
                 </Button>
                 <Button
-                  sx={{ marginLeft: "1rem", backgroundColor: "black" }}
-                  onClick={() => clearButtonClickHandler()}
+                  sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" ,fontWeight:'bold'}}
+                  onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
                   variant="contained"
+                   onClick={() => clearButtonClickHandler()}
+                  
                 >
                   Clear
                 </Button>

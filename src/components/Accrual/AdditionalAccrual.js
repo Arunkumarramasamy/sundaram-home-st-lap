@@ -1,6 +1,6 @@
 import { Box, Button, Grid, lighten, Tooltip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
@@ -11,6 +11,11 @@ import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 const AdditionalAccrual = () => {
+useEffect(()=>{
+
+},[])
+
+
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
@@ -91,6 +96,16 @@ const AdditionalAccrual = () => {
       align: "center",
     },
     {
+      field: "customerCapacity",
+      headerName: "Capacity",
+      headerAlign: "center",
+      type: "string",
+      hideable: false,
+      sortable: false,
+      width: 250,
+      align: "center",
+    },
+    {
       field: "aadhar",
       headerName: "AADHAR Number",
       headerAlign: "center",
@@ -155,6 +170,7 @@ const AdditionalAccrual = () => {
     {
       id: 1,
       customerId: "0001",
+      customerCapacity:'Applicant',
       accountNo: "0000898980",
       customerName: "Raagesh",
       aadhar: "4325-xxxx-8765",
@@ -167,6 +183,7 @@ const AdditionalAccrual = () => {
     {
       id: 2,
       customerId: "0002",
+      customerCapacity:'Co Applicant',
       accountNo: "0000898980",
       customerName: "Sherif",
       aadhar: "4352-xxxx-6543",
@@ -363,8 +380,7 @@ const AdditionalAccrual = () => {
       headerAlign: "center",
       type: "string",
       width: "250",
-      editable: false,
-      disabled:true,
+      editable: true,
       align: "left",
       renderCell: (params) => (
         <div>
@@ -484,6 +500,7 @@ const AdditionalAccrual = () => {
                   }}
                 >
                   <Button
+                  sx={{fontWeight:'bold'}}
                     variant="contained"
                     type="submit"
                     onClick={(event) => handleSearch(event)}
@@ -491,9 +508,10 @@ const AdditionalAccrual = () => {
                     Search
                   </Button>
                   <Button
-                    sx={{ marginLeft: "1rem", backgroundColor: "black" }}
-                    // onClick={() => clearButtonClickHandler()}
-                    variant="contained"
+                   sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black",fontWeight:'bold' }}
+                   onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
+                   variant="contained"
+                    onClick={() => clearButtonClickHandler()}
                   >
                     Clear
                   </Button>
