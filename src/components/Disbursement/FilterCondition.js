@@ -10,6 +10,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomDateRangeField from "../CustomComponents/CustomDateRangeField";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useReducer } from "react";
 
@@ -20,21 +21,27 @@ const filterValues = {
   applicantName: 'applicantName',
   customerType: 'customerType',
   roi: 'roi',
-  loanAmountRangeFrom: 'loanAmountRangeFrom',
-  loanAmountRangeTo: 'loanAmountRangeTo',
-
+  loanAmount: 'loanAmount',
+  sanctionedAmount: 'sanctionedAmount',
+  applicationDateFromValue: 'applicationDateFromValue',
+  applicationDateToValue: 'applicationDateToValue',
 };
+
+var today = new Date();
 
 const initialState = {
   tabIndex: '1',
   applicationNumber: '',
   applicantName: '',
-  customerType: '',
+  customerType: " ",
   roi: '',
-  loanAmountRangeFrom: '',
-  loanAmountRangeTo: '',
+  loanAmount: '',
+  sanctionedAmount: '',
+  applicationDateFromValue: ((today.getMonth() + 1) + '/' + '01' + '/' + today.getFullYear()),
+  applicationDateToValue: ((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()),
   branchName: "",
 };
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,14 +55,19 @@ const reducer = (state, action) => {
       return { ...state, customerType: action.value }
     case filterValues.roi:
       return { ...state, roi: action.value }
-    case filterValues.loanAmountRangeFrom:
-      return { ...state, loanAmountRangeFrom: action.value }
-      case filterValues.loanAmountRangeTo:
-        return { ...state, loanAmountRangeTo: action.value }
+    case filterValues.loanAmount:
+      return { ...state, loanAmount: action.value }
+    case filterValues.sanctionedAmount:
+        return { ...state, sanctionedAmount: action.value }
+    case filterValues.applicationDateFromValue:
+        return { ...state, applicationDateFromValue: action.value }
+    case filterValues.applicationDateToValue:
+        return { ...state, applicationDateToValue: action.value }
     case filterValues.branchName:
         return { ...state, branchName: action.value }
     default:
-      return initialState;
+      //return initialState;
+      return { ...initialState, tabIndex: state.tabIndex }
   }
 }
 
@@ -338,7 +350,7 @@ const FilterCondition = (props) => {
             id="branch"
             variant="standard"
             type="text"
-            placeholder="Branch"
+            placeholder="Select Branch"
             autoCompleteValues={branchNames}
             value={state.branchName}
             onChange={event => {
@@ -349,7 +361,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomAutoComplete
-            required={true}
+            required={false}
             label="Application Number"
             id="applicationNumber"
             variant="standard"
@@ -372,12 +384,27 @@ const FilterCondition = (props) => {
             variant="standard"
             value={state.applicantName}
             type="text"
-            placeholder="Applicant Name"
+            placeholder="Enter Applicant Name"
             onChange={event => {
               dispatch({ type: filterValues.applicantName, value: event.target.value })
             }}
           />
         </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateRangeField
+            required={false}
+            label="Application Date"
+            id="applicationDate"
+            variant="standard"
+            fromValue={state.applicationDateFromValue}
+            toValue={state.applicationDateToValue}
+            type="text"
+            placeholder="Enter Application Date"
+            onChange={event => {
+              dispatch({ type: filterValues.applicationDate, value: event.target.value })
+            }}
+          /></Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
@@ -386,7 +413,7 @@ const FilterCondition = (props) => {
             id="customerType"
             variant="standard"
             type="text"
-            placeholder="Customer Type"
+            placeholder="Select Customer Type"
             dropDownValue={[{value:0,text:"New"},{value:1,text:"Old"}]}
             value={state.customerType}
             onChange={event => {
@@ -402,7 +429,7 @@ const FilterCondition = (props) => {
             id="roi"
             variant="standard"
             value={state.roi}
-            type="text"
+            type="number"
             placeholder="Enter Rate of Interest."
             onChange={event => {
               dispatch({ type: filterValues.roi, value: event.target.value })
@@ -414,14 +441,14 @@ const FilterCondition = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             required={false}
-            label="Loan Amount Range - From"
-            id="loanAmountRangeFrom"
+            label="Loan Amount"
+            id="loanAmount"
             variant="standard"
-            value={state.loanAmountRangeFrom}
-            type="text"
-            placeholder="From"
+            value={state.loanAmount}
+            type="number"
+            placeholder="Enter Loan Amount"
             onChange={event => {
-              dispatch({ type: filterValues.loanAmountRangeFrom, value: event.target.value })
+              dispatch({ type: filterValues.loanAmount, value: event.target.value })
             }}
           />
         </Grid>
@@ -431,16 +458,19 @@ const FilterCondition = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             required={false}
-            label="Loan Amount Range - To"
-            id="loanAmountRangeTo"
+            label="Sanctioned Amount"
+            id="sanctionedAmount"
             variant="standard"
-            value={state.loanAmountRangeTo}
-            type="text"
-            placeholder="To"
+            value={state.sanctionedAmount}
+            type="number"
+            placeholder="Enter Sanctioned Amount"
             onChange={event => {
-              dispatch({ type: filterValues.loanAmountRangeTo, value: event.target.value })
+              dispatch({ type: filterValues.sanctionedAmount, value: event.target.value })
             }}
           /></Grid>
+
+
+      
           
        
 
@@ -516,8 +546,8 @@ const FilterCondition = (props) => {
                 },
               }}
             >
-              <Tab label="Basic Details:" value="1" />
-              <Tab label="Advanced Details:" value="2" />
+              <Tab label="Basic Details" value="1" />
+              <Tab label="Advanced Details" value="2" />
 
             </TabList>
           </Box>
