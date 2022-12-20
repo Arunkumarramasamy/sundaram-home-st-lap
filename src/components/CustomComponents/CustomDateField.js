@@ -6,7 +6,7 @@ import { useState } from "react";
 import "./Custom.css";
 
 const CustomDateField = (props) => {
-    const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
+    const [value, setValue] = useState(props.value);
 
 
     return (<>
@@ -19,6 +19,7 @@ const CustomDateField = (props) => {
           openTo="year"
           views={['year', 'month', 'day']}
           value={value}
+          defaultCalendarMonth
           onChange={(newValue) => {
             setValue(newValue);
           }}
