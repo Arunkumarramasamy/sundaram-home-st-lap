@@ -2,13 +2,14 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import TablePagination from "@mui/material/TablePagination";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -33,7 +34,27 @@ function createData(reqno, branch, appno, name, status, user, date) {
   return { reqno, branch, appno, name, status, user, date };
 }
 
-const rows = [
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#AAAAAA",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const datarows = [
   createData(
     "DR-DEC2022-00001",
     "Mylapore",
@@ -45,12 +66,21 @@ const rows = [
   ),
   createData(
     "DR-DEC2022-00401",
-    "BroadWay",
+    "Broadway",
     "STLAP-BRWY-2022-029",
     "Customer_Name_01291",
     "Paid",
     "CPC_User_40",
     "Dec 04 2022 14:10:22"
+  ),
+  createData(
+    "DR-DEC2022-00441",
+    "Broadway",
+    "STLAP-BRWY-2022-049",
+    "Customer_Name_01201",
+    "Requested",
+    "CPC_User_10",
+    "Dec 04 2022 16:10:22"
   ),
   createData(
     "DR-DEC2022-00091",
@@ -252,9 +282,10 @@ function EnhancedTableHead(props) {
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow sx={{ backgroundColor: "#AAAAAA" }}>
+        <StyledTableCell padding={"none"} />
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             // align={headCell.numeric ? 'right' : 'left'}
             align={"left"}
@@ -274,9 +305,8 @@ function EnhancedTableHead(props) {
                 </Box>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableCell>
         ))}
-        <TableCell padding={"none"} />
       </TableRow>
     </TableHead>
   );
@@ -318,14 +348,6 @@ function EnhancedTableToolbar(props) {
           {numSelected} selected
         </Typography>
       ) : (
-        // <Typography
-        //   sx={{ flex: "1 1 100%" }}
-        //   variant="h6"
-        //   id="tableTitle"
-        //   component="div"
-        // >
-        //   Disbursement Information
-        // </Typography>
         <Typography>
           <h4>Disbursement Information</h4>
         </Typography>
@@ -348,6 +370,7 @@ export default function DisbursementRequestList() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const req_mod_options = ["View", "Modify", "Cancel"];
+  const [rows, setRows] = React.useState(datarows);
 
   const ITEM_HEIGHT = 48;
 
@@ -390,6 +413,44 @@ export default function DisbursementRequestList() {
     setDense(event.target.checked);
   };
 
+  const resetFilterData = (data) => {
+    setRows(datarows);
+  };
+
+  const filterData = (data) => {
+    console.log(data);
+    let filterrows = [];
+    switch (data.tabIndex) {
+      case "1":
+        // Basic search tab
+        if (data.branchName && data.branchName !== "") {
+          filterrows = datarows.filter((row) => row.branch == data.branchName);
+        }
+        if (data.applicationNumber && data.applicationNumber !== "") {
+          filterrows = datarows.filter(
+            (row) => row.appno == data.applicationNumber
+          );
+        }
+        setRows(filterrows);
+        break;
+      case "2":
+        // Basic search tab
+        if (data.branchName && data.branchName !== "") {
+          filterrows = datarows.filter((row) => row.branch == data.branchName);
+        }
+        if (data.applicationNumber && data.applicationNumber !== "") {
+          filterrows = datarows.filter(
+            (row) => row.appno == data.applicationNumber
+          );
+        }
+        // few more conditions yet to be added based on fields decided to target need to add to dummy data.
+        setRows(filterrows);
+        break;
+      default:
+        break;
+    }
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -398,9 +459,13 @@ export default function DisbursementRequestList() {
 
   return (
     <React.Fragment>
-      <FilterCondition title="Disbursement Information Search Filter" />
+      <FilterCondition
+        title="Disbursement Information Filter"
+        onSearchButtonClick={filterData}
+        onClearButtonClick={resetFilterData}
+      />
       <Box
-        sx={{ width: window.innerWidth - 20, minHeight: "calc(100vh - 500px)"}}
+        sx={{ width: window.innerWidth - 20, minHeight: "calc(100vh - 500px)" }}
       >
         <Paper sx={{ width: window.innerWidth - 20 }}>
           <EnhancedTableToolbar numSelected={selected.length} />
@@ -436,8 +501,7 @@ export default function DisbursementRequestList() {
                       const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
-                        <TableRow
-                          hover
+                        <StyledTableRow
                           // onClick={(event) => handleClick(event, row.reqno)}
                           role="checkbox"
                           aria-checked={isItemSelected}
@@ -446,31 +510,17 @@ export default function DisbursementRequestList() {
                           selected={isItemSelected}
                           // sx={{ cursor: "pointer" }}
                         >
-                          <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            padding="normal"
-                          >
-                            {row.reqno}
-                          </TableCell>
-                          <TableCell align="left">{row.branch}</TableCell>
-                          <TableCell align="left">{row.appno}</TableCell>
-                          <TableCell align="left">{row.name}</TableCell>
-                          <TableCell align="left">{row.status}</TableCell>
-                          <TableCell align="left">{row.user}</TableCell>
-                          <TableCell align="left">{row.date}</TableCell>
                           {row.status === "Paid" ||
                           row.status === "Cancelled" ? (
-                            <TableCell>
+                            <StyledTableCell>
                               <Tooltip title="View">
                                 <IconButton>
                                   <Preview />
                                 </IconButton>
                               </Tooltip>
-                            </TableCell>
+                            </StyledTableCell>
                           ) : (
-                            <TableCell>
+                            <StyledTableCell>
                               <div>
                                 <Tooltip title="More Actions">
                                   <IconButton
@@ -556,19 +606,57 @@ export default function DisbursementRequestList() {
                                   ))}
                                 </Menu>
                               </div>
-                            </TableCell>
+                            </StyledTableCell>
                           )}
-                        </TableRow>
+                          <StyledTableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="normal"
+                          >
+                            {row.reqno}
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {row.branch}
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {row.appno}
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {row.name}
+                          </StyledTableCell>
+                          <StyledTableCell
+                            align="left"
+                            sx={{
+                              color:
+                                row.status === "Paid"
+                                  ? "darkgreen"
+                                  : row.status === "Cancelled"
+                                  ? "red"
+                                  : row.status === "Modified"
+                                  ? "blueviolet"
+                                  : "blue",
+                            }}
+                          >
+                            {row.status}
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {row.user}
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {row.date}
+                          </StyledTableCell>
+                        </StyledTableRow>
                       );
                     })}
                   {emptyRows > 0 && (
-                    <TableRow
+                    <StyledTableRow
                       style={{
                         height: (dense ? 10 : 53) * emptyRows,
                       }}
                     >
-                      <TableCell colSpan={6} />
-                    </TableRow>
+                      <StyledTableCell colSpan={6} />
+                    </StyledTableRow>
                   )}
                 </TableBody>
               ) : (
@@ -578,7 +666,7 @@ export default function DisbursementRequestList() {
           </TableContainer>
           {rows.length > 0 ? (
             <TablePagination
-              rowsPerPageOptions={[5]}
+              rowsPerPageOptions={[10]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
