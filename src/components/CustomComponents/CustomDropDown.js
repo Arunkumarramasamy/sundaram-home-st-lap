@@ -23,7 +23,11 @@ const CustomDropDown = (props) => {
           ) : null}
 
           {props.dropDownValue.map((item) => {
-            return <MenuItem value={item.value}>{item.text}</MenuItem>;
+            return (
+              <MenuItem value={item.value} key={item.key}>
+                {item.text}
+              </MenuItem>
+            );
           })}
         </Select>
       </FormControl>
