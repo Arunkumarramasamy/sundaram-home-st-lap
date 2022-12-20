@@ -256,7 +256,7 @@ const FilterCondition = (props) => {
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
-    console.log(state);
+    props.onSearchButtonClick(state);
   };
 
 
