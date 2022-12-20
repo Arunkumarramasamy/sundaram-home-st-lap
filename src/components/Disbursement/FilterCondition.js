@@ -208,6 +208,36 @@ const FilterCondition = (props) => {
     { label: "Kottivakkam" },    
   ];
 
+  const applicationNumbers =[
+{ label: "STLAP-20220001" },
+{ label: "STLAP-20220002" },
+{ label: "STLAP-20220003" },
+{ label: "STLAP-20220004" },
+{ label: "STLAP-20220005" },
+{ label: "STLAP-20220006" },
+{ label: "STLAP-20220007" },
+{ label: "STLAP-20220008" },
+{ label: "STLAP-20220009" },
+{ label: "STLAP-20220010" },
+{ label: "STLAP-20220011" },
+{ label: "STLAP-20220012" },
+{ label: "STLAP-20220013" },
+{ label: "STLAP-20220014" },
+{ label: "STLAP-20220015" },
+{ label: "STLAP-20220016" },
+{ label: "STLAP-20220017" },
+{ label: "STLAP-20220018" },
+{ label: "STLAP-20220019" },
+{ label: "STLAP-20220020" },
+{ label: "STLAP-20220021" },
+{ label: "STLAP-20220022" },
+{ label: "STLAP-20220023" },
+{ label: "STLAP-20220024" },
+{ label: "STLAP-20220025" },
+{ label: "STLAP-20220026" },
+{ label: "STLAP-20220027" },
+  ];
+
   
   
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -240,16 +270,17 @@ const FilterCondition = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
+        <CustomAutoComplete
             required={true}
             label="Application Number"
             id="applicationNumber"
             variant="standard"
-            value={state.applicationNumber}
             type="text"
-            placeholder="Enter Application No."
-            onChange={event => {
-              dispatch({ type: filterValues.applicationNumber, value: event.target.value })
+            placeholder="Select Application Number"
+            autoCompleteValues={applicationNumbers}
+            value={state.applicationNumber}
+            onChange={(event,value) => {
+              dispatch({ type: filterValues.applicationNumber, value: value.label })
             }}
           />
         </Grid>
@@ -317,16 +348,17 @@ const FilterCondition = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
-            required={false}
+        <CustomAutoComplete
+            required={true}
             label="Application Number"
             id="applicationNumber"
             variant="standard"
-            value={state.applicationNumber}
             type="text"
-            placeholder="Enter Application No."
-            onChange={event => {
-              dispatch({ type: filterValues.applicationNumber, value: event.target.value })
+            placeholder="Select Application Number"
+            autoCompleteValues={applicationNumbers}
+            value={state.applicationNumber}
+            onChange={(event,value) => {
+              dispatch({ type: filterValues.applicationNumber, value: value.label })
             }}
           />
         </Grid>
@@ -382,7 +414,7 @@ const FilterCondition = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             required={false}
-            label="Loan Amount Range From"
+            label="Loan Amount Range - From"
             id="loanAmountRangeFrom"
             variant="standard"
             value={state.loanAmountRangeFrom}
@@ -399,7 +431,7 @@ const FilterCondition = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             required={false}
-            label="Loan Amount Range To"
+            label="Loan Amount Range - To"
             id="loanAmountRangeTo"
             variant="standard"
             value={state.loanAmountRangeTo}

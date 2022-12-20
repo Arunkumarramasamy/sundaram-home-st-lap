@@ -2,7 +2,7 @@ import FilterCondition from "./FilterCondition";
 
 const DisbursementCreatePortal = () =>{
 
-    return (<><FilterCondition /></>);
+    return (<><FilterCondition title="Disbursement Request Create:"/></>);
 
 };
 
