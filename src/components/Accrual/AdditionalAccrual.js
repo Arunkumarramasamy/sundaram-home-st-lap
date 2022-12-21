@@ -1,6 +1,6 @@
 import { Box, Button, Grid, lighten, Tooltip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
@@ -8,8 +8,14 @@ import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 const AdditionalAccrual = () => {
+useEffect(()=>{
+
+},[])
+
+
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
@@ -22,6 +28,7 @@ const AdditionalAccrual = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
+  const [applicationNumber, setApplicationNumber] = useState("");
 
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
@@ -51,25 +58,46 @@ const AdditionalAccrual = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
-    if (newValue === null||newValue === '') {
+    if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
-      setReferenceNumber('');
+      setReferenceNumber("");
+      setApplicationNumber("");
+      setGridVisible("none");
     } else {
       setApplicationSearchDisable(false);
     }
   };
   const onChangeForReferenceEvent = (event, newValue) => {
-    setReferenceNumber(newValue.value);
+    if (newValue === null) {
+      setApplicationNumber("");
+      setReferenceNumber("");
+      setGridVisible("none");
+    } else {
+      setApplicationNumber(newValue.label);
+      setReferenceNumber(newValue.value);
+    }
   };
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
   };
-
+  const clearButtonClickHandler = () => {
+    setBranchName("");
+  };
   const customerColumn = [
     {
       field: "customerName",
       headerName: "Customer Name",
+      headerAlign: "center",
+      type: "string",
+      hideable: false,
+      sortable: false,
+      width: 250,
+      align: "center",
+    },
+    {
+      field: "customerCapacity",
+      headerName: "Capacity",
       headerAlign: "center",
       type: "string",
       hideable: false,
@@ -142,6 +170,7 @@ const AdditionalAccrual = () => {
     {
       id: 1,
       customerId: "0001",
+      customerCapacity:'Applicant',
       accountNo: "0000898980",
       customerName: "Raagesh",
       aadhar: "4325-xxxx-8765",
@@ -154,6 +183,7 @@ const AdditionalAccrual = () => {
     {
       id: 2,
       customerId: "0002",
+      customerCapacity:'Co Applicant',
       accountNo: "0000898980",
       customerName: "Sherif",
       aadhar: "4352-xxxx-6543",
@@ -167,7 +197,7 @@ const AdditionalAccrual = () => {
 
   const rows = [
     {
-      id: 7,
+      id: 1,
       details: "Mod Charges",
       receiveable: 5000,
       received: 0,
@@ -176,7 +206,7 @@ const AdditionalAccrual = () => {
       waived: 500,
     },
     {
-      id: 8,
+      id: 2,
       details: "Legal Charges",
       receiveable: 7000,
       received: 7000,
@@ -185,7 +215,7 @@ const AdditionalAccrual = () => {
       waived: 0,
     },
     {
-      id: 9,
+      id: 3,
       details: "Technical Assistance Charges",
       due: 3000,
       receiveable: 3000,
@@ -194,7 +224,7 @@ const AdditionalAccrual = () => {
       waived: 0,
     },
     {
-      id: 10,
+      id: 4,
       details: "Documentation Charges",
       due: 25000,
       receiveable: 25000,
@@ -203,7 +233,7 @@ const AdditionalAccrual = () => {
       waived: 3000,
     },
     {
-      id: 11,
+      id: 5,
       details: "File Processing Charges",
       due: 1000,
       receiveable: 1000,
@@ -212,7 +242,7 @@ const AdditionalAccrual = () => {
       waived: 500,
     },
     {
-      id: 1,
+      id: 6,
       details: "Application Fee",
       due: 8000,
       receiveable: 8000,
@@ -221,7 +251,7 @@ const AdditionalAccrual = () => {
       waived: 0,
     },
     {
-      id: 2,
+      id: 7,
       details: "Prepayment Charge",
       due: 1000,
       receiveable: 1000,
@@ -230,7 +260,7 @@ const AdditionalAccrual = () => {
       waived: 0,
     },
     {
-      id: 3,
+      id: 8,
       details: "Partial prepayment charge",
       due: 20000,
       received: 10000,
@@ -239,7 +269,7 @@ const AdditionalAccrual = () => {
       waived: 5000,
     },
     {
-      id: 4,
+      id: 9,
       details: "Late Fee charge",
       due: 250,
       receiveable: 500,
@@ -248,7 +278,7 @@ const AdditionalAccrual = () => {
       waived: 0,
     },
     {
-      id: 5,
+      id: 10,
       details: "Recovery Charge",
       due: 300,
       paid: 300,
@@ -257,7 +287,7 @@ const AdditionalAccrual = () => {
       waived: 50,
     },
     {
-      id: 6,
+      id: 11,
       details: "Insurance Premium Charge",
       due: 7000,
       paid: 7000,
@@ -353,9 +383,12 @@ const AdditionalAccrual = () => {
       editable: true,
       align: "left",
       renderCell: (params) => (
-        <Tooltip placement="right-end" title={params.value}>
-          <span>{params.value}</span>
-        </Tooltip>
+        <div>
+          {/* <TextareaAutosize id = 'params.id' ></TextareaAutosize> */}
+          <Tooltip placement="right-end" title={params.value}>
+            <span>{params.value}</span>
+          </Tooltip>
+        </div>
       ),
     },
   ];
@@ -392,93 +425,98 @@ const AdditionalAccrual = () => {
               validate
               onSubmit={searchButtonClickHandler}
             >
-              <Grid item container spacing={2}>
-                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-                  <CustomAutoComplete
-                    required={true}
-                    label="Branch Name"
-                    id="applicantName"
-                    variant="standard"
-                    value={branchName}
-                    onInputChange={(event, newValue) =>
-                      onChangeForBranchEvent(event, newValue)
-                    }
-                    type="text"
-                    placeholder="Branch Name"
-                    autoCompleteValues={branchNames}
-                  />
-                </Grid>
+              <form>
+                <Grid item container spacing={2}>
+                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                    <CustomAutoComplete
+                      required={true}
+                      label="Branch Name"
+                      id="branchName"
+                      variant="standard"
+                      value={branchName}
+                      onInputChange={(event, newValue) =>
+                        onChangeForBranchEvent(event, newValue)
+                      }
+                      type="text"
+                      placeholder="Branch Name"
+                      autoCompleteValues={branchNames}
+                    />
+                  </Grid>
 
-                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-                  <CustomAutoComplete
-                    required={true}
-                    clearText={() => console.log("log")}
-                    disabled={applicationSearchDisable}
-                    label="Application Number"
-                    id="applicantName"
-                    variant="standard"
-                    onChange={(event, newValue) =>
-                      onChangeForReferenceEvent(event, newValue)
-                    }
-                    // value={applicantName}
-                    type="text"
-                    placeholder="Application Number"
-                    autoCompleteValues={applicationNumberList}
-                  />
-                </Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                    <CustomAutoComplete
+                      required={true}
+                      clearText={() => console.log("log")}
+                      disabled={applicationSearchDisable}
+                      label="Application Number"
+                      id="applicantName"
+                      variant="standard"
+                      value={applicationNumber}
+                      onChange={(event, newValue) =>
+                        onChangeForReferenceEvent(event, newValue)
+                      }
+                      // value={applicantName}
+                      type="text"
+                      placeholder="Application Number"
+                      autoCompleteValues={applicationNumberList}
+                    />
+                  </Grid>
 
-                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-                  <CustomTextField
-                    disabled={true}
-                    label="Reference Number"
-                    id="refno"
-                    type="text"
-                    placeholder=""
-                    required={false}
-                    variant="standard"
-                    value={referenceNumber}
-                    // onChange={trnNoChangeHandler}
-                    // onChange={(event)=>setReferenceName(event.target.value)}
-                  />
+                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                    <CustomTextField
+                      disabled={true}
+                      label="Reference Number"
+                      id="refno"
+                      type="text"
+                      placeholder="Reference Number"
+                      required={false}
+                      variant="standard"
+                      value={referenceNumber}
+                      // onChange={trnNoChangeHandler}
+                      // onChange={(event)=>setReferenceName(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid xs={0} sm={0} md={0} lg={3} xl={3}></Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                    <CustomTextField
+                      required={false}
+                      disabled={true}
+                      label="Reference Date"
+                      id="refdate"
+                      value={currentDate}
+                      type="text"
+                      placeholder=""
+                      variant="standard"
+                      // type="text"
+                      // onChange={()=>set}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid xs={0} sm={0} md={0} lg={3} xl={3}></Grid>
-                <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-                  <CustomTextField
-                    required={false}
-                    disabled={true}
-                    label="Reference Date"
-                    id="refdate"
-                    value={currentDate}
-                    type="text"
-                    placeholder=""
-                    variant="standard"
-                    // type="text"
-                    // onChange={()=>set}
-                  />
-                </Grid>
-              </Grid>
-              <Box
-                sx={{
-                  marginTop: "1rem",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  type="submit"
-                  onClick={(event) => handleSearch(event)}
+                <Box
+                  sx={{
+                    marginTop: "1rem",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
                 >
-                  Search
-                </Button>
-                <Button
-                  sx={{ marginLeft: "1rem", backgroundColor: "black" }}
-                  //   onClick={clearButtonClickHandler}
-                  variant="contained"
-                >
-                  Clear
-                </Button>
-              </Box>
+                  <Button
+                  sx={{fontWeight:'bold'}}
+                    variant="contained"
+                    type="submit"
+                    onClick={(event) => handleSearch(event)}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                   sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black",fontWeight:'bold' }}
+                   onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
+                   variant="contained"
+                    onClick={() => clearButtonClickHandler()}
+                  >
+                    Clear
+                  </Button>
+                </Box>
+              </form>
             </Box>
           </AccordianContainer>
         </Grid>
@@ -491,7 +529,7 @@ const AdditionalAccrual = () => {
         >
           <AccordianContainer
             id="accord"
-            title={"Customer Data (Reference Number) : " + referenceNumber}
+            title={"Customer Data (Reference Number)  " + referenceNumber}
             initialOpen={true}
           >
             <Grid
