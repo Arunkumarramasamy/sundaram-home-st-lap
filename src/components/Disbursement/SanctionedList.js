@@ -1,6 +1,7 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Typography } from "@mui/material";
+import { Chip, Typography } from "@mui/material";
+import Cookies from "js-cookie";
 
 const SanctionedList = (props) => {
   const [pageSize, setPageSize] = React.useState(5);
@@ -66,7 +67,11 @@ const SanctionedList = (props) => {
         align:"center",
         renderCell: (params) => {
             return (
-              <Typography color={"Green"}>{params.value}</Typography>
+              <Chip
+              label={params.value}
+              component="div"
+              sx={{ color: "white", bgcolor: "Green" }}
+            />
             );
           },
     },
@@ -206,10 +211,8 @@ const SanctionedList = (props) => {
       },
   ];
 
-  const rowDoubleClickHandler = (event) =>{
-
-    console.log(event);
-
+  const rowDoubleClickHandler = (event) => {
+    props.onRowDoubleClick(event.row);
   };
 
   

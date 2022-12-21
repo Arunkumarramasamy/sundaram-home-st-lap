@@ -24,7 +24,7 @@ import {
   MoreVert,
   Preview,
 } from "@mui/icons-material";
-import { Tooltip } from "@mui/material";
+import { Chip, Tooltip } from "@mui/material";
 import AdditionalAccrual from "../Accrual/AdditionalAccrual";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
@@ -626,19 +626,24 @@ export default function DisbursementRequestList() {
                             {row.name}
                           </StyledTableCell>
                           <StyledTableCell
-                            align="left"
-                            sx={{
-                              color:
-                                row.status === "Paid"
-                                  ? "darkgreen"
-                                  : row.status === "Cancelled"
-                                  ? "red"
-                                  : row.status === "Modified"
-                                  ? "blueviolet"
-                                  : "blue",
-                            }}
+                            align="center"
+                           
                           >
-                            {row.status}
+                             <Chip
+              label={row.status}
+              component="div"
+              sx={{
+                bgcolor:
+                  row.status === "Paid"
+                    ? "darkgreen"
+                    : row.status === "Cancelled"
+                    ? "red"
+                    : row.status === "Modified"
+                    ? "blueviolet"
+                    : "blue",
+                color:"white",
+              }}
+            />
                           </StyledTableCell>
                           <StyledTableCell align="left">
                             {row.user}
