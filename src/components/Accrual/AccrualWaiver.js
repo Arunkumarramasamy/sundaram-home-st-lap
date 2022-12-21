@@ -207,7 +207,7 @@ const AdditionalWaiver = () => {
   ];
   const rows = [
     {
-      id: 7,
+      id: 1,
       details: "Mod Charges",
       receiveable: 5000,
       received: 0,
@@ -216,7 +216,7 @@ const AdditionalWaiver = () => {
       waived: 500,
     },
     {
-      id: 8,
+      id: 2,
       details: "Legal Charges",
       receiveable: 7000,
       received: 7000,
@@ -225,7 +225,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 9,
+      id: 3,
       details: "Technical Assistance Charges",
       due: 3000,
       receiveable: 3000,
@@ -234,7 +234,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 10,
+      id: 4,
       details: "Documentation Charges",
       due: 25000,
       receiveable: 25000,
@@ -243,7 +243,7 @@ const AdditionalWaiver = () => {
       waived: 3000,
     },
     {
-      id: 11,
+      id: 5,
       details: "File Processing Charges",
       due: 1000,
       receiveable: 1000,
@@ -252,7 +252,7 @@ const AdditionalWaiver = () => {
       waived: 500,
     },
     {
-      id: 1,
+      id: 6,
       details: "Application Fee",
       due: 8000,
       receiveable: 8000,
@@ -261,7 +261,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 2,
+      id: 7,
       details: "Prepayment Charge",
       due: 1000,
       receiveable: 1000,
@@ -270,7 +270,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 3,
+      id: 8,
       details: "Partial prepayment charge",
       due: 20000,
       received: 10000,
@@ -279,7 +279,7 @@ const AdditionalWaiver = () => {
       waived: 5000,
     },
     {
-      id: 4,
+      id: 9,
       details: "Late Fee charge",
       due: 250,
       receiveable: 500,
@@ -288,7 +288,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 5,
+      id: 10,
       details: "Recovery Charge",
       due: 300,
       paid: 300,
@@ -297,7 +297,7 @@ const AdditionalWaiver = () => {
       waived: 50,
     },
     {
-      id: 6,
+      id: 11,
       details: "Insurance Premium Charge",
       due: 7000,
       paid: 7000,
