@@ -1,11 +1,8 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Chip, lighten, Stack, Typography } from "@mui/material";
-import Cookies from "js-cookie";
-import NoDataFound from "../CustomComponents/NoDataFound";
+import { Chip } from "@mui/material";
+import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 
 const SanctionedList = (props) => {
-  const [pageSize, setPageSize] = React.useState(5);
 
 
 
@@ -216,62 +213,16 @@ const SanctionedList = (props) => {
     props.onRowDoubleClick(event.row);
   };
 
-
-  function NoRowsOverlay() {
-    return (
-     
-      <Stack height="100%" alignItems="center" justifyContent="center">
-         <NoDataFound message="No Sanctioned Data" />
-    </Stack>
-    );
-  }
-  
-  function NoResultsOverlay() {
-    return (
-      <Stack height="100%" alignItems="center" justifyContent="center">
-      <NoDataFound message="No Sanctioned Data For Applied Filters" />
-      </Stack>
-    );
-  }
-
-
-  
+ 
   return (
    <>
-      <DataGrid
-       sx={{
-        boxShadow: 2,
-        border: 2,
-          height: "400px",
-        borderColor: "white",
-        "& .MuiDataGrid-row:hover": {
-          color: "#004A92",
-          backgroundColor: "#B8E4F4",
-        },
-        "& .MuiDataGrid-columnHeaders": {
-          color: "white",
-          fontFamily: "Roboto",
-          backgroundColor: "#7f7f7f",
-        },
-        "& .super-app-theme--odd": {
-          bgcolor: lighten("#D7D7D7", 0.15),
-        },
-        "& .super-app-theme--even": {
-          bgcolor: lighten("#AAAAAA", 0.15),
-        },
-      }}
-        rows={props.emptyList ? rows : []}
-        columns={columns}
-        pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        rowsPerPageOptions={[5, 10, 15, 20]}
-        disableSelectionOnClick
-        getRowClassName={(params) =>
-          params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-        }
-        onRowDoubleClick={rowDoubleClickHandler}
-        components={{ NoRowsOverlay, NoResultsOverlay }}
-      />
+      <CustomDataGrid noDataMessage = "No Sanctioned Data."
+                      noDataOnFilterMessage= "No Sanctioned Data on Applied Filter." 
+                      rows={props.emptyList ? rows : []}
+                      columns={columns}
+                      pageSize={5}
+                      pageSizeOptions={[5,10,15,20,25]}
+                      rowDoubleClickHandler={rowDoubleClickHandler} />
 </>  );
 };
 export default SanctionedList;
