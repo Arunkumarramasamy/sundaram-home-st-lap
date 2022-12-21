@@ -17,6 +17,7 @@ const initialState = {
   applicationDateFromValue: ((today.getMonth() + 1) + "/" + "01" + "/" + today.getFullYear()),
   applicationDateToValue: ((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()),
   branchName: "",
+  applicationDate:((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()),
 };
 
 

@@ -430,6 +430,7 @@ export default function DisbursementRequestList(props) {
     applicationDateToValue:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     branchName: "",
+    applicationDate:""
   };
 
   const filterData = (data) => {
