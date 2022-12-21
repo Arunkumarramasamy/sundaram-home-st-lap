@@ -328,7 +328,8 @@ const FilterCondition = (props) => {
           onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
           variant="contained"
           onClick={event => {
-            dispatch({ type: "", value: "" })
+            dispatch({ type: "", value: "" });
+            props.onClearButtonClick(state);
           }}
         >
           Clear
@@ -467,16 +468,6 @@ const FilterCondition = (props) => {
               dispatch({ type: filterValues.sanctionedAmount, value: event.target.value })
             }}
           /></Grid>
-
-
-      
-          
-       
-
-
-
-
-
       </Grid>
       <Box
         sx={{

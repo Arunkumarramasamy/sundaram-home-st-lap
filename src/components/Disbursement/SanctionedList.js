@@ -1,7 +1,8 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Chip, lighten, Typography } from "@mui/material";
+import { Chip, lighten, Stack, Typography } from "@mui/material";
 import Cookies from "js-cookie";
+import NoDataFound from "../CustomComponents/NoDataFound";
 
 const SanctionedList = (props) => {
   const [pageSize, setPageSize] = React.useState(5);
@@ -215,6 +216,20 @@ const SanctionedList = (props) => {
     props.onRowDoubleClick(event.row);
   };
 
+
+  function NoRowsOverlay() {
+    return (
+      <NoDataFound message="No Sanctioned Data" />
+    );
+  }
+  
+  function NoResultsOverlay() {
+    return (
+      <NoDataFound message="No Sanctioned Data For Applied Filters" />
+    );
+  }
+
+
   
   return (
    <>
@@ -240,7 +255,7 @@ const SanctionedList = (props) => {
           bgcolor: lighten("#AAAAAA", 0.15),
         },
       }}
-        rows={rows}
+        rows={props.emptyList ? rows : []}
         columns={columns}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
@@ -250,6 +265,7 @@ const SanctionedList = (props) => {
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
         onRowDoubleClick={rowDoubleClickHandler}
+        components={{ NoRowsOverlay, NoResultsOverlay }}
       />
 </>  );
 };
