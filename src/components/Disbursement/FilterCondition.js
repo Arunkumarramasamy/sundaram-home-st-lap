@@ -9,6 +9,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDateRangeField from "../CustomComponents/CustomDateRangeField";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useReducer } from "react";
@@ -53,7 +54,6 @@ const FilterCondition = (props) => {
       case filterValues.branchName:
           return { ...state, branchName: action.value }
       default:
-        //return initialState;
         return { ...props.initialState, tabIndex: state.tabIndex }
     }
   }
@@ -240,6 +240,7 @@ const FilterCondition = (props) => {
   
   
   const [state, dispatch] = useReducer(reducer, props.initialState);
+  const disabledState = !(props.mode === "Search");
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
@@ -254,6 +255,7 @@ const FilterCondition = (props) => {
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomAutoComplete
+            disabled={disabledState}
             required={true}
             label="Branch"
             id="branch"
@@ -270,6 +272,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomAutoComplete
+            disabled={disabledState}
             required={true}
             label="Application Number"
             id="applicationNumber"
@@ -287,6 +290,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Applicant Name"
             id="applicantName"
@@ -334,6 +338,7 @@ const FilterCondition = (props) => {
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomAutoComplete
+          disabled={disabledState}
             required={true}
             label="Branch"
             id="branch"
@@ -350,6 +355,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomAutoComplete
+        disabled={disabledState}
             required={true}
             label="Application Number"
             id="applicationNumber"
@@ -367,6 +373,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Applicant Name"
             id="applicantName"
@@ -381,7 +388,9 @@ const FilterCondition = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {props.mode==="Search" ? 
           <CustomDateRangeField
+          disabled={disabledState}
             required={false}
             label="Application Date"
             id="applicationDate"
@@ -393,10 +402,21 @@ const FilterCondition = (props) => {
             onChange={event => {
               dispatch({ type: filterValues.applicationDate, value: event.target.value })
             }}
-          /></Grid>
+          /> : 
+          <CustomDateField
+            disabled={disabledState}
+            required={false}
+            label="Application Date"
+            id="applicationDate"
+            variant="standard"
+            value={state.applicationDate}
+            type="text"
+            placeholder="Enter Application Date"
+          />}</Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
+          disabled={disabledState}
             required={false}
             label="Customer Type"
             id="customerType"
@@ -413,6 +433,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Rate of Interest(%)"
             id="roi"
@@ -429,6 +450,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Loan Amount"
             id="loanAmount"
@@ -446,6 +468,7 @@ const FilterCondition = (props) => {
     
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Sanctioned Amount"
             id="sanctionedAmount"

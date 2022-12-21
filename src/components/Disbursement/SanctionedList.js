@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Chip } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import { CurrencyRupeeSharp } from "@mui/icons-material";
 
 const SanctionedList = (props) => {
 
@@ -46,7 +47,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 170,
-      align:"center",
+      align:"right",
     },
     {
         field: "approvedAmount",
@@ -54,7 +55,12 @@ const SanctionedList = (props) => {
         headerAlign: "center",
         type: "string",
         width: 170,
-        align:"center",
+        align:"right",
+        renderCell: (params) => {
+          return (
+            <Typography sx={{display:"flex",alignItems:"center"}}><Box><CurrencyRupeeSharp fontSize="small" /> </Box><Box>{ params.value.toLocaleString("en-IN") + ".00"}</Box></Typography>
+          );
+        },
     },
     {
         field: "status",
@@ -84,7 +90,7 @@ const SanctionedList = (props) => {
       customerName: "User1",
       applicationNumber: "STLAP-20220001",
       applicationDate: "01/12/2022",
-      approvedAmount: "500000",
+      approvedAmount: 500000,
       status: "Approved",
     },
     { 
@@ -94,7 +100,7 @@ const SanctionedList = (props) => {
         customerName: "User2",
         applicationNumber: "STLAP-20220002",
         applicationDate: "02/12/2022",
-        approvedAmount: "150000",
+        approvedAmount: 150000,
         status: "Approved",
       },
       { 
@@ -104,7 +110,7 @@ const SanctionedList = (props) => {
         customerName: "User3",
         applicationNumber: "STLAP-20220003",
         applicationDate: "03/12/2022",
-        approvedAmount: "1200000",
+        approvedAmount: 1200000,
         status: "Approved",
       },
       { 
@@ -114,7 +120,7 @@ const SanctionedList = (props) => {
         customerName: "User4",
         applicationNumber: "STLAP-20220004",
         applicationDate: "04/12/2022",
-        approvedAmount: "450000",
+        approvedAmount: 450000,
         status: "Approved",
       },
       { 
@@ -124,7 +130,7 @@ const SanctionedList = (props) => {
         customerName: "User5",
         applicationNumber: "STLAP-20220005",
         applicationDate: "05/12/2022",
-        approvedAmount: "790000",
+        approvedAmount: 790000,
         status: "Approved",
       },
       { 
@@ -134,7 +140,7 @@ const SanctionedList = (props) => {
         customerName: "User6",
         applicationNumber: "STLAP-20220006",
         applicationDate: "06/12/2022",
-        approvedAmount: "680000",
+        approvedAmount: 680000,
         status: "Approved",
       },
       { 
@@ -144,7 +150,7 @@ const SanctionedList = (props) => {
         customerName: "User7",
         applicationNumber: "STLAP-20220007",
         applicationDate: "07/12/2022",
-        approvedAmount: "1460000",
+        approvedAmount: 1460000,
         status: "Approved",
       },
       { 
@@ -154,7 +160,7 @@ const SanctionedList = (props) => {
         customerName: "User8",
         applicationNumber: "STLAP-20220008",
         applicationDate: "08/12/2022",
-        approvedAmount: "980000",
+        approvedAmount: 980000,
         status: "Approved",
       },
       { 
@@ -164,7 +170,7 @@ const SanctionedList = (props) => {
         customerName: "User9",
         applicationNumber: "STLAP-20220009",
         applicationDate: "09/12/2022",
-        approvedAmount: "790000",
+        approvedAmount: 790000,
         status: "Approved",
       },
       { 
@@ -174,7 +180,7 @@ const SanctionedList = (props) => {
         customerName: "User10",
         applicationNumber: "STLAP-20220010",
         applicationDate: "10/12/2022",
-        approvedAmount: "1300000",
+        approvedAmount: 1300000,
         status: "Approved",
       },
       { 
@@ -184,7 +190,7 @@ const SanctionedList = (props) => {
         customerName: "User11",
         applicationNumber: "STLAP-20220011",
         applicationDate: "11/12/2022",
-        approvedAmount: "600000",
+        approvedAmount: 600000,
         status: "Approved",
       },
       { 
@@ -194,7 +200,7 @@ const SanctionedList = (props) => {
         customerName: "User12",
         applicationNumber: "STLAP-20220012",
         applicationDate: "12/12/2022",
-        approvedAmount: "200000",
+        approvedAmount: 200000,
         status: "Approved",
       },
       { 
@@ -204,7 +210,7 @@ const SanctionedList = (props) => {
         customerName: "User13",
         applicationNumber: "STLAP-20220013",
         applicationDate: "13/12/2022",
-        approvedAmount: "850000",
+        approvedAmount: 850000,
         status: "Approved",
       },
   ];
