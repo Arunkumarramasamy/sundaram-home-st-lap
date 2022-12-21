@@ -6,7 +6,7 @@ import * as React from "react";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import STButton from "../CustomComponents/STButton";
+import STButton from "../CustomComponents/CustomButton";
 
 const EmiCommencementDate = (props) => {
 

@@ -5,7 +5,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import { DataGrid } from "@mui/x-data-grid";
 import DoneIcon from "@mui/icons-material/Done";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import STButton from "../CustomComponents/STButton";
+import STButton from "../CustomComponents/CustomButton";
 
 const FilePendingProcess = (props) => {
   const [open, setOpen] = React.useState(false);

@@ -1,5 +1,4 @@
 import TabsIntegrator from "./TabsIntegrator";
-import STButton from "../CustomComponents/STButton";
 
 const DisbursementDetailPage = (props) => {
 
@@ -12,7 +11,6 @@ const DisbursementDetailPage = (props) => {
   return (
     <>     
         <TabsIntegrator searchStateValues={props.searchStateValues}/>   
-        {/* <STButton variant="contained" >Back to search</STButton>   */}
     </>
   );
 };

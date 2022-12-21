@@ -1,7 +1,7 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
-import STButton from "../CustomComponents/STButton";
+import STButton from "../CustomComponents/CustomButton";
 import axios from "axios";
 import Cookies from "js-cookie";
 
