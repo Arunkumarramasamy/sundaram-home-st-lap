@@ -417,6 +417,23 @@ export default function DisbursementRequestList() {
     setRows(datarows);
   };
 
+  
+  var today = new Date();
+
+  const initialState = {
+    tabIndex: '1',
+    applicationNumber: '',
+    applicantName: '',
+    customerType: " ",
+    roi: '',
+    loanAmount: '',
+    sanctionedAmount: '',
+    applicationDateFromValue: ((today.getMonth() + 1) + "/" + "01" + "/" + today.getFullYear()),
+    applicationDateToValue: ((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()),
+    branchName: "",
+  };
+
+
   const filterData = (data) => {
     console.log(data);
     let filterrows = [];
@@ -460,9 +477,11 @@ export default function DisbursementRequestList() {
   return (
     <React.Fragment>
       <FilterCondition
+        initialState={initialState}
         title="Disbursement Information Filter"
         onSearchButtonClick={filterData}
         onClearButtonClick={resetFilterData}
+        mode={"Search"}
       />
       <Box
         sx={{ width: window.innerWidth - 20, minHeight: "calc(100vh - 500px)" }}

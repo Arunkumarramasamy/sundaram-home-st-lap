@@ -219,13 +219,18 @@ const SanctionedList = (props) => {
 
   function NoRowsOverlay() {
     return (
-      <NoDataFound message="No Sanctioned Data" />
+     
+      <Stack height="100%" alignItems="center" justifyContent="center">
+         <NoDataFound message="No Sanctioned Data" />
+    </Stack>
     );
   }
   
   function NoResultsOverlay() {
     return (
+      <Stack height="100%" alignItems="center" justifyContent="center">
       <NoDataFound message="No Sanctioned Data For Applied Filters" />
+      </Stack>
     );
   }
 

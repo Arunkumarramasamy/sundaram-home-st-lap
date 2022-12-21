@@ -26,51 +26,37 @@ const filterValues = {
   applicationDateToValue: 'applicationDateToValue',
 };
 
-var today = new Date();
-
-const initialState = {
-  tabIndex: '1',
-  applicationNumber: '',
-  applicantName: '',
-  customerType: " ",
-  roi: '',
-  loanAmount: '',
-  sanctionedAmount: '',
-  applicationDateFromValue: ((today.getMonth() + 1) + "/" + "01" + "/" + today.getFullYear()),
-  applicationDateToValue: ((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()),
-  branchName: "",
-};
-
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case filterValues.tabIndex:
-      return { ...state, tabIndex: action.value }
-    case filterValues.applicationNumber:
-      return { ...state, applicationNumber: action.value }
-    case filterValues.applicantName:
-      return { ...state, applicantName: action.value }
-    case filterValues.customerType:
-      return { ...state, customerType: action.value }
-    case filterValues.roi:
-      return { ...state, roi: action.value }
-    case filterValues.loanAmount:
-      return { ...state, loanAmount: action.value }
-    case filterValues.sanctionedAmount:
-        return { ...state, sanctionedAmount: action.value }
-    case filterValues.applicationDateFromValue:
-        return { ...state, applicationDateFromValue: action.value }
-    case filterValues.applicationDateToValue:
-        return { ...state, applicationDateToValue: action.value }
-    case filterValues.branchName:
-        return { ...state, branchName: action.value }
-    default:
-      //return initialState;
-      return { ...initialState, tabIndex: state.tabIndex }
-  }
-}
 
 const FilterCondition = (props) => {
+
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case filterValues.tabIndex:
+        return { ...state, tabIndex: action.value }
+      case filterValues.applicationNumber:
+        return { ...state, applicationNumber: action.value }
+      case filterValues.applicantName:
+        return { ...state, applicantName: action.value }
+      case filterValues.customerType:
+        return { ...state, customerType: action.value }
+      case filterValues.roi:
+        return { ...state, roi: action.value }
+      case filterValues.loanAmount:
+        return { ...state, loanAmount: action.value }
+      case filterValues.sanctionedAmount:
+          return { ...state, sanctionedAmount: action.value }
+      case filterValues.applicationDateFromValue:
+          return { ...state, applicationDateFromValue: action.value }
+      case filterValues.applicationDateToValue:
+          return { ...state, applicationDateToValue: action.value }
+      case filterValues.branchName:
+          return { ...state, branchName: action.value }
+      default:
+        //return initialState;
+        return { ...props.initialState, tabIndex: state.tabIndex }
+    }
+  }
 
   const branchNames = [
     { label: "Red Hills" },
@@ -253,7 +239,7 @@ const FilterCondition = (props) => {
 
   
   
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, props.initialState);
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
@@ -315,7 +301,8 @@ const FilterCondition = (props) => {
         </Grid>
 
       </Grid>
-      <Box
+
+      {props.mode==="Search" ? <Box
         sx={{
           marginTop: "1rem",
           display: "flex",
@@ -336,7 +323,7 @@ const FilterCondition = (props) => {
         >
           Clear
         </Button>
-      </Box>
+      </Box> : null}
       </Box>
     </>
   );
@@ -347,7 +334,7 @@ const FilterCondition = (props) => {
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomAutoComplete
-            required={false}
+            required={true}
             label="Branch"
             id="branch"
             variant="standard"
@@ -363,7 +350,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomAutoComplete
-            required={false}
+            required={true}
             label="Application Number"
             id="applicationNumber"
             variant="standard"
@@ -471,6 +458,7 @@ const FilterCondition = (props) => {
             }}
           /></Grid>
       </Grid>
+      {props.mode==="Search" ? 
       <Box
         sx={{
           marginTop: "1rem",
@@ -491,7 +479,7 @@ const FilterCondition = (props) => {
         >
           Clear
         </Button>
-      </Box>
+      </Box> : null }
       </Box>
     </>
   );
@@ -499,7 +487,7 @@ const FilterCondition = (props) => {
 
   return (
     <><AccordianContainer title={props.title} initialOpen={true}>
-      <Box sx={{ width: "100%",  backgroundColor: "white" }}>
+      <Box sx={{ width: "100%",  backgroundColor: "white", marginBottom: "-3%", marginTop:"-2%" }}>
         <TabContext value={state.tabIndex}>
           <Box
             sx={{
