@@ -8,9 +8,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
+import CustomButton from "../CustomComponents/CustomButton";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
-import STButton from "../CustomComponents/STButton";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
 import FilterCondition from "./FilterCondition";
 
@@ -88,9 +88,9 @@ const VoucherAuthorisation = () => {
               justifyContent: "center",
             }}
           >
-            <STButton variant="contained" onClick={handleClickOpen}>
+            <CustomButton variant="contained" onClick={handleClickOpen}  backgroundColor= "#004a92"   color="#fff"  padding="8px">
               Approve
-            </STButton>
+            </CustomButton>
           </Box>
         </Box></AccordianContainer></>
       ) : (

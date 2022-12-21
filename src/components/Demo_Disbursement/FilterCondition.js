@@ -8,6 +8,7 @@ import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
+import CustomButton from "../CustomComponents/CustomButton";
 
 const FilterCondition = (props) => {
   const branchNames = [
@@ -258,10 +259,10 @@ const FilterCondition = (props) => {
           justifyContent: "center",
         }}
       >
-        <Button variant="contained" type="submit">
+        <CustomButton variant="contained" type="submit">
           Search
-        </Button>
-        <Button
+        </CustomButton>
+        <CustomButton
           sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
           onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
           
@@ -269,7 +270,7 @@ const FilterCondition = (props) => {
           variant="contained"
         >
           Clear
-        </Button>
+        </CustomButton>
       </Box>
       </Box>
     </>
