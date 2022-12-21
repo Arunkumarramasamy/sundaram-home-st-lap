@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Chip, Typography } from "@mui/material";
+import { Chip, lighten, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 
 const SanctionedList = (props) => {
@@ -219,21 +219,27 @@ const SanctionedList = (props) => {
   return (
    <>
       <DataGrid
-        sx={{
-          boxShadow: 2,
-          border: 2,
+       sx={{
+        boxShadow: 2,
+        border: 2,
           height: "400px",
-          borderColor: "white",
-          "& .MuiDataGrid-row:hover": {
-            color: "#004A92",
-            backgroundColor: "#B8E4F4",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            color: "white",
-            fontFamily: "Roboto",
-            backgroundColor: "#7f7f7f",
-          },
-        }}
+        borderColor: "white",
+        "& .MuiDataGrid-row:hover": {
+          color: "#004A92",
+          backgroundColor: "#B8E4F4",
+        },
+        "& .MuiDataGrid-columnHeaders": {
+          color: "white",
+          fontFamily: "Roboto",
+          backgroundColor: "#7f7f7f",
+        },
+        "& .super-app-theme--odd": {
+          bgcolor: lighten("#D7D7D7", 0.15),
+        },
+        "& .super-app-theme--even": {
+          bgcolor: lighten("#AAAAAA", 0.15),
+        },
+      }}
         rows={rows}
         columns={columns}
         pageSize={pageSize}
