@@ -277,7 +277,7 @@ const FilterCondition = (props) => {
             autoCompleteValues={branchNames}
             value={state.branchName}
             onChange={(event,value) => {
-              dispatch({ type: filterValues.branchName, value: value.label })
+              dispatch({ type: filterValues.branchName, value: value===null ? value : value.label })
             }}
           />
         </Grid>
@@ -293,7 +293,7 @@ const FilterCondition = (props) => {
             autoCompleteValues={applicationNumbers}
             value={state.applicationNumber}
             onChange={(event,value) => {
-              dispatch({ type: filterValues.applicationNumber, value: value.label })
+              dispatch({ type: filterValues.applicationNumber, value: value===null ? value : value.label })
             }}
           />
         </Grid>
@@ -355,8 +355,8 @@ const FilterCondition = (props) => {
             placeholder="Select Branch"
             autoCompleteValues={branchNames}
             value={state.branchName}
-            onChange={event => {
-              dispatch({ type: filterValues.branchName, value: event.target.value })
+            onChange={(event,value) => {
+              dispatch({ type: filterValues.branchName, value: value===null ? value : value.label })
             }}
           />
         </Grid>
@@ -372,7 +372,7 @@ const FilterCondition = (props) => {
             autoCompleteValues={applicationNumbers}
             value={state.applicationNumber}
             onChange={(event,value) => {
-              dispatch({ type: filterValues.applicationNumber, value: value.label })
+              dispatch({ type: filterValues.applicationNumber, value: value===null ? value : value.label })
             }}
           />
         </Grid>
