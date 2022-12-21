@@ -247,6 +247,8 @@ const FilterCondition = (props) => {
 { label: "STLAP-20220025" },
 { label: "STLAP-20220026" },
 { label: "STLAP-20220027" },
+{ label: "STLAP-BRWY-2022-029" },
+{ label: "STLAP-BRWY-2022-049" },
   ];
 
   
