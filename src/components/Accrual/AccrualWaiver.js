@@ -24,7 +24,7 @@ const AdditionalWaiver = () => {
 
   const [referenceNumber, setReferenceNumber] = useState("");
   const [currentDate,setCurrentDate] = useState(`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`);
-
+  const [applicationNumber, setApplicationNumber] = useState("");
   const applicationNumberList = [
     { label: "Application1234", value: "ReferenceNumber_0001" },
     { label: "Application1235", value: "ReferenceNumber_0002" },
@@ -34,7 +34,14 @@ const AdditionalWaiver = () => {
     { label: "Application1239", value: "ReferenceNumber_0006" },
   ];
   const onChangeForReferenceEvent = (event, newValue) => {
-    setReferenceNumber(newValue.value);
+    if (newValue === null) {
+      setApplicationNumber("");
+      setReferenceNumber("");
+      setGridVisible("none");
+    } else {
+      setApplicationNumber(newValue.label);
+      setReferenceNumber(newValue.value);
+    }
   };
   const branchNames = [
     { label: "Mylapore", value: "" },
@@ -53,9 +60,17 @@ const AdditionalWaiver = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
-    newValue === null
-      ? setApplicationSearchDisable(true)
-      : setApplicationSearchDisable(false);
+    if (newValue === null || newValue === "") {
+      setApplicationSearchDisable(true);
+      setReferenceNumber("");
+      setApplicationNumber("");
+      setGridVisible("none");
+    } else {
+      setApplicationSearchDisable(false);
+    }
+  };
+  const clearButtonClickHandler = () => {
+    setBranchName("");
   };
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
@@ -66,6 +81,16 @@ const AdditionalWaiver = () => {
     {
       field: "customerName",
       headerName: "Customer Name",
+      headerAlign: "center",
+      type: "string",
+      hideable: false,
+      sortable: false,
+      width: 250,
+      align: "center",
+    },
+    {
+      field: "customerCapacity",
+      headerName: "Capacity",
       headerAlign: "center",
       type: "string",
       hideable: false,
@@ -138,6 +163,7 @@ const AdditionalWaiver = () => {
     {
       id: 1,
       customerId: "0001",
+      customerCapacity:'Applicant',
       accountNo: "0000898980",
       customerName: "Raagesh",
       aadhar: "4567-xxxx-7645",
@@ -151,6 +177,7 @@ const AdditionalWaiver = () => {
       id: 2,
       customerId: "0002",
       accountNo: "0000898980",
+      customerCapacity:'Co Applicant',
       customerName: "Sherif",
       aadhar: "4356-xxxx-9870",
       pan: "ABCD000G",
@@ -180,7 +207,7 @@ const AdditionalWaiver = () => {
   ];
   const rows = [
     {
-      id: 7,
+      id: 1,
       details: "Mod Charges",
       receiveable: 5000,
       received: 0,
@@ -189,7 +216,7 @@ const AdditionalWaiver = () => {
       waived: 500,
     },
     {
-      id: 8,
+      id: 2,
       details: "Legal Charges",
       receiveable: 7000,
       received: 7000,
@@ -198,7 +225,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 9,
+      id: 3,
       details: "Technical Assistance Charges",
       due: 3000,
       receiveable: 3000,
@@ -207,7 +234,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 10,
+      id: 4,
       details: "Documentation Charges",
       due: 25000,
       receiveable: 25000,
@@ -216,7 +243,7 @@ const AdditionalWaiver = () => {
       waived: 3000,
     },
     {
-      id: 11,
+      id: 5,
       details: "File Processing Charges",
       due: 1000,
       receiveable: 1000,
@@ -225,7 +252,7 @@ const AdditionalWaiver = () => {
       waived: 500,
     },
     {
-      id: 1,
+      id: 6,
       details: "Application Fee",
       due: 8000,
       receiveable: 8000,
@@ -234,7 +261,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 2,
+      id: 7,
       details: "Prepayment Charge",
       due: 1000,
       receiveable: 1000,
@@ -243,7 +270,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 3,
+      id: 8,
       details: "Partial prepayment charge",
       due: 20000,
       received: 10000,
@@ -252,7 +279,7 @@ const AdditionalWaiver = () => {
       waived: 5000,
     },
     {
-      id: 4,
+      id: 9,
       details: "Late Fee charge",
       due: 250,
       receiveable: 500,
@@ -261,7 +288,7 @@ const AdditionalWaiver = () => {
       waived: 0,
     },
     {
-      id: 5,
+      id: 10,
       details: "Recovery Charge",
       due: 300,
       paid: 300,
@@ -270,7 +297,7 @@ const AdditionalWaiver = () => {
       waived: 50,
     },
     {
-      id: 6,
+      id: 11,
       details: "Insurance Premium Charge",
       due: 7000,
       paid: 7000,
@@ -429,6 +456,7 @@ const AdditionalWaiver = () => {
                     required={true}
                     clearText={() => console.log("log")}
                     disabled={applicationSearchDisable}
+                    value={applicationNumber}
                     label="Application Number"
                     id="applicantName"
                     variant="standard"
@@ -448,7 +476,7 @@ const AdditionalWaiver = () => {
                     label="Reference Number"
                     id="refno"
                     type="text"
-                    placeholder=""
+                    placeholder="Reference Number"
                     required={false}
                     variant="standard"
                     value={referenceNumber}
@@ -480,6 +508,7 @@ const AdditionalWaiver = () => {
                 }}
               >
                 <Button
+                sx={{fontWeight:'bold' }}
                   variant="contained"
                   type="submit"
                   onClick={(event) => handleSearch(event)}
@@ -487,9 +516,11 @@ const AdditionalWaiver = () => {
                   Search
                 </Button>
                 <Button
-                  sx={{ marginLeft: "1rem", backgroundColor: "black" }}
-                  //   onClick={clearButtonClickHandler}
+                  sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" ,fontWeight:'bold'}}
+                  onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
                   variant="contained"
+                   onClick={() => clearButtonClickHandler()}
+                  
                 >
                   Clear
                 </Button>
@@ -507,7 +538,7 @@ const AdditionalWaiver = () => {
         >
           <AccordianContainer
             id="accord"
-            title={"Customer Data (Reference Number) : "+referenceNumber}
+            title={"Customer Data (Reference Number)  "+referenceNumber}
             initialOpen={true}
           >
             <Grid
