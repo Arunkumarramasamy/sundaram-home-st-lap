@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import STButton from "../CustomComponents/CustomButton";
+import CustomButton from "../CustomComponents/CustomButton";
 import { Box } from "@mui/material";
 
 const FeesOutstanding = (props) => {
@@ -109,9 +109,9 @@ const FeesOutstanding = (props) => {
           gap: "8px",
         }}
       >
-        <STButton variant="contained" onClick={props.back}>
+        <CustomButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
+        </CustomButton>
       </Box>
     </React.Fragment>
   );
