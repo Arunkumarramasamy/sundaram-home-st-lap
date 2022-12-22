@@ -1,71 +1,188 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import CustomTextField from "../CustomComponents/CustomTextField";
-import Button from "@mui/material/Button";
-import { useState } from "react";
-import { useEffect } from "react";
-import IconButton from "@mui/material/IconButton";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { DataGrid } from "@mui/x-data-grid";
 import Tooltip from "@mui/material/Tooltip";
-import SaveIcon from "@mui/icons-material/Save";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Button from "@mui/material/Button";
+import DialogTitle from "@mui/material/DialogTitle";
+import CustomTextField from "../CustomComponents/CustomTextField";
+import Grid from "@mui/material/Grid";
+import Menu from "@mui/material/Menu";
+import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
+import { Edit, MoreVert, Preview } from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomDateField from "../CustomComponents/CustomDateField";
+import { useState } from "react";
+
 const ParameterMaintenance = () => {
-  useEffect(() => {
-    // setminimumDisbursementAmount(99999);
-    // setPaymentMode("RTGS");
-    // setallowableCash(100000);
-    // setstaleDays(10);
-  }, []);
-
-  /** Button Handler */
-  const [editButton, setEditButton] = useState(true);
-  const [saveButton, setSaveButton] = useState(false);
-  const [disabled, setDisabled] = useState(true);
-
-  /** Parameter Values state*/
-  const [minimumDisbursementAmount, setminimumDisbursementAmount] =
-    useState("");
-  const [paymentMode, setPaymentMode] = useState("");
-  const [allowableCash, setallowableCash] = useState("");
-  const [staleDays, setstaleDays] = useState("");
-
-  /** Touch state*/
-  const [
-    minimumDisbursementAmountTouched,
-    setminimumDisbursementAmountTouched,
-  ] = useState(false);
-  const [paymentModeTouched, setPaymentModeTouched] = useState(false);
-  const [allowableCashTouched, setallowableCashTouched] = useState(false);
-  const [staleDaysTouched, setstaleDaysTouched] = useState(false);
-
-  /** Input valid Handler */
-  const minimumDisbursementAmountIsValid =
-    minimumDisbursementAmount.length !== 0 && minimumDisbursementAmount !== "0";
-  const paymentModeIsValid = paymentMode.trim() !== "";
-  const allowableCashIsValid =
-    allowableCash.length !== 0 && allowableCash !== "0";
-  const staleDaysIsValid = staleDays.length !== 0 && staleDays !== "0";
-
-  /** Has Error */
-  const minimumDisbursementAmountHasError =
-    minimumDisbursementAmountTouched && !minimumDisbursementAmountIsValid;
-  const paymentModeTouchedhasError = paymentModeTouched && !paymentModeIsValid;
-  const allowableCashHasError = allowableCashTouched && !allowableCashIsValid;
-  const staleDaysTouchedHasError = staleDaysTouched && !staleDaysIsValid;
-
-  /** Edit Button Handler */
-  const editButtonHandler = () => {
-    setEditButton(false);
-    setDisabled(false);
-    setSaveButton(true);
+  const rows = [
+    {
+      id: "1",
+      parameterName: "Minimum Disbursement Amount",
+      parameterDatatype: "Int",
+      parameterValue: 100000,
+      effectiveStartDate: "01/01/2021",
+      effectiveEndDate: "10/06/2022",
+      action: "1",
+    },
+    {
+      id: "2",
+      parameterName: "Payment Mode",
+      parameterDatatype: "Varchar",
+      parameterValue: "RTGS",
+      effectiveStartDate: "11/11/2022",
+      effectiveEndDate: "11/12/2021",
+      action: "2",
+    },
+    {
+      id: "3",
+      parameterName: "Maximum Allowable Cash Receipt",
+      parameterDatatype: "Bigint",
+      parameterValue: 10000,
+      effectiveStartDate: "10/11/2021",
+      effectiveEndDate: "12/03/2022",
+      action: "2",
+    },
+  ];
+  const columns = [
+    {
+      field: "action",
+      headerName: "Action",
+      headerAlign: "center",
+      align: "center",
+      width: 130,
+      renderCell: (params) => {
+        return (
+          <div>
+            <Tooltip title="More Actions">
+              <IconButton
+                aria-label="more"
+                id="long-button"
+                aria-controls={open ? "long-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleMenuClick}
+              >
+                <MoreVert />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                "aria-labelledby": "long-button",
+              }}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: "100px",
+                },
+              }}
+            >
+              {options.map((option, index) => (
+                <MenuItem key={option} onClick={handleClose}>
+                  <IconButton size="small" sx={{ color: "#004A92" }}>
+                    {(() => {
+                      switch (index) {
+                        case 0:
+                          return <Preview fontSize="small" />;
+                        case 1:
+                          return <Edit fontSize="small" color="inherit" />;
+                      }
+                    })()}
+                  </IconButton>
+                  <Typography
+                    variant="inherit"
+                    component="div"
+                    fontSize="14px"
+                    fontWeight="inherit"
+                    sx={{ color: "#004A92", fontWeight: "520" }}
+                  >
+                    {option}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
+        );
+      },
+    },
+    {
+      field: "parameterName",
+      headerName: "Parameter Name",
+      editable: "true",
+      headerAlign: "center",
+      align: "center",
+      width: 350,
+    },
+    {
+      field: "parameterDatatype",
+      headerName: "Parameter Data Type",
+      headerAlign: "center",
+      align: "center",
+      width: 160,
+    },
+    {
+      field: "parameterValue",
+      headerName: "Parameter Value",
+      headerAlign: "center",
+      align: "center",
+      width: 160,
+      renderCell: (params) => {
+        return params.value.toLocaleString("en-IN");
+      },
+    },
+    {
+      field: "effectiveStartDate",
+      headerName: "Effective Start Date",
+      headerAlign: "center",
+      align: "center",
+      width: 160,
+    },
+    {
+      field: "effectiveEndDate",
+      headerName: "Effective End Date",
+      headerAlign: "center",
+      align: "center",
+      width: 160,
+    },
+  ];
+  /** Show Dialog Handlers */
+  const [Dialogopen, setDialogOpen] = React.useState(false);
+  const handleClickDialogOpen = () => {
+    setDialogOpen(true);
   };
-
-  /** Save Button Handler */
-  const saveButtonHandler = () => {
-    setSaveButton(false);
-    setEditButton(true);
+  const handleDialogClose = () => {
+    setDialogOpen(false);
   };
+  /**More Action Config */
+  const options = ["View", "Modify"];
+  const ITEM_HEIGHT = 48;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  /**Grid Button Click Handler */
+  const editButtonHandler = () => {};
 
   return (
     <Box
@@ -74,135 +191,120 @@ const ParameterMaintenance = () => {
         backgroundColor: "white",
       }}
     >
-      <Typography
-        variant="h6"
-        gutterBottom
-        sx={{ color: "#004a92", fontWeight: 500 }}
-      >
-        Parameter Maintenance
-      </Typography>
+      <h4> Parameter Maintenance</h4>
       <Box
         sx={{
           marginTop: "5px",
-          marginBottom: "2px",
+          marginBottom: "5px",
           display: "flex",
           justifyContent: "flex-end",
         }}
       >
-        <Tooltip title="Edit">
+        <Button
+          sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+          onClick={handleClickDialogOpen}
+          onMouseOver={({ target }) => {
+            target.style.backgroundColor = "#004a92";
+            target.style.color = "#fff";
+          }}
+        >
+          Add
+        </Button>
+        {/* <Tooltip title="Add">
           <span>
             <IconButton
+              sx={{ color: "#004A92" }}
               aria-label="edit"
-              color="primary"
-              disabled={!editButton}
-              onClick={editButtonHandler}
+              size="large"
+              onClick={handleClickDialogOpen}
             >
-              <ModeEditIcon />
+              <AddBoxIcon />
             </IconButton>
           </span>
-        </Tooltip>
-        <Tooltip title="Save">
-          <span>
-            <IconButton
-              aria-label="save"
-              color="primary"
-              disabled={!saveButton}
-              onClick={saveButtonHandler}
-            >
-              <SaveIcon />
-            </IconButton>
-          </span>
-        </Tooltip>
+        </Tooltip> */}
       </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-          <CustomTextField
-            type="text"
-            onChange={(event) => {
-              let value = event.target.value.replace(/\D/g, "");
-              setminimumDisbursementAmount(
-                Number(value.replaceAll(",", "")).toLocaleString("en-IN")
-              );
-            }}
-            onBlur={() => {
-              setminimumDisbursementAmountTouched(true);
-            }}
-            label="Minimum disbursement Amount"
-            variant="standard"
-            disabled={disabled}
-            value={minimumDisbursementAmount}
-            error={minimumDisbursementAmountHasError}
-          />
-          {minimumDisbursementAmountHasError && (
-            <p className="error">
-              Please Enter Minimum valid disbursement Amount{" "}
-            </p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-          <CustomTextField
-            type="text"
-            onChange={(event) => {
-              setPaymentMode(event.target.value);
-            }}
-            onBlur={() => {
-              setPaymentModeTouched(true);
-            }}
-            label="Payment Mode"
-            variant="standard"
-            disabled={disabled}
-            value={paymentMode}
-            error={paymentModeTouchedhasError}
-          />
-          {paymentModeTouchedhasError && (
-            <p className="error">Please Enter valid Payment Mode</p>
-          )}
-        </Grid>
+      <Box>
+        <DataGrid
+          sx={{
+            boxShadow: 2,
+            border: 2,
+            minHeight: "280px",
+            borderColor: "white",
+            "& .MuiDataGrid-columnHeaders": {
+              color: "white",
+              fontFamily: "Roboto",
+              backgroundColor: "#727dff",
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+        />
+      </Box>
+      <Dialog open={Dialogopen} onClose={handleDialogClose}>
+        <DialogTitle>
+          <h4>Create Parameter</h4>
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                type="text"
+                label="Parameter Name"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomDropDown
+                label="Parameter Data Type"
+                variant="standard"
+                dropDownValue={[
+                  { value: 0, text: "Varchar" },
+                  { value: 1, text: "Int" },
+                  { value: 2, text: "Bigint" },
+                  { value: 3, text: "Float" },
+                ]}
+              />
+            </Grid>
 
-        <Grid xs={0} sm={0} md={0} lg={4} xl={3}></Grid>
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-          <CustomTextField
-            onChange={(event) => {
-              let value = event.target.value.replace(/\D/g, "");
-              setallowableCash(
-                Number(value.replaceAll(",", "")).toLocaleString("en-IN")
-              );
+            <Grid item xs={12} md={6}>
+              <CustomDateField
+                label="Effective Start Date"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomDateField label="Effective End Date" variant="standard" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextField label="Parameter Value" variant="standard" />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+            onClick={handleDialogClose}
+            onMouseOver={({ target }) => {
+              target.style.backgroundColor = "#004a92";
+              target.style.color = "#fff";
             }}
-            onBlur={() => {
-              setallowableCashTouched(true);
+          >
+            Cancel
+          </Button>
+          <Button
+            sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+            onClick={handleDialogClose}
+            onMouseOver={({ target }) => {
+              target.style.backgroundColor = "#004a92";
+              target.style.color = "#fff";
             }}
-            label="Maximum allowable Cash Receipt"
-            variant="standard"
-            disabled={disabled}
-            value={allowableCash}
-            error={allowableCashHasError}
-          />
-          {allowableCashHasError && (
-            <p className="error">
-              Please Enter valid Maximum allowable Cash Receipt
-            </p>
-          )}
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-          <CustomTextField
-            type="number"
-            onChange={(e) => {
-              setstaleDays(e.target.value);
-            }}
-            onBlur={() => {
-              setstaleDaysTouched(true);
-            }}
-            label="Cheque Stale Days"
-            variant="standard"
-            disabled={disabled}
-            value={staleDays}
-            error={staleDaysTouchedHasError}
-          />
-          {staleDaysTouchedHasError && (
-            <p className="error">Please Enter valid Cheque Stale Days</p>
-          )}
-        </Grid>
-      </Grid>
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

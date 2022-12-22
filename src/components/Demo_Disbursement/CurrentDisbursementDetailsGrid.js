@@ -1,7 +1,7 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
-import STButton from "../CustomComponents/STButton";
+import CustomButton from "../CustomComponents/CustomButton";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -150,12 +150,12 @@ const CurrentDisbursementDetailsGrid = (props) => {
           gap: "8px",
         }}
       >
-        <STButton variant="contained" onClick={props.back}>
+        <CustomButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
-        <STButton variant="contained" onClick={submitButtonClickHandler}>
+        </CustomButton>
+        <CustomButton variant="contained" onClick={submitButtonClickHandler}>
           Submit & Download
-        </STButton>
+        </CustomButton>
       </Box>
     </>
   );

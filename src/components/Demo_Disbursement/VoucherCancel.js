@@ -2,10 +2,10 @@ import {  Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
+import CustomButton from "../CustomComponents/CustomButton";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
-import STButton from "../CustomComponents/STButton";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
 import FilterCondition from "./FilterCondition";
 
@@ -86,7 +86,9 @@ const VoucherCancel = () => {
               justifyContent: "center",
             }}
           >
-            <STButton variant="contained">Cancel </STButton>
+            <CustomButton variant="contained"  backgroundColor= "#004a92"   color="#fff"  padding="8px">
+              Cancel
+            </CustomButton>
           </Box>
           </AccordianContainer>
         </>

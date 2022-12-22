@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Grid,
   Tab
 } from "@mui/material";
@@ -10,6 +9,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDateRangeField from "../CustomComponents/CustomDateRangeField";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useReducer } from "react";
@@ -27,51 +27,36 @@ const filterValues = {
   applicationDateToValue: 'applicationDateToValue',
 };
 
-var today = new Date();
-
-const initialState = {
-  tabIndex: '1',
-  applicationNumber: '',
-  applicantName: '',
-  customerType: " ",
-  roi: '',
-  loanAmount: '',
-  sanctionedAmount: '',
-  applicationDateFromValue: ((today.getMonth() + 1) + '/' + '01' + '/' + today.getFullYear()),
-  applicationDateToValue: ((today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear()),
-  branchName: "",
-};
-
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case filterValues.tabIndex:
-      return { ...state, tabIndex: action.value }
-    case filterValues.applicationNumber:
-      return { ...state, applicationNumber: action.value }
-    case filterValues.applicantName:
-      return { ...state, applicantName: action.value }
-    case filterValues.customerType:
-      return { ...state, customerType: action.value }
-    case filterValues.roi:
-      return { ...state, roi: action.value }
-    case filterValues.loanAmount:
-      return { ...state, loanAmount: action.value }
-    case filterValues.sanctionedAmount:
-        return { ...state, sanctionedAmount: action.value }
-    case filterValues.applicationDateFromValue:
-        return { ...state, applicationDateFromValue: action.value }
-    case filterValues.applicationDateToValue:
-        return { ...state, applicationDateToValue: action.value }
-    case filterValues.branchName:
-        return { ...state, branchName: action.value }
-    default:
-      //return initialState;
-      return { ...initialState, tabIndex: state.tabIndex }
-  }
-}
 
 const FilterCondition = (props) => {
+
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case filterValues.tabIndex:
+        return { ...state, tabIndex: action.value }
+      case filterValues.applicationNumber:
+        return { ...state, applicationNumber: action.value }
+      case filterValues.applicantName:
+        return { ...state, applicantName: action.value }
+      case filterValues.customerType:
+        return { ...state, customerType: action.value }
+      case filterValues.roi:
+        return { ...state, roi: action.value }
+      case filterValues.loanAmount:
+        return { ...state, loanAmount: action.value }
+      case filterValues.sanctionedAmount:
+          return { ...state, sanctionedAmount: action.value }
+      case filterValues.applicationDateFromValue:
+          return { ...state, applicationDateFromValue: action.value }
+      case filterValues.applicationDateToValue:
+          return { ...state, applicationDateToValue: action.value }
+      case filterValues.branchName:
+          return { ...state, branchName: action.value }
+      default:
+        return { ...props.initialState, tabIndex: state.tabIndex }
+    }
+  }
 
   const branchNames = [
     { label: "Red Hills" },
@@ -248,11 +233,14 @@ const FilterCondition = (props) => {
 { label: "STLAP-20220025" },
 { label: "STLAP-20220026" },
 { label: "STLAP-20220027" },
+{ label: "STLAP-BRWY-2022-029" },
+{ label: "STLAP-BRWY-2022-049" },
   ];
 
   
   
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, props.initialState);
+  const disabledState = !(props.mode === "Search");
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
@@ -262,11 +250,12 @@ const FilterCondition = (props) => {
 
 
   const BasicSearchValues = (
-    <><Box component="form"  validate   onSubmit={searchButtonClickHandler}  >
+    <><Box component="form"   onSubmit={searchButtonClickHandler}  >
       <Grid container spacing={2}>
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomAutoComplete
+            disabled={disabledState}
             required={true}
             label="Branch"
             id="branch"
@@ -276,13 +265,14 @@ const FilterCondition = (props) => {
             autoCompleteValues={branchNames}
             value={state.branchName}
             onChange={(event,value) => {
-              dispatch({ type: filterValues.branchName, value: value.label })
+              dispatch({ type: filterValues.branchName, value: value===null ? value : value.label })
             }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomAutoComplete
+            disabled={disabledState}
             required={true}
             label="Application Number"
             id="applicationNumber"
@@ -292,7 +282,7 @@ const FilterCondition = (props) => {
             autoCompleteValues={applicationNumbers}
             value={state.applicationNumber}
             onChange={(event,value) => {
-              dispatch({ type: filterValues.applicationNumber, value: value.label })
+              dispatch({ type: filterValues.applicationNumber, value: value===null ? value : value.label })
             }}
           />
         </Grid>
@@ -300,6 +290,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Applicant Name"
             id="applicantName"
@@ -314,7 +305,8 @@ const FilterCondition = (props) => {
         </Grid>
 
       </Grid>
-      <Box
+
+      {props.mode==="Search" ? <Box
         sx={{
           marginTop: "1rem",
           display: "flex",
@@ -329,12 +321,13 @@ const FilterCondition = (props) => {
           onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
           variant="contained"
           onClick={event => {
-            dispatch({ type: "", value: "" })
+            dispatch({ type: "", value: "" });
+            props.onClearButtonClick(state);
           }}
         >
           Clear
         </Button>
-      </Box>
+      </Box> : null}
       </Box>
     </>
   );
@@ -345,7 +338,8 @@ const FilterCondition = (props) => {
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomAutoComplete
-            required={false}
+          disabled={disabledState}
+            required={true}
             label="Branch"
             id="branch"
             variant="standard"
@@ -353,15 +347,16 @@ const FilterCondition = (props) => {
             placeholder="Select Branch"
             autoCompleteValues={branchNames}
             value={state.branchName}
-            onChange={event => {
-              dispatch({ type: filterValues.branchName, value: event.target.value })
+            onChange={(event,value) => {
+              dispatch({ type: filterValues.branchName, value: value===null ? value : value.label })
             }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomAutoComplete
-            required={false}
+        disabled={disabledState}
+            required={true}
             label="Application Number"
             id="applicationNumber"
             variant="standard"
@@ -370,7 +365,7 @@ const FilterCondition = (props) => {
             autoCompleteValues={applicationNumbers}
             value={state.applicationNumber}
             onChange={(event,value) => {
-              dispatch({ type: filterValues.applicationNumber, value: value.label })
+              dispatch({ type: filterValues.applicationNumber, value: value===null ? value : value.label })
             }}
           />
         </Grid>
@@ -378,6 +373,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Applicant Name"
             id="applicantName"
@@ -392,7 +388,9 @@ const FilterCondition = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {props.mode==="Search" ? 
           <CustomDateRangeField
+          disabled={disabledState}
             required={false}
             label="Application Date"
             id="applicationDate"
@@ -404,10 +402,21 @@ const FilterCondition = (props) => {
             onChange={event => {
               dispatch({ type: filterValues.applicationDate, value: event.target.value })
             }}
-          /></Grid>
+          /> : 
+          <CustomDateField
+            disabled={disabledState}
+            required={false}
+            label="Application Date"
+            id="applicationDate"
+            variant="standard"
+            value={state.applicationDate}
+            type="text"
+            placeholder="Enter Application Date"
+          />}</Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
+          disabled={disabledState}
             required={false}
             label="Customer Type"
             id="customerType"
@@ -424,6 +433,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Rate of Interest(%)"
             id="roi"
@@ -440,6 +450,7 @@ const FilterCondition = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Loan Amount"
             id="loanAmount"
@@ -457,6 +468,7 @@ const FilterCondition = (props) => {
     
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
+          disabled={disabledState}
             required={false}
             label="Sanctioned Amount"
             id="sanctionedAmount"
@@ -468,17 +480,8 @@ const FilterCondition = (props) => {
               dispatch({ type: filterValues.sanctionedAmount, value: event.target.value })
             }}
           /></Grid>
-
-
-      
-          
-       
-
-
-
-
-
       </Grid>
+      {props.mode==="Search" ? 
       <Box
         sx={{
           marginTop: "1rem",
@@ -499,7 +502,7 @@ const FilterCondition = (props) => {
         >
           Clear
         </Button>
-      </Box>
+      </Box> : null }
       </Box>
     </>
   );
@@ -507,8 +510,8 @@ const FilterCondition = (props) => {
 
   return (
     <><AccordianContainer title={props.title} initialOpen={true}>
-      <Box sx={{ width: "100%",  backgroundColor: "white" }}>
-        <TabContext value={state.tabIndex}>
+      <Box sx={{ width: "100%",  backgroundColor: "white", marginBottom: "-1%", marginTop:"-2%" }}>
+        {/* <TabContext value={state.tabIndex}>
           <Box
             sx={{
               borderColor: "divider",
@@ -558,7 +561,8 @@ const FilterCondition = (props) => {
             {AdvancedSearchValues}
           </TabPanel>
          
-        </TabContext>
+        </TabContext> */}
+        {AdvancedSearchValues}
       </Box>
       </AccordianContainer>
     </>

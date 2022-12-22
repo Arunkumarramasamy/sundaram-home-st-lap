@@ -1,12 +1,11 @@
 import { Box } from "@mui/material";
 import query from "../../images/query.png";
 
-const NoDataFound = () => {
+const NoDataFound = (props) => {
   return (
     <Box>
       <Box
         sx={{
-          marginTop: "10%",
           display: "flex",
           justifyContent: "center",
         }}
@@ -24,7 +23,7 @@ const NoDataFound = () => {
           justifyContent: "center",
         }}
       >
-        <h3>No Data Found.</h3>
+        <h3>{props.message}</h3>
       </Box>
     </Box>
   );
