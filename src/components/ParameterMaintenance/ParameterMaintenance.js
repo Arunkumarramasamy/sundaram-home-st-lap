@@ -24,7 +24,7 @@ const ParameterMaintenance = () => {
     {
       id: "1",
       parameterName: "Minimum Disbursement Amount",
-      parameterDatatype: "Integer",
+      parameterDatatype: "Int",
       parameterValue: 100000,
       effectiveStartDate: "01/01/2021",
       effectiveEndDate: "10/06/2022",
@@ -33,7 +33,7 @@ const ParameterMaintenance = () => {
     {
       id: "2",
       parameterName: "Payment Mode",
-      parameterDatatype: "String",
+      parameterDatatype: "Varchar",
       parameterValue: "RTGS",
       effectiveStartDate: "11/11/2022",
       effectiveEndDate: "11/12/2021",
@@ -42,7 +42,7 @@ const ParameterMaintenance = () => {
     {
       id: "3",
       parameterName: "Maximum Allowable Cash Receipt",
-      parameterDatatype: "Integer",
+      parameterDatatype: "Bigint",
       parameterValue: 10000,
       effectiveStartDate: "10/11/2021",
       effectiveEndDate: "12/03/2022",
@@ -233,7 +233,7 @@ const ParameterMaintenance = () => {
             "& .MuiDataGrid-columnHeaders": {
               color: "white",
               fontFamily: "Roboto",
-              backgroundColor: "#004A92",
+              backgroundColor: "#727dff",
             },
           }}
           rows={rows}
@@ -260,10 +260,10 @@ const ParameterMaintenance = () => {
                 label="Parameter Data Type"
                 variant="standard"
                 dropDownValue={[
-                  { value: 0, text: "String" },
-                  { value: 1, text: "Integer" },
-                  { value: 2, text: "Float" },
-                  { value: 3, text: "Double" },
+                  { value: 0, text: "Varchar" },
+                  { value: 1, text: "Int" },
+                  { value: 2, text: "Bigint" },
+                  { value: 3, text: "Float" },
                 ]}
               />
             </Grid>
