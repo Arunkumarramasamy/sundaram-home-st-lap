@@ -1,4 +1,14 @@
-import { Box, Button, Grid, lighten, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  lighten,
+  TextareaAutosize,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import Modal from "@mui/material/Modal";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -8,12 +18,15 @@ import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
+import AdditionalHistory from "./AdditionalHistory";
+import HistoryIcon from "@mui/icons-material/History";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [openHistoryDialog, setOpenHistoryDialog] = useState(false);
   const [applicationSearchDisable, setApplicationSearchDisable] =
     useState(true);
   const [branchName, setBranchName] = useState("");
@@ -23,7 +36,11 @@ const AdditionalWaiver = () => {
   };
 
   const [referenceNumber, setReferenceNumber] = useState("");
-  const [currentDate,setCurrentDate] = useState(`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`);
+  const [currentDate, setCurrentDate] = useState(
+    `${new Date().getDate()}/${
+      new Date().getMonth() + 1
+    }/${new Date().getFullYear()}`
+  );
   const [applicationNumber, setApplicationNumber] = useState("");
   const applicationNumberList = [
     { label: "Application1234", value: "ReferenceNumber_0001" },
@@ -43,6 +60,21 @@ const AdditionalWaiver = () => {
       setReferenceNumber(newValue.value);
     }
   };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const branchNames = [
     { label: "Mylapore", value: "" },
     { label: "Royapettah", value: "" },
@@ -69,6 +101,9 @@ const AdditionalWaiver = () => {
       setApplicationSearchDisable(false);
     }
   };
+  const handleHistoryDialog = () => {
+    handleOpen(true);
+  };
   const clearButtonClickHandler = () => {
     setBranchName("");
   };
@@ -77,134 +112,7 @@ const AdditionalWaiver = () => {
     { value: "2", text: "intrest increases" },
     { value: "3", text: "intrest reduced" },
   ];
-  const customerColumn = [
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "customerCapacity",
-      headerName: "Capacity",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "aadhar",
-      headerName: "AADHAR Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "pan",
-      headerName: "Pan Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "accountNo",
-      headerName: "Account Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "mobileNo",
-      headerName: "Mobile Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "branchName",
-      headerName: "Branch Name",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "applicationNo",
-      headerName: "Application Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-  ];
-  const customerData = [
-    {
-      id: 1,
-      customerId: "0001",
-      customerCapacity:'Applicant',
-      accountNo: "0000898980",
-      customerName: "Raagesh",
-      aadhar: "4567-xxxx-7645",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-    {
-      id: 2,
-      customerId: "0002",
-      accountNo: "0000898980",
-      customerCapacity:'Co Applicant',
-      customerName: "Sherif",
-      aadhar: "4356-xxxx-9870",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-  ];
-  const branchValues = [
-    {
-      value: 1,
-      text: "Royapettah",
-    },
-    {
-      value: 2,
-      text: "Mylapore",
-    },
-    {
-      value: 3,
-      text: "Light House",
-    },
-    {
-      value: 4,
-      text: "Egmore",
-    },
-  ];
+
   const rows = [
     {
       id: 1,
@@ -316,6 +224,7 @@ const AdditionalWaiver = () => {
       sortable: false,
       width: 250,
       align: "center",
+      editable: false,
     },
     {
       field: "receiveable",
@@ -326,6 +235,7 @@ const AdditionalWaiver = () => {
       sortable: false,
       width: 250,
       align: "center",
+      editable: false,
     },
     {
       field: "received",
@@ -334,7 +244,7 @@ const AdditionalWaiver = () => {
       type: "number",
       width: 150,
       align: "right",
-      editable: true,
+      editable: false,
     },
     {
       field: "paid",
@@ -343,7 +253,7 @@ const AdditionalWaiver = () => {
       type: "number",
       width: 190,
       align: "right",
-      editable: true,
+      editable: false,
     },
     {
       field: "waived",
@@ -362,42 +272,8 @@ const AdditionalWaiver = () => {
       width: "200",
       editable: false,
       align: "center",
-      editable: true,
-      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
-    },
-    {
-      field: "reason",
-      headerName: "Reason",
-      headerAlign: "center",
-      type: "number",
-      width: "200",
       editable: false,
-      align: "center",
-      renderCell: () => {
-        return (
-          <CustomDropDown
-            id="1"
-            label=""
-            value="1"
-            defaultValue="1"
-            dropDownValue={resonValue}
-          />
-        );
-      },
-    },
-    {
-      field: "remark",
-      headerName: "Remark",
-      headerAlign: "center",
-      type: "string",
-      width: "250",
-      editable: true,
-      align: "left",
-      renderCell: (params) => (
-        <Tooltip placement="right-end" title={params.value}>
-          <span>{params.value}</span>
-        </Tooltip>
-      ),
+      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
     },
   ];
 
@@ -508,7 +384,7 @@ const AdditionalWaiver = () => {
                 }}
               >
                 <Button
-                sx={{fontWeight:'bold' }}
+                  sx={{ fontWeight: "bold" }}
                   variant="contained"
                   type="submit"
                   onClick={(event) => handleSearch(event)}
@@ -516,11 +392,18 @@ const AdditionalWaiver = () => {
                   Search
                 </Button>
                 <Button
-                  sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" ,fontWeight:'bold'}}
-                  onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
+                  sx={{
+                    marginLeft: "1rem",
+                    color: "white",
+                    backgroundColor: "black",
+                    fontWeight: "bold",
+                  }}
+                  onMouseOver={({ target }) => {
+                    target.style.backgroundColor = "black";
+                    target.style.color = "white";
+                  }}
                   variant="contained"
-                   onClick={() => clearButtonClickHandler()}
-                  
+                  onClick={() => clearButtonClickHandler()}
                 >
                   Clear
                 </Button>
@@ -528,76 +411,6 @@ const AdditionalWaiver = () => {
             </Box>
           </AccordianContainer>
         </Grid>
-
-        <div
-          style={{
-            display: girdVisible,
-            width: "calc(100% - 8px)",
-            paddingTop: "8px",
-          }}
-        >
-          <AccordianContainer
-            id="accord"
-            title={"Customer Data (Reference Number)  "+referenceNumber}
-            initialOpen={true}
-          >
-            <Grid
-              id="footer-removefor-datagrid"
-              container
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                paddingBottom: "8px",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
-            >
-              <DataGrid
-                sx={{
-                  boxShadow: 2,
-                  border: 2,
-                  height: "180px",
-                  borderColor: "white",
-                  "& .MuiDataGrid-row:hover": {
-                    color: "#004A92",
-                    backgroundColor: "#B8E4F4",
-                  },
-                  "& .MuiDataGrid-columnHeaders": {
-                    color: "white",
-                    fontFamily: "Roboto",
-                    backgroundColor: "#7f7f7f",
-                  },
-                  "& .super-app-theme--odd": {
-                    bgcolor: lighten("#D7D7D7", 0.15),
-                  },
-                  "& .super-app-theme--even": {
-                    bgcolor: lighten("#AAAAAA", 0.15),
-                  },
-                }}
-                rows={customerData}
-                columns={customerColumn}
-                pageSize={pageSize}
-                hideFooterPagination
-                hideFooterSelectedRowCount
-                disableSelectionOnClick
-                getRowClassName={(params) =>
-                  params.id % 2
-                    ? `super-app-theme--even`
-                    : `super-app-theme--odd`
-                }
-                initialState={{
-                  columns: {
-                    columnVisibilityModel: {
-                      ...visibility,
-                    },
-                  },
-                }}
-              />
-            </Grid>
-          </AccordianContainer>
-        </div>
         <div
           style={{
             display: girdVisible,
@@ -654,6 +467,7 @@ const AdditionalWaiver = () => {
                     ? `super-app-theme--even`
                     : `super-app-theme--odd`
                 }
+                isCellEditable={(params) => params.row.paid !== 0}
                 initialState={{
                   columns: {
                     columnVisibilityModel: {
@@ -662,11 +476,96 @@ const AdditionalWaiver = () => {
                   },
                 }}
               />
-              <div style={{ padding: "8px", direction: "rtl" }}>
-                <Button variant="contained" sx={{ fontWeight: "bold" }}>
-                  Update
-                </Button>
-              </div>
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+              sx={{
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                display: girdVisible,
+                backgroundColor: "#fff",
+              }}
+            >
+              <Box sx={{ width: "100%",marginTop:'16px' }}>
+                <Grid
+                  container
+                  spacing={2}
+                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+                >
+                  <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
+                    <CustomDropDown
+                      id="1"
+                      label="Reason "
+                      value="1"
+                      defaultValue="1"
+                      required={true}
+                      dropDownValue={resonValue}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                    <CustomTextField
+                      required={false}
+                      disabled={true}
+                      label="Waived By"
+                      id="refdate"
+                      value="Accurver"
+                      type="text"
+                      placeholder=""
+                      variant="standard"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+                >
+                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
+                    <Typography required={true}>Remarks</Typography>
+                    <TextareaAutosize
+                      maxRows={4}
+                      required={true}
+                      aria-label="maximum height"
+                      placeholder="Remarks"
+                      style={{
+                        width: "100%",
+                        height: "100px",
+                        borderRadius: "4px",
+                        resize: " none;",
+                        outline: "none",
+                      }}
+                    />
+                  </Grid>
+                 
+                </Grid>
+                <div style={{ padding: "8px", direction: "rtl" }}>
+                  <Button variant="contained" sx={{ fontWeight: "bold" }}>
+                    Update
+                  </Button>
+                  <Button
+                   onClick={handleHistoryDialog}
+                    variant="contained"
+                    sx={{ marginRight: "8px", fontWeight: "bold" }}
+                  >
+                    <HistoryIcon />
+                  </Button>
+                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
+                   
+                   <Modal
+                     open={open}
+                     onClose={handleClose}
+                     aria-labelledby="modal-modal-title"
+                     aria-describedby="modal-modal-description"
+                   >
+                     <Box sx={style}>
+                       <AdditionalHistory title="Waived History" />
+                     </Box>
+                   </Modal>
+                 </Grid>
+                </div>
+              </Box>
             </Grid>
           </AccordianContainer>
         </div>

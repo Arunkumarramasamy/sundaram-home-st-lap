@@ -11,11 +11,8 @@ import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 const AdditionalAccrual = () => {
-useEffect(()=>{
 
-},[])
-
-
+  const [dummyData, setDummyData] = useState([]);
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [branchValue, setBranchValue] = useState("");
@@ -84,116 +81,6 @@ useEffect(()=>{
   const clearButtonClickHandler = () => {
     setBranchName("");
   };
-  const customerColumn = [
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "customerCapacity",
-      headerName: "Capacity",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "aadhar",
-      headerName: "AADHAR Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "pan",
-      headerName: "Pan Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "accountNo",
-      headerName: "Account Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "mobileNo",
-      headerName: "Mobile Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "branchName",
-      headerName: "Branch Name",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "applicationNo",
-      headerName: "Application Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-  ];
-  const customerData = [
-    {
-      id: 1,
-      customerId: "0001",
-      customerCapacity:'Applicant',
-      accountNo: "0000898980",
-      customerName: "Raagesh",
-      aadhar: "4325-xxxx-8765",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-    {
-      id: 2,
-      customerId: "0002",
-      customerCapacity:'Co Applicant',
-      accountNo: "0000898980",
-      customerName: "Sherif",
-      aadhar: "4352-xxxx-6543",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-  ];
 
   const rows = [
     {
@@ -306,6 +193,7 @@ useEffect(()=>{
       sortable: false,
       width: 250,
       align: "center",
+      editable:false,
     },
     {
       field: "receiveable",
@@ -316,6 +204,7 @@ useEffect(()=>{
       sortable: false,
       width: 250,
       align: "center",
+      editable:false,
     },
     {
       field: "received",
@@ -328,7 +217,7 @@ useEffect(()=>{
     },
     {
       field: "paid",
-      headerName: "Early Waived (₹)",
+      headerName: "Early Accrual(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -353,43 +242,6 @@ useEffect(()=>{
       editable: false,
       align: "center",
       valueGetter: (param) => param.row.due - param.row.paid + param.row.waived,
-    },
-    {
-      field: "reason",
-      headerName: "Reason",
-      headerAlign: "center",
-      type: "number",
-      width: "200",
-      editable: false,
-      align: "center",
-      renderCell: () => {
-        return (
-          <CustomDropDown
-            id="1"
-            label=""
-            value="1"
-            defaultValue="1"
-            dropDownValue={resonValue}
-          />
-        );
-      },
-    },
-    {
-      field: "remark",
-      headerName: "Remark",
-      headerAlign: "center",
-      type: "string",
-      width: "250",
-      editable: true,
-      align: "left",
-      renderCell: (params) => (
-        <div>
-          {/* <TextareaAutosize id = 'params.id' ></TextareaAutosize> */}
-          <Tooltip placement="right-end" title={params.value}>
-            <span>{params.value}</span>
-          </Tooltip>
-        </div>
-      ),
     },
   ];
   let visibility = {
@@ -500,7 +352,7 @@ useEffect(()=>{
                   }}
                 >
                   <Button
-                  sx={{fontWeight:'bold'}}
+                    sx={{ fontWeight: "bold" }}
                     variant="contained"
                     type="submit"
                     onClick={(event) => handleSearch(event)}
@@ -508,9 +360,17 @@ useEffect(()=>{
                     Search
                   </Button>
                   <Button
-                   sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black",fontWeight:'bold' }}
-                   onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
-                   variant="contained"
+                    sx={{
+                      marginLeft: "1rem",
+                      color: "white",
+                      backgroundColor: "black",
+                      fontWeight: "bold",
+                    }}
+                    onMouseOver={({ target }) => {
+                      target.style.backgroundColor = "black";
+                      target.style.color = "white";
+                    }}
+                    variant="contained"
                     onClick={() => clearButtonClickHandler()}
                   >
                     Clear
@@ -520,75 +380,7 @@ useEffect(()=>{
             </Box>
           </AccordianContainer>
         </Grid>
-        <div
-          style={{
-            display: girdVisible,
-            width: "calc(100% - 8px)",
-            paddingTop: "8px",
-          }}
-        >
-          <AccordianContainer
-            id="accord"
-            title={"Customer Data (Reference Number)  " + referenceNumber}
-            initialOpen={true}
-          >
-            <Grid
-              container
-              id="footer-removefor-datagrid"
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                paddingBottom: "8px",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
-            >
-              <DataGrid
-                sx={{
-                  boxShadow: 2,
-                  border: 2,
-                  height: "180px",
-                  borderColor: "white",
-                  "& .MuiDataGrid-row:hover": {
-                    color: "#004A92",
-                    backgroundColor: "#B8E4F4",
-                  },
-                  "& .MuiDataGrid-columnHeaders": {
-                    color: "white",
-                    fontFamily: "Roboto",
-                    backgroundColor: "#7f7f7f",
-                  },
-                  "& .super-app-theme--odd": {
-                    bgcolor: lighten("#D7D7D7", 0.15),
-                  },
-                  "& .super-app-theme--even": {
-                    bgcolor: lighten("#AAAAAA", 0.15),
-                  },
-                }}
-                rows={customerData}
-                columns={customerColumn}
-                pageSize={pageSize}
-                hideFooterPagination
-                hideFooterSelectedRowCount
-                disableSelectionOnClick
-                getRowClassName={(params) =>
-                  params.id % 2
-                    ? `super-app-theme--even`
-                    : `super-app-theme--odd`
-                }
-                initialState={{
-                  columns: {
-                    columnVisibilityModel: {
-                      ...visibility,
-                    },
-                  },
-                }}
-              />
-            </Grid>
-          </AccordianContainer>
-        </div>
+
         <div
           style={{
             display: girdVisible,
