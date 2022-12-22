@@ -430,7 +430,7 @@ export default function DisbursementRequestList(props) {
     applicationDateToValue:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     branchName: "",
-    applicationDate:""
+    applicationDate: "",
   };
 
   const filterData = (data) => {
@@ -445,7 +445,7 @@ export default function DisbursementRequestList(props) {
           );
         }
         if (data.applicationNumber && data.applicationNumber !== "") {
-          filterrows = datarows.filter(
+          filterrows = filterrows.filter(
             (row) => row.applicationNumber == data.applicationNumber
           );
         }
@@ -459,7 +459,7 @@ export default function DisbursementRequestList(props) {
           );
         }
         if (data.applicationNumber && data.applicationNumber !== "") {
-          filterrows = datarows.filter(
+          filterrows = filterrows.filter(
             (row) => row.applicationNumber == data.applicationNumber
           );
         }
