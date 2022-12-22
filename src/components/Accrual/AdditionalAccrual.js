@@ -1,4 +1,4 @@
-import { Box, Button, Grid, lighten, Tooltip } from "@mui/material";
+import { Box, Button, Grid, lighten, Modal, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -9,20 +9,17 @@ import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
+import AdditionalHistory from "./AdditionalHistory";
+import HistoryIcon from "@mui/icons-material/History";
 
 const AdditionalAccrual = () => {
-useEffect(()=>{
-
-},[])
-
-
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
-  const [branchValue, setBranchValue] = useState("");
   const [applicationSearchDisable, setApplicationSearchDisable] =
     useState(true);
   const [branchName, setBranchName] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
+  const [openHistoryDialog, setOpenHistoryDialog] = useState(false);
   const [currentDate, setCurrentDate] = useState(
     `${new Date().getDate()}/${
       new Date().getMonth() + 1
@@ -43,7 +40,21 @@ useEffect(()=>{
     { label: "Application1238", value: "ReferenceNumber_0005" },
     { label: "Application1239", value: "ReferenceNumber_0006" },
   ];
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const branchNames = [
     { label: "Mylapore", value: "" },
     { label: "Royapettah", value: "" },
@@ -52,6 +63,9 @@ useEffect(()=>{
     { label: "Tambaram", value: "" },
     { label: "Egmore", value: "" },
   ];
+  const handleHistoryDialog = () => {
+    handleOpen(true);
+  };
   const handleSearch = (event) => {
     event.preventDefault();
     setGridVisible("block");
@@ -84,116 +98,6 @@ useEffect(()=>{
   const clearButtonClickHandler = () => {
     setBranchName("");
   };
-  const customerColumn = [
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "customerCapacity",
-      headerName: "Capacity",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "aadhar",
-      headerName: "AADHAR Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "pan",
-      headerName: "Pan Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "accountNo",
-      headerName: "Account Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "mobileNo",
-      headerName: "Mobile Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "branchName",
-      headerName: "Branch Name",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-    {
-      field: "applicationNo",
-      headerName: "Application Number",
-      headerAlign: "center",
-      type: "string",
-      hideable: false,
-      sortable: false,
-      width: 250,
-      align: "center",
-    },
-  ];
-  const customerData = [
-    {
-      id: 1,
-      customerId: "0001",
-      customerCapacity:'Applicant',
-      accountNo: "0000898980",
-      customerName: "Raagesh",
-      aadhar: "4325-xxxx-8765",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-    {
-      id: 2,
-      customerId: "0002",
-      customerCapacity:'Co Applicant',
-      accountNo: "0000898980",
-      customerName: "Sherif",
-      aadhar: "4352-xxxx-6543",
-      pan: "ABCD000G",
-      mobileNo: "9876543210",
-      alternativeNo: "9877657575",
-      branchName: "karapakam",
-      applicationNo: "STLAPKARA0001",
-    },
-  ];
 
   const rows = [
     {
@@ -306,6 +210,7 @@ useEffect(()=>{
       sortable: false,
       width: 250,
       align: "center",
+      editable: false,
     },
     {
       field: "receiveable",
@@ -316,6 +221,7 @@ useEffect(()=>{
       sortable: false,
       width: 250,
       align: "center",
+      editable: false,
     },
     {
       field: "received",
@@ -328,7 +234,7 @@ useEffect(()=>{
     },
     {
       field: "paid",
-      headerName: "Early Waived (₹)",
+      headerName: "Early Accrual(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -353,43 +259,6 @@ useEffect(()=>{
       editable: false,
       align: "center",
       valueGetter: (param) => param.row.due - param.row.paid + param.row.waived,
-    },
-    {
-      field: "reason",
-      headerName: "Reason",
-      headerAlign: "center",
-      type: "number",
-      width: "200",
-      editable: false,
-      align: "center",
-      renderCell: () => {
-        return (
-          <CustomDropDown
-            id="1"
-            label=""
-            value="1"
-            defaultValue="1"
-            dropDownValue={resonValue}
-          />
-        );
-      },
-    },
-    {
-      field: "remark",
-      headerName: "Remark",
-      headerAlign: "center",
-      type: "string",
-      width: "250",
-      editable: true,
-      align: "left",
-      renderCell: (params) => (
-        <div>
-          {/* <TextareaAutosize id = 'params.id' ></TextareaAutosize> */}
-          <Tooltip placement="right-end" title={params.value}>
-            <span>{params.value}</span>
-          </Tooltip>
-        </div>
-      ),
     },
   ];
   let visibility = {
@@ -500,7 +369,7 @@ useEffect(()=>{
                   }}
                 >
                   <Button
-                  sx={{fontWeight:'bold'}}
+                    sx={{ fontWeight: "bold" }}
                     variant="contained"
                     type="submit"
                     onClick={(event) => handleSearch(event)}
@@ -508,9 +377,17 @@ useEffect(()=>{
                     Search
                   </Button>
                   <Button
-                   sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black",fontWeight:'bold' }}
-                   onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
-                   variant="contained"
+                    sx={{
+                      marginLeft: "1rem",
+                      color: "white",
+                      backgroundColor: "black",
+                      fontWeight: "bold",
+                    }}
+                    onMouseOver={({ target }) => {
+                      target.style.backgroundColor = "black";
+                      target.style.color = "white";
+                    }}
+                    variant="contained"
                     onClick={() => clearButtonClickHandler()}
                   >
                     Clear
@@ -520,75 +397,7 @@ useEffect(()=>{
             </Box>
           </AccordianContainer>
         </Grid>
-        <div
-          style={{
-            display: girdVisible,
-            width: "calc(100% - 8px)",
-            paddingTop: "8px",
-          }}
-        >
-          <AccordianContainer
-            id="accord"
-            title={"Customer Data (Reference Number)  " + referenceNumber}
-            initialOpen={true}
-          >
-            <Grid
-              container
-              id="footer-removefor-datagrid"
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                paddingBottom: "8px",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
-            >
-              <DataGrid
-                sx={{
-                  boxShadow: 2,
-                  border: 2,
-                  height: "180px",
-                  borderColor: "white",
-                  "& .MuiDataGrid-row:hover": {
-                    color: "#004A92",
-                    backgroundColor: "#B8E4F4",
-                  },
-                  "& .MuiDataGrid-columnHeaders": {
-                    color: "white",
-                    fontFamily: "Roboto",
-                    backgroundColor: "#7f7f7f",
-                  },
-                  "& .super-app-theme--odd": {
-                    bgcolor: lighten("#D7D7D7", 0.15),
-                  },
-                  "& .super-app-theme--even": {
-                    bgcolor: lighten("#AAAAAA", 0.15),
-                  },
-                }}
-                rows={customerData}
-                columns={customerColumn}
-                pageSize={pageSize}
-                hideFooterPagination
-                hideFooterSelectedRowCount
-                disableSelectionOnClick
-                getRowClassName={(params) =>
-                  params.id % 2
-                    ? `super-app-theme--even`
-                    : `super-app-theme--odd`
-                }
-                initialState={{
-                  columns: {
-                    columnVisibilityModel: {
-                      ...visibility,
-                    },
-                  },
-                }}
-              />
-            </Grid>
-          </AccordianContainer>
-        </div>
+
         <div
           style={{
             display: girdVisible,
@@ -613,25 +422,15 @@ useEffect(()=>{
               }}
             >
               <DataGrid
-                sx={{
+                 sx={{
                   boxShadow: 2,
                   border: 2,
-                  height: "400px",
+                  minHeight: "280px",
                   borderColor: "white",
-                  "& .MuiDataGrid-row:hover": {
-                    color: "#004A92",
-                    backgroundColor: "#B8E4F4",
-                  },
                   "& .MuiDataGrid-columnHeaders": {
                     color: "white",
                     fontFamily: "Roboto",
-                    backgroundColor: "#7f7f7f",
-                  },
-                  "& .super-app-theme--odd": {
-                    bgcolor: lighten("#D7D7D7", 0.15),
-                  },
-                  "& .super-app-theme--even": {
-                    bgcolor: lighten("#AAAAAA", 0.15),
+                    backgroundColor: "#727dff",
                   },
                 }}
                 rows={rows}
@@ -653,11 +452,95 @@ useEffect(()=>{
                   },
                 }}
               />
-              <div style={{ padding: "8px", direction: "rtl" }}>
-                <Button variant="contained" sx={{ fontWeight: "bold" }}>
-                  Update
-                </Button>
-              </div>
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+              sx={{
+                width: "calc(100% - 8px)",
+                margin: "unset",
+                display: girdVisible,
+                backgroundColor: "#fff",
+              }}
+            >
+              <Box sx={{ width: "100%", marginTop: "16px" }}>
+                <Grid
+                  container
+                  spacing={2}
+                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+                >
+                  <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
+                    <CustomDropDown
+                      id="1"
+                      label="Reason "
+                      value="1"
+                      defaultValue="1"
+                      required={true}
+                      dropDownValue={resonValue}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                    <CustomTextField
+                      required={false}
+                      disabled={true}
+                      label="Accrual By"
+                      id="refdate"
+                      value="Accurver"
+                      type="text"
+                      placeholder=""
+                      variant="standard"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+                >
+                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
+                    <Typography id="accrual-waiver-remark" required={true}>
+                      Remarks
+                    </Typography>
+                    <TextareaAutosize
+                      maxRows={4}
+                      required={true}
+                      aria-label="maximum height"
+                      style={{
+                        width: "100%",
+                        height: "100px",
+                        borderRadius: "4px",
+                        resize: " none;",
+                        outline: "none",
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+                <div style={{ padding: "8px", direction: "rtl" }}>
+                  <Button variant="contained" sx={{ fontWeight: "bold" }}>
+                    Update
+                  </Button>
+                  <Button
+                    onClick={handleHistoryDialog}
+                    variant="contained"
+                    sx={{ marginRight: "8px", fontWeight: "bold" }}
+                  >
+                    <HistoryIcon />
+                  </Button>
+                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <AdditionalHistory title="Waived History" />
+                      </Box>
+                    </Modal>
+                  </Grid>
+                </div>
+              </Box>
             </Grid>
           </AccordianContainer>
         </div>
