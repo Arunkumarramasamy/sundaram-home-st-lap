@@ -19,6 +19,7 @@ import IconButton from "@mui/material/IconButton";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import { useState } from "react";
+import STButton from "../CustomComponents/STButton";
 
 const ParameterMaintenance = () => {
   const rows = [
@@ -26,18 +27,27 @@ const ParameterMaintenance = () => {
       id: "1",
       parameterName: "Minimum Disbursement Amount",
       parameterDatatype: "Integer",
-      parameterValue: "76529",
-      effectiveStartDate: "11/12/2021",
-      effectiveEndDate: "11/12/2021",
+      parameterValue: 100000,
+      effectiveStartDate: "01/01/2021",
+      effectiveEndDate: "10/06/2022",
       action: "1",
     },
     {
       id: "2",
-      parameterName: "Minimum Disbursement Amount",
-      parameterDatatype: "Integer",
-      parameterValue: "76529",
+      parameterName: "Payment Mode",
+      parameterDatatype: "String",
+      parameterValue: "RTGS",
       effectiveStartDate: "11/11/2022",
       effectiveEndDate: "11/12/2021",
+      action: "2",
+    },
+    {
+      id: "3",
+      parameterName: "Maximum Allowable Cash Receipt",
+      parameterDatatype: "Integer",
+      parameterValue: 10000,
+      effectiveStartDate: "10/11/2021",
+      effectiveEndDate: "12/03/2022",
       action: "2",
     },
   ];
@@ -47,7 +57,7 @@ const ParameterMaintenance = () => {
       headerName: "Action",
       headerAlign: "center",
       align: "center",
-      width: 160,
+      width: 130,
       renderCell: (params) => {
         return (
           <div>
@@ -135,6 +145,9 @@ const ParameterMaintenance = () => {
       headerAlign: "center",
       align: "center",
       width: 160,
+      renderCell: (params) => {
+        return params.value.toLocaleString("en-IN");
+      },
     },
     {
       field: "effectiveStartDate",
@@ -184,12 +197,22 @@ const ParameterMaintenance = () => {
       <Box
         sx={{
           marginTop: "5px",
-          marginBottom: "2px",
+          marginBottom: "5px",
           display: "flex",
           justifyContent: "flex-end",
         }}
       >
-        <Tooltip title="Add">
+        <Button
+          sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+          onClick={handleClickDialogOpen}
+          onMouseOver={({ target }) => {
+            target.style.backgroundColor = "#004a92";
+            target.style.color = "#fff";
+          }}
+        >
+          Add
+        </Button>
+        {/* <Tooltip title="Add">
           <span>
             <IconButton
               sx={{ color: "#004A92" }}
@@ -200,14 +223,14 @@ const ParameterMaintenance = () => {
               <AddBoxIcon />
             </IconButton>
           </span>
-        </Tooltip>
+        </Tooltip> */}
       </Box>
       <Box>
         <DataGrid
           sx={{
             boxShadow: 2,
             border: 2,
-            minHeight: "200px",
+            minHeight: "280px",
             borderColor: "white",
             "& .MuiDataGrid-columnHeaders": {
               color: "white",
@@ -248,25 +271,40 @@ const ParameterMaintenance = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
+              <CustomDateField
+                label="Effective Start Date"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomDateField label="Effective End Date" variant="standard" />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <CustomTextField label="Parameter Value" variant="standard" />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomDateField
-                label="Effective Start Date"
-                variant="standard"
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomDateField
-                label="Effective Start Date"
-                variant="standard"
-              />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>Cancel</Button>
-          <Button onClick={handleDialogClose}>OK</Button>
+          <Button
+            sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+            onClick={handleDialogClose}
+            onMouseOver={({ target }) => {
+              target.style.backgroundColor = "#004a92";
+              target.style.color = "#fff";
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+            onClick={handleDialogClose}
+            onMouseOver={({ target }) => {
+              target.style.backgroundColor = "#004a92";
+              target.style.color = "#fff";
+            }}
+          >
+            OK
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
