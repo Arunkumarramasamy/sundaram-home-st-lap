@@ -11,6 +11,8 @@ import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import Grid from "@mui/material/Grid";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomDateField from "../CustomComponents/CustomDateField";
 const rows = [
   {
     id: "1",
@@ -30,6 +32,13 @@ const rows = [
   },
 ];
 const columns = [
+  {
+    field: "action",
+    headerName: "Action",
+    headerAlign: "center",
+    align: "center",
+    width: 160,
+  },
   {
     field: "parameterName",
     headerName: "Parameter Name",
@@ -62,13 +71,6 @@ const columns = [
   {
     field: "effectiveEndDate",
     headerName: "Effective End Date",
-    headerAlign: "center",
-    align: "center",
-    width: 160,
-  },
-  {
-    field: "action",
-    headerName: "Action",
     headerAlign: "center",
     align: "center",
     width: 160,
@@ -146,10 +148,15 @@ const ParameterMaintenance = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextField
+              <CustomDropDown
                 label="Parameter Data Type"
                 variant="standard"
-                type="text"
+                dropDownValue={[
+                  { value: 0, text: "String" },
+                  { value: 1, text: "Integer" },
+                  { value: 2, text: "Float" },
+                  { value: 3, text: "Double" },
+                ]}
               />
             </Grid>
 
@@ -157,13 +164,16 @@ const ParameterMaintenance = () => {
               <CustomTextField label="Parameter Value" variant="standard" />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextField
+              <CustomDateField
                 label="Effective Start Date"
                 variant="standard"
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomTextField label="Effective End Date" variant="standard" />
+              <CustomDateField
+                label="Effective Start Date"
+                variant="standard"
+              />
             </Grid>
           </Grid>
         </DialogContent>
