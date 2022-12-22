@@ -510,8 +510,8 @@ const FilterCondition = (props) => {
 
   return (
     <><AccordianContainer title={props.title} initialOpen={true}>
-      <Box sx={{ width: "100%",  backgroundColor: "white", marginBottom: "-3%", marginTop:"-2%" }}>
-        <TabContext value={state.tabIndex}>
+      <Box sx={{ width: "100%",  backgroundColor: "white", marginBottom: "-1%", marginTop:"-2%" }}>
+        {/* <TabContext value={state.tabIndex}>
           <Box
             sx={{
               borderColor: "divider",
@@ -561,7 +561,8 @@ const FilterCondition = (props) => {
             {AdvancedSearchValues}
           </TabPanel>
          
-        </TabContext>
+        </TabContext> */}
+        {AdvancedSearchValues}
       </Box>
       </AccordianContainer>
     </>

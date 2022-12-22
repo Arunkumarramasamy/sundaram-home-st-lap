@@ -5,7 +5,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import { DataGrid } from "@mui/x-data-grid";
 import DoneIcon from "@mui/icons-material/Done";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import STButton from "../CustomComponents/STButton";
+import CustomButton from "../CustomComponents/CustomButton";
 
 const FilePendingProcess = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -138,9 +138,9 @@ const FilePendingProcess = (props) => {
           gap: "8px",
         }}
       >
-        <STButton variant="contained" onClick={props.back}>
+        <CustomButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
+        </CustomButton>
       </Box>
     </React.Fragment>
   );

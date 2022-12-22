@@ -1,9 +1,9 @@
 import { Box, Grid } from "@mui/material";
 import { useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
+import CustomButton from "../CustomComponents/CustomButton";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
-import STButton from "../CustomComponents/STButton";
 import CurrentDisbursementDetails from "./CurrentDisbursementDetails";
 import FilterCondition from "./FilterCondition";
 
@@ -73,9 +73,10 @@ const VoucherGeneration = () => {
               justifyContent: "center",
             }}
           >
-            <STButton variant="contained" >
-              Generate
-            </STButton>
+
+            <CustomButton variant="contained"  backgroundColor= "#004a92"   color="#fff"  padding="8px">
+            Generate
+            </CustomButton>
           </Box>
         </Box></AccordianContainer></>
       ) : (

@@ -6,7 +6,7 @@ import * as React from "react";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import STButton from "../CustomComponents/STButton";
+import CustomButton from "../CustomComponents/CustomButton";
 
 const EmiCommencementDate = (props) => {
 
@@ -99,9 +99,9 @@ const EmiCommencementDate = (props) => {
           gap: "8px",
         }}
       >
-        <STButton variant="contained" onClick={props.back}>
+        <CustomButton variant="contained" onClick={props.back}>
           Back to search
-        </STButton>
+        </CustomButton>
       </Box>
     </Box>
   );
