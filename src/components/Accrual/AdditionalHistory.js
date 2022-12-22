@@ -90,22 +90,12 @@ const AdditionalHistory = (props) => {
         sx={{
           boxShadow: 2,
           border: 2,
-          height: "400px",
+          minHeight: "280px",
           borderColor: "white",
-          "& .MuiDataGrid-row:hover": {
-            color: "#004A92",
-            backgroundColor: "#B8E4F4",
-          },
           "& .MuiDataGrid-columnHeaders": {
             color: "white",
             fontFamily: "Roboto",
-            backgroundColor: "#7f7f7f",
-          },
-          "& .super-app-theme--odd": {
-            bgcolor: lighten("#D7D7D7", 0.15),
-          },
-          "& .super-app-theme--even": {
-            bgcolor: lighten("#AAAAAA", 0.15),
+            backgroundColor: "#727dff",
           },
         }}
         rows={rows}

@@ -438,22 +438,12 @@ const AdditionalWaiver = () => {
                 sx={{
                   boxShadow: 2,
                   border: 2,
-                  height: "400px",
+                  minHeight: "280px",
                   borderColor: "white",
-                  "& .MuiDataGrid-row:hover": {
-                    color: "#004A92",
-                    backgroundColor: "#B8E4F4",
-                  },
                   "& .MuiDataGrid-columnHeaders": {
                     color: "white",
                     fontFamily: "Roboto",
-                    backgroundColor: "#7f7f7f",
-                  },
-                  "& .super-app-theme--odd": {
-                    bgcolor: lighten("#D7D7D7", 0.15),
-                  },
-                  "& .super-app-theme--even": {
-                    bgcolor: lighten("#AAAAAA", 0.15),
+                    backgroundColor: "#727dff",
                   },
                 }}
                 rows={rows}
@@ -488,7 +478,7 @@ const AdditionalWaiver = () => {
                 backgroundColor: "#fff",
               }}
             >
-              <Box sx={{ width: "100%",marginTop:'16px' }}>
+              <Box sx={{ width: "100%", marginTop: "16px" }}>
                 <Grid
                   container
                   spacing={2}
@@ -523,12 +513,13 @@ const AdditionalWaiver = () => {
                   // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
                 >
                   <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
-                    <Typography required={true}>Remarks</Typography>
+                    <Typography id="accrual-waiver-remark" required={true}>
+                      Remarks
+                    </Typography>
                     <TextareaAutosize
                       maxRows={4}
                       required={true}
                       aria-label="maximum height"
-                      placeholder="Remarks"
                       style={{
                         width: "100%",
                         height: "100px",
@@ -538,32 +529,30 @@ const AdditionalWaiver = () => {
                       }}
                     />
                   </Grid>
-                 
                 </Grid>
                 <div style={{ padding: "8px", direction: "rtl" }}>
                   <Button variant="contained" sx={{ fontWeight: "bold" }}>
                     Update
                   </Button>
                   <Button
-                   onClick={handleHistoryDialog}
+                    onClick={handleHistoryDialog}
                     variant="contained"
                     sx={{ marginRight: "8px", fontWeight: "bold" }}
                   >
                     <HistoryIcon />
                   </Button>
                   <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
-                   
-                   <Modal
-                     open={open}
-                     onClose={handleClose}
-                     aria-labelledby="modal-modal-title"
-                     aria-describedby="modal-modal-description"
-                   >
-                     <Box sx={style}>
-                       <AdditionalHistory title="Waived History" />
-                     </Box>
-                   </Modal>
-                 </Grid>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <AdditionalHistory title="Waived History" />
+                      </Box>
+                    </Modal>
+                  </Grid>
                 </div>
               </Box>
             </Grid>
