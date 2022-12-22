@@ -1,4 +1,4 @@
-import TabsIntegrator from "./TabsIntegrator";
+import DisbursementTabsIntegrator from "./DisbursementTabsIntegrator";
 
 const DisbursementDetailPage = (props) => {
 
@@ -10,7 +10,7 @@ const DisbursementDetailPage = (props) => {
 
   return (
     <>     
-        <TabsIntegrator searchStateValues={props.searchStateValues}/>   
+        <DisbursementTabsIntegrator searchStateValues={props.searchStateValues}/>   
     </>
   );
 };

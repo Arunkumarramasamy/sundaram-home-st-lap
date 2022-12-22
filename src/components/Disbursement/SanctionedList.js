@@ -74,7 +74,7 @@ const SanctionedList = (props) => {
               <Chip
               label={params.value}
               component="div"
-              sx={{ color: "white", bgcolor: "Green" }}
+              sx={{ color: "white", bgcolor: "Green", width:"90%" }}
             />
             );
           },

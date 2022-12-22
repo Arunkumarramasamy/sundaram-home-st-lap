@@ -374,6 +374,7 @@ export default function DisbursementRequestList(props) {
                   : params.value === "Modified"
                   ? "blueviolet"
                   : "blue",
+               width:"90%"
             }}
           />
         );

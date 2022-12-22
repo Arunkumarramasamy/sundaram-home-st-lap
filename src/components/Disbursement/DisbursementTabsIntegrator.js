@@ -4,8 +4,11 @@ import "../Demo_Disbursement/TabsIntegrator";
 import { Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import CustomButton from "../CustomComponents/CustomButton";
+import DisbursementDetails from "./DisbursementDetails";
+import FeesOutstanding from "./FeesOutstanding";
+import ConditionsAndDeviations from "./ConditionsAndDeviations";
 
-const TabsIntegrator = (props) => {
+const DisbursementTabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
 
   
@@ -24,6 +27,8 @@ const TabsIntegrator = (props) => {
             sx={{
               borderColor: "divider",
               backgroundColor: "#eeeeee",
+              marginLeft:"2%",
+              display:"flex"
             }}
           >
             <TabList
@@ -56,27 +61,27 @@ const TabsIntegrator = (props) => {
               }}
             >
               <Tab label="Disbursement Details" value="1" />
-              <Tab label="Fees Outstanding/Deductions" value="2" />
+              <Tab label="Fees Outstanding & Deductions" value="2" />
               <Tab label="Conditions & Deviations" value="3" />
             </TabList>
           </Box>
 
           <TabPanel value="1">
-           
+           <DisbursementDetails />
           </TabPanel>
           <TabPanel value="2">
-           
+           <FeesOutstanding />
           </TabPanel>
           <TabPanel value="3">
-           
+           <ConditionsAndDeviations />
           </TabPanel>
 
         </TabContext>
-        <CustomButton variant="contained">
+        <CustomButton variant="contained" onClick={()=>{props.setListVisibility(true);}}>
           Back to search
         </CustomButton>
       </Box>
     </>
   );
 };
-export default TabsIntegrator;
+export default DisbursementTabsIntegrator;
