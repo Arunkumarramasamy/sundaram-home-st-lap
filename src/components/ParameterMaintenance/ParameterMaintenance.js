@@ -17,7 +17,6 @@ import { Edit, MoreVert, Preview } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomDateField from "../CustomComponents/CustomDateField";
-import { useState } from "react";
 
 const ParameterMaintenance = () => {
   const rows = [
@@ -103,6 +102,8 @@ const ParameterMaintenance = () => {
                           return <Preview fontSize="small" />;
                         case 1:
                           return <Edit fontSize="small" color="inherit" />;
+                        default:
+                          return ;
                       }
                     })()}
                   </IconButton>
@@ -181,9 +182,7 @@ const ParameterMaintenance = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  /**Grid Button Click Handler */
-  const editButtonHandler = () => {};
-
+  
   return (
     <Box
       sx={{

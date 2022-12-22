@@ -1,23 +1,9 @@
 import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TablePagination from "@mui/material/TablePagination";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { visuallyHidden } from "@mui/utils";
 import {
   CancelScheduleSend,
   Edit,
@@ -25,8 +11,6 @@ import {
   Preview,
 } from "@mui/icons-material";
 import { Chip, Tooltip } from "@mui/material";
-import AdditionalAccrual from "../Accrual/AdditionalAccrual";
-import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import FilterCondition from "./FilterCondition";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
@@ -299,6 +283,8 @@ export default function DisbursementRequestList(props) {
                                 />
                               </IconButton>
                             );
+                          default:
+                            return ;
                         }
                       })()}
                       <Typography
@@ -419,20 +405,20 @@ export default function DisbursementRequestList(props) {
   var today = new Date();
 
   const initialState = {
-    tabIndex: "1",
-    applicationNumber: "",
-    applicantName: "",
+    tabIndex: '1',
+    applicationNumber: '',
+    applicantName: '',
     customerType: " ",
-    roi: "",
-    loanAmount: "",
-    sanctionedAmount: "",
-    applicationDateFromValue:
-      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
-    applicationDateToValue:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    roi: '',
+    loanAmount: '',
+    sanctionedAmount: '',
+    applicationDateFromValue: ((today.getMonth() + 1) + "/" + "01" + "/" + today.getFullYear()),
+    applicationDateToValue: ((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()),
     branchName: "",
-    applicationDate: "",
+    applicationDate:((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()),
   };
+  
+
 
   const filterData = (data) => {
     console.log(data);
@@ -442,12 +428,12 @@ export default function DisbursementRequestList(props) {
         // Basic search tab
         if (data.branchName && data.branchName !== "") {
           filterrows = datarows.filter(
-            (row) => row.branchName == data.branchName
+            (row) => row.branchName === data.branchName
           );
         }
         if (data.applicationNumber && data.applicationNumber !== "") {
           filterrows = filterrows.filter(
-            (row) => row.applicationNumber == data.applicationNumber
+            (row) => row.applicationNumber === data.applicationNumber
           );
         }
         setRows(filterrows);
@@ -456,12 +442,12 @@ export default function DisbursementRequestList(props) {
         // Basic search tab
         if (data.branchName && data.branchName !== "") {
           filterrows = datarows.filter(
-            (row) => row.branchName == data.branchName
+            (row) => row.branchName === data.branchName
           );
         }
         if (data.applicationNumber && data.applicationNumber !== "") {
           filterrows = filterrows.filter(
-            (row) => row.applicationNumber == data.applicationNumber
+            (row) => row.applicationNumber === data.applicationNumber
           );
         }
         // few more conditions yet to be added based on fields decided to target need to add to dummy data.

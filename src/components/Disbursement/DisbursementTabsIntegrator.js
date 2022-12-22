@@ -3,7 +3,6 @@ import FilterCondition from "./FilterCondition";
 import "../Demo_Disbursement/TabsIntegrator";
 import { Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import CustomButton from "../CustomComponents/CustomButton";
 import DisbursementDetails from "./DisbursementDetails";
 import FeesOutstanding from "./FeesOutstanding";
 import ConditionsAndDeviations from "./ConditionsAndDeviations";
@@ -67,19 +66,17 @@ const DisbursementTabsIntegrator = (props) => {
           </Box>
 
           <TabPanel value="1">
-           <DisbursementDetails />
+           <DisbursementDetails setListVisibility={props.setListVisibility}/>
           </TabPanel>
           <TabPanel value="2">
-           <FeesOutstanding />
+           <FeesOutstanding setListVisibility={props.setListVisibility}/>
           </TabPanel>
           <TabPanel value="3">
-           <ConditionsAndDeviations />
+           <ConditionsAndDeviations setListVisibility={props.setListVisibility}/>
           </TabPanel>
 
         </TabContext>
-        <CustomButton variant="contained" onClick={()=>{props.setListVisibility(true);}}>
-          Back to search
-        </CustomButton>
+    
       </Box>
     </>
   );

@@ -1,4 +1,5 @@
-import { Chip, Grid } from "@mui/material";
+import { Chip, Grid ,Box} from "@mui/material";
+import CustomButton from "../CustomComponents/CustomButton";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 
 const ConditionsAndDeviations = (props) => {
@@ -100,28 +101,47 @@ const ConditionsAndDeviations = (props) => {
       
       return (
         <>
-       
+       <Grid container spacing={4}>
+        
+        <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
            <CustomDataGrid noDataMessage = "No Conditions."
                            noDataOnFilterMessage= "No Conditions on Applied Filter." 
                            rows={conditionRows}
                            columns={conditionColumns}
                            pageSize={5}
                            pageSizeOptions={[5,10,15,20,25]}
-                           hideFooterPagination={true}
-                           gridHeight={"340px"}
+                           hideFooter={true}
+                           gridHeight={"270px"}
                            //gridWidth={"40%"}
                            />
-     
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
             <CustomDataGrid noDataMessage = "No Deviations."
                            noDataOnFilterMessage= "No Deviations on Applied Filter." 
                            rows={deviationRows}
                            columns={deviationColumns}
                            pageSize={5}
                            pageSizeOptions={[5,10,15,20,25]}
-                           hideFooterPagination={true}
-                           gridHeight={"320px"}
+                           hideFooter={true}
+                           gridHeight={"270px"}
                           // gridWidth={"40%"}
                            />
+        </Grid></Grid>
+        <Box
+        sx={{
+          marginTop: "1rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <CustomButton variant="contained" sx={{marginTop:"2%"}} >
+          Create Request
+        </CustomButton>
+        <CustomButton variant="contained" sx={{marginTop:"2%",marginLeft:"1%"}} onClick={()=>{props.setListVisibility(true);}}>
+          Back to search
+        </CustomButton>
+        </Box>
 
      </>  );
 

@@ -1,4 +1,8 @@
+import CustomButton from "../CustomComponents/CustomButton";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import {
+  Box
+} from "@mui/material";
 
 const FeesOutstanding = (props) => {
 
@@ -162,6 +166,21 @@ const FeesOutstanding = (props) => {
                            pageSize={5}
                            pageSizeOptions={[5,10,15,20,25]}
                            />
+
+      <Box
+      sx={{
+        marginTop: "1rem",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <CustomButton variant="contained" sx={{marginTop:"2%"}} >
+        Create Request
+      </CustomButton>
+      <CustomButton variant="contained" sx={{marginTop:"2%",marginLeft:"1%"}} onClick={()=>{props.setListVisibility(true);}}>
+        Back to search
+      </CustomButton>
+      </Box>
      </>  );
 };
 

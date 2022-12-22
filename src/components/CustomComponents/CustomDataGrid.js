@@ -30,7 +30,6 @@ const CustomDataGrid = (props) => {
         border: 2,
         height: props.gridHeight ? props.gridHeight : "400px",
         width: props.gridWidth ? props.gridWidth : "100%",
-        minWidth: props.gridMinWidth ? props.gridMinWidth : window.innerWidth-50,
         borderColor: "white",
         "& .MuiDataGrid-row:hover": {
           color: "#004A92",
@@ -59,7 +58,7 @@ const CustomDataGrid = (props) => {
         }
         onRowDoubleClick={props.rowDoubleClickHandler}
         components={{ NoRowsOverlay, NoResultsOverlay }}
-        hideFooterPagination={props.hideFooterPagination ? true : false}
+        hideFooter={props.hideFooter ? true : false}
       />)
 };
 

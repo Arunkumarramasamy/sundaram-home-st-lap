@@ -1,8 +1,7 @@
 import {
   Box,
   Button,
-  Grid,
-  Tab
+  Grid
 } from "@mui/material";
 import React from "react";
 import CustomTextField from "../CustomComponents/CustomTextField";
@@ -11,7 +10,6 @@ import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDateRangeField from "../CustomComponents/CustomDateRangeField";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useReducer } from "react";
 
 
@@ -249,88 +247,88 @@ const FilterCondition = (props) => {
 
 
 
-  const BasicSearchValues = (
-    <><Box component="form"   onSubmit={searchButtonClickHandler}  >
-      <Grid container spacing={2}>
+  // const BasicSearchValues = (
+  //   <><Box component="form"   onSubmit={searchButtonClickHandler}  >
+  //     <Grid container spacing={2}>
         
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomAutoComplete
-            disabled={disabledState}
-            required={true}
-            label="Branch"
-            id="branch"
-            variant="standard"
-            type="text"
-            placeholder="Branch"
-            autoCompleteValues={branchNames}
-            value={state.branchName}
-            onChange={(event,value) => {
-              dispatch({ type: filterValues.branchName, value: value===null ? value : value.label })
-            }}
-          />
-        </Grid>
+  //     <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+  //         <CustomAutoComplete
+  //           disabled={disabledState}
+  //           required={true}
+  //           label="Branch"
+  //           id="branch"
+  //           variant="standard"
+  //           type="text"
+  //           placeholder="Branch"
+  //           autoCompleteValues={branchNames}
+  //           value={state.branchName}
+  //           onChange={(event,value) => {
+  //             dispatch({ type: filterValues.branchName, value: value===null ? value : value.label })
+  //           }}
+  //         />
+  //       </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-        <CustomAutoComplete
-            disabled={disabledState}
-            required={true}
-            label="Application Number"
-            id="applicationNumber"
-            variant="standard"
-            type="text"
-            placeholder="Select Application Number"
-            autoCompleteValues={applicationNumbers}
-            value={state.applicationNumber}
-            onChange={(event,value) => {
-              dispatch({ type: filterValues.applicationNumber, value: value===null ? value : value.label })
-            }}
-          />
-        </Grid>
+  //       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+  //       <CustomAutoComplete
+  //           disabled={disabledState}
+  //           required={true}
+  //           label="Application Number"
+  //           id="applicationNumber"
+  //           variant="standard"
+  //           type="text"
+  //           placeholder="Select Application Number"
+  //           autoCompleteValues={applicationNumbers}
+  //           value={state.applicationNumber}
+  //           onChange={(event,value) => {
+  //             dispatch({ type: filterValues.applicationNumber, value: value===null ? value : value.label })
+  //           }}
+  //         />
+  //       </Grid>
 
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
-          disabled={disabledState}
-            required={false}
-            label="Applicant Name"
-            id="applicantName"
-            variant="standard"
-            value={state.applicantName}
-            type="text"
-            placeholder="Applicant Name"
-            onChange={event => {
-              dispatch({ type: filterValues.applicantName, value: event.target.value })
-            }}
-          />
-        </Grid>
+  //       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+  //         <CustomTextField
+  //         disabled={disabledState}
+  //           required={false}
+  //           label="Applicant Name"
+  //           id="applicantName"
+  //           variant="standard"
+  //           value={state.applicantName}
+  //           type="text"
+  //           placeholder="Applicant Name"
+  //           onChange={event => {
+  //             dispatch({ type: filterValues.applicantName, value: event.target.value })
+  //           }}
+  //         />
+  //       </Grid>
 
-      </Grid>
+  //     </Grid>
 
-      {props.mode==="Search" ? <Box
-        sx={{
-          marginTop: "1rem",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Button variant="contained" type="submit">
-          Search
-        </Button>
-        <Button
-          sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
-          onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
-          variant="contained"
-          onClick={event => {
-            dispatch({ type: "", value: "" });
-            props.onClearButtonClick(state);
-          }}
-        >
-          Clear
-        </Button>
-      </Box> : null}
-      </Box>
-    </>
-  );
+  //     {props.mode==="Search" ? <Box
+  //       sx={{
+  //         marginTop: "1rem",
+  //         display: "flex",
+  //         justifyContent: "center",
+  //       }}
+  //     >
+  //       <Button variant="contained" type="submit">
+  //         Search
+  //       </Button>
+  //       <Button
+  //         sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
+  //         onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
+  //         variant="contained"
+  //         onClick={event => {
+  //           dispatch({ type: "", value: "" });
+  //           props.onClearButtonClick(state);
+  //         }}
+  //       >
+  //         Clear
+  //       </Button>
+  //     </Box> : null}
+  //     </Box>
+  //   </>
+  // );
 
   const AdvancedSearchValues = (
     <><Box component="form"  validate    onSubmit={searchButtonClickHandler}  >
