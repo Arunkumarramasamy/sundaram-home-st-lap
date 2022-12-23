@@ -5,7 +5,8 @@ import { useState } from "react";
 const AccordianContainer = (props) => {
 
     const[openAccordian,setOpenAccordian] = useState(props.initialOpen);
-    
+
+    const state = props.setAccordianOpen ? props.setAccordianOpen(openAccordian) : null;   
     
     return (<Accordion id = {props.id} expanded={openAccordian}  sx = {{width:"100%"}}
     onChange={() => {setOpenAccordian(!openAccordian)} }>

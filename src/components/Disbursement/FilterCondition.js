@@ -11,6 +11,7 @@ import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDateRangeField from "../CustomComponents/CustomDateRangeField";
 import { useReducer } from "react";
+import { useState } from "react";
 
 
 const filterValues = {
@@ -508,7 +509,7 @@ const FilterCondition = (props) => {
 
 
   return (
-    <><AccordianContainer title={props.title} initialOpen={true}>
+    <><AccordianContainer title={props.title} initialOpen={true} setAccordianOpen={props.setAccordianOpen}>
       <Box sx={{ width: "100%",  backgroundColor: "white", marginBottom: "-1%", marginTop:"-2%" }}>
         {/* <TabContext value={state.tabIndex}>
           <Box

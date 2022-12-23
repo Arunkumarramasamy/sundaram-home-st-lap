@@ -409,6 +409,7 @@ export default function DisbursementRequestList(props) {
     },
   ];
 
+  const [accordianOpen,setAccordianOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const req_mod_options = ["View", "Modify", "Cancel"];
@@ -537,6 +538,7 @@ export default function DisbursementRequestList(props) {
         onSearchButtonClick={filterData}
         onClearButtonClick={resetFilterData}
         mode={"Search"}
+        setAccordianOpen={setAccordianOpen}
       />
       {useMediaQuery("(min-width:1200px)") && (
         <CustomDataGrid

@@ -6,9 +6,63 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import { CurrencyRupeeSharp } from "@mui/icons-material";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import { useState } from "react";
 
 
 const DisbursementDetails = (props) => {
+
+  const rows = [
+    { 
+      id: "1",
+      bankName: "HDFC",
+      bankBranch: "Kottivakkam",
+      bankAccNumber: "500987421243",
+      bankAccType: "Savings",
+      bankIfsc:"HDFC0000500",
+      amount: 0,
+    },
+    { 
+      id: "2",
+      bankName: "CANARA",
+      bankBranch: "Royapettah",
+      bankAccNumber: "124238685793",
+      bankAccType: "Savings",
+      bankIfsc:"CNRB0000938",
+      amount: 0,
+    },
+    { 
+      id: "3",
+      bankName: "ICICI",
+      bankBranch: "Kotturpuram",
+      bankAccNumber: "424238685793",
+      bankAccType: "Savings",
+      bankIfsc:"ICIC0001040",
+      amount: 0,
+    },
+    { 
+      id: "4",
+      bankName: "SBI",
+      bankBranch: "Light House",
+      bankAccNumber: "324238685793",
+      bankAccType: "Savings",
+      bankIfsc:"SBHY0021634",
+      amount: 0,
+    },
+    { 
+      id: "5",
+      bankName: "INDUSIND",
+      bankBranch: "Karapakkam",
+      bankAccNumber: "624238685793",
+      bankAccType: "Savings",
+      bankIfsc:"INDB0001653",
+      amount: 0,
+    },
+   
+  ];
+
+  const [rowState,setRowState] = useState(rows);
+
+
   const disabledState = false;
 
   var today = new Date();
@@ -65,65 +119,37 @@ const DisbursementDetails = (props) => {
       align:"right",
       renderCell: (params) => {
         return (
-          <Chip
-          label={params.value}
-          component="div"
-          sx={{ color: "white", bgcolor: "Green", width:"90%" }}
-        />
+        <CustomTextField
+            disabled={false}
+            required={false}
+            label={""}
+            id="amount"
+            variant="standard"
+            value={params.value}
+            type="number"
+            onChange={onAmountChange(params.row.id)}
+          />
         );
       },
     },
   ];
 
+  const onAmountChange = (id) => (event) => {
+    const dataMap1 = [];
+    rowState.forEach((value) => {
+        const dataMap = {
+            ...value
+        };
+        if (value.id === id) {
+            dataMap.amount = event.target.value;
+        }
+        dataMap1.push(dataMap);
+    });
+  
+    setRowState(dataMap1);
+};
 
-  const rows = [
-    { 
-      id: "1",
-      bankName: "HDFC",
-      bankBranch: "Kottivakkam",
-      bankAccNumber: "500987421243",
-      bankAccType: "Savings",
-      bankIfsc:"hgfjdgff",
-      amount: 0,
-    },
-    { 
-      id: "2",
-      bankName: "CANARA",
-      bankBranch: "Royapettah",
-      bankAccNumber: "124238685793",
-      bankAccType: "Savings",
-      bankIfsc:"hgfjdgff",
-      amount: 0,
-    },
-    { 
-      id: "3",
-      bankName: "ICICI",
-      bankBranch: "Kotturpuram",
-      bankAccNumber: "424238685793",
-      bankAccType: "Savings",
-      bankIfsc:"hgfjdgff",
-      amount: 0,
-    },
-    { 
-      id: "4",
-      bankName: "SBI",
-      bankBranch: "Light House",
-      bankAccNumber: "324238685793",
-      bankAccType: "Savings",
-      bankIfsc:"hgfjdgff",
-      amount: 0,
-    },
-    { 
-      id: "5",
-      bankName: "INDUSIND",
-      bankBranch: "Karapakkam",
-      bankAccNumber: "624238685793",
-      bankAccType: "Savings",
-      bankIfsc:"hgfjdgff",
-      amount: 0,
-    },
-   
-  ];
+ 
 
     return (
       <Box sx={{ marginTop: "0.5rem" }}>
@@ -261,7 +287,7 @@ const DisbursementDetails = (props) => {
       <CustomDataGrid noDataMessage = "No Bank Data."
                       noDataOnFilterMessage= "No Bank Data on Applied Filter." 
                       gridHeight= "270px"
-                      rows={rows}
+                      rows={rowState}
                       columns={columns}
                       checkboxSelection={true}
                       pageSize={3}

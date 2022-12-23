@@ -23,6 +23,7 @@ const initialState = {
 
 const DisbursementCreatePortal = () =>{
 
+  const [accordianOpen,setAccordianOpen] = useState(true);
   const[listVisibility,setListVisibility] = useState(true);
   const[isEmptyList,setIsEmptyList] = useState(false);
   const[searchValues,setSearchValues] = useState(initialState);
@@ -50,7 +51,7 @@ const DisbursementCreatePortal = () =>{
 
     return (
     <>
-    {listVisibility ? <><FilterCondition mode={"Search"} initialState={initialState} title="Disbursement Request Create" onSearchButtonClick={searchButtonClickHandler} onClearButtonClick={clearButtonClickHandler}/>
+    {listVisibility ? <><FilterCondition setAccordianOpen={setAccordianOpen} mode={"Search"} initialState={initialState} title="Disbursement Request Create" onSearchButtonClick={searchButtonClickHandler} onClearButtonClick={clearButtonClickHandler}/>
     <SanctionedList onRowDoubleClick={rowDoubleClickHandler} emptyList={isEmptyList}/></> : <DisbursementDetailPage searchStateValues={searchValues} setListVisibility={setListVisibility}/> } 
 
     </>);

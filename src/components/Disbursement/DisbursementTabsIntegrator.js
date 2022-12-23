@@ -9,8 +9,9 @@ import ConditionsAndDeviations from "./ConditionsAndDeviations";
 
 const DisbursementTabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
+  const [accordianOpen,setAccordianOpen] = React.useState(true);
 
-  
+
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -19,7 +20,7 @@ const DisbursementTabsIntegrator = (props) => {
 
   return (
     <>
-   <FilterCondition mode={"Detail"} initialState={props.searchStateValues} title="Disbursement Request Create" />
+   <FilterCondition setAccordianOpen={setAccordianOpen} mode={"Detail"} initialState={props.searchStateValues} title="Disbursement Request Create" />
    <Box sx={{ width: "100%",marginTop:"2%",  backgroundColor: "white" }}>
         <TabContext value={value}>
           <Box
