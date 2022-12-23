@@ -409,7 +409,7 @@ export default function DisbursementRequestList(props) {
     },
   ];
 
-  const [accordianOpen,setAccordianOpen] = React.useState(true);
+  const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const req_mod_options = ["View", "Modify", "Cancel"];
@@ -445,7 +445,7 @@ export default function DisbursementRequestList(props) {
   };
 
   const resetFilterData = (data) => {
-    setRows(datarows);
+    setRows(datarows.slice(0, rowsPerPage));
     setTotalPageCount(
       datarows.length % 10 !== 0
         ? Number(Number((datarows.length / 10).toFixed()) + 1)
@@ -562,8 +562,8 @@ export default function DisbursementRequestList(props) {
             sx={{ height: "60px", bgcolor: "white" }}
           >
             {totalRowsCount > 10 && (
-              <Typography sx={{ mr: 4, color: "#004A92", fontWeight: 700 }}>
-                {"Records Per Page : " + rowsPerPage}
+              <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                {"Page Max Records : " + rowsPerPage}
               </Typography>
             )}
             <Typography
@@ -588,7 +588,9 @@ export default function DisbursementRequestList(props) {
           <Grid container>
             <Box
               sx={{
-                height: window.innerHeight - 600,
+                height: accordianOpen
+                  ? window.innerHeight - 600
+                  : window.innerHeight - 250,
                 overflow: "auto",
                 flex: "1 auto",
               }}
@@ -655,7 +657,12 @@ export default function DisbursementRequestList(props) {
               {rows.length === 0 && (
                 <NoDataFound
                   message={"No Disbursement Record Found."}
-                  imageStyle={{ marginTop: "20%" }}
+                  imageStyle={{
+                    marginTop:
+                      accordianOpen && window.innerHeight < 1000
+                        ? "20px"
+                        : "20%",
+                  }}
                 />
               )}
             </Box>
