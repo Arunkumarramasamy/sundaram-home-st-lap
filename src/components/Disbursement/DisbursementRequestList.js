@@ -10,10 +10,22 @@ import {
   MoreVert,
   Preview,
 } from "@mui/icons-material";
-import { Chip, Tooltip } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  Divider,
+  Grid,
+  Pagination,
+  TablePagination,
+  Tooltip,
+  useMediaQuery,
+} from "@mui/material";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import FilterCondition from "./FilterCondition";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import { display } from "@mui/system";
 
 export default function DisbursementRequestList(props) {
   const datarows = [
@@ -200,6 +212,114 @@ export default function DisbursementRequestList(props) {
       modifiedDate: "Dec 06 2022 11:10:25",
     },
   ];
+
+  const loadStatus = (value) => {
+    return (
+      <Chip
+        label={value}
+        component="div"
+        sx={{
+          color: "white",
+          bgcolor:
+            value === "Paid"
+              ? "darkgreen"
+              : value === "Cancelled"
+              ? "red"
+              : value === "Modified"
+              ? "blueviolet"
+              : "blue",
+          width: "90%",
+        }}
+      />
+    );
+  };
+
+  const loadActionBtn = (value) => {
+    return (
+      <React.Fragment>
+        {value === "Paid" || value === "Cancelled" ? (
+          <Tooltip title="View">
+            <IconButton>
+              <Preview />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <div>
+            <Tooltip title="More Actions">
+              <IconButton
+                aria-label="more"
+                id="long-button"
+                aria-controls={open ? "long-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleMenuClick}
+              >
+                <MoreVert />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                "aria-labelledby": "long-button",
+              }}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: "100px",
+                },
+              }}
+            >
+              {req_mod_options.map((option, index) => (
+                <MenuItem
+                  key={option}
+                  selected={option === "Pyxis"}
+                  onClick={handleClose}
+                >
+                  <IconButton size="small">
+                    {(() => {
+                      switch (index) {
+                        case 0:
+                          return <Preview fontSize="small" />;
+                        case 1:
+                          return <Edit fontSize="small" color="inherit" />;
+                        case 2:
+                          return (
+                            <CancelScheduleSend
+                              fontSize="small"
+                              color="inherit"
+                            />
+                          );
+                      }
+                    })()}
+                  </IconButton>
+                  <Typography
+                    color="inherit"
+                    variant="inherit"
+                    component="div"
+                    fontSize="14px"
+                    fontWeight="inherit"
+                  >
+                    {option}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
+        )}
+      </React.Fragment>
+    );
+  };
   const columns = [
     {
       field: "action",
@@ -209,100 +329,7 @@ export default function DisbursementRequestList(props) {
       width: 50,
       align: "center",
       renderCell: (params) => {
-        return (
-          <React.Fragment>
-            {params.value === "Paid" || params.value === "Cancelled" ? (
-              <Tooltip title="View">
-                <IconButton>
-                  <Preview />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <div>
-                <Tooltip title="More Actions">
-                  <IconButton
-                    aria-label="more"
-                    id="long-button"
-                    aria-controls={open ? "long-menu" : undefined}
-                    aria-expanded={open ? "true" : undefined}
-                    aria-haspopup="true"
-                    onClick={handleMenuClick}
-                  >
-                    <MoreVert />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  id="long-menu"
-                  MenuListProps={{
-                    "aria-labelledby": "long-button",
-                  }}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  PaperProps={{
-                    style: {
-                      maxHeight: ITEM_HEIGHT * 4.5,
-                      width: "100px",
-                    },
-                  }}
-                >
-                  {req_mod_options.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                      selected={option === "Pyxis"}
-                      onClick={handleClose}
-                    >
-                      {(() => {
-                        switch (index) {
-                          case 0:
-                            return (
-                              <IconButton size="small">
-                                <Preview fontSize="small" />
-                              </IconButton>
-                            );
-                          case 1:
-                            return (
-                              <IconButton size="small">
-                                <Edit fontSize="small" color="inherit" />
-                              </IconButton>
-                            );
-                          case 2:
-                            return (
-                              <IconButton size="small">
-                                <CancelScheduleSend
-                                  fontSize="small"
-                                  color="inherit"
-                                />
-                              </IconButton>
-                            );
-                          default:
-                            return ;
-                        }
-                      })()}
-                      <Typography
-                        color="inherit"
-                        variant="inherit"
-                        component="div"
-                        fontSize="14px"
-                        fontWeight="inherit"
-                      >
-                        {option}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </div>
-            )}
-          </React.Fragment>
-        );
+        return loadActionBtn(params.value);
       },
     },
     {
@@ -346,24 +373,7 @@ export default function DisbursementRequestList(props) {
       width: 150,
       align: "center",
       renderCell: (params) => {
-        return (
-          <Chip
-            label={params.value}
-            component="div"
-            sx={{
-              color: "white",
-              bgcolor:
-                params.value === "Paid"
-                  ? "darkgreen"
-                  : params.value === "Cancelled"
-                  ? "red"
-                  : params.value === "Modified"
-                  ? "blueviolet"
-                  : "blue",
-               width:"90%"
-            }}
-          />
-        );
+        return loadStatus(params.value);
       },
     },
     {
@@ -387,6 +397,8 @@ export default function DisbursementRequestList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const req_mod_options = ["View", "Modify", "Cancel"];
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState(datarows);
 
   const ITEM_HEIGHT = 48;
@@ -398,6 +410,15 @@ export default function DisbursementRequestList(props) {
     setAnchorEl(null);
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const resetFilterData = (data) => {
     setRows(datarows);
   };
@@ -405,20 +426,21 @@ export default function DisbursementRequestList(props) {
   var today = new Date();
 
   const initialState = {
-    tabIndex: '1',
-    applicationNumber: '',
-    applicantName: '',
+    tabIndex: "1",
+    applicationNumber: "",
+    applicantName: "",
     customerType: "-1",
-    roi: '',
-    loanAmount: '',
-    sanctionedAmount: '',
-    applicationDateFromValue: ((today.getMonth() + 1) + "/" + "01" + "/" + today.getFullYear()),
-    applicationDateToValue: ((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()),
+    roi: "",
+    loanAmount: "",
+    sanctionedAmount: "",
+    applicationDateFromValue:
+      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+    applicationDateToValue:
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     branchName: "",
-    applicationDate:((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()),
+    applicationDate:
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   };
-  
-
 
   const filterData = (data) => {
     console.log(data);
@@ -471,15 +493,108 @@ export default function DisbursementRequestList(props) {
         onClearButtonClick={resetFilterData}
         mode={"Search"}
       />
-      <CustomDataGrid
-        noDataMessage="No Disbursement Data."
-        noDataOnFilterMessage="No Disbursement Data on Applied Filter."
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        pageSizeOptions={[5, 10, 15, 20, 25]}
-        rowDoubleClickHandler={rowDoubleClickHandler}
-      />
+      {useMediaQuery("(min-width:1200px)") && (
+        <CustomDataGrid
+          noDataMessage="No Disbursement Data."
+          noDataOnFilterMessage="No Disbursement Data on Applied Filter."
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          pageSizeOptions={[5, 10, 15, 20, 25]}
+          rowDoubleClickHandler={rowDoubleClickHandler}
+        />
+      )}
+      {useMediaQuery("(max-width:1200px)") && (
+        <React.Fragment>
+          <Grid
+            container
+            item
+            direction="row"
+            alignItems="flex-end"
+            justifyContent="flex-end"
+            sx={{ height: "20px", bgcolor: "white" }}
+          >
+            <TablePagination
+              rowsPerPageOptions={[10]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Grid>
+          <Grid container>
+            <Box
+              sx={{
+                height: window.innerHeight - 580,
+                overflow: "auto",
+                flex: "1 auto",
+              }}
+            >
+              {rows.map((row, index) => (
+                <React.Fragment>
+                  <Grid container direction="column" sx={{ flex: "1 auto" }}>
+                    <Card>
+                      <CardHeader
+                        action={loadActionBtn(row.status)}
+                        subheader={
+                          "Application Number : " + row.applicationNumber
+                        }
+                        subheaderTypographyProps={{
+                          color: "grey",
+                          fontWeight: "700",
+                        }}
+                        sx={{
+                          textAlign: "left",
+                          padding: "16px 16px 0px 16px !important",
+                        }}
+                      />
+                      <CardContent>
+                        <Grid
+                          container
+                          item
+                          direction="column"
+                          alignItems="flex-start"
+                          justifyContent="flex-start"
+                        >
+                          <Typography padding="1px">
+                            {"Request Number : " + row.requestNumber}
+                          </Typography>
+                          <Typography padding="1px">
+                            {"Disbursement Branch : " + row.branchName}
+                          </Typography>
+                          <Typography padding="1px">
+                            {"Customer Name : " + row.customerName}
+                          </Typography>
+                          <Typography padding="1px">
+                            {"Last Modified : " + row.modifiedUser}
+                          </Typography>
+                          <Typography padding="1px">
+                            {"Last Modified Time : " + row.modifiedDate}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          item
+                          direction="row"
+                          alignItems="flex-end"
+                          justifyContent="flex-end"
+                        >
+                          <Typography sx={{ width: "40%" }}>
+                            {loadStatus(row.status)}
+                          </Typography>
+                        </Grid>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Divider />
+                </React.Fragment>
+              ))}
+            </Box>
+          </Grid>
+        </React.Fragment>
+      )}
       <Box>
         <StlapFooter />
       </Box>
