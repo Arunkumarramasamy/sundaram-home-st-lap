@@ -494,7 +494,10 @@ const FilterCondition = (props) => {
           sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
           onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
           variant="contained"
-          onClick={props.onClearButtonClick}
+          onClick={event => {
+            dispatch({ type: "", value: "" });
+            props.onClearButtonClick();
+          }}
         >
           Clear
         </Button>

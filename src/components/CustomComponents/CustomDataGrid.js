@@ -59,6 +59,7 @@ const CustomDataGrid = (props) => {
         onRowDoubleClick={props.rowDoubleClickHandler}
         components={{ NoRowsOverlay, NoResultsOverlay }}
         hideFooter={props.hideFooter ? true : false}
+        checkboxSelection={props.checkboxSelection ? props.checkboxSelection : false}
       />)
 };
 

@@ -1,9 +1,11 @@
 import CustomButton from "../CustomComponents/CustomButton";
 import {
-    Box, Grid, InputLabel, TextareaAutosize
+    Box, Chip, Grid, InputLabel, TextareaAutosize, Typography
   } from "@mui/material";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import CustomDateField from "../CustomComponents/CustomDateField";
+import { CurrencyRupeeSharp } from "@mui/icons-material";
+import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 
 
 const DisbursementDetails = (props) => {
@@ -11,6 +13,117 @@ const DisbursementDetails = (props) => {
 
   var today = new Date();
 
+  const columns = [
+    {
+        field: "bankName",
+        headerName: "Bank Name",
+        headerAlign: "center",
+        type: "string",
+        width: 200,
+        align:"center",
+    },
+    {
+        field: "bankBranch",
+        headerName: "Bank Branch",
+        headerAlign: "center",
+        type: "string",
+        width: 140,
+        align:"center",
+    },
+    {
+        field: "bankAccNumber",
+        headerName: "Bank Account Number",
+        headerAlign: "center",
+        type: "string",
+        width: 200,
+        align:"center",
+    },
+    {
+        field: "bankAccType",
+        headerName: "Bank Account Type",
+        headerAlign: "center",
+        type: "string",
+        hideable: false,
+        width: 200,
+        align:"center",
+    },
+    {
+      field: "bankIfsc",
+      headerName: "IFSC",
+      headerAlign: "center",
+      type: "string",
+      hideable: false,
+      width: 200,
+      align:"center",
+  },
+    {
+      field: "amount",
+      headerName: "Amount to be Sent",
+      headerAlign: "center",
+      type: "string",
+      width: 170,
+      align:"right",
+      renderCell: (params) => {
+        return (
+          <Chip
+          label={params.value}
+          component="div"
+          sx={{ color: "white", bgcolor: "Green", width:"90%" }}
+        />
+        );
+      },
+    },
+  ];
+
+
+  const rows = [
+    { 
+      id: "1",
+      bankName: "HDFC",
+      bankBranch: "Kottivakkam",
+      bankAccNumber: "500987421243",
+      bankAccType: "Savings",
+      bankIfsc:"hgfjdgff",
+      amount: 0,
+    },
+    { 
+      id: "2",
+      bankName: "CANARA",
+      bankBranch: "Royapettah",
+      bankAccNumber: "124238685793",
+      bankAccType: "Savings",
+      bankIfsc:"hgfjdgff",
+      amount: 0,
+    },
+    { 
+      id: "3",
+      bankName: "ICICI",
+      bankBranch: "Kotturpuram",
+      bankAccNumber: "424238685793",
+      bankAccType: "Savings",
+      bankIfsc:"hgfjdgff",
+      amount: 0,
+    },
+    { 
+      id: "4",
+      bankName: "SBI",
+      bankBranch: "Light House",
+      bankAccNumber: "324238685793",
+      bankAccType: "Savings",
+      bankIfsc:"hgfjdgff",
+      amount: 0,
+    },
+    { 
+      id: "5",
+      bankName: "INDUSIND",
+      bankBranch: "Karapakkam",
+      bankAccNumber: "624238685793",
+      bankAccType: "Savings",
+      bankIfsc:"hgfjdgff",
+      amount: 0,
+    },
+   
+  ];
 
     return (
       <Box sx={{ marginTop: "0.5rem" }}>
@@ -137,13 +250,23 @@ const DisbursementDetails = (props) => {
       <InputLabel required={true}>{"Remarks"}</InputLabel>
       <TextareaAutosize
       style={{ width: "100%",marginTop:"3%",borderTop:"0px",borderLeft:"0px",borderRight:"0px" }}
-    /></Grid>
-
-
-      
-
-     
+    /></Grid>    
       </Grid>
+
+      <Box
+      sx={{
+           justifyContent: "center",margin:"auto"
+      }}
+    >
+      <CustomDataGrid noDataMessage = "No Bank Data."
+                      noDataOnFilterMessage= "No Bank Data on Applied Filter." 
+                      gridHeight= "270px"
+                      rows={rows}
+                      columns={columns}
+                      checkboxSelection={true}
+                      pageSize={3}
+                      pageSizeOptions={[3,6,9,12]}/>
+    </Box>
     
     <Box
       sx={{
