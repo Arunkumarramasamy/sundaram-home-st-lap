@@ -1,6 +1,6 @@
 import CustomButton from "../CustomComponents/CustomButton";
 import {
-    Box, Grid
+    Box, Grid, InputLabel, TextareaAutosize
   } from "@mui/material";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import CustomDateField from "../CustomComponents/CustomDateField";
@@ -9,6 +9,7 @@ import CustomDateField from "../CustomComponents/CustomDateField";
 const DisbursementDetails = (props) => {
   const disabledState = false;
 
+  var today = new Date();
 
 
     return (
@@ -41,54 +42,41 @@ const DisbursementDetails = (props) => {
       </Grid>
 
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomDateField
+           <CustomDateField
             disabled={disabledState}
             required={false}
             label="Disbursement Date"
             id="disbursementDate"
             variant="standard"
-            value={"22/12/2022"}
+            value={((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear())}
             type="text"
-            placeholder="Disbursement Date"
+            placeholder=""
           />
       </Grid>
 
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomDateField
+          <CustomDateField
             disabled={disabledState}
             required={false}
             label="Billing Date"
             id="billingDate"
             variant="standard"
-            value={"22/12/2022"}
+            value={((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear())}
             type="text"
-            placeholder="Disbursement Date"
+            placeholder=""
           />
       </Grid>
 
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomDateField
+          <CustomDateField
             disabled={disabledState}
             required={false}
             label="ECD"
             id="ecd"
             variant="standard"
-            value={"22/12/2022"}
+            value={((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear())}
             type="text"
-            placeholder="ECD"
-          />
-      </Grid>
-
-      {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomTextField
-            disabled={disabledState}
-            required={false}
-            label="Earlier Disbursement Amount"
-            id="earlierDisbursementAmount"
-            variant="standard"
-            value={""}
-            type="text"
-            placeholder="Earlier Disbursement Amount"
+            placeholder=""
           />
       </Grid>
 
@@ -96,12 +84,12 @@ const DisbursementDetails = (props) => {
       <CustomTextField
             disabled={disabledState}
             required={false}
-            label="Earlier Disbursement Amount"
-            id="earlierDisbursementAmount"
+            label="Request Number"
+            id="requestNumber"
             variant="standard"
             value={""}
             type="text"
-            placeholder="Earlier Disbursement Amount"
+            placeholder="Enter Request Number"
           />
       </Grid>
 
@@ -109,12 +97,12 @@ const DisbursementDetails = (props) => {
       <CustomTextField
             disabled={disabledState}
             required={false}
-            label="Earlier Disbursement Amount"
-            id="earlierDisbursementAmount"
+            label="Status"
+            id="status"
             variant="standard"
             value={""}
             type="text"
-            placeholder="Earlier Disbursement Amount"
+            placeholder="Enter Status"
           />
       </Grid>
 
@@ -122,12 +110,12 @@ const DisbursementDetails = (props) => {
       <CustomTextField
             disabled={disabledState}
             required={false}
-            label="Earlier Disbursement Amount"
-            id="earlierDisbursementAmount"
+            label="Payment Mode"
+            id="paymentMode"
             variant="standard"
             value={""}
             type="text"
-            placeholder="Earlier Disbursement Amount"
+            placeholder="Enter Payment Mode"
           />
       </Grid>
 
@@ -135,12 +123,26 @@ const DisbursementDetails = (props) => {
       <CustomTextField
             disabled={disabledState}
             required={false}
-            label="Earlier Disbursement Amount"
-            id="earlierDisbursementAmount"
+            label="IFSC"
+            id="ifsc"
             variant="standard"
             value={""}
             type="text"
-            placeholder="Earlier Disbursement Amount"
+            placeholder="Enter IFSC"
+          />
+      </Grid>
+
+
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+      <CustomTextField
+            disabled={disabledState}
+            required={false}
+            label="Bank Name"
+            id="bankName"
+            variant="standard"
+            value={""}
+            type="text"
+            placeholder="Enter Bank Name"
           />
       </Grid>
 
@@ -148,14 +150,66 @@ const DisbursementDetails = (props) => {
       <CustomTextField
             disabled={disabledState}
             required={false}
-            label="Earlier Disbursement Amount"
-            id="earlierDisbursementAmount"
+            label="Bank Branch"
+            id="bankBranch"
             variant="standard"
             value={""}
             type="text"
-            placeholder="Earlier Disbursement Amount"
+            placeholder="Enter Bank Branch"
           />
-      </Grid> */}
+      </Grid>
+
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+      <CustomTextField
+            disabled={disabledState}
+            required={false}
+            label="Bank Account Number"
+            id="bankAccountNumber"
+            variant="standard"
+            value={""}
+            type="text"
+            placeholder="Enter Bank Account Number"
+          />
+      </Grid>
+
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+      <CustomTextField
+            disabled={disabledState}
+            required={false}
+            label="Bank Account Type"
+            id="bankAccountType"
+            variant="standard"
+            value={""}
+            type="text"
+            placeholder="Enter Bank Account Type"
+          />
+      </Grid>
+
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+      <CustomTextField
+            disabled={disabledState}
+            required={false}
+            label="SHFL Bank"
+            id="shflBank"
+            variant="standard"
+            value={""}
+            type="text"
+            placeholder="Enter SHFL Bank"
+          />
+      </Grid>
+
+
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+      <InputLabel required={true}>{"Remarks"}</InputLabel>
+      <TextareaAutosize
+      placeholder="Empty"
+      style={{ width: "100%",marginTop:"3%" }}
+    /></Grid>
+
+
+      
+
+     
       </Grid>
     
     <Box
