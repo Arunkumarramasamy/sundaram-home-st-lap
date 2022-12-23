@@ -15,6 +15,7 @@ const NoDataFound = (props) => {
           id="layout-menu-image"
           src={query}
           alt="No Data"
+          style={props.imageStyle}
         />
       </Box>
       <Box

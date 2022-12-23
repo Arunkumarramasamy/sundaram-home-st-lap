@@ -9,6 +9,8 @@ import {
   Edit,
   MoreVert,
   Preview,
+  ArrowBack,
+  ArrowForward,
 } from "@mui/icons-material";
 import {
   Card,
@@ -18,6 +20,7 @@ import {
   Divider,
   Grid,
   Pagination,
+  PaginationItem,
   TablePagination,
   Tooltip,
   useMediaQuery,
@@ -26,6 +29,8 @@ import StlapFooter from "../CustomComponents/StlapFooter";
 import FilterCondition from "./FilterCondition";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import { display } from "@mui/system";
+import NoDataFound from "../CustomComponents/NoDataFound";
+import { useEffect } from "react";
 
 export default function DisbursementRequestList(props) {
   const datarows = [
@@ -240,7 +245,7 @@ export default function DisbursementRequestList(props) {
         {value === "Paid" || value === "Cancelled" ? (
           <Tooltip title="View">
             <IconButton>
-              <Preview />
+              <Preview sx={{ color: "#004A92", fontWeight: 700 }} />
             </IconButton>
           </Tooltip>
         ) : (
@@ -254,7 +259,7 @@ export default function DisbursementRequestList(props) {
                 aria-haspopup="true"
                 onClick={handleMenuClick}
               >
-                <MoreVert />
+                <MoreVert sx={{ color: "#004A92", fontWeight: 700 }} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -290,21 +295,31 @@ export default function DisbursementRequestList(props) {
                     {(() => {
                       switch (index) {
                         case 0:
-                          return <Preview fontSize="small" />;
+                          return (
+                            <Preview
+                              fontSize="small"
+                              sx={{ color: "#004A92", fontWeight: 700 }}
+                            />
+                          );
                         case 1:
-                          return <Edit fontSize="small" color="inherit" />;
+                          return (
+                            <Edit
+                              fontSize="small"
+                              sx={{ color: "#004A92", fontWeight: 700 }}
+                            />
+                          );
                         case 2:
                           return (
                             <CancelScheduleSend
                               fontSize="small"
-                              color="inherit"
+                              sx={{ color: "#004A92", fontWeight: 700 }}
                             />
                           );
                       }
                     })()}
                   </IconButton>
                   <Typography
-                    color="inherit"
+                    color="#004A92"
                     variant="inherit"
                     component="div"
                     fontSize="14px"
@@ -397,11 +412,23 @@ export default function DisbursementRequestList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const req_mod_options = ["View", "Modify", "Cancel"];
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState(datarows);
+  const [page, setPage] = React.useState(1);
+  const [rows, setRows] = React.useState([]);
+  const [totalPageCount, setTotalPageCount] = React.useState(0);
+  const [totalRowsCount, setTotalRowsCount] = React.useState(0);
+  const rowsPerPage = 10;
 
   const ITEM_HEIGHT = 48;
+
+  useEffect(() => {
+    setRows(datarows.slice(0, rowsPerPage));
+    setTotalPageCount(
+      datarows.length % 10 !== 0
+        ? Number(Number((datarows.length / 10).toFixed()) + 1)
+        : Number(Number((datarows.length / 10).toFixed()))
+    );
+    setTotalRowsCount(datarows.length);
+  }, []);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -410,17 +437,21 @@ export default function DisbursementRequestList(props) {
     setAnchorEl(null);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handlePageChange = (event, newPage) => {
+    let offset = (newPage - 1) * rowsPerPage;
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setRows(datarows.slice(offset, offset + rowsPerPage));
   };
 
   const resetFilterData = (data) => {
     setRows(datarows);
+    setTotalPageCount(
+      datarows.length % 10 !== 0
+        ? Number(Number((datarows.length / 10).toFixed()) + 1)
+        : Number(Number((datarows.length / 10).toFixed()))
+    );
+    setTotalRowsCount(datarows.length);
+    setPage(1);
   };
 
   var today = new Date();
@@ -459,6 +490,13 @@ export default function DisbursementRequestList(props) {
           );
         }
         setRows(filterrows);
+        setTotalPageCount(
+          filterrows.length % 10 !== 0
+            ? Number(Number((filterrows.length / 10).toFixed()) + 1)
+            : Number(Number((filterrows.length / 10).toFixed()))
+        );
+        setTotalRowsCount(filterrows.length);
+        setPage(1);
         break;
       case "2":
         // Basic search tab
@@ -474,6 +512,13 @@ export default function DisbursementRequestList(props) {
         }
         // few more conditions yet to be added based on fields decided to target need to add to dummy data.
         setRows(filterrows);
+        setTotalPageCount(
+          filterrows.length % 10 !== 0
+            ? Number(Number((filterrows.length / 10).toFixed()) + 1)
+            : Number(Number((filterrows.length / 10).toFixed()))
+        );
+        setTotalRowsCount(filterrows.length);
+        setPage(1);
         break;
       default:
         break;
@@ -512,22 +557,36 @@ export default function DisbursementRequestList(props) {
             direction="row"
             alignItems="flex-end"
             justifyContent="flex-end"
-            sx={{ height: "20px", bgcolor: "white" }}
+            sx={{ height: "60px", bgcolor: "white" }}
           >
-            <TablePagination
-              rowsPerPageOptions={[10]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
+            {totalRowsCount > 10 && (
+              <Typography sx={{ mr: 4, color: "#004A92", fontWeight: 700 }}>
+                {"Records Per Page : " + rowsPerPage}
+              </Typography>
+            )}
+            <Typography
+              padding="1px"
+              sx={{ color: "#004A92", fontWeight: 700 }}
+            >
+              {"Total Records : " + totalRowsCount}
+            </Typography>
+            <Pagination
+              count={totalPageCount}
+              color="primary"
+              onChange={handlePageChange}
               page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+              renderItem={(item) => (
+                <PaginationItem
+                  slots={{ previous: ArrowBack, next: ArrowForward }}
+                  {...item}
+                />
+              )}
             />
           </Grid>
           <Grid container>
             <Box
               sx={{
-                height: window.innerHeight - 580,
+                height: window.innerHeight - 600,
                 overflow: "auto",
                 flex: "1 auto",
               }}
@@ -542,7 +601,7 @@ export default function DisbursementRequestList(props) {
                           "Application Number : " + row.applicationNumber
                         }
                         subheaderTypographyProps={{
-                          color: "grey",
+                          color: "#004A92",
                           fontWeight: "700",
                         }}
                         sx={{
@@ -591,6 +650,12 @@ export default function DisbursementRequestList(props) {
                   <Divider />
                 </React.Fragment>
               ))}
+              {rows.length === 0 && (
+                <NoDataFound
+                  message={"No Disbursement Record Found."}
+                  imageStyle={{ marginTop: "20%" }}
+                />
+              )}
             </Box>
           </Grid>
         </React.Fragment>
