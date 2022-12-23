@@ -206,7 +206,7 @@ const FilterCondition = (props) => {
   }
 
   const BasicSearchValues = (
-    <><Box component="form"  validate    onSubmit={searchButtonClickHandler}  >
+    <><Box component="form"  validate="true"    onSubmit={searchButtonClickHandler}  >
       <Grid container spacing={2}>
         
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>

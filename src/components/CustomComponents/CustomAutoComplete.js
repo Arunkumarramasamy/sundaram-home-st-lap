@@ -20,6 +20,7 @@ const CustomAutoComplete = (props) => {
           clearText={props.clearText}
           clearicon={(event) => console.log("cleared")}
           options={props.autoCompleteValues}
+          isOptionEqualToValue={(option, value) => option.value === value.value}
           renderInput={(params) => (
             <TextField required={props.required}
               {...params}

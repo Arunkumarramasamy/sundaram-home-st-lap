@@ -307,7 +307,7 @@ const AdditionalWaiver = () => {
             <Box
               id="accord-box"
               component="form"
-              validate
+              validate="true"
               onSubmit={searchButtonClickHandler}
             >
               <Grid item container spacing={2}>

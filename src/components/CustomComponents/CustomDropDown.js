@@ -17,7 +17,7 @@ const CustomDropDown = (props) => {
           disabled={props.disabled}
         >
           {props.placeholder ? (
-            <MenuItem value="">
+            <MenuItem value="-1" key="placeholder">
               <p className="placeHolder_text">{props.placeholder}</p>
             </MenuItem>
           ) : null}

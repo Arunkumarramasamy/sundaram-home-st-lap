@@ -408,7 +408,7 @@ export default function DisbursementRequestList(props) {
     tabIndex: '1',
     applicationNumber: '',
     applicantName: '',
-    customerType: " ",
+    customerType: "-1",
     roi: '',
     loanAmount: '',
     sanctionedAmount: '',

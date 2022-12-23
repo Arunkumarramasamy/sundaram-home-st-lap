@@ -10,7 +10,7 @@ const initialState = {
   tabIndex: '1',
   applicationNumber: '',
   applicantName: '',
-  customerType: " ",
+  customerType: "-1",
   roi: '',
   loanAmount: '',
   sanctionedAmount: '',

@@ -291,7 +291,7 @@ const AdditionalAccrual = () => {
             <Box
               id="accord-box"
               component="form"
-              validate
+              validate="true"
               onSubmit={searchButtonClickHandler}
             >
               <form>
