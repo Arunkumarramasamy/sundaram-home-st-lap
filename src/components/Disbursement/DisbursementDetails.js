@@ -123,72 +123,6 @@ const DisbursementDetails = (props) => {
       <CustomTextField
             disabled={disabledState}
             required={false}
-            label="IFSC"
-            id="ifsc"
-            variant="standard"
-            value={""}
-            type="text"
-            placeholder="Enter IFSC"
-          />
-      </Grid>
-
-
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomTextField
-            disabled={disabledState}
-            required={false}
-            label="Bank Name"
-            id="bankName"
-            variant="standard"
-            value={""}
-            type="text"
-            placeholder="Enter Bank Name"
-          />
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomTextField
-            disabled={disabledState}
-            required={false}
-            label="Bank Branch"
-            id="bankBranch"
-            variant="standard"
-            value={""}
-            type="text"
-            placeholder="Enter Bank Branch"
-          />
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomTextField
-            disabled={disabledState}
-            required={false}
-            label="Bank Account Number"
-            id="bankAccountNumber"
-            variant="standard"
-            value={""}
-            type="text"
-            placeholder="Enter Bank Account Number"
-          />
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomTextField
-            disabled={disabledState}
-            required={false}
-            label="Bank Account Type"
-            id="bankAccountType"
-            variant="standard"
-            value={""}
-            type="text"
-            placeholder="Enter Bank Account Type"
-          />
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-      <CustomTextField
-            disabled={disabledState}
-            required={false}
             label="SHFL Bank"
             id="shflBank"
             variant="standard"
@@ -202,8 +136,7 @@ const DisbursementDetails = (props) => {
       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
       <InputLabel required={true}>{"Remarks"}</InputLabel>
       <TextareaAutosize
-      placeholder="Empty"
-      style={{ width: "100%",marginTop:"3%" }}
+      style={{ width: "100%",marginTop:"3%",borderTop:"0px",borderLeft:"0px",borderRight:"0px" }}
     /></Grid>
 
 
