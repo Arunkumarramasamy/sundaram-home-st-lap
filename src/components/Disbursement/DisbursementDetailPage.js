@@ -1,10 +1,12 @@
 import DisbursementTabsIntegrator from "./DisbursementTabsIntegrator";
 
 const DisbursementDetailPage = (props) => {
-
   return (
-    <>     
-        <DisbursementTabsIntegrator setListVisibility={ props.setListVisibility} searchStateValues={props.searchStateValues}/>   
+    <>
+      <DisbursementTabsIntegrator
+        setListVisibility={props.setListVisibility}
+        searchStateValues={props.searchStateValues}
+      />
     </>
   );
 };

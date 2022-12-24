@@ -478,27 +478,6 @@ export default function DisbursementRequestList(props) {
     console.log(data);
     let filterrows = [];
     switch (data.tabIndex) {
-      case "1":
-        // Basic search tab
-        if (data.branchName && data.branchName !== "") {
-          filterrows = datarows.filter(
-            (row) => row.branchName === data.branchName
-          );
-        }
-        if (data.applicationNumber && data.applicationNumber !== "") {
-          filterrows = filterrows.filter(
-            (row) => row.applicationNumber === data.applicationNumber
-          );
-        }
-        setRows(filterrows);
-        setTotalPageCount(
-          filterrows.length % 10 !== 0
-            ? Number(Number((filterrows.length / 10).toFixed()) + 1)
-            : Number(Number((filterrows.length / 10).toFixed()))
-        );
-        setTotalRowsCount(filterrows.length);
-        setPage(1);
-        break;
       case "2":
         // Basic search tab
         if (data.branchName && data.branchName !== "") {
@@ -537,8 +516,9 @@ export default function DisbursementRequestList(props) {
         title="Disbursement Information"
         onSearchButtonClick={filterData}
         onClearButtonClick={resetFilterData}
-        mode={"Search"}
         setAccordianOpen={setAccordianOpen}
+        mode={"Search"}
+        disDetailPage={false}
       />
       {useMediaQuery("(min-width:1200px)") && (
         <CustomDataGrid

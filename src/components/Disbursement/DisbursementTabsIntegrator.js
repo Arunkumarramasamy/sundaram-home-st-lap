@@ -9,26 +9,29 @@ import ConditionsAndDeviations from "./ConditionsAndDeviations";
 
 const DisbursementTabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
-  const [accordianOpen,setAccordianOpen] = React.useState(true);
-
-
+  const [accordianOpen, setAccordianOpen] = React.useState(true);
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
-  
 
   return (
     <>
-   <FilterCondition setAccordianOpen={setAccordianOpen} mode={"Detail"} initialState={props.searchStateValues} title="Disbursement Request Create" />
-   <Box sx={{ width: "100%",marginTop:"2%",  backgroundColor: "white" }}>
+      <FilterCondition
+        setAccordianOpen={setAccordianOpen}
+        mode={"Detail"}
+        disDetailPage={true}
+        initialState={props.searchStateValues}
+        title="Disbursement Request Create"
+      />
+      <Box sx={{ width: "100%", marginTop: "2%", backgroundColor: "white" }}>
         <TabContext value={value}>
           <Box
             sx={{
               borderColor: "divider",
               backgroundColor: "#eeeeee",
-              marginLeft:"2%",
-              display:"flex"
+              marginLeft: "2%",
+              display: "flex",
             }}
           >
             <TabList
@@ -56,7 +59,7 @@ const DisbursementTabsIntegrator = (props) => {
                   textTransform: "none",
                   borderTopLeftRadius: "1rem",
                   borderTopRightRadius: "1rem",
-                  backgroundColor:"#D7D7D7",
+                  backgroundColor: "#D7D7D7",
                 },
               }}
             >
@@ -67,17 +70,17 @@ const DisbursementTabsIntegrator = (props) => {
           </Box>
 
           <TabPanel value="1">
-           <DisbursementDetails setListVisibility={props.setListVisibility}/>
+            <DisbursementDetails setListVisibility={props.setListVisibility} />
           </TabPanel>
           <TabPanel value="2">
-           <FeesOutstanding setListVisibility={props.setListVisibility}/>
+            <FeesOutstanding setListVisibility={props.setListVisibility} />
           </TabPanel>
           <TabPanel value="3">
-           <ConditionsAndDeviations setListVisibility={props.setListVisibility}/>
+            <ConditionsAndDeviations
+              setListVisibility={props.setListVisibility}
+            />
           </TabPanel>
-
         </TabContext>
-    
       </Box>
     </>
   );

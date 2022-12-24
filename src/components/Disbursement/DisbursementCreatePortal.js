@@ -3,59 +3,73 @@ import FilterCondition from "./FilterCondition";
 import SanctionedList from "./SanctionedList";
 import DisbursementDetailPage from "./DisbursementDetailPage";
 
-
 var today = new Date();
 
 const initialState = {
-  tabIndex: '1',
-  applicationNumber: '',
-  applicantName: '',
+  tabIndex: "1",
+  applicationNumber: "",
+  applicantName: "",
   customerType: "-1",
-  roi: '',
-  loanAmount: '',
-  sanctionedAmount: '',
-  applicationDateFromValue: ((today.getMonth() + 1) + "/" + "01" + "/" + today.getFullYear()),
-  applicationDateToValue: ((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()),
+  roi: "",
+  loanAmount: "",
+  sanctionedAmount: "",
+  applicationDateFromValue:
+    today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+  applicationDateToValue:
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   branchName: "",
-  applicationDate:((today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()),
+  applicationDate:
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
 };
 
+const DisbursementCreatePortal = () => {
+  const [accordianOpen, setAccordianOpen] = useState(true);
+  const [listVisibility, setListVisibility] = useState(true);
+  const [isEmptyList, setIsEmptyList] = useState(false);
+  const [searchValues, setSearchValues] = useState(initialState);
 
-const DisbursementCreatePortal = () =>{
+  const searchButtonClickHandler = (data) => {
+    console.log(data);
+    setIsEmptyList(true);
+    setSearchValues(data);
+  };
 
-  const [accordianOpen,setAccordianOpen] = useState(true);
-  const[listVisibility,setListVisibility] = useState(true);
-  const[isEmptyList,setIsEmptyList] = useState(false);
-  const[searchValues,setSearchValues] = useState(initialState);
+  const clearButtonClickHandler = (data) => {
+    console.log(data);
+    setIsEmptyList(false);
+  };
 
-    const searchButtonClickHandler = (data) => {
-      console.log(data);
-      setIsEmptyList(true);
-      setSearchValues(data);
-    };
+  const rowDoubleClickHandler = (data) => {
+    console.log(data);
+    setListVisibility(!listVisibility);
+  };
 
-    const clearButtonClickHandler = (data) => {
-      console.log(data);
-      setIsEmptyList(false);
-    };
-
-    const rowDoubleClickHandler =(data) => {
-      console.log(data);
-      setListVisibility(!listVisibility);
-    };  
-
-    
-   
-
-
-
-    return (
+  return (
     <>
-    {listVisibility ? <><FilterCondition setAccordianOpen={setAccordianOpen} mode={"Search"} initialState={initialState} title="Disbursement Request Create" onSearchButtonClick={searchButtonClickHandler} onClearButtonClick={clearButtonClickHandler}/>
-    <SanctionedList onRowDoubleClick={rowDoubleClickHandler} emptyList={isEmptyList}/></> : <DisbursementDetailPage searchStateValues={searchValues} setListVisibility={setListVisibility}/> } 
-
-    </>);
-
+      {listVisibility ? (
+        <>
+          <FilterCondition
+            setAccordianOpen={setAccordianOpen}
+            disDetailPage={true}
+            mode={"Search"}
+            initialState={initialState}
+            title="Disbursement Request Create"
+            onSearchButtonClick={searchButtonClickHandler}
+            onClearButtonClick={clearButtonClickHandler}
+          />
+          <SanctionedList
+            onRowDoubleClick={rowDoubleClickHandler}
+            emptyList={isEmptyList}
+          />
+        </>
+      ) : (
+        <DisbursementDetailPage
+          searchStateValues={searchValues}
+          setListVisibility={setListVisibility}
+        />
+      )}
+    </>
+  );
 };
 
 export default DisbursementCreatePortal;
