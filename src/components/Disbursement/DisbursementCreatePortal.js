@@ -25,7 +25,7 @@ const initialState = {
 const DisbursementCreatePortal = () => {
   const [accordianOpen, setAccordianOpen] = useState(true);
   const [listVisibility, setListVisibility] = useState(true);
-  const [isEmptyList, setIsEmptyList] = useState(false);
+  const [isEmptyList, setIsEmptyList] = useState(true);
   const [searchValues, setSearchValues] = useState(initialState);
 
   const searchButtonClickHandler = (data) => {

@@ -38,7 +38,7 @@ const CustomDataGrid = (props) => {
         "& .MuiDataGrid-columnHeaders": {
           color: "white",
           fontFamily: "Roboto",
-          backgroundColor: "#727dff",
+          backgroundColor: "#004A92",
         },
         "& .super-app-theme--odd": {
           bgcolor: lighten("#D7D7D7", 0.15),
