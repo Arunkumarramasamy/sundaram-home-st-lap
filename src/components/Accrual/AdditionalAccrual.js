@@ -430,7 +430,7 @@ const AdditionalAccrual = () => {
                   "& .MuiDataGrid-columnHeaders": {
                     color: "white",
                     fontFamily: "Roboto",
-                    backgroundColor: "#727dff",
+                    backgroundColor: "#004A92",
                   },
                 }}
                 rows={rows}
@@ -517,15 +517,25 @@ const AdditionalAccrual = () => {
                   </Grid>
                 </Grid>
                 <div style={{ padding: "8px", direction: "rtl" }}>
-                  <Button variant="contained" sx={{ fontWeight: "bold" }}>
-                    Update
-                  </Button>
-                  <Button
+                <Button
                     onClick={handleHistoryDialog}
                     variant="contained"
-                    sx={{ marginRight: "8px", fontWeight: "bold" }}
+                    sx={{
+                      marginLeft: "1rem",
+                      marginRight: "1rem",
+                      color: "white",
+                      backgroundColor: "black",
+                      fontWeight: "bold"
+                    }}
+                    onMouseOver={({ target }) => {
+                      target.style.backgroundColor = "black";
+                      target.style.color = "white";
+                    }}
                   >
                     <HistoryIcon />
+                  </Button>
+                  <Button variant="contained" sx={{ fontWeight: "bold" ,}}>
+                    Update
                   </Button>
                   <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
                     <Modal

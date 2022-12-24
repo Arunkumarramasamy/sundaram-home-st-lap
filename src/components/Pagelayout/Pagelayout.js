@@ -194,7 +194,7 @@ export default function Pagelayout() {
           <ListItemIcon>
             {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
             <Tooltip title="Dashbard" disableHoverListener={!expanded}>
-              <DashboardTwoTone fontSize="large" sx={{ color: "white" }} />
+              <DashboardTwoTone fontSize="medium" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText primary="Dashboard" sx={{ display: "block" }} />
@@ -207,7 +207,7 @@ export default function Pagelayout() {
               title="Parameter Maintenance"
               disableHoverListener={!expanded}
             >
-              <EngineeringTwoTone fontSize="large" sx={{ color: "white" }} />
+              <EngineeringTwoTone fontSize="medium" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText
@@ -221,7 +221,7 @@ export default function Pagelayout() {
           <ListItemIcon>
             {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
             <Tooltip title="Disbursement" disableHoverListener={!expanded}>
-              <CurrencyRupeeTwoTone fontSize="large" sx={{ color: "white" }} />
+              <CurrencyRupeeTwoTone fontSize="medium" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText
@@ -245,7 +245,7 @@ export default function Pagelayout() {
                   title="Disbursement Request Create"
                   disableHoverListener={!expanded}
                 >
-                  <CreateTwoToneIcon fontSize="large" sx={{ color: "white" }} />
+                  <CreateTwoToneIcon fontSize="medium" sx={{ color: "white" }} />
                 </Tooltip>
               </ListItemIcon>
               <ListItemText
@@ -266,7 +266,7 @@ export default function Pagelayout() {
                   disableHoverListener={!expanded}
                 >
                   <ListAltTwoToneIcon
-                    fontSize="large"
+                    fontSize="medium"
                     sx={{ color: "white" }}
                   />
                 </Tooltip>
@@ -284,7 +284,7 @@ export default function Pagelayout() {
         <ListItemButton id="fee" onClick={handleAccrualSubMenu}>
           <ListItemIcon>
             <Tooltip title="Additional Fee" disableHoverListener={!expanded}>
-              <CurrencyRupeeTwoTone fontSize="large" sx={{ color: "white" }} />
+              <CurrencyRupeeTwoTone fontSize="medium" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText
@@ -306,7 +306,7 @@ export default function Pagelayout() {
                 {/* <img id='layout-menu-image' src={Insurance} /> */}
                 <Tooltip title="Accrual" disableHoverListener={!expanded}>
                   <AccountTreeTwoTone
-                    fontSize="large"
+                    fontSize="medium"
                     sx={{ color: "white" }}
                   />
                 </Tooltip>
@@ -326,7 +326,7 @@ export default function Pagelayout() {
               <ListItemIcon>
                 <Tooltip title="Waiver" disableHoverListener={!expanded}>
                   <AddModeratorTwoToneIcon
-                    fontSize="large"
+                    fontSize="medium"
                     sx={{ color: "white" }}
                   />
                 </Tooltip>
@@ -351,7 +351,7 @@ export default function Pagelayout() {
           <ListItemIcon>
             {/* <img  id = 'layout-menu-image' src = {disbusmentImage}/> */}
             <Tooltip title="Demo" disableHoverListener={!expanded}>
-              <CurrencyRupeeTwoTone fontSize="large" sx={{ color: "white" }} />
+              <CurrencyRupeeTwoTone fontSize="medium" sx={{ color: "white" }} />
             </Tooltip>
           </ListItemIcon>
           <ListItemText
@@ -373,7 +373,7 @@ export default function Pagelayout() {
                 {/* <img id='layout-menu-image' src={Insurance} /> */}
                 <Tooltip title="Process Demo" disableHoverListener={!expanded}>
                   <AccountTreeTwoTone
-                    fontSize="large"
+                    fontSize="medium"
                     sx={{ color: "white" }}
                   />
                 </Tooltip>
@@ -396,7 +396,7 @@ export default function Pagelayout() {
                   disableHoverListener={!expanded}
                 >
                   <AddModeratorTwoToneIcon
-                    fontSize="large"
+                    fontSize="medium"
                     sx={{ color: "white" }}
                   />
                 </Tooltip>
@@ -420,7 +420,7 @@ export default function Pagelayout() {
                   disableHoverListener={!expanded}
                 >
                   <AdminPanelSettingsTwoTone
-                    fontSize="large"
+                    fontSize="medium"
                     sx={{ color: "white" }}
                   />
                 </Tooltip>
@@ -444,7 +444,7 @@ export default function Pagelayout() {
                   disableHoverListener={!expanded}
                 >
                   <DisabledByDefaultTwoTone
-                    fontSize="large"
+                    fontSize="medium"
                     sx={{ color: "white" }}
                   />
                 </Tooltip>
@@ -495,14 +495,14 @@ export default function Pagelayout() {
           </Badge>
         </IconButton>
         <Stack direction="row">
-          <Tooltip title="Change Password">
+          {/* <Tooltip title="Change Password">
             <IconButton>
               <PublishedWithChangesTwoTone
                 sx={{ color: "white" }}
                 fontSize="large"
               />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
 
           <Tooltip title="Logout">
             <IconButton onClick={handleLogout}>

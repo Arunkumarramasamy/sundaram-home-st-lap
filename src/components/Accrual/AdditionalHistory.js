@@ -95,7 +95,7 @@ const AdditionalHistory = (props) => {
           "& .MuiDataGrid-columnHeaders": {
             color: "white",
             fontFamily: "Roboto",
-            backgroundColor: "#727dff",
+            backgroundColor: "#004A92",
           },
         }}
         rows={rows}

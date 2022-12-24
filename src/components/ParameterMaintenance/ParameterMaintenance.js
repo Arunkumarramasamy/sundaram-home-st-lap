@@ -17,6 +17,7 @@ import { Edit, MoreVert, Preview } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomDateField from "../CustomComponents/CustomDateField";
+import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 
 const ParameterMaintenance = () => {
   const rows = [
@@ -51,10 +52,10 @@ const ParameterMaintenance = () => {
   const columns = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "",
       headerAlign: "center",
       align: "center",
-      width: 130,
+      width: 50,
       renderCell: (params) => {
         return (
           <div>
@@ -199,16 +200,19 @@ const ParameterMaintenance = () => {
           justifyContent: "flex-end",
         }}
       >
-        <Button
-          sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+        {/* <Button
+          //sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
           onClick={handleClickDialogOpen}
-          onMouseOver={({ target }) => {
-            target.style.backgroundColor = "#004a92";
-            target.style.color = "#fff";
-          }}
+          // onMouseOver={({ target }) => {
+          //   target.style.backgroundColor = "#004a92";
+          //   target.style.color = "#fff";
+          // }}
         >
           Add
-        </Button>
+        </Button> */}
+        <Button variant="contained" onClick={handleClickDialogOpen}>
+        Add
+            </Button>
         {/* <Tooltip title="Add">
           <span>
             <IconButton
@@ -223,23 +227,14 @@ const ParameterMaintenance = () => {
         </Tooltip> */}
       </Box>
       <Box>
-        <DataGrid
-          sx={{
-            boxShadow: 2,
-            border: 2,
-            minHeight: "280px",
-            borderColor: "white",
-            "& .MuiDataGrid-columnHeaders": {
-              color: "white",
-              fontFamily: "Roboto",
-              backgroundColor: "#727dff",
-            },
-          }}
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
+      <CustomDataGrid
+        noDataMessage="No Data."
+        noDataOnFilterMessage="No Data on Applied Filter."
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        pageSizeOptions={[5, 10, 15, 20, 25]}
+      />
       </Box>
       <Dialog open={Dialogopen} onClose={handleDialogClose}>
         <DialogTitle>
@@ -282,26 +277,44 @@ const ParameterMaintenance = () => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+          {/* <Button
+            //sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
             onClick={handleDialogClose}
-            onMouseOver={({ target }) => {
-              target.style.backgroundColor = "#004a92";
-              target.style.color = "#fff";
-            }}
+            // onMouseOver={({ target }) => {
+            //   target.style.backgroundColor = "#004a92";
+            //   target.style.color = "#fff";
+            // }}
           >
             Cancel
-          </Button>
+          </Button> */}
           <Button
-            sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
+              sx={{
+                marginLeft: "1rem",
+                color: "white",
+                backgroundColor: "black",
+              }}
+              onMouseOver={({ target }) => {
+                target.style.backgroundColor = "black";
+                target.style.color = "white";
+              }}
+              variant="contained"
+              onClick={handleDialogClose}
+            >
+              Cancel
+            </Button>
+          {/* <Button
+            sx={{ backgroundColor: "black", color: "#black", ":hover": "red" }}
             onClick={handleDialogClose}
-            onMouseOver={({ target }) => {
-              target.style.backgroundColor = "#004a92";
-              target.style.color = "#fff";
-            }}
+            // onMouseOver={({ target }) => {
+            //   target.style.backgroundColor = "#004a92";
+            //   target.style.color = "#fff";
+            // }}
           >
             OK
-          </Button>
+          </Button> */}
+           <Button variant="contained" onClick={handleDialogClose}>
+        OK
+            </Button>
         </DialogActions>
       </Dialog>
     </Box>
