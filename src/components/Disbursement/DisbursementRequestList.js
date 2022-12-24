@@ -458,7 +458,7 @@ export default function DisbursementRequestList(props) {
   var today = new Date();
 
   const initialState = {
-    tabIndex: "1",
+    tabIndex: "2",
     applicationNumber: "",
     applicantName: "",
     customerType: "-1",
@@ -472,6 +472,12 @@ export default function DisbursementRequestList(props) {
     branchName: "",
     applicationDate:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    disbursementDateFromValue:
+      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+    disbursementDateToValue:
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    disbursementStatus: "",
+    referenceNumber: "",
   };
 
   const filterData = (data) => {
@@ -488,6 +494,21 @@ export default function DisbursementRequestList(props) {
         if (data.applicationNumber && data.applicationNumber !== "") {
           filterrows = filterrows.filter(
             (row) => row.applicationNumber === data.applicationNumber
+          );
+        }
+        if (data.applicantName && data.applicantName !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.customerName === data.applicantName
+          );
+        }
+        if (data.referenceNumber && data.referenceNumber !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.referenceNumber === data.referenceNumber
+          );
+        }
+        if (data.disbursementStatus && data.disbursementStatus !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.status === data.disbursementStatus
           );
         }
         // few more conditions yet to be added based on fields decided to target need to add to dummy data.
@@ -569,7 +590,7 @@ export default function DisbursementRequestList(props) {
             <Box
               sx={{
                 height: accordianOpen
-                  ? window.innerHeight - 600
+                  ? window.innerHeight - 540
                   : window.innerHeight - 250,
                 overflow: "auto",
                 flex: "1 auto",

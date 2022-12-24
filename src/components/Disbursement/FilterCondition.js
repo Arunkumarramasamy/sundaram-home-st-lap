@@ -8,6 +8,7 @@ import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDateRangeField from "../CustomComponents/CustomDateRangeField";
 import { useReducer } from "react";
 import { useState } from "react";
+import { Backspace, Search } from "@mui/icons-material";
 
 const filterValues = {
   tabIndex: "tabIndex",
@@ -19,6 +20,10 @@ const filterValues = {
   sanctionedAmount: "sanctionedAmount",
   applicationDateFromValue: "applicationDateFromValue",
   applicationDateToValue: "applicationDateToValue",
+  disbursementDateFromValue: "disbursementDateFromValue",
+  disbursementDateToValue: "disbursementDateToValue",
+  referenceNumber: "referenceNumber",
+  disbursementStatus: "disbursementStatus",
 };
 
 const FilterCondition = (props) => {
@@ -44,6 +49,14 @@ const FilterCondition = (props) => {
         return { ...state, applicationDateToValue: action.value };
       case filterValues.branchName:
         return { ...state, branchName: action.value };
+      case filterValues.disbursementDateFromValue:
+        return { ...state, disbursementDateFromValue: action.value };
+      case filterValues.disbursementDateToValue:
+        return { ...state, disbursementDateToValue: action.value };
+      case filterValues.disbursementStatus:
+        return { ...state, disbursementStatus: action.value };
+      case filterValues.referenceNumber:
+        return { ...state, referenceNumber: action.value };
       default:
         return { ...props.initialState, tabIndex: state.tabIndex };
     }
@@ -194,6 +207,13 @@ const FilterCondition = (props) => {
     { label: "Medavakkam" },
     { label: "West Mambalam" },
     { label: "Kottivakkam" },
+  ];
+
+  const disbursementStatus = [
+    { label: "Requested" },
+    { label: "Paid" },
+    { label: "Modified" },
+    { label: "Cancelled" },
   ];
 
   const applicationNumbers = [
@@ -363,7 +383,7 @@ const FilterCondition = (props) => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-            <CustomTextField
+            <CustomAutoComplete
               disabled={disabledState}
               required={false}
               label="Applicant Name"
@@ -372,6 +392,7 @@ const FilterCondition = (props) => {
               value={state.applicantName}
               type="text"
               placeholder="Enter Applicant Name"
+              autoCompleteValues={[]}
               onChange={(event) => {
                 dispatch({
                   type: filterValues.applicantName,
@@ -497,6 +518,69 @@ const FilterCondition = (props) => {
               </Grid>
             </React.Fragment>
           )}
+          {/* disDetailPage page is false means it was the disbursement list screen search container */}
+          {!props.disDetailPage && (
+            <React.Fragment>
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <CustomAutoComplete
+                  disabled={disabledState}
+                  required={false}
+                  label="Reference Number"
+                  id="referenceNumber"
+                  variant="standard"
+                  value={state.referenceNumber}
+                  type="text"
+                  placeholder="Enter Reference Number"
+                  autoCompleteValues={[]}
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.referenceNumber,
+                      value: event.target.value,
+                    });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <CustomAutoComplete
+                  disabled={disabledState}
+                  required={false}
+                  label="Disbursement Status"
+                  id="disbursementStatus"
+                  variant="standard"
+                  type="text"
+                  placeholder="Enter Status"
+                  autoCompleteValues={disbursementStatus}
+                  value={state.disbursementStatus}
+                  onChange={(event, value) => {
+                    dispatch({
+                      type: filterValues.disbursementStatus,
+                      value: value === null ? value : value.label,
+                    });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <CustomDateRangeField
+                  disabled={disabledState}
+                  required={false}
+                  label="Disbursement Date Range"
+                  id="disbursementDateRange"
+                  variant="standard"
+                  fromValue={state.disbursementDateFromValue}
+                  toValue={state.disbursementDateToValue}
+                  type="text"
+                  placeholder="Enter Date Range"
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.applicationDate,
+                      value: event.target.value,
+                    });
+                    console.log(event);
+                  }}
+                />
+              </Grid>
+            </React.Fragment>
+          )}
         </Grid>
         {props.mode === "Search" ? (
           <Box
@@ -507,6 +591,7 @@ const FilterCondition = (props) => {
             }}
           >
             <Button variant="contained" type="submit">
+              <Search />
               Search
             </Button>
             <Button
@@ -525,6 +610,7 @@ const FilterCondition = (props) => {
                 props.onClearButtonClick();
               }}
             >
+              <Backspace sx={{ marginRight: "1rem" }} />
               Clear
             </Button>
           </Box>
