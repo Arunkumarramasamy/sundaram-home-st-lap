@@ -7,6 +7,8 @@ var today = new Date();
 
 const initialState = {
   tabIndex: "1",
+  disbursementList: [],
+  branchNames: [],
   applicationNumber: "",
   applicantName: "",
   customerType: "-1",
@@ -20,6 +22,12 @@ const initialState = {
   branchName: "",
   applicationDate:
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+  disbursementDateFromValue:
+    today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+  disbursementDateToValue:
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+  disbursementStatus: "",
+  referenceNumber: "",
 };
 
 const DisbursementCreatePortal = () => {
