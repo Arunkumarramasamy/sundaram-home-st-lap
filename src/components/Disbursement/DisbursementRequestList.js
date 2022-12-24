@@ -42,6 +42,20 @@ export default function DisbursementRequestList(props) {
       applicationNumber: "STLAP-20220001",
       applicationDate: "01/12/2022",
       approvedAmount: "500000",
+      status: "Cancelled",
+      customerType: "New",
+      modifiedUser: "CPC_User_10",
+      modifiedDate: "Dec 04 2022 16:10:35",
+      action: "Cancelled",
+    },
+    {
+      id: "14",
+      requestNumber: "DR-DEC2022-00011",
+      branchName: "Mylapore",
+      customerName: "User1",
+      applicationNumber: "STLAP-20220001",
+      applicationDate: "01/12/2022",
+      approvedAmount: "500000",
       status: "Requested",
       customerType: "New",
       modifiedUser: "CPC_User_10",
@@ -409,6 +423,33 @@ export default function DisbursementRequestList(props) {
     },
   ];
 
+  var today = new Date();
+
+  const initialState = {
+    tabIndex: "2",
+    disbursementList: [],
+    branchNames: [],
+    applicationNumber: "",
+    applicantName: "",
+    customerType: "-1",
+    roi: "",
+    loanAmount: "",
+    sanctionedAmount: "",
+    applicationDateFromValue:
+      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+    applicationDateToValue:
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    branchName: "",
+    applicationDate:
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    disbursementDateFromValue:
+      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+    disbursementDateToValue:
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    disbursementStatus: "",
+    referenceNumber: "",
+  };
+
   const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -417,11 +458,27 @@ export default function DisbursementRequestList(props) {
   const [rows, setRows] = React.useState([]);
   const [totalPageCount, setTotalPageCount] = React.useState(0);
   const [totalRowsCount, setTotalRowsCount] = React.useState(0);
+  const [branchNames, setTotalBranchNames] = React.useState([]);
+  const [filterConditionState, setFilterConditionState] =
+    React.useState(initialState);
   const rowsPerPage = 10;
 
   const ITEM_HEIGHT = 48;
 
   useEffect(() => {
+    const loadBranchNames = [
+      ...Array.from(new Set(datarows.map((row) => row.branchName))).map(
+        (branch) => {
+          return {
+            label: branch,
+          };
+        }
+      ),
+    ];
+    setTotalBranchNames(loadBranchNames);
+    filterConditionState.branchNames = loadBranchNames;
+    filterConditionState.disbursementList = [...datarows];
+    setFilterConditionState({ ...filterConditionState });
     setRows(datarows.slice(0, rowsPerPage));
     setTotalPageCount(
       datarows.length % 10 !== 0
@@ -455,31 +512,6 @@ export default function DisbursementRequestList(props) {
     setPage(1);
   };
 
-  var today = new Date();
-
-  const initialState = {
-    tabIndex: "2",
-    applicationNumber: "",
-    applicantName: "",
-    customerType: "-1",
-    roi: "",
-    loanAmount: "",
-    sanctionedAmount: "",
-    applicationDateFromValue:
-      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
-    applicationDateToValue:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    branchName: "",
-    applicationDate:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    disbursementDateFromValue:
-      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
-    disbursementDateToValue:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    disbursementStatus: "",
-    referenceNumber: "",
-  };
-
   const filterData = (data) => {
     console.log(data);
     let filterrows = [];
@@ -503,7 +535,7 @@ export default function DisbursementRequestList(props) {
         }
         if (data.referenceNumber && data.referenceNumber !== "") {
           filterrows = filterrows.filter(
-            (row) => row.referenceNumber === data.referenceNumber
+            (row) => row.requestNumber === data.referenceNumber
           );
         }
         if (data.disbursementStatus && data.disbursementStatus !== "") {
@@ -533,7 +565,7 @@ export default function DisbursementRequestList(props) {
   return (
     <React.Fragment>
       <FilterCondition
-        initialState={initialState}
+        initialState={filterConditionState}
         title="Disbursement Information"
         onSearchButtonClick={filterData}
         onClearButtonClick={resetFilterData}

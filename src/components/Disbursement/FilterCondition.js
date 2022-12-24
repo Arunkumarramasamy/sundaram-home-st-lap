@@ -22,8 +22,9 @@ const filterValues = {
   applicationDateToValue: "applicationDateToValue",
   disbursementDateFromValue: "disbursementDateFromValue",
   disbursementDateToValue: "disbursementDateToValue",
-  referenceNumber: "referenceNumber",
+  referenceNumber: "requestNumber",
   disbursementStatus: "disbursementStatus",
+  branchName: "branchName",
 };
 
 const FilterCondition = (props) => {
@@ -62,194 +63,145 @@ const FilterCondition = (props) => {
     }
   };
 
-  const branchNames = [
-    { label: "Red Hills" },
-    { label: "Royapuram" },
-    { label: "Korukkupet" },
-    { label: "Vyasarpadi" },
-    { label: "Tondiarpet" },
-    { label: "Tiruvottiyur" },
-    { label: "Ennore" },
-    { label: "Minjur" },
-    { label: "Old Washermenpet" },
-    { label: "Madhavaram" },
-    { label: "Manali New Town" },
-    { label: "Naravarikuppam" },
-    { label: "Sowcarpet" },
-    { label: "Puzhal" },
-    { label: "Moolakadai" },
-    { label: "Central" },
-    { label: "Kodungaiyur" },
-    { label: "Madhavaram Milk Colony" },
-    { label: "Mathur MMDA" },
-    { label: "Kolathur" },
-    { label: "Surapet" },
-    { label: "Parry's Corner" },
-    { label: "Manali" },
-    { label: "Vallalar Nagar" },
-    { label: "New Washermenpet" },
-    { label: "Mannadi" },
-    { label: "George Town" },
-    { label: "Basin Bridge" },
-    { label: "Park Town" },
-    { label: "Periamet" },
-    { label: "Pattalam" },
-    { label: "Pulianthope" },
-    { label: "M.K.B. Nagar" },
-    { label: "Selavoyal" },
-    { label: "Manjambakkam" },
-    { label: "Ponniammanmedu" },
-    { label: "Sembiam" },
-    { label: "T.V.K. Nagar" },
-    { label: "ICF Colony" },
-    { label: "Lakshmipuram" },
-    { label: "Kathivakkam" },
-    { label: "Kathirvedu" },
-    { label: "Erukanchery" },
-    { label: "Broadway" },
-    { label: "Jamalia, Chennai" },
-    { label: "Kosapet" },
-    { label: "Otteri" },
-    { label: "Porur" },
-    { label: "manapakkam" },
-    { label: "Anna Nagar" },
-    { label: "Aminjikarai" },
-    { label: "Ayanavaram" },
-    { label: "Ambattur" },
-    { label: "Kundrathur" },
-    { label: "Defence Colony" },
-    { label: "Mannurpet" },
-    { label: "Padi" },
-    { label: "Ayappakkam" },
-    { label: "Korattur" },
-    { label: "Mogappair" },
-    { label: "Arumbakkam" },
-    { label: "Avadi" },
-    { label: "Pudur" },
-    { label: "Maduravoyal" },
-    { label: "Koyambedu" },
-    { label: "Ashok Nagar" },
-    { label: "K.K. Nagar" },
-    { label: "Karambakkam" },
-    { label: "Vadapalani" },
-    { label: "Saligramam" },
-    { label: "Virugambakkam" },
-    { label: "Alwarthirunagar" },
-    { label: "Valasaravakkam" },
-    { label: "Thirunindravur" },
-    { label: "Pattabiram" },
-    { label: "Thirumangalam" },
-    { label: "Thirumullaivayal" },
-    { label: "Thiruverkadu" },
-    { label: "Nandambakkam" },
-    { label: "Nerkundrum" },
-    { label: "Nesapakkam" },
-    { label: "Nolambur" },
-    { label: "Ramapuram" },
-    { label: "Mugalivakkam" },
-    { label: "Mangadu" },
-    { label: "M.G.R. Nagar" },
-    { label: "M.G.R. Garden" },
-    { label: "Alapakkam" },
-    { label: "Poonamallee" },
-    { label: "Mowlivakkam" },
-    { label: "Gerugambakkam" },
-    { label: "CMDA Colony" },
-    { label: "Thirumazhisai" },
-    { label: "Iyyapanthangal" },
-    { label: "Annanur" },
-    { label: "Teynampet" },
-    { label: "Thousand Lights" },
-    { label: "Gopalapuram" },
-    { label: "Mylapore" },
-    { label: "Chromepet" },
-    { label: "Egmore" },
-    { label: "Chetpet" },
-    { label: "Perungudi" },
-    { label: "Sholinganallur" },
-    { label: "Alandur" },
-    { label: "Adambakkam" },
-    { label: "Adyar" },
-    { label: "Besant Nagar" },
-    { label: "Triplicane" },
-    { label: "T. Nagar" },
-    { label: "Thiruvanmiyur" },
-    { label: "Saidapet" },
-    { label: "Guindy" },
-    { label: "Madipakkam" },
-    { label: "Nanganallur" },
-    { label: "Velachery" },
-    { label: "Taramani" },
-    { label: "Pallikaranai" },
-    { label: "Keelkattalai" },
-    { label: "Kovilambakkam" },
-    { label: "Thoraipakkam" },
-    { label: "Neelankarai" },
-    { label: "Injambakkam" },
-    { label: "Hastinapuram" },
-    { label: "Pallavaram" },
-    { label: "Pozhichur" },
-    { label: "Pammal" },
-    { label: "Nagalkeni" },
-    { label: "Tambaram" },
-    { label: "Selaiyur" },
-    { label: "Irumbuliyur" },
-    { label: "Kadaperi" },
-    { label: "Perungalathur" },
-    { label: "Pazhavanthangal" },
-    { label: "Peerkankaranai" },
-    { label: "Mudichur" },
-    { label: "Vandalur" },
-    { label: "Kolappakkam" },
-    { label: "Mambakkam" },
-    { label: "Palavakkam" },
-    { label: "Varadharajapuram" },
-    { label: "Medavakkam" },
-    { label: "West Mambalam" },
-    { label: "Kottivakkam" },
-  ];
+  const updateFieldsData = (field, value) => {
+    let dataList = value
+      ? [...state.disbursementList].filter((row) => row[field] === value)
+      : field === filterValues.branchName
+      ? []
+      : // the other case is clear of application number
+        [...state.disbursementList].filter(
+          (row) => row.branchName === state.branchName
+        );
+    if (dataList.length > 1) {
+      // based on branch select dynamic load of application numbers
+      if (!value && field === filterValues.applicationNumber) {
+        removeSelectedData(dataList, value, field);
+      } else if (!value && field === filterValues.referenceNumber) {
+        removeSelectedData(dataList, value, field);
+        dataList = [...dataList].filter(
+          (row) => row.applicationNumber === state.applicationNumber
+        );
+      } else if (field === filterValues.branchName) {
+        // on branch change.
+        dispatch({ type: "", value: "" });
+        dispatch({
+          type: filterValues.branchName,
+          value: !value ? null : value,
+        });
+      }
+      const applicationNumbersData = [
+        ...Array.from(
+          new Set(dataList.map((row) => row.applicationNumber))
+        ).map((applicationNumber) => {
+          return {
+            label: applicationNumber,
+          };
+        }),
+      ];
+      loadApplicationNumbers(applicationNumbersData);
+      // dynamic load of customer names
+      const applicantNames = [
+        ...Array.from(new Set(dataList.map((row) => row.customerName))).map(
+          (customerName) => {
+            return {
+              label: customerName,
+            };
+          }
+        ),
+      ];
+      loadApplicantNames(applicantNames);
+      // dynmaic load of reference numbers.
+      const referenceNumbers = [
+        ...Array.from(new Set(dataList.map((row) => row.requestNumber))).map(
+          (referenceNumber) => {
+            return {
+              label: referenceNumber,
+            };
+          }
+        ),
+      ];
+      loadReferenceNumbers(referenceNumbers);
+      // dynamic load of status.
+      const status = [
+        ...Array.from(new Set(dataList.map((row) => row.status))).map(
+          (status) => {
+            return {
+              label: status,
+            };
+          }
+        ),
+      ];
+      loadDisbursementRecordsStatus(status);
+      setSearchDisabled(false);
+    } else if (dataList.length === 1 || !value) {
+      removeSelectedData(dataList, value, field);
+      loadApplicationNumbers(
+        !value
+          ? field === filterValues.branchName
+            ? []
+            : [{ label: dataList.at(0).applicationNumber }]
+          : [{ label: dataList.at(0).applicationNumber }]
+      );
+      loadApplicantNames(
+        !value
+          ? field === filterValues.branchName
+            ? []
+            : [{ label: dataList.at(0).customerName }]
+          : [{ label: dataList.at(0).customerName }]
+      );
+      loadReferenceNumbers(
+        !value
+          ? field === filterValues.branchName
+            ? []
+            : [{ label: dataList.at(0).requestNumber }]
+          : [{ label: dataList.at(0).requestNumber }]
+      );
+      loadDisbursementRecordsStatus(
+        !value
+          ? field === filterValues.branchName
+            ? []
+            : [{ label: dataList.at(0).status }]
+          : [{ label: dataList.at(0).status }]
+      );
+      setSearchDisabled(true);
+    }
+  };
 
-  const disbursementStatus = [
-    { label: "Requested" },
-    { label: "Paid" },
-    { label: "Modified" },
-    { label: "Cancelled" },
-  ];
-
-  const applicationNumbers = [
-    { label: "STLAP-20220001" },
-    { label: "STLAP-20220002" },
-    { label: "STLAP-20220003" },
-    { label: "STLAP-20220004" },
-    { label: "STLAP-20220005" },
-    { label: "STLAP-20220006" },
-    { label: "STLAP-20220007" },
-    { label: "STLAP-20220008" },
-    { label: "STLAP-20220009" },
-    { label: "STLAP-20220010" },
-    { label: "STLAP-20220011" },
-    { label: "STLAP-20220012" },
-    { label: "STLAP-20220013" },
-    { label: "STLAP-20220014" },
-    { label: "STLAP-20220015" },
-    { label: "STLAP-20220016" },
-    { label: "STLAP-20220017" },
-    { label: "STLAP-20220018" },
-    { label: "STLAP-20220019" },
-    { label: "STLAP-20220020" },
-    { label: "STLAP-20220021" },
-    { label: "STLAP-20220022" },
-    { label: "STLAP-20220023" },
-    { label: "STLAP-20220024" },
-    { label: "STLAP-20220025" },
-    { label: "STLAP-20220026" },
-    { label: "STLAP-20220027" },
-    { label: "STLAP-BRWY-2022-029" },
-    { label: "STLAP-BRWY-2022-049" },
-  ];
+  const removeSelectedData = (dataList, value, field) => {
+    if (field !== filterValues.referenceNumber) {
+      dispatch({
+        type: filterValues.applicationNumber,
+        value:
+          !value || dataList.length === 0
+            ? null
+            : dataList.at(0).applicationNumber,
+      });
+    }
+    dispatch({
+      type: filterValues.applicantName,
+      value:
+        !value || dataList.length === 0 ? null : dataList.at(0).customerName,
+    });
+    dispatch({
+      type: filterValues.referenceNumber,
+      value:
+        !value || dataList.length === 0 ? null : dataList.at(0).requestNumber,
+    });
+    dispatch({
+      type: filterValues.disbursementStatus,
+      value: !value || dataList.length === 0 ? null : dataList.at(0).status,
+    });
+  };
 
   const [state, dispatch] = useReducer(reducer, props.initialState);
   const disabledState = !(props.mode === "Search");
+  const [applicationNumbers, loadApplicationNumbers] = React.useState([]);
+  const [applicantNames, loadApplicantNames] = React.useState([]);
+  const [referenceNumbers, loadReferenceNumbers] = React.useState([]);
+  const [disbursementStatus, loadDisbursementRecordsStatus] = React.useState(
+    []
+  );
+  const [disableSearchFields, setSearchDisabled] = React.useState(false);
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
@@ -351,13 +303,17 @@ const FilterCondition = (props) => {
               variant="standard"
               type="text"
               placeholder="Select Branch"
-              autoCompleteValues={branchNames}
+              autoCompleteValues={state.branchNames}
               value={state.branchName}
               onChange={(event, value) => {
                 dispatch({
                   type: filterValues.branchName,
                   value: value === null ? value : value.label,
                 });
+                updateFieldsData(
+                  filterValues.branchName,
+                  value === null ? value : value.label
+                );
               }}
             />
           </Grid>
@@ -378,13 +334,17 @@ const FilterCondition = (props) => {
                   type: filterValues.applicationNumber,
                   value: value === null ? value : value.label,
                 });
+                updateFieldsData(
+                  filterValues.applicationNumber,
+                  value === null ? value : value.label
+                );
               }}
             />
           </Grid>
 
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomAutoComplete
-              disabled={disabledState}
+              disabled={disabledState || disableSearchFields}
               required={false}
               label="Applicant Name"
               id="applicantName"
@@ -392,11 +352,11 @@ const FilterCondition = (props) => {
               value={state.applicantName}
               type="text"
               placeholder="Enter Applicant Name"
-              autoCompleteValues={[]}
-              onChange={(event) => {
+              autoCompleteValues={applicantNames}
+              onChange={(event, value) => {
                 dispatch({
                   type: filterValues.applicantName,
-                  value: event.target.value,
+                  value: value === null ? value : value.label,
                 });
               }}
             />
@@ -531,18 +491,22 @@ const FilterCondition = (props) => {
                   value={state.referenceNumber}
                   type="text"
                   placeholder="Enter Reference Number"
-                  autoCompleteValues={[]}
-                  onChange={(event) => {
+                  autoCompleteValues={referenceNumbers}
+                  onChange={(event, value) => {
                     dispatch({
                       type: filterValues.referenceNumber,
-                      value: event.target.value,
+                      value: value === null ? value : value.label,
                     });
+                    updateFieldsData(
+                      filterValues.referenceNumber,
+                      value === null ? value : value.label
+                    );
                   }}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomAutoComplete
-                  disabled={disabledState}
+                  disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Disbursement Status"
                   id="disbursementStatus"
@@ -561,7 +525,7 @@ const FilterCondition = (props) => {
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomDateRangeField
-                  disabled={disabledState}
+                  disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Disbursement Date Range"
                   id="disbursementDateRange"
