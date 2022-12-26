@@ -17,6 +17,7 @@ const DisbursementDetails = (props) => {
   const rows = [
     {
       id: "1",
+      accountHolderName:"User1",
       bankName: "HDFC",
       bankBranch: "Kottivakkam",
       bankAccNumber: "500987421243",
@@ -26,6 +27,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "2",
+      accountHolderName:"User1",
       bankName: "CANARA",
       bankBranch: "Royapettah",
       bankAccNumber: "124238685793",
@@ -35,6 +37,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "3",
+      accountHolderName:"User1",
       bankName: "ICICI",
       bankBranch: "Kotturpuram",
       bankAccNumber: "424238685793",
@@ -44,6 +47,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "4",
+      accountHolderName:"User1",
       bankName: "SBI",
       bankBranch: "Light House",
       bankAccNumber: "324238685793",
@@ -53,6 +57,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "5",
+      accountHolderName:"User1",
       bankName: "INDUSIND",
       bankBranch: "Karapakkam",
       bankAccNumber: "624238685793",
@@ -70,11 +75,19 @@ const DisbursementDetails = (props) => {
 
   const columns = [
     {
+      field: "accountHolderName",
+      headerName: "Account Holder Name",
+      headerAlign: "center",
+      type: "string",
+      width: 200,
+      align: "center",
+    },
+    {
       field: "bankName",
       headerName: "Bank Name",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 100,
       align: "center",
     },
     {
@@ -90,7 +103,7 @@ const DisbursementDetails = (props) => {
       headerName: "Bank Account Number",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 180,
       align: "center",
     },
     {
@@ -282,7 +295,7 @@ const DisbursementDetails = (props) => {
           <CustomTextField
             disabled={disabledState}
             required={false}
-            label="Status"
+            label="Request Status"
             id="status"
             variant="standard"
             value={""}

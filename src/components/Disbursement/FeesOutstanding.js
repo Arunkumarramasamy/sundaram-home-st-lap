@@ -251,15 +251,23 @@ const FeesOutstanding = (props) => {
 
   return (
     <>
-      <div>
-        <div style={{ display: 'flex', float: 'left', textAlign: 'start', marginTop: '5px', marginBottom: '11px' }}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'Total Deductions : '}<span style={{ color: 'Green' }}>{dueTotal+deductionTotal-paidTotal-waivedTotal}</span></label>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'(Paid : '}<span style={{ color: 'blue' }}>{paidTotal}</span>{`,`}</label>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'Due : '}<span style={{ color: 'red' }}>{dueTotal}</span>{`,`}</label>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'Waived : '}<span style={{ color: 'saddlebrown' }}>{waivedTotal}</span>{`,`}</label>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'Deduction : '}<span style={{ color: 'Purple' }}>{deductionTotal}</span>{`)`}</label>
-        </div>
-      </div>
+     <Grid container spacing={0} >
+          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Green' }}>{'Total Deductions : '}<span style={{ color: 'Green' }}>{dueTotal+deductionTotal-paidTotal-waivedTotal}</span></label>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={1} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'blue' }}>{'(Paid : '}<span style={{ color: 'blue' }}>{paidTotal}</span>{``}</label>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={1} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'red' }}>{'Due : '}<span style={{ color: 'red' }}>{dueTotal}</span>{``}</label>  
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={1} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'saddlebrown' }}>{'Waived : '}<span style={{ color: 'saddlebrown' }}>{waivedTotal}</span>{``}</label>     
+          </Grid> 
+          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Purple' }}>{'Deduction : '}<span style={{ color: 'Purple' }}>{deductionTotal}</span>{`)`}</label>
+          </Grid>  
+          </Grid>
       {useMediaQuery("(min-width:1200px)") && (
         <CustomDataGrid
           noDataMessage="No Outstanding Dues."
