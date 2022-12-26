@@ -569,6 +569,15 @@ export default function DisbursementRequestList(props) {
     props.onRowDoubleClick(event.row);
   };
 
+  const gridLazyLoad = (newPage) => {
+    console.log("lazyload" + newPage);
+    if (newPage >= page) {
+      setPage(newPage + 1);
+      const existrowsLength = rows.length;
+      setRows(datarows.slice(0, existrowsLength + rowsPerPage));
+    }
+  };
+
   return (
     <React.Fragment>
       <FilterCondition
@@ -587,8 +596,9 @@ export default function DisbursementRequestList(props) {
           rows={rows}
           columns={columns}
           pageSize={5}
-          pageSizeOptions={[5, 10, 15, 20, 25]}
+          pageSizeOptions={[5]}
           rowDoubleClickHandler={rowDoubleClickHandler}
+          gridLazyLoad={gridLazyLoad}
         />
       )}
       {useMediaQuery("(max-width:1200px)") && (

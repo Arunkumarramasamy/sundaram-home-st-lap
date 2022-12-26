@@ -4,28 +4,27 @@ import NoDataFound from "../CustomComponents/NoDataFound";
 import { useState } from "react";
 
 const CustomDataGrid = (props) => {
+  const [pageSize, setPageSize] = useState(props.pageSize);
 
-    const [pageSize, setPageSize] = useState(props.pageSize);
+  const NoRowsOverlay = () => {
+    return (
+      <Stack height="100%" alignItems="center" justifyContent="center">
+        <NoDataFound message={props.noDataMessage} />
+      </Stack>
+    );
+  };
 
-    const NoRowsOverlay = () => {
-        return (
-         
-          <Stack height="100%" alignItems="center" justifyContent="center">
-             <NoDataFound message={props.noDataMessage} />
-        </Stack>
-        );
-      }
-      
-      const NoResultsOverlay = () => {
-        return (
-          <Stack height="100%" alignItems="center" justifyContent="center">
-          <NoDataFound message={props.noDataOnFilterMessage} />
-          </Stack>
-        );
-      }
+  const NoResultsOverlay = () => {
+    return (
+      <Stack height="100%" alignItems="center" justifyContent="center">
+        <NoDataFound message={props.noDataOnFilterMessage} />
+      </Stack>
+    );
+  };
 
-    return (<DataGrid
-       sx={{
+  return (
+    <DataGrid
+      sx={{
         boxShadow: 2,
         border: 2,
         height: props.gridHeight ? props.gridHeight : "400px",
@@ -47,20 +46,24 @@ const CustomDataGrid = (props) => {
           bgcolor: lighten("#AAAAAA", 0.15),
         },
       }}
-        rows={props.rows}
-        columns={props.columns}
-        pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        rowsPerPageOptions={props.pageSizeOptions}
-        disableSelectionOnClick
-        getRowClassName={(params) =>
-          params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-        }
-        onRowDoubleClick={props.rowDoubleClickHandler}
-        components={{ NoRowsOverlay, NoResultsOverlay }}
-        hideFooter={props.hideFooter ? true : false}
-        checkboxSelection={props.checkboxSelection ? props.checkboxSelection : false}
-      />)
+      rows={props.rows}
+      columns={props.columns}
+      pageSize={pageSize}
+      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+      onPageChange={props.gridLazyLoad}
+      rowsPerPageOptions={props.pageSizeOptions}
+      disableSelectionOnClick
+      getRowClassName={(params) =>
+        params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
+      }
+      onRowDoubleClick={props.rowDoubleClickHandler}
+      components={{ NoRowsOverlay, NoResultsOverlay }}
+      hideFooter={props.hideFooter ? true : false}
+      checkboxSelection={
+        props.checkboxSelection ? props.checkboxSelection : false
+      }
+    />
+  );
 };
 
 export default CustomDataGrid;

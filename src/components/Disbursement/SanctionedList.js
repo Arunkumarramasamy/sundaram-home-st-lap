@@ -255,6 +255,14 @@ const SanctionedList = (props) => {
     setPage(newPage);
     setRows(datarows.slice(offset, offset + rowsPerPage));
   };
+  const gridLazyLoad = (newPage) => {
+    console.log("lazyload" + newPage);
+    if (newPage >= page) {
+      setPage(newPage + 1);
+      const existrowsLength = rows.length;
+      setRows(datarows.slice(0, existrowsLength + rowsPerPage));
+    }
+  };
 
   const loadStatus = (value) => {
     return (
@@ -295,6 +303,7 @@ const SanctionedList = (props) => {
           pageSize={5}
           pageSizeOptions={[5, 10, 15, 20, 25]}
           rowDoubleClickHandler={rowDoubleClickHandler}
+          gridLazyLoad={gridLazyLoad}
         />
       )}
       {useMediaQuery("(max-width:1200px)") && (
