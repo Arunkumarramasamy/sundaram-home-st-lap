@@ -262,8 +262,48 @@ const DisbursementDetails = (props) => {
           <CustomDateField
             disabled={disabledState}
             required={false}
+            label="Billing Day"
+            id="billingDay"
+            variant="standard"
+            value={
+              today.getMonth() +
+              1 +
+              "/" +
+              today.getDate() +
+              "/" +
+              today.getFullYear()
+            }
+            type="text"
+            placeholder=""
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            disabled={disabledState}
+            required={false}
             label="ECD"
             id="ecd"
+            variant="standard"
+            value={
+              today.getMonth() +
+              1 +
+              "/" +
+              today.getDate() +
+              "/" +
+              today.getFullYear()
+            }
+            type="text"
+            placeholder=""
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDateField
+            disabled={disabledState}
+            required={false}
+            label="FEDD"
+            id="fedd"
             variant="standard"
             value={
               today.getMonth() +
