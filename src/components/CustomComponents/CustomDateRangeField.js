@@ -5,9 +5,6 @@ import { useState } from "react";
 import "./Custom.css";
 
 const CustomDateRangeField = (props) => {
-    const [fromValue, setFromValue] = useState(props.fromValue);
-    const [toValue, setToValue] = useState(props.toValue);
-
 
     return (<>
         <InputLabel required={props.required} >{props.label}</InputLabel>
@@ -18,11 +15,9 @@ const CustomDateRangeField = (props) => {
           disableFuture
           openTo="year"
           views={['year', 'month', 'day']}
-          value={fromValue}
+          value={props.fromValue}
           defaultCalendarMonth
-          onChange={(newValue) => {
-            setFromValue(newValue);
-          }}
+          onChange={props.onChange[0]}
           renderInput={(params) => <TextField fullWidth   id={props.id}  variant={props.variant}  value={props.value}  type={props.type} placeholder={props.placeholder} {...params} />}
         /> </LocalizationProvider> 
 
@@ -40,11 +35,9 @@ const CustomDateRangeField = (props) => {
           disableFuture
           openTo="year"
           views={['year', 'month', 'day']}
-          value= {toValue}
+          value= {props.toValue}
           defaultCalendarMonth
-          onChange={(newValue) => {
-            setToValue(newValue);
-          }}
+          onChange={props.onChange[1]}
           renderInput={(params) => <TextField fullWidth   id={props.id}  variant={props.variant}  value={props.value}  type={props.type} placeholder={props.placeholder} {...params} />}
         /> </LocalizationProvider>  </ButtonGroup>
     </>);

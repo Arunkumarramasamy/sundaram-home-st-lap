@@ -314,7 +314,7 @@ const FilterCondition = (props) => {
                   placeholder="Enter Co-Applicant Name."
                   onChange={(event) => {
                     dispatch({
-                      type: filterValues.roi,
+                      type: filterValues.coApplicantName,
                       value: event.target.value,
                     });
                   }}
@@ -333,7 +333,7 @@ const FilterCondition = (props) => {
                   placeholder="Enter Customer Id."
                   onChange={(event) => {
                     dispatch({
-                      type: filterValues.roi,
+                      type: filterValues.customerId,
                       value: event.target.value,
                     });
                   }}
@@ -352,7 +352,7 @@ const FilterCondition = (props) => {
                   placeholder="Enter Sanction Status."
                   onChange={(event) => {
                     dispatch({
-                      type: filterValues.roi,
+                      type: filterValues.sanctionStatus,
                       value: event.target.value,
                     });
                   }}
@@ -386,12 +386,18 @@ const FilterCondition = (props) => {
                     toValue={state.applicationDateToValue}
                     type="text"
                     placeholder="Enter Application Date"
-                    onChange={(event) => {
+                    onChange={[(event) => {
                       dispatch({
-                        type: filterValues.applicationDate,
-                        value: event.target.value,
-                      });
-                    }}
+                        type: filterValues.applicationDateFromValue,
+                        value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
+                      })
+                    },
+                    (event) => {
+                      dispatch({
+                        type: filterValues.applicationDateToValue,
+                        value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
+                      })
+                    },]}
                   />
                 ) : (
                   <CustomDateField
@@ -544,13 +550,18 @@ const FilterCondition = (props) => {
                   toValue={state.disbursementDateToValue}
                   type="text"
                   placeholder="Enter Date Range"
-                  onChange={(event) => {
+                  onChange={[(event) => {
                     dispatch({
-                      type: filterValues.applicationDate,
-                      value: event.target.value,
-                    });
-                    console.log(event);
-                  }}
+                      type: filterValues.disbursementDateFromValue,
+                      value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
+                    })
+                  },
+                  (event) => {
+                    dispatch({
+                      type: filterValues.disbursementDateToValue,
+                      value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
+                    })
+                  },]}
                 />
               </Grid>
             </React.Fragment>
@@ -608,58 +619,7 @@ const FilterCondition = (props) => {
             marginTop: "-2%",
           }}
         >
-          {/* <TabContext value={state.tabIndex}>
-          <Box
-            sx={{
-              borderColor: "divider",
-              backgroundColor: "#eeeeee",
-            }}
-          >
-            <TabList
-               onChange={(event,value) => {
-                dispatch({ type: filterValues.tabIndex, value: value })
-              }}
-              aria-label="lab API tabs example"
-              TabIndicatorProps={{ hidden: true }}
-              sx={{
-                "& button.Mui-selected": {
-                  backgroundColor: "#004a92",
-                  color: "white",
-                  borderTopLeftRadius: "1rem",
-                  borderTopRightRadius: "1rem",
-                  borderBottom: "none",
-                },
-                "& div.MuiTabs-flexContainer": {
-                  flexWrap: "wrap",
-                },
-                "& button": {
-                  outline: "none",
-                  marginRight: "0.2rem",
-                  background: "#fafafa",
-                  color: "#7f7f7f",
-                  transition: "all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)",
-                  borderBottom: "2px solid #AAAAAA",
-                  textTransform: "none",
-                  borderTopLeftRadius: "1rem",
-                  borderTopRightRadius: "1rem",
-                  backgroundColor:"#D7D7D7",
-                },
-              }}
-            >
-              <Tab label="Basic Details" value="1" />
-              <Tab label="Advanced Details" value="2" />
-
-            </TabList>
-          </Box>
-          <TabPanel value="1">
-            {BasicSearchValues}
-          </TabPanel>
-          <TabPanel value="2">
-            {AdvancedSearchValues}
-          </TabPanel>
-         
-        </TabContext> */}
-          {AdvancedSearchValues}
+           {AdvancedSearchValues}
         </Box>
       </AccordianContainer>
     </>

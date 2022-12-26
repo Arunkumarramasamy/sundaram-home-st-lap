@@ -20,9 +20,7 @@ const CustomDateField = (props) => {
           views={['year', 'month', 'day']}
           value={value}
           defaultCalendarMonth
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
+          onChange={props.onChange}
           renderInput={(params) => <TextField fullWidth   id={props.id}  variant={props.variant}  value={props.value}  type={props.type} placeholder={props.placeholder} {...params} />}
         /> </LocalizationProvider>  
     </>);
