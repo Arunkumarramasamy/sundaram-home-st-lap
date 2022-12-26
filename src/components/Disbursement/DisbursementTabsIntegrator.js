@@ -73,11 +73,15 @@ const DisbursementTabsIntegrator = (props) => {
             <DisbursementDetails setListVisibility={props.setListVisibility} />
           </TabPanel>
           <TabPanel value="2">
-            <FeesOutstanding setListVisibility={props.setListVisibility} />
+            <FeesOutstanding
+              setListVisibility={props.setListVisibility}
+              accordianOpenState={props.accordianOpenState}
+            />
           </TabPanel>
           <TabPanel value="3">
             <ConditionsAndDeviations
               setListVisibility={props.setListVisibility}
+              accordianOpenState={props.accordianOpenState}
             />
           </TabPanel>
         </TabContext>

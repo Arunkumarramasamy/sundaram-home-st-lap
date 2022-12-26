@@ -89,7 +89,7 @@ const SanctionedList = (props) => {
       headerName: "Status",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 150,
       align: "center",
       renderCell: (params) => {
         return loadStatus(params.value);
@@ -106,7 +106,7 @@ const SanctionedList = (props) => {
       applicationNumber: "STLAP-20220001",
       applicationDate: "01/12/2022",
       approvedAmount: 500000,
-      status: "Cancelled",
+      status: "Approved",
     },
     {
       id: "2",
@@ -234,7 +234,6 @@ const SanctionedList = (props) => {
     props.onRowDoubleClick(event.row);
   };
 
-  //const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [page, setPage] = React.useState(1);
   const [rows, setRows] = React.useState([]);
   const [totalPageCount, setTotalPageCount] = React.useState(0);
@@ -410,10 +409,10 @@ const SanctionedList = (props) => {
               ))}
               {rows.length === 0 && (
                 <NoDataFound
-                  message={"No Disbursement Record Found."}
+                  message={"No Sanctioned Application Found."}
                   imageStyle={{
                     marginTop:
-                    props.accordianOpenState && window.innerHeight < 1000
+                      props.accordianOpenState && window.innerHeight < 1000
                         ? "20px"
                         : "20%",
                   }}

@@ -1,10 +1,20 @@
 import CustomButton from "../CustomComponents/CustomButton";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useState } from "react";
+import NoDataFound from "../CustomComponents/NoDataFound";
+import * as React from "react";
 
 const FeesOutstanding = (props) => {
-
   // const[paidTotal,setPaidTotal] = useState(0);
   // const[dueTotal,setDueTotal] = useState(0);
   // const[waivedTotal,setWaivedTotal] = useState(0);
@@ -35,9 +45,7 @@ const FeesOutstanding = (props) => {
       align: "right",
       editable: false,
       renderCell: (params) => {
-        return (
-            <>{params.value}</>
-        );
+        return <>{params.value}</>;
       },
     },
     {
@@ -169,9 +177,81 @@ const FeesOutstanding = (props) => {
     },
   ];
 
+  const loadCardView = (rows) => {
+    return (
+      <React.Fragment>
+        <Grid container>
+          <Box
+            sx={{
+              height: props.accordianOpenState
+                ? window.innerHeight - 650
+                : window.innerHeight - 250,
+              overflow: "auto",
+              flex: "1 auto",
+            }}
+          >
+            {rows.map((row, index) => (
+              <React.Fragment>
+                <Grid container direction="column" sx={{ flex: "1 auto" }}>
+                  <Card>
+                    <CardHeader
+                      subheader={row.details + " :"}
+                      subheaderTypographyProps={{
+                        color: "#004A92",
+                        fontWeight: "700",
+                      }}
+                      sx={{
+                        textAlign: "left",
+                        padding: "16px 16px 0px 16px !important",
+                      }}
+                    />
+                    <CardContent>
+                      <Grid
+                        container
+                        item
+                        direction="column"
+                        alignItems="flex-start"
+                        justifyContent="flex-start"
+                      >
+                        <Typography padding="1px">
+                          {"Paid Amount : " + row.paid}
+                        </Typography>
+                        <Typography padding="1px">
+                          {"Due Amount : " + row.due}
+                        </Typography>
+                        <Typography padding="1px">
+                          {"Waived Amount : " + row.waited}
+                        </Typography>
+                        <Typography padding="1px">
+                          {"Deduction : " + row.deduction}
+                        </Typography>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Divider />
+              </React.Fragment>
+            ))}
+            {rows.length === 0 && (
+              <NoDataFound
+                message="No Pending Fee Dues."
+                imageStyle={{
+                  marginTop:
+                    props.accordianOpenState && window.innerHeight < 1000
+                      ? "20px"
+                      : "20%",
+                }}
+              />
+            )}
+          </Box>
+        </Grid>
+      </React.Fragment>
+    );
+  };
+
   return (
     <>
-    <div>
+      <div>
         <div style={{ display: 'flex', float: 'left', textAlign: 'start', marginTop: '5px', marginBottom: '11px' }}>
           <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'Total Deductions : '}<span style={{ color: 'Green' }}>{dueTotal+deductionTotal-paidTotal-waivedTotal}</span></label>
           <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'(Paid : '}<span style={{ color: 'blue' }}>{paidTotal}</span>{`,`}</label>
@@ -179,15 +259,18 @@ const FeesOutstanding = (props) => {
           <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'Waived : '}<span style={{ color: 'saddlebrown' }}>{waivedTotal}</span>{`,`}</label>
           <label style={{ fontWeight: 'bold', marginLeft: '8px' }}>{'Deduction : '}<span style={{ color: 'Purple' }}>{deductionTotal}</span>{`)`}</label>
         </div>
-    </div>
-      <CustomDataGrid
-        noDataMessage="No Outstanding Dues."
-        noDataOnFilterMessage="No Outstanding Dues on Applied Filter."
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        pageSizeOptions={[5, 10, 15, 20, 25]}
-      />
+      </div>
+      {useMediaQuery("(min-width:1200px)") && (
+        <CustomDataGrid
+          noDataMessage="No Outstanding Dues."
+          noDataOnFilterMessage="No Outstanding Dues on Applied Filter."
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          pageSizeOptions={[5, 10, 15, 20, 25]}
+        />
+      )}
+      {useMediaQuery("(max-width:1200px)") && loadCardView(rows)}
 
       <Box
         sx={{

@@ -75,6 +75,7 @@ const DisbursementCreatePortal = () => {
         <DisbursementDetailPage
           searchStateValues={searchValues}
           setListVisibility={setListVisibility}
+          accordianOpenState={accordianOpen}
         />
       )}
     </>

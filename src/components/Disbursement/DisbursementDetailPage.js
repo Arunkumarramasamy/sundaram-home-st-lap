@@ -6,6 +6,7 @@ const DisbursementDetailPage = (props) => {
       <DisbursementTabsIntegrator
         setListVisibility={props.setListVisibility}
         searchStateValues={props.searchStateValues}
+        accordianOpenState={props.accordianOpenState}
       />
     </>
   );

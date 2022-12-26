@@ -1,6 +1,18 @@
-import { Chip, Grid, Box } from "@mui/material";
+import {
+  Chip,
+  Grid,
+  Box,
+  Card,
+  CardHeader,
+  CardContent,
+  Divider,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import CustomButton from "../CustomComponents/CustomButton";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import NoDataFound from "../CustomComponents/NoDataFound";
+import * as React from "react";
 
 const ConditionsAndDeviations = (props) => {
   const conditionColumns = [
@@ -97,37 +109,120 @@ const ConditionsAndDeviations = (props) => {
     },
   ];
 
+  const loadCardView = (cardHeaderName, rows, noDataMessage, cardMode) => {
+    return (
+      <React.Fragment>
+        <Grid container>
+          <Box
+            sx={{
+              flex: "1 auto",
+            }}
+          >
+            <React.Fragment>
+              <Grid container direction="column" sx={{ flex: "1 auto" }}>
+                <Card>
+                  <CardHeader
+                    subheader={cardHeaderName}
+                    subheaderTypographyProps={{
+                      color: "#004A92",
+                      fontWeight: "700",
+                    }}
+                    sx={{
+                      textAlign: "left",
+                      padding: "16px 16px 0px 16px !important",
+                    }}
+                  />
+                  <CardContent>
+                    <Grid
+                      container
+                      item
+                      direction="column"
+                      alignItems="flex-start"
+                      justifyContent="flex-start"
+                    >
+                      {cardMode === "Conditions" &&
+                        rows.map((row, index) => (
+                          <Typography padding="1px">
+                            {row.condition + " : " + row.date}
+                          </Typography>
+                        ))}
+                      {cardMode === "Deviations" &&
+                        rows.map((row, index) => (
+                          <Typography padding="1px">
+                            {row.deviation + " : " + row.status}
+                          </Typography>
+                        ))}
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Divider />
+            </React.Fragment>
+            {rows.length === 0 && (
+              <NoDataFound
+                message={noDataMessage}
+                imageStyle={{
+                  marginTop:
+                    props.accordianOpenState && window.innerHeight < 1000
+                      ? "20px"
+                      : "20%",
+                }}
+              />
+            )}
+          </Box>
+        </Grid>
+      </React.Fragment>
+    );
+  };
+
   return (
     <>
-      <Grid container spacing={4}>
-        <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
-          <CustomDataGrid
-            noDataMessage="No Conditions."
-            noDataOnFilterMessage="No Conditions on Applied Filter."
-            rows={conditionRows}
-            columns={conditionColumns}
-            pageSize={5}
-            pageSizeOptions={[5, 10, 15, 20, 25]}
-            hideFooter={true}
-            gridHeight={"270px"}
-            //gridWidth={"40%"}
-          />
-        </Grid>
+      {useMediaQuery("(min-width:1200px)") && (
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
+            <CustomDataGrid
+              noDataMessage="No Conditions."
+              noDataOnFilterMessage="No Conditions on Applied Filter."
+              rows={conditionRows}
+              columns={conditionColumns}
+              pageSize={5}
+              pageSizeOptions={[5, 10, 15, 20, 25]}
+              hideFooter={true}
+              gridHeight={"270px"}
+            />
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
-          <CustomDataGrid
-            noDataMessage="No Deviations."
-            noDataOnFilterMessage="No Deviations on Applied Filter."
-            rows={deviationRows}
-            columns={deviationColumns}
-            pageSize={5}
-            pageSizeOptions={[5, 10, 15, 20, 25]}
-            hideFooter={true}
-            gridHeight={"270px"}
-            // gridWidth={"40%"}
-          />
+          <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
+            <CustomDataGrid
+              noDataMessage="No Deviations."
+              noDataOnFilterMessage="No Deviations on Applied Filter."
+              rows={deviationRows}
+              columns={deviationColumns}
+              pageSize={5}
+              pageSizeOptions={[5, 10, 15, 20, 25]}
+              hideFooter={true}
+              gridHeight={"270px"}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      )}
+      {useMediaQuery("(max-width:1200px)") && (
+        <React.Fragment>
+          {loadCardView(
+            "Conditions : ",
+            conditionRows,
+            "No Conditions Found",
+            "Conditions"
+          )}
+          {loadCardView(
+            "Deviations : ",
+            deviationRows,
+            "No Deviations Found",
+            "Deviations"
+          )}
+        </React.Fragment>
+      )}
+
       <Box
         sx={{
           marginTop: "1rem",
