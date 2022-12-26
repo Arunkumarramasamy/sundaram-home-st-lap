@@ -165,7 +165,7 @@ const SanctionedList = (props) => {
         <CustomDataGrid
           noDataMessage="No Sanctioned Data."
           noDataOnFilterMessage="No Sanctioned Data on Applied Filter."
-          rows={props.data}
+          rows={rows}
           columns={columns}
           pageSize={5}
           pageSizeOptions={[5]}
@@ -211,7 +211,7 @@ const SanctionedList = (props) => {
             <Box
               sx={{
                 height: props.accordianOpenState
-                  ? window.innerHeight - 540
+                  ? window.innerHeight - 600
                   : window.innerHeight - 250,
                 overflow: "auto",
                 flex: "1 auto",
