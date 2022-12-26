@@ -22,7 +22,7 @@ const initialState = {
       applicationDate: "01/12/2022",
       approvedAmount: 500000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "2",
@@ -33,7 +33,7 @@ const initialState = {
       applicationDate: "02/12/2022",
       approvedAmount: 150000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "3",
@@ -44,7 +44,7 @@ const initialState = {
       applicationDate: "03/12/2022",
       approvedAmount: 1200000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "4",
@@ -55,7 +55,7 @@ const initialState = {
       applicationDate: "04/12/2022",
       approvedAmount: 450000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "5",
@@ -66,7 +66,7 @@ const initialState = {
       applicationDate: "05/12/2022",
       approvedAmount: 790000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "6",
@@ -77,7 +77,7 @@ const initialState = {
       applicationDate: "06/12/2022",
       approvedAmount: 680000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "7",
@@ -88,7 +88,7 @@ const initialState = {
       applicationDate: "07/12/2022",
       approvedAmount: 1460000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "8",
@@ -99,7 +99,7 @@ const initialState = {
       applicationDate: "08/12/2022",
       approvedAmount: 980000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "9",
@@ -110,7 +110,7 @@ const initialState = {
       applicationDate: "09/12/2022",
       approvedAmount: 790000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "10",
@@ -121,7 +121,7 @@ const initialState = {
       applicationDate: "10/12/2022",
       approvedAmount: 1300000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "11",
@@ -132,7 +132,7 @@ const initialState = {
       applicationDate: "11/12/2022",
       approvedAmount: 600000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "12",
@@ -143,7 +143,7 @@ const initialState = {
       applicationDate: "12/12/2022",
       approvedAmount: 200000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
     {
       id: "13",
@@ -154,7 +154,7 @@ const initialState = {
       applicationDate: "13/12/2022",
       approvedAmount: 850000,
       status: "Approved",
-      roi:'16.75',
+      roi: "16.75",
     },
   ],
   branchNames: [],
@@ -183,11 +183,12 @@ const initialState = {
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   disbursementStatus: "",
   referenceNumber: "",
+  screenModeTitle: "",
 };
 
-const DisbursementCreatePortal = () => {
+const DisbursementCreatePortal = (props) => {
   const [accordianOpen, setAccordianOpen] = useState(true);
-  const [listVisibility, setListVisibility] = useState(true);
+  const [listVisibility, setListVisibility] = useState(props.listVisibility);
   const [searchValues, setSearchValues] = useState(initialState);
   const [branchNames, setTotalBranchNames] = React.useState([]);
   const [filterConditionState, setFilterConditionState] =
@@ -247,6 +248,8 @@ const DisbursementCreatePortal = () => {
     filterConditionState.disbursementList = [
       ...filterConditionState.sanctionList,
     ];
+    filterConditionState.screenModeTitle = props.screenTitle;
+    setFilterConditionState({ ...filterConditionState });
   }, []);
 
   const clearButtonClickHandler = (data) => {

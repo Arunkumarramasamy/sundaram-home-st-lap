@@ -31,6 +31,7 @@ import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import { display } from "@mui/system";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function DisbursementRequestList(props) {
   const datarows = [
@@ -260,12 +261,27 @@ export default function DisbursementRequestList(props) {
     );
   };
 
+  const handleIconClick = (value) => {
+    handleClose();
+    switch (value) {
+      case "View":
+        navigate("/stlap/home/disbursementView");
+        break;
+      case "Modify":
+        navigate("/stlap/home/disbursementModify");
+        break;
+      case "Cancel":
+        navigate("/stlap/home/disbursementCancel");
+        break;
+    }
+  };
+
   const loadActionBtn = (value) => {
     return (
       <React.Fragment>
         {value === "Paid" || value === "Cancelled" ? (
           <Tooltip title="View">
-            <IconButton>
+            <IconButton onClick={() => handleIconClick("View")}>
               <Preview sx={{ color: "#004A92", fontWeight: 700 }} />
             </IconButton>
           </Tooltip>
@@ -310,7 +326,7 @@ export default function DisbursementRequestList(props) {
                 <MenuItem
                   key={option}
                   selected={option === "Pyxis"}
-                  onClick={handleClose}
+                  onClick={() => handleIconClick(option)}
                 >
                   <IconButton size="small">
                     {(() => {
@@ -364,6 +380,9 @@ export default function DisbursementRequestList(props) {
       type: "string",
       width: 50,
       align: "center",
+      hideable: false,
+      sortable: false,
+      filterable: false,
       renderCell: (params) => {
         return loadActionBtn(params.value);
       },
@@ -375,6 +394,7 @@ export default function DisbursementRequestList(props) {
       type: "string",
       width: 200,
       align: "center",
+      hideable: false,
     },
     {
       field: "branchName",
@@ -441,8 +461,8 @@ export default function DisbursementRequestList(props) {
     applicationNumber: "",
     applicantName: "",
     coApplicantName: "",
-    customerId:"",
-    sanctionStatus:"",
+    customerId: "",
+    sanctionStatus: "",
     effectiveDate:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     applicationDateFromValue:
@@ -455,7 +475,7 @@ export default function DisbursementRequestList(props) {
     roi: "",
     loanAmount: "",
     sanctionedAmount: "",
-   
+
     disbursementDateFromValue:
       today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
     disbursementDateToValue:
@@ -476,6 +496,7 @@ export default function DisbursementRequestList(props) {
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
   const rowsPerPage = 10;
+  const navigate = useNavigate();
 
   const ITEM_HEIGHT = 48;
 

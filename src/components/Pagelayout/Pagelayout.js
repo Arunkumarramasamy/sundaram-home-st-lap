@@ -245,7 +245,10 @@ export default function Pagelayout() {
                   title="Disbursement Request Create"
                   disableHoverListener={!expanded}
                 >
-                  <CreateTwoToneIcon fontSize="medium" sx={{ color: "white" }} />
+                  <CreateTwoToneIcon
+                    fontSize="medium"
+                    sx={{ color: "white" }}
+                  />
                 </Tooltip>
               </ListItemIcon>
               <ListItemText
@@ -693,7 +696,34 @@ export default function Pagelayout() {
 
           <Route
             path={`${search}/stlap/home/disbursementCreate`}
-            element={<DisbursementCreatePortal />}
+            element={<DisbursementCreatePortal listVisibility={true} />}
+          />
+          <Route
+            path={`${search}/stlap/home/disbursementView`}
+            element={
+              <DisbursementCreatePortal
+                listVisibility={false}
+                screenTitle="Disbursement Request View"
+              />
+            }
+          />
+          <Route
+            path={`${search}/stlap/home/disbursementCancel`}
+            element={
+              <DisbursementCreatePortal
+                listVisibility={false}
+                screenTitle="Disbursement Request Cancel"
+              />
+            }
+          />
+          <Route
+            path={`${search}/stlap/home/disbursementModify`}
+            element={
+              <DisbursementCreatePortal
+                listVisibility={false}
+                screenTitle="Disbursement Request Modify"
+              />
+            }
           />
 
           <Route
