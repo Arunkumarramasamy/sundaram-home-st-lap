@@ -97,8 +97,6 @@ const SanctionedList = (props) => {
     },
   ];
 
- 
-
   const rowDoubleClickHandler = (event) => {
     props.onRowDoubleClick(event.row);
   };
@@ -129,7 +127,7 @@ const SanctionedList = (props) => {
     if (newPage >= page) {
       setPage(newPage + 1);
       const existrowsLength = rows.length;
-      setRows(datarows.slice(0, existrowsLength + rowsPerPage));
+      setRows(props.data.slice(0, existrowsLength + rowsPerPage));
     }
   };
 
