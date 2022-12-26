@@ -92,13 +92,7 @@ const SanctionedList = (props) => {
       width: 200,
       align: "center",
       renderCell: (params) => {
-        return (
-          <Chip
-            label={params.value}
-            component="div"
-            sx={{ color: "white", bgcolor: "Green", width: "90%" }}
-          />
-        );
+        return loadStatus(params.value);
       },
     },
   ];
@@ -269,15 +263,22 @@ const SanctionedList = (props) => {
         label={value}
         component="div"
         sx={{
-          color: "white",
-          bgcolor:
+          color:
             value === "Approved"
               ? "darkgreen"
               : value === "Cancelled"
-              ? "red"
+              ? "darkred"
               : value === "Modified"
               ? "blueviolet"
-              : "blue",
+              : "#004A92",
+          bgcolor:
+            value === "Approved"
+              ? "lightgreen"
+              : value === "Cancelled"
+              ? "lightsalmon"
+              : value === "Modified"
+              ? "yellow"
+              : "lightskyblue",
           width: "90%",
         }}
       />

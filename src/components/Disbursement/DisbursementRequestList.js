@@ -238,15 +238,22 @@ export default function DisbursementRequestList(props) {
         label={value}
         component="div"
         sx={{
-          color: "white",
-          bgcolor:
+          color:
             value === "Paid"
               ? "darkgreen"
               : value === "Cancelled"
-              ? "red"
+              ? "darkred"
               : value === "Modified"
               ? "blueviolet"
-              : "blue",
+              : "#004A92",
+          bgcolor:
+            value === "Paid"
+              ? "lightgreen"
+              : value === "Cancelled"
+              ? "lightsalmon"
+              : value === "Modified"
+              ? "yellow"
+              : "lightskyblue",
           width: "90%",
         }}
       />
