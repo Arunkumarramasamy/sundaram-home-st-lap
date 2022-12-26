@@ -433,22 +433,29 @@ export default function DisbursementRequestList(props) {
   var today = new Date();
 
   const initialState = {
-    tabIndex: "2",
+    tabIndex: "1",
     disbursementList: [],
+    sanctionList: [],
     branchNames: [],
+    branchName: "",
     applicationNumber: "",
     applicantName: "",
-    customerType: "-1",
-    roi: "",
-    loanAmount: "",
-    sanctionedAmount: "",
+    coApplicantName: "",
+    customerId:"",
+    sanctionStatus:"",
+    effectiveDate:
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     applicationDateFromValue:
       today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
     applicationDateToValue:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    branchName: "",
     applicationDate:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    customerType: "-1",
+    roi: "",
+    loanAmount: "",
+    sanctionedAmount: "",
+   
     disbursementDateFromValue:
       today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
     disbursementDateToValue:
@@ -587,7 +594,7 @@ export default function DisbursementRequestList(props) {
           rows={rows}
           columns={columns}
           pageSize={5}
-          pageSizeOptions={[5, 10, 15, 20, 25]}
+          pageSizeOptions={[5]}
           rowDoubleClickHandler={rowDoubleClickHandler}
         />
       )}

@@ -12,19 +12,24 @@ import { Backspace, Search } from "@mui/icons-material";
 
 const filterValues = {
   tabIndex: "tabIndex",
+  branchName: "branchName",
   applicationNumber: "applicationNumber",
   applicantName: "applicantName",
+  coApplicantName: "coApplicantName",
+  customerId: "customerId",
+  sanctionStatus: "sanctionStatus",
+  effectiveDate: "effectiveDate",
+  applicationDateFromValue: "applicationDateFromValue",
+  applicationDateToValue: "applicationDateToValue",
+  applicationDate:"applicationDate",
   customerType: "customerType",
   roi: "roi",
   loanAmount: "loanAmount",
   sanctionedAmount: "sanctionedAmount",
-  applicationDateFromValue: "applicationDateFromValue",
-  applicationDateToValue: "applicationDateToValue",
   disbursementDateFromValue: "disbursementDateFromValue",
   disbursementDateToValue: "disbursementDateToValue",
   referenceNumber: "requestNumber",
   disbursementStatus: "disbursementStatus",
-  branchName: "branchName",
 };
 
 const FilterCondition = (props) => {
@@ -32,10 +37,26 @@ const FilterCondition = (props) => {
     switch (action.type) {
       case filterValues.tabIndex:
         return { ...state, tabIndex: action.value };
+      case filterValues.branchName:
+        return { ...state, branchName: action.value };  
       case filterValues.applicationNumber:
         return { ...state, applicationNumber: action.value };
       case filterValues.applicantName:
         return { ...state, applicantName: action.value };
+      case filterValues.coApplicantName:
+        return { ...state, coApplicantName: action.value };
+      case filterValues.customerId:
+        return { ...state, customerId: action.value };
+      case filterValues.sanctionStatus:
+        return { ...state, sanctionStatus: action.value };
+      case filterValues.effectiveDate:
+        return { ...state, effectiveDate: action.value };
+      case filterValues.applicationDate:
+        return { ...state, applicationDate: action.value };
+      case filterValues.applicationDateFromValue:
+        return { ...state, applicationDateFromValue: action.value };
+      case filterValues.applicationDateToValue:
+        return { ...state, applicationDateToValue: action.value };
       case filterValues.customerType:
         return { ...state, customerType: action.value };
       case filterValues.roi:
@@ -44,12 +65,6 @@ const FilterCondition = (props) => {
         return { ...state, loanAmount: action.value };
       case filterValues.sanctionedAmount:
         return { ...state, sanctionedAmount: action.value };
-      case filterValues.applicationDateFromValue:
-        return { ...state, applicationDateFromValue: action.value };
-      case filterValues.applicationDateToValue:
-        return { ...state, applicationDateToValue: action.value };
-      case filterValues.branchName:
-        return { ...state, branchName: action.value };
       case filterValues.disbursementDateFromValue:
         return { ...state, disbursementDateFromValue: action.value };
       case filterValues.disbursementDateToValue:
@@ -208,88 +223,6 @@ const FilterCondition = (props) => {
     props.onSearchButtonClick(state);
   };
 
-  // const BasicSearchValues = (
-  //   <><Box component="form"   onSubmit={searchButtonClickHandler}  >
-  //     <Grid container spacing={2}>
-
-  //     <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-  //         <CustomAutoComplete
-  //           disabled={disabledState}
-  //           required={true}
-  //           label="Branch"
-  //           id="branch"
-  //           variant="standard"
-  //           type="text"
-  //           placeholder="Branch"
-  //           autoCompleteValues={branchNames}
-  //           value={state.branchName}
-  //           onChange={(event,value) => {
-  //             dispatch({ type: filterValues.branchName, value: value===null ? value : value.label })
-  //           }}
-  //         />
-  //       </Grid>
-
-  //       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-  //       <CustomAutoComplete
-  //           disabled={disabledState}
-  //           required={true}
-  //           label="Application Number"
-  //           id="applicationNumber"
-  //           variant="standard"
-  //           type="text"
-  //           placeholder="Select Application Number"
-  //           autoCompleteValues={applicationNumbers}
-  //           value={state.applicationNumber}
-  //           onChange={(event,value) => {
-  //             dispatch({ type: filterValues.applicationNumber, value: value===null ? value : value.label })
-  //           }}
-  //         />
-  //       </Grid>
-
-  //       <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-  //         <CustomTextField
-  //         disabled={disabledState}
-  //           required={false}
-  //           label="Applicant Name"
-  //           id="applicantName"
-  //           variant="standard"
-  //           value={state.applicantName}
-  //           type="text"
-  //           placeholder="Applicant Name"
-  //           onChange={event => {
-  //             dispatch({ type: filterValues.applicantName, value: event.target.value })
-  //           }}
-  //         />
-  //       </Grid>
-
-  //     </Grid>
-
-  //     {props.mode==="Search" ? <Box
-  //       sx={{
-  //         marginTop: "1rem",
-  //         display: "flex",
-  //         justifyContent: "center",
-  //       }}
-  //     >
-  //       <Button variant="contained" type="submit">
-  //         Search
-  //       </Button>
-  //       <Button
-  //         sx={{ marginLeft: "1rem", color:"white",backgroundColor:"black" }}
-  //         onMouseOver={({target})=>{target.style.backgroundColor="black";target.style.color="white"}}
-  //         variant="contained"
-  //         onClick={event => {
-  //           dispatch({ type: "", value: "" });
-  //           props.onClearButtonClick(state);
-  //         }}
-  //       >
-  //         Clear
-  //       </Button>
-  //     </Box> : null}
-  //     </Box>
-  //   </>
-  // );
-
   const AdvancedSearchValues = (
     <>
       <Box component="form" validate="true" onSubmit={searchButtonClickHandler}>
@@ -362,8 +295,85 @@ const FilterCondition = (props) => {
             />
           </Grid>
 
+         
+
           {props.disDetailPage && (
             <React.Fragment>
+
+              {/* To Show other fields in view screen. */}
+                {props.mode !== "Search" ? 
+                <><Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+           <CustomTextField
+                  disabled={disabledState}
+                  required={false}
+                  label="Co-Applicant Name"
+                  id="coApplicantName"
+                  variant="standard"
+                  value={state.coApplicantName}
+                  type="text"
+                  placeholder="Enter Co-Applicant Name."
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.roi,
+                      value: event.target.value,
+                    });
+                  }}
+                />
+               
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+           <CustomTextField
+                  disabled={disabledState}
+                  required={false}
+                  label="Customer Id"
+                  id="customerID"
+                  variant="standard"
+                  value={state.customerId}
+                  type="text"
+                  placeholder="Enter Customer Id."
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.roi,
+                      value: event.target.value,
+                    });
+                  }}
+                />
+               
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+                  disabled={disabledState}
+                  required={false}
+                  label="Sanction Status"
+                  id="sanctionStatus"
+                  variant="standard"
+                  value={state.sanctionStatus}
+                  type="text"
+                  placeholder="Enter Sanction Status."
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.roi,
+                      value: event.target.value,
+                    });
+                  }}
+                />
+         </Grid>
+         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+         <CustomDateField
+                    disabled={disabledState}
+                    required={false}
+                    label="Effective Date"
+                    id="effectiveDate"
+                    variant="standard"
+                    value={state.effectiveDate}
+                    type="text"
+                    placeholder="Enter Effective Date"
+                  />
+          </Grid></>: null }
+
+
+
+
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 {props.mode === "Search" ? (
                   <CustomDateRangeField
