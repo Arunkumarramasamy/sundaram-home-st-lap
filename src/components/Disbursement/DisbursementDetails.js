@@ -180,6 +180,32 @@ const DisbursementDetails = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            disabled={disabledState}
+            required={false}
+            label="Total Deductions"
+            id="deductions"
+            variant="standard"
+            value={""}
+            type="text"
+            placeholder="Enter Total Deductions"
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            disabled={disabledState}
+            required={false}
+            label="Net Disbursement Amount"
+            id="netAmount"
+            variant="standard"
+            value={""}
+            type="text"
+            placeholder="Enter Net Disbursement Amount"
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
             disabled={disabledState}
             required={false}

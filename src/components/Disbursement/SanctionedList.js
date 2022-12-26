@@ -234,7 +234,7 @@ const SanctionedList = (props) => {
     props.onRowDoubleClick(event.row);
   };
 
-  const [accordianOpen, setAccordianOpen] = React.useState(true);
+  //const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [page, setPage] = React.useState(1);
   const [rows, setRows] = React.useState([]);
   const [totalPageCount, setTotalPageCount] = React.useState(0);
@@ -335,7 +335,7 @@ const SanctionedList = (props) => {
           <Grid container>
             <Box
               sx={{
-                height: accordianOpen
+                height: props.accordianOpenState
                   ? window.innerHeight - 540
                   : window.innerHeight - 250,
                 overflow: "auto",
@@ -413,7 +413,7 @@ const SanctionedList = (props) => {
                   message={"No Disbursement Record Found."}
                   imageStyle={{
                     marginTop:
-                      accordianOpen && window.innerHeight < 1000
+                    props.accordianOpenState && window.innerHeight < 1000
                         ? "20px"
                         : "20%",
                   }}

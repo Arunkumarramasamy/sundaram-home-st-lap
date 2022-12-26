@@ -66,6 +66,7 @@ const DisbursementCreatePortal = () => {
             onClearButtonClick={clearButtonClickHandler}
           />
           <SanctionedList
+            accordianOpenState={accordianOpen}
             onRowDoubleClick={rowDoubleClickHandler}
             emptyList={isEmptyList}
           />
