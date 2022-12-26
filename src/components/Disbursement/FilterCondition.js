@@ -227,16 +227,16 @@ const FilterCondition = (props) => {
   };
 
   const SendData = async () => {
-    try {
-      const response = await axios.post("https://bmapp.sundaramhome.in/stlap/ostlap/userbranch", {
-        userId: "ADMIN",
-      }, {headers: {'Content-Type': 'application/json'}},);
-      console.log(response);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
+  const api =   axios.create({
+      baseURL:"https://bmapp.sundaramhome.in/stlap/ostlap/",
+      headers: {'Content-Type': 'application/json'}
+    });
+    const response =  await api.post("/zonebranch",{
+     "area_code" : [7]
+      });
+    console.log(response);
+  }
+  
   const AdvancedSearchValues = (
     <>
       <Box component="form" validate="true" onSubmit={searchButtonClickHandler}>
