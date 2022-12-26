@@ -9,6 +9,7 @@ import CustomDateRangeField from "../CustomComponents/CustomDateRangeField";
 import { useReducer } from "react";
 import { useState } from "react";
 import { Backspace, Search } from "@mui/icons-material";
+import axios from "axios";
 
 const filterValues = {
   tabIndex: "tabIndex",
@@ -220,7 +221,20 @@ const FilterCondition = (props) => {
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
+    SendData();
     props.onSearchButtonClick(state);
+
+  };
+
+  const SendData = async () => {
+    try {
+      const response = await axios.post("https://bmapp.sundaramhome.in/stlap/ostlap/userbranch", {
+        userId: "ADMIN",
+      }, {headers: {'Content-Type': 'application/json'}},);
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const AdvancedSearchValues = (
