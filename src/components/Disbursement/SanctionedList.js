@@ -115,7 +115,7 @@ const SanctionedList = (props) => {
         : Number(Number((props.data.length / 10).toFixed()))
     );
     setTotalRowsCount(props.data.length);
-  }, []);
+  }, [props.data]);
 
   const handlePageChange = (event, newPage) => {
     let offset = (newPage - 1) * rowsPerPage;

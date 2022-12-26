@@ -4,11 +4,13 @@ import SanctionedList from "./SanctionedList";
 import DisbursementDetailPage from "./DisbursementDetailPage";
 import { Box } from "@mui/material";
 import StlapFooter from "../CustomComponents/StlapFooter";
+import * as React from "react";
+import { useEffect } from "react";
 
 var today = new Date();
 
 const initialState = {
-  tabIndex: "1",
+  tabIndex: "2",
   disbursementList: [],
   sanctionList: [
     {
@@ -20,6 +22,7 @@ const initialState = {
       applicationDate: "01/12/2022",
       approvedAmount: 500000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "2",
@@ -30,6 +33,7 @@ const initialState = {
       applicationDate: "02/12/2022",
       approvedAmount: 150000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "3",
@@ -40,6 +44,7 @@ const initialState = {
       applicationDate: "03/12/2022",
       approvedAmount: 1200000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "4",
@@ -50,6 +55,7 @@ const initialState = {
       applicationDate: "04/12/2022",
       approvedAmount: 450000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "5",
@@ -60,6 +66,7 @@ const initialState = {
       applicationDate: "05/12/2022",
       approvedAmount: 790000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "6",
@@ -70,6 +77,7 @@ const initialState = {
       applicationDate: "06/12/2022",
       approvedAmount: 680000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "7",
@@ -80,6 +88,7 @@ const initialState = {
       applicationDate: "07/12/2022",
       approvedAmount: 1460000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "8",
@@ -90,6 +99,7 @@ const initialState = {
       applicationDate: "08/12/2022",
       approvedAmount: 980000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "9",
@@ -100,6 +110,7 @@ const initialState = {
       applicationDate: "09/12/2022",
       approvedAmount: 790000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "10",
@@ -110,6 +121,7 @@ const initialState = {
       applicationDate: "10/12/2022",
       approvedAmount: 1300000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "11",
@@ -120,6 +132,7 @@ const initialState = {
       applicationDate: "11/12/2022",
       approvedAmount: 600000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "12",
@@ -130,6 +143,7 @@ const initialState = {
       applicationDate: "12/12/2022",
       approvedAmount: 200000,
       status: "Approved",
+      roi:'16.75',
     },
     {
       id: "13",
@@ -140,6 +154,7 @@ const initialState = {
       applicationDate: "13/12/2022",
       approvedAmount: 850000,
       status: "Approved",
+      roi:'16.75',
     },
   ],
   branchNames: [],
@@ -174,14 +189,69 @@ const DisbursementCreatePortal = () => {
   const [accordianOpen, setAccordianOpen] = useState(true);
   const [listVisibility, setListVisibility] = useState(true);
   const [searchValues, setSearchValues] = useState(initialState);
+  const [branchNames, setTotalBranchNames] = React.useState([]);
+  const [filterConditionState, setFilterConditionState] =
+    React.useState(initialState);
 
   const searchButtonClickHandler = (data) => {
     console.log(data);
     setSearchValues(data);
+    filterData(data);
   };
+
+  const filterData = (data) => {
+    console.log(data);
+    let filterrows = [];
+    switch (data.tabIndex) {
+      case "2":
+        if (data.branchName && data.branchName !== "") {
+          filterrows = filterConditionState.sanctionList.filter(
+            (row) => row.branchName === data.branchName
+          );
+        }
+        if (data.applicationNumber && data.applicationNumber !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.applicationNumber === data.applicationNumber
+          );
+        }
+        if (data.applicantName && data.applicantName !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.customerName === data.applicantName
+          );
+        }
+        filterConditionState.sanctionList = [...filterrows];
+        setFilterConditionState({ ...filterConditionState });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const resetFilterData = () => {
+    filterConditionState.sanctionList = [...searchValues.sanctionList];
+    setFilterConditionState({ ...filterConditionState });
+  };
+
+  useEffect(() => {
+    const loadBranchNames = [
+      ...Array.from(
+        new Set(filterConditionState.sanctionList.map((row) => row.branchName))
+      ).map((branch) => {
+        return {
+          label: branch,
+        };
+      }),
+    ];
+    setTotalBranchNames(loadBranchNames);
+    filterConditionState.branchNames = loadBranchNames;
+    filterConditionState.disbursementList = [
+      ...filterConditionState.sanctionList,
+    ];
+  }, []);
 
   const clearButtonClickHandler = (data) => {
     console.log(data);
+    resetFilterData();
   };
 
   const rowDoubleClickHandler = (data) => {
@@ -205,7 +275,7 @@ const DisbursementCreatePortal = () => {
           <SanctionedList
             accordianOpenState={accordianOpen}
             onRowDoubleClick={rowDoubleClickHandler}
-            data={initialState.sanctionList}
+            data={filterConditionState.sanctionList}
           />
         </>
       ) : (

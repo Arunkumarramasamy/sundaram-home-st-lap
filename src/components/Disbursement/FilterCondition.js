@@ -22,7 +22,7 @@ const filterValues = {
   effectiveDate: "effectiveDate",
   applicationDateFromValue: "applicationDateFromValue",
   applicationDateToValue: "applicationDateToValue",
-  applicationDate:"applicationDate",
+  applicationDate: "applicationDate",
   customerType: "customerType",
   roi: "roi",
   loanAmount: "loanAmount",
@@ -39,7 +39,7 @@ const FilterCondition = (props) => {
       case filterValues.tabIndex:
         return { ...state, tabIndex: action.value };
       case filterValues.branchName:
-        return { ...state, branchName: action.value };  
+        return { ...state, branchName: action.value };
       case filterValues.applicationNumber:
         return { ...state, applicationNumber: action.value };
       case filterValues.applicantName:
@@ -207,6 +207,28 @@ const FilterCondition = (props) => {
       type: filterValues.disbursementStatus,
       value: !value || dataList.length === 0 ? null : dataList.at(0).status,
     });
+
+    if (props.disDetailPage) {
+      dispatch({
+        type: filterValues.customerType,
+        value:
+          !value || dataList.length === 0 ? "" : dataList.at(0).customerType,
+      });
+      dispatch({
+        type: filterValues.loanAmount,
+        value:
+          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+      });
+      dispatch({
+        type: filterValues.sanctionedAmount,
+        value:
+          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+      });
+      dispatch({
+        type: filterValues.roi,
+        value: !value || dataList.length === 0 ? "" : dataList.at(0).roi,
+      });
+    }
   };
 
   const [state, dispatch] = useReducer(reducer, props.initialState);
@@ -221,22 +243,21 @@ const FilterCondition = (props) => {
 
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
-    SendData();
+    //SendData();
     props.onSearchButtonClick(state);
-
   };
 
   const SendData = async () => {
-  const api =   axios.create({
-      baseURL:"https://bmapp.sundaramhome.in/stlap/ostlap/",
-      headers: {'Content-Type': 'application/json'}
+    const api = axios.create({
+      baseURL: "https://bmapp.sundaramhome.in/stlap/ostlap/",
+      headers: { "Content-Type": "application/json" },
     });
-    const response =  await api.post("/zonebranch",{
-     "area_code" : [7]
-      });
+    const response = await api.post("/zonebranch", {
+      area_code: [7],
+    });
     console.log(response);
-  }
-  
+  };
+
   const AdvancedSearchValues = (
     <>
       <Box component="form" validate="true" onSubmit={searchButtonClickHandler}>
@@ -309,89 +330,84 @@ const FilterCondition = (props) => {
             />
           </Grid>
 
-         
-
           {props.disDetailPage && (
             <React.Fragment>
-
               {/* To Show other fields in view screen. */}
-                {props.mode !== "Search" ? 
-                <><Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-           <CustomTextField
-                  disabled={disabledState}
-                  required={false}
-                  label="Co-Applicant Name"
-                  id="coApplicantName"
-                  variant="standard"
-                  value={state.coApplicantName}
-                  type="text"
-                  placeholder="Enter Co-Applicant Name."
-                  onChange={(event) => {
-                    dispatch({
-                      type: filterValues.coApplicantName,
-                      value: event.target.value,
-                    });
-                  }}
-                />
-               
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-           <CustomTextField
-                  disabled={disabledState}
-                  required={false}
-                  label="Customer Id"
-                  id="customerID"
-                  variant="standard"
-                  value={state.customerId}
-                  type="text"
-                  placeholder="Enter Customer Id."
-                  onChange={(event) => {
-                    dispatch({
-                      type: filterValues.customerId,
-                      value: event.target.value,
-                    });
-                  }}
-                />
-               
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
-                  disabled={disabledState}
-                  required={false}
-                  label="Sanction Status"
-                  id="sanctionStatus"
-                  variant="standard"
-                  value={state.sanctionStatus}
-                  type="text"
-                  placeholder="Enter Sanction Status."
-                  onChange={(event) => {
-                    dispatch({
-                      type: filterValues.sanctionStatus,
-                      value: event.target.value,
-                    });
-                  }}
-                />
-         </Grid>
-         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-         <CustomDateField
-                    disabled={disabledState}
-                    required={false}
-                    label="Effective Date"
-                    id="effectiveDate"
-                    variant="standard"
-                    value={state.effectiveDate}
-                    type="text"
-                    placeholder="Enter Effective Date"
-                  />
-          </Grid></>: null }
-
-
-
+              {props.mode !== "Search" ? (
+                <>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      disabled={disabledState}
+                      required={false}
+                      label="Co-Applicant Name"
+                      id="coApplicantName"
+                      variant="standard"
+                      value={state.coApplicantName}
+                      type="text"
+                      placeholder="Enter Co-Applicant Name."
+                      onChange={(event) => {
+                        dispatch({
+                          type: filterValues.coApplicantName,
+                          value: event.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      disabled={disabledState}
+                      required={false}
+                      label="Customer Id"
+                      id="customerID"
+                      variant="standard"
+                      value={state.customerId}
+                      type="text"
+                      placeholder="Enter Customer Id."
+                      onChange={(event) => {
+                        dispatch({
+                          type: filterValues.customerId,
+                          value: event.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      disabled={disabledState}
+                      required={false}
+                      label="Sanction Status"
+                      id="sanctionStatus"
+                      variant="standard"
+                      value={state.sanctionStatus}
+                      type="text"
+                      placeholder="Enter Sanction Status."
+                      onChange={(event) => {
+                        dispatch({
+                          type: filterValues.sanctionStatus,
+                          value: event.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomDateField
+                      disabled={disabledState}
+                      required={false}
+                      label="Effective Date"
+                      id="effectiveDate"
+                      variant="standard"
+                      value={state.effectiveDate}
+                      type="text"
+                      placeholder="Enter Effective Date"
+                    />
+                  </Grid>
+                </>
+              ) : null}
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 {props.mode === "Search" ? (
                   <CustomDateRangeField
-                    disabled={disabledState}
+                    disabled={disabledState || disableSearchFields}
                     required={false}
                     label="Application Date"
                     id="applicationDate"
@@ -400,18 +416,20 @@ const FilterCondition = (props) => {
                     toValue={state.applicationDateToValue}
                     type="text"
                     placeholder="Enter Application Date"
-                    onChange={[(event) => {
-                      dispatch({
-                        type: filterValues.applicationDateFromValue,
-                        value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
-                      })
-                    },
-                    (event) => {
-                      dispatch({
-                        type: filterValues.applicationDateToValue,
-                        value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
-                      })
-                    },]}
+                    onChange={[
+                      (event) => {
+                        dispatch({
+                          type: filterValues.applicationDateFromValue,
+                          value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                        });
+                      },
+                      (event) => {
+                        dispatch({
+                          type: filterValues.applicationDateToValue,
+                          value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                        });
+                      },
+                    ]}
                   />
                 ) : (
                   <CustomDateField
@@ -429,7 +447,7 @@ const FilterCondition = (props) => {
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomDropDown
-                  disabled={disabledState}
+                  disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Customer Type"
                   id="customerType"
@@ -437,8 +455,8 @@ const FilterCondition = (props) => {
                   type="text"
                   placeholder="Select Customer Type"
                   dropDownValue={[
-                    { value: 0, text: "New" },
-                    { value: 1, text: "Old" },
+                    { value: "New", text: "New" },
+                    { value: "Old", text: "Old" },
                   ]}
                   value={state.customerType}
                   onChange={(event) => {
@@ -452,7 +470,7 @@ const FilterCondition = (props) => {
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
-                  disabled={disabledState}
+                  disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Rate of Interest(%)"
                   id="roi"
@@ -471,7 +489,7 @@ const FilterCondition = (props) => {
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
-                  disabled={disabledState}
+                  disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Loan Amount"
                   id="loanAmount"
@@ -490,7 +508,7 @@ const FilterCondition = (props) => {
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
-                  disabled={disabledState}
+                  disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Sanctioned Amount"
                   id="sanctionedAmount"
@@ -564,18 +582,20 @@ const FilterCondition = (props) => {
                   toValue={state.disbursementDateToValue}
                   type="text"
                   placeholder="Enter Date Range"
-                  onChange={[(event) => {
-                    dispatch({
-                      type: filterValues.disbursementDateFromValue,
-                      value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
-                    })
-                  },
-                  (event) => {
-                    dispatch({
-                      type: filterValues.disbursementDateToValue,
-                      value: (event.$M + 1 + "/" +  event.$D +  "/" + event.$y),
-                    })
-                  },]}
+                  onChange={[
+                    (event) => {
+                      dispatch({
+                        type: filterValues.disbursementDateFromValue,
+                        value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                      });
+                    },
+                    (event) => {
+                      dispatch({
+                        type: filterValues.disbursementDateToValue,
+                        value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                      });
+                    },
+                  ]}
                 />
               </Grid>
             </React.Fragment>
@@ -633,7 +653,7 @@ const FilterCondition = (props) => {
             marginTop: "-2%",
           }}
         >
-           {AdvancedSearchValues}
+          {AdvancedSearchValues}
         </Box>
       </AccordianContainer>
     </>
