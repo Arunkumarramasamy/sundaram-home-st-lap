@@ -258,7 +258,7 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const rowDoubleClickHandler = (data) => {
-    console.log(data);
+    // console.log(data);
     setListVisibility(!listVisibility);
   };
 
@@ -286,6 +286,7 @@ const DisbursementCreatePortal = (props) => {
           searchStateValues={searchValues}
           setListVisibility={setListVisibility}
           accordianOpenState={accordianOpen}
+          mode={"CREATE"}
         />
       )}
       <Box>
