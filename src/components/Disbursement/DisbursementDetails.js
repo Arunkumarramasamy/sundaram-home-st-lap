@@ -1,23 +1,38 @@
 import CustomButton from "../CustomComponents/CustomButton";
 import {
   Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Checkbox,
   Chip,
+  Divider,
+  FormControlLabel,
   Grid,
+  IconButton,
   InputLabel,
   TextareaAutosize,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import CustomDateField from "../CustomComponents/CustomDateField";
-import { CurrencyRupeeSharp } from "@mui/icons-material";
+import {
+  CheckBox,
+  CheckBoxOutlineBlank,
+  CheckBoxOutlineBlankOutlined,
+  CheckBoxOutlined,
+  CurrencyRupeeSharp,
+} from "@mui/icons-material";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import NoDataFound from "../CustomComponents/NoDataFound";
 
 const DisbursementDetails = (props) => {
   const rows = [
     {
       id: "1",
-      accountHolderName:"User1",
+      accountHolderName: "User1",
       bankName: "HDFC",
       bankBranch: "Kottivakkam",
       bankAccNumber: "500987421243",
@@ -27,7 +42,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "2",
-      accountHolderName:"User1",
+      accountHolderName: "User1",
       bankName: "CANARA",
       bankBranch: "Royapettah",
       bankAccNumber: "124238685793",
@@ -37,7 +52,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "3",
-      accountHolderName:"User1",
+      accountHolderName: "User1",
       bankName: "ICICI",
       bankBranch: "Kotturpuram",
       bankAccNumber: "424238685793",
@@ -47,7 +62,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "4",
-      accountHolderName:"User1",
+      accountHolderName: "User1",
       bankName: "SBI",
       bankBranch: "Light House",
       bankAccNumber: "324238685793",
@@ -57,7 +72,7 @@ const DisbursementDetails = (props) => {
     },
     {
       id: "5",
-      accountHolderName:"User1",
+      accountHolderName: "User1",
       bankName: "INDUSIND",
       bankBranch: "Karapakkam",
       bankAccNumber: "624238685793",
@@ -68,8 +83,16 @@ const DisbursementDetails = (props) => {
   ];
 
   const [rowState, setRowState] = useState(rows);
-
+  const [checked, setChecked] = React.useState({
+    id: "",
+    value: "",
+  });
   const disabledState = false;
+
+  useEffect(() => {
+    const allChecked = Array.from({ length: rows.length }, () => false);
+    setChecked([...allChecked]);
+  }, [rowState]);
 
   var today = new Date();
 
@@ -161,6 +184,39 @@ const DisbursementDetails = (props) => {
     });
 
     setRowState(dataMap1);
+  };
+
+  const handleChange = (value, index) => {
+    if (index === -1) {
+      // means all select check box clicked.
+      setRowState([]); // rerender the rows
+      const allChecked = Array.from({ length: rows.length }, () => value);
+      setChecked([...allChecked]);
+      setRowState([...rows]);
+    } else {
+      let checkedAccounts = [...checked];
+      checkedAccounts[index] = value;
+      setChecked([...checkedAccounts]);
+    }
+  };
+
+  const loadActionBtn = (index) => {
+    return (
+      <React.Fragment>
+        <FormControlLabel
+          label=""
+          labelPlacement="start"
+          control={
+            <Checkbox
+              checked={checked[index]}
+              onChange={() => handleChange(!checked[index], index)}
+              icon={<CheckBoxOutlineBlank />}
+              checkedIcon={<CheckBoxOutlined />}
+            />
+          }
+        />
+      </React.Fragment>
+    );
   };
 
   return (
@@ -389,16 +445,151 @@ const DisbursementDetails = (props) => {
           margin: "auto",
         }}
       >
-        <CustomDataGrid
-          noDataMessage="No Bank Data."
-          noDataOnFilterMessage="No Bank Data on Applied Filter."
-          gridHeight="270px"
-          rows={rowState}
-          columns={columns}
-          checkboxSelection={true}
-          pageSize={3}
-          pageSizeOptions={[3, 6, 9, 12]}
-        />
+        {useMediaQuery("(min-width:1200px)") && (
+          <CustomDataGrid
+            noDataMessage="No Bank Data."
+            noDataOnFilterMessage="No Bank Data on Applied Filter."
+            gridHeight="270px"
+            rows={rowState}
+            columns={columns}
+            checkboxSelection={true}
+            pageSize={3}
+            pageSizeOptions={[3, 6, 9, 12]}
+          />
+        )}
+        {useMediaQuery("(max-width:1200px)") && (
+          <React.Fragment>
+            <Grid
+              container
+              item
+              direction="row"
+              alignItems="flex-end"
+              justifyContent="flex-end"
+              sx={{ height: "60px", bgcolor: "white" }}
+            >
+              <React.Fragment>
+                <FormControlLabel
+                  label="Select All Accounts"
+                  labelPlacement="start"
+                  control={
+                    <Checkbox
+                      checked={() =>
+                        new Set(checked).length === 1
+                          ? new Set(checked)[0]
+                          : false
+                      }
+                      indeterminate={() =>
+                        new Set(checked).length === 1
+                          ? new Set(checked)[0]
+                          : false
+                      }
+                      onChange={(event) =>
+                        handleChange(event.target.checked, -1)
+                      }
+                    />
+                  }
+                />
+              </React.Fragment>
+            </Grid>
+            <Grid container>
+              <Box
+                sx={{
+                  // height: accordianOpen
+                  //   ? window.innerHeight - 540
+                  //   : window.innerHeight - 250,
+                  // overflow: "auto",
+                  flex: "1 auto",
+                }}
+              >
+                {rowState.map((row, index) => (
+                  <React.Fragment>
+                    <Grid container direction="column" sx={{ flex: "1 auto" }}>
+                      <Card>
+                        <CardHeader
+                          action={loadActionBtn(index)}
+                          subheader={row.bankName + "- " + row.bankAccNumber}
+                          subheaderTypographyProps={{
+                            color: "#004A92",
+                            fontWeight: "700",
+                          }}
+                          sx={{
+                            textAlign: "left",
+                            padding: "16px 16px 0px 16px !important",
+                          }}
+                        />
+                        <CardContent>
+                          <Grid
+                            container
+                            item
+                            direction="column"
+                            alignItems="flex-start"
+                            justifyContent="flex-start"
+                          >
+                            <Typography padding="1px">
+                              {"Account Holder Name : " + row.accountHolderName}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Account Number : " + row.bankAccNumber}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Account Type : " + row.bankAccType}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Bank  : " + row.bankName}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Branch : " + row.bankBranch}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"IFSC Code : " + row.bankIfsc}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Amount to Disbursed : " + row.amount}
+                            </Typography>
+                            <CustomTextField
+                              disabled={false}
+                              required={false}
+                              label={"Amount to Disbursed : "}
+                              id="amount"
+                              variant="standard"
+                              value={rowState[index].amount}
+                              type="number"
+                              onChange={() => onAmountChange(row.id)}
+                            />
+                          </Grid>
+                          <Grid
+                            container
+                            item
+                            direction="row"
+                            alignItems="flex-end"
+                            justifyContent="flex-end"
+                          >
+                            <Typography sx={{ width: "40%" }}>
+                              {/* {loadStatus(row.status)} */}
+                            </Typography>
+                          </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                    <Divider />
+                  </React.Fragment>
+                ))}
+                {rows.length === 0 && (
+                  <NoDataFound
+                    message={"No Bank Data."}
+                    imageStyle={{
+                      marginTop:
+                        // accordianOpen && window.innerHeight < 1000
+                        //   ? "20px"
+                        // :
+                        "20%",
+                    }}
+                  />
+                )}
+              </Box>
+            </Grid>
+          </React.Fragment>
+        )}
       </Box>
       <Box
         sx={{
