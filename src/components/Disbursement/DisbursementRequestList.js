@@ -261,117 +261,6 @@ export default function DisbursementRequestList(props) {
     );
   };
 
-  const handleIconClick = (value) => {
-    handleClose();
-    switch (value) {
-      case "View":
-        navigate("/stlap/home/disbursementView");
-        break;
-      case "Modify":
-        navigate("/stlap/home/disbursementModify");
-        break;
-      case "Cancel":
-        navigate("/stlap/home/disbursementCancel");
-        break;
-    }
-  };
-
-  const loadActionBtn = (value) => {
-    return (
-      <React.Fragment>
-        {value === "Paid" || value === "Cancelled" ? (
-          <Tooltip title="View">
-            <IconButton onClick={() => handleIconClick("View")}>
-              <Preview sx={{ color: "#004A92", fontWeight: 700 }} />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <div>
-            <Tooltip title="More Actions">
-              <IconButton
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleMenuClick}
-              >
-                <MoreVert sx={{ color: "#004A92", fontWeight: 700 }} />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              id="long-menu"
-              MenuListProps={{
-                "aria-labelledby": "long-button",
-              }}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  maxHeight: ITEM_HEIGHT * 4.5,
-                  width: "100px",
-                },
-              }}
-            >
-              {req_mod_options.map((option, index) => (
-                <MenuItem
-                  key={option}
-                  selected={option === "Pyxis"}
-                  onClick={() => handleIconClick(option)}
-                >
-                  <IconButton size="small">
-                    {(() => {
-                      switch (index) {
-                        case 0:
-                          return (
-                            <Preview
-                              fontSize="small"
-                              sx={{ color: "#004A92", fontWeight: 700 }}
-                            />
-                          );
-                        case 1:
-                          return (
-                            <Edit
-                              fontSize="small"
-                              sx={{ color: "#004A92", fontWeight: 700 }}
-                            />
-                          );
-                        case 2:
-                          return (
-                            <CancelScheduleSend
-                              fontSize="small"
-                              sx={{ color: "#004A92", fontWeight: 700 }}
-                            />
-                          );
-                      }
-                    })()}
-                  </IconButton>
-                  <Typography
-                    color="#004A92"
-                    variant="inherit"
-                    component="div"
-                    fontSize="14px"
-                    fontWeight="inherit"
-                  >
-                    {option}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </div>
-        )}
-      </React.Fragment>
-    );
-  };
   const columns = [
     {
       field: "action",
@@ -384,7 +273,7 @@ export default function DisbursementRequestList(props) {
       sortable: false,
       filterable: false,
       renderCell: (params) => {
-        return loadActionBtn(params.value);
+        return <LoadActionBtn record={params.row} />;
       },
     },
     {
@@ -485,9 +374,6 @@ export default function DisbursementRequestList(props) {
   };
 
   const [accordianOpen, setAccordianOpen] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const req_mod_options = ["View", "Modify", "Cancel"];
   const [page, setPage] = React.useState(1);
   const [rows, setRows] = React.useState([]);
   const [totalPageCount, setTotalPageCount] = React.useState(0);
@@ -496,9 +382,6 @@ export default function DisbursementRequestList(props) {
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
   const rowsPerPage = 10;
-  const navigate = useNavigate();
-
-  const ITEM_HEIGHT = 48;
 
   useEffect(() => {
     const loadBranchNames = [
@@ -522,13 +405,6 @@ export default function DisbursementRequestList(props) {
     );
     setTotalRowsCount(datarows.length);
   }, []);
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handlePageChange = (event, newPage) => {
     let offset = (newPage - 1) * rowsPerPage;
@@ -678,7 +554,11 @@ export default function DisbursementRequestList(props) {
                   <Grid container direction="column" sx={{ flex: "1 auto" }}>
                     <Card>
                       <CardHeader
-                        action={loadActionBtn(row.status)}
+                        action={
+                          <React.Fragment>
+                            {<LoadActionBtn record={row} />}
+                          </React.Fragment>
+                        }
                         subheader={
                           "Application Number : " + row.applicationNumber
                         }
@@ -753,3 +633,129 @@ export default function DisbursementRequestList(props) {
     </React.Fragment>
   );
 }
+
+const LoadActionBtn = (props) => {
+  const [record, setRecord] = React.useState(props.record);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const req_mod_options = ["View", "Modify", "Cancel"];
+  const navigate = useNavigate();
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleIconClick = (value, record) => {
+    handleClose();
+    console.log(record);
+    switch (value) {
+      case "View":
+        navigate("/stlap/home/disbursementView");
+        break;
+      case "Modify":
+        navigate("/stlap/home/disbursementModify");
+        break;
+      case "Cancel":
+        navigate("/stlap/home/disbursementCancel");
+        break;
+    }
+  };
+
+  const ITEM_HEIGHT = 48;
+  return (
+    <React.Fragment>
+      {record.status === "Paid" || record.status === "Cancelled" ? (
+        <Tooltip title="View">
+          <IconButton onClick={() => handleIconClick("View", record)}>
+            <Preview sx={{ color: "#004A92", fontWeight: 700 }} />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <div>
+          <Tooltip title="More Actions">
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? "long-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleMenuClick}
+            >
+              <MoreVert sx={{ color: "#004A92", fontWeight: 700 }} />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="long-menu"
+            MenuListProps={{
+              "aria-labelledby": "long-button",
+            }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: "100px",
+              },
+            }}
+          >
+            {req_mod_options.map((option, index) => (
+              <MenuItem
+                key={option}
+                selected={option === "Pyxis"}
+                onClick={() => handleIconClick(option, record)}
+              >
+                <IconButton size="small">
+                  {(() => {
+                    switch (index) {
+                      case 0:
+                        return (
+                          <Preview
+                            fontSize="small"
+                            sx={{ color: "#004A92", fontWeight: 700 }}
+                          />
+                        );
+                      case 1:
+                        return (
+                          <Edit
+                            fontSize="small"
+                            sx={{ color: "#004A92", fontWeight: 700 }}
+                          />
+                        );
+                      case 2:
+                        return (
+                          <CancelScheduleSend
+                            fontSize="small"
+                            sx={{ color: "#004A92", fontWeight: 700 }}
+                          />
+                        );
+                    }
+                  })()}
+                </IconButton>
+                <Typography
+                  color="#004A92"
+                  variant="inherit"
+                  component="div"
+                  fontSize="14px"
+                  fontWeight="inherit"
+                >
+                  {option}
+                </Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </div>
+      )}
+    </React.Fragment>
+  );
+};
