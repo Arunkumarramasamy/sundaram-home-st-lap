@@ -453,7 +453,7 @@ export default function DisbursementRequestList(props) {
   var today = new Date();
 
   const initialState = {
-    tabIndex: "1",
+    tabIndex: "2",
     disbursementList: [],
     sanctionList: [],
     branchNames: [],
