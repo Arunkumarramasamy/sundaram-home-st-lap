@@ -1,4 +1,18 @@
-import { Box, Button, Grid, lighten, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  lighten,
+  Modal,
+  Typography,
+  useMediaQuery,
+  Card,
+  CardHeader,
+  Divider,
+  CardContent,
+  PaginationItem,
+  Pagination,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -11,13 +25,30 @@ import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 import AdditionalHistory from "./AdditionalHistory";
 import HistoryIcon from "@mui/icons-material/History";
+import {
+  CancelScheduleSend,
+  Edit,
+  MoreVert,
+  Preview,
+  ArrowBack,
+  ArrowForward,
+} from "@mui/icons-material";
+
+import AccrualCardItems from "./AccrualCardItems";
+import AccrualRemark from "./AccrualRemark";
 
 const AdditionalAccrual = () => {
+  const [totalPageCount, setTotalPageCount] = React.useState(0);
+  const [totalRowsCount, setTotalRowsCount] = React.useState(0);
+  const [branchName, setBranchName] = useState("");
+  const [rows, setRows] = React.useState([]);
+  const rowsPerPage = 10;
+  const [page, setPage] = React.useState(1);
+  const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [applicationSearchDisable, setApplicationSearchDisable] =
     useState(true);
-  const [branchName, setBranchName] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
   const [openHistoryDialog, setOpenHistoryDialog] = useState(false);
   const [currentDate, setCurrentDate] = useState(
@@ -25,8 +56,21 @@ const AdditionalAccrual = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
+ 
   const [applicationNumber, setApplicationNumber] = useState("");
-
+  const onChangeCardItems = (row, value) => {
+    row["waived"] = value;
+    setDataRow((oldArray) => [...oldArray, row]);
+  };
+  useEffect(() => {
+    setRows(dataRows.slice(0, rowsPerPage));
+    setTotalPageCount(
+      dataRows.length % 10 !== 0
+        ? Number(Number((dataRows.length / 10).toFixed()) + 1)
+        : Number(Number((dataRows.length / 10).toFixed()))
+    );
+    setTotalRowsCount(dataRows.length);
+  }, []);
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -99,7 +143,7 @@ const AdditionalAccrual = () => {
     setBranchName("");
   };
 
-  const rows = [
+  const [dataRows, setDataRow] = React.useState([
     {
       id: 1,
       details: "Mod Charges",
@@ -199,7 +243,12 @@ const AdditionalAccrual = () => {
       receiveable: 0,
       waived: 0,
     },
-  ];
+  ]);
+  const handlePageChange = (event, newPage) => {
+    let offset = (newPage - 1) * rowsPerPage;
+    setPage(newPage);
+    setRows(dataRows.slice(offset, offset + rowsPerPage));
+  };
   const columns = [
     {
       field: "details",
@@ -422,7 +471,7 @@ const AdditionalAccrual = () => {
               }}
             >
               <DataGrid
-                 sx={{
+                sx={{
                   boxShadow: 2,
                   border: 2,
                   minHeight: "280px",
@@ -433,17 +482,18 @@ const AdditionalAccrual = () => {
                     backgroundColor: "#004A92",
                   },
                 }}
-                rows={rows}
+                rows={dataRows}
                 columns={columns}
                 pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                rowsPerPageOptions={[4, 8, 12, 16]}
                 disableSelectionOnClick
+                autoHeight
+                // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
                 getRowClassName={(params) =>
                   params.id % 2
                     ? `super-app-theme--even`
                     : `super-app-theme--odd`
                 }
+                isCellEditable={(params) => params.row.paid !== 0}
                 initialState={{
                   columns: {
                     columnVisibilityModel: {
@@ -453,106 +503,75 @@ const AdditionalAccrual = () => {
                 }}
               />
             </Grid>
-            <Grid
-              container
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
-            >
-              <Box sx={{ width: "100%", marginTop: "16px" }}>
-                <Grid
-                  container
-                  spacing={2}
-                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+          </AccordianContainer>
+         
+          {useMediaQuery("(max-width:1200px)") && (
+            <React.Fragment>
+              <Grid
+                container
+                item
+                direction="row"
+                alignItems="flex-end"
+                justifyContent="flex-end"
+                sx={{ height: "60px", bgcolor: "white" }}
+              >
+                {totalRowsCount > 10 && (
+                  <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                    {"Page Max Records : " + rowsPerPage}
+                  </Typography>
+                )}
+                <Typography
+                  padding="1px"
+                  sx={{ color: "#004A92", fontWeight: 700 }}
                 >
-                  <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
-                    <CustomDropDown
-                      id="1"
-                      label="Reason "
-                      value="1"
-                      defaultValue="1"
-                      required={true}
-                      dropDownValue={resonValue}
+                  {"Total Records : " + totalRowsCount}
+                </Typography>
+                <Pagination
+                  count={totalPageCount}
+                  color="primary"
+                  onChange={handlePageChange}
+                  page={page}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      slots={{ previous: ArrowBack, next: ArrowForward }}
+                      {...item}
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-                    <CustomTextField
-                      required={false}
-                      disabled={true}
-                      label="Accrual By"
-                      id="refdate"
-                      value="Accurver"
-                      type="text"
-                      placeholder=""
-                      variant="standard"
-                    />
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  spacing={2}
-                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
+                  )}
+                />
+              </Grid>
+              <Grid container>
+                <Box
+                  sx={{
+                    height: accordianOpen
+                      ? window.innerHeight - 540
+                      : window.innerHeight - 250,
+                    overflow: "auto",
+                    flex: "1 auto",
+                  }}
                 >
-                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
-                    <Typography id="accrual-waiver-remark" required={true}>
-                      Remarks
-                    </Typography>
-                    <TextareaAutosize
-                      maxRows={4}
-                      required={true}
-                      aria-label="maximum height"
-                      style={{
-                        width: "100%",
-                        height: "100px",
-                        borderRadius: "4px",
-                        resize: " none;",
-                        outline: "none",
+                  {dataRows.map((row, index) => (
+                    <AccrualCardItems
+                      value={row}
+                      index={index}
+                      onChange={onChangeCardItems}
+                    ></AccrualCardItems>
+                  ))}
+                  {/* {rows.length === 0 && (
+                    <NoDataFound
+                      message={"No Disbursement Record Found."}
+                      imageStyle={{
+                        marginTop:
+                          accordianOpen && window.innerHeight < 1000
+                            ? "20px"
+                            : "20%",
                       }}
                     />
-                  </Grid>
-                </Grid>
-                <div style={{ padding: "8px", direction: "rtl" }}>
-                <Button
-                    onClick={handleHistoryDialog}
-                    variant="contained"
-                    sx={{
-                      marginLeft: "1rem",
-                      marginRight: "1rem",
-                      color: "white",
-                      backgroundColor: "black",
-                      fontWeight: "bold"
-                    }}
-                    onMouseOver={({ target }) => {
-                      target.style.backgroundColor = "black";
-                      target.style.color = "white";
-                    }}
-                  >
-                    <HistoryIcon />
-                  </Button>
-                  <Button variant="contained" sx={{ fontWeight: "bold" ,}}>
-                    Update
-                  </Button>
-                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        <AdditionalHistory title="Waived History" />
-                      </Box>
-                    </Modal>
-                  </Grid>
-                </div>
-              </Box>
-            </Grid>
-          </AccordianContainer>
+                  )} */}
+                </Box>
+              </Grid>
+            </React.Fragment>
+          )}
+          <AccrualRemark></AccrualRemark>
         </div>
       </div>
       <StlapFooter />
