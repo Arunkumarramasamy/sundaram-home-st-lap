@@ -17,7 +17,7 @@ const initialState = {
   branchNames: [],
   branch: "",
   applicationNumber: "",
-  applicantName: "",
+  customerName: "",
   coApplicantName: "",
   customerId: "",
   sanctionStatus: "",
@@ -30,7 +30,7 @@ const initialState = {
   applicationDate:
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   customerType: "-1",
-  roi: "",
+  rateOfInterest: "",
   loanAmount: "",
   sanctionedAmount: "",
 
@@ -47,6 +47,7 @@ const DisbursementCreatePortal = (props) => {
   const [accordianOpen, setAccordianOpen] = useState(true);
   const [listVisibility, setListVisibility] = useState(props.listVisibility);
   const [searchValues, setSearchValues] = useState(initialState);
+  const [rowClickData, setRowClickData] = useState({});
   const [branchNames, setTotalBranchNames] = React.useState([]);
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
@@ -72,9 +73,9 @@ const DisbursementCreatePortal = (props) => {
             (row) => row.applicationNumber === data.applicationNumber
           );
         }
-        if (data.applicantName && data.applicantName !== "") {
+        if (data.customerName && data.customerName !== "") {
           filterrows = filterrows.filter(
-            (row) => row.customerName === data.applicantName
+            (row) => row.customerName === data.customerName
           );
         }
         filterConditionState.sanctionList = [...filterrows];
@@ -100,8 +101,12 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const rowDoubleClickHandler = (data) => {
-    // console.log(data);
     setListVisibility(!listVisibility);
+    const dataMap = {
+      ...data,
+    };
+    dataMap.branchNames = [dataMap.branch];
+    setRowClickData(dataMap);
   };
 
   const getSanctionList = async () => {
@@ -154,6 +159,8 @@ const DisbursementCreatePortal = (props) => {
           setListVisibility={setListVisibility}
           accordianOpenState={accordianOpen}
           mode={"CREATE"}
+          screenTitle={"Disbursement Request Create"}
+          rowClickData={rowClickData}
         />
       )}
       <Box>
