@@ -13,7 +13,7 @@ import axios from "axios";
 
 const filterValues = {
   tabIndex: "tabIndex",
-  branchName: "branchName",
+  branch: "branch",
   applicationNumber: "applicationNumber",
   applicantName: "applicantName",
   coApplicantName: "coApplicantName",
@@ -38,8 +38,8 @@ const FilterCondition = (props) => {
     switch (action.type) {
       case filterValues.tabIndex:
         return { ...state, tabIndex: action.value };
-      case filterValues.branchName:
-        return { ...state, branchName: action.value };
+      case filterValues.branch:
+        return { ...state, branch: action.value };
       case filterValues.applicationNumber:
         return { ...state, applicationNumber: action.value };
       case filterValues.applicantName:
@@ -82,11 +82,11 @@ const FilterCondition = (props) => {
   const updateFieldsData = (field, value) => {
     let dataList = value
       ? [...state.disbursementList].filter((row) => row[field] === value)
-      : field === filterValues.branchName
+      : field === filterValues.branch
       ? []
       : // the other case is clear of application number
         [...state.disbursementList].filter(
-          (row) => row.branchName === state.branchName
+          (row) => row.branch === state.branch
         );
     if (dataList.length > 1) {
       // based on branch select dynamic load of application numbers
@@ -97,11 +97,11 @@ const FilterCondition = (props) => {
         dataList = [...dataList].filter(
           (row) => row.applicationNumber === state.applicationNumber
         );
-      } else if (field === filterValues.branchName) {
+      } else if (field === filterValues.branch) {
         // on branch change.
         dispatch({ type: "", value: "" });
         dispatch({
-          type: filterValues.branchName,
+          type: filterValues.branch,
           value: !value ? null : value,
         });
       }
@@ -153,28 +153,28 @@ const FilterCondition = (props) => {
       removeSelectedData(dataList, value, field);
       loadApplicationNumbers(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).applicationNumber }]
           : [{ label: dataList.at(0).applicationNumber }]
       );
       loadApplicantNames(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).customerName }]
           : [{ label: dataList.at(0).customerName }]
       );
       loadReferenceNumbers(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).requestNumber }]
           : [{ label: dataList.at(0).requestNumber }]
       );
       loadDisbursementRecordsStatus(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).status }]
           : [{ label: dataList.at(0).status }]
@@ -217,16 +217,16 @@ const FilterCondition = (props) => {
       dispatch({
         type: filterValues.loanAmount,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
       dispatch({
         type: filterValues.sanctionedAmount,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
       dispatch({
         type: filterValues.roi,
-        value: !value || dataList.length === 0 ? "" : dataList.at(0).roi,
+        value: !value || dataList.length === 0 ? "" : dataList.at(0).rateOfInterest,
       });
     }
   };
@@ -272,14 +272,14 @@ const FilterCondition = (props) => {
               type="text"
               placeholder="Select Branch"
               autoCompleteValues={state.branchNames}
-              value={state.branchName}
+              value={state.branch}
               onChange={(event, value) => {
                 dispatch({
-                  type: filterValues.branchName,
+                  type: filterValues.branch,
                   value: value === null ? value : value.label,
                 });
                 updateFieldsData(
-                  filterValues.branchName,
+                  filterValues.branch,
                   value === null ? value : value.label
                 );
               }}

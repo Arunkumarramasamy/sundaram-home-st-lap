@@ -201,6 +201,23 @@ const DisbursementDetails = (props) => {
     setRowState(dataMap1);
   };
 
+  const onCheckBoxEnable = (id) => (event) => {
+    const dataMap1 = [];
+    props.detailPageInitialState.disbursementFavours.forEach((value) => {
+      const dataMap = {
+        ...value,
+      };
+      if (value.id === id) {
+        dataMap.isChecked = !dataMap.isChecked;
+      }
+      dataMap1.push(dataMap);
+    });
+    props.dispatchEvent({
+      type: props.fieldList.disbursementFavours,
+      value: dataMap1,
+    });
+  };
+
   const handleChange = (value, index) => {
     if (index === -1) {
       // means all select check box clicked.
