@@ -217,16 +217,16 @@ const FilterCondition = (props) => {
       dispatch({
         type: filterValues.loanAmount,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
       dispatch({
         type: filterValues.sanctionedAmount,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
       dispatch({
         type: filterValues.roi,
-        value: !value || dataList.length === 0 ? "" : dataList.at(0).roi,
+        value: !value || dataList.length === 0 ? "" : dataList.at(0).rateOfInterest,
       });
     }
   };
