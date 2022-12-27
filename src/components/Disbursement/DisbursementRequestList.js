@@ -346,9 +346,9 @@ export default function DisbursementRequestList(props) {
     disbursementList: [],
     sanctionList: [],
     branchNames: [],
-    branchName: "",
+    branch: "",
     applicationNumber: "",
-    applicantName: "",
+    customerName: "",
     coApplicantName: "",
     customerId: "",
     sanctionStatus: "",
@@ -361,16 +361,17 @@ export default function DisbursementRequestList(props) {
     applicationDate:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     customerType: "-1",
-    roi: "",
+    rateOfInterest: "",
     loanAmount: "",
     sanctionedAmount: "",
-
+  
     disbursementDateFromValue:
       today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
     disbursementDateToValue:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     disbursementStatus: "",
     referenceNumber: "",
+    screenModeTitle: "",
   };
 
   const [accordianOpen, setAccordianOpen] = React.useState(true);

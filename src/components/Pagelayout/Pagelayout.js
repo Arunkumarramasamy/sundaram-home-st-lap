@@ -56,6 +56,7 @@ import AccrualWaiver from "../Accrual/AccrualWaiver";
 import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
 import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
+import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
 
 const drawerWidth = 300;
 
@@ -701,8 +702,7 @@ export default function Pagelayout() {
           <Route
             path={`${search}/stlap/home/disbursementView`}
             element={
-              <DisbursementCreatePortal
-                listVisibility={false}
+              <DisbursementDetailPage
                 screenTitle="Disbursement Request View"
               />
             }
@@ -710,8 +710,7 @@ export default function Pagelayout() {
           <Route
             path={`${search}/stlap/home/disbursementCancel`}
             element={
-              <DisbursementCreatePortal
-                listVisibility={false}
+              <DisbursementDetailPage
                 screenTitle="Disbursement Request Cancel"
               />
             }
@@ -719,8 +718,7 @@ export default function Pagelayout() {
           <Route
             path={`${search}/stlap/home/disbursementModify`}
             element={
-              <DisbursementCreatePortal
-                listVisibility={false}
+              <DisbursementDetailPage
                 screenTitle="Disbursement Request Modify"
               />
             }

@@ -101,6 +101,10 @@ const SanctionedList = (props) => {
     props.onRowDoubleClick(event.row);
   };
 
+  const cardButtonClickHandler = (event) => {
+    props.onRowDoubleClick(event);
+  };
+
   const [page, setPage] = React.useState(1);
   const [rows, setRows] = React.useState([]);
   const [totalPageCount, setTotalPageCount] = React.useState(0);
@@ -224,7 +228,7 @@ const SanctionedList = (props) => {
                     <Card>
                       <CardHeader
                         action={
-                          <IconButton onClick={rowDoubleClickHandler}>
+                          <IconButton onClick={() => {cardButtonClickHandler(row)}}>
                             <Shortcut
                               sx={{ color: "#004A92", fontWeight: 700 }}
                             />

@@ -3,7 +3,7 @@ import DisbursementTabsIntegrator from "./DisbursementTabsIntegrator";
 var today = new Date();
 var todayDate = today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
 
-const detailPageInitialState =   {
+var detailPageInitialState =   {
     "applicationNumber": "",
     "billingDate": todayDate,
     "billingDay": todayDate,
@@ -79,7 +79,7 @@ const detailPageInitialState =   {
     "totalDisbAmt": 0,
     "transactionId": 0
 };
-const losInitialState =   {
+var losInitialState =   {
     branchNames: [],
     branchName: "Branch Name",
     applicationNumber: "Application Number",
@@ -95,14 +95,16 @@ const losInitialState =   {
     roi: "0",
     loanAmount: "0",
     sanctionedAmount: "0",
-    screenModeTitle: "Disbursement Request Create",
+    screenModeTitle: "",
     requestNumber: "",
     memoDeductions:"0"
 };
 
 
 const DisbursementDetailPage = (props) => {
+  losInitialState.screenModeTitle=props.screenTitle;
 
+  losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
   return (
     <>
       <DisbursementTabsIntegrator
