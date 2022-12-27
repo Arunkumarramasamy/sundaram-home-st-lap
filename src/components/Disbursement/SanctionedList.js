@@ -26,7 +26,7 @@ import { useEffect } from "react";
 const SanctionedList = (props) => {
   const columns = [
     {
-      field: "branchName",
+      field: "branch",
       headerName: "Branch Name",
       headerAlign: "center",
       type: "string",
@@ -67,7 +67,7 @@ const SanctionedList = (props) => {
       align: "right",
     },
     {
-      field: "approvedAmount",
+      field: "sanctionAmount",
       headerName: "Approved Amount",
       headerAlign: "center",
       type: "string",
@@ -85,7 +85,7 @@ const SanctionedList = (props) => {
       },
     },
     {
-      field: "status",
+      field: "losStatus",
       headerName: "Status",
       headerAlign: "center",
       type: "string",
@@ -171,6 +171,7 @@ const SanctionedList = (props) => {
           pageSizeOptions={[5]}
           rowDoubleClickHandler={rowDoubleClickHandler}
           gridLazyLoad={gridLazyLoad}
+          getRowId={(row) => row.applicationNumber}
         />
       )}
       {useMediaQuery("(max-width:1200px)") && (
@@ -253,14 +254,14 @@ const SanctionedList = (props) => {
                             {"Customer Name : " + row.customerName}
                           </Typography>
                           <Typography padding="1px">
-                            {"Branch : " + row.branchName}
+                            {"Branch : " + row.branch}
                           </Typography>
                           <Typography padding="1px">
                             {"Customer Type : " + row.customerType}
                           </Typography>
 
                           <Typography padding="1px">
-                            {"Sancationed Loan Amount : " + row.approvedAmount}
+                            {"Sancationed Loan Amount : " + row.sanctionAmount}
                           </Typography>
                           <Typography padding="1px">
                             {"Application Date : " + row.applicationDate}
@@ -274,7 +275,7 @@ const SanctionedList = (props) => {
                           justifyContent="flex-end"
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {loadStatus(row.status)}
+                            {loadStatus(row.losStatus)}
                           </Typography>
                         </Grid>
                       </CardContent>
