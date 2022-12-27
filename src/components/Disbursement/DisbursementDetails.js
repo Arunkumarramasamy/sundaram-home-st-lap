@@ -84,16 +84,15 @@ const DisbursementDetails = (props) => {
   ];
 
   const [rowState, setRowState] = useState(rows);
-  const [checked, setChecked] = React.useState({
-    id: "",
-    value: "",
-  });
+  const [allCheckedValues, setChecked] = React.useState([
+    ...Array.from({ length: rows.length }, () => false),
+  ]);
   const disabledState = false;
 
   useEffect(() => {
     const allChecked = Array.from({ length: rows.length }, () => false);
     setChecked([...allChecked]);
-  }, [rowState]);
+  }, []);
 
   var today = new Date();
 
@@ -107,7 +106,10 @@ const DisbursementDetails = (props) => {
       align: "center",
       renderCell: (params) => {
         return (
-          <Checkbox checked={params.value} onChange={onCheckBoxEnable(params.row.id)}/>
+          <Checkbox
+            checked={params.value}
+            onChange={onCheckBoxEnable(params.row.id)}
+          />
         );
       },
     },
@@ -218,43 +220,24 @@ const DisbursementDetails = (props) => {
     });
   };
 
-  const handleChange = (value, index) => {
-    if (index === -1) {
-      // means all select check box clicked.
-      setRowState([]); // rerender the rows
-      const allChecked = Array.from({ length: rows.length }, () => value);
-      setChecked([...allChecked]);
-      setRowState([...rows]);
-    } else {
-      let checkedAccounts = [...checked];
-      checkedAccounts[index] = value;
-      setChecked([...checkedAccounts]);
-    }
+  const onCheckBoxChange = (value, record) => {
+    const allChecked = [...allCheckedValues];
+    allChecked[Number(record.id) - 1] = value;
+    setChecked(allChecked);
   };
 
-  const loadActionBtn = (index) => {
-    return (
-      <React.Fragment>
-        <FormControlLabel
-          label=""
-          labelPlacement="start"
-          control={
-            <Checkbox
-              checked={checked[index]}
-              onChange={() => handleChange(!checked[index], index)}
-              icon={<CheckBoxOutlineBlank />}
-              checkedIcon={<CheckBoxOutlined />}
-            />
-          }
-        />
-      </React.Fragment>
-    );
+  const handleMainCheckBoxChange = (value) => {
+    // clear the rows for checkbox to re-render
+    setRowState([]);
+    const allChecked = Array.from({ length: rows.length }, () => value);
+    setChecked([...allChecked]);
+    setRowState(rows);
   };
 
   return (
     <Box sx={{ marginTop: "0.5rem" }}>
       <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             disabled={true}
             required={false}
@@ -279,7 +262,7 @@ const DisbursementDetails = (props) => {
             label="Earlier Disbursement Amount"
             id="earlierDisbursementAmount"
             variant="standard"
-           value={props.detailPageInitialState.earlierDisbAmt}
+            value={props.detailPageInitialState.earlierDisbAmt}
             type="text"
             placeholder="Enter Earlier Disbursement Amount"
             onChange={(event, value) => {
@@ -298,7 +281,7 @@ const DisbursementDetails = (props) => {
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
             variant="standard"
-           value={props.detailPageInitialState.disbAmt}
+            value={props.detailPageInitialState.disbAmt}
             type="text"
             placeholder="Enter Current Disbursement Amount"
             onChange={(event, value) => {
@@ -317,7 +300,7 @@ const DisbursementDetails = (props) => {
             label="Total Deductions"
             id="deductions"
             variant="standard"
-           value={props.losInitialState.memoDeductions}
+            value={props.losInitialState.memoDeductions}
             type="text"
             placeholder="Enter Total Deductions"
           />
@@ -330,7 +313,10 @@ const DisbursementDetails = (props) => {
             label="Net Disbursement Amount"
             id="netAmount"
             variant="standard"
-           value={props.detailPageInitialState.disbAmt - props.losInitialState.memoDeductions}
+            value={
+              props.detailPageInitialState.disbAmt -
+              props.losInitialState.memoDeductions
+            }
             type="text"
             placeholder="Enter Net Disbursement Amount"
           />
@@ -438,7 +424,7 @@ const DisbursementDetails = (props) => {
             label="Request Number"
             id="requestNumber"
             variant="standard"
-           value={props.losInitialState.requestNumber}
+            value={props.losInitialState.requestNumber}
             type="text"
             placeholder="Enter Request Number"
           />
@@ -451,7 +437,7 @@ const DisbursementDetails = (props) => {
             label="Request Status"
             id="status"
             variant="standard"
-           value={props.detailPageInitialState.requestStatus}
+            value={props.detailPageInitialState.requestStatus}
             type="text"
             placeholder="Enter Status"
             onChange={(event, value) => {
@@ -470,7 +456,7 @@ const DisbursementDetails = (props) => {
             label="Payment Mode"
             id="paymentMode"
             variant="standard"
-           value={props.detailPageInitialState.paymentMode}
+            value={props.detailPageInitialState.paymentMode}
             type="text"
             placeholder="Enter Payment Mode"
             onChange={(event, value) => {
@@ -489,7 +475,7 @@ const DisbursementDetails = (props) => {
             label="SHFL Bank"
             id="shflBank"
             variant="standard"
-           value={props.detailPageInitialState.shflBank}
+            value={props.detailPageInitialState.shflBank}
             type="text"
             placeholder="Enter SHFL Bank"
             onChange={(event, value) => {
@@ -555,18 +541,22 @@ const DisbursementDetails = (props) => {
                   labelPlacement="start"
                   control={
                     <Checkbox
-                      checked={() =>
-                        new Set(checked).length === 1
-                          ? new Set(checked)[0]
-                          : false
+                      checked={
+                        [...new Set(allCheckedValues)].length === 1
+                          ? [...new Set(allCheckedValues)][0]
+                            ? true
+                            : false
+                          : true
                       }
-                      indeterminate={() =>
-                        new Set(checked).length === 1
-                          ? new Set(checked)[0]
-                          : false
+                      indeterminate={
+                        [...new Set(allCheckedValues)].length === 1
+                          ? [...new Set(allCheckedValues)][0]
+                            ? false
+                            : false
+                          : true
                       }
                       onChange={(event) =>
-                        handleChange(event.target.checked, -1)
+                        handleMainCheckBoxChange(event.target.checked)
                       }
                     />
                   }
@@ -588,7 +578,17 @@ const DisbursementDetails = (props) => {
                     <Grid container direction="column" sx={{ flex: "1 auto" }}>
                       <Card>
                         <CardHeader
-                          action={loadActionBtn(index)}
+                          action={
+                            <React.Fragment>
+                              {
+                                <LoadActionBtn
+                                  record={row}
+                                  checked={allCheckedValues[index]}
+                                  checkBoxChange={onCheckBoxChange}
+                                />
+                              }
+                            </React.Fragment>
+                          }
                           subheader={row.bankName + "- " + row.bankAccNumber}
                           subheaderTypographyProps={{
                             color: "#004A92",
@@ -698,3 +698,33 @@ const DisbursementDetails = (props) => {
 };
 
 export default DisbursementDetails;
+
+const LoadActionBtn = (props) => {
+  const [record, setRecord] = React.useState(props.record);
+  const [checkedValue, setChecked] = React.useState(false);
+
+  useEffect(() => {
+    setChecked(props.checked);
+  }, [props.checked]);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    props.checkBoxChange(event.target.checked, record);
+  };
+  return (
+    <React.Fragment>
+      <FormControlLabel
+        label=""
+        labelPlacement="start"
+        control={
+          <Checkbox
+            checked={checkedValue}
+            onChange={handleChange}
+            icon={<CheckBoxOutlineBlank />}
+            checkedIcon={<CheckBoxOutlined />}
+          />
+        }
+      />
+    </React.Fragment>
+  );
+};
