@@ -1,3 +1,7 @@
+import { Backdrop, CircularProgress } from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
 import DisbursementTabsIntegrator from "./DisbursementTabsIntegrator";
 
 var today = new Date();
@@ -11,62 +15,7 @@ var detailPageInitialState =   {
     "disbAmt": 0,
     "disbNo": 0,
     "disbRequestId": 0,
-    "disbursementFavours": [
-      {
-        id: "1",
-        accountHolderName:"User1",
-        bankName: "HDFC",
-        bankBranch: "Kottivakkam",
-        bankAccNumber: "500987421243",
-        bankAccType: "Savings",
-        bankIfsc: "HDFC0000500",
-        amount: "",
-        isChecked : false,
-      },
-      {
-        id: "2",
-        accountHolderName:"User1",
-        bankName: "CANARA",
-        bankBranch: "Royapettah",
-        bankAccNumber: "124238685793",
-        bankAccType: "Savings",
-        bankIfsc: "CNRB0000938",
-        amount: "",
-        isChecked : false,
-      },
-      {
-        id: "3",
-        accountHolderName:"User1",
-        bankName: "ICICI",
-        bankBranch: "Kotturpuram",
-        bankAccNumber: "424238685793",
-        bankAccType: "Savings",
-        bankIfsc: "ICIC0001040",
-        amount: "",
-        isChecked : false,
-      },
-      {
-        id: "4",
-        accountHolderName:"User1",
-        bankName: "SBI",
-        bankBranch: "Light House",
-        bankAccNumber: "324238685793",
-        bankAccType: "Savings",
-        bankIfsc: "SBHY0021634",
-        amount: "",
-        isChecked : false,
-      },
-      {
-        id: "5",
-        accountHolderName:"User1",
-        bankName: "INDUSIND",
-        bankBranch: "Karapakkam",
-        bankAccNumber: "624238685793",
-        bankAccType: "Savings",
-        bankIfsc: "INDB0001653",
-        amount: "",
-        isChecked : false,
-      },],
+    "disbursementFavours": [],
     "earlierDisbAmt": 0,
     "editLock": false,
     "effectiveDate": todayDate,
@@ -102,10 +51,44 @@ var losInitialState =   {
 
 
 const DisbursementDetailPage = (props) => {
-  losInitialState.screenModeTitle=props.screenTitle;
 
-  losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
+  const[loading,setLoading] = useState(true);
+
+  useEffect(() => {
+    losInitialState.screenModeTitle=props.screenTitle;
+    losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
+    getScreenData();
+   }, []);
+
+  const getScreenData = async () => {
+   
+    const api = axios.create({
+      baseURL: "http://localhost:8080/losCustomer/"
+    });
+    const response = await api.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
+    {response.data.map((row, index) => ( 
+      row.isChecked = false
+     ))};
+    detailPageInitialState.disbursementFavours = response.data 
+    setLoading(false);
+  };
+
   return (
+    loading  ?  <>
+    <Backdrop
+    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    open={true}
+  >
+    <CircularProgress color="inherit" />
+  </Backdrop> 
+      <DisbursementTabsIntegrator
+        setListVisibility={props.setListVisibility}
+        searchStateValues={losInitialState}
+        accordianOpenState={props.accordianOpenState}
+        mode={props.mode}
+        detailPageInitialState={detailPageInitialState}
+      />
+    </>: 
     <>
       <DisbursementTabsIntegrator
         setListVisibility={props.setListVisibility}

@@ -13,7 +13,8 @@ const CustomDateField = (props) => {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           disabled={props.disabled}
-          disableFuture
+          disableFuture={props.disableFuture}
+          disablePast={props.disablePast}
           openTo="year"
           views={["year", "month", "day"]}
           value={props.value}

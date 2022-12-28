@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 
-const MoreAction = ({ params, viewClickHandler }) => {
+const MoreAction = ({ params, viewClickHandler, modifyClickHandler }) => {
   const options = ["View", "Modify"];
   const ITEM_HEIGHT = 48;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -18,9 +18,8 @@ const MoreAction = ({ params, viewClickHandler }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const menuItemHandler = (row) => {
+  const menuItemHandler = () => {
     handleClose();
-    viewClickHandler(row);
   };
   return (
     <>
@@ -60,12 +59,13 @@ const MoreAction = ({ params, viewClickHandler }) => {
         }}
       >
         {options.map((option, index) => (
-          <MenuItem key={option} onClick={() => menuItemHandler(params)}>
+          <MenuItem key={option} onClick={() => menuItemHandler()}>
             {(() => {
               switch (index) {
                 case 0:
                   return (
                     <IconButton
+                      onClick={() => viewClickHandler(params)}
                       size="small"
                       sx={{
                         color: "#004A92",
@@ -89,6 +89,7 @@ const MoreAction = ({ params, viewClickHandler }) => {
                 case 1:
                   return (
                     <IconButton
+                      onClick={() => modifyClickHandler(params)}
                       size="small"
                       sx={{
                         color: "#004A92",

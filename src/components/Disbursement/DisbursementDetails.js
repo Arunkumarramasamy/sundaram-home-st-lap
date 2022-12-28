@@ -30,59 +30,9 @@ import React, { useEffect, useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
 
 const DisbursementDetails = (props) => {
-  const rows = [
-    {
-      id: "1",
-      accountHolderName: "User1",
-      bankName: "HDFC",
-      bankBranch: "Kottivakkam",
-      bankAccNumber: "500987421243",
-      bankAccType: "Savings",
-      bankIfsc: "HDFC0000500",
-      amount: 0,
-    },
-    {
-      id: "2",
-      accountHolderName: "User1",
-      bankName: "CANARA",
-      bankBranch: "Royapettah",
-      bankAccNumber: "124238685793",
-      bankAccType: "Savings",
-      bankIfsc: "CNRB0000938",
-      amount: 0,
-    },
-    {
-      id: "3",
-      accountHolderName: "User1",
-      bankName: "ICICI",
-      bankBranch: "Kotturpuram",
-      bankAccNumber: "424238685793",
-      bankAccType: "Savings",
-      bankIfsc: "ICIC0001040",
-      amount: 0,
-    },
-    {
-      id: "4",
-      accountHolderName: "User1",
-      bankName: "SBI",
-      bankBranch: "Light House",
-      bankAccNumber: "324238685793",
-      bankAccType: "Savings",
-      bankIfsc: "SBHY0021634",
-      amount: 0,
-    },
-    {
-      id: "5",
-      accountHolderName: "User1",
-      bankName: "INDUSIND",
-      bankBranch: "Karapakkam",
-      bankAccNumber: "624238685793",
-      bankAccType: "Savings",
-      bankIfsc: "INDB0001653",
-      amount: 0,
-    },
-  ];
+  
 
+  const rows = props.detailPageInitialState.disbursementFavours;
   const [rowState, setRowState] = useState(rows);
   const [allCheckedValues, setChecked] = React.useState([
     ...Array.from({ length: rows.length }, () => false),
@@ -108,13 +58,13 @@ const DisbursementDetails = (props) => {
         return (
           <Checkbox
             checked={params.value}
-            onChange={onCheckBoxEnable(params.row.id)}
+            onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
           />
         );
       },
     },
     {
-      field: "accountHolderName",
+      field: "accHoldrName",
       headerName: "Account Holder Name",
       headerAlign: "center",
       type: "string",
@@ -130,7 +80,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankBranch",
+      field: "bankBranchName",
       headerName: "Bank Branch",
       headerAlign: "center",
       type: "string",
@@ -138,7 +88,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankAccNumber",
+      field: "bankAccountNumber",
       headerName: "Bank Account Number",
       headerAlign: "center",
       type: "string",
@@ -146,7 +96,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankAccType",
+      field: "bankAccountType",
       headerName: "Bank Account Type",
       headerAlign: "center",
       type: "string",
@@ -155,7 +105,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankIfsc",
+      field: "ifscCode",
       headerName: "IFSC",
       headerAlign: "center",
       type: "string",
@@ -180,7 +130,7 @@ const DisbursementDetails = (props) => {
             variant="standard"
             value={params.value}
             type="number"
-            onChange={onAmountChange(params.row.id)}
+            onChange={onAmountChange(params.row.bankAccountNumber)}
             placeholder={!params.row.isChecked ? "Disabled" : "Enter Amount"}
           />
         );
@@ -188,13 +138,13 @@ const DisbursementDetails = (props) => {
     },
   ];
 
-  const onAmountChange = (id) => (event) => {
+  const onAmountChange = (bankAccountNumber) => (event) => {
     const dataMap1 = [];
-    props.detailPageInitialState.disbursementFavours.forEach((value) => {
+    rowState.forEach((value) => {
       const dataMap = {
         ...value,
       };
-      if (value.id === id) {
+      if (value.bankAccountNumber === bankAccountNumber) {
         dataMap.amount = event.target.value;
       }
       dataMap1.push(dataMap);
@@ -203,21 +153,18 @@ const DisbursementDetails = (props) => {
     setRowState(dataMap1);
   };
 
-  const onCheckBoxEnable = (id) => (event) => {
+  const onCheckBoxEnable = (bankAccountNumber) => (event) => {
     const dataMap1 = [];
-    props.detailPageInitialState.disbursementFavours.forEach((value) => {
+    rowState.forEach((value) => {
       const dataMap = {
         ...value,
       };
-      if (value.id === id) {
+      if (value.bankAccountNumber === bankAccountNumber) {
         dataMap.isChecked = !dataMap.isChecked;
       }
       dataMap1.push(dataMap);
     });
-    props.dispatchEvent({
-      type: props.fieldList.disbursementFavours,
-      value: dataMap1,
-    });
+    setRowState(dataMap1);
   };
 
   const onCheckBoxChange = (checkedValue, record) => {
@@ -540,9 +487,10 @@ const DisbursementDetails = (props) => {
             gridHeight="270px"
             rows={rowState}
             columns={columns}
-            checkboxSelection={true}
+            checkboxSelection={false}
             pageSize={3}
             pageSizeOptions={[3, 6, 9, 12]}
+            getRowId={(row) => row.bankAccountNumber}
           />
         )}
         {useMediaQuery("(max-width:1200px)") && (
