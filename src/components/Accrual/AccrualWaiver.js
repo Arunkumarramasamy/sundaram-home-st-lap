@@ -11,6 +11,7 @@ import {
   CardContent,
   PaginationItem,
   Pagination,
+  Alert,
 } from "@mui/material";
 import {
   CancelScheduleSend,
@@ -46,6 +47,7 @@ const AdditionalWaiver = () => {
   const rowsPerPage = 10;
   const [page, setPage] = React.useState(1);
   const [accordianOpen, setAccordianOpen] = React.useState(true);
+  const [gridAlert, setGridAlert] = useState('none');
   const handleSearch = (event) => {
     event.preventDefault();
     setGridVisible("block");
@@ -99,7 +101,7 @@ const AdditionalWaiver = () => {
   ];
   const handleCellChangedEvent = (event) => {
     if (!(event.row.due - event.row.paid > event.value)) {
-      alert("asdf");
+      setGridAlert('flex');
     }
   };
   const searchButtonClickHandler = (event) => {
@@ -274,7 +276,13 @@ const AdditionalWaiver = () => {
       editable: false,
       align: "center",
       editable: false,
-      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
+      valueGetter: (param) => {
+        if (param.row.due - param.row.paid - param.row.waived > 0) {
+          return param.row.due - param.row.paid - param.row.waived;
+        } else {
+          return param.row.due - param.row.paid;
+        }
+      },
     },
     {
       field: "waived",
@@ -473,7 +481,7 @@ const AdditionalWaiver = () => {
                       : `super-app-theme--odd`
                   }
                   isCellEditable={(param) =>
-                    param.row.due - param.row.paid - param.row.waived !== 0
+                    param.row.receiveable - param.row.paid !== 0
                   }
                   initialState={{
                     columns: {
@@ -554,6 +562,19 @@ const AdditionalWaiver = () => {
             </React.Fragment>
           )}
           <AccrualRemark name="Waived By"></AccrualRemark>
+          <Alert
+            sx={{
+              display: gridAlert,
+              position: "fixed",
+              top: "90%",
+              left: "40%",
+              flexDirection:'row'
+            }}
+            onClose={() => {setGridAlert('none')}}
+            severity="error"
+          >
+            Additional Waiver amount should not exceed Outstanding amount
+          </Alert>
         </div>
       </div>
       <StlapFooter />
