@@ -68,10 +68,10 @@ const ParameterMaintenance = () => {
   const columns = [
     {
       field: "action",
-      headerName: "Actions",
+      headerName: "",
       headerAlign: "center",
       align: "center",
-      width: 130,
+      width: 50,
       hideable: false,
       sortable: false,
       filterable: false,
@@ -107,7 +107,12 @@ const ParameterMaintenance = () => {
       align: "center",
       width: 160,
       renderCell: (params) => {
-        return params.value.toLocaleString("en-IN");
+        console.log(params);
+        if (params.row.paramDataType !== "Varchar") {
+          return parseInt(params.value).toLocaleString("en-IN");
+        } else {
+          return params.value;
+        }
       },
     },
     {
@@ -155,10 +160,11 @@ const ParameterMaintenance = () => {
     setparamDataType(values.paramDataType);
     setstartDate(values.paramEffStartDt);
     setEndDate(values.paramEffEndDt);
-    setParamValue(values.paramValue);
-    // setParamValue(() => {
-    //   return values.parameterValue.toLocaleString("en-IN");
-    // });
+    if (values.paramDataType !== "Varchar") {
+      setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
+    } else {
+      setParamValue(values.paramValue);
+    }
   };
   const modifyClickHandler = (values) => {
     setShowOkCancel(false);
@@ -170,15 +176,27 @@ const ParameterMaintenance = () => {
     setparamDataType(values.paramDataType);
     setstartDate(values.paramEffStartDt);
     setEndDate(values.paramEffEndDt);
-    setParamValue(values.paramValue);
+    if (values.paramDataType !== "Varchar") {
+      setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
+    } else {
+      setParamValue(values.paramValue);
+    }
   };
   /**Dialog Click Handler */
   const DialogOkHandler = () => {
     // setdisabled(true);
-    setDialogOpen(false);
+
     console.log(mode);
+
     //if save click happen
-    SendData();
+    if (paramNameIsValid && paramTypeIsValid && paramValueIsValid) {
+      SendData();
+
+      setDialogOpen(false);
+    } else {
+      ResetTouchHandler(true);
+      return;
+    }
   };
   const SendData = async () => {
     try {
@@ -189,7 +207,7 @@ const ParameterMaintenance = () => {
           paramEffStartDt: new Date(startDate),
           paramEffEndDt: new Date(endDate),
           paramName: paraMeterName,
-          paramValue: ParamValue,
+          paramValue: ParamValue.replaceAll(",", ""),
           paramId: paramaId,
         }
       );
@@ -197,6 +215,7 @@ const ParameterMaintenance = () => {
       getData();
       setParamId("");
       Reset();
+
       // let data = response.data;
       // const newRow = { ...data, id: data.paramId };
 
@@ -217,6 +236,7 @@ const ParameterMaintenance = () => {
     setdisabled(true);
     setDialogOpen(false);
     Reset();
+    ResetTouchHandler(false);
   };
   const addBtnHandler = () => {
     setMode(0);
@@ -234,6 +254,34 @@ const ParameterMaintenance = () => {
     setEndDate(todayDate);
     setParamValue("");
   };
+  /**Validation Handlers */
+  /**Valid Handler */
+  const paramNameIsValid = paraMeterName.trim() !== "";
+  const paramTypeIsValid = paramDataType.trim() !== "";
+  let paramValueIsValid;
+  if (paramDataType === "Varchar") {
+    paramValueIsValid = ParamValue.trim() !== "";
+  } else {
+    paramValueIsValid = ParamValue.length !== 0;
+  }
+  /**Touch State Handlers */
+  const [paramNameTouched, setParamNameTouched] = useState(false);
+  const [paramTypeTouched, setParamTypeTouched] = useState(false);
+  const [startDateTouched, setStartDateTouched] = useState(false);
+  const [endDateTouched, setEndDateTouched] = useState(false);
+  const [paramValueTouched, setParamValueTouched] = useState(false);
+
+  const ResetTouchHandler = (value) => {
+    setParamNameTouched(value);
+    setParamTypeTouched(value);
+    setStartDateTouched(value);
+    setEndDateTouched(value);
+    setParamValueTouched(value);
+  };
+  /**Has Error */
+  const paramNameHasError = paramNameTouched && !paramNameIsValid;
+  const paramTypeHasError = paramTypeTouched && !paramTypeIsValid;
+  const paramValueHasError = paramValueTouched && !paramValueIsValid;
 
   return (
     <>
@@ -252,7 +300,11 @@ const ParameterMaintenance = () => {
             justifyContent: "flex-end",
           }}
         >
-          <Button variant="contained" onClick={addBtnHandler}>
+          <Button
+            sx={{ fontWeight: "bold" }}
+            variant="contained"
+            onClick={addBtnHandler}
+          >
             Add
           </Button>
         </Box>
@@ -408,7 +460,13 @@ const ParameterMaintenance = () => {
                   onChange={(e) => {
                     setParamMeterName(e.target.value);
                   }}
+                  onBlur={(e) => {
+                    setParamNameTouched(true);
+                  }}
                 />
+                {paramNameHasError && (
+                  <p className="error">Please Enter valid Parameter Name </p>
+                )}
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomDropDown
@@ -424,8 +482,15 @@ const ParameterMaintenance = () => {
                   ]}
                   onChange={(e) => {
                     setparamDataType(e.target.value);
+                    setParamValue("");
+                  }}
+                  onBlur={(e) => {
+                    setParamTypeTouched(true);
                   }}
                 />
+                {paramTypeHasError && (
+                  <p className="error">Please Enter valid Parameter Type </p>
+                )}
               </Grid>
 
               <Grid item xs={12} md={6}>
@@ -463,15 +528,36 @@ const ParameterMaintenance = () => {
                   variant="standard"
                   disabled={disabled}
                   onChange={(e) => {
-                    setParamValue(e.target.value);
+                    if (paramDataType === "Varchar") {
+                      let val = e.target.value.replace(/[0-9]/g, "");
+                      setParamValue(val);
+                    } else {
+                      let Value = e.target.value.replace(/\D/g, "");
+                      if (Value === "") {
+                        setParamValue(Value);
+                      } else {
+                        setParamValue(
+                          parseInt(Value.replaceAll(",", "")).toLocaleString(
+                            "en-IN"
+                          )
+                        );
+                      }
+                    }
+                  }}
+                  onBlur={(e) => {
+                    setParamValueTouched(true);
                   }}
                 />
+                {paramValueHasError && (
+                  <p className="error">Please Enter valid Parameter Value </p>
+                )}
               </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
             {showOkCancel ? (
               <Button
+                sx={{ fontWeight: "bold" }}
                 variant="contained"
                 onClick={() => {
                   setDialogOpen(false);
@@ -486,6 +572,7 @@ const ParameterMaintenance = () => {
                     marginLeft: "1rem",
                     color: "white",
                     backgroundColor: "black",
+                    fontWeight: "bold",
                   }}
                   onMouseOver={({ target }) => {
                     target.style.backgroundColor = "black";
@@ -497,7 +584,11 @@ const ParameterMaintenance = () => {
                   Cancel
                 </Button>
 
-                <Button variant="contained" onClick={DialogOkHandler}>
+                <Button
+                  sx={{ fontWeight: "bold" }}
+                  variant="contained"
+                  onClick={DialogOkHandler}
+                >
                   OK
                 </Button>
               </>
