@@ -9,6 +9,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -193,6 +195,7 @@ const ParameterMaintenance = () => {
       SendData();
 
       setDialogOpen(false);
+      ResetTouchHandler(false);
     } else {
       ResetTouchHandler(true);
       return;
@@ -214,8 +217,15 @@ const ParameterMaintenance = () => {
       console.log(response.data);
       getData();
       setParamId("");
-      Reset();
+      if (paramaId == "") {
+        setMessage("Record added Successfully");
+        openAlertHandler();
+      } else {
+        setMessage("Record Updated Successfully");
+        openAlertHandler();
+      }
 
+      Reset();
       // let data = response.data;
       // const newRow = { ...data, id: data.paramId };
 
@@ -282,6 +292,23 @@ const ParameterMaintenance = () => {
   const paramNameHasError = paramNameTouched && !paramNameIsValid;
   const paramTypeHasError = paramTypeTouched && !paramTypeIsValid;
   const paramValueHasError = paramValueTouched && !paramValueIsValid;
+
+  //SnackBar Handler
+  const [message, setMessage] = useState("");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+  const [alert, setAlert] = useState(false);
+
+  const openAlertHandler = () => {
+    setAlert(true);
+  };
+  const closeAlertHandler = () => {
+    setAlert(false);
+  };
 
   return (
     <>
@@ -599,6 +626,21 @@ const ParameterMaintenance = () => {
       <Box>
         <StlapFooter />
       </Box>
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={closeAlertHandler}
+      >
+        <Alert
+          onClose={closeAlertHandler}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
