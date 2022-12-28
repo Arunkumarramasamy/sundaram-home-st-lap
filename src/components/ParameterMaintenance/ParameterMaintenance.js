@@ -143,8 +143,11 @@ const ParameterMaintenance = () => {
   const [startDate, setstartDate] = useState(todayDate);
   const [endDate, setEndDate] = useState(todayDate);
   const [ParamValue, setParamValue] = useState("");
+  // view cancel Button Handler
+  const [showOkCancel, setShowOkCancel] = useState(false);
   /**Modify Click Handler */
   const viewClickHandler = (values) => {
+    setShowOkCancel(true);
     setdisabled(true);
     handleClickDialogOpen();
     console.log(values);
@@ -158,6 +161,7 @@ const ParameterMaintenance = () => {
     // });
   };
   const modifyClickHandler = (values) => {
+    setShowOkCancel(false);
     setdisabled(false);
     handleClickDialogOpen();
     console.log(values);
@@ -192,6 +196,7 @@ const ParameterMaintenance = () => {
       console.log(response.data);
       getData();
       setParamId("");
+      Reset();
       // let data = response.data;
       // const newRow = { ...data, id: data.paramId };
 
@@ -211,15 +216,18 @@ const ParameterMaintenance = () => {
   const handleDialogClose = () => {
     setdisabled(true);
     setDialogOpen(false);
+    Reset();
   };
   const addBtnHandler = () => {
     setMode(0);
     Reset();
     setdisabled(false);
     setDialogOpen(true);
+    setShowOkCancel(false);
   };
   /**Reset All values */
   const Reset = () => {
+    setParamId("");
     setParamMeterName("");
     setparamDataType("");
     setstartDate(todayDate);
@@ -462,25 +470,38 @@ const ParameterMaintenance = () => {
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button
-              sx={{
-                marginLeft: "1rem",
-                color: "white",
-                backgroundColor: "black",
-              }}
-              onMouseOver={({ target }) => {
-                target.style.backgroundColor = "black";
-                target.style.color = "white";
-              }}
-              variant="contained"
-              onClick={handleDialogClose}
-            >
-              Cancel
-            </Button>
+            {showOkCancel ? (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setDialogOpen(false);
+                }}
+              >
+                OK
+              </Button>
+            ) : (
+              <>
+                <Button
+                  sx={{
+                    marginLeft: "1rem",
+                    color: "white",
+                    backgroundColor: "black",
+                  }}
+                  onMouseOver={({ target }) => {
+                    target.style.backgroundColor = "black";
+                    target.style.color = "white";
+                  }}
+                  variant="contained"
+                  onClick={handleDialogClose}
+                >
+                  Cancel
+                </Button>
 
-            <Button variant="contained" onClick={DialogOkHandler}>
-              OK
-            </Button>
+                <Button variant="contained" onClick={DialogOkHandler}>
+                  OK
+                </Button>
+              </>
+            )}
           </DialogActions>
         </Dialog>
       </Box>
