@@ -25,28 +25,44 @@ import StlapFooter from "../CustomComponents/StlapFooter";
 import MoreAction from "./MoreAction";
 
 const ParameterMaintenance = () => {
+  const [rows, setRows] = useState([]);
+  const getData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/parameter/getAllParameterData"
+      );
+      console.log(response.data);
+      const data = response.data.map((data) => {
+        return { ...data, id: data.paramId };
+      });
+      setRows(data);
+      setTotalRowsCount(rows.length);
+      setParamId("");
+    } catch {
+      console.log("Network Error");
+    }
+  };
   useEffect(() => {
-    const rows = [
-      {
-        id: "1",
-        parameterName: "Minimum Disbursement Amount",
-        parameterDatatype: "Int",
-        parameterValue: 100000,
-        effectiveStartDate: "01/01/2021",
-        effectiveEndDate: "10/06/2022",
-      },
+    getData();
+    // const rows = [
+    //   {
+    //     id: "1",
+    //     parameterName: "Minimum Disbursement Amount",
+    //     parameterDatatype: "Int",
+    //     parameterValue: 100000,
+    //     effectiveStartDate: "01/01/2021",
+    //     effectiveEndDate: "10/06/2022",
+    //   },
 
-      {
-        id: "2",
-        parameterName: "Maximum Allowable Cash Receipt",
-        parameterDatatype: "BigInt",
-        parameterValue: 10000,
-        effectiveStartDate: "10/11/2021",
-        effectiveEndDate: "12/03/2022",
-      },
-    ];
-    setRows(rows);
-    setTotalRowsCount(rows.length);
+    //   {
+    //     id: "2",
+    //     parameterName: "Maximum Allowable Cash Receipt",
+    //     parameterDatatype: "BigInt",
+    //     parameterValue: 10000,
+    //     effectiveStartDate: "10/11/2021",
+    //     effectiveEndDate: "12/03/2022",
+    //   },
+    // ];
   }, []);
 
   const columns = [
@@ -61,12 +77,16 @@ const ParameterMaintenance = () => {
       filterable: false,
       renderCell: (params) => {
         return (
-          <MoreAction params={params.row} viewClickHandler={viewClickHandler} />
+          <MoreAction
+            params={params.row}
+            viewClickHandler={viewClickHandler}
+            modifyClickHandler={modifyClickHandler}
+          />
         );
       },
     },
     {
-      field: "parameterName",
+      field: "paramName",
       headerName: "Parameter Name",
       editable: "true",
       headerAlign: "center",
@@ -74,14 +94,14 @@ const ParameterMaintenance = () => {
       width: 350,
     },
     {
-      field: "parameterDatatype",
+      field: "paramDataType",
       headerName: "Parameter Data Type",
       headerAlign: "center",
       align: "center",
       width: 160,
     },
     {
-      field: "parameterValue",
+      field: "paramValue",
       headerName: "Parameter Value",
       headerAlign: "center",
       align: "center",
@@ -91,14 +111,14 @@ const ParameterMaintenance = () => {
       },
     },
     {
-      field: "effectiveStartDate",
+      field: "paramEffStartDt",
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
       width: 160,
     },
     {
-      field: "effectiveEndDate",
+      field: "paramEffEndDt",
       headerName: "Effective End Date",
       headerAlign: "center",
       align: "center",
@@ -107,7 +127,7 @@ const ParameterMaintenance = () => {
   ];
   //ROw count
   const rowsPerPage = 10;
-  const [rows, setRows] = useState([]);
+
   const [totalRowsCount, setTotalRowsCount] = useState(0);
   /** Getting Current date */
   var today = new Date();
@@ -117,6 +137,7 @@ const ParameterMaintenance = () => {
   const [disabled, setdisabled] = useState(false);
   const [mode, setMode] = useState("0");
   /**Parameter Values */
+  const [paramaId, setParamId] = useState("");
   const [paraMeterName, setParamMeterName] = useState("");
   const [paramDataType, setparamDataType] = useState("");
   const [startDate, setstartDate] = useState(todayDate);
@@ -127,14 +148,25 @@ const ParameterMaintenance = () => {
     setdisabled(true);
     handleClickDialogOpen();
     console.log(values);
-    setParamMeterName(values.parameterName);
-    setparamDataType(values.parameterDatatype);
-    setstartDate(values.effectiveStartDate);
-    setEndDate(values.effectiveEndDate);
-    setParamValue(values.parameterValue);
-    setParamValue(() => {
-      return values.parameterValue.toLocaleString("en-IN");
-    });
+    setParamMeterName(values.paramName);
+    setparamDataType(values.paramDataType);
+    setstartDate(values.paramEffStartDt);
+    setEndDate(values.paramEffEndDt);
+    setParamValue(values.paramValue);
+    // setParamValue(() => {
+    //   return values.parameterValue.toLocaleString("en-IN");
+    // });
+  };
+  const modifyClickHandler = (values) => {
+    setdisabled(false);
+    handleClickDialogOpen();
+    console.log(values);
+    setParamId(values.paramId);
+    setParamMeterName(values.paramName);
+    setparamDataType(values.paramDataType);
+    setstartDate(values.paramEffStartDt);
+    setEndDate(values.paramEffEndDt);
+    setParamValue(values.paramValue);
   };
   /**Dialog Click Handler */
   const DialogOkHandler = () => {
@@ -147,15 +179,26 @@ const ParameterMaintenance = () => {
   const SendData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/parameter/insert",
+        "http://localhost:8080/parameter/insertOrUpdate",
         {
           paramDataType: paramDataType,
           paramEffStartDt: new Date(startDate),
           paramEffEndDt: new Date(endDate),
           paramName: paraMeterName,
           paramValue: ParamValue,
+          paramId: paramaId,
         }
       );
+      console.log(response.data);
+      getData();
+      setParamId("");
+      // let data = response.data;
+      // const newRow = { ...data, id: data.paramId };
+
+      // let existrows = [...rows];
+      // existrows.push(newRow);
+      // // setRows((oldArray) => [...oldArray, newElement]);
+      // setRows([...existrows]);
     } catch {
       console.log("error");
     }
@@ -272,6 +315,7 @@ const ParameterMaintenance = () => {
                                   <MoreAction
                                     params={row}
                                     viewClickHandler={viewClickHandler}
+                                    modifyClickHandler={modifyClickHandler}
                                   />
                                 }
                               </React.Fragment>
@@ -379,6 +423,8 @@ const ParameterMaintenance = () => {
               <Grid item xs={12} md={6}>
                 <CustomDateField
                   value={startDate}
+                  disableFuture={false}
+                  disablePast={false}
                   label="Effective Start Date"
                   variant="standard"
                   disabled={disabled}
@@ -392,6 +438,8 @@ const ParameterMaintenance = () => {
               <Grid item xs={12} md={6}>
                 <CustomDateField
                   value={endDate}
+                  disableFuture={false}
+                  disablePast={false}
                   label="Effective End Date"
                   variant="standard"
                   disabled={disabled}
