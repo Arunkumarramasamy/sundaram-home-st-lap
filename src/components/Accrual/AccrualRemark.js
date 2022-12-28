@@ -31,6 +31,9 @@ const AccrualRemark = (props) => {
     p: 4,
   };
   const handleClose = () => setOpen(false);
+  const saveAccrualDetails = () =>{
+    
+  }
   return (
     <>
       <Grid
@@ -117,7 +120,7 @@ const AccrualRemark = (props) => {
             >
               <HistoryIcon></HistoryIcon>
             </Button>
-            <Button variant="contained" sx={{ fontWeight: "bold" }}>
+            <Button variant="contained" onClick={saveAccrualDetails}sx={{ fontWeight: "bold" }}>
               Update
             </Button>
             <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
@@ -128,7 +131,7 @@ const AccrualRemark = (props) => {
                 aria-describedby="modal-modal-description"
               >
                 <Box sx={style}>
-                  <AdditionalHistory title="Waived History" />
+                  <AdditionalHistory onClose = {handleClose} title="Waived History" />
                 </Box>
               </Modal>
             </Grid>

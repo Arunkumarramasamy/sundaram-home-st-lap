@@ -34,6 +34,7 @@ import AdditionalHistory from "./AdditionalHistory";
 
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
+import axios from "axios";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
@@ -47,10 +48,26 @@ const AdditionalWaiver = () => {
   const rowsPerPage = 10;
   const [page, setPage] = React.useState(1);
   const [accordianOpen, setAccordianOpen] = React.useState(true);
-  const [gridAlert, setGridAlert] = useState('none');
+  const [gridAlert, setGridAlert] = useState("none");
   const handleSearch = (event) => {
     event.preventDefault();
+    getData();
     setGridVisible("block");
+  };
+  const getData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/accrual/getAllParameterData"
+      );
+      console.log(response.data);
+      const data = response.data.map((data) => {
+        return { ...data, id: data.paramId };
+      });
+      setDataRow(data);
+      setTotalRowsCount(rows.length);
+    } catch {
+      console.log("Network Error");
+    }
   };
   const onChangeCardItems = (row, value) => {
     row["waived"] = value;
@@ -101,7 +118,7 @@ const AdditionalWaiver = () => {
   ];
   const handleCellChangedEvent = (event) => {
     if (!(event.row.due - event.row.paid > event.value)) {
-      setGridAlert('flex');
+      setGridAlert("flex");
     }
   };
   const searchButtonClickHandler = (event) => {
@@ -568,9 +585,11 @@ const AdditionalWaiver = () => {
               position: "fixed",
               top: "90%",
               left: "40%",
-              flexDirection:'row'
+              flexDirection: "row",
             }}
-            onClose={() => {setGridAlert('none')}}
+            onClose={() => {
+              setGridAlert("none");
+            }}
             severity="error"
           >
             Additional Waiver amount should not exceed Outstanding amount
