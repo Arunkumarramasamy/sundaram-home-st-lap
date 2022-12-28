@@ -263,20 +263,6 @@ export default function DisbursementRequestList(props) {
 
   const columns = [
     {
-      field: "action",
-      headerName: "",
-      headerAlign: "center",
-      type: "string",
-      width: 50,
-      align: "center",
-      hideable: false,
-      sortable: false,
-      filterable: false,
-      renderCell: (params) => {
-        return <LoadActionBtn record={params.row} />;
-      },
-    },
-    {
       field: "requestNumber",
       headerName: "Request Number",
       headerAlign: "center",
@@ -337,6 +323,20 @@ export default function DisbursementRequestList(props) {
       width: 200,
       align: "center",
     },
+    {
+      field: "action",
+      headerName: "",
+      headerAlign: "center",
+      type: "string",
+      width: 50,
+      align: "center",
+      hideable: false,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => {
+        return <LoadActionBtn record={params.row} />;
+      },
+    },
   ];
 
   var today = new Date();
@@ -364,7 +364,7 @@ export default function DisbursementRequestList(props) {
     rateOfInterest: "",
     loanAmount: "",
     sanctionedAmount: "",
-  
+
     disbursementDateFromValue:
       today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
     disbursementDateToValue:

@@ -220,18 +220,38 @@ const DisbursementDetails = (props) => {
     });
   };
 
-  const onCheckBoxChange = (value, record) => {
+  const onCheckBoxChange = (checkedValue, record) => {
     const allChecked = [...allCheckedValues];
-    allChecked[Number(record.id) - 1] = value;
+    allChecked[Number(record.id) - 1] = checkedValue;
     setChecked(allChecked);
+    const existrows = [...rowState];
+    existrows
+      .filter((row) => row.id === record.id)
+      .forEach((value) => {
+        value.isChecked = checkedValue;
+      });
+    setRowState(existrows);
   };
 
-  const handleMainCheckBoxChange = (value) => {
-    // clear the rows for checkbox to re-render
-    setRowState([]);
-    const allChecked = Array.from({ length: rows.length }, () => value);
+  const onCardViewAmountChange = (event, index, record) => {
+    const existrows = [...rowState];
+    existrows
+      .filter((row) => row.id === record.id)
+      .forEach((value) => {
+        value.isChecked = !value.isChecked;
+        value.amount = event.target.value;
+      });
+    setRowState(existrows);
+  };
+
+  const handleMainCheckBoxChange = (checkedValue) => {
+    const allChecked = Array.from({ length: rows.length }, () => checkedValue);
     setChecked([...allChecked]);
-    setRowState(rows);
+    const existrows = [...rowState];
+    existrows.forEach((value) => {
+      value.isChecked = checkedValue;
+    });
+    setRowState(existrows);
   };
 
   return (
@@ -629,14 +649,16 @@ const DisbursementDetails = (props) => {
                               {"Amount to Disbursed : " + row.amount}
                             </Typography>
                             <CustomTextField
-                              disabled={false}
+                              disabled={!allCheckedValues[index]}
                               required={false}
                               label={"Amount to Disbursed : "}
                               id="amount"
                               variant="standard"
-                              value={rowState[index].amount}
+                              value={row.amount}
                               type="number"
-                              onChange={() => onAmountChange(row.id)}
+                              onChange={(event) =>
+                                onCardViewAmountChange(event, index, row)
+                              }
                             />
                           </Grid>
                           <Grid
