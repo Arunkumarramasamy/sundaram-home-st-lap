@@ -2,39 +2,67 @@ import {
   Box,
   Button,
   Grid,
-  lighten,
   TextareaAutosize,
-  Stack,
-  Tooltip,
   Typography,
+  useMediaQuery,
+  Card,
+  CardHeader,
+  Divider,
+  CardContent,
+  PaginationItem,
+  Pagination,
 } from "@mui/material";
+import {
+  CancelScheduleSend,
+  Edit,
+  MoreVert,
+  Preview,
+  ArrowBack,
+  ArrowForward,
+} from "@mui/icons-material";
 import Modal from "@mui/material/Modal";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import AdditionalHistory from "./AdditionalHistory";
-import HistoryIcon from "@mui/icons-material/History";
+
+import AccrualCardItems from "./AccrualCardItems";
+import AccrualRemark from "./AccrualRemark";
 
 const AdditionalWaiver = () => {
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
-  const [branchValue, setBranchValue] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
-  const [openHistoryDialog, setOpenHistoryDialog] = useState(false);
   const [applicationSearchDisable, setApplicationSearchDisable] =
     useState(true);
+  const [rows, setRows] = React.useState([]);
+  const [totalPageCount, setTotalPageCount] = React.useState(0);
+  const [totalRowsCount, setTotalRowsCount] = React.useState(0);
   const [branchName, setBranchName] = useState("");
+  const rowsPerPage = 10;
+  const [page, setPage] = React.useState(1);
+  const [accordianOpen, setAccordianOpen] = React.useState(true);
   const handleSearch = (event) => {
     event.preventDefault();
     setGridVisible("block");
   };
-
+  const onChangeCardItems = (row, value) => {
+    row["waived"] = value;
+    setDataRow((oldArray) => [...oldArray, row]);
+  };
+  useEffect(() => {
+    setRows(dataRows.slice(0, rowsPerPage));
+    setTotalPageCount(
+      dataRows.length % 10 !== 0
+        ? Number(Number((dataRows.length / 10).toFixed()) + 1)
+        : Number(Number((dataRows.length / 10).toFixed()))
+    );
+    setTotalRowsCount(dataRows.length);
+  }, []);
   const [referenceNumber, setReferenceNumber] = useState("");
   const [currentDate, setCurrentDate] = useState(
     `${new Date().getDate()}/${
@@ -60,21 +88,7 @@ const AdditionalWaiver = () => {
       setReferenceNumber(newValue.value);
     }
   };
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "50%",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const branchNames = [
     { label: "Mylapore", value: "" },
     { label: "Royapettah", value: "" },
@@ -84,7 +98,9 @@ const AdditionalWaiver = () => {
     { label: "Egmore", value: "" },
   ];
   const handleCellChangedEvent = (event) => {
-    console.log(event.value);
+    if (!(event.row.due - event.row.paid > event.value)) {
+      alert("asdf");
+    }
   };
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
@@ -101,19 +117,12 @@ const AdditionalWaiver = () => {
       setApplicationSearchDisable(false);
     }
   };
-  const handleHistoryDialog = () => {
-    handleOpen(true);
-  };
+
   const clearButtonClickHandler = () => {
     setBranchName("");
   };
-  const resonValue = [
-    { value: "1", text: "Reverse Payment" },
-    { value: "2", text: "intrest increases" },
-    { value: "3", text: "intrest reduced" },
-  ];
 
-  const rows = [
+  const [dataRows, setDataRow] = React.useState([
     {
       id: 1,
       details: "Mod Charges",
@@ -121,7 +130,7 @@ const AdditionalWaiver = () => {
       received: 0,
       due: 5000,
       paid: 2000,
-      waived: 500,
+      waived: 0,
     },
     {
       id: 2,
@@ -148,7 +157,7 @@ const AdditionalWaiver = () => {
       receiveable: 25000,
       paid: 10000,
       received: 0,
-      waived: 3000,
+      waived: 0,
     },
     {
       id: 5,
@@ -157,7 +166,7 @@ const AdditionalWaiver = () => {
       receiveable: 1000,
       paid: 500,
       received: 500,
-      waived: 500,
+      waived: 0,
     },
     {
       id: 6,
@@ -184,7 +193,7 @@ const AdditionalWaiver = () => {
       received: 10000,
       receiveable: 30000,
       paid: 5000,
-      waived: 5000,
+      waived: 0,
     },
     {
       id: 9,
@@ -202,7 +211,7 @@ const AdditionalWaiver = () => {
       paid: 300,
       receiveable: 0,
       received: 300,
-      waived: 50,
+      waived: 0,
     },
     {
       id: 11,
@@ -213,7 +222,7 @@ const AdditionalWaiver = () => {
       receiveable: 0,
       waived: 0,
     },
-  ];
+  ]);
   const columns = [
     {
       field: "details",
@@ -248,12 +257,24 @@ const AdditionalWaiver = () => {
     },
     {
       field: "paid",
-      headerName: "Early Waived (₹)",
+      headerName: "Early Waiver (₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
       align: "right",
       editable: false,
+    },
+
+    {
+      field: "deduction",
+      headerName: "Outstanding Amount",
+      headerAlign: "center",
+      type: "number",
+      width: "200",
+      editable: false,
+      align: "center",
+      editable: false,
+      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
     },
     {
       field: "waived",
@@ -264,19 +285,12 @@ const AdditionalWaiver = () => {
       align: "right",
       editable: true,
     },
-    {
-      field: "deduction",
-      headerName: "Outstanding Amout",
-      headerAlign: "center",
-      type: "number",
-      width: "200",
-      editable: false,
-      align: "center",
-      editable: false,
-      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
-    },
   ];
-
+  const handlePageChange = (event, newPage) => {
+    let offset = (newPage - 1) * rowsPerPage;
+    setPage(newPage);
+    setRows(dataRows.slice(offset, offset + rowsPerPage));
+  };
   let visibility = {
     due: false,
     paid: false,
@@ -329,7 +343,7 @@ const AdditionalWaiver = () => {
 
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
-                    required={true}
+                    required={false}
                     clearText={() => console.log("log")}
                     disabled={applicationSearchDisable}
                     value={applicationNumber}
@@ -418,156 +432,128 @@ const AdditionalWaiver = () => {
             paddingTop: "8px",
           }}
         >
-          <AccordianContainer
-            id="accord"
-            title="Waiver Details"
-            initialOpen={true}
-          >
-            <Grid
-              container
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
+          {useMediaQuery("(min-width:1200px)") && (
+            <AccordianContainer
+              id="accord"
+              title="Waiver Details"
+              initialOpen={true}
             >
-              <DataGrid
+              <Grid
+                container
+                spacing={2}
+                // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
                 sx={{
-                  boxShadow: 2,
-                  border: 2,
-                  minHeight: "280px",
-                  borderColor: "white",
-                  "& .MuiDataGrid-columnHeaders": {
-                    color: "white",
-                    fontFamily: "Roboto",
-                    backgroundColor: "#004A92",
-                  },
+                  width: "calc(100% - 8px)",
+                  margin: "unset",
+                  display: girdVisible,
+                  backgroundColor: "#fff",
                 }}
-                rows={rows}
-                columns={columns}
-                pageSize={pageSize}
-                disableSelectionOnClick
-                autoHeight
-                // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
-                getRowClassName={(params) =>
-                  params.id % 2
-                    ? `super-app-theme--even`
-                    : `super-app-theme--odd`
-                }
-                isCellEditable={(params) => params.row.paid !== 0}
-                initialState={{
-                  columns: {
-                    columnVisibilityModel: {
-                      ...visibility,
-                    },
-                  },
-                }}
-              />
-            </Grid>
-            <Grid
-              container
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
-            >
-              <Box sx={{ width: "100%", marginTop: "16px" }}>
-                <Grid
-                  container
-                  spacing={2}
-                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-                >
-                  <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
-                    <CustomDropDown
-                      id="1"
-                      label="Reason "
-                      value="1"
-                      defaultValue="1"
-                      required={true}
-                      dropDownValue={resonValue}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-                    <CustomTextField
-                      required={false}
-                      disabled={true}
-                      label="Waived By"
-                      id="refdate"
-                      value="Accurver"
-                      type="text"
-                      placeholder=""
-                      variant="standard"
-                    />
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  spacing={2}
-                  // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-                >
-                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
-                    <Typography id="accrual-waiver-remark" required={true}>
-                      Remarks
-                    </Typography>
-                    <TextareaAutosize
-                      maxRows={4}
-                      required={true}
-                      aria-label="maximum height"
-                      style={{
-                        width: "100%",
-                        height: "100px",
-                        borderRadius: "4px",
-                        resize: " none;",
-                        outline: "none",
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-                <div style={{ padding: "8px", direction: "rtl" }}>
-                 
-                  <Button
-                    onClick={handleHistoryDialog}
-                    variant="contained"
-                    sx={{
-                      marginLeft: "1rem",
-                      marginRight: "1rem",
+              >
+                <DataGrid
+                  sx={{
+                    boxShadow: 2,
+                    border: 2,
+                    minHeight: "280px",
+                    borderColor: "white",
+                    "& .MuiDataGrid-columnHeaders": {
                       color: "white",
-                      backgroundColor: "black",
-                      fontWeight: "bold"
+                      fontFamily: "Roboto",
+                      backgroundColor: "#004A92",
+                    },
+                  }}
+                  rows={dataRows}
+                  columns={columns}
+                  pageSize={pageSize}
+                  disableSelectionOnClick
+                  autoHeight
+                  onCellEditCommit={(event) => handleCellChangedEvent(event)}
+                  getRowClassName={(params) =>
+                    params.id % 2
+                      ? `super-app-theme--even`
+                      : `super-app-theme--odd`
+                  }
+                  isCellEditable={(param) =>
+                    param.row.due - param.row.paid - param.row.waived !== 0
+                  }
+                  initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        ...visibility,
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+            </AccordianContainer>
+          )}
+          {useMediaQuery("(max-width:1200px)") && (
+            <React.Fragment>
+              <Grid
+                container
+                item
+                direction="row"
+                alignItems="flex-end"
+                justifyContent="flex-end"
+                sx={{ height: "60px", bgcolor: "white" }}
+              >
+                {totalRowsCount > 10 && (
+                  <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                    {"Page Max Records : " + rowsPerPage}
+                  </Typography>
+                )}
+                <Typography
+                  padding="1px"
+                  sx={{ color: "#004A92", fontWeight: 700 }}
+                >
+                  {"Total Records : " + totalRowsCount}
+                </Typography>
+                <Pagination
+                  count={totalPageCount}
+                  color="primary"
+                  onChange={handlePageChange}
+                  page={page}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      slots={{ previous: ArrowBack, next: ArrowForward }}
+                      {...item}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid container>
+                <Box
+                  sx={{
+                    height: accordianOpen
+                      ? window.innerHeight - 540
+                      : window.innerHeight - 250,
+                    overflow: "auto",
+                    flex: "1 auto",
+                  }}
+                >
+                  {dataRows.map((row, index) => (
+                    <AccrualCardItems
+                      value={row}
+                      index={index}
+                      onChange={onChangeCardItems}
+                      screen="waived"
+                    ></AccrualCardItems>
+                  ))}
+                  {/* {rows.length === 0 && (
+                  <NoDataFound
+                    message={"No Disbursement Record Found."}
+                    imageStyle={{
+                      marginTop:
+                        accordianOpen && window.innerHeight < 1000
+                          ? "20px"
+                          : "20%",
                     }}
-                    onMouseOver={({ target }) => {
-                      target.style.backgroundColor = "black";
-                      target.style.color = "white";
-                    }}
-                  >
-                    <HistoryIcon />
-                  </Button>
-                  <Button variant="contained" sx={{ fontWeight: "bold" ,}}>
-                    Update
-                  </Button>
-                  <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        <AdditionalHistory title="Waived History" />
-                      </Box>
-                    </Modal>
-                  </Grid>
-                </div>
-              </Box>
-            </Grid>
-          </AccordianContainer>
+                  />
+                )} */}
+                </Box>
+              </Grid>
+            </React.Fragment>
+          )}
+          <AccrualRemark name="Waived By"></AccrualRemark>
         </div>
       </div>
       <StlapFooter />
