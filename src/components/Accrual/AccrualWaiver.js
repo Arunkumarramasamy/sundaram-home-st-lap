@@ -51,8 +51,8 @@ const AdditionalWaiver = () => {
     setGridVisible("block");
   };
   const onChangeCardItems = (row, value) => {
-   row['waived'] = value;
-   setDataRow(oldArray => [...oldArray, row]);
+    row["waived"] = value;
+    setDataRow((oldArray) => [...oldArray, row]);
   };
   useEffect(() => {
     setRows(dataRows.slice(0, rowsPerPage));
@@ -88,8 +88,6 @@ const AdditionalWaiver = () => {
       setReferenceNumber(newValue.value);
     }
   };
- 
-
 
   const branchNames = [
     { label: "Mylapore", value: "" },
@@ -100,7 +98,9 @@ const AdditionalWaiver = () => {
     { label: "Egmore", value: "" },
   ];
   const handleCellChangedEvent = (event) => {
-    console.log(event.value);
+    if (!(event.row.due - event.row.paid > event.value)) {
+      alert("asdf");
+    }
   };
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
@@ -122,7 +122,7 @@ const AdditionalWaiver = () => {
     setBranchName("");
   };
 
-  const [dataRows,setDataRow] = React.useState([
+  const [dataRows, setDataRow] = React.useState([
     {
       id: 1,
       details: "Mod Charges",
@@ -130,7 +130,7 @@ const AdditionalWaiver = () => {
       received: 0,
       due: 5000,
       paid: 2000,
-      waived: 500,
+      waived: 0,
     },
     {
       id: 2,
@@ -157,7 +157,7 @@ const AdditionalWaiver = () => {
       receiveable: 25000,
       paid: 10000,
       received: 0,
-      waived: 3000,
+      waived: 0,
     },
     {
       id: 5,
@@ -166,7 +166,7 @@ const AdditionalWaiver = () => {
       receiveable: 1000,
       paid: 500,
       received: 500,
-      waived: 500,
+      waived: 0,
     },
     {
       id: 6,
@@ -193,7 +193,7 @@ const AdditionalWaiver = () => {
       received: 10000,
       receiveable: 30000,
       paid: 5000,
-      waived: 5000,
+      waived: 0,
     },
     {
       id: 9,
@@ -211,7 +211,7 @@ const AdditionalWaiver = () => {
       paid: 300,
       receiveable: 0,
       received: 300,
-      waived: 50,
+      waived: 0,
     },
     {
       id: 11,
@@ -257,12 +257,24 @@ const AdditionalWaiver = () => {
     },
     {
       field: "paid",
-      headerName: "Early Waived (₹)",
+      headerName: "Early Waiver (₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
       align: "right",
       editable: false,
+    },
+
+    {
+      field: "deduction",
+      headerName: "Outstanding Amount",
+      headerAlign: "center",
+      type: "number",
+      width: "200",
+      editable: false,
+      align: "center",
+      editable: false,
+      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
     },
     {
       field: "waived",
@@ -272,17 +284,6 @@ const AdditionalWaiver = () => {
       width: 190,
       align: "right",
       editable: true,
-    },
-    {
-      field: "deduction",
-      headerName: "Outstanding Amout",
-      headerAlign: "center",
-      type: "number",
-      width: "200",
-      editable: false,
-      align: "center",
-      editable: false,
-      valueGetter: (param) => param.row.due - param.row.paid - param.row.waived,
     },
   ];
   const handlePageChange = (event, newPage) => {
@@ -342,7 +343,7 @@ const AdditionalWaiver = () => {
 
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
-                    required={true}
+                    required={false}
                     clearText={() => console.log("log")}
                     disabled={applicationSearchDisable}
                     value={applicationNumber}
@@ -448,94 +449,96 @@ const AdditionalWaiver = () => {
                   backgroundColor: "#fff",
                 }}
               >
-              <DataGrid
-                sx={{
-                  boxShadow: 2,
-                  border: 2,
-                  minHeight: "280px",
-                  borderColor: "white",
-                  "& .MuiDataGrid-columnHeaders": {
-                    color: "white",
-                    fontFamily: "Roboto",
-                    backgroundColor: "#004A92",
-                  },
-                }}
-                rows={dataRows}
-                columns={columns}
-                pageSize={pageSize}
-                disableSelectionOnClick
-                autoHeight
-                // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
-                getRowClassName={(params) =>
-                  params.id % 2
-                    ? `super-app-theme--even`
-                    : `super-app-theme--odd`
-                }
-                isCellEditable={(params) => params.row.paid !== 0}
-                initialState={{
-                  columns: {
-                    columnVisibilityModel: {
-                      ...visibility,
+                <DataGrid
+                  sx={{
+                    boxShadow: 2,
+                    border: 2,
+                    minHeight: "280px",
+                    borderColor: "white",
+                    "& .MuiDataGrid-columnHeaders": {
+                      color: "white",
+                      fontFamily: "Roboto",
+                      backgroundColor: "#004A92",
                     },
-                  },
-                }}
-              />
-            </Grid>
-        
-          </AccordianContainer>
-        )}
-        {useMediaQuery("(max-width:1200px)") && (
-          <React.Fragment>
-            <Grid
-              container
-              item
-              direction="row"
-              alignItems="flex-end"
-              justifyContent="flex-end"
-              sx={{ height: "60px", bgcolor: "white" }}
-            >
-              {totalRowsCount > 10 && (
-                <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
-                  {"Page Max Records : " + rowsPerPage}
-                </Typography>
-              )}
-              <Typography
-                padding="1px"
-                sx={{ color: "#004A92", fontWeight: 700 }}
+                  }}
+                  rows={dataRows}
+                  columns={columns}
+                  pageSize={pageSize}
+                  disableSelectionOnClick
+                  autoHeight
+                  onCellEditCommit={(event) => handleCellChangedEvent(event)}
+                  getRowClassName={(params) =>
+                    params.id % 2
+                      ? `super-app-theme--even`
+                      : `super-app-theme--odd`
+                  }
+                  isCellEditable={(param) =>
+                    param.row.due - param.row.paid - param.row.waived !== 0
+                  }
+                  initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        ...visibility,
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+            </AccordianContainer>
+          )}
+          {useMediaQuery("(max-width:1200px)") && (
+            <React.Fragment>
+              <Grid
+                container
+                item
+                direction="row"
+                alignItems="flex-end"
+                justifyContent="flex-end"
+                sx={{ height: "60px", bgcolor: "white" }}
               >
-                {"Total Records : " + totalRowsCount}
-              </Typography>
-              <Pagination
-                count={totalPageCount}
-                color="primary"
-                onChange={handlePageChange}
-                page={page}
-                renderItem={(item) => (
-                  <PaginationItem
-                    slots={{ previous: ArrowBack, next: ArrowForward }}
-                    {...item}
-                  />
+                {totalRowsCount > 10 && (
+                  <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                    {"Page Max Records : " + rowsPerPage}
+                  </Typography>
                 )}
-              />
-            </Grid>
-            <Grid container>
-              <Box
-                sx={{
-                  height: accordianOpen
-                    ? window.innerHeight - 540
-                    : window.innerHeight - 250,
-                  overflow: "auto",
-                  flex: "1 auto",
-                }}
-              >
-                {dataRows.map((row, index) => (
-                  <AccrualCardItems
-                    value={row}
-                    index={index}
-                    onChange={onChangeCardItems}
-                  ></AccrualCardItems>
-                ))}
-                {/* {rows.length === 0 && (
+                <Typography
+                  padding="1px"
+                  sx={{ color: "#004A92", fontWeight: 700 }}
+                >
+                  {"Total Records : " + totalRowsCount}
+                </Typography>
+                <Pagination
+                  count={totalPageCount}
+                  color="primary"
+                  onChange={handlePageChange}
+                  page={page}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      slots={{ previous: ArrowBack, next: ArrowForward }}
+                      {...item}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid container>
+                <Box
+                  sx={{
+                    height: accordianOpen
+                      ? window.innerHeight - 540
+                      : window.innerHeight - 250,
+                    overflow: "auto",
+                    flex: "1 auto",
+                  }}
+                >
+                  {dataRows.map((row, index) => (
+                    <AccrualCardItems
+                      value={row}
+                      index={index}
+                      onChange={onChangeCardItems}
+                      screen="waived"
+                    ></AccrualCardItems>
+                  ))}
+                  {/* {rows.length === 0 && (
                   <NoDataFound
                     message={"No Disbursement Record Found."}
                     imageStyle={{
@@ -546,11 +549,11 @@ const AdditionalWaiver = () => {
                     }}
                   />
                 )} */}
-              </Box>
-            </Grid>
-          </React.Fragment>
-        )}
-          <AccrualRemark></AccrualRemark>
+                </Box>
+              </Grid>
+            </React.Fragment>
+          )}
+          <AccrualRemark name="Waived By"></AccrualRemark>
         </div>
       </div>
       <StlapFooter />

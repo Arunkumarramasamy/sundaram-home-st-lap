@@ -151,7 +151,7 @@ const AdditionalAccrual = () => {
       received: 0,
       due: 5000,
       paid: 2000,
-      waived: 500,
+      waived: 0,
     },
     {
       id: 2,
@@ -178,7 +178,7 @@ const AdditionalAccrual = () => {
       receiveable: 25000,
       paid: 10000,
       received: 0,
-      waived: 3000,
+      waived: 0,
     },
     {
       id: 5,
@@ -187,7 +187,7 @@ const AdditionalAccrual = () => {
       receiveable: 1000,
       paid: 500,
       received: 500,
-      waived: 500,
+      waived: 0,
     },
     {
       id: 6,
@@ -214,7 +214,7 @@ const AdditionalAccrual = () => {
       received: 10000,
       receiveable: 30000,
       paid: 5000,
-      waived: 5000,
+      waived: 0,
     },
     {
       id: 9,
@@ -232,7 +232,7 @@ const AdditionalAccrual = () => {
       paid: 300,
       receiveable: 0,
       received: 300,
-      waived: 50,
+      waived: 0,
     },
     {
       id: 11,
@@ -283,7 +283,7 @@ const AdditionalAccrual = () => {
     },
     {
       field: "paid",
-      headerName: "Early Accrual(₹)",
+      headerName: "Early Waiver(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -307,7 +307,7 @@ const AdditionalAccrual = () => {
       width: "200",
       editable: false,
       align: "center",
-      valueGetter: (param) => param.row.due - param.row.paid + param.row.waived,
+      valueGetter: (param) => param.row.due + param.row.paid + param.row.waived,
     },
   ];
   let visibility = {
@@ -363,7 +363,7 @@ const AdditionalAccrual = () => {
 
                   <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                     <CustomAutoComplete
-                      required={true}
+                      required={false}
                       clearText={() => console.log("log")}
                       disabled={applicationSearchDisable}
                       label="Application Number"
@@ -454,6 +454,7 @@ const AdditionalAccrual = () => {
             paddingTop: "8px",
           }}
         >
+           {useMediaQuery("(min-width:1200px)") && (
           <AccordianContainer
             id="accord"
             title="Accrual Details"
@@ -504,7 +505,7 @@ const AdditionalAccrual = () => {
               />
             </Grid>
           </AccordianContainer>
-         
+         )}
           {useMediaQuery("(max-width:1200px)") && (
             <React.Fragment>
               <Grid
@@ -554,6 +555,7 @@ const AdditionalAccrual = () => {
                       value={row}
                       index={index}
                       onChange={onChangeCardItems}
+                      screen = 'accrual'
                     ></AccrualCardItems>
                   ))}
                   {/* {rows.length === 0 && (
@@ -571,7 +573,7 @@ const AdditionalAccrual = () => {
               </Grid>
             </React.Fragment>
           )}
-          <AccrualRemark></AccrualRemark>
+          <AccrualRemark name= "Accrued By"></AccrualRemark>
         </div>
       </div>
       <StlapFooter />

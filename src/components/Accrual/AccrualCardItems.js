@@ -58,27 +58,34 @@ const AccrualCardItems = (props) => {
                 {"Amount Received : " + row.receiveable}
               </Typography>
               <Typography padding="1px">
-              {"Early Waived : " + row.paid}
+                {"Early Waived : " + row.paid}
               </Typography>
               {/* <Typography padding="1px">
                                 {"Additional Waived : " + row.received}
                               </Typography> */}
-
-              <CustomTextField
-                disabled={paid===0}
-                label="Additional Waived"
-                id={"additional-waived-" + props.index}
-                type="number"
-                placeholder="Additional Waived"
-                required={false}
-                variant="standard"
-                onChange={(event) => onChangeParentValue(event)}
-                value={inputValue}
-                sx={{ fontWeight: "400 !important" }}
-              ></CustomTextField>
-              <Typography padding="1px">
-                {"Outstanding Amount : " + outStandingAmount}
-              </Typography>
+              <div
+                style={{
+                  display: props.screen === "waived" ? "flex" : "unset",
+                  flexDirection:
+                    props.screen === "waived" ? "column-reverse" : "unset",
+                }}
+              >
+                <CustomTextField
+                  disabled={outStandingAmount === 0}
+                  label="Additional Waived"
+                  id={"additional-waived-" + props.index}
+                  type="number"
+                  placeholder="Additional Waived"
+                  required={false}
+                  variant="standard"
+                  onChange={(event) => onChangeParentValue(event)}
+                  value={inputValue}
+                  sx={{ fontWeight: "400 !important" }}
+                ></CustomTextField>
+                <Typography padding="1px">
+                  {"Outstanding Amount : " + outStandingAmount}
+                </Typography>
+              </div>
             </Grid>
             <Grid
               container

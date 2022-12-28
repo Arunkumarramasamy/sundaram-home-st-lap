@@ -4,6 +4,7 @@ import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import AdditionalHistory from "./AdditionalHistory";
 import HistoryIcon from "@mui/icons-material/History";
+import Cookies from "js-cookie";
 
 
 const AccrualRemark = (props) => {
@@ -12,6 +13,7 @@ const AccrualRemark = (props) => {
   const handleHistoryDialog = () => {
     handleOpen(true);
   };
+  const[reasonData,setReasonData] = React.useState('');
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -41,7 +43,7 @@ const AccrualRemark = (props) => {
           backgroundColor: "#fff",
         }}
       >
-        <Box sx={{ width: "100%", marginTop: "16px" }}>
+        <Box sx={{ width: "100%", marginTop: "16px" ,marginLeft: "16px"}}>
           <Grid
             container
             spacing={2}
@@ -51,21 +53,22 @@ const AccrualRemark = (props) => {
               <CustomDropDown
                 id="1"
                 label="Reason "
-                value="1"
+                value={reasonData}
                 defaultValue="1"
                 required={true}
                 dropDownValue={resonValue}
+                onChange={(event)=>setReasonData(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomTextField
                 required={false}
                 disabled={true}
-                label="Waived By"
+                label={props.name}
                 id="refdate"
-                value="Accurver"
+                value={Cookies.get("userName")}
                 type="text"
-                placeholder=""
+                placeholder={props.name}
                 variant="standard"
               />
             </Grid>
@@ -80,6 +83,7 @@ const AccrualRemark = (props) => {
                 Remarks
               </Typography>
               <TextareaAutosize
+              id = 'accrual-textarea'
                 maxRows={4}
                 required={true}
                 aria-label="maximum height"
@@ -87,9 +91,10 @@ const AccrualRemark = (props) => {
                   width: "100%",
                   height: "100px",
                   borderRadius: "4px",
-                  resize: " none;",
+                  resize: "none",
                   outline: "none",
-                  
+                  fontFamily:'inherit',
+                  fontSize:'inherit',
                 }}
               />
             </Grid>
