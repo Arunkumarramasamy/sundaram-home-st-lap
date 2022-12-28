@@ -1,126 +1,67 @@
-import React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
-import Tooltip from "@mui/material/Tooltip";
+import React, { useEffect, useState } from "react";
 
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  useMediaQuery,
+} from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
-import CustomTextField from "../CustomComponents/CustomTextField";
 import Grid from "@mui/material/Grid";
-import Menu from "@mui/material/Menu";
 import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
-import { Edit, MoreVert, Preview } from "@mui/icons-material";
-import IconButton from "@mui/material/IconButton";
-import CustomDropDown from "../CustomComponents/CustomDropDown";
-import CustomDateField from "../CustomComponents/CustomDateField";
+import axios from "axios";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import CustomDateField from "../CustomComponents/CustomDateField";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
+import CustomTextField from "../CustomComponents/CustomTextField";
+import NoDataFound from "../CustomComponents/NoDataFound";
+import StlapFooter from "../CustomComponents/StlapFooter";
+import MoreAction from "./MoreAction";
 
 const ParameterMaintenance = () => {
-  const rows = [
-    {
-      id: "1",
-      parameterName: "Minimum Disbursement Amount",
-      parameterDatatype: "Int",
-      parameterValue: 100000,
-      effectiveStartDate: "01/01/2021",
-      effectiveEndDate: "10/06/2022",
-      action: "1",
-    },
-    {
-      id: "2",
-      parameterName: "Payment Mode",
-      parameterDatatype: "Varchar",
-      parameterValue: "RTGS",
-      effectiveStartDate: "11/11/2022",
-      effectiveEndDate: "11/12/2021",
-      action: "2",
-    },
-    {
-      id: "3",
-      parameterName: "Maximum Allowable Cash Receipt",
-      parameterDatatype: "Bigint",
-      parameterValue: 10000,
-      effectiveStartDate: "10/11/2021",
-      effectiveEndDate: "12/03/2022",
-      action: "2",
-    },
-  ];
+  useEffect(() => {
+    const rows = [
+      {
+        id: "1",
+        parameterName: "Minimum Disbursement Amount",
+        parameterDatatype: "Int",
+        parameterValue: 100000,
+        effectiveStartDate: "01/01/2021",
+        effectiveEndDate: "10/06/2022",
+      },
+
+      {
+        id: "2",
+        parameterName: "Maximum Allowable Cash Receipt",
+        parameterDatatype: "BigInt",
+        parameterValue: 10000,
+        effectiveStartDate: "10/11/2021",
+        effectiveEndDate: "12/03/2022",
+      },
+    ];
+    setRows(rows);
+    setTotalRowsCount(rows.length);
+  }, []);
+
   const columns = [
     {
       field: "action",
-      headerName: "",
+      headerName: "Actions",
       headerAlign: "center",
       align: "center",
-      width: 50,
+      width: 130,
+      hideable: false,
+      sortable: false,
+      filterable: false,
       renderCell: (params) => {
         return (
-          <div>
-            <Tooltip title="More Actions">
-              <IconButton
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleMenuClick}
-              >
-                <MoreVert />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              id="long-menu"
-              MenuListProps={{
-                "aria-labelledby": "long-button",
-              }}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  maxHeight: ITEM_HEIGHT * 4.5,
-                  width: "100px",
-                },
-              }}
-            >
-              {options.map((option, index) => (
-                <MenuItem key={option} onClick={handleClose}>
-                  <IconButton size="small" sx={{ color: "#004A92" }}>
-                    {(() => {
-                      switch (index) {
-                        case 0:
-                          return <Preview fontSize="small" />;
-                        case 1:
-                          return <Edit fontSize="small" color="inherit" />;
-                        default:
-                          return ;
-                      }
-                    })()}
-                  </IconButton>
-                  <Typography
-                    variant="inherit"
-                    component="div"
-                    fontSize="14px"
-                    fontWeight="inherit"
-                    sx={{ color: "#004A92", fontWeight: "520" }}
-                  >
-                    {option}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </div>
+          <MoreAction params={params.row} viewClickHandler={viewClickHandler} />
         );
       },
     },
@@ -164,130 +105,316 @@ const ParameterMaintenance = () => {
       width: 160,
     },
   ];
+  //ROw count
+  const rowsPerPage = 10;
+  const [rows, setRows] = useState([]);
+  const [totalRowsCount, setTotalRowsCount] = useState(0);
+  /** Getting Current date */
+  var today = new Date();
+  var todayDate =
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+  /**Disabled State */
+  const [disabled, setdisabled] = useState(false);
+  const [mode, setMode] = useState("0");
+  /**Parameter Values */
+  const [paraMeterName, setParamMeterName] = useState("");
+  const [paramDataType, setparamDataType] = useState("");
+  const [startDate, setstartDate] = useState(todayDate);
+  const [endDate, setEndDate] = useState(todayDate);
+  const [ParamValue, setParamValue] = useState("");
+  /**Modify Click Handler */
+  const viewClickHandler = (values) => {
+    setdisabled(true);
+    handleClickDialogOpen();
+    console.log(values);
+    setParamMeterName(values.parameterName);
+    setparamDataType(values.parameterDatatype);
+    setstartDate(values.effectiveStartDate);
+    setEndDate(values.effectiveEndDate);
+    setParamValue(values.parameterValue);
+    setParamValue(() => {
+      return values.parameterValue.toLocaleString("en-IN");
+    });
+  };
+  /**Dialog Click Handler */
+  const DialogOkHandler = () => {
+    // setdisabled(true);
+    setDialogOpen(false);
+    console.log(mode);
+    //if save click happen
+    SendData();
+  };
+  const SendData = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/parameter/insert",
+        {
+          paramDataType: paramDataType,
+          paramEffStartDt: new Date(startDate),
+          paramEffEndDt: new Date(endDate),
+          paramName: paraMeterName,
+          paramValue: ParamValue,
+        }
+      );
+    } catch {
+      console.log("error");
+    }
+  };
   /** Show Dialog Handlers */
   const [Dialogopen, setDialogOpen] = React.useState(false);
   const handleClickDialogOpen = () => {
     setDialogOpen(true);
   };
   const handleDialogClose = () => {
+    setdisabled(true);
     setDialogOpen(false);
   };
-  /**More Action Config */
-  const options = ["View", "Modify"];
-  const ITEM_HEIGHT = 48;
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const addBtnHandler = () => {
+    setMode(0);
+    Reset();
+    setdisabled(false);
+    setDialogOpen(true);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  /**Reset All values */
+  const Reset = () => {
+    setParamMeterName("");
+    setparamDataType("");
+    setstartDate(todayDate);
+    setEndDate(todayDate);
+    setParamValue("");
   };
-  
+
   return (
-    <Box
-      sx={{
-        padding: "20px",
-        backgroundColor: "white",
-      }}
-    >
-      <h4> Parameter Maintenance</h4>
+    <>
       <Box
         sx={{
-          marginTop: "5px",
-          marginBottom: "5px",
-          display: "flex",
-          justifyContent: "flex-end",
+          padding: "20px",
+          backgroundColor: "white",
         }}
       >
-        {/* <Button
-          //sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
-          onClick={handleClickDialogOpen}
-          // onMouseOver={({ target }) => {
-          //   target.style.backgroundColor = "#004a92";
-          //   target.style.color = "#fff";
-          // }}
+        <h4> Parameter Maintenance</h4>
+        <Box
+          sx={{
+            marginTop: "5px",
+            marginBottom: "5px",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
         >
-          Add
-        </Button> */}
-        <Button variant="contained" onClick={handleClickDialogOpen}>
-        Add
-            </Button>
-        {/* <Tooltip title="Add">
-          <span>
-            <IconButton
-              sx={{ color: "#004A92" }}
-              aria-label="edit"
-              size="large"
-              onClick={handleClickDialogOpen}
+          <Button variant="contained" onClick={addBtnHandler}>
+            Add
+          </Button>
+        </Box>
+        {useMediaQuery("(min-width:1200px)") && (
+          <Box>
+            <CustomDataGrid
+              noDataMessage="No Data."
+              noDataOnFilterMessage="No Data on Applied Filter."
+              rows={rows}
+              // gridHeight={window.innerHeight - 230}
+              columns={columns}
+              pageSize={5}
+              pageSizeOptions={[5, 10, 15, 20, 25]}
+            />
+          </Box>
+        )}
+        {useMediaQuery("(max-width:1200px)") && (
+          <React.Fragment>
+            <Grid
+              container
+              item
+              direction="row"
+              alignItems="flex-end"
+              justifyContent="flex-end"
+              sx={{ height: "60px", bgcolor: "white" }}
             >
-              <AddBoxIcon />
-            </IconButton>
-          </span>
-        </Tooltip> */}
-      </Box>
-      <Box>
-      <CustomDataGrid
-        noDataMessage="No Data."
-        noDataOnFilterMessage="No Data on Applied Filter."
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        pageSizeOptions={[5, 10, 15, 20, 25]}
-      />
-      </Box>
-      <Dialog open={Dialogopen} onClose={handleDialogClose}>
-        <DialogTitle>
-          <h4>Create Parameter</h4>
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <CustomTextField
-                type="text"
-                label="Parameter Name"
-                variant="standard"
-              />
+              {totalRowsCount > 10 && (
+                <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                  {"Page Max Records : " + rowsPerPage}
+                </Typography>
+              )}
+              <Typography
+                padding="1px"
+                sx={{ color: "#004A92", fontWeight: 700 }}
+              >
+                {"Total Records : " + totalRowsCount}
+              </Typography>
+              {/* <Pagination
+                count={totalPageCount}
+                color="primary"
+                onChange={handlePageChange}
+                page={page}
+                renderItem={(item) => (
+                  <PaginationItem
+                    slots={{ previous: ArrowBack, next: ArrowForward }}
+                    {...item}
+                  />
+                )}
+              /> */}
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomDropDown
-                label="Parameter Data Type"
-                variant="standard"
-                dropDownValue={[
-                  { value: 0, text: "Varchar" },
-                  { value: 1, text: "Int" },
-                  { value: 2, text: "Bigint" },
-                  { value: 3, text: "Float" },
-                ]}
-              />
-            </Grid>
+            <Grid container>
+              <Box
+                sx={{
+                  height: window.innerHeight - 300,
+                  overflow: "auto",
+                  flex: "1 auto",
+                }}
+              >
+                {rows.map((row, index) => (
+                  <React.Fragment>
+                    <Grid container direction="column" sx={{ flex: "1 auto" }}>
+                      <Card>
+                        {
+                          <CardHeader
+                            action={
+                              <React.Fragment>
+                                {
+                                  <MoreAction
+                                    params={row}
+                                    viewClickHandler={viewClickHandler}
+                                  />
+                                }
+                              </React.Fragment>
+                            }
+                            subheader={"Parameter Name : " + row.parameterName}
+                            subheaderTypographyProps={{
+                              color: "#004A92",
+                              fontWeight: "700",
+                            }}
+                            sx={{
+                              textAlign: "left",
+                              padding: "16px 16px 0px 16px !important",
+                            }}
+                          />
+                        }
 
-            <Grid item xs={12} md={6}>
-              <CustomDateField
-                label="Effective Start Date"
-                variant="standard"
-              />
+                        <CardContent>
+                          <Grid
+                            container
+                            item
+                            direction="column"
+                            alignItems="flex-start"
+                            justifyContent="flex-start"
+                          >
+                            <Typography padding="1px">
+                              {"parameteData type : " + row.parameterDatatype}
+                            </Typography>
+                            <Typography padding="1px">
+                              {" effectiveStartDate : " +
+                                row.effectiveStartDate}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"effectiveEndDate : " + row.effectiveEndDate}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"parameterValue : " + row.parameterValue}
+                            </Typography>
+                          </Grid>
+                          {/* <Grid
+                            container
+                            item
+                            direction="row"
+                            alignItems="flex-end"
+                            justifyContent="flex-end"
+                          >
+                            <Typography sx={{ width: "40%" }}>
+                              {loadStatus(row.status)}
+                            </Typography>
+                          </Grid> */}
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                    <Divider />
+                  </React.Fragment>
+                ))}
+                {rows.length === 0 && (
+                  <NoDataFound
+                    message={"No Disbursement Record Found."}
+                    imageStyle={{
+                      marginTop: window.innerHeight < 1000 ? "20px" : "20%",
+                    }}
+                  />
+                )}
+              </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomDateField label="Effective End Date" variant="standard" />
+          </React.Fragment>
+        )}
+
+        <Dialog open={Dialogopen} onClose={handleDialogClose}>
+          <DialogTitle>
+            <h4>Create Parameter</h4>
+          </DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <CustomTextField
+                  type="text"
+                  label="Parameter Name"
+                  variant="standard"
+                  value={paraMeterName}
+                  disabled={disabled}
+                  onChange={(e) => {
+                    setParamMeterName(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomDropDown
+                  label="Parameter Data Type"
+                  variant="standard"
+                  disabled={disabled}
+                  value={paramDataType}
+                  dropDownValue={[
+                    { key: 0, value: "Varchar", text: "Varchar" },
+                    { key: 1, value: "Int", text: "Int" },
+                    { key: 2, value: "BigInt", text: "BigInt" },
+                    { key: 3, value: "Float", text: "Float" },
+                  ]}
+                  onChange={(e) => {
+                    setparamDataType(e.target.value);
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <CustomDateField
+                  value={startDate}
+                  label="Effective Start Date"
+                  variant="standard"
+                  disabled={disabled}
+                  onChange={(event) => {
+                    setstartDate(
+                      event.$M + 1 + "/" + event.$D + "/" + event.$y
+                    );
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomDateField
+                  value={endDate}
+                  label="Effective End Date"
+                  variant="standard"
+                  disabled={disabled}
+                  onChange={(event) => {
+                    setEndDate(event.$M + 1 + "/" + event.$D + "/" + event.$y);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CustomTextField
+                  value={ParamValue}
+                  label="Parameter Value"
+                  variant="standard"
+                  disabled={disabled}
+                  onChange={(e) => {
+                    setParamValue(e.target.value);
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CustomTextField label="Parameter Value" variant="standard" />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          {/* <Button
-            //sx={{ backgroundColor: "#004a92", color: "#fff", ":hover": "red" }}
-            onClick={handleDialogClose}
-            // onMouseOver={({ target }) => {
-            //   target.style.backgroundColor = "#004a92";
-            //   target.style.color = "#fff";
-            // }}
-          >
-            Cancel
-          </Button> */}
-          <Button
+          </DialogContent>
+          <DialogActions>
+            <Button
               sx={{
                 marginLeft: "1rem",
                 color: "white",
@@ -302,22 +429,17 @@ const ParameterMaintenance = () => {
             >
               Cancel
             </Button>
-          {/* <Button
-            sx={{ backgroundColor: "black", color: "#black", ":hover": "red" }}
-            onClick={handleDialogClose}
-            // onMouseOver={({ target }) => {
-            //   target.style.backgroundColor = "#004a92";
-            //   target.style.color = "#fff";
-            // }}
-          >
-            OK
-          </Button> */}
-           <Button variant="contained" onClick={handleDialogClose}>
-        OK
+
+            <Button variant="contained" onClick={DialogOkHandler}>
+              OK
             </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+          </DialogActions>
+        </Dialog>
+      </Box>
+      <Box>
+        <StlapFooter />
+      </Box>
+    </>
   );
 };
 
