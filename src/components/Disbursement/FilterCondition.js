@@ -13,18 +13,18 @@ import axios from "axios";
 
 const filterValues = {
   tabIndex: "tabIndex",
-  branchName: "branchName",
+  branch: "branch",
   applicationNumber: "applicationNumber",
-  applicantName: "applicantName",
+  customerName: "customerName",
   coApplicantName: "coApplicantName",
   customerId: "customerId",
-  sanctionStatus: "sanctionStatus",
+  losStatus: "losStatus",
   effectiveDate: "effectiveDate",
   applicationDateFromValue: "applicationDateFromValue",
   applicationDateToValue: "applicationDateToValue",
   applicationDate: "applicationDate",
   customerType: "customerType",
-  roi: "roi",
+  rateOfInterest: "rateOfInterest",
   loanAmount: "loanAmount",
   sanctionedAmount: "sanctionedAmount",
   disbursementDateFromValue: "disbursementDateFromValue",
@@ -38,18 +38,18 @@ const FilterCondition = (props) => {
     switch (action.type) {
       case filterValues.tabIndex:
         return { ...state, tabIndex: action.value };
-      case filterValues.branchName:
-        return { ...state, branchName: action.value };
+      case filterValues.branch:
+        return { ...state, branch: action.value };
       case filterValues.applicationNumber:
         return { ...state, applicationNumber: action.value };
-      case filterValues.applicantName:
-        return { ...state, applicantName: action.value };
+      case filterValues.customerName:
+        return { ...state, customerName: action.value };
       case filterValues.coApplicantName:
         return { ...state, coApplicantName: action.value };
       case filterValues.customerId:
         return { ...state, customerId: action.value };
-      case filterValues.sanctionStatus:
-        return { ...state, sanctionStatus: action.value };
+      case filterValues.losStatus:
+        return { ...state, losStatus: action.value };
       case filterValues.effectiveDate:
         return { ...state, effectiveDate: action.value };
       case filterValues.applicationDate:
@@ -60,8 +60,8 @@ const FilterCondition = (props) => {
         return { ...state, applicationDateToValue: action.value };
       case filterValues.customerType:
         return { ...state, customerType: action.value };
-      case filterValues.roi:
-        return { ...state, roi: action.value };
+      case filterValues.rateOfInterest:
+        return { ...state, rateOfInterest: action.value };
       case filterValues.loanAmount:
         return { ...state, loanAmount: action.value };
       case filterValues.sanctionedAmount:
@@ -82,11 +82,11 @@ const FilterCondition = (props) => {
   const updateFieldsData = (field, value) => {
     let dataList = value
       ? [...state.disbursementList].filter((row) => row[field] === value)
-      : field === filterValues.branchName
+      : field === filterValues.branch
       ? []
       : // the other case is clear of application number
         [...state.disbursementList].filter(
-          (row) => row.branchName === state.branchName
+          (row) => row.branch === state.branch
         );
     if (dataList.length > 1) {
       // based on branch select dynamic load of application numbers
@@ -97,11 +97,11 @@ const FilterCondition = (props) => {
         dataList = [...dataList].filter(
           (row) => row.applicationNumber === state.applicationNumber
         );
-      } else if (field === filterValues.branchName) {
+      } else if (field === filterValues.branch) {
         // on branch change.
         dispatch({ type: "", value: "" });
         dispatch({
-          type: filterValues.branchName,
+          type: filterValues.branch,
           value: !value ? null : value,
         });
       }
@@ -153,28 +153,28 @@ const FilterCondition = (props) => {
       removeSelectedData(dataList, value, field);
       loadApplicationNumbers(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).applicationNumber }]
           : [{ label: dataList.at(0).applicationNumber }]
       );
       loadApplicantNames(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).customerName }]
           : [{ label: dataList.at(0).customerName }]
       );
       loadReferenceNumbers(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).requestNumber }]
           : [{ label: dataList.at(0).requestNumber }]
       );
       loadDisbursementRecordsStatus(
         !value
-          ? field === filterValues.branchName
+          ? field === filterValues.branch
             ? []
             : [{ label: dataList.at(0).status }]
           : [{ label: dataList.at(0).status }]
@@ -194,7 +194,7 @@ const FilterCondition = (props) => {
       });
     }
     dispatch({
-      type: filterValues.applicantName,
+      type: filterValues.customerName,
       value:
         !value || dataList.length === 0 ? null : dataList.at(0).customerName,
     });
@@ -217,16 +217,16 @@ const FilterCondition = (props) => {
       dispatch({
         type: filterValues.loanAmount,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
       dispatch({
         type: filterValues.sanctionedAmount,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).approvedAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
       dispatch({
-        type: filterValues.roi,
-        value: !value || dataList.length === 0 ? "" : dataList.at(0).roi,
+        type: filterValues.rateOfInterest,
+        value: !value || dataList.length === 0 ? "" : dataList.at(0).rateOfInterest,
       });
     }
   };
@@ -272,14 +272,14 @@ const FilterCondition = (props) => {
               type="text"
               placeholder="Select Branch"
               autoCompleteValues={state.branchNames}
-              value={state.branchName}
+              value={state.branch}
               onChange={(event, value) => {
                 dispatch({
-                  type: filterValues.branchName,
+                  type: filterValues.branch,
                   value: value === null ? value : value.label,
                 });
                 updateFieldsData(
-                  filterValues.branchName,
+                  filterValues.branch,
                   value === null ? value : value.label
                 );
               }}
@@ -315,15 +315,15 @@ const FilterCondition = (props) => {
               disabled={disabledState || disableSearchFields}
               required={false}
               label="Applicant Name"
-              id="applicantName"
+              id="customerName"
               variant="standard"
-              value={state.applicantName}
+              value={state.customerName}
               type="text"
               placeholder="Enter Applicant Name"
               autoCompleteValues={applicantNames}
               onChange={(event, value) => {
                 dispatch({
-                  type: filterValues.applicantName,
+                  type: filterValues.customerName,
                   value: value === null ? value : value.label,
                 });
               }}
@@ -376,14 +376,14 @@ const FilterCondition = (props) => {
                       disabled={disabledState}
                       required={false}
                       label="Sanction Status"
-                      id="sanctionStatus"
+                      id="losStatus"
                       variant="standard"
-                      value={state.sanctionStatus}
+                      value={state.losStatus}
                       type="text"
                       placeholder="Enter Sanction Status."
                       onChange={(event) => {
                         dispatch({
-                          type: filterValues.sanctionStatus,
+                          type: filterValues.losStatus,
                           value: event.target.value,
                         });
                       }}
@@ -473,14 +473,14 @@ const FilterCondition = (props) => {
                   disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Rate of Interest(%)"
-                  id="roi"
+                  id="rateOfInterest"
                   variant="standard"
-                  value={state.roi}
+                  value={state.rateOfInterest}
                   type="number"
                   placeholder="Enter Rate of Interest."
                   onChange={(event) => {
                     dispatch({
-                      type: filterValues.roi,
+                      type: filterValues.rateOfInterest,
                       value: event.target.value,
                     });
                   }}
@@ -506,24 +506,7 @@ const FilterCondition = (props) => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                <CustomTextField
-                  disabled={disabledState || disableSearchFields}
-                  required={false}
-                  label="Sanctioned Amount"
-                  id="sanctionedAmount"
-                  variant="standard"
-                  value={state.sanctionedAmount}
-                  type="number"
-                  placeholder="Enter Sanctioned Amount"
-                  onChange={(event) => {
-                    dispatch({
-                      type: filterValues.sanctionedAmount,
-                      value: event.target.value,
-                    });
-                  }}
-                />
-              </Grid>
+            
             </React.Fragment>
           )}
           {/* disDetailPage page is false means it was the disbursement list screen search container */}

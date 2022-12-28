@@ -1,81 +1,68 @@
 import CustomButton from "../CustomComponents/CustomButton";
 import {
   Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Checkbox,
   Chip,
+  Divider,
+  FormControlLabel,
   Grid,
+  IconButton,
   InputLabel,
+  Switch,
   TextareaAutosize,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import CustomDateField from "../CustomComponents/CustomDateField";
-import { CurrencyRupeeSharp } from "@mui/icons-material";
+import {
+  CheckBox,
+  CheckBoxOutlineBlank,
+  CheckBoxOutlineBlankOutlined,
+  CheckBoxOutlined,
+  CurrencyRupeeSharp,
+} from "@mui/icons-material";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import NoDataFound from "../CustomComponents/NoDataFound";
 
 const DisbursementDetails = (props) => {
-  const rows = [
-    {
-      id: "1",
-      accountHolderName:"User1",
-      bankName: "HDFC",
-      bankBranch: "Kottivakkam",
-      bankAccNumber: "500987421243",
-      bankAccType: "Savings",
-      bankIfsc: "HDFC0000500",
-      amount: 0,
-    },
-    {
-      id: "2",
-      accountHolderName:"User1",
-      bankName: "CANARA",
-      bankBranch: "Royapettah",
-      bankAccNumber: "124238685793",
-      bankAccType: "Savings",
-      bankIfsc: "CNRB0000938",
-      amount: 0,
-    },
-    {
-      id: "3",
-      accountHolderName:"User1",
-      bankName: "ICICI",
-      bankBranch: "Kotturpuram",
-      bankAccNumber: "424238685793",
-      bankAccType: "Savings",
-      bankIfsc: "ICIC0001040",
-      amount: 0,
-    },
-    {
-      id: "4",
-      accountHolderName:"User1",
-      bankName: "SBI",
-      bankBranch: "Light House",
-      bankAccNumber: "324238685793",
-      bankAccType: "Savings",
-      bankIfsc: "SBHY0021634",
-      amount: 0,
-    },
-    {
-      id: "5",
-      accountHolderName:"User1",
-      bankName: "INDUSIND",
-      bankBranch: "Karapakkam",
-      bankAccNumber: "624238685793",
-      bankAccType: "Savings",
-      bankIfsc: "INDB0001653",
-      amount: 0,
-    },
-  ];
-
+  const rows = props.detailPageInitialState.disbursementFavours;
   const [rowState, setRowState] = useState(rows);
-
+  const [allCheckedValues, setChecked] = React.useState([
+    ...Array.from({ length: rows.length }, () => false),
+  ]);
   const disabledState = false;
+
+  useEffect(() => {
+    const allChecked = Array.from({ length: rows.length }, () => false);
+    setChecked([...allChecked]);
+  }, []);
 
   var today = new Date();
 
   const columns = [
     {
-      field: "accountHolderName",
+      field: "isChecked",
+      headerName: "",
+      headerAlign: "center",
+      type: "string",
+      width: 50,
+      align: "center",
+      renderCell: (params) => {
+        return (
+          <Checkbox
+            checked={params.value}
+            onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
+          />
+        );
+      },
+    },
+    {
+      field: "accHoldrName",
       headerName: "Account Holder Name",
       headerAlign: "center",
       type: "string",
@@ -91,7 +78,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankBranch",
+      field: "bankBranchName",
       headerName: "Bank Branch",
       headerAlign: "center",
       type: "string",
@@ -99,7 +86,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankAccNumber",
+      field: "bankAccountNumber",
       headerName: "Bank Account Number",
       headerAlign: "center",
       type: "string",
@@ -107,7 +94,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankAccType",
+      field: "bankAccountType",
       headerName: "Bank Account Type",
       headerAlign: "center",
       type: "string",
@@ -116,7 +103,7 @@ const DisbursementDetails = (props) => {
       align: "center",
     },
     {
-      field: "bankIfsc",
+      field: "ifscCode",
       headerName: "IFSC",
       headerAlign: "center",
       type: "string",
@@ -134,27 +121,28 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
-            disabled={false}
+            disabled={!params.row.isChecked}
             required={false}
             label={""}
             id="amount"
             variant="standard"
             value={params.value}
             type="number"
-            onChange={onAmountChange(params.row.id)}
+            onChange={onAmountChange(params.row.bankAccountNumber)}
+            placeholder={!params.row.isChecked ? "Disabled" : "Enter Amount"}
           />
         );
       },
     },
   ];
 
-  const onAmountChange = (id) => (event) => {
+  const onAmountChange = (bankAccountNumber) => (event) => {
     const dataMap1 = [];
     rowState.forEach((value) => {
       const dataMap = {
         ...value,
       };
-      if (value.id === id) {
+      if (value.bankAccountNumber === bankAccountNumber) {
         dataMap.amount = event.target.value;
       }
       dataMap1.push(dataMap);
@@ -163,19 +151,91 @@ const DisbursementDetails = (props) => {
     setRowState(dataMap1);
   };
 
+  const onCheckBoxEnable = (bankAccountNumber) => (event) => {
+    const dataMap1 = [];
+    rowState.forEach((value) => {
+      const dataMap = {
+        ...value,
+      };
+      if (value.bankAccountNumber === bankAccountNumber) {
+        dataMap.isChecked = !dataMap.isChecked;
+      }
+      dataMap1.push(dataMap);
+    });
+    setRowState(dataMap1);
+  };
+
+  const onCheckBoxChange = (checkedValue, record) => {
+    const allChecked = [...allCheckedValues];
+    allChecked[Number(record.id) - 1] = checkedValue;
+    setChecked(allChecked);
+    const existrows = [...rowState];
+    existrows
+      .filter((row) => row.id === record.id)
+      .forEach((value) => {
+        value.isChecked = checkedValue;
+      });
+    setRowState(existrows);
+  };
+
+  const onCardViewAmountChange = (event, index, record) => {
+    const existrows = [...rowState];
+    existrows
+      .filter((row) => row.id === record.id)
+      .forEach((value) => {
+        value.isChecked = !value.isChecked;
+        value.amount = event.target.value;
+      });
+    setRowState(existrows);
+  };
+
+  const handleMainCheckBoxChange = (checkedValue) => {
+    const allChecked = Array.from({ length: rows.length }, () => checkedValue);
+    setChecked([...allChecked]);
+    const existrows = [...rowState];
+    existrows.forEach((value) => {
+      value.isChecked = checkedValue;
+    });
+    setRowState(existrows);
+  };
+
   return (
     <Box sx={{ marginTop: "0.5rem" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState}
+            disabled={true}
+            required={false}
+            label="Disbursement Number"
+            id="disbursementNumber"
+            variant="standard"
+            value={props.detailPageInitialState.disbNo}
+            type="text"
+            placeholder="Enter Disbursement Number"
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.disbNo,
+                value: value,
+              });
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            disabled={true}
             required={false}
             label="Earlier Disbursement Amount"
             id="earlierDisbursementAmount"
             variant="standard"
-            value={""}
+            value={props.detailPageInitialState.earlierDisbAmt}
             type="text"
             placeholder="Enter Earlier Disbursement Amount"
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.earlierDisbAmt,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
@@ -186,20 +246,26 @@ const DisbursementDetails = (props) => {
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
             variant="standard"
-            value={""}
+            value={props.detailPageInitialState.disbAmt}
             type="text"
             placeholder="Enter Current Disbursement Amount"
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.disbAmt,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState}
+            disabled={true}
             required={false}
             label="Total Deductions"
             id="deductions"
             variant="standard"
-            value={""}
+            value={props.losInitialState.memoDeductions}
             type="text"
             placeholder="Enter Total Deductions"
           />
@@ -207,12 +273,15 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState}
+            disabled={true}
             required={false}
             label="Net Disbursement Amount"
             id="netAmount"
             variant="standard"
-            value={""}
+            value={
+              props.detailPageInitialState.disbAmt -
+              props.losInitialState.memoDeductions
+            }
             type="text"
             placeholder="Enter Net Disbursement Amount"
           />
@@ -220,41 +289,39 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disabledState}
+            disabled={true}
             required={false}
             label="Disbursement Date"
             id="disbursementDate"
             variant="standard"
-            value={
-              today.getMonth() +
-              1 +
-              "/" +
-              today.getDate() +
-              "/" +
-              today.getFullYear()
-            }
+            value={props.detailPageInitialState.dateOfDisb}
             type="text"
             placeholder=""
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.dateOfDisb,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disabledState}
+            disabled={true}
             required={false}
             label="Billing Date"
             id="billingDate"
             variant="standard"
-            value={
-              today.getMonth() +
-              1 +
-              "/" +
-              today.getDate() +
-              "/" +
-              today.getFullYear()
-            }
+            value={props.detailPageInitialState.billingDate}
             type="text"
             placeholder=""
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.billingDate,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
@@ -265,16 +332,15 @@ const DisbursementDetails = (props) => {
             label="Billing Day"
             id="billingDay"
             variant="standard"
-            value={
-              today.getMonth() +
-              1 +
-              "/" +
-              today.getDate() +
-              "/" +
-              today.getFullYear()
-            }
+            value={props.detailPageInitialState.billingDay}
             type="text"
             placeholder=""
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.billingDay,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
@@ -285,16 +351,15 @@ const DisbursementDetails = (props) => {
             label="ECD"
             id="ecd"
             variant="standard"
-            value={
-              today.getMonth() +
-              1 +
-              "/" +
-              today.getDate() +
-              "/" +
-              today.getFullYear()
-            }
+            value={props.detailPageInitialState.emiCommDate}
             type="text"
             placeholder=""
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.emiCommDate,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
@@ -305,27 +370,26 @@ const DisbursementDetails = (props) => {
             label="FEDD"
             id="fedd"
             variant="standard"
-            value={
-              today.getMonth() +
-              1 +
-              "/" +
-              today.getDate() +
-              "/" +
-              today.getFullYear()
-            }
+            value={props.detailPageInitialState.firstEmiDueDate}
             type="text"
             placeholder=""
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.firstEmiDueDate,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState}
+            disabled={true}
             required={false}
             label="Request Number"
             id="requestNumber"
             variant="standard"
-            value={""}
+            value={props.losInitialState.requestNumber}
             type="text"
             placeholder="Enter Request Number"
           />
@@ -333,27 +397,39 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState}
+            disabled={true}
             required={false}
             label="Request Status"
             id="status"
             variant="standard"
-            value={""}
+            value={props.detailPageInitialState.requestStatus}
             type="text"
             placeholder="Enter Status"
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.requestStatus,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState}
+            disabled={true}
             required={false}
             label="Payment Mode"
             id="paymentMode"
             variant="standard"
-            value={""}
+            value={props.detailPageInitialState.paymentMode}
             type="text"
             placeholder="Enter Payment Mode"
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.paymentMode,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
@@ -364,9 +440,15 @@ const DisbursementDetails = (props) => {
             label="SHFL Bank"
             id="shflBank"
             variant="standard"
-            value={""}
+            value={props.detailPageInitialState.shflBank}
             type="text"
             placeholder="Enter SHFL Bank"
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.shflBank,
+                value: value,
+              });
+            }}
           />
         </Grid>
 
@@ -380,6 +462,13 @@ const DisbursementDetails = (props) => {
               borderLeft: "0px",
               borderRight: "0px",
             }}
+            value={props.detailPageInitialState.remarks}
+            onChange={(event, value) => {
+              props.dispatchEvent({
+                type: props.fieldList.remarks,
+                value: value,
+              });
+            }}
           />
         </Grid>
       </Grid>
@@ -389,16 +478,170 @@ const DisbursementDetails = (props) => {
           margin: "auto",
         }}
       >
-        <CustomDataGrid
-          noDataMessage="No Bank Data."
-          noDataOnFilterMessage="No Bank Data on Applied Filter."
-          gridHeight="270px"
-          rows={rowState}
-          columns={columns}
-          checkboxSelection={true}
-          pageSize={3}
-          pageSizeOptions={[3, 6, 9, 12]}
-        />
+        {useMediaQuery("(min-width:1200px)") && (
+          <CustomDataGrid
+            noDataMessage="No Bank Data."
+            noDataOnFilterMessage="No Bank Data on Applied Filter."
+            gridHeight="270px"
+            rows={rowState}
+            columns={columns}
+            checkboxSelection={false}
+            pageSize={3}
+            pageSizeOptions={[3, 6, 9, 12]}
+            getRowId={(row) => row.bankAccountNumber}
+          />
+        )}
+        {useMediaQuery("(max-width:1200px)") && (
+          <React.Fragment>
+            <Grid
+              container
+              item
+              direction="row"
+              alignItems="flex-end"
+              justifyContent="flex-end"
+              sx={{ height: "60px", bgcolor: "white" }}
+            >
+              {rows.length > 0 && (
+                <React.Fragment>
+                  <FormControlLabel
+                    label="Select All Accounts"
+                    labelPlacement="start"
+                    control={
+                      <Checkbox
+                        checked={
+                          [...new Set(allCheckedValues)].length === 1
+                            ? [...new Set(allCheckedValues)][0]
+                              ? true
+                              : false
+                            : true
+                        }
+                        indeterminate={
+                          [...new Set(allCheckedValues)].length === 1
+                            ? [...new Set(allCheckedValues)][0]
+                              ? false
+                              : false
+                            : true
+                        }
+                        onChange={(event) =>
+                          handleMainCheckBoxChange(event.target.checked)
+                        }
+                      />
+                    }
+                  />
+                </React.Fragment>
+              )}
+            </Grid>
+            <Grid container>
+              <Box
+                sx={{
+                  // height: accordianOpen
+                  //   ? window.innerHeight - 540
+                  //   : window.innerHeight - 250,
+                  // overflow: "auto",
+                  flex: "1 auto",
+                }}
+              >
+                {rowState.map((row, index) => (
+                  <React.Fragment>
+                    <Grid container direction="column" sx={{ flex: "1 auto" }}>
+                      <Card>
+                        <CardHeader
+                          action={
+                            <React.Fragment>
+                              {
+                                <LoadActionBtn
+                                  record={row}
+                                  checked={allCheckedValues[index]}
+                                  checkBoxChange={onCheckBoxChange}
+                                />
+                              }
+                            </React.Fragment>
+                          }
+                          subheader={row.bankName + "- " + row.bankAccNumber}
+                          subheaderTypographyProps={{
+                            color: "#004A92",
+                            fontWeight: "700",
+                          }}
+                          sx={{
+                            textAlign: "left",
+                            padding: "16px 16px 0px 16px !important",
+                          }}
+                        />
+                        <CardContent>
+                          <Grid
+                            container
+                            item
+                            direction="column"
+                            alignItems="flex-start"
+                            justifyContent="flex-start"
+                          >
+                            <Typography padding="1px">
+                              {"Account Holder Name : " + row.accountHolderName}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Account Number : " + row.bankAccNumber}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Account Type : " + row.bankAccType}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Bank  : " + row.bankName}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Branch : " + row.bankBranch}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"IFSC Code : " + row.bankIfsc}
+                            </Typography>
+                            <Typography padding="1px">
+                              {"Amount to Disbursed : " + row.amount}
+                            </Typography>
+                            <CustomTextField
+                              disabled={!allCheckedValues[index]}
+                              required={false}
+                              label={"Amount to Disbursed : "}
+                              id="amount"
+                              variant="standard"
+                              value={row.amount}
+                              type="number"
+                              onChange={(event) =>
+                                onCardViewAmountChange(event, index, row)
+                              }
+                            />
+                          </Grid>
+                          <Grid
+                            container
+                            item
+                            direction="row"
+                            alignItems="flex-end"
+                            justifyContent="flex-end"
+                          >
+                            <Typography sx={{ width: "40%" }}>
+                              {/* {loadStatus(row.status)} */}
+                            </Typography>
+                          </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                    <Divider />
+                  </React.Fragment>
+                ))}
+                {rows.length === 0 && (
+                  <NoDataFound
+                    message={"No Bank Data."}
+                    imageStyle={{
+                      marginTop:
+                        // accordianOpen && window.innerHeight < 1000
+                        //   ? "20px"
+                        // :
+                        "20%",
+                    }}
+                  />
+                )}
+              </Box>
+            </Grid>
+          </React.Fragment>
+        )}
       </Box>
       <Box
         sx={{
@@ -425,3 +668,33 @@ const DisbursementDetails = (props) => {
 };
 
 export default DisbursementDetails;
+
+const LoadActionBtn = (props) => {
+  const [record, setRecord] = React.useState(props.record);
+  const [checkedValue, setChecked] = React.useState(false);
+
+  useEffect(() => {
+    setChecked(props.checked);
+  }, [props.checked]);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    props.checkBoxChange(event.target.checked, record);
+  };
+  return (
+    <React.Fragment>
+      <FormControlLabel
+        label=""
+        labelPlacement="start"
+        control={
+          <Checkbox
+            checked={checkedValue}
+            onChange={handleChange}
+            icon={<CheckBoxOutlineBlank />}
+            checkedIcon={<CheckBoxOutlined />}
+          />
+        }
+      />
+    </React.Fragment>
+  );
+};

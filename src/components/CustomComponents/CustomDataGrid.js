@@ -62,6 +62,7 @@ const CustomDataGrid = (props) => {
       checkboxSelection={
         props.checkboxSelection ? props.checkboxSelection : false
       }
+      getRowId={props.getRowId}
     />
   );
 };
