@@ -30,8 +30,6 @@ import React, { useEffect, useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
 
 const DisbursementDetails = (props) => {
-  
-
   const rows = props.detailPageInitialState.disbursementFavours;
   const [rowState, setRowState] = useState(rows);
   const [allCheckedValues, setChecked] = React.useState([
@@ -503,33 +501,35 @@ const DisbursementDetails = (props) => {
               justifyContent="flex-end"
               sx={{ height: "60px", bgcolor: "white" }}
             >
-              <React.Fragment>
-                <FormControlLabel
-                  label="Select All Accounts"
-                  labelPlacement="start"
-                  control={
-                    <Checkbox
-                      checked={
-                        [...new Set(allCheckedValues)].length === 1
-                          ? [...new Set(allCheckedValues)][0]
-                            ? true
-                            : false
-                          : true
-                      }
-                      indeterminate={
-                        [...new Set(allCheckedValues)].length === 1
-                          ? [...new Set(allCheckedValues)][0]
-                            ? false
-                            : false
-                          : true
-                      }
-                      onChange={(event) =>
-                        handleMainCheckBoxChange(event.target.checked)
-                      }
-                    />
-                  }
-                />
-              </React.Fragment>
+              {rows.length > 0 && (
+                <React.Fragment>
+                  <FormControlLabel
+                    label="Select All Accounts"
+                    labelPlacement="start"
+                    control={
+                      <Checkbox
+                        checked={
+                          [...new Set(allCheckedValues)].length === 1
+                            ? [...new Set(allCheckedValues)][0]
+                              ? true
+                              : false
+                            : true
+                        }
+                        indeterminate={
+                          [...new Set(allCheckedValues)].length === 1
+                            ? [...new Set(allCheckedValues)][0]
+                              ? false
+                              : false
+                            : true
+                        }
+                        onChange={(event) =>
+                          handleMainCheckBoxChange(event.target.checked)
+                        }
+                      />
+                    }
+                  />
+                </React.Fragment>
+              )}
             </Grid>
             <Grid container>
               <Box
