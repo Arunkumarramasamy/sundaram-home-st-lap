@@ -53,13 +53,11 @@ const DisbursementCreatePortal = (props) => {
     React.useState(initialState);
 
   const searchButtonClickHandler = (data) => {
-    console.log(data);
     setSearchValues(data);
     filterData(data);
   };
 
   const filterData = (data) => {
-    console.log(data);
     let filterrows = [];
     switch (data.tabIndex) {
       case "2":
@@ -96,7 +94,6 @@ const DisbursementCreatePortal = (props) => {
   }, []);
 
   const clearButtonClickHandler = (data) => {
-    console.log(data);
     resetFilterData();
   };
 
