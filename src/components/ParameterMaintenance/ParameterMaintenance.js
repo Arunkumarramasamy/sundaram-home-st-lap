@@ -109,7 +109,6 @@ const ParameterMaintenance = () => {
       align: "center",
       width: 160,
       renderCell: (params) => {
-        console.log(params);
         if (params.row.paramDataType !== "Varchar") {
           return parseInt(params.value).toLocaleString("en-IN");
         } else {
@@ -169,7 +168,18 @@ const ParameterMaintenance = () => {
     }
   };
   const modifyClickHandler = (values) => {
+    setCheckObj((pre) => {
+      return {
+        ...pre,
+        paramName: values.paramName,
+        paramType: values.paramDataType,
+        paramValu: values.paramValue,
+        effStartDate: values.paramEffStartDt,
+        effEndDate: values.paramEffEndDt,
+      };
+    });
     setShowOkCancel(false);
+    setOkButtonHandler(true);
     setdisabled(false);
     handleClickDialogOpen();
     console.log(values);
@@ -183,6 +193,7 @@ const ParameterMaintenance = () => {
     } else {
       setParamValue(values.paramValue);
     }
+    console.log(check);
   };
   /**Dialog Click Handler */
   const DialogOkHandler = () => {
@@ -192,10 +203,24 @@ const ParameterMaintenance = () => {
 
     //if save click happen
     if (paramNameIsValid && paramTypeIsValid && paramValueIsValid) {
-      SendData();
-
-      setDialogOpen(false);
-      ResetTouchHandler(false);
+      if (
+        check.paramName == paraMeterName &&
+        check.paramType == paramDataType &&
+        check.paramValu == ParamValue &&
+        check.effStartDate == startDate &&
+        check.effEndDate == endDate
+      ) {
+        setState((pre) => {
+          return { ...pre, vertical: "top", horizontal: "center" };
+        });
+        setAlertType("error");
+        setMessage("No changes Made");
+        openAlertHandler();
+      } else {
+        SendData();
+        setDialogOpen(false);
+        ResetTouchHandler(false);
+      }
     } else {
       ResetTouchHandler(true);
       return;
@@ -250,6 +275,7 @@ const ParameterMaintenance = () => {
   };
   const addBtnHandler = () => {
     setMode(0);
+    setOkButtonHandler(false);
     Reset();
     setdisabled(false);
     setDialogOpen(true);
@@ -266,13 +292,14 @@ const ParameterMaintenance = () => {
   };
   /**Validation Handlers */
   /**Valid Handler */
-  const paramNameIsValid = paraMeterName.trim() !== "";
+  const paramNameIsValid =
+    paraMeterName.trim() !== "" && paraMeterName.trim().length < 50;
   const paramTypeIsValid = paramDataType.trim() !== "";
   let paramValueIsValid;
   if (paramDataType === "Varchar") {
     paramValueIsValid = ParamValue.trim() !== "";
   } else {
-    paramValueIsValid = ParamValue.length !== 0;
+    paramValueIsValid = ParamValue.length !== 0 && ParamValue.length < 50;
   }
   /**Touch State Handlers */
   const [paramNameTouched, setParamNameTouched] = useState(false);
@@ -295,10 +322,11 @@ const ParameterMaintenance = () => {
 
   //SnackBar Handler
   const [message, setMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
   const [state, setState] = React.useState({
     open: false,
-    vertical: "top",
-    horizontal: "center",
+    vertical: "bottom",
+    horizontal: "left",
   });
   const { vertical, horizontal, open } = state;
   const [alert, setAlert] = useState(false);
@@ -309,7 +337,16 @@ const ParameterMaintenance = () => {
   const closeAlertHandler = () => {
     setAlert(false);
   };
-
+  /**Checking value Changes */
+  const [check, setCheckObj] = useState({
+    paramName: "",
+    paramType: "",
+    paramValu: "",
+    effStartDate: "",
+    effEndDate: "",
+  });
+  /**Ok Button Handler */
+  const [OkButtonHandler, setOkButtonHandler] = useState(false);
   return (
     <>
       <Box
@@ -407,7 +444,7 @@ const ParameterMaintenance = () => {
                                 }
                               </React.Fragment>
                             }
-                            subheader={"Parameter Name : " + row.parameterName}
+                            subheader={"Parameter Name : " + row.paramName}
                             subheaderTypographyProps={{
                               color: "#004A92",
                               fontWeight: "700",
@@ -422,23 +459,27 @@ const ParameterMaintenance = () => {
                         <CardContent>
                           <Grid
                             container
-                            item
                             direction="column"
                             alignItems="flex-start"
                             justifyContent="flex-start"
                           >
                             <Typography padding="1px">
-                              {"parameteData type : " + row.parameterDatatype}
+                              {"Paramete Data Type : " + row.paramDataType}
                             </Typography>
                             <Typography padding="1px">
-                              {" effectiveStartDate : " +
-                                row.effectiveStartDate}
+                              {" Effective Start Date : " + row.paramEffStartDt}
                             </Typography>
                             <Typography padding="1px">
-                              {"effectiveEndDate : " + row.effectiveEndDate}
+                              {"Effective End Date : " + row.paramEffEndDt}
                             </Typography>
                             <Typography padding="1px">
-                              {"parameterValue : " + row.parameterValue}
+                              {`Parameter Value :   ${
+                                row.paramDataType === "Varchar"
+                                  ? row.paramValue
+                                  : parseInt(row.paramValue).toLocaleString(
+                                      "en-IN"
+                                    )
+                              }`}
                             </Typography>
                           </Grid>
                           {/* <Grid
@@ -485,6 +526,7 @@ const ParameterMaintenance = () => {
                   value={paraMeterName}
                   disabled={disabled}
                   onChange={(e) => {
+                    setOkButtonHandler(false);
                     setParamMeterName(e.target.value);
                   }}
                   onBlur={(e) => {
@@ -508,6 +550,7 @@ const ParameterMaintenance = () => {
                     { key: 3, value: "Float", text: "Float" },
                   ]}
                   onChange={(e) => {
+                    setOkButtonHandler(false);
                     setparamDataType(e.target.value);
                     setParamValue("");
                   }}
@@ -524,11 +567,12 @@ const ParameterMaintenance = () => {
                 <CustomDateField
                   value={startDate}
                   disableFuture={false}
-                  disablePast={false}
+                  disablePast={true}
                   label="Effective Start Date"
                   variant="standard"
                   disabled={disabled}
                   onChange={(event) => {
+                    setOkButtonHandler(false);
                     setstartDate(
                       event.$M + 1 + "/" + event.$D + "/" + event.$y
                     );
@@ -539,11 +583,12 @@ const ParameterMaintenance = () => {
                 <CustomDateField
                   value={endDate}
                   disableFuture={false}
-                  disablePast={false}
+                  disablePast={true}
                   label="Effective End Date"
                   variant="standard"
                   disabled={disabled}
                   onChange={(event) => {
+                    setOkButtonHandler(false);
                     setEndDate(event.$M + 1 + "/" + event.$D + "/" + event.$y);
                   }}
                 />
@@ -555,6 +600,7 @@ const ParameterMaintenance = () => {
                   variant="standard"
                   disabled={disabled}
                   onChange={(e) => {
+                    setOkButtonHandler(false);
                     if (paramDataType === "Varchar") {
                       let val = e.target.value.replace(/[0-9]/g, "");
                       setParamValue(val);
@@ -615,6 +661,7 @@ const ParameterMaintenance = () => {
                   sx={{ fontWeight: "bold" }}
                   variant="contained"
                   onClick={DialogOkHandler}
+                  disabled={OkButtonHandler}
                 >
                   OK
                 </Button>
@@ -634,7 +681,7 @@ const ParameterMaintenance = () => {
       >
         <Alert
           onClose={closeAlertHandler}
-          severity="success"
+          severity={alertType}
           variant="filled"
           sx={{ width: "100%" }}
         >
