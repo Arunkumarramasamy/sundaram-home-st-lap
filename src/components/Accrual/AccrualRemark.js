@@ -1,11 +1,18 @@
-import { Box, Button, Grid, Modal, TextareaAutosize, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Modal,
+  TextareaAutosize,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import AdditionalHistory from "./AdditionalHistory";
 import HistoryIcon from "@mui/icons-material/History";
 import Cookies from "js-cookie";
-
+import axios from "axios";
 
 const AccrualRemark = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -13,7 +20,7 @@ const AccrualRemark = (props) => {
   const handleHistoryDialog = () => {
     handleOpen(true);
   };
-  const[reasonData,setReasonData] = React.useState('');
+  const [reasonData, setReasonData] = React.useState("");
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -30,7 +37,27 @@ const AccrualRemark = (props) => {
     boxShadow: 24,
     p: 4,
   };
+  //save data
   const handleClose = () => setOpen(false);
+  const saveAccrualDetails = async () => {
+    const dataMap = {};
+    dataMap['gridData'] = props.gridData;
+    dataMap['reason'] = reasonData;
+    dataMap['remark'] = '';
+    dataMap['referenceNumber']=props.refNum;
+    dataMap['updatedBy'] = props.name;
+    dataMap['applicationNumber'] = props.applicationNumber;
+    try {
+      // const response = await axios(
+      const response = await axios.post(
+        "http://localhost:8080/additionalfee/saveFeeDetails",
+        dataMap
+      );
+      console.log(response.data);
+    } catch {
+      console.log("Network Error");
+    }
+  };
   return (
     <>
       <Grid
@@ -43,7 +70,7 @@ const AccrualRemark = (props) => {
           backgroundColor: "#fff",
         }}
       >
-        <Box sx={{ width: "100%", marginTop: "16px" ,marginLeft: "16px"}}>
+        <Box sx={{ width: "100%", marginTop: "16px", marginLeft: "16px" }}>
           <Grid
             container
             spacing={2}
@@ -57,7 +84,7 @@ const AccrualRemark = (props) => {
                 defaultValue="1"
                 required={true}
                 dropDownValue={resonValue}
-                onChange={(event)=>setReasonData(event.target.value)}
+                onChange={(event) => setReasonData(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
@@ -83,7 +110,7 @@ const AccrualRemark = (props) => {
                 Remarks
               </Typography>
               <TextareaAutosize
-              id = 'accrual-textarea'
+                id="accrual-textarea"
                 maxRows={4}
                 required={true}
                 aria-label="maximum height"
@@ -93,8 +120,8 @@ const AccrualRemark = (props) => {
                   borderRadius: "4px",
                   resize: "none",
                   outline: "none",
-                  fontFamily:'inherit',
-                  fontSize:'inherit',
+                  fontFamily: "inherit",
+                  fontSize: "inherit",
                 }}
               />
             </Grid>
@@ -117,7 +144,11 @@ const AccrualRemark = (props) => {
             >
               <HistoryIcon></HistoryIcon>
             </Button>
-            <Button variant="contained" sx={{ fontWeight: "bold" }}>
+            <Button
+              variant="contained"
+              onClick={saveAccrualDetails}
+              sx={{ fontWeight: "bold" }}
+            >
               Update
             </Button>
             <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
@@ -128,7 +159,10 @@ const AccrualRemark = (props) => {
                 aria-describedby="modal-modal-description"
               >
                 <Box sx={style}>
-                  <AdditionalHistory title="Waived History" />
+                  <AdditionalHistory
+                    onClose={handleClose}
+                    title="Waived History"
+                  />
                 </Box>
               </Modal>
             </Grid>

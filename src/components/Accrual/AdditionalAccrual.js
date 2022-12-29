@@ -307,7 +307,7 @@ const AdditionalAccrual = () => {
       width: "200",
       editable: false,
       align: "center",
-      valueGetter: (param) => param.row.due + param.row.paid + param.row.waived,
+      valueGetter: (param) => param.row.due - param.row.paid + param.row.waived,
     },
   ];
   let visibility = {
@@ -573,7 +573,7 @@ const AdditionalAccrual = () => {
               </Grid>
             </React.Fragment>
           )}
-          <AccrualRemark name= "Accrued By"></AccrualRemark>
+          <AccrualRemark name= "Accrued By" gridData={dataRows}></AccrualRemark>
         </div>
       </div>
       <StlapFooter />

@@ -1,6 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { React } from "react";
-import { lighten } from "@mui/material";
+import { Button, lighten } from "@mui/material";
 
 const rows = [
   {
@@ -83,6 +83,9 @@ const columns = [
   },
 ];
 const AdditionalHistory = (props) => {
+  const closeDialog = () => {
+    props.onClose();
+  };
   return (
     <>
       <h4>{props.title}</h4>
@@ -109,6 +112,25 @@ const AdditionalHistory = (props) => {
           params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
         }
       />
+      <div style={{ width: "100%", direction: "ftl" }}>
+        <Button
+          sx={{
+            marginLeft: "1rem",
+            color: "white",
+            backgroundColor: "black",
+            fontWeight: "bold",
+            marginTop:'8px'
+          }}
+          onMouseOver={({ target }) => {
+            target.style.backgroundColor = "black";
+            target.style.color = "white";
+          }}
+          variant="contained"
+          onClick={closeDialog}
+        >
+          close
+        </Button>
+      </div>
     </>
   );
 };
