@@ -25,6 +25,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import MoreAction from "./MoreAction";
+import dayjs from "dayjs";
 
 const ParameterMaintenance = () => {
   const [rows, setRows] = useState([]);
@@ -151,13 +152,26 @@ const ParameterMaintenance = () => {
   const [paramaId, setParamId] = useState("");
   const [paraMeterName, setParamMeterName] = useState("");
   const [paramDataType, setparamDataType] = useState("");
-  const [startDate, setstartDate] = useState(todayDate);
-  const [endDate, setEndDate] = useState(todayDate);
+  const [startDate, setstartDate] = useState(dayjs(todayDate));
+  const [endDate, setEndDate] = useState(dayjs(todayDate));
   const [ParamValue, setParamValue] = useState("");
   // view cancel Button Handler
   const [showOkCancel, setShowOkCancel] = useState(false);
   /**Modify Click Handler */
+  const setValues = (values) => {
+    setCheckObj((pre) => {
+      return {
+        ...pre,
+        paramName: values.paramName,
+        paramType: values.paramDataType,
+        paramValu: values.paramValue,
+        effStartDate: values.paramEffStartDt,
+        effEndDate: values.paramEffEndDt,
+      };
+    });
+  };
   const viewClickHandler = (values) => {
+    setValues(values);
     setShowOkCancel(true);
     setdisabled(true);
     handleClickDialogOpen();
@@ -173,16 +187,7 @@ const ParameterMaintenance = () => {
     }
   };
   const modifyClickHandler = (values) => {
-    setCheckObj((pre) => {
-      return {
-        ...pre,
-        paramName: values.paramName,
-        paramType: values.paramDataType,
-        paramValu: values.paramValue,
-        effStartDate: values.paramEffStartDt,
-        effEndDate: values.paramEffEndDt,
-      };
-    });
+    setValues(values);
     setShowOkCancel(false);
     setOkButtonHandler(true);
     setdisabled(false);
@@ -298,9 +303,9 @@ const ParameterMaintenance = () => {
       check.paramType == paramDataType &&
       check.effStartDate == startDate &&
       check.effEndDate == endDate &&
-      check.paramType === "Varchar"
+      (check.paramType === "Varchar"
         ? check.paramValu == ParamValue
-        : check.paramValu == ParamValue.replaceAll(",", "")
+        : check.paramValu == ParamValue.replaceAll(",", ""))
     ) {
       setdisabled(true);
       setDialogOpen(false);
@@ -379,8 +384,8 @@ const ParameterMaintenance = () => {
     paramName: "",
     paramType: "",
     paramValu: "",
-    effStartDate: "",
-    effEndDate: "",
+    effStartDate: new Date(today).toLocaleDateString(),
+    effEndDate: new Date(today).toLocaleDateString(),
   });
   /**Ok Button Handler */
   const [OkButtonHandler, setOkButtonHandler] = useState(false);
@@ -439,10 +444,9 @@ const ParameterMaintenance = () => {
           </Box>
         )}
         {useMediaQuery("(max-width:1200px)") && (
-          <React.Fragment>
-            <Grid
-              container
-              direction="row"
+          <>
+            <Box
+              display="flex"
               alignItems="flex-end"
               justifyContent="flex-end"
               sx={{ height: "60px", bgcolor: "white" }}
@@ -458,59 +462,75 @@ const ParameterMaintenance = () => {
               >
                 {"Total Records : " + totalRowsCount}
               </Typography>
-            </Grid>
-
-            <Box>
-              <Grid
-                container
-                sx={{
-                  height: window.innerHeight - 300,
-                  overflow: "auto",
-                  flex: "1 auto",
-                }}
-              >
-                {rows.map((row, index) => (
-                  <React.Fragment>
-                    <Grid item sx={{ flex: "1 auto" }}>
+            </Box>
+            <Box
+              sx={{
+                height: window.innerHeight - 300,
+                overflow: "auto",
+                flex: "1 auto",
+              }}
+            >
+              <Grid container>
+                {rows.map((row, index) => {
+                  return (
+                    <Grid item xs={12} md={6}>
                       <Card>
-                        {
-                          <CardHeader
-                            action={
-                              <React.Fragment>
-                                {
-                                  <MoreAction
-                                    params={row}
-                                    viewClickHandler={viewClickHandler}
-                                    modifyClickHandler={modifyClickHandler}
-                                  />
-                                }
-                              </React.Fragment>
-                            }
-                            subheader={"Parameter Name : " + row.paramName}
-                            subheaderTypographyProps={{
-                              color: "#004A92",
-                              fontWeight: "700",
-                            }}
-                            sx={{
-                              textAlign: "left",
-                              padding: "16px 16px 0px 16px !important",
-                            }}
-                          />
-                        }
+                        <CardHeader
+                          action={
+                            <React.Fragment>
+                              {
+                                <MoreAction
+                                  params={row}
+                                  viewClickHandler={viewClickHandler}
+                                  modifyClickHandler={modifyClickHandler}
+                                />
+                              }
+                            </React.Fragment>
+                          }
+                          subheader={"Parameter Name : " + row.paramName}
+                          subheaderTypographyProps={{
+                            color: "#004A92",
+                            fontWeight: "700",
+                          }}
+                          sx={{
+                            textAlign: "left",
+                            padding: "16px 16px 0px 16px !important",
+                          }}
+                        />
 
                         <CardContent>
-                          <Grid
-                            item
-                            direction="column"
-                            alignItems="flex-start"
-                            justifyContent="flex-start"
-                          >
-                            <Grid item>Paramete Data Type</Grid>
-                            <Grid item>{row.paramDataType}</Grid>
+                          <Grid container>
+                            <Grid item xs={7}>
+                              Paramete Data Type
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramDataType}`}
+                            </Grid>
+
+                            <Grid item xs={7}>
+                              Effective Start Date
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramEffStartDt}`}
+                            </Grid>
+
+                            <Grid item xs={7}>
+                              Effective End Date
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramEffEndDt}`}
+                            </Grid>
+
+                            <Grid item xs={7}>
+                              Parameter Value
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramValue}`}
+                            </Grid>
                             {/* <Typography padding="1px">
                               {"Paramete Data Type : " + row.paramDataType}
                             </Typography> */}
-                            <Typography padding="1px">
+                            {/* <Typography padding="1px">
                               {" Effective Start Date : " + row.paramEffStartDt}
                             </Typography>
                             <Typography padding="1px">
@@ -524,25 +544,16 @@ const ParameterMaintenance = () => {
                                       "en-IN"
                                     )
                               }`}
-                            </Typography>
+                            </Typography> */}
                           </Grid>
                         </CardContent>
                       </Card>
                     </Grid>
-                    <Divider />
-                  </React.Fragment>
-                ))}
-                {rows.length === 0 && (
-                  <NoDataFound
-                    message={"No Disbursement Record Found."}
-                    imageStyle={{
-                      marginTop: window.innerHeight < 1000 ? "20px" : "20%",
-                    }}
-                  />
-                )}
+                  );
+                })}
               </Grid>
             </Box>
-          </React.Fragment>
+          </>
         )}
 
         <Dialog open={Dialogopen} onClose={handleDialogClose}>
@@ -557,6 +568,7 @@ const ParameterMaintenance = () => {
                   label="Parameter Name"
                   variant="standard"
                   value={paraMeterName}
+                  error={paramNameHasError}
                   disabled={disabled}
                   onChange={(e) => {
                     setOkButtonHandler(false);
@@ -576,6 +588,7 @@ const ParameterMaintenance = () => {
                   variant="standard"
                   disabled={disabled}
                   value={paramDataType}
+                  error={paramTypeHasError}
                   dropDownValue={[
                     { key: 0, value: "Varchar", text: "Varchar" },
                     { key: 1, value: "Int", text: "Int" },
@@ -604,11 +617,10 @@ const ParameterMaintenance = () => {
                   label="Effective Start Date"
                   variant="standard"
                   disabled={disabled}
-                  onChange={(event) => {
+                  onChange={(newValue) => {
                     setOkButtonHandler(false);
-                    setstartDate(
-                      event.$M + 1 + "/" + event.$D + "/" + event.$y
-                    );
+                    console.log(newValue);
+                    setstartDate(newValue);
                   }}
                 />
               </Grid>
@@ -620,9 +632,9 @@ const ParameterMaintenance = () => {
                   label="Effective End Date"
                   variant="standard"
                   disabled={disabled}
-                  onChange={(event) => {
+                  onChange={(newValue) => {
                     setOkButtonHandler(false);
-                    setEndDate(event.$M + 1 + "/" + event.$D + "/" + event.$y);
+                    setEndDate(newValue);
                   }}
                 />
               </Grid>
@@ -632,6 +644,7 @@ const ParameterMaintenance = () => {
                   label="Parameter Value"
                   variant="standard"
                   disabled={disabled}
+                  error={paramValueHasError}
                   onChange={(e) => {
                     setOkButtonHandler(false);
                     if (paramDataType === "Varchar") {
