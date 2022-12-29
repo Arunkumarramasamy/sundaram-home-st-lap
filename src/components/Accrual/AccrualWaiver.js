@@ -46,11 +46,14 @@ const AdditionalWaiver = () => {
         "http://localhost:8080/additionalfee/getFeeData",
         {
           applicationNumber: applicationNumber,
-          referenceNumber: referenceNumber,
         }
       );
       setDataRow(response.data.gridData);
-      setReferenceNumber(response.data.otherList.referenceNumber);
+      setReferenceNumber(
+        response.data.otherList.referenceNumber
+          ? response.data.otherList.referenceNumber
+          : 1
+      );
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
     } catch {
@@ -70,7 +73,7 @@ const AdditionalWaiver = () => {
     );
     setTotalRowsCount(dataRows.length);
   }, []);
-  const [referenceNumber, setReferenceNumber] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState(0);
   const [currentDate, setCurrentDate] = useState(
     `${new Date().getDate()}/${
       new Date().getMonth() + 1
@@ -94,7 +97,25 @@ const AdditionalWaiver = () => {
       setApplicationNumber(newValue.label);
     }
   };
+  const handleCellChangedEvent = (event) => {
+    const dataMap1 = [];
+    dataRows.forEach((value) => {
+      if (value.details === event.row.details) {
+        value.additionalWaiver = event.value;
+      }
+      dataMap1.push(value);
+    });
 
+    setDataRow(dataMap1);
+    if (
+      !(
+        event.row.receiveable - event.row.received - event.row.earlyWaiver >
+        event.value
+      )
+    ) {
+      setGridAlert("flex");
+    }
+  };
   const branchNames = [
     { label: "Mylapore", value: "" },
     { label: "Royapettah", value: "" },
@@ -103,11 +124,7 @@ const AdditionalWaiver = () => {
     { label: "Tambaram", value: "" },
     { label: "Egmore", value: "" },
   ];
-  const handleCellChangedEvent = (event) => {
-    if (!(event.row.due - event.row.paid > event.value)) {
-      setGridAlert("flex");
-    }
-  };
+
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
@@ -281,11 +298,15 @@ const AdditionalWaiver = () => {
       editable: false,
       valueGetter: (param) => {
         if (
-          param.row.receiveable - param.row.received - param.row.earlyWaiver >
+          param.row.receiveable -
+            param.row.received -
+            param.row.additionalWaiver >
           0
         ) {
           return (
-            param.row.receiveable - param.row.received - param.row.earlyWaiver
+            param.row.receiveable -
+            param.row.received -
+            param.row.additionalWaiver
           );
         } else {
           return param.row.receiveable - param.row.received;
@@ -385,7 +406,7 @@ const AdditionalWaiver = () => {
                     placeholder="Reference Number"
                     required={false}
                     variant="standard"
-                    value={referenceNumber}
+                    value={referenceNumber===0?'':referenceNumber}
                     // onChange={trnNoChangeHandler}
                     // onChange={(event)=>setReferenceName(event.target.value)}
                   />
@@ -489,7 +510,10 @@ const AdditionalWaiver = () => {
                       : `super-app-theme--odd`
                   }
                   isCellEditable={(param) =>
-                    param.row.receiveable - param.row.paid !== 0
+                    param.row.receiveable -
+                      param.row.received -
+                      param.row.earlyWaiver !==
+                    0
                   }
                   initialState={{
                     columns: {

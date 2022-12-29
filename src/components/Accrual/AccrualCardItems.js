@@ -11,11 +11,17 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 
 const AccrualCardItems = (props) => {
   const [row, setRow] = useState(props.value);
-  const [inputValue, setInputValue] = useState(Number(props.value.received));
-  const [due, setDue] = useState(Number(props.value.due));
-  const [paid, setPaid] = useState(Number(props.value.paid));
+  const [inputValue, setInputValue] = useState(
+    Number(props.value.additionalWaived)
+  );
+  const [receiveable, setDue] = useState(Number(props.value.receiveable));
+  const [received, setPaid] = useState(Number(props.value.received));
+
   const [outStandingAmount, setOutStandingAmount] = useState(
-    props.value.due - props.value.paid - props.value.waived
+    props.value.receiveable -
+      props.value.received -
+      props.value.earlyWaiver +
+      props.value.additionalAccrual
   );
   const onChangeParentValue = (event) => {
     let Value = event.target.value.replace(/\D/g, "");
@@ -24,7 +30,7 @@ const AccrualCardItems = (props) => {
     } else {
       setInputValue(Value);
     }
-    setOutStandingAmount(due - paid - Value);
+    setOutStandingAmount(receiveable - received - Value);
     props.onChange(row, Value);
   };
   return (
@@ -52,13 +58,13 @@ const AccrualCardItems = (props) => {
               justifyContent="flex-start"
             >
               <Typography padding="1px">
-                {"Amount Receivable : " + row.due}
+                {"Amount Receivable : " + row.receiveable}
               </Typography>
               <Typography padding="1px">
-                {"Amount Received : " + row.receiveable}
+                {"Amount Received : " + row.received}
               </Typography>
               <Typography padding="1px">
-                {"Early Waived : " + row.paid}
+                {"Earlier Waived : " + row.earlyWaiver}
               </Typography>
               {/* <Typography padding="1px">
                                 {"Additional Waived : " + row.received}
