@@ -573,7 +573,7 @@ const AdditionalAccrual = () => {
               </Grid>
             </React.Fragment>
           )}
-          <AccrualRemark name= "Accrued By"></AccrualRemark>
+          <AccrualRemark name= "Accrued By" gridData={dataRows}></AccrualRemark>
         </div>
       </div>
       <StlapFooter />

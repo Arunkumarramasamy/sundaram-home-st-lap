@@ -56,8 +56,12 @@ const AdditionalWaiver = () => {
   };
   const getData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/accrual/getAllParameterData"
+      const response = await axios.post(
+        "http://localhost:8080/additionalfee/getFeeData",
+        {
+          applicationNumber: applicationNumber,
+          referenceNumber: referenceNumber,
+        }
       );
       console.log(response.data);
       const data = response.data.map((data) => {
@@ -578,7 +582,12 @@ const AdditionalWaiver = () => {
               </Grid>
             </React.Fragment>
           )}
-          <AccrualRemark name="Waived By"></AccrualRemark>
+          <AccrualRemark
+            name="Waived By"
+            gridData={dataRows}
+            refNum={referenceNumber}
+            applicationNumber={applicationNumber}
+          ></AccrualRemark>
           <Alert
             sx={{
               display: gridAlert,
