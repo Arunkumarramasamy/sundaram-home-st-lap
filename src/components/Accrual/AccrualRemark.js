@@ -6,21 +6,26 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import AdditionalHistory from "./AdditionalHistory";
 import HistoryIcon from "@mui/icons-material/History";
 import Cookies from "js-cookie";
 import axios from "axios";
+import CustomeToaster from "../CustomComponents/CustomToaster";
 
 const AccrualRemark = (props) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [toasterOpen, setToasterOpen] = useState(false);
+  const [severity, setSeverity] = useState("");
+  const [content, setContent] = useState("");
+  const [remark, setRemark] = useState(props.remark);
   const handleOpen = () => setOpen(true);
   const handleHistoryDialog = () => {
     handleOpen(true);
   };
-  const [reasonData, setReasonData] = React.useState("");
+  const [reasonData, setReasonData] = useState(props.reason);
   const resonValue = [
     { value: "1", text: "Reverse Payment" },
     { value: "2", text: "intrest increases" },
@@ -41,20 +46,29 @@ const AccrualRemark = (props) => {
   const handleClose = () => setOpen(false);
   const saveAccrualDetails = async () => {
     const dataMap = {};
-    dataMap['gridData'] = props.gridData;
-    dataMap['reason'] = reasonData;
-    dataMap['remark'] = '';
-    dataMap['referenceNumber']=props.refNum;
-    dataMap['updatedBy'] = props.name;
-    dataMap['applicationNumber'] = props.applicationNumber;
+    dataMap["gridData"] = props.gridData;
+    dataMap["reason"] = reasonData;
+    dataMap["remark"] = "";
+    dataMap["refDate"] = props.refDate;
+    dataMap["referenceNumber"] = props.refNum;
+    dataMap["updatedBy"] = Cookies.get("userName");
+    dataMap["applicationNumber"] = props.applicationNumber;
+    dataMap["type"] = props.type;
     try {
       // const response = await axios(
       const response = await axios.post(
         "http://localhost:8080/additionalfee/saveFeeDetails",
         dataMap
       );
-      console.log(response.data);
+      if (response.data === "saved") {
+        setContent("Saved Successfully");
+        setSeverity("success");
+        setToasterOpen(true);
+      }
     } catch {
+      setContent("Network Error");
+      setSeverity("error");
+      setToasterOpen(true);
       console.log("Network Error");
     }
   };
@@ -166,6 +180,11 @@ const AccrualRemark = (props) => {
                 </Box>
               </Modal>
             </Grid>
+            <CustomeToaster
+              severity={severity}
+              open={toasterOpen}
+              content={content}
+            ></CustomeToaster>
           </div>
         </Box>
       </Grid>

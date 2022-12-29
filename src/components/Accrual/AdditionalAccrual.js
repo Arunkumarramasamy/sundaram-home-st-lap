@@ -56,7 +56,7 @@ const AdditionalAccrual = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
- 
+
   const [applicationNumber, setApplicationNumber] = useState("");
   const onChangeCardItems = (row, value) => {
     row["waived"] = value;
@@ -283,7 +283,7 @@ const AdditionalAccrual = () => {
     },
     {
       field: "paid",
-      headerName: "Early Waiver(₹)",
+      headerName: "Earlier Waiver(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -454,58 +454,58 @@ const AdditionalAccrual = () => {
             paddingTop: "8px",
           }}
         >
-           {useMediaQuery("(min-width:1200px)") && (
-          <AccordianContainer
-            id="accord"
-            title="Accrual Details"
-            initialOpen={true}
-          >
-            <Grid
-              container
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
+          {useMediaQuery("(min-width:1200px)") && (
+            <AccordianContainer
+              id="accord"
+              title="Accrual Details"
+              initialOpen={true}
             >
-              <DataGrid
+              <Grid
+                container
+                spacing={2}
+                // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
                 sx={{
-                  boxShadow: 2,
-                  border: 2,
-                  minHeight: "280px",
-                  borderColor: "white",
-                  "& .MuiDataGrid-columnHeaders": {
-                    color: "white",
-                    fontFamily: "Roboto",
-                    backgroundColor: "#004A92",
-                  },
+                  width: "calc(100% - 8px)",
+                  margin: "unset",
+                  display: girdVisible,
+                  backgroundColor: "#fff",
                 }}
-                rows={dataRows}
-                columns={columns}
-                pageSize={pageSize}
-                disableSelectionOnClick
-                autoHeight
-                // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
-                getRowClassName={(params) =>
-                  params.id % 2
-                    ? `super-app-theme--even`
-                    : `super-app-theme--odd`
-                }
-                isCellEditable={(params) => params.row.paid !== 0}
-                initialState={{
-                  columns: {
-                    columnVisibilityModel: {
-                      ...visibility,
+              >
+                <DataGrid
+                  sx={{
+                    boxShadow: 2,
+                    border: 2,
+                    minHeight: "280px",
+                    borderColor: "white",
+                    "& .MuiDataGrid-columnHeaders": {
+                      color: "white",
+                      fontFamily: "Roboto",
+                      backgroundColor: "#004A92",
                     },
-                  },
-                }}
-              />
-            </Grid>
-          </AccordianContainer>
-         )}
+                  }}
+                  rows={dataRows}
+                  columns={columns}
+                  pageSize={pageSize}
+                  disableSelectionOnClick
+                  autoHeight
+                  // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
+                  getRowClassName={(params) =>
+                    params.id % 2
+                      ? `super-app-theme--even`
+                      : `super-app-theme--odd`
+                  }
+                  isCellEditable={(params) => params.row.paid !== 0}
+                  initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        ...visibility,
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+            </AccordianContainer>
+          )}
           {useMediaQuery("(max-width:1200px)") && (
             <React.Fragment>
               <Grid
@@ -555,7 +555,7 @@ const AdditionalAccrual = () => {
                       value={row}
                       index={index}
                       onChange={onChangeCardItems}
-                      screen = 'accrual'
+                      screen="accrual"
                     ></AccrualCardItems>
                   ))}
                   {/* {rows.length === 0 && (
@@ -573,7 +573,7 @@ const AdditionalAccrual = () => {
               </Grid>
             </React.Fragment>
           )}
-          <AccrualRemark name= "Accrued By" gridData={dataRows}></AccrualRemark>
+          <AccrualRemark name="Accrued By" gridData={dataRows}></AccrualRemark>
         </div>
       </div>
       <StlapFooter />
