@@ -425,7 +425,6 @@ export default function DisbursementRequestList(props) {
   };
 
   const filterData = (data) => {
-    console.log(data);
     let filterrows = [];
     switch (data.tabIndex) {
       case "2":
@@ -475,7 +474,6 @@ export default function DisbursementRequestList(props) {
   };
 
   const gridLazyLoad = (newPage) => {
-    console.log("lazyload" + newPage);
     if (newPage >= page) {
       setPage(newPage + 1);
       const existrowsLength = rows.length;
@@ -650,7 +648,6 @@ const LoadActionBtn = (props) => {
 
   const handleIconClick = (value, record) => {
     handleClose();
-    console.log(record);
     switch (value) {
       case "View":
         navigate("/stlap/home/disbursementView");

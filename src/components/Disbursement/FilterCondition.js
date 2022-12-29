@@ -26,7 +26,7 @@ const filterValues = {
   customerType: "customerType",
   rateOfInterest: "rateOfInterest",
   loanAmount: "loanAmount",
-  sanctionedAmount: "sanctionedAmount",
+  sanctionAmount: "sanctionAmount",
   disbursementDateFromValue: "disbursementDateFromValue",
   disbursementDateToValue: "disbursementDateToValue",
   referenceNumber: "requestNumber",
@@ -64,8 +64,8 @@ const FilterCondition = (props) => {
         return { ...state, rateOfInterest: action.value };
       case filterValues.loanAmount:
         return { ...state, loanAmount: action.value };
-      case filterValues.sanctionedAmount:
-        return { ...state, sanctionedAmount: action.value };
+      case filterValues.sanctionAmount:
+        return { ...state, sanctionAmount: action.value };
       case filterValues.disbursementDateFromValue:
         return { ...state, disbursementDateFromValue: action.value };
       case filterValues.disbursementDateToValue:
@@ -220,7 +220,7 @@ const FilterCondition = (props) => {
           !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
       dispatch({
-        type: filterValues.sanctionedAmount,
+        type: filterValues.sanctionAmount,
         value:
           !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
       });
@@ -255,7 +255,6 @@ const FilterCondition = (props) => {
     const response = await api.post("/zonebranch", {
       area_code: [7],
     });
-    console.log(response);
   };
 
   const AdvancedSearchValues = (
@@ -500,6 +499,25 @@ const FilterCondition = (props) => {
                   onChange={(event) => {
                     dispatch({
                       type: filterValues.loanAmount,
+                      value: event.target.value,
+                    });
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                <CustomTextField
+                  disabled={disabledState || disableSearchFields}
+                  required={false}
+                  label="Sanctioned Amount"
+                  id="sanctionAmount"
+                  variant="standard"
+                  value={state.sanctionAmount}
+                  type="number"
+                  placeholder="Enter Sanctioned Amount"
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.sanctionAmount,
                       value: event.target.value,
                     });
                   }}

@@ -12,8 +12,8 @@ var detailPageInitialState =   {
     "billingDate": todayDate,
     "billingDay": todayDate,
     "dateOfDisb": todayDate,
-    "disbAmt": 0,
-    "disbNo": 0,
+    "disbAmt": 400000,
+    "disbNo": 1,
     "disbRequestId": 0,
     "disbursementFavours": [],
     "earlierDisbAmt": 0,
@@ -22,12 +22,13 @@ var detailPageInitialState =   {
     "emiCommDate": todayDate,
     "firstEmiDueDate": todayDate,
     "paymentMode": "RTGS",
-    "remarks": "",
-    "requestStatus": "REQUESTED",
-    "shflBank": " ",
+    "remarks": "VALUE CHECK",
+    "requestStatus": "REQUEST",
+    "screenMode": "CREATE",
+    "shflBank": "HDFC",
     "totalDisbAmt": 0,
-    "transactionId": 0
-};
+  };
+  
 var losInitialState =   {
     branchNames: [],
     branchName: "Branch Name",
@@ -46,17 +47,22 @@ var losInitialState =   {
     sanctionedAmount: "0",
     screenModeTitle: "",
     requestNumber: "",
-    memoDeductions:"0"
+    memoDeduction:"0"
 };
 
 
 const DisbursementDetailPage = (props) => {
 
+  const[mode,setMode] = useState(props.mode);
+
   const[loading,setLoading] = useState(true);
 
   useEffect(() => {
-    losInitialState.screenModeTitle=props.screenTitle;
+    
     losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
+    losInitialState.screenModeTitle=props.screenTitle;
+    detailPageInitialState.applicationNumber = losInitialState.applicationNumber;
+    detailPageInitialState.totalDisbAmt = parseInt(detailPageInitialState.disbAmt)-losInitialState.memoDeduction ;
     getScreenData();
    }, []);
 
@@ -68,9 +74,67 @@ const DisbursementDetailPage = (props) => {
     const response = await api.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
     {response.data.map((row, index) => ( 
       row.isChecked = false
-     ))};
+           ))};
     detailPageInitialState.disbursementFavours = response.data 
     setLoading(false);
+  };
+
+  const insertDisbursementData = async (data) => { 
+    const api = axios.create({
+      baseURL: "http://localhost:8080/disbursement/"
+    });
+    const response = await api.post("/insertDisbursement",data);
+    detailPageInitialState = response.data;
+    const tempDisbursementFavours = detailPageInitialState.disbursementFavours;
+    const api1 = axios.create({
+      baseURL: "http://localhost:8080/losCustomer/"
+    });
+    const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
+    const tempBankRow = response1.data ;
+    var dataMap = [];
+    tempBankRow.map((bankRow)=>{
+      tempDisbursementFavours.map((insertedBankROw)=>{
+            if(insertedBankROw.bankAccNumber === bankRow.bankAccountNumber ){
+              bankRow.isChecked = true;
+              bankRow.amount = insertedBankROw.disbAmount;
+              dataMap.push(bankRow);
+            }
+      });
+    });
+    detailPageInitialState.disbursementFavours = dataMap;
+    losInitialState.screenModeTitle = "Disbursement Request View" ;
+    setMode("VIEW");
+    setLoading(false);
+  };
+
+
+  const createRequestHandler = (data) => {
+    setLoading(true);
+      const dataMap=[];
+    data.disbursementFavours.filter((row)=> row.isChecked === true
+    ).forEach((row)=>{
+      const dataMap1 = {
+        "id": row.bankAccountNumber,
+        "applicationNumber": row.applicationNumber,
+        "bankAccNumber": row.bankAccountNumber,
+        "createdBy": "",
+        "createdDate": "",
+        "disbAmount": data.disbAmt,
+        "disbRequestId": data.disbRequestId,
+        "distNo": data.disbNo,
+        "lastModifiedBy": "",
+        "lastModifiedDate": "",
+      };
+      dataMap.push(dataMap1);
+    });
+    data.disbursementFavours = dataMap;
+    data.dateOfDisb = new Date(data.dateOfDisb);
+    data.billingDate= new Date(data.billingDate);
+    data.billingDay= new Date(data.billingDay);
+    data.emiCommDate= new Date(data.emiCommDate);
+    data.firstEmiDueDate= new Date(data.firstEmiDueDate);
+    data.effectiveDate= new Date(data.effectiveDate);
+        insertDisbursementData(data);
   };
 
   return (
@@ -85,8 +149,9 @@ const DisbursementDetailPage = (props) => {
         setListVisibility={props.setListVisibility}
         searchStateValues={losInitialState}
         accordianOpenState={props.accordianOpenState}
-        mode={props.mode}
+        mode={mode}
         detailPageInitialState={detailPageInitialState}
+        createRequestClickHandler = {createRequestHandler}
       />
     </>: 
     <>
@@ -94,8 +159,9 @@ const DisbursementDetailPage = (props) => {
         setListVisibility={props.setListVisibility}
         searchStateValues={losInitialState}
         accordianOpenState={props.accordianOpenState}
-        mode={props.mode}
+        mode={mode}
         detailPageInitialState={detailPageInitialState}
+        createRequestClickHandler = {createRequestHandler}
       />
     </>
   );

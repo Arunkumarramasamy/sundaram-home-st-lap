@@ -280,26 +280,7 @@ const FeesOutstanding = (props) => {
       )}
       {useMediaQuery("(max-width:1200px)") && loadCardView(rows)}
 
-      <Box
-        sx={{
-          marginTop: "1rem",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <CustomButton variant="contained" sx={{ marginTop: "2%" }}>
-          Create Request
-        </CustomButton>
-        <CustomButton
-          variant="contained"
-          sx={{ marginTop: "2%", marginLeft: "1%" }}
-          onClick={() => {
-            props.setListVisibility(true);
-          }}
-        >
-          Back to search
-        </CustomButton>
-      </Box>
+      
     </>
   );
 };

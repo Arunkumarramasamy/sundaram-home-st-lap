@@ -30,15 +30,14 @@ import React, { useEffect, useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
 
 const DisbursementDetails = (props) => {
-  const rows = props.detailPageInitialState.disbursementFavours;
-  const [rowState, setRowState] = useState(rows);
+  const[losInitialState,setlosInitialState] = useState(props.losInitialState);
   const [allCheckedValues, setChecked] = React.useState([
-    ...Array.from({ length: rows.length }, () => false),
+    ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
-  const disabledState = false;
+  const disabledState = props.detailPageInitialState.screenMode === "VIEW";
 
   useEffect(() => {
-    const allChecked = Array.from({ length: rows.length }, () => false);
+    const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
     setChecked([...allChecked]);
   }, []);
 
@@ -55,6 +54,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
+          disabled={disabledState}
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
           />
@@ -121,7 +121,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
-            disabled={!params.row.isChecked}
+            disabled={!params.row.isChecked || disabledState}
             required={false}
             label={""}
             id="amount"
@@ -138,7 +138,7 @@ const DisbursementDetails = (props) => {
 
   const onAmountChange = (bankAccountNumber) => (event) => {
     const dataMap1 = [];
-    rowState.forEach((value) => {
+    props.detailPageInitialState.disbursementFavours.forEach((value) => {
       const dataMap = {
         ...value,
       };
@@ -147,13 +147,16 @@ const DisbursementDetails = (props) => {
       }
       dataMap1.push(dataMap);
     });
-
-    setRowState(dataMap1);
+    props.dispatchEvent({
+      type: props.fieldList.disbursementFavours,
+      value: dataMap1,
+    });
+    //setRowState(dataMap1);
   };
 
   const onCheckBoxEnable = (bankAccountNumber) => (event) => {
     const dataMap1 = [];
-    rowState.forEach((value) => {
+    props.detailPageInitialState.disbursementFavours.forEach((value) => {
       const dataMap = {
         ...value,
       };
@@ -162,41 +165,57 @@ const DisbursementDetails = (props) => {
       }
       dataMap1.push(dataMap);
     });
-    setRowState(dataMap1);
+    props.dispatchEvent({
+      type: props.fieldList.disbursementFavours,
+      value: dataMap1,
+    });
+    //setRowState(dataMap1);
   };
 
   const onCheckBoxChange = (checkedValue, record) => {
     const allChecked = [...allCheckedValues];
     allChecked[Number(record.id) - 1] = checkedValue;
     setChecked(allChecked);
-    const existrows = [...rowState];
+    const existrows = [...props.detailPageInitialState.disbursementFavours];
     existrows
       .filter((row) => row.id === record.id)
       .forEach((value) => {
         value.isChecked = checkedValue;
       });
-    setRowState(existrows);
+    // setRowState(existrows);
+    props.dispatchEvent({
+      type: props.fieldList.disbursementFavours,
+      value: existrows,
+    });
   };
 
   const onCardViewAmountChange = (event, index, record) => {
-    const existrows = [...rowState];
+    const existrows = [...props.detailPageInitialState.disbursementFavours];
     existrows
       .filter((row) => row.id === record.id)
       .forEach((value) => {
         value.isChecked = !value.isChecked;
         value.amount = event.target.value;
       });
-    setRowState(existrows);
+    //setRowState(existrows);
+    props.dispatchEvent({
+      type: props.fieldList.disbursementFavours,
+      value: existrows,
+    });
   };
 
   const handleMainCheckBoxChange = (checkedValue) => {
-    const allChecked = Array.from({ length: rows.length }, () => checkedValue);
+    const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => checkedValue);
     setChecked([...allChecked]);
-    const existrows = [...rowState];
+    const existrows = [...props.detailPageInitialState.disbursementFavours];
     existrows.forEach((value) => {
       value.isChecked = checkedValue;
     });
-    setRowState(existrows);
+    //setRowState(existrows);
+    props.dispatchEvent({
+      type: props.fieldList.disbursementFavours,
+      value: existrows,
+    });
   };
 
   return (
@@ -252,7 +271,11 @@ const DisbursementDetails = (props) => {
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.disbAmt,
-                value: value,
+                value: event.target.value,
+              });
+              props.dispatchEvent({
+                type: props.fieldList.totalDisbAmt,
+                value: parseInt(event.target.value)-losInitialState.memoDeduction,
               });
             }}
           />
@@ -265,7 +288,7 @@ const DisbursementDetails = (props) => {
             label="Total Deductions"
             id="deductions"
             variant="standard"
-            value={props.losInitialState.memoDeductions}
+            value={losInitialState.memoDeduction}
             type="text"
             placeholder="Enter Total Deductions"
           />
@@ -275,13 +298,11 @@ const DisbursementDetails = (props) => {
           <CustomTextField
             disabled={true}
             required={false}
-            label="Net Disbursement Amount"
+            label="Net Current Disbursement Amount"
             id="netAmount"
             variant="standard"
-            value={
-              props.detailPageInitialState.disbAmt -
-              props.losInitialState.memoDeductions
-            }
+            // value={parseInt(props.detailPageInitialState.disbAmt)-losInitialState.memoDeduction}
+            value={props.detailPageInitialState.totalDisbAmt}
             type="text"
             placeholder="Enter Net Disbursement Amount"
           />
@@ -389,7 +410,7 @@ const DisbursementDetails = (props) => {
             label="Request Number"
             id="requestNumber"
             variant="standard"
-            value={props.losInitialState.requestNumber}
+            value={losInitialState.requestNumber}
             type="text"
             placeholder="Enter Request Number"
           />
@@ -453,8 +474,9 @@ const DisbursementDetails = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <InputLabel required={true}>{"Remarks"}</InputLabel>
+          <InputLabel >{"Remarks"}</InputLabel>
           <TextareaAutosize
+          disabled = {disabledState}
             style={{
               width: "100%",
               marginTop: "3%",
@@ -483,7 +505,7 @@ const DisbursementDetails = (props) => {
             noDataMessage="No Bank Data."
             noDataOnFilterMessage="No Bank Data on Applied Filter."
             gridHeight="270px"
-            rows={rowState}
+            rows={props.detailPageInitialState.disbursementFavours}
             columns={columns}
             checkboxSelection={false}
             pageSize={3}
@@ -501,13 +523,14 @@ const DisbursementDetails = (props) => {
               justifyContent="flex-end"
               sx={{ height: "60px", bgcolor: "white" }}
             >
-              {rows.length > 0 && (
+              {props.detailPageInitialState.disbursementFavours.length > 0 && (
                 <React.Fragment>
                   <FormControlLabel
                     label="Select All Accounts"
                     labelPlacement="start"
                     control={
                       <Checkbox
+                      disabled={disabledState}
                         checked={
                           [...new Set(allCheckedValues)].length === 1
                             ? [...new Set(allCheckedValues)][0]
@@ -541,7 +564,7 @@ const DisbursementDetails = (props) => {
                   flex: "1 auto",
                 }}
               >
-                {rowState.map((row, index) => (
+                {props.detailPageInitialState.disbursementFavours.map((row, index) => (
                   <React.Fragment>
                     <Grid container direction="column" sx={{ flex: "1 auto" }}>
                       <Card>
@@ -553,6 +576,7 @@ const DisbursementDetails = (props) => {
                                   record={row}
                                   checked={allCheckedValues[index]}
                                   checkBoxChange={onCheckBoxChange}
+                                  disabledState = {disabledState} 
                                 />
                               }
                             </React.Fragment>
@@ -597,7 +621,7 @@ const DisbursementDetails = (props) => {
                               {"Amount to Disbursed : " + row.amount}
                             </Typography>
                             <CustomTextField
-                              disabled={!allCheckedValues[index]}
+                              disabled={!allCheckedValues[index] || disabledState}
                               required={false}
                               label={"Amount to Disbursed : "}
                               id="amount"
@@ -626,7 +650,7 @@ const DisbursementDetails = (props) => {
                     <Divider />
                   </React.Fragment>
                 ))}
-                {rows.length === 0 && (
+                {props.detailPageInitialState.disbursementFavours.length === 0 && (
                   <NoDataFound
                     message={"No Bank Data."}
                     imageStyle={{
@@ -643,26 +667,7 @@ const DisbursementDetails = (props) => {
           </React.Fragment>
         )}
       </Box>
-      <Box
-        sx={{
-          marginTop: "1rem",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <CustomButton variant="contained" sx={{ marginTop: "2%" }}>
-          Create Request
-        </CustomButton>
-        <CustomButton
-          variant="contained"
-          sx={{ marginTop: "2%", marginLeft: "1%" }}
-          onClick={() => {
-            props.setListVisibility(true);
-          }}
-        >
-          Back to search
-        </CustomButton>
-      </Box>{" "}
+
     </Box>
   );
 };
@@ -688,6 +693,7 @@ const LoadActionBtn = (props) => {
         labelPlacement="start"
         control={
           <Checkbox
+          disabled={props.disabledState}
             checked={checkedValue}
             onChange={handleChange}
             icon={<CheckBoxOutlineBlank />}
