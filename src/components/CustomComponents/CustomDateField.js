@@ -29,6 +29,12 @@ const CustomDateField = (props) => {
               type={props.type}
               placeholder={props.placeholder}
               {...params}
+              sx={{
+                "& div.MuiInputBase-adornedEnd.css-1a1fmpi-MuiInputBase-root-MuiInput-root:after":
+                  {
+                    borderBottom: "none",
+                  },
+              }}
             />
           )}
         />{" "}
