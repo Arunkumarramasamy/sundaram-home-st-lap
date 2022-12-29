@@ -38,10 +38,15 @@ const ParameterMaintenance = () => {
         return { ...data, id: data.paramId };
       });
       setRows(data);
-      setTotalRowsCount(rows.length);
+      setTotalRowsCount(data.length);
       setParamId("");
     } catch {
-      console.log("Network Error");
+      setState((pre) => {
+        return { ...pre, vertical: "top", horizontal: "center" };
+      });
+      setAlertType("error");
+      setMessage("Unable to Fetch the data");
+      openAlertHandler();
     }
   };
   useEffect(() => {
@@ -203,13 +208,15 @@ const ParameterMaintenance = () => {
 
     //if save click happen
     if (paramNameIsValid && paramTypeIsValid && paramValueIsValid) {
-      if (
+      const val =
         check.paramName == paraMeterName &&
         check.paramType == paramDataType &&
-        check.paramValu == ParamValue &&
-        check.effStartDate == startDate &&
-        check.effEndDate == endDate
-      ) {
+        check.effStartDate === startDate &&
+        check.effEndDate === endDate &&
+        (check.paramType === "Varchar"
+          ? check.paramValu == ParamValue
+          : check.paramValu == ParamValue.replaceAll(",", ""));
+      if (val) {
         setState((pre) => {
           return { ...pre, vertical: "top", horizontal: "center" };
         });
@@ -243,9 +250,17 @@ const ParameterMaintenance = () => {
       getData();
       setParamId("");
       if (paramaId == "") {
+        setState((pre) => {
+          return { ...pre, vertical: "bottom", horizontal: "left" };
+        });
+        setAlertType("success");
         setMessage("Record added Successfully");
         openAlertHandler();
       } else {
+        setState((pre) => {
+          return { ...pre, vertical: "bottom", horizontal: "left" };
+        });
+        setAlertType("success");
         setMessage("Record Updated Successfully");
         openAlertHandler();
       }
@@ -259,7 +274,17 @@ const ParameterMaintenance = () => {
       // // setRows((oldArray) => [...oldArray, newElement]);
       // setRows([...existrows]);
     } catch {
-      console.log("error");
+      setState((pre) => {
+        return { ...pre, vertical: "top", horizontal: "center" };
+      });
+      setAlertType("error");
+      if (paramaId == "") {
+        setMessage("Unable to Perform add operation");
+        openAlertHandler();
+      } else {
+        setMessage("Unable to Perform Update operation");
+        openAlertHandler();
+      }
     }
   };
   /** Show Dialog Handlers */
@@ -268,10 +293,22 @@ const ParameterMaintenance = () => {
     setDialogOpen(true);
   };
   const handleDialogClose = () => {
-    setdisabled(true);
-    setDialogOpen(false);
-    Reset();
-    ResetTouchHandler(false);
+    if (
+      check.paramName == paraMeterName &&
+      check.paramType == paramDataType &&
+      check.effStartDate == startDate &&
+      check.effEndDate == endDate &&
+      check.paramType === "Varchar"
+        ? check.paramValu == ParamValue
+        : check.paramValu == ParamValue.replaceAll(",", "")
+    ) {
+      setdisabled(true);
+      setDialogOpen(false);
+      Reset();
+      ResetTouchHandler(false);
+    } else {
+      cancelHandleClickOpen();
+    }
   };
   const addBtnHandler = () => {
     setMode(0);
@@ -347,6 +384,22 @@ const ParameterMaintenance = () => {
   });
   /**Ok Button Handler */
   const [OkButtonHandler, setOkButtonHandler] = useState(false);
+  /**Discard Changes */
+  const [cancelOpen, cancelSetOpen] = React.useState(false);
+  const cancelHandleClickOpen = () => {
+    cancelSetOpen(true);
+  };
+
+  const cancelHandleClose = () => {
+    cancelSetOpen(false);
+  };
+  const cancelDialogOkButtonHandler = () => {
+    cancelSetOpen(false);
+    setdisabled(true);
+    setDialogOpen(false);
+    Reset();
+    ResetTouchHandler(false);
+  };
   return (
     <>
       <Box
@@ -389,7 +442,6 @@ const ParameterMaintenance = () => {
           <React.Fragment>
             <Grid
               container
-              item
               direction="row"
               alignItems="flex-end"
               justifyContent="flex-end"
@@ -406,21 +458,11 @@ const ParameterMaintenance = () => {
               >
                 {"Total Records : " + totalRowsCount}
               </Typography>
-              {/* <Pagination
-                count={totalPageCount}
-                color="primary"
-                onChange={handlePageChange}
-                page={page}
-                renderItem={(item) => (
-                  <PaginationItem
-                    slots={{ previous: ArrowBack, next: ArrowForward }}
-                    {...item}
-                  />
-                )}
-              /> */}
             </Grid>
-            <Grid container>
-              <Box
+
+            <Box>
+              <Grid
+                container
                 sx={{
                   height: window.innerHeight - 300,
                   overflow: "auto",
@@ -429,7 +471,7 @@ const ParameterMaintenance = () => {
               >
                 {rows.map((row, index) => (
                   <React.Fragment>
-                    <Grid container direction="column" sx={{ flex: "1 auto" }}>
+                    <Grid item sx={{ flex: "1 auto" }}>
                       <Card>
                         {
                           <CardHeader
@@ -458,14 +500,16 @@ const ParameterMaintenance = () => {
 
                         <CardContent>
                           <Grid
-                            container
+                            item
                             direction="column"
                             alignItems="flex-start"
                             justifyContent="flex-start"
                           >
-                            <Typography padding="1px">
+                            <Grid item>Paramete Data Type</Grid>
+                            <Grid item>{row.paramDataType}</Grid>
+                            {/* <Typography padding="1px">
                               {"Paramete Data Type : " + row.paramDataType}
-                            </Typography>
+                            </Typography> */}
                             <Typography padding="1px">
                               {" Effective Start Date : " + row.paramEffStartDt}
                             </Typography>
@@ -482,17 +526,6 @@ const ParameterMaintenance = () => {
                               }`}
                             </Typography>
                           </Grid>
-                          {/* <Grid
-                            container
-                            item
-                            direction="row"
-                            alignItems="flex-end"
-                            justifyContent="flex-end"
-                          >
-                            <Typography sx={{ width: "40%" }}>
-                              {loadStatus(row.status)}
-                            </Typography>
-                          </Grid> */}
                         </CardContent>
                       </Card>
                     </Grid>
@@ -507,8 +540,8 @@ const ParameterMaintenance = () => {
                     }}
                   />
                 )}
-              </Box>
-            </Grid>
+              </Grid>
+            </Box>
           </React.Fragment>
         )}
 
@@ -688,6 +721,23 @@ const ParameterMaintenance = () => {
           {message}
         </Alert>
       </Snackbar>
+      <Dialog
+        open={cancelOpen}
+        onClose={cancelHandleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Are You Sure want to discard the Changes ?
+        </DialogTitle>
+
+        <DialogActions>
+          <Button onClick={cancelHandleClose} autoFocus>
+            Cancel
+          </Button>
+          <Button onClick={cancelDialogOkButtonHandler}>Yes</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
