@@ -53,6 +53,8 @@ var losInitialState =   {
 
 const DisbursementDetailPage = (props) => {
 
+  const[mode,setMode] = useState(props.mode);
+
   const[loading,setLoading] = useState(true);
 
   useEffect(() => {
@@ -83,7 +85,23 @@ const DisbursementDetailPage = (props) => {
     });
     const response = await api.post("/insertDisbursement",data);
     detailPageInitialState = response.data;
-    getScreenData();
+    const tempDisbursementFavours = detailPageInitialState.disbursementFavours;
+    const api1 = axios.create({
+      baseURL: "http://localhost:8080/losCustomer/"
+    });
+    const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
+    detailPageInitialState.disbursementFavours = response1.data 
+    detailPageInitialState.disbursementFavours.map((bankRow)=>{
+      tempDisbursementFavours.map((insertedBankROw)=>{
+            if(insertedBankROw.bankAccNumber === bankRow.bankAccountNumber){
+              bankRow.isChecked = true;
+              bankRow.amount = insertedBankROw.disbAmount;
+            }
+      });
+    });
+    losInitialState.screenModeTitle = "Disbursement Request View" ;
+    setMode("VIEW");
+    setLoading(false);
   };
 
 
@@ -127,7 +145,7 @@ const DisbursementDetailPage = (props) => {
         setListVisibility={props.setListVisibility}
         searchStateValues={losInitialState}
         accordianOpenState={props.accordianOpenState}
-        mode={props.mode}
+        mode={mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
       />
@@ -137,7 +155,7 @@ const DisbursementDetailPage = (props) => {
         setListVisibility={props.setListVisibility}
         searchStateValues={losInitialState}
         accordianOpenState={props.accordianOpenState}
-        mode={props.mode}
+        mode={mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
       />

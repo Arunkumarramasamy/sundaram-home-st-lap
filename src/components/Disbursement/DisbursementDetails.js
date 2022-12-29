@@ -34,7 +34,7 @@ const DisbursementDetails = (props) => {
   const [allCheckedValues, setChecked] = React.useState([
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
-  const disabledState = false;
+  const disabledState = props.detailPageInitialState.screenMode === "VIEW";
 
   useEffect(() => {
     const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
@@ -54,6 +54,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
+          disabled={disabledState}
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
           />
@@ -120,7 +121,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
-            disabled={!params.row.isChecked}
+            disabled={!params.row.isChecked || disabledState}
             required={false}
             label={""}
             id="amount"
@@ -475,6 +476,7 @@ const DisbursementDetails = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <InputLabel >{"Remarks"}</InputLabel>
           <TextareaAutosize
+          disabled = {disabledState}
             style={{
               width: "100%",
               marginTop: "3%",
@@ -528,6 +530,7 @@ const DisbursementDetails = (props) => {
                     labelPlacement="start"
                     control={
                       <Checkbox
+                      disabled={disabledState}
                         checked={
                           [...new Set(allCheckedValues)].length === 1
                             ? [...new Set(allCheckedValues)][0]
@@ -573,6 +576,7 @@ const DisbursementDetails = (props) => {
                                   record={row}
                                   checked={allCheckedValues[index]}
                                   checkBoxChange={onCheckBoxChange}
+                                  disabledState = {disabledState} 
                                 />
                               }
                             </React.Fragment>
@@ -617,7 +621,7 @@ const DisbursementDetails = (props) => {
                               {"Amount to Disbursed : " + row.amount}
                             </Typography>
                             <CustomTextField
-                              disabled={!allCheckedValues[index]}
+                              disabled={!allCheckedValues[index] || disabledState}
                               required={false}
                               label={"Amount to Disbursed : "}
                               id="amount"
@@ -689,6 +693,7 @@ const LoadActionBtn = (props) => {
         labelPlacement="start"
         control={
           <Checkbox
+          disabled={props.disabledState}
             checked={checkedValue}
             onChange={handleChange}
             icon={<CheckBoxOutlineBlank />}
