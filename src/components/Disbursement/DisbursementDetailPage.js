@@ -119,7 +119,7 @@ const DisbursementDetailPage = (props) => {
         "bankAccNumber": row.bankAccountNumber,
         "createdBy": "",
         "createdDate": "",
-        "disbAmount": data.disbAmt,
+        "disbAmount": row.amount,
         "disbRequestId": data.disbRequestId,
         "distNo": data.disbNo,
         "lastModifiedBy": "",
