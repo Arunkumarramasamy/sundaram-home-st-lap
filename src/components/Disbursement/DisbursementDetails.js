@@ -301,7 +301,6 @@ const DisbursementDetails = (props) => {
             label="Net Current Disbursement Amount"
             id="netAmount"
             variant="standard"
-            // value={parseInt(props.detailPageInitialState.disbAmt)-losInitialState.memoDeduction}
             value={props.detailPageInitialState.totalDisbAmt}
             type="text"
             placeholder="Enter Net Disbursement Amount"
@@ -359,6 +358,10 @@ const DisbursementDetails = (props) => {
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.billingDay,
+                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+              });
+              props.dispatchEvent({
+                type: props.fieldList.billingDate,
                 value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
               });
             }}
