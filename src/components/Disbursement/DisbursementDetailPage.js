@@ -1,7 +1,9 @@
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { Alert, Backdrop, CircularProgress, IconButton, Snackbar } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import DisbursementTabsIntegrator from "./DisbursementTabsIntegrator";
 
 var today = new Date();
@@ -50,62 +52,90 @@ var losInitialState =   {
     memoDeduction:"0"
 };
 
+const losCustomerApi = axios.create({
+  baseURL: "http://localhost:8080/losCustomer/"
+});
+
 
 const DisbursementDetailPage = (props) => {
 
-  const[mode,setMode] = useState(props.mode);
+  const location = useLocation();
+
+  const navigate = useNavigate();
 
   const[loading,setLoading] = useState(true);
+
+  const[showSnackBar,setshowSnackBar] = useState(false);
+
 
   useEffect(() => {
     
     losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
-    losInitialState.screenModeTitle=props.screenTitle;
     detailPageInitialState.applicationNumber = losInitialState.applicationNumber;
     detailPageInitialState.totalDisbAmt = parseInt(detailPageInitialState.disbAmt)-losInitialState.memoDeduction ;
-    getScreenData();
+    if(!(location.state === null)){
+        getDisbursementData(location.state);
+        losInitialState.screenModeTitle=props.screenTitle;
+    } else {
+      getCustomerBankDataForCreate(losInitialState.applicationNumber);
+    }
    }, []);
 
-  const getScreenData = async () => {
-   
-    const api = axios.create({
-      baseURL: "http://localhost:8080/losCustomer/"
-    });
-    const response = await api.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
+  const getCustomerBankDataForCreate = async (applicationNumber) => {
+
+    const response = await losCustomerApi.post("/getCustBankDetailsByAppNum",{"applicationNumber": applicationNumber});
+    var counter = 1;
     {response.data.map((row, index) => ( 
-      row.isChecked = false
+      row.isChecked = false,
+      row.id = counter++
            ))};
     detailPageInitialState.disbursementFavours = response.data 
     setLoading(false);
   };
 
-  const insertDisbursementData = async (data) => { 
-    const api = axios.create({
-      baseURL: "http://localhost:8080/disbursement/"
-    });
-    const response = await api.post("/insertDisbursement",data);
-    detailPageInitialState = response.data;
+
+  const getDisbursementData = async (data) => {
+    detailPageInitialState = data;
     const tempDisbursementFavours = detailPageInitialState.disbursementFavours;
     const api1 = axios.create({
       baseURL: "http://localhost:8080/losCustomer/"
     });
-    const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
+    const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": data.applicationNumber});
     const tempBankRow = response1.data ;
+    var counter = 1;
     var dataMap = [];
     tempBankRow.map((bankRow)=>{
       tempDisbursementFavours.map((insertedBankROw)=>{
             if(insertedBankROw.bankAccNumber === bankRow.bankAccountNumber ){
               bankRow.isChecked = true;
               bankRow.amount = insertedBankROw.disbAmount;
+              bankRow.id = counter++;
               dataMap.push(bankRow);
             }
       });
     });
     detailPageInitialState.disbursementFavours = dataMap;
-    losInitialState.screenModeTitle = "Disbursement Request View" ;
-    setMode("VIEW");
+    const response = await losCustomerApi.post("/getCustomerDataByAppNum",{"applicationNumber": data.applicationNumber});
+    losInitialState = response.data;
+    losInitialState.branchNames = [];
+    losInitialState.screenModeTitle=props.screenTitle;
     setLoading(false);
   };
+  
+
+
+  const insertDisbursementDataToDB = async (data) => { 
+    const api = axios.create({
+        baseURL: "http://localhost:8080/disbursement/"
+      });
+      const response = await api.post("/insertDisbursement",data);
+      if(response.status === 200){
+        setshowSnackBar(true);
+   
+    setLoading(false);
+    navigate("/stlap/home/disbursementView",{state:response.data});
+      }
+     };
 
 
   const createRequestHandler = (data) => {
@@ -134,11 +164,29 @@ const DisbursementDetailPage = (props) => {
     data.emiCommDate= new Date(data.emiCommDate);
     data.firstEmiDueDate= new Date(data.firstEmiDueDate);
     data.effectiveDate= new Date(data.effectiveDate);
-        insertDisbursementData(data);
+    insertDisbursementDataToDB(data);
   };
 
-  return (
-    loading  ?  <>
+  const handleSnackBarClose = () =>{
+      setshowSnackBar(false);
+  };
+
+  return (<>
+       <Snackbar
+        open={showSnackBar}
+        autoHideDuration={1000}
+        message={"Disbursement Request Created Successfully"}    
+        action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              sx={{ p: 0.5 }}
+              onClick={handleSnackBarClose}
+            >
+              <Close />
+            </IconButton>
+        }  />
+    {loading  ?  <>
     <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
     open={true}
@@ -149,7 +197,7 @@ const DisbursementDetailPage = (props) => {
         setListVisibility={props.setListVisibility}
         searchStateValues={losInitialState}
         accordianOpenState={props.accordianOpenState}
-        mode={mode}
+        mode={props.mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
       />
@@ -159,10 +207,11 @@ const DisbursementDetailPage = (props) => {
         setListVisibility={props.setListVisibility}
         searchStateValues={losInitialState}
         accordianOpenState={props.accordianOpenState}
-        mode={mode}
+        mode={props.mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
       />
+    </>}
     </>
   );
 };

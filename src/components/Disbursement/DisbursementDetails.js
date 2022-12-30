@@ -301,7 +301,6 @@ const DisbursementDetails = (props) => {
             label="Net Current Disbursement Amount"
             id="netAmount"
             variant="standard"
-            // value={parseInt(props.detailPageInitialState.disbAmt)-losInitialState.memoDeduction}
             value={props.detailPageInitialState.totalDisbAmt}
             type="text"
             placeholder="Enter Net Disbursement Amount"
@@ -359,6 +358,10 @@ const DisbursementDetails = (props) => {
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.billingDay,
+                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+              });
+              props.dispatchEvent({
+                type: props.fieldList.billingDate,
                 value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
               });
             }}
@@ -510,7 +513,6 @@ const DisbursementDetails = (props) => {
             checkboxSelection={false}
             pageSize={3}
             pageSizeOptions={[3, 6, 9, 12]}
-            getRowId={(row) => row.bankAccountNumber}
           />
         )}
         {useMediaQuery("(max-width:1200px)") && (
@@ -581,7 +583,7 @@ const DisbursementDetails = (props) => {
                               }
                             </React.Fragment>
                           }
-                          subheader={row.bankName + "- " + row.bankAccNumber}
+                          subheader={row.bankName + "- " + row.bankAccountNumber}
                           subheaderTypographyProps={{
                             color: "#004A92",
                             fontWeight: "700",
@@ -600,22 +602,22 @@ const DisbursementDetails = (props) => {
                             justifyContent="flex-start"
                           >
                             <Typography padding="1px">
-                              {"Account Holder Name : " + row.accountHolderName}
+                              {"Account Holder Name : " + row.accHoldrName}
                             </Typography>
                             <Typography padding="1px">
-                              {"Account Number : " + row.bankAccNumber}
+                              {"Account Number : " + row.bankAccountNumber}
                             </Typography>
                             <Typography padding="1px">
-                              {"Account Type : " + row.bankAccType}
+                              {"Account Type : " + row.bankAccountType}
                             </Typography>
                             <Typography padding="1px">
                               {"Bank  : " + row.bankName}
                             </Typography>
                             <Typography padding="1px">
-                              {"Branch : " + row.bankBranch}
+                              {"Branch : " + row.bankBranchName}
                             </Typography>
                             <Typography padding="1px">
-                              {"IFSC Code : " + row.bankIfsc}
+                              {"IFSC Code : " + row.ifscCode}
                             </Typography>
                             <Typography padding="1px">
                               {"Amount to Disbursed : " + row.amount}

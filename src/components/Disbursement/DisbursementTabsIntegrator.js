@@ -9,8 +9,11 @@ import ConditionsAndDeviations from "./ConditionsAndDeviations";
 import { useReducer } from "react";
 import { useEffect } from "react";
 import CustomButton from "../CustomComponents/CustomButton";
+import { useNavigate } from "react-router-dom";
 
 const DisbursementTabsIntegrator = (props) => {
+
+  const navigate = useNavigate();
   const [value, setValue] = React.useState("1");
   const [accordianOpen, setAccordianOpen] = React.useState(true);
 
@@ -48,7 +51,7 @@ const DisbursementTabsIntegrator = (props) => {
             case screenFields.billingDate:
             return { ...state, billingDate: action.value };
             case screenFields.billingDay:
-            return { ...state, billingDate: action.value };
+            return { ...state, billingDay: action.value };
             case screenFields.dateOfDisb:
             return { ...state, dateOfDisb: action.value };
             case screenFields.disbAmt:
@@ -177,28 +180,34 @@ const DisbursementTabsIntegrator = (props) => {
           </TabPanel>
         </TabContext>
       </Box>
+      
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
         }}
       >
+        {props.mode==="CREATE" ? 
         <CustomButton variant="contained" 
          onClick={() => {
           props.createRequestClickHandler(state);
         }} >
           Create Request
-        </CustomButton>
+        </CustomButton> : null } 
         <CustomButton
           variant="contained"
           sx={{marginLeft: "1%" }}
           onClick={() => {
-            props.setListVisibility(true);
+            if(props.mode === "CREATE"){
+              props.setListVisibility(true);
+            } else {
+              navigate("/stlap/home/disbursementList");
+            }
           }}
         >
           Back to search
         </CustomButton>
-      </Box>
+      </Box> 
     </>
   );
 };

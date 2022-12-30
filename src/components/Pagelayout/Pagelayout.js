@@ -697,13 +697,14 @@ export default function Pagelayout() {
 
           <Route
             path={`${search}/stlap/home/disbursementCreate`}
-            element={<DisbursementCreatePortal listVisibility={true} />}
+            element={<DisbursementCreatePortal listVisibility={true} mode="CREATE"/>}
           />
           <Route
             path={`${search}/stlap/home/disbursementView`}
             element={
               <DisbursementDetailPage
                 screenTitle="Disbursement Request View"
+                mode="VIEW"
               />
             }
           />
@@ -712,6 +713,7 @@ export default function Pagelayout() {
             element={
               <DisbursementDetailPage
                 screenTitle="Disbursement Request Cancel"
+                mode="CANCEL"
               />
             }
           />
@@ -720,6 +722,7 @@ export default function Pagelayout() {
             element={
               <DisbursementDetailPage
                 screenTitle="Disbursement Request Modify"
+                mode="MODIFY"
               />
             }
           />
