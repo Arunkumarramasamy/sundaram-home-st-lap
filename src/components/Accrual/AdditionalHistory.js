@@ -1,41 +1,16 @@
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { React } from "react";
-import { Button, lighten } from "@mui/material";
+import { React, useEffect, useState } from "react";
 
-const rows = [
-  {
-    id: 1,
-    modified: "File Processing Charges",
-    amount: 1000,
-    modifiedBy: "Arun",
-  },
-  {
-    id: 2,
-
-    modified: "File Processing Charges",
-    amount: 1000,
-    modifiedBy: "Raagesh",
-  },
-  {
-    id: 3,
-
-    modified: "File Processing Charges",
-    amount: 1000,
-    modifiedBy: "Bala",
-  },
-  {
-    id: 4,
-    modified: "File Processing Charges",
-    amount: 1000,
-    modifiedBy: "Vignesh",
-  },
-  {
-    id: 5,
-    modified: "File Processing Charges",
-    amount: 1000,
-    modifiedBy: "Naveen",
-  },
-];
 const columns = [
   {
     field: "id",
@@ -44,7 +19,6 @@ const columns = [
     type: "number",
     hideable: false,
     sortable: false,
-    width: 50,
     align: "center",
     editable: false,
   },
@@ -83,43 +57,169 @@ const columns = [
   },
 ];
 const AdditionalHistory = (props) => {
+  const [rows, setRows] = useState([]);
+  const [totalRowsCount, setTotalRowsCount] = useState(0);
   const closeDialog = () => {
     props.onClose();
   };
+
+  useEffect(() => {
+    const rows = [
+      {
+        id: 1234561,
+        modified: "File Processing Charges",
+        amount: 1000,
+        modifiedBy: "Arun",
+      },
+      {
+        id: 23456,
+
+        modified: "File Processing Charges",
+        amount: 1000,
+        modifiedBy: "Raagesh",
+      },
+      {
+        id: 376,
+
+        modified: "File Processing Charges",
+        amount: 1000,
+        modifiedBy: "Bala",
+      },
+      {
+        id: 4765,
+        modified: "File Processing Charges",
+        amount: 1000,
+        modifiedBy: "Vignesh",
+      },
+      {
+        id: 5765,
+        modified: "File Processing Charges",
+        amount: 1000,
+        modifiedBy: "Naveen",
+      },
+    ];
+    setRows(rows);
+    setTotalRowsCount(rows.length);
+  }, []);
+
   return (
     <>
       <h4>{props.title}</h4>
-      <DataGrid
-        sx={{
-          boxShadow: 2,
-          border: 2,
-          minHeight: "280px",
-          borderColor: "white",
-          "& .MuiDataGrid-columnHeaders": {
-            color: "white",
-            fontFamily: "Roboto",
-            backgroundColor: "#004A92",
-          },
-        }}
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        autoHeight
-        hideFooterPagination
-        hideFooterSelectedRowCount
-        // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
-        getRowClassName={(params) =>
-          params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
-        }
-      />
-      <div style={{ width: "100%", direction: "ftl" }}>
+
+      {useMediaQuery("(min-width:1200px)") && (
+        <DataGrid
+          sx={{
+            boxShadow: 2,
+            border: 2,
+            minHeight: "280px",
+            borderColor: "white",
+            "& .MuiDataGrid-columnHeaders": {
+              color: "white",
+              fontFamily: "Roboto",
+              backgroundColor: "#004A92",
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          disableSelectionOnClick
+          autoHeight
+          hideFooterPagination
+          hideFooterSelectedRowCount
+          // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
+          getRowClassName={(params) =>
+            params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
+          }
+        />
+      )}
+
+      {useMediaQuery("(max-width:1200px)") && (
+        <>
+          <Box
+            display="flex"
+            alignItems="flex-end"
+            justifyContent="flex-end"
+            sx={{ height: "40px", bgcolor: "white" }}
+          >
+            <Typography
+              padding="1px"
+              sx={{ color: "#004A92", fontWeight: 700 }}
+            >
+              {"Total Records : " + totalRowsCount}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              height: window.innerHeight - 300,
+              overflow: "auto",
+              flex: "1 auto",
+            }}
+          >
+            {" "}
+            <Grid container>
+              {rows.map((row, index) => {
+                return (
+                  <Grid item xs={12}>
+                    <Card>
+                      <CardHeader
+                        subheader={"Parameter Name : " + row.id}
+                        subheaderTypographyProps={{
+                          color: "#004A92",
+                          fontWeight: "700",
+                        }}
+                        sx={{
+                          textAlign: "left",
+                          padding: "16px 16px 0px 16px !important",
+                        }}
+                      />
+
+                      <CardContent>
+                        <Grid container>
+                          <Grid item xs={6} md={5}>
+                            Reference Number
+                          </Grid>
+                          <Grid item xs={6} md={7}>
+                            {`: ${row.id}`}
+                          </Grid>
+
+                          <Grid item xs={6} md={5}>
+                            Modified
+                          </Grid>
+                          <Grid item xs={6} md={7}>
+                            {`: ${row.modified}`}
+                          </Grid>
+
+                          <Grid item xs={6} md={5}>
+                            Amount
+                          </Grid>
+                          <Grid item xs={6} md={7}>
+                            {`: ${row.amount}`}
+                          </Grid>
+
+                          <Grid item xs={6} md={5}>
+                            Modified By
+                          </Grid>
+                          <Grid item xs={6} md={7}>
+                            {`: ${row.modifiedBy}`}
+                          </Grid>
+                        </Grid>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Box>
+        </>
+      )}
+
+      <Box style={{ width: "100%", direction: "rtl" }}>
         <Button
           sx={{
             marginLeft: "1rem",
             color: "white",
             backgroundColor: "black",
             fontWeight: "bold",
-            marginTop:'8px'
+            marginTop: "10px",
           }}
           onMouseOver={({ target }) => {
             target.style.backgroundColor = "black";
@@ -130,7 +230,7 @@ const AdditionalHistory = (props) => {
         >
           close
         </Button>
-      </div>
+      </Box>
     </>
   );
 };
