@@ -2,36 +2,20 @@ import {
   Box,
   Button,
   Grid,
-  TextareaAutosize,
   Typography,
   useMediaQuery,
-  Card,
-  CardHeader,
-  Divider,
-  CardContent,
   PaginationItem,
   Pagination,
   Alert,
 } from "@mui/material";
-import {
-  CancelScheduleSend,
-  Edit,
-  MoreVert,
-  Preview,
-  ArrowBack,
-  ArrowForward,
-} from "@mui/icons-material";
-import Modal from "@mui/material/Modal";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
-import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
-import AdditionalHistory from "./AdditionalHistory";
-
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
 import axios from "axios";
@@ -49,6 +33,8 @@ const AdditionalWaiver = () => {
   const [page, setPage] = React.useState(1);
   const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [gridAlert, setGridAlert] = useState("none");
+  const [reason, setReason] = useState("");
+  const [remark, setRemark] = useState("");
   const handleSearch = (event) => {
     event.preventDefault();
     getData();
@@ -60,15 +46,16 @@ const AdditionalWaiver = () => {
         "http://localhost:8080/additionalfee/getFeeData",
         {
           applicationNumber: applicationNumber,
-          referenceNumber: referenceNumber,
         }
       );
-      console.log(response.data);
-      const data = response.data.map((data) => {
-        return { ...data, id: data.paramId };
-      });
-      setDataRow(data);
-      setTotalRowsCount(rows.length);
+      setDataRow(response.data.gridData);
+      setReferenceNumber(
+        response.data.otherList.referenceNumber
+          ? response.data.otherList.referenceNumber
+          : 1
+      );
+      setReason(response.data.otherList.reason);
+      setRemark(response.data.otherList.remark);
     } catch {
       console.log("Network Error");
     }
@@ -86,7 +73,7 @@ const AdditionalWaiver = () => {
     );
     setTotalRowsCount(dataRows.length);
   }, []);
-  const [referenceNumber, setReferenceNumber] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState(0);
   const [currentDate, setCurrentDate] = useState(
     `${new Date().getDate()}/${
       new Date().getMonth() + 1
@@ -108,10 +95,27 @@ const AdditionalWaiver = () => {
       setGridVisible("none");
     } else {
       setApplicationNumber(newValue.label);
-      setReferenceNumber(newValue.value);
     }
   };
+  const handleCellChangedEvent = (event) => {
+    const dataMap1 = [];
+    dataRows.forEach((value) => {
+      if (value.details === event.row.details) {
+        value.additionalWaiver = event.value;
+      }
+      dataMap1.push(value);
+    });
 
+    setDataRow(dataMap1);
+    if (
+      !(
+        event.row.receiveable - event.row.received - event.row.earlyWaiver >
+        event.value
+      )
+    ) {
+      setGridAlert("flex");
+    }
+  };
   const branchNames = [
     { label: "Mylapore", value: "" },
     { label: "Royapettah", value: "" },
@@ -120,11 +124,7 @@ const AdditionalWaiver = () => {
     { label: "Tambaram", value: "" },
     { label: "Egmore", value: "" },
   ];
-  const handleCellChangedEvent = (event) => {
-    if (!(event.row.due - event.row.paid > event.value)) {
-      setGridAlert("flex");
-    }
-  };
+
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
@@ -133,7 +133,6 @@ const AdditionalWaiver = () => {
     setBranchName(newValue);
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
-      setReferenceNumber("");
       setApplicationNumber("");
       setGridVisible("none");
     } else {
@@ -146,105 +145,105 @@ const AdditionalWaiver = () => {
   };
 
   const [dataRows, setDataRow] = React.useState([
-    {
-      id: 1,
-      details: "Mod Charges",
-      receiveable: 5000,
-      received: 0,
-      due: 5000,
-      paid: 2000,
-      waived: 0,
-    },
-    {
-      id: 2,
-      details: "Legal Charges",
-      receiveable: 7000,
-      received: 7000,
-      due: 0,
-      paid: 0,
-      waived: 0,
-    },
-    {
-      id: 3,
-      details: "Technical Assistance Charges",
-      due: 3000,
-      receiveable: 3000,
-      paid: 3000,
-      received: 0,
-      waived: 0,
-    },
-    {
-      id: 4,
-      details: "Documentation Charges",
-      due: 25000,
-      receiveable: 25000,
-      paid: 10000,
-      received: 0,
-      waived: 0,
-    },
-    {
-      id: 5,
-      details: "File Processing Charges",
-      due: 1000,
-      receiveable: 1000,
-      paid: 500,
-      received: 500,
-      waived: 0,
-    },
-    {
-      id: 6,
-      details: "Application Fee",
-      due: 8000,
-      receiveable: 8000,
-      received: 8000,
-      paid: 0,
-      waived: 0,
-    },
-    {
-      id: 7,
-      details: "Prepayment Charge",
-      due: 1000,
-      receiveable: 1000,
-      paid: 1000,
-      received: 1000,
-      waived: 0,
-    },
-    {
-      id: 8,
-      details: "Partial prepayment charge",
-      due: 20000,
-      received: 10000,
-      receiveable: 30000,
-      paid: 5000,
-      waived: 0,
-    },
-    {
-      id: 9,
-      details: "Late Fee charge",
-      due: 250,
-      receiveable: 500,
-      received: 250,
-      paid: 250,
-      waived: 0,
-    },
-    {
-      id: 10,
-      details: "Recovery Charge",
-      due: 300,
-      paid: 300,
-      receiveable: 0,
-      received: 300,
-      waived: 0,
-    },
-    {
-      id: 11,
-      details: "Insurance Premium Charge",
-      due: 7000,
-      paid: 7000,
-      received: 7000,
-      receiveable: 0,
-      waived: 0,
-    },
+    // {
+    //   id: 1,
+    //   details: "Mod Charges",
+    //   receiveable: 5000,
+    //   received: 0,
+    //   due: 5000,
+    //   paid: 2000,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 2,
+    //   details: "Legal Charges",
+    //   receiveable: 7000,
+    //   received: 7000,
+    //   due: 0,
+    //   paid: 0,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 3,
+    //   details: "Technical Assistance Charges",
+    //   due: 3000,
+    //   receiveable: 3000,
+    //   paid: 3000,
+    //   received: 0,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 4,
+    //   details: "Documentation Charges",
+    //   due: 25000,
+    //   receiveable: 25000,
+    //   paid: 10000,
+    //   received: 0,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 5,
+    //   details: "File Processing Charges",
+    //   due: 1000,
+    //   receiveable: 1000,
+    //   paid: 500,
+    //   received: 500,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 6,
+    //   details: "Application Fee",
+    //   due: 8000,
+    //   receiveable: 8000,
+    //   received: 8000,
+    //   paid: 0,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 7,
+    //   details: "Prepayment Charge",
+    //   due: 1000,
+    //   receiveable: 1000,
+    //   paid: 1000,
+    //   received: 1000,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 8,
+    //   details: "Partial prepayment charge",
+    //   due: 20000,
+    //   received: 10000,
+    //   receiveable: 30000,
+    //   paid: 5000,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 9,
+    //   details: "Late Fee charge",
+    //   due: 250,
+    //   receiveable: 500,
+    //   received: 250,
+    //   paid: 250,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 10,
+    //   details: "Recovery Charge",
+    //   due: 300,
+    //   paid: 300,
+    //   receiveable: 0,
+    //   received: 300,
+    //   waived: 0,
+    // },
+    // {
+    //   id: 11,
+    //   details: "Insurance Premium Charge",
+    //   due: 7000,
+    //   paid: 7000,
+    //   received: 7000,
+    //   receiveable: 0,
+    //   waived: 0,
+    // },
   ]);
   const columns = [
     {
@@ -279,8 +278,8 @@ const AdditionalWaiver = () => {
       editable: false,
     },
     {
-      field: "paid",
-      headerName: "Early Waiver (₹)",
+      field: "earlyWaiver",
+      headerName: "Earlier Waiver (₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -289,7 +288,7 @@ const AdditionalWaiver = () => {
     },
 
     {
-      field: "deduction",
+      field: "outstanding",
       headerName: "Outstanding Amount",
       headerAlign: "center",
       type: "number",
@@ -298,15 +297,24 @@ const AdditionalWaiver = () => {
       align: "center",
       editable: false,
       valueGetter: (param) => {
-        if (param.row.due - param.row.paid - param.row.waived > 0) {
-          return param.row.due - param.row.paid - param.row.waived;
+        if (
+          param.row.receiveable -
+            param.row.received -
+            param.row.additionalWaiver >
+          0
+        ) {
+          return (
+            param.row.receiveable -
+            param.row.received -
+            param.row.additionalWaiver
+          );
         } else {
-          return param.row.due - param.row.paid;
+          return param.row.receiveable - param.row.received;
         }
       },
     },
     {
-      field: "waived",
+      field: "additionalWaiver",
       headerName: "Additional Waiver(₹)",
       headerAlign: "center",
       type: "number",
@@ -398,7 +406,7 @@ const AdditionalWaiver = () => {
                     placeholder="Reference Number"
                     required={false}
                     variant="standard"
-                    value={referenceNumber}
+                    value={referenceNumber===0?'':referenceNumber}
                     // onChange={trnNoChangeHandler}
                     // onChange={(event)=>setReferenceName(event.target.value)}
                   />
@@ -502,7 +510,10 @@ const AdditionalWaiver = () => {
                       : `super-app-theme--odd`
                   }
                   isCellEditable={(param) =>
-                    param.row.receiveable - param.row.paid !== 0
+                    param.row.receiveable -
+                      param.row.received -
+                      param.row.earlyWaiver !==
+                    0
                   }
                   initialState={{
                     columns: {
@@ -587,6 +598,10 @@ const AdditionalWaiver = () => {
             gridData={dataRows}
             refNum={referenceNumber}
             applicationNumber={applicationNumber}
+            refDate={currentDate}
+            type="waiver"
+            reason={reason}
+            remark={remark}
           ></AccrualRemark>
           <Alert
             sx={{
