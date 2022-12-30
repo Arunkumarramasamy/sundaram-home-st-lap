@@ -513,7 +513,6 @@ const DisbursementDetails = (props) => {
             checkboxSelection={false}
             pageSize={3}
             pageSizeOptions={[3, 6, 9, 12]}
-            getRowId={(row) => row.bankAccountNumber}
           />
         )}
         {useMediaQuery("(max-width:1200px)") && (
