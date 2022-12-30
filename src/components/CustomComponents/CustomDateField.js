@@ -1,8 +1,6 @@
 import { InputLabel, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { useState } from "react";
 import "./Custom.css";
 
 const CustomDateField = (props) => {

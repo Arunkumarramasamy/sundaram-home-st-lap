@@ -36,6 +36,7 @@ import {
 
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
+import axios from "axios";
 
 const AdditionalAccrual = () => {
   const [totalPageCount, setTotalPageCount] = React.useState(0);
@@ -49,17 +50,49 @@ const AdditionalAccrual = () => {
   const [girdVisible, setGridVisible] = useState("none");
   const [applicationSearchDisable, setApplicationSearchDisable] =
     useState(true);
-  const [referenceNumber, setReferenceNumber] = useState("");
+  const [reason, setReason] = useState("");
+  const [remark, setRemark] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState(0);
   const [openHistoryDialog, setOpenHistoryDialog] = useState(false);
   const [currentDate, setCurrentDate] = useState(
     `${new Date().getDate()}/${
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
- 
+  const handleCellChangedEvent = (event) => {
+    const dataMap1 = [];
+    dataRows.forEach((value) => {
+      if (value.details === event.row.details) {
+        value.additionalAccrual = event.value;
+      }
+      dataMap1.push(value);
+    });
+
+    setDataRow(dataMap1);
+  };
+  const getData = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/additionalfee/getFeeData",
+        {
+          applicationNumber: applicationNumber,
+        }
+      );
+      setDataRow(response.data.gridData);
+      setReferenceNumber(
+        response.data.otherList.referenceNumber
+          ? response.data.otherList.referenceNumber
+          : 1
+      );
+      setReason(response.data.otherList.reason);
+      setRemark(response.data.otherList.remark);
+    } catch {
+      console.log("Network Error");
+    }
+  };
   const [applicationNumber, setApplicationNumber] = useState("");
   const onChangeCardItems = (row, value) => {
-    row["waived"] = value;
+    row["additionalWaiver"] = value;
     setDataRow((oldArray) => [...oldArray, row]);
   };
   useEffect(() => {
@@ -112,6 +145,7 @@ const AdditionalAccrual = () => {
   };
   const handleSearch = (event) => {
     event.preventDefault();
+    getData();
     setGridVisible("block");
   };
   const onChangeForBranchEvent = (event, newValue) => {
@@ -132,7 +166,6 @@ const AdditionalAccrual = () => {
       setGridVisible("none");
     } else {
       setApplicationNumber(newValue.label);
-      setReferenceNumber(newValue.value);
     }
   };
   const searchButtonClickHandler = (event) => {
@@ -144,105 +177,105 @@ const AdditionalAccrual = () => {
   };
 
   const [dataRows, setDataRow] = React.useState([
-    {
-      id: 1,
-      details: "Mod Charges",
-      receiveable: 5000,
-      received: 0,
-      due: 5000,
-      paid: 2000,
-      waived: 0,
-    },
-    {
-      id: 2,
-      details: "Legal Charges",
-      receiveable: 7000,
-      received: 7000,
-      due: 0,
-      paid: 0,
-      waived: 0,
-    },
-    {
-      id: 3,
-      details: "Technical Assistance Charges",
-      due: 3000,
-      receiveable: 3000,
-      paid: 3000,
-      received: 0,
-      waived: 0,
-    },
-    {
-      id: 4,
-      details: "Documentation Charges",
-      due: 25000,
-      receiveable: 25000,
-      paid: 10000,
-      received: 0,
-      waived: 0,
-    },
-    {
-      id: 5,
-      details: "File Processing Charges",
-      due: 1000,
-      receiveable: 1000,
-      paid: 500,
-      received: 500,
-      waived: 0,
-    },
-    {
-      id: 6,
-      details: "Application Fee",
-      due: 8000,
-      receiveable: 8000,
-      received: 8000,
-      paid: 0,
-      waived: 0,
-    },
-    {
-      id: 7,
-      details: "Prepayment Charge",
-      due: 1000,
-      receiveable: 1000,
-      paid: 1000,
-      received: 1000,
-      waived: 0,
-    },
-    {
-      id: 8,
-      details: "Partial prepayment charge",
-      due: 20000,
-      received: 10000,
-      receiveable: 30000,
-      paid: 5000,
-      waived: 0,
-    },
-    {
-      id: 9,
-      details: "Late Fee charge",
-      due: 250,
-      receiveable: 500,
-      received: 250,
-      paid: 250,
-      waived: 0,
-    },
-    {
-      id: 10,
-      details: "Recovery Charge",
-      due: 300,
-      paid: 300,
-      receiveable: 0,
-      received: 300,
-      waived: 0,
-    },
-    {
-      id: 11,
-      details: "Insurance Premium Charge",
-      due: 7000,
-      paid: 7000,
-      received: 7000,
-      receiveable: 0,
-      waived: 0,
-    },
+    // {
+    //   id: 1,
+    //   details: "Mod Charges",
+    //   receiveable: 5000,
+    //   received: 0,
+    //   due: 5000,
+    //   earlyWaiver: 2000,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 2,
+    //   details: "Legal Charges",
+    //   receiveable: 7000,
+    //   received: 0,
+    //   due: 0,
+    //   earlyWaiver: 0,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 3,
+    //   details: "Technical Assistance Charges",
+    //   due: 3000,
+    //   receiveable: 3000,
+    //   earlyWaiver: 3000,
+    //   received: 0,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 4,
+    //   details: "Documentation Charges",
+    //   due: 25000,
+    //   receiveable: 25000,
+    //   earlyWaiver: 10000,
+    //   received: 0,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 5,
+    //   details: "File Processing Charges",
+    //   due: 1000,
+    //   receiveable: 1000,
+    //   earlyWaiver: 500,
+    //   received: 0,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 6,
+    //   details: "Application Fee",
+    //   due: 8000,
+    //   receiveable: 8000,
+    //   received: 0,
+    //   earlyWaiver: 0,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 7,
+    //   details: "Prepayment Charge",
+    //   due: 1000,
+    //   receiveable: 1000,
+    //   earlyWaiver: 1000,
+    //   received: 0,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 8,
+    //   details: "Partial prepayment charge",
+    //   due: 20000,
+    //   received: 0,
+    //   receiveable: 30000,
+    //   earlyWaiver: 5000,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 9,
+    //   details: "Late Fee charge",
+    //   due: 250,
+    //   receiveable: 500,
+    //   received: 0,
+    //   earlyWaiver: 250,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 10,
+    //   details: "Recovery Charge",
+    //   due: 300,
+    //   earlyWaiver: 300,
+    //   receiveable: 0,
+    //   received: 0,
+    //   additionalWaiver: 0,
+    // },
+    // {
+    //   id: 11,
+    //   details: "Insurance Premium Charge",
+    //   due: 7000,
+    //   earlyWaiver: 7000,
+    //   received: 0,
+    //   receiveable: 7000,
+    //   additionalWaiver: 0,
+    // },
   ]);
   const handlePageChange = (event, newPage) => {
     let offset = (newPage - 1) * rowsPerPage;
@@ -282,8 +315,8 @@ const AdditionalAccrual = () => {
       editable: false,
     },
     {
-      field: "paid",
-      headerName: "Early Waiver(₹)",
+      field: "earlyWaiver",
+      headerName: "Earlier Waiver(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -291,7 +324,7 @@ const AdditionalAccrual = () => {
       editable: false,
     },
     {
-      field: "waived",
+      field: "additionalAccrual",
       headerName: "Additional Accrual(₹)",
       headerAlign: "center",
       type: "number",
@@ -300,21 +333,45 @@ const AdditionalAccrual = () => {
       editable: true,
     },
     {
-      field: "deduction",
-      headerName: "Outstanding Amout",
+      field: "outstanding",
+      headerName: "Outstanding Amount",
       headerAlign: "center",
       type: "number",
       width: "200",
       editable: false,
       align: "center",
-      valueGetter: (param) => param.row.due - param.row.paid + param.row.waived,
+      valueGetter: (param) => {
+        let additionalAccrual =
+          param.row.additionalAccrual === undefined
+            ? 0
+            : param.row.additionalAccrual;
+        if (
+          isNaN(
+            param.row.receiveable -
+              param.row.received +
+              additionalAccrual -
+              +param.row.earlyWaiver
+          )
+        ) {
+          return 0;
+        } else {
+          return (
+            param.row.receiveable -
+            param.row.received +
+            additionalAccrual -
+            +param.row.earlyWaiver
+          );
+        }
+        {
+        }
+      },
     },
   ];
   let visibility = {
     due: false,
-    paid: false,
-    waived: false,
-    deduction: false,
+    earlyWaiver: false,
+    additionalWaiver: false,
+    outstanding: false,
   };
   if (window.innerWidth > 700) {
     visibility = {};
@@ -389,7 +446,7 @@ const AdditionalAccrual = () => {
                       placeholder="Reference Number"
                       required={false}
                       variant="standard"
-                      value={referenceNumber}
+                      value={referenceNumber===0?'':referenceNumber}
                       // onChange={trnNoChangeHandler}
                       // onChange={(event)=>setReferenceName(event.target.value)}
                     />
@@ -454,58 +511,57 @@ const AdditionalAccrual = () => {
             paddingTop: "8px",
           }}
         >
-           {useMediaQuery("(min-width:1200px)") && (
-          <AccordianContainer
-            id="accord"
-            title="Accrual Details"
-            initialOpen={true}
-          >
-            <Grid
-              container
-              spacing={2}
-              // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
-              sx={{
-                width: "calc(100% - 8px)",
-                margin: "unset",
-                display: girdVisible,
-                backgroundColor: "#fff",
-              }}
+          {useMediaQuery("(min-width:1200px)") && (
+            <AccordianContainer
+              id="accord"
+              title="Accrual Details"
+              initialOpen={true}
             >
-              <DataGrid
+              <Grid
+                container
+                spacing={2}
+                // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
                 sx={{
-                  boxShadow: 2,
-                  border: 2,
-                  minHeight: "280px",
-                  borderColor: "white",
-                  "& .MuiDataGrid-columnHeaders": {
-                    color: "white",
-                    fontFamily: "Roboto",
-                    backgroundColor: "#004A92",
-                  },
+                  width: "calc(100% - 8px)",
+                  margin: "unset",
+                  display: girdVisible,
+                  backgroundColor: "#fff",
                 }}
-                rows={dataRows}
-                columns={columns}
-                pageSize={pageSize}
-                disableSelectionOnClick
-                autoHeight
-                // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
-                getRowClassName={(params) =>
-                  params.id % 2
-                    ? `super-app-theme--even`
-                    : `super-app-theme--odd`
-                }
-                isCellEditable={(params) => params.row.paid !== 0}
-                initialState={{
-                  columns: {
-                    columnVisibilityModel: {
-                      ...visibility,
+              >
+                <DataGrid
+                  sx={{
+                    boxShadow: 2,
+                    border: 2,
+                    minHeight: "280px",
+                    borderColor: "white",
+                    "& .MuiDataGrid-columnHeaders": {
+                      color: "white",
+                      fontFamily: "Roboto",
+                      backgroundColor: "#004A92",
                     },
-                  },
-                }}
-              />
-            </Grid>
-          </AccordianContainer>
-         )}
+                  }}
+                  rows={dataRows}
+                  columns={columns}
+                  pageSize={pageSize}
+                  disableSelectionOnClick
+                  autoHeight
+                  onCellEditCommit={(event) => handleCellChangedEvent(event)}
+                  getRowClassName={(params) =>
+                    params.id % 2
+                      ? `super-app-theme--even`
+                      : `super-app-theme--odd`
+                  }
+                  initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        ...visibility,
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+            </AccordianContainer>
+          )}
           {useMediaQuery("(max-width:1200px)") && (
             <React.Fragment>
               <Grid
@@ -555,7 +611,7 @@ const AdditionalAccrual = () => {
                       value={row}
                       index={index}
                       onChange={onChangeCardItems}
-                      screen = 'accrual'
+                      screen="accrual"
                     ></AccrualCardItems>
                   ))}
                   {/* {rows.length === 0 && (
@@ -573,7 +629,16 @@ const AdditionalAccrual = () => {
               </Grid>
             </React.Fragment>
           )}
-          <AccrualRemark name= "Accrued By" gridData={dataRows}></AccrualRemark>
+          <AccrualRemark
+            name="Accrued By"
+            gridData={dataRows}
+            refNum={referenceNumber}
+            applicationNumber={applicationNumber}
+            refDate={currentDate}
+            type="accrual"
+            reason={reason}
+            remark={remark}
+          ></AccrualRemark>
         </div>
       </div>
       <StlapFooter />

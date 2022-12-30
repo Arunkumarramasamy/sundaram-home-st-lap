@@ -65,6 +65,14 @@ const SanctionedList = (props) => {
       type: "string",
       width: 170,
       align: "right",
+      renderCell: (params) => {
+        var date = new Date(params.value);
+        return (
+          <Typography sx={{ display: "flex", alignItems: "center" }}>
+             {date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()}
+          </Typography>
+        );
+      },
     },
     {
       field: "sanctionAmount",
