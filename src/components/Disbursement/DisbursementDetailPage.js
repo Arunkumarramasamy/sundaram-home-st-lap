@@ -72,8 +72,10 @@ const DisbursementDetailPage = (props) => {
       baseURL: "http://localhost:8080/losCustomer/"
     });
     const response = await api.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
+    var counter = 1;
     {response.data.map((row, index) => ( 
-      row.isChecked = false
+      row.isChecked = false,
+      row.id = counter++
            ))};
     detailPageInitialState.disbursementFavours = response.data 
     setLoading(false);
@@ -91,12 +93,14 @@ const DisbursementDetailPage = (props) => {
     });
     const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": losInitialState.applicationNumber});
     const tempBankRow = response1.data ;
+    var counter = 1;
     var dataMap = [];
     tempBankRow.map((bankRow)=>{
       tempDisbursementFavours.map((insertedBankROw)=>{
             if(insertedBankROw.bankAccNumber === bankRow.bankAccountNumber ){
               bankRow.isChecked = true;
               bankRow.amount = insertedBankROw.disbAmount;
+              bankRow.id = counter++;
               dataMap.push(bankRow);
             }
       });

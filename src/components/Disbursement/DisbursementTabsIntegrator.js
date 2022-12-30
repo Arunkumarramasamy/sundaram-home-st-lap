@@ -177,18 +177,20 @@ const DisbursementTabsIntegrator = (props) => {
           </TabPanel>
         </TabContext>
       </Box>
+      
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
         }}
       >
+        {props.mode==="CREATE" ? 
         <CustomButton variant="contained" 
          onClick={() => {
           props.createRequestClickHandler(state);
         }} >
           Create Request
-        </CustomButton>
+        </CustomButton> : null } 
         <CustomButton
           variant="contained"
           sx={{marginLeft: "1%" }}
@@ -198,7 +200,7 @@ const DisbursementTabsIntegrator = (props) => {
         >
           Back to search
         </CustomButton>
-      </Box>
+      </Box> 
     </>
   );
 };
