@@ -32,6 +32,7 @@ import {
   Preview,
   ArrowBack,
   ArrowForward,
+  PropaneSharp,
 } from "@mui/icons-material";
 
 import AccrualCardItems from "./AccrualCardItems";
@@ -76,6 +77,7 @@ const AdditionalAccrual = () => {
         "http://localhost:8080/additionalfee/getFeeData",
         {
           applicationNumber: applicationNumber,
+          type:'accrual'
         }
       );
       setDataRow(response.data.gridData);
@@ -446,7 +448,7 @@ const AdditionalAccrual = () => {
                       placeholder="Reference Number"
                       required={false}
                       variant="standard"
-                      value={referenceNumber===0?'':referenceNumber}
+                      value={referenceNumber === 0 ? "" : referenceNumber}
                       // onChange={trnNoChangeHandler}
                       // onChange={(event)=>setReferenceName(event.target.value)}
                     />
@@ -637,6 +639,8 @@ const AdditionalAccrual = () => {
             refDate={currentDate}
             type="accrual"
             reason={reason}
+            setReason={setReason}
+            setRemark={setRemark}
             remark={remark}
           ></AccrualRemark>
         </div>
