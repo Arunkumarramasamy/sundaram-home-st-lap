@@ -112,7 +112,29 @@ const DisbursementCreatePortal = (props) => {
     });
     const response = await api.get("/getAllData");
 
-    filterConditionState.sanctionList = response.data; 
+    const api1 = axios.create({
+      baseURL: "http://localhost:8080/disbursement/"
+    });
+    const response1 = await api1.get("/getAllDisbursementData");
+      
+
+      if(response1.data.length === 0){
+        filterConditionState.sanctionList = response.data; 
+      } else {
+        let disbursedApplications = [];
+        response1.data.map((disbursementRow)=>{
+          disbursedApplications.push(disbursementRow.applicationNumber);
+    });
+        const dataMap = [];
+    response.data.map((sanctionRow)=>{ 
+            if(!(disbursedApplications.includes(sanctionRow.applicationNumber))){
+              dataMap.push(sanctionRow);
+            }
+      });
+          filterConditionState.sanctionList = dataMap; 
+  }
+
+    
     const loadBranchNames = [
       ...Array.from(
         new Set([...response.data].map((row) => row.branch))
