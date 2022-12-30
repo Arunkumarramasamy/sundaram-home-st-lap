@@ -9,8 +9,11 @@ import ConditionsAndDeviations from "./ConditionsAndDeviations";
 import { useReducer } from "react";
 import { useEffect } from "react";
 import CustomButton from "../CustomComponents/CustomButton";
+import { useNavigate } from "react-router-dom";
 
 const DisbursementTabsIntegrator = (props) => {
+
+  const navigate = useNavigate();
   const [value, setValue] = React.useState("1");
   const [accordianOpen, setAccordianOpen] = React.useState(true);
 
@@ -195,7 +198,11 @@ const DisbursementTabsIntegrator = (props) => {
           variant="contained"
           sx={{marginLeft: "1%" }}
           onClick={() => {
-            props.setListVisibility(true);
+            if(props.mode === "CREATE"){
+              props.setListVisibility(true);
+            } else {
+              navigate("/stlap/home/disbursementList");
+            }
           }}
         >
           Back to search
