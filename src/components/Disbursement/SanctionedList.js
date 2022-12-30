@@ -127,7 +127,6 @@ const SanctionedList = (props) => {
     setRows(props.data.slice(offset, offset + rowsPerPage));
   };
   const gridLazyLoad = (newPage) => {
-    console.log("lazyload" + newPage);
     if (newPage >= page) {
       setPage(newPage + 1);
       const existrowsLength = rows.length;

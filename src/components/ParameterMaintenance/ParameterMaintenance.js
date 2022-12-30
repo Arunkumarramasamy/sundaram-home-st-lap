@@ -25,6 +25,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import MoreAction from "./MoreAction";
+import dayjs from "dayjs";
 
 const ParameterMaintenance = () => {
   const [rows, setRows] = useState([]);
@@ -38,10 +39,15 @@ const ParameterMaintenance = () => {
         return { ...data, id: data.paramId };
       });
       setRows(data);
-      setTotalRowsCount(rows.length);
+      setTotalRowsCount(data.length);
       setParamId("");
     } catch {
-      console.log("Network Error");
+      setState((pre) => {
+        return { ...pre, vertical: "top", horizontal: "center" };
+      });
+      setAlertType("error");
+      setMessage("Unable to Fetch the data");
+      openAlertHandler();
     }
   };
   useEffect(() => {
@@ -109,7 +115,6 @@ const ParameterMaintenance = () => {
       align: "center",
       width: 160,
       renderCell: (params) => {
-        console.log(params);
         if (params.row.paramDataType !== "Varchar") {
           return parseInt(params.value).toLocaleString("en-IN");
         } else {
@@ -147,13 +152,26 @@ const ParameterMaintenance = () => {
   const [paramaId, setParamId] = useState("");
   const [paraMeterName, setParamMeterName] = useState("");
   const [paramDataType, setparamDataType] = useState("");
-  const [startDate, setstartDate] = useState(todayDate);
-  const [endDate, setEndDate] = useState(todayDate);
+  const [startDate, setstartDate] = useState(dayjs(todayDate));
+  const [endDate, setEndDate] = useState(dayjs(todayDate));
   const [ParamValue, setParamValue] = useState("");
   // view cancel Button Handler
   const [showOkCancel, setShowOkCancel] = useState(false);
   /**Modify Click Handler */
+  const setValues = (values) => {
+    setCheckObj((pre) => {
+      return {
+        ...pre,
+        paramName: values.paramName,
+        paramType: values.paramDataType,
+        paramValu: values.paramValue,
+        effStartDate: values.paramEffStartDt,
+        effEndDate: values.paramEffEndDt,
+      };
+    });
+  };
   const viewClickHandler = (values) => {
+    setValues(values);
     setShowOkCancel(true);
     setdisabled(true);
     handleClickDialogOpen();
@@ -169,7 +187,9 @@ const ParameterMaintenance = () => {
     }
   };
   const modifyClickHandler = (values) => {
+    setValues(values);
     setShowOkCancel(false);
+    setOkButtonHandler(true);
     setdisabled(false);
     handleClickDialogOpen();
     console.log(values);
@@ -183,6 +203,7 @@ const ParameterMaintenance = () => {
     } else {
       setParamValue(values.paramValue);
     }
+    console.log(check);
   };
   /**Dialog Click Handler */
   const DialogOkHandler = () => {
@@ -192,10 +213,26 @@ const ParameterMaintenance = () => {
 
     //if save click happen
     if (paramNameIsValid && paramTypeIsValid && paramValueIsValid) {
-      SendData();
-
-      setDialogOpen(false);
-      ResetTouchHandler(false);
+      const val =
+        check.paramName == paraMeterName &&
+        check.paramType == paramDataType &&
+        check.effStartDate === startDate &&
+        check.effEndDate === endDate &&
+        (check.paramType === "Varchar"
+          ? check.paramValu == ParamValue
+          : check.paramValu == ParamValue.replaceAll(",", ""));
+      if (val) {
+        setState((pre) => {
+          return { ...pre, vertical: "top", horizontal: "center" };
+        });
+        setAlertType("error");
+        setMessage("No changes Made");
+        openAlertHandler();
+      } else {
+        SendData();
+        setDialogOpen(false);
+        ResetTouchHandler(false);
+      }
     } else {
       ResetTouchHandler(true);
       return;
@@ -218,9 +255,17 @@ const ParameterMaintenance = () => {
       getData();
       setParamId("");
       if (paramaId == "") {
+        setState((pre) => {
+          return { ...pre, vertical: "bottom", horizontal: "left" };
+        });
+        setAlertType("success");
         setMessage("Record added Successfully");
         openAlertHandler();
       } else {
+        setState((pre) => {
+          return { ...pre, vertical: "bottom", horizontal: "left" };
+        });
+        setAlertType("success");
         setMessage("Record Updated Successfully");
         openAlertHandler();
       }
@@ -234,7 +279,17 @@ const ParameterMaintenance = () => {
       // // setRows((oldArray) => [...oldArray, newElement]);
       // setRows([...existrows]);
     } catch {
-      console.log("error");
+      setState((pre) => {
+        return { ...pre, vertical: "top", horizontal: "center" };
+      });
+      setAlertType("error");
+      if (paramaId == "") {
+        setMessage("Unable to Perform add operation");
+        openAlertHandler();
+      } else {
+        setMessage("Unable to Perform Update operation");
+        openAlertHandler();
+      }
     }
   };
   /** Show Dialog Handlers */
@@ -243,13 +298,26 @@ const ParameterMaintenance = () => {
     setDialogOpen(true);
   };
   const handleDialogClose = () => {
-    setdisabled(true);
-    setDialogOpen(false);
-    Reset();
-    ResetTouchHandler(false);
+    if (
+      check.paramName == paraMeterName &&
+      check.paramType == paramDataType &&
+      check.effStartDate == startDate &&
+      check.effEndDate == endDate &&
+      (check.paramType === "Varchar"
+        ? check.paramValu == ParamValue
+        : check.paramValu == ParamValue.replaceAll(",", ""))
+    ) {
+      setdisabled(true);
+      setDialogOpen(false);
+      Reset();
+      ResetTouchHandler(false);
+    } else {
+      cancelHandleClickOpen();
+    }
   };
   const addBtnHandler = () => {
     setMode(0);
+    setOkButtonHandler(false);
     Reset();
     setdisabled(false);
     setDialogOpen(true);
@@ -266,13 +334,14 @@ const ParameterMaintenance = () => {
   };
   /**Validation Handlers */
   /**Valid Handler */
-  const paramNameIsValid = paraMeterName.trim() !== "";
+  const paramNameIsValid =
+    paraMeterName.trim() !== "" && paraMeterName.trim().length < 50;
   const paramTypeIsValid = paramDataType.trim() !== "";
   let paramValueIsValid;
   if (paramDataType === "Varchar") {
     paramValueIsValid = ParamValue.trim() !== "";
   } else {
-    paramValueIsValid = ParamValue.length !== 0;
+    paramValueIsValid = ParamValue.length !== 0 && ParamValue.length < 50;
   }
   /**Touch State Handlers */
   const [paramNameTouched, setParamNameTouched] = useState(false);
@@ -295,10 +364,11 @@ const ParameterMaintenance = () => {
 
   //SnackBar Handler
   const [message, setMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
   const [state, setState] = React.useState({
     open: false,
-    vertical: "top",
-    horizontal: "center",
+    vertical: "bottom",
+    horizontal: "left",
   });
   const { vertical, horizontal, open } = state;
   const [alert, setAlert] = useState(false);
@@ -309,7 +379,32 @@ const ParameterMaintenance = () => {
   const closeAlertHandler = () => {
     setAlert(false);
   };
+  /**Checking value Changes */
+  const [check, setCheckObj] = useState({
+    paramName: "",
+    paramType: "",
+    paramValu: "",
+    effStartDate: new Date(today).toLocaleDateString(),
+    effEndDate: new Date(today).toLocaleDateString(),
+  });
+  /**Ok Button Handler */
+  const [OkButtonHandler, setOkButtonHandler] = useState(false);
+  /**Discard Changes */
+  const [cancelOpen, cancelSetOpen] = React.useState(false);
+  const cancelHandleClickOpen = () => {
+    cancelSetOpen(true);
+  };
 
+  const cancelHandleClose = () => {
+    cancelSetOpen(false);
+  };
+  const cancelDialogOkButtonHandler = () => {
+    cancelSetOpen(false);
+    setdisabled(true);
+    setDialogOpen(false);
+    Reset();
+    ResetTouchHandler(false);
+  };
   return (
     <>
       <Box
@@ -349,11 +444,9 @@ const ParameterMaintenance = () => {
           </Box>
         )}
         {useMediaQuery("(max-width:1200px)") && (
-          <React.Fragment>
-            <Grid
-              container
-              item
-              direction="row"
+          <>
+            <Box
+              display="flex"
               alignItems="flex-end"
               justifyContent="flex-end"
               sx={{ height: "60px", bgcolor: "white" }}
@@ -369,106 +462,98 @@ const ParameterMaintenance = () => {
               >
                 {"Total Records : " + totalRowsCount}
               </Typography>
-              {/* <Pagination
-                count={totalPageCount}
-                color="primary"
-                onChange={handlePageChange}
-                page={page}
-                renderItem={(item) => (
-                  <PaginationItem
-                    slots={{ previous: ArrowBack, next: ArrowForward }}
-                    {...item}
-                  />
-                )}
-              /> */}
-            </Grid>
-            <Grid container>
-              <Box
-                sx={{
-                  height: window.innerHeight - 300,
-                  overflow: "auto",
-                  flex: "1 auto",
-                }}
-              >
-                {rows.map((row, index) => (
-                  <React.Fragment>
-                    <Grid container direction="column" sx={{ flex: "1 auto" }}>
+            </Box>
+            <Box
+              sx={{
+                height: window.innerHeight - 300,
+                overflow: "auto",
+                flex: "1 auto",
+              }}
+            >
+              <Grid container>
+                {rows.map((row, index) => {
+                  return (
+                    <Grid item xs={12} md={6}>
                       <Card>
-                        {
-                          <CardHeader
-                            action={
-                              <React.Fragment>
-                                {
-                                  <MoreAction
-                                    params={row}
-                                    viewClickHandler={viewClickHandler}
-                                    modifyClickHandler={modifyClickHandler}
-                                  />
-                                }
-                              </React.Fragment>
-                            }
-                            subheader={"Parameter Name : " + row.parameterName}
-                            subheaderTypographyProps={{
-                              color: "#004A92",
-                              fontWeight: "700",
-                            }}
-                            sx={{
-                              textAlign: "left",
-                              padding: "16px 16px 0px 16px !important",
-                            }}
-                          />
-                        }
+                        <CardHeader
+                          action={
+                            <React.Fragment>
+                              {
+                                <MoreAction
+                                  params={row}
+                                  viewClickHandler={viewClickHandler}
+                                  modifyClickHandler={modifyClickHandler}
+                                />
+                              }
+                            </React.Fragment>
+                          }
+                          subheader={"Parameter Name : " + row.paramName}
+                          subheaderTypographyProps={{
+                            color: "#004A92",
+                            fontWeight: "700",
+                          }}
+                          sx={{
+                            textAlign: "left",
+                            padding: "16px 16px 0px 16px !important",
+                          }}
+                        />
 
                         <CardContent>
-                          <Grid
-                            container
-                            item
-                            direction="column"
-                            alignItems="flex-start"
-                            justifyContent="flex-start"
-                          >
-                            <Typography padding="1px">
-                              {"parameteData type : " + row.parameterDatatype}
+                          <Grid container>
+                            <Grid item xs={7}>
+                              Paramete Data Type
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramDataType}`}
+                            </Grid>
+
+                            <Grid item xs={7}>
+                              Effective Start Date
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramEffStartDt}`}
+                            </Grid>
+
+                            <Grid item xs={7}>
+                              Effective End Date
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramEffEndDt}`}
+                            </Grid>
+
+                            <Grid item xs={7}>
+                              Parameter Value
+                            </Grid>
+                            <Grid item xs={5}>
+                              {`: ${row.paramValue}`}
+                            </Grid>
+                            {/* <Typography padding="1px">
+                              {"Paramete Data Type : " + row.paramDataType}
+                            </Typography> */}
+                            {/* <Typography padding="1px">
+                              {" Effective Start Date : " + row.paramEffStartDt}
                             </Typography>
                             <Typography padding="1px">
-                              {" effectiveStartDate : " +
-                                row.effectiveStartDate}
+                              {"Effective End Date : " + row.paramEffEndDt}
                             </Typography>
                             <Typography padding="1px">
-                              {"effectiveEndDate : " + row.effectiveEndDate}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"parameterValue : " + row.parameterValue}
-                            </Typography>
+                              {`Parameter Value :   ${
+                                row.paramDataType === "Varchar"
+                                  ? row.paramValue
+                                  : parseInt(row.paramValue).toLocaleString(
+                                      "en-IN"
+                                    )
+                              }`}
+                            </Typography> */}
                           </Grid>
-                          {/* <Grid
-                            container
-                            item
-                            direction="row"
-                            alignItems="flex-end"
-                            justifyContent="flex-end"
-                          >
-                            <Typography sx={{ width: "40%" }}>
-                              {loadStatus(row.status)}
-                            </Typography>
-                          </Grid> */}
                         </CardContent>
                       </Card>
                     </Grid>
-                    <Divider />
-                  </React.Fragment>
-                ))}
-                {rows.length === 0 && (
-                  <NoDataFound
-                    message={"No Disbursement Record Found."}
-                    imageStyle={{
-                      marginTop: window.innerHeight < 1000 ? "20px" : "20%",
-                    }}
-                  />
-                )}
-              </Box>
-            </Grid>
-          </React.Fragment>
+                  );
+                })}
+              </Grid>
+            </Box>
+          </>
         )}
 
         <Dialog open={Dialogopen} onClose={handleDialogClose}>
@@ -483,8 +568,10 @@ const ParameterMaintenance = () => {
                   label="Parameter Name"
                   variant="standard"
                   value={paraMeterName}
+                  error={paramNameHasError}
                   disabled={disabled}
                   onChange={(e) => {
+                    setOkButtonHandler(false);
                     setParamMeterName(e.target.value);
                   }}
                   onBlur={(e) => {
@@ -501,6 +588,7 @@ const ParameterMaintenance = () => {
                   variant="standard"
                   disabled={disabled}
                   value={paramDataType}
+                  error={paramTypeHasError}
                   dropDownValue={[
                     { key: 0, value: "Varchar", text: "Varchar" },
                     { key: 1, value: "Int", text: "Int" },
@@ -508,6 +596,7 @@ const ParameterMaintenance = () => {
                     { key: 3, value: "Float", text: "Float" },
                   ]}
                   onChange={(e) => {
+                    setOkButtonHandler(false);
                     setparamDataType(e.target.value);
                     setParamValue("");
                   }}
@@ -524,14 +613,14 @@ const ParameterMaintenance = () => {
                 <CustomDateField
                   value={startDate}
                   disableFuture={false}
-                  disablePast={false}
+                  disablePast={true}
                   label="Effective Start Date"
                   variant="standard"
                   disabled={disabled}
-                  onChange={(event) => {
-                    setstartDate(
-                      event.$M + 1 + "/" + event.$D + "/" + event.$y
-                    );
+                  onChange={(newValue) => {
+                    setOkButtonHandler(false);
+                    console.log(newValue);
+                    setstartDate(newValue);
                   }}
                 />
               </Grid>
@@ -539,12 +628,13 @@ const ParameterMaintenance = () => {
                 <CustomDateField
                   value={endDate}
                   disableFuture={false}
-                  disablePast={false}
+                  disablePast={true}
                   label="Effective End Date"
                   variant="standard"
                   disabled={disabled}
-                  onChange={(event) => {
-                    setEndDate(event.$M + 1 + "/" + event.$D + "/" + event.$y);
+                  onChange={(newValue) => {
+                    setOkButtonHandler(false);
+                    setEndDate(newValue);
                   }}
                 />
               </Grid>
@@ -554,7 +644,9 @@ const ParameterMaintenance = () => {
                   label="Parameter Value"
                   variant="standard"
                   disabled={disabled}
+                  error={paramValueHasError}
                   onChange={(e) => {
+                    setOkButtonHandler(false);
                     if (paramDataType === "Varchar") {
                       let val = e.target.value.replace(/[0-9]/g, "");
                       setParamValue(val);
@@ -615,6 +707,7 @@ const ParameterMaintenance = () => {
                   sx={{ fontWeight: "bold" }}
                   variant="contained"
                   onClick={DialogOkHandler}
+                  disabled={OkButtonHandler}
                 >
                   OK
                 </Button>
@@ -634,13 +727,30 @@ const ParameterMaintenance = () => {
       >
         <Alert
           onClose={closeAlertHandler}
-          severity="success"
+          severity={alertType}
           variant="filled"
           sx={{ width: "100%" }}
         >
           {message}
         </Alert>
       </Snackbar>
+      <Dialog
+        open={cancelOpen}
+        onClose={cancelHandleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Are You Sure want to discard the Changes ?
+        </DialogTitle>
+
+        <DialogActions>
+          <Button onClick={cancelHandleClose} autoFocus>
+            Cancel
+          </Button>
+          <Button onClick={cancelDialogOkButtonHandler}>Yes</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

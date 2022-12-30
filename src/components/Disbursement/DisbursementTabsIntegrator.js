@@ -8,6 +8,7 @@ import FeesOutstanding from "./FeesOutstanding";
 import ConditionsAndDeviations from "./ConditionsAndDeviations";
 import { useReducer } from "react";
 import { useEffect } from "react";
+import CustomButton from "../CustomComponents/CustomButton";
 
 const DisbursementTabsIntegrator = (props) => {
   const [value, setValue] = React.useState("1");
@@ -175,6 +176,28 @@ const DisbursementTabsIntegrator = (props) => {
               />
           </TabPanel>
         </TabContext>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <CustomButton variant="contained" 
+         onClick={() => {
+          props.createRequestClickHandler(state);
+        }} >
+          Create Request
+        </CustomButton>
+        <CustomButton
+          variant="contained"
+          sx={{marginLeft: "1%" }}
+          onClick={() => {
+            props.setListVisibility(true);
+          }}
+        >
+          Back to search
+        </CustomButton>
       </Box>
     </>
   );
