@@ -52,7 +52,6 @@ const AccrualRemark = (props) => {
     dataMap["referenceNumber"] = props.refNum + 1;
     dataMap["updatedBy"] = Cookies.get("userName");
     dataMap["applicationNumber"] = props.applicationNumber;
-    dataMap["type"] = props.type;
     try {
       // const response = await axios(
       const response = await axios.post(
