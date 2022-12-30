@@ -46,6 +46,7 @@ const AdditionalWaiver = () => {
         "http://localhost:8080/additionalfee/getFeeData",
         {
           applicationNumber: applicationNumber,
+          type:'waiver'
         }
       );
       setDataRow(response.data.gridData);
@@ -406,7 +407,7 @@ const AdditionalWaiver = () => {
                     placeholder="Reference Number"
                     required={false}
                     variant="standard"
-                    value={referenceNumber===0?'':referenceNumber}
+                    value={referenceNumber === 0 ? "" : referenceNumber}
                     // onChange={trnNoChangeHandler}
                     // onChange={(event)=>setReferenceName(event.target.value)}
                   />
@@ -602,6 +603,8 @@ const AdditionalWaiver = () => {
             type="waiver"
             reason={reason}
             remark={remark}
+            setReason={setReason}
+            setRemark={setRemark}
           ></AccrualRemark>
           <Alert
             sx={{
