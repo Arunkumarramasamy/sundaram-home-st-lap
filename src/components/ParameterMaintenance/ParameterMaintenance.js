@@ -593,8 +593,6 @@ const ParameterMaintenance = () => {
                   dropDownValue={[
                     { key: 0, value: "Varchar", text: "Varchar" },
                     { key: 1, value: "Int", text: "Int" },
-                    { key: 2, value: "BigInt", text: "BigInt" },
-                    { key: 3, value: "Float", text: "Float" },
                   ]}
                   onChange={(e) => {
                     setOkButtonHandler(false);
