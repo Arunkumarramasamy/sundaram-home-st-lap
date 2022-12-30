@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 
 const ParameterMaintenance = () => {
   const [rows, setRows] = useState([]);
+  const [dialogTitle, setDialogTitle] = useState("");
   const getData = async () => {
     try {
       const response = await axios.get(
@@ -137,6 +138,7 @@ const ParameterMaintenance = () => {
       width: 160,
     },
   ];
+  const [columnsData, setColumns] = useState(columns);
   //ROw count
   const rowsPerPage = 10;
 
@@ -183,6 +185,7 @@ const ParameterMaintenance = () => {
     });
   };
   const viewClickHandler = (values) => {
+    setDialogTitle("View Parameter");
     setValues(values);
     setShowOkCancel(true);
     setdisabled(true);
@@ -199,6 +202,7 @@ const ParameterMaintenance = () => {
     }
   };
   const modifyClickHandler = (values) => {
+    setDialogTitle("Modify Parameter");
     setValues(values);
     setShowOkCancel(false);
     setOkButtonHandler(true);
@@ -329,6 +333,7 @@ const ParameterMaintenance = () => {
     }
   };
   const addBtnHandler = () => {
+    setDialogTitle("Create Parameter");
     setMode(0);
     setOkButtonHandler(false);
     Reset();
@@ -427,7 +432,7 @@ const ParameterMaintenance = () => {
           backgroundColor: "white",
         }}
       >
-        <h4> Parameter Maintenance</h4>
+        <h4>Parameter Maintenance</h4>
         <Box
           sx={{
             marginTop: "5px",
@@ -451,7 +456,7 @@ const ParameterMaintenance = () => {
               noDataOnFilterMessage="No Data on Applied Filter."
               rows={rows}
               // gridHeight={window.innerHeight - 230}
-              columns={columns}
+              columns={columnsData}
               pageSize={5}
               pageSizeOptions={[5, 10, 15, 20, 25]}
             />
@@ -541,24 +546,6 @@ const ParameterMaintenance = () => {
                             <Grid item xs={5} md={7}>
                               {`: ${row.paramValue}`}
                             </Grid>
-                            {/* <Typography padding="1px">
-                              {"Paramete Data Type : " + row.paramDataType}
-                            </Typography> */}
-                            {/* <Typography padding="1px">
-                              {" Effective Start Date : " + row.paramEffStartDt}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"Effective End Date : " + row.paramEffEndDt}
-                            </Typography>
-                            <Typography padding="1px">
-                              {`Parameter Value :   ${
-                                row.paramDataType === "Varchar"
-                                  ? row.paramValue
-                                  : parseInt(row.paramValue).toLocaleString(
-                                      "en-IN"
-                                    )
-                              }`}
-                            </Typography> */}
                           </Grid>
                         </CardContent>
                       </Card>
@@ -572,7 +559,7 @@ const ParameterMaintenance = () => {
 
         <Dialog open={Dialogopen} onClose={handleDialogClose}>
           <DialogTitle>
-            <h4>Create Parameter</h4>
+            <h4>{dialogTitle}</h4>
           </DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
@@ -606,8 +593,6 @@ const ParameterMaintenance = () => {
                   dropDownValue={[
                     { key: 0, value: "Varchar", text: "Varchar" },
                     { key: 1, value: "Int", text: "Int" },
-                    { key: 2, value: "BigInt", text: "BigInt" },
-                    { key: 3, value: "Float", text: "Float" },
                   ]}
                   onChange={(e) => {
                     setOkButtonHandler(false);
