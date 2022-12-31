@@ -32,207 +32,10 @@ import { display } from "@mui/system";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function DisbursementRequestList(props) {
-  const datarows = [
-    {
-      id: "1",
-      requestNumber: "DR-DEC2022-00001",
-      branchName: "Mylapore",
-      customerName: "User1",
-      applicationNumber: "STLAP-20220001",
-      applicationDate: "01/12/2022",
-      approvedAmount: "500000",
-      status: "Cancelled",
-      customerType: "New",
-      modifiedUser: "CPC_User_10",
-      modifiedDate: "Dec 04 2022 16:10:35",
-      action: "Cancelled",
-    },
-    {
-      id: "14",
-      requestNumber: "DR-DEC2022-00011",
-      branchName: "Mylapore",
-      customerName: "User1",
-      applicationNumber: "STLAP-20220001",
-      applicationDate: "01/12/2022",
-      approvedAmount: "500000",
-      status: "Requested",
-      customerType: "New",
-      modifiedUser: "CPC_User_10",
-      modifiedDate: "Dec 04 2022 16:10:35",
-      action: "Requested",
-    },
-    {
-      id: "2",
-      requestNumber: "DR-DEC2022-00401",
-      branchName: "Mylapore",
-      customerName: "User2",
-      applicationNumber: "STLAP-20220002",
-      applicationDate: "01/12/2022",
-      approvedAmount: "500000",
-      status: "Paid",
-      action: "Paid",
-      customerType: "New",
-      modifiedUser: "CPC_User_40",
-      modifiedDate: "Dec 04 2022 14:10:22",
-    },
-    {
-      id: "3",
-      requestNumber: "DR-DEC2022-01001",
-      branchName: "Royapuram",
-      customerType: "Old",
-      customerName: "User3",
-      applicationNumber: "STLAP-20220003",
-      applicationDate: "03/12/2022",
-      approvedAmount: "1200000",
-      status: "Requested",
-      action: "Requested",
-      modifiedUser: "CPC_User_10",
-      modifiedDate: "Dec 04 2022 16:10:22",
-    },
-    {
-      id: "4",
-      requestNumber: "DR-DEC2022-00561",
-      branchName: "Mylapore",
-      customerType: "New",
-      customerName: "User4",
-      applicationNumber: "STLAP-20220004",
-      applicationDate: "04/12/2022",
-      approvedAmount: "450000",
-      status: "Modified",
-      action: "Modified",
-      modifiedUser: "CPC_User_20",
-      modifiedDate: "Dec 06 2022 10:10:58",
-    },
-    {
-      id: "5",
-      requestNumber: "DR-DEC2022-00901",
-      branchName: "Thousand Lights",
-      customerType: "New",
-      customerName: "User5",
-      applicationNumber: "STLAP-20220005",
-      applicationDate: "05/12/2022",
-      approvedAmount: "790000",
-      status: "Cancelled",
-      action: "Cancelled",
-      modifiedUser: "CPC_User_09",
-      modifiedDate: "Dec 09 2022 12:10:48",
-    },
-    {
-      id: "6",
-      requestNumber: "DR-DEC2022-00101",
-      branchName: "Thousand Lights",
-      customerType: "Old",
-      customerName: "User6",
-      applicationNumber: "STLAP-20220006",
-      applicationDate: "06/12/2022",
-      approvedAmount: "680000",
-      status: "Requested",
-      action: "Requested",
-      modifiedUser: "CPC_User_16",
-      modifiedDate: "Dec 10 2022 10:10:29",
-    },
-    {
-      id: "7",
-      requestNumber: "DR-DEC2022-00451",
-      branchName: "Thousand Lights",
-      customerType: "Old",
-      customerName: "User7",
-      applicationNumber: "STLAP-20220007",
-      applicationDate: "07/12/2022",
-      approvedAmount: "1460000",
-      status: "Modified",
-      action: "Modified",
-      modifiedUser: "CPC_User_19",
-      modifiedDate: "Dec 04 2022 16:10:09",
-    },
-    {
-      id: "8",
-      requestNumber: "DR-DEC2022-001261",
-      branchName: "Saidapet",
-      customerType: "New",
-      customerName: "User8",
-      applicationNumber: "STLAP-20220008",
-      applicationDate: "08/12/2022",
-      approvedAmount: "980000",
-      status: "Requested",
-      action: "Requested",
-      modifiedUser: "CPC_User_23",
-      modifiedDate: "Dec 09 2022 15:10:20",
-    },
-    {
-      id: "9",
-      requestNumber: "DR-DEC2022-001345",
-      branchName: "Saidapet",
-      customerType: "Old",
-      customerName: "User9",
-      applicationNumber: "STLAP-20220009",
-      applicationDate: "09/12/2022",
-      approvedAmount: "790000",
-      status: "Cancelled",
-      action: "Cancelled",
-      modifiedUser: "CPC_User_10",
-      modifiedDate: "Dec 12 2022 17:10:19",
-    },
-    {
-      id: "10",
-      requestNumber: "DR-DEC2022-001659",
-      branchName: "Madhavaram",
-      customerType: "Old",
-      customerName: "User10",
-      applicationNumber: "STLAP-20220010",
-      applicationDate: "10/12/2022",
-      approvedAmount: "1300000",
-      status: "Paid",
-      action: "Paid",
-      modifiedUser: "CPC_User_20",
-      modifiedDate: "Dec 14 2022 16:10:23",
-    },
-    {
-      id: "11",
-      requestNumber: "DR-DEC2022-000931",
-      branchName: "Madhavaram",
-      customerType: "New",
-      customerName: "User11",
-      applicationNumber: "STLAP-20220011",
-      applicationDate: "11/12/2022",
-      approvedAmount: "600000",
-      status: "Requested",
-      action: "Requested",
-      modifiedUser: "CPC_User_30",
-      modifiedDate: "Dec 14 2022 12:10:29",
-    },
-    {
-      id: "12",
-      requestNumber: "DR-DEC2022-000430",
-      branchName: "Madhavaram",
-      customerType: "Old",
-      customerName: "User12",
-      applicationNumber: "STLAP-20220012",
-      applicationDate: "12/12/2022",
-      approvedAmount: "200000",
-      status: "Modified",
-      action: "Modified",
-      modifiedUser: "CPC_User_09",
-      modifiedDate: "Dec 15 2022 16:10:45",
-    },
-    {
-      id: "13",
-      requestNumber: "DR-DEC2022-000129",
-      branchName: "Minjur",
-      customerType: "Old",
-      customerName: "User13",
-      applicationNumber: "STLAP-20220013",
-      applicationDate: "13/12/2022",
-      approvedAmount: "850000",
-      status: "Cancelled",
-      action: "Cancelled",
-      modifiedUser: "CPC_User_04",
-      modifiedDate: "Dec 06 2022 11:10:25",
-    },
-  ];
-
+  
   const loadStatus = (value) => {
     return (
       <Chip
@@ -374,6 +177,7 @@ export default function DisbursementRequestList(props) {
     screenModeTitle: "",
   };
 
+  const [datarows,setdatarows] = React.useState([]);
   const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [page, setPage] = React.useState(1);
   const [rows, setRows] = React.useState([]);
@@ -385,6 +189,7 @@ export default function DisbursementRequestList(props) {
   const rowsPerPage = 10;
 
   useEffect(() => {
+    getDisbursementData();
     const loadBranchNames = [
       ...Array.from(new Set(datarows.map((row) => row.branchName))).map(
         (branch) => {
@@ -480,6 +285,48 @@ export default function DisbursementRequestList(props) {
       setRows(datarows.slice(0, existrowsLength + rowsPerPage));
     }
   };
+
+  const getDisbursementData = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/losCustomer/"
+    });
+    const response = await api.get("/getAllData");
+
+    const api1 = axios.create({
+      baseURL: "http://localhost:8080/disbursement/"
+    });
+    const response1 = await api1.get("/getAllDisbursementData");
+
+    let dataMap = {};
+    response.data.map((losCustomerRow)=>{
+      dataMap[losCustomerRow.applicationNumber] = losCustomerRow;
+    });
+    
+      let counter = 1;
+      let tempDataRows = [];
+    response1.data.map((disbursementRow)=>{
+          const dataMap1 = {
+          id: counter++,
+          requestNumber: dataMap[disbursementRow.applicationNumber].requestNumber,
+          branchName: dataMap[disbursementRow.applicationNumber].branch,
+          customerName: dataMap[disbursementRow.applicationNumber].customerName,
+          applicationNumber: disbursementRow.applicationNumber,
+          applicationDate: dataMap[disbursementRow.applicationNumber].applicationDate,
+          approvedAmount: dataMap[disbursementRow.applicationNumber].sanctionAmount,
+          status: disbursementRow.requestStatus,
+          customerType: dataMap[disbursementRow.applicationNumber].customerType,
+          modifiedUser: disbursementRow.lastModifiedBy,
+          modifiedDate: disbursementRow.lastModifiedDate,
+          action: disbursementRow.requestStatus,
+          };
+          tempDataRows.push(dataMap1);
+    });
+      setdatarows(tempDataRows);
+    //console.log(response1.data);
+  }
+
+
+  
 
   return (
     <React.Fragment>
