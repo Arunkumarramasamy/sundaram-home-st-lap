@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 
 const ParameterMaintenance = () => {
   const [rows, setRows] = useState([]);
+  const [dateValue, setDateValue] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const getData = async () => {
     try {
@@ -596,6 +597,11 @@ const ParameterMaintenance = () => {
                     { key: 2, value: "Date", text: "Date" },
                   ]}
                   onChange={(e) => {
+                    if (e.target.value === "Date") {
+                      setDateValue(true);
+                    } else {
+                      setDateValue(false);
+                    }
                     setOkButtonHandler(false);
                     setparamDataType(e.target.value);
                     setParamValue("");
@@ -639,36 +645,48 @@ const ParameterMaintenance = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <CustomTextField
-                  value={ParamValue}
-                  label="Parameter Value"
-                  variant="standard"
-                  disabled={disabled}
-                  error={paramValueHasError}
-                  onChange={(e) => {
-                    setOkButtonHandler(false);
-                    if (paramDataType === "Varchar") {
-                      let val = e.target.value.replace(/[0-9]/g, "");
-                      setParamValue(val);
-                    } else if (paramDataType === "Date") {
-                      setParamValue(e.target.value);
-                    } else {
-                      let Value = e.target.value.replace(/\D/g, "");
-                      if (Value === "") {
-                        setParamValue(Value);
+                {dateValue && (
+                  <CustomDateField
+                    disableFuture={false}
+                    disablePast={true}
+                    label="Date"
+                    variant="standard"
+                    disabled={disabled}
+                  />
+                )}
+                {!dateValue && (
+                  <CustomTextField
+                    value={ParamValue}
+                    label="Parameter Value"
+                    variant="standard"
+                    disabled={disabled}
+                    error={paramValueHasError}
+                    onChange={(e) => {
+                      setOkButtonHandler(false);
+                      if (paramDataType === "Varchar") {
+                        let val = e.target.value.replace(/[0-9]/g, "");
+                        setParamValue(val);
+                      } else if (paramDataType === "Date") {
+                        setParamValue(e.target.value);
                       } else {
-                        setParamValue(
-                          parseInt(Value.replaceAll(",", "")).toLocaleString(
-                            "en-IN"
-                          )
-                        );
+                        let Value = e.target.value.replace(/\D/g, "");
+                        if (Value === "") {
+                          setParamValue(Value);
+                        } else {
+                          setParamValue(
+                            parseInt(Value.replaceAll(",", "")).toLocaleString(
+                              "en-IN"
+                            )
+                          );
+                        }
                       }
-                    }
-                  }}
-                  onBlur={(e) => {
-                    setParamValueTouched(true);
-                  }}
-                />
+                    }}
+                    onBlur={(e) => {
+                      setParamValueTouched(true);
+                    }}
+                  />
+                )}
+
                 {paramValueHasError && (
                   <p className="error">Please Enter valid Parameter Value </p>
                 )}
