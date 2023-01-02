@@ -170,6 +170,11 @@ const AccrualRemark = (props) => {
             </Button>
             <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
               <Modal
+                sx={{
+                  "& div.css-15edzf2": {
+                    width: { xs: "90%", md: "80%", lg: "60%" },
+                  },
+                }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
