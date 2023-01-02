@@ -226,7 +226,8 @@ const FilterCondition = (props) => {
       });
       dispatch({
         type: filterValues.rateOfInterest,
-        value: !value || dataList.length === 0 ? "" : dataList.at(0).rateOfInterest,
+        value:
+          !value || dataList.length === 0 ? "" : dataList.at(0).rateOfInterest,
       });
     }
   };
@@ -419,13 +420,13 @@ const FilterCondition = (props) => {
                       (event) => {
                         dispatch({
                           type: filterValues.applicationDateFromValue,
-                          value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                          value: event,
                         });
                       },
                       (event) => {
                         dispatch({
                           type: filterValues.applicationDateToValue,
-                          value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                          value: event,
                         });
                       },
                     ]}
@@ -523,8 +524,6 @@ const FilterCondition = (props) => {
                   }}
                 />
               </Grid>
-
-            
             </React.Fragment>
           )}
           {/* disDetailPage page is false means it was the disbursement list screen search container */}
