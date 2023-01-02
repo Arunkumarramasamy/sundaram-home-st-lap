@@ -227,6 +227,7 @@ const Nach = () => {
               <CustomDateField
                 label="First NACH Billing Date"
                 variant="standard"
+                value={data.firstNachBillingDate}
                 onChange={(event) => {
                   if (event === null) {
                     dispatch(NachAction.updateNachBillingDate(""));
