@@ -35,7 +35,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function DisbursementRequestList(props) {
-  
   const loadStatus = (value) => {
     return (
       <Chip
@@ -70,7 +69,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Request Number",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 130,
       align: "center",
       hideable: false,
     },
@@ -111,11 +110,19 @@ export default function DisbursementRequestList(props) {
       },
     },
     {
+      field: "disbursementDate",
+      headerName: "Disbursement Date",
+      headerAlign: "center",
+      type: "string",
+      width: 100,
+      align: "center",
+    },
+    {
       field: "modifiedUser",
       headerName: "Last Modified User",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 150,
       align: "center",
     },
     {
@@ -177,7 +184,7 @@ export default function DisbursementRequestList(props) {
     screenModeTitle: "",
   };
 
-  const [datarows,setdatarows] = React.useState([]);
+  const [datarows, setdatarows] = React.useState([]);
   const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [page, setPage] = React.useState(1);
   const [rows, setRows] = React.useState([]);
@@ -190,27 +197,8 @@ export default function DisbursementRequestList(props) {
 
   useEffect(() => {
     getDisbursementData();
-    const loadBranchNames = [
-      ...Array.from(new Set(datarows.map((row) => row.branchName))).map(
-        (branch) => {
-          return {
-            label: branch,
-          };
-        }
-      ),
-    ];
-    setTotalBranchNames(loadBranchNames);
-    filterConditionState.branchNames = loadBranchNames;
-    filterConditionState.disbursementList = [...datarows];
-    setFilterConditionState({ ...filterConditionState });
-    setRows(datarows.slice(0, rowsPerPage));
-    setTotalPageCount(
-      datarows.length % 10 !== 0
-        ? Number(Number((datarows.length / 10).toFixed()) + 1)
-        : Number(Number((datarows.length / 10).toFixed()))
-    );
-    setTotalRowsCount(datarows.length);
-  }, []);
+    updateStateData();
+  }, [datarows]);
 
   const handlePageChange = (event, newPage) => {
     let offset = (newPage - 1) * rowsPerPage;
@@ -286,47 +274,70 @@ export default function DisbursementRequestList(props) {
     }
   };
 
+  const updateStateData = () => {
+    const loadBranchNames = [
+      ...Array.from(new Set(datarows.map((row) => row.branchName))).map(
+        (branch) => {
+          return {
+            label: branch,
+          };
+        }
+      ),
+    ];
+    setTotalBranchNames(loadBranchNames);
+    filterConditionState.branchNames = loadBranchNames;
+    filterConditionState.disbursementList = [...datarows];
+    setFilterConditionState({ ...filterConditionState });
+    setRows(datarows.slice(0, rowsPerPage));
+    setTotalPageCount(
+      datarows.length % 10 !== 0
+        ? Number(Number((datarows.length / 10).toFixed()) + 1)
+        : Number(Number((datarows.length / 10).toFixed()))
+    );
+    setTotalRowsCount(datarows.length);
+  };
+
   const getDisbursementData = async () => {
     const api = axios.create({
-      baseURL: "http://localhost:8080/losCustomer/"
+      baseURL: "http://localhost:8080/losCustomer/",
     });
     const response = await api.get("/getAllData");
 
     const api1 = axios.create({
-      baseURL: "http://localhost:8080/disbursement/"
+      baseURL: "http://localhost:8080/disbursement/",
     });
     const response1 = await api1.get("/getAllDisbursementData");
 
     let dataMap = {};
-    response.data.map((losCustomerRow)=>{
+    response.data.map((losCustomerRow) => {
       dataMap[losCustomerRow.applicationNumber] = losCustomerRow;
     });
-    
-      let counter = 1;
-      let tempDataRows = [];
-    response1.data.map((disbursementRow)=>{
-          const dataMap1 = {
-          id: counter++,
-          requestNumber: dataMap[disbursementRow.applicationNumber].requestNumber,
-          branchName: dataMap[disbursementRow.applicationNumber].branch,
-          customerName: dataMap[disbursementRow.applicationNumber].customerName,
-          applicationNumber: disbursementRow.applicationNumber,
-          applicationDate: dataMap[disbursementRow.applicationNumber].applicationDate,
-          approvedAmount: dataMap[disbursementRow.applicationNumber].sanctionAmount,
-          status: disbursementRow.requestStatus,
-          customerType: dataMap[disbursementRow.applicationNumber].customerType,
-          modifiedUser: disbursementRow.lastModifiedBy,
-          modifiedDate: disbursementRow.lastModifiedDate,
-          action: disbursementRow.requestStatus,
-          };
-          tempDataRows.push(dataMap1);
+
+    let counter = 1;
+    let tempDataRows = [];
+    response1.data.map((disbursementRow) => {
+      const dataMap1 = {
+        id: counter++,
+        requestNumber: dataMap[disbursementRow.applicationNumber].requestNumber,
+        branchName: dataMap[disbursementRow.applicationNumber].branch,
+        customerName: dataMap[disbursementRow.applicationNumber].customerName,
+        applicationNumber: disbursementRow.applicationNumber,
+        applicationDate:
+          dataMap[disbursementRow.applicationNumber].applicationDate,
+        approvedAmount:
+          dataMap[disbursementRow.applicationNumber].sanctionAmount,
+        status: disbursementRow.requestStatus,
+        customerType: dataMap[disbursementRow.applicationNumber].customerType,
+        modifiedUser: disbursementRow.lastModifiedBy,
+        modifiedDate: disbursementRow.lastModifiedDate,
+        action: disbursementRow.requestStatus,
+        disbursementDate: disbursementRow.dateOfDisb,
+      };
+      tempDataRows.push(dataMap1);
     });
-      setdatarows(tempDataRows);
+    setdatarows(tempDataRows);
     //console.log(response1.data);
-  }
-
-
-  
+  };
 
   return (
     <React.Fragment>
@@ -345,6 +356,7 @@ export default function DisbursementRequestList(props) {
           noDataOnFilterMessage="No Disbursement Data on Applied Filter."
           rows={rows}
           columns={columns}
+          loading={rows.length === 0}
           pageSize={5}
           pageSizeOptions={[5]}
           rowDoubleClickHandler={rowDoubleClickHandler}

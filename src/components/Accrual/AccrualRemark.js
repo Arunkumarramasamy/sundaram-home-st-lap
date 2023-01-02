@@ -14,13 +14,14 @@ import HistoryIcon from "@mui/icons-material/History";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CustomeToaster from "../CustomComponents/CustomToaster";
+import { navigate, useNavigate } from "react-router-dom";
 
 const AccrualRemark = (props) => {
   const [open, setOpen] = useState(false);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [content, setContent] = useState("");
-
+  const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
   const handleHistoryDialog = () => {
     handleOpen(true);
@@ -63,6 +64,12 @@ const AccrualRemark = (props) => {
         setContent("Saved Successfully");
         setSeverity("success");
         setToasterOpen(true);
+        // if (props.type === "accrual") {
+        //   navigate("/stlap/home/additionalAccrual");
+        // } else {
+        //   navigate("/stlap/home/additionalWaiver");
+        // }
+        window.location.reload();
       }
     } catch {
       setContent("Network Error");
