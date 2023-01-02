@@ -116,7 +116,7 @@ const ParameterMaintenance = () => {
       align: "center",
       width: 160,
       renderCell: (params) => {
-        if (params.row.paramDataType !== "Varchar") {
+        if (params.row.paramDataType === "Int") {
           return parseInt(params.value).toLocaleString("en-IN");
         } else {
           return params.value;
@@ -195,7 +195,7 @@ const ParameterMaintenance = () => {
     setparamDataType(values.paramDataType);
     setstartDate(values.paramEffStartDt);
     setEndDate(values.paramEffEndDt);
-    if (values.paramDataType !== "Varchar") {
+    if (values.paramDataType === "Int") {
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
     } else {
       setParamValue(values.paramValue);
@@ -214,7 +214,7 @@ const ParameterMaintenance = () => {
     setparamDataType(values.paramDataType);
     setstartDate(values.paramEffStartDt);
     setEndDate(values.paramEffEndDt);
-    if (values.paramDataType !== "Varchar") {
+    if (values.paramDataType === "Int") {
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
     } else {
       setParamValue(values.paramValue);
@@ -234,7 +234,7 @@ const ParameterMaintenance = () => {
         check.paramType == paramDataType &&
         check.effStartDate === startDate &&
         check.effEndDate === endDate &&
-        (check.paramType === "Varchar"
+        (check.paramType === "Varchar" || check.paramType === "Date"
           ? check.paramValu == ParamValue
           : check.paramValu == ParamValue.replaceAll(",", ""));
       if (val) {
@@ -319,7 +319,7 @@ const ParameterMaintenance = () => {
       check.paramType == paramDataType &&
       check.effStartDate == startDate &&
       check.effEndDate == endDate &&
-      (check.paramType === "Varchar"
+      (check.paramType === "Varchar" || check.paramType === "Date"
         ? check.paramValu == ParamValue
         : check.paramValu == ParamValue.replaceAll(",", ""))
     ) {
@@ -356,7 +356,7 @@ const ParameterMaintenance = () => {
     paraMeterName.trim() !== "" && paraMeterName.trim().length < 50;
   const paramTypeIsValid = paramDataType.trim() !== "";
   let paramValueIsValid;
-  if (paramDataType === "Varchar") {
+  if (paramDataType === "Varchar" || paramDataType === "Date") {
     paramValueIsValid = ParamValue.trim() !== "";
   } else {
     paramValueIsValid = ParamValue.length !== 0 && ParamValue.length < 50;
@@ -593,6 +593,7 @@ const ParameterMaintenance = () => {
                   dropDownValue={[
                     { key: 0, value: "Varchar", text: "Varchar" },
                     { key: 1, value: "Int", text: "Int" },
+                    { key: 2, value: "Date", text: "Date" },
                   ]}
                   onChange={(e) => {
                     setOkButtonHandler(false);
@@ -649,6 +650,8 @@ const ParameterMaintenance = () => {
                     if (paramDataType === "Varchar") {
                       let val = e.target.value.replace(/[0-9]/g, "");
                       setParamValue(val);
+                    } else if (paramDataType === "Date") {
+                      setParamValue(e.target.value);
                     } else {
                       let Value = e.target.value.replace(/\D/g, "");
                       if (Value === "") {
