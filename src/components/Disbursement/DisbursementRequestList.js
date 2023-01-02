@@ -33,36 +33,9 @@ import NoDataFound from "../CustomComponents/NoDataFound";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { DisbursementRequestListService } from "./DisbursementRequestListService";
 
 export default function DisbursementRequestList(props) {
-  const loadStatus = (value) => {
-    return (
-      <Chip
-        label={value}
-        component="div"
-        sx={{
-          color:
-            value === "Paid"
-              ? "darkgreen"
-              : value === "Cancelled"
-              ? "darkred"
-              : value === "Modified"
-              ? "blueviolet"
-              : "#004A92",
-          bgcolor:
-            value === "Paid"
-              ? "lightgreen"
-              : value === "Cancelled"
-              ? "lightsalmon"
-              : value === "Modified"
-              ? "yellow"
-              : "lightskyblue",
-          width: "90%",
-        }}
-      />
-    );
-  };
-
   const columns = [
     {
       field: "requestNumber",
@@ -114,7 +87,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Disbursement Date",
       headerAlign: "center",
       type: "string",
-      width: 100,
+      width: 150,
       align: "center",
     },
     {
@@ -130,7 +103,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Last Modified Time",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 150,
       align: "center",
     },
     {
@@ -194,11 +167,51 @@ export default function DisbursementRequestList(props) {
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
   const rowsPerPage = 10;
+  const service = new DisbursementRequestListService();
 
   useEffect(() => {
-    getDisbursementData();
-    updateStateData();
+    let dataMap = {};
+    async function getAllData() {
+      const allLosData = await service.getAllData();
+      allLosData.data.map((losCustomerRow) => {
+        dataMap[losCustomerRow.applicationNumber] = losCustomerRow;
+      });
+    }
+    async function getAllDisbursementData() {
+      const allDisRequestList = await service.getAllDisbursementData();
+      getDisbursementData(allDisRequestList, dataMap);
+    }
+    getAllData();
+    getAllDisbursementData();
   }, [datarows]);
+
+  const loadStatus = (value) => {
+    return (
+      <Chip
+        label={value}
+        component="div"
+        sx={{
+          color:
+            value === "Paid"
+              ? "darkgreen"
+              : value === "Cancelled"
+              ? "darkred"
+              : value === "Modified"
+              ? "blueviolet"
+              : "#004A92",
+          bgcolor:
+            value === "Paid"
+              ? "lightgreen"
+              : value === "Cancelled"
+              ? "lightsalmon"
+              : value === "Modified"
+              ? "yellow"
+              : "lightskyblue",
+          width: "90%",
+        }}
+      />
+    );
+  };
 
   const handlePageChange = (event, newPage) => {
     let offset = (newPage - 1) * rowsPerPage;
@@ -297,25 +310,10 @@ export default function DisbursementRequestList(props) {
     setTotalRowsCount(datarows.length);
   };
 
-  const getDisbursementData = async () => {
-    const api = axios.create({
-      baseURL: "http://localhost:8080/losCustomer/",
-    });
-    const response = await api.get("/getAllData");
-
-    const api1 = axios.create({
-      baseURL: "http://localhost:8080/disbursement/",
-    });
-    const response1 = await api1.get("/getAllDisbursementData");
-
-    let dataMap = {};
-    response.data.map((losCustomerRow) => {
-      dataMap[losCustomerRow.applicationNumber] = losCustomerRow;
-    });
-
+  const getDisbursementData = (response, dataMap) => {
     let counter = 1;
     let tempDataRows = [];
-    response1.data.map((disbursementRow) => {
+    response.data.map((disbursementRow) => {
       const dataMap1 = {
         id: counter++,
         requestNumber: dataMap[disbursementRow.applicationNumber].requestNumber,
@@ -336,7 +334,7 @@ export default function DisbursementRequestList(props) {
       tempDataRows.push(dataMap1);
     });
     setdatarows(tempDataRows);
-    //console.log(response1.data);
+    updateStateData();
   };
 
   return (
