@@ -30,7 +30,27 @@ const AccrualCardItems = (props) => {
     } else {
       setInputValue(Value);
     }
-    setOutStandingAmount(receiveable - received - Value);
+    if (props.screen === "accrual") {
+      setOutStandingAmount(
+        receiveable - received + (isNaN(parseInt(Value)) ? 0 : parseInt(Value))
+      );
+    } else {
+      if (
+        (isNaN(parseInt(Value)) ? receiveable - received : parseInt(Value)) <
+        receiveable
+      ) {
+        props.setGridAlert("none");
+        setOutStandingAmount(
+          receiveable -
+            received -
+            (isNaN(parseInt(Value)) ? 0 : parseInt(Value))
+        );
+      } else {
+        props.setGridAlert("block");
+        setInputValue(0);
+        setOutStandingAmount(receiveable - received);
+      }
+    }
     props.onChange(row, Value);
   };
   return (
@@ -63,7 +83,10 @@ const AccrualCardItems = (props) => {
               <Typography padding="1px">
                 {"Amount Received : " + row.received}
               </Typography>
-              <Typography padding="1px">
+              <Typography
+                padding="1px"
+                sx={{ display: props.screen === "accrual" ? "none" : "block" }}
+              >
                 {"Earlier Waived : " + row.earlyWaiver}
               </Typography>
               {/* <Typography padding="1px">
@@ -78,7 +101,11 @@ const AccrualCardItems = (props) => {
               >
                 <CustomTextField
                   disabled={outStandingAmount === 0}
-                  label="Additional Waived"
+                  label={
+                    props.screen === "accrual"
+                      ? "Additional Accrual"
+                      : "Additional Waived"
+                  }
                   id={"additional-waived-" + props.index}
                   type="number"
                   placeholder="Additional Waived"

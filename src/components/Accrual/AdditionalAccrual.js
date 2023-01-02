@@ -12,6 +12,7 @@ import {
   CardContent,
   PaginationItem,
   Pagination,
+  Alert,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
@@ -46,6 +47,7 @@ const AdditionalAccrual = () => {
   const [rows, setRows] = React.useState([]);
   const rowsPerPage = 10;
   const [page, setPage] = React.useState(1);
+  const [gridAlert, setGridAlert] = useState("none");
   const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
@@ -77,7 +79,7 @@ const AdditionalAccrual = () => {
         "http://localhost:8080/additionalfee/getFeeData",
         {
           applicationNumber: applicationNumber,
-          type:'accrual'
+          type: "accrual",
         }
       );
       setDataRow(response.data.gridData);
@@ -614,6 +616,7 @@ const AdditionalAccrual = () => {
                       index={index}
                       onChange={onChangeCardItems}
                       screen="accrual"
+                      setGridAlert={setGridAlert}
                     ></AccrualCardItems>
                   ))}
                   {/* {rows.length === 0 && (
@@ -643,6 +646,21 @@ const AdditionalAccrual = () => {
             setRemark={setRemark}
             remark={remark}
           ></AccrualRemark>
+          <Alert
+            sx={{
+              display: gridAlert,
+              position: "fixed",
+              top: "90%",
+              left: "40%",
+              flexDirection: "row",
+            }}
+            onClose={() => {
+              setGridAlert("none");
+            }}
+            severity="error"
+          >
+            Additional Waiver amount should not exceed Outstanding amount
+          </Alert>
         </div>
       </div>
       <StlapFooter />

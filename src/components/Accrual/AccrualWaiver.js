@@ -577,6 +577,7 @@ const AdditionalWaiver = () => {
                       index={index}
                       onChange={onChangeCardItems}
                       screen="waived"
+                      setGridAlert={setGridAlert}
                     ></AccrualCardItems>
                   ))}
                   {/* {rows.length === 0 && (
