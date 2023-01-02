@@ -328,7 +328,12 @@ const AdditionalAccrual = () => {
         ) {
           return 0;
         } else {
-          return param.row.receiveable - param.row.received + additionalAccrual;
+          return (
+            param.row.receiveable -
+            param.row.received +
+            additionalAccrual -
+            +param.row.earlyWaiver
+          );
         }
         {
         }
