@@ -356,7 +356,7 @@ export default function DisbursementRequestList(props) {
           noDataOnFilterMessage="No Disbursement Data on Applied Filter."
           rows={rows}
           columns={columns}
-          loading={rows.length === 0}
+          // loading={rows.length === 0}
           pageSize={5}
           pageSizeOptions={[5]}
           rowDoubleClickHandler={rowDoubleClickHandler}
