@@ -11,24 +11,25 @@ var todayDate = today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFu
 
 var detailPageInitialState =   {
     "applicationNumber": "",
-    "billingDate": todayDate,
-    "billingDay": todayDate,
+    "billingDate": "-1",
+    "billingDay": "-1",
     "dateOfDisb": todayDate,
-    "disbAmt": 400000,
+    "disbAmt": 0,
     "disbNo": 1,
     "disbRequestId": 0,
     "disbursementFavours": [],
     "earlierDisbAmt": 0,
     "editLock": false,
     "effectiveDate": todayDate,
-    "emiCommDate": todayDate,
-    "firstEmiDueDate": todayDate,
+    "emiCommDate": "",
+    "firstEmiDueDate": "",
     "paymentMode": "RTGS",
-    "remarks": "VALUE CHECK",
+    "remarks": "",
     "requestStatus": "REQUEST",
     "screenMode": "CREATE",
-    "shflBank": "HDFC",
+    "shflBank": "",
     "totalDisbAmt": 0,
+    "rateOfInterest": 0,
   };
   
 var losInitialState =   {
@@ -44,7 +45,7 @@ var losInitialState =   {
     applicationDateToValue: todayDate,
     applicationDate: todayDate,
     customerType: "New",
-    roi: "0",
+    rateOfInterest: "0",
     loanAmount: "0",
     sanctionedAmount: "0",
     screenModeTitle: "",
@@ -89,7 +90,8 @@ const DisbursementDetailPage = (props) => {
       row.isChecked = false,
       row.id = counter++
            ))};
-    detailPageInitialState.disbursementFavours = response.data 
+    detailPageInitialState.disbursementFavours = response.data ;
+    detailPageInitialState.rateOfInterest = losInitialState.rateOfInterest;
     setLoading(false);
   };
 
@@ -159,10 +161,8 @@ const DisbursementDetailPage = (props) => {
     });
     data.disbursementFavours = dataMap;
     data.dateOfDisb = new Date(data.dateOfDisb);
-    data.billingDate= new Date(data.billingDate);
-    data.billingDay= new Date(data.billingDay);
-    data.emiCommDate= new Date(data.emiCommDate);
-    data.firstEmiDueDate= new Date(data.firstEmiDueDate);
+    data.emiCommDate= data.emiCommDate === null ? null : new Date(data.emiCommDate);
+    data.firstEmiDueDate= data.firstEmiDueDate === null ? null : new Date(data.firstEmiDueDate);
     data.effectiveDate= new Date(data.effectiveDate);
     insertDisbursementDataToDB(data);
   };

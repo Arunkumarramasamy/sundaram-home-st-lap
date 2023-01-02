@@ -41,7 +41,8 @@ const DisbursementTabsIntegrator = (props) => {
     shflBank: "shflBank",
     totalDisbAmt: "totalDisbAmt",
     transactionId: "transactionId",
-    screenMode: "screenMode"
+    screenMode: "screenMode",
+    rateOfInterest : "rateOfInterest",
   };
   
  
@@ -84,6 +85,8 @@ const DisbursementTabsIntegrator = (props) => {
             return { ...state, totalDisbAmt: action.value };
             case screenFields.screenMode:
             return { ...state, screenMode: action.value };
+            case screenFields.rateOfInterest:
+            return { ...state, rateOfInterest: action.value };
             default:
             return { ...props.detailPageInitialState};
             }

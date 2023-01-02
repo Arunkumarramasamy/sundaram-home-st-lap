@@ -28,9 +28,12 @@ import {
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import React, { useEffect, useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
 
 const DisbursementDetails = (props) => {
   const[losInitialState,setlosInitialState] = useState(props.losInitialState);
+
+  const [billingDateValues,setBillingDateValues] = useState([]);
   const [allCheckedValues, setChecked] = React.useState([
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
@@ -42,6 +45,72 @@ const DisbursementDetails = (props) => {
   }, []);
 
   var today = new Date();
+
+  const billingDayValues = [
+    {	value:	1	,	text:	1	},
+{	value:	2	,	text:	2	},
+{	value:	3	,	text:	3	},
+{	value:	4	,	text:	4	},
+{	value:	5	,	text:	5	},
+{	value:	6	,	text:	6	},
+{	value:	7	,	text:	7	},
+{	value:	8	,	text:	8	},
+{	value:	9	,	text:	9	},
+{	value:	10	,	text:	10	},
+{	value:	11	,	text:	11	},
+{	value:	12	,	text:	12	},
+{	value:	13	,	text:	13	},
+{	value:	14	,	text:	14	},
+{	value:	15	,	text:	15	},
+{	value:	16	,	text:	16	},
+{	value:	17	,	text:	17	},
+{	value:	18	,	text:	18	},
+{	value:	19	,	text:	19	},
+{	value:	20	,	text:	20	},
+{	value:	21	,	text:	21	},
+{	value:	22	,	text:	22	},
+{	value:	23	,	text:	23	},
+{	value:	24	,	text:	24	},
+{	value:	25	,	text:	25	},
+{	value:	26	,	text:	26	},
+{	value:	27	,	text:	27	},
+{	value:	28	,	text:	28	},
+{	value:	29	,	text:	29	},
+{	value:	30	,	text:	30	},
+{	value:	31	,	text:	31	},
+  ];
+
+  const onBillingDayChange = (event) => {
+    props.dispatchEvent({
+      type: props.fieldList.billingDate,
+      value: "-1",
+    });
+    var value = event.target.value;
+    props.dispatchEvent({
+      type: props.fieldList.billingDay,
+      value: value,
+    });
+    setDropDownValues(value);
+  };
+
+  const setDropDownValues = (value) =>{
+    var option1 = value   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
+    var option2 = value   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
+    const dataMap = [
+      {value:option1 ,text:option1},
+      {value:option2 ,text:option2},
+    ];
+
+    setBillingDateValues(dataMap);
+  }
+
+  useEffect(() => {
+    if(props.detailPageInitialState.billingDay!== "-1"){
+      setDropDownValues(props.detailPageInitialState.billingDay);
+    }
+  }, [props.detailPageInitialState.billingDay]);
+
+  
 
   const columns = [
     {
@@ -261,7 +330,7 @@ const DisbursementDetails = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             disabled={disabledState}
-            required={false}
+            required={true}
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
             variant="standard"
@@ -308,6 +377,25 @@ const DisbursementDetails = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        <CustomTextField
+                  disabled={disabledState}
+                  required={true}
+                  label="Rate of Interest(%)"
+                  id="rateOfInterest"
+                  variant="standard"
+                  value={props.detailPageInitialState.rateOfInterest}
+                  type="number"
+                  placeholder="Enter Rate of Interest."
+                  onChange={(event) => {
+                    props.dispatchEvent({
+                      type: props.fieldList.rateOfInterest,
+                      value: event.target.value,
+                    });
+                  }}
+                />
+                </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
             disabled={true}
             required={false}
@@ -327,50 +415,43 @@ const DisbursementDetails = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomDateField
-            disabled={true}
-            required={false}
-            label="Billing Date"
-            id="billingDate"
-            variant="standard"
-            value={props.detailPageInitialState.billingDate}
-            type="text"
-            placeholder=""
-            onChange={(event, value) => {
-              props.dispatchEvent({
-                type: props.fieldList.billingDate,
-                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
-              });
-            }}
-          />
+        <CustomDropDown
+                  disabled={disabledState}
+                  required={true}
+                  label="Billing Day"
+                  id="billingDay"
+                  variant="standard"
+                  type="text"
+                  placeholder="Select Billing Day"
+                  dropDownValue={billingDayValues}
+                  value={props.detailPageInitialState.billingDay}
+                  onChange={onBillingDayChange}
+                />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        <CustomDropDown
+                  disabled={props.detailPageInitialState.billingDay === "-1" || disabledState}
+                  required={true}
+                  label="Billing Date"
+                  id="billingDate"
+                  variant="standard"
+                  type="text"
+                  placeholder="Select Billing Date"
+                  dropDownValue={billingDateValues}
+                  value={props.detailPageInitialState.billingDate}
+                  onChange={(event) => {
+                    props.dispatchEvent({
+                      type: props.fieldList.billingDate,
+                      value: event.target.value,
+                    });
+                  }}
+                />
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disabledState}
-            required={false}
-            label="Billing Day"
-            id="billingDay"
-            variant="standard"
-            value={props.detailPageInitialState.billingDay}
-            type="text"
-            placeholder=""
-            onChange={(event, value) => {
-              props.dispatchEvent({
-                type: props.fieldList.billingDay,
-                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
-              });
-              props.dispatchEvent({
-                type: props.fieldList.billingDate,
-                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
-              });
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomDateField
-            disabled={disabledState}
+            disabled={!(props.detailPageInitialState.screenMode === "APPROVAL")}
             required={false}
             label="ECD"
             id="ecd"
@@ -389,7 +470,7 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disabledState}
+            disabled={!(props.detailPageInitialState.screenMode === "APPROVAL")}
             required={false}
             label="FEDD"
             id="fedd"
@@ -460,7 +541,7 @@ const DisbursementDetails = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             disabled={disabledState}
-            required={false}
+            required={true}
             label="SHFL Bank"
             id="shflBank"
             variant="standard"
