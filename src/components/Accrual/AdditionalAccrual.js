@@ -17,24 +17,11 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
-import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import InfoIcon from "@mui/icons-material/Info";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import AdditionalHistory from "./AdditionalHistory";
-import HistoryIcon from "@mui/icons-material/History";
-import {
-  CancelScheduleSend,
-  Edit,
-  MoreVert,
-  Preview,
-  ArrowBack,
-  ArrowForward,
-  PropaneSharp,
-} from "@mui/icons-material";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
@@ -108,11 +95,6 @@ const AdditionalAccrual = () => {
     );
     setTotalRowsCount(dataRows.length);
   }, []);
-  const resonValue = [
-    { value: "1", text: "Reverse Payment" },
-    { value: "2", text: "intrest increases" },
-    { value: "3", text: "intrest reduced" },
-  ];
   const applicationNumberList = [
     { label: "Application1234", value: "ReferenceNumber_0001" },
     { label: "Application1235", value: "ReferenceNumber_0002" },
@@ -121,21 +103,9 @@ const AdditionalAccrual = () => {
     { label: "Application1238", value: "ReferenceNumber_0005" },
     { label: "Application1239", value: "ReferenceNumber_0006" },
   ];
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "50%",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const branchNames = [
     { label: "Mylapore", value: "" },
     { label: "Royapettah", value: "" },
@@ -144,9 +114,6 @@ const AdditionalAccrual = () => {
     { label: "Tambaram", value: "" },
     { label: "Egmore", value: "" },
   ];
-  const handleHistoryDialog = () => {
-    handleOpen(true);
-  };
   const handleSearch = (event) => {
     event.preventDefault();
     getData();
@@ -179,7 +146,9 @@ const AdditionalAccrual = () => {
   const clearButtonClickHandler = () => {
     setBranchName("");
   };
-
+  useEffect(() => {
+    console.log(process.env.STLAP_LMS_BACKEND);
+  }, []);
   const [dataRows, setDataRow] = React.useState([
     // {
     //   id: 1,
@@ -359,12 +328,7 @@ const AdditionalAccrual = () => {
         ) {
           return 0;
         } else {
-          return (
-            param.row.receiveable -
-            param.row.received +
-            additionalAccrual -
-            +param.row.earlyWaiver
-          );
+          return param.row.receiveable - param.row.received + additionalAccrual;
         }
         {
         }
