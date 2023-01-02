@@ -49,6 +49,9 @@ const AdditionalAccrual = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
+  const [branchNameNotValid, setBranchNameNotValid] = useState(false);
+  const [applicationNumberNotValid, setApplicationNumberNotValid] =
+    useState(false);
   const handleCellChangedEvent = (event) => {
     const dataMap1 = [];
     dataRows.forEach((value) => {
@@ -73,11 +76,13 @@ const AdditionalAccrual = () => {
       setReferenceNumber(
         response.data.otherList.referenceNumber
           ? response.data.otherList.referenceNumber
-          : 1
+          : ""
       );
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
+      setGridVisible("block");
     } catch {
+      setGridVisible("none");
       console.log("Network Error");
     }
   };
@@ -116,8 +121,16 @@ const AdditionalAccrual = () => {
   ];
   const handleSearch = (event) => {
     event.preventDefault();
-    getData();
-    setGridVisible("block");
+    if (branchName && applicationNumber) {
+      getData();
+      setGridVisible("block");
+    } else {
+      branchName ? setBranchNameNotValid(false) : setBranchNameNotValid(true);
+      applicationNumber
+        ? setApplicationNumberNotValid(false)
+        : setApplicationNumberNotValid(true);
+      setGridVisible("none");
+    }
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
@@ -136,11 +149,12 @@ const AdditionalAccrual = () => {
       setReferenceNumber("");
       setGridVisible("none");
     } else {
+      setApplicationNumberNotValid(false);
       setApplicationNumber(newValue.label);
     }
   };
   const searchButtonClickHandler = (event) => {
-    // event.preventDefault();
+    event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);
   };
   const clearButtonClickHandler = () => {
@@ -389,6 +403,9 @@ const AdditionalAccrual = () => {
                       placeholder="Branch Name"
                       autoCompleteValues={branchNames}
                     />
+                    {branchNameNotValid && (
+                      <p className="error">Please Enter valid Branch Name</p>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
@@ -408,6 +425,11 @@ const AdditionalAccrual = () => {
                       placeholder="Application Number"
                       autoCompleteValues={applicationNumberList}
                     />
+                    {applicationNumberNotValid && (
+                      <p className="error">
+                        Please Enter valid Application Number
+                      </p>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
