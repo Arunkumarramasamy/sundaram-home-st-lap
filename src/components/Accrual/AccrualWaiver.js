@@ -307,7 +307,7 @@ const AdditionalWaiver = () => {
           return (
             param.row.receiveable -
             param.row.received -
-            param.row.additionalWaiver
+            param.row.additionalWaiver - param.row.earlyWaiver
           );
         } else {
           return param.row.receiveable - param.row.received;
