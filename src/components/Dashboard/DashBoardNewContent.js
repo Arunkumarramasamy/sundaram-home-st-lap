@@ -162,7 +162,7 @@ function DashboardContent() {
                 <OpenInFullIcon size="small" />
               </IconButton>
             }
-            subheader="Sansaction List"
+            subheader="Total Income"
             subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
             sx={{ textAlign: "center" }}
           />
@@ -185,7 +185,7 @@ function DashboardContent() {
                 <OpenInFullIcon size="small" />
               </IconButton>
             }
-            subheader="Request List"
+            subheader="Net Profit"
             subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
             sx={{ textAlign: "center" }}
           />
@@ -208,7 +208,7 @@ function DashboardContent() {
                 <OpenInFullIcon size="small" />
               </IconButton>
             }
-            subheader="Approval List"
+            subheader="Total Expenses"
             subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
             sx={{ textAlign: "center" }}
           />
@@ -232,17 +232,304 @@ function DashboardContent() {
               </IconButton>
             }
             sx={{ textAlign: "center" }}
-            subheader="Disbursment List"
+            subheader="Cash at end of month"
             subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
           />
           <CardContent sx={{ textAlign: "center" }}>
             <Typography variant="h5" component="h5">
               7,684,00
             </Typography>
+            <Typography variant="body2" sx={{ color: "blue" }}>
+              4.9%
+            </Typography>
+            <Typography variant="subtitle2">vs previous month</Typography>
           </CardContent>
         </Card>
       </Grid>
 
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Card>
+          <CardHeader
+            action={
+              <IconButton size="small">
+                <OpenInFullIcon size="small" />
+              </IconButton>
+            }
+            subheader="Accounts Receivable"
+            subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
+            sx={{ textAlign: "center" }}
+          />
+          <CardContent sx={{ textAlign: "center" }}>
+            <Typography variant="h5" component="h5">
+              609,00
+            </Typography>
+            <Typography variant="body2" sx={{ color: "blue" }}>
+              -5.1%
+            </Typography>
+            <Typography variant="subtitle2">vs previous month</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Card>
+          <CardHeader
+            action={
+              <IconButton size="small">
+                <OpenInFullIcon size="small" />
+              </IconButton>
+            }
+            subheader="Quick Ratio"
+            subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
+            sx={{ textAlign: "center" }}
+          />
+          <CardContent sx={{ textAlign: "center" }}>
+            <Typography variant="h5" component="h5">
+              1.02
+            </Typography>
+            <Typography variant="body2">1 or higher</Typography>
+            <Typography variant="subtitle2">Quick Ratio Target</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Card>
+          <CardHeader
+            action={
+              <IconButton size="small">
+                <OpenInFullIcon size="small" />
+              </IconButton>
+            }
+            subheader="Current Ratio"
+            subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
+            sx={{ textAlign: "center" }}
+          />
+          <CardContent sx={{ textAlign: "center" }}>
+            <Typography variant="h5" component="h5">
+              3.02
+            </Typography>
+            <Typography variant="body2">3 or higher</Typography>
+            <Typography variant="subtitle2">Current Ratio Target</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Card>
+          <CardHeader
+            action={
+              <IconButton size="small">
+                <OpenInFullIcon size="small" />
+              </IconButton>
+            }
+            subheader="Accounts Payable"
+            subheaderTypographyProps={{ color: "grey", fontWeight: "700" }}
+            sx={{ textAlign: "center" }}
+          />
+          <CardContent sx={{ textAlign: "center" }}>
+            <Typography variant="h5" component="h5">
+              538,00
+            </Typography>
+            <Typography variant="body2" sx={{ color: "blue" }}>
+              -15.7%
+            </Typography>
+            <Typography variant="subtitle2">vs previous month</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Paper
+          width={200}
+          height={200}
+          sx={{ alignContent: "center", textAlign: "center" }}
+        >
+          <Typography
+            variant="subtitle2"
+            sx={{
+              pt: "8px",
+              color: "grey",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            Net Profit Margin
+          </Typography>
+          <PieChart width={200} height={140}>
+            <Pie
+              data={data}
+              cx={110}
+              cy={70}
+              innerRadius={20}
+              outerRadius={40}
+              label="Net Profit Margin 13%"
+              fill="#8884d8"
+              paddingAngle={5}
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+          </PieChart>
+        </Paper>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Paper
+          width={200}
+          height={200}
+          sx={{ alignContent: "center", textAlign: "center" }}
+        >
+          <Typography
+            variant="subtitle2"
+            sx={{
+              pt: "8px",
+              color: "grey",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            % of Income Budget
+          </Typography>
+          <PieChart width={200} height={140}>
+            <Pie
+              data={Ibdata}
+              cx={110}
+              cy={70}
+              innerRadius={20}
+              outerRadius={40}
+              label="Net Profit Margin 13%"
+              fill="#8884d8"
+              paddingAngle={5}
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+          </PieChart>
+        </Paper>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Paper
+          width={200}
+          height={200}
+          sx={{ alignContent: "center", textAlign: "center" }}
+        >
+          <Typography
+            variant="subtitle2"
+            sx={{
+              pt: "8px",
+              color: "grey",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            % of Expenses Budget
+          </Typography>
+          <PieChart width={200} height={140}>
+            <Pie
+              data={ebdata}
+              cx={110}
+              cy={70}
+              innerRadius={20}
+              outerRadius={40}
+              label="Net Profit Margin 13%"
+              fill="#8884d8"
+              paddingAngle={5}
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+          </PieChart>
+        </Paper>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Paper
+          width={200}
+          height={200}
+          sx={{ alignContent: "center", textAlign: "center" }}
+        >
+          <Typography
+            variant="subtitle2"
+            sx={{
+              pt: "8px",
+              color: "grey",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            Authorised Voucher %
+          </Typography>
+          <PieChart width={200} height={140}>
+            <Pie
+              data={vaData}
+              cx={110}
+              cy={70}
+              innerRadius={20}
+              outerRadius={40}
+              label="Net Profit Margin 13%"
+              fill="#8884d8"
+              paddingAngle={5}
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+          </PieChart>
+        </Paper>
+      </Grid>
+      <Grid item sx={{ flex: "1 auto" }}>
+        <Paper
+          width={200}
+          height={200}
+          sx={{ alignContent: "center", textAlign: "center" }}
+        >
+          <Typography
+            variant="subtitle2"
+            sx={{
+              pt: "8px",
+              color: "grey",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            Disbursement Status
+          </Typography>
+          <PieChart width={200} height={140}>
+            <Pie
+              data={dstdata}
+              cx={110}
+              cy={70}
+              innerRadius={20}
+              outerRadius={40}
+              label="Net Profit Margin 13%"
+              fill="#8884d8"
+              paddingAngle={5}
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+          </PieChart>
+        </Paper>
+      </Grid>
       <Grid item sx={{ flex: "1 auto" }}>
         <Paper height={200}>
           <BarChart width={250} height={170} data={barchartData}>
