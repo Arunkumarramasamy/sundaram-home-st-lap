@@ -101,10 +101,11 @@ const AdditionalHistory = (props) => {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getHistoryData",
         dataMap
-      );
-      if (response.data.historyData) {
-        setRows(response.data.historyData);
-      }
+        );
+        if (response.data.historyData) {
+          setRows(response.data.historyData);
+          setTotalRowsCount(response.data.historyData.length);
+        }
     } catch {
       console.log("Network Error");
     }
