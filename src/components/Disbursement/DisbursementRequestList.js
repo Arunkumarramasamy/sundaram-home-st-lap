@@ -358,7 +358,7 @@ export default function DisbursementRequestList(props) {
           <Button  autoFocus onClick={closeDialogHandler}>
             OK
           </Button>
-          <Button  autoFocus onClick={cancelClickHandler}>
+          <Button  onClick={cancelClickHandler}>
             Cancel
           </Button>
 
