@@ -16,7 +16,6 @@ const AccrualCardItems = (props) => {
   );
   const [receiveable, setDue] = useState(Number(props.value.receiveable));
   const [received, setPaid] = useState(Number(props.value.received));
-
   const [outStandingAmount, setOutStandingAmount] = useState(
     props.value.receiveable -
       props.value.received -

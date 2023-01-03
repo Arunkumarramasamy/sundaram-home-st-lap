@@ -24,6 +24,7 @@ const AccrualRemark = (props) => {
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
   const handleHistoryDialog = () => {
+
     handleOpen(true);
   };
   const resonValue = [
@@ -36,10 +37,12 @@ const AccrualRemark = (props) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "50%",
+    width: "80%",
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
+    height:'80%',
+    overflow:'scroll',
     p: 4,
   };
   //save data
@@ -54,6 +57,7 @@ const AccrualRemark = (props) => {
     dataMap["updatedBy"] = Cookies.get("userName");
     dataMap["applicationNumber"] = props.applicationNumber;
     dataMap["type"] = props.type;
+    dataMap["historyData"] = props.historyData;
     try {
       // const response = await axios(
       const response = await axios.post(
@@ -64,11 +68,6 @@ const AccrualRemark = (props) => {
         setContent("Saved Successfully");
         setSeverity("success");
         setToasterOpen(true);
-        // if (props.type === "accrual") {
-        //   navigate("/stlap/home/additionalAccrual");
-        // } else {
-        //   navigate("/stlap/home/additionalWaiver");
-        // }
         window.location.reload();
       }
     } catch {
@@ -88,9 +87,10 @@ const AccrualRemark = (props) => {
           width: "calc(100% - 8px)",
           margin: "unset",
           backgroundColor: "#fff",
+
         }}
       >
-        <Box sx={{ width: "100%", marginTop: "16px", marginLeft: "16px" }}>
+        <Box sx={{ width: "100%", marginTop: "16px", marginLeft: "16px",height:"80%",overflow:'scroll' }}>
           <Grid
             container
             spacing={2}
@@ -180,6 +180,8 @@ const AccrualRemark = (props) => {
                 sx={{
                   "& div.css-15edzf2": {
                     width: { xs: "90%", md: "80%", lg: "60%" },
+                    // height:"80%",
+                    // overflow:'scroll'
                   },
                 }}
                 open={open}
@@ -190,7 +192,8 @@ const AccrualRemark = (props) => {
                 <Box sx={style}>
                   <AdditionalHistory
                     onClose={handleClose}
-                    title="Waived History"
+                    applicationNumber={props.applicationNumber}
+                    feeType={props.type}
                   />
                 </Box>
               </Modal>

@@ -18,4 +18,8 @@ export class DisbursementRequestListService {
   getAllData() {
     return losCustomerAPI.get("/getAllData");
   }
+
+  getDisbursementData(data) {
+    return disbursementAPI.post("/getDisbursementData", data);
+  }
 }
