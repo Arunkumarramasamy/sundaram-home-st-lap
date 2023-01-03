@@ -1,5 +1,5 @@
 import { Close } from "@mui/icons-material";
-import { Alert, Backdrop, CircularProgress, IconButton, Snackbar } from "@mui/material";
+import { Alert, Backdrop, Button, CircularProgress, Dialog, DialogActions, DialogTitle, IconButton, Snackbar, Typography } from "@mui/material";
 import axios from "axios";
 import { useReducer } from "react";
 import { useState } from "react";
@@ -26,7 +26,7 @@ var detailPageInitialState =   {
     "firstEmiDueDate": "",
     "paymentMode": "RTGS",
     "remarks": "",
-    "requestStatus": "REQUEST",
+    "requestStatus": "REQUESTED",
     "screenMode": "CREATE",
     "shflBank": "",
     "totalDisbAmt": 0,
@@ -68,6 +68,17 @@ const DisbursementDetailPage = (props) => {
   const[loading,setLoading] = useState(true);
 
   const[showSnackBar,setshowSnackBar] = useState(false);
+  const [openReferenceDialog,setopenReferenceDialog] = useState(false);
+  const [responseData,setResponseData] = useState({});
+  const [urnContent,seturnContent] = useState("");
+
+
+  const closeDialogHandler = () =>{
+    setopenReferenceDialog(false);
+    navigate("/stlap/home/disbursementView",{state:responseData});
+};
+
+
 
   const errorParameters = {
     currentDisbError : "currentDisbError",
@@ -178,10 +189,11 @@ const DisbursementDetailPage = (props) => {
       });
       const response = await api.post("/insertDisbursement",data);
       if(response.status === 200){
+        setResponseData(response.data);
         setshowSnackBar(true);
-   
-    setLoading(false);
-    navigate("/stlap/home/disbursementView",{state:response.data});
+        setLoading(false);
+        seturnContent(<Typography>Generated Reference Number is : {response.data.disbRequestId}</Typography>);
+        setopenReferenceDialog(true);
       }
      };
 
@@ -343,8 +355,6 @@ const DisbursementDetailPage = (props) => {
     });
     data.disbursementFavours = dataMap;
     data.dateOfDisb = new Date(data.dateOfDisb);
-    data.emiCommDate= data.emiCommDate === null ? null : new Date(data.emiCommDate);
-    data.firstEmiDueDate= data.firstEmiDueDate === null ? null : new Date(data.firstEmiDueDate);
     data.effectiveDate= new Date(data.effectiveDate);
     insertDisbursementDataToDB(data);
   }
@@ -369,6 +379,23 @@ const DisbursementDetailPage = (props) => {
               <Close />
             </IconButton>
         }  />
+         <Dialog
+        open={openReferenceDialog}
+        onClose={closeDialogHandler}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {urnContent}
+        </DialogTitle>
+
+        <DialogActions>
+          <Button  autoFocus onClick={closeDialogHandler}>
+            OK
+          </Button>
+
+        </DialogActions>
+      </Dialog>
     {loading  ?  <>
     <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

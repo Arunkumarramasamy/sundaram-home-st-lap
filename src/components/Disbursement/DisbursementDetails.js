@@ -29,29 +29,35 @@ import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import React, { useEffect, useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
+import axios from "axios";
 
 const DisbursementDetails = (props) => {
   const[losInitialState,setlosInitialState] = useState(props.losInitialState);
   const [ecdValues,setecdValues] = useState([]);
-
+  const [billingDayValues,setbillingDayValues] = useState([]);
 
   const [allCheckedValues, setChecked] = React.useState([
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
   const disabledState = props.detailPageInitialState.screenMode === "VIEW";
 
+  const getBillingDayValues = async () =>{
+    const api = axios.create({
+      baseURL: "http://localhost:8080/disbursement/"
+    });
+    const response = await api.get("/getAllDisbursementBillingDayData");
+    setbillingDayValues(response.data);
+  };
+
   useEffect(() => {
+    getBillingDayValues();
     const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
     setChecked([...allChecked]);
   }, []);
 
   var today = new Date();
 
-  const billingDayValues = [
-{	value:	5	,	text:	5	},
-{	value:	7	,	text:	7	},
-  ];
-
+  
   const onBillingDayChange = (event) => {
     
     var value = event.target.value;
