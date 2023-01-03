@@ -21,10 +21,11 @@ const AccrualRemark = (props) => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [content, setContent] = useState("");
+  const [reason, setReason] = useState("");
+  const [remark, setRemark] = useState("");
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
   const handleHistoryDialog = () => {
-
     handleOpen(true);
   };
   const resonValue = [
@@ -41,8 +42,8 @@ const AccrualRemark = (props) => {
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
-    height:'80%',
-    overflow:'scroll',
+    height: "80%",
+    overflow: "scroll",
     p: 4,
   };
   //save data
@@ -50,10 +51,10 @@ const AccrualRemark = (props) => {
   const saveAccrualDetails = async () => {
     const dataMap = {};
     dataMap["gridData"] = props.gridData;
-    dataMap["reason"] = props.reason;
-    dataMap["remarks"] = props.remark;
+    dataMap["reason"] = reason;
+    dataMap["remarks"] = remark;
     dataMap["refDate"] = props.refDate;
-    dataMap["referenceNumber"] = props.refNum + 1;
+    dataMap["referenceNumber"] = props.refNum;
     dataMap["updatedBy"] = Cookies.get("userName");
     dataMap["applicationNumber"] = props.applicationNumber;
     dataMap["type"] = props.type;
@@ -87,10 +88,17 @@ const AccrualRemark = (props) => {
           width: "calc(100% - 8px)",
           margin: "unset",
           backgroundColor: "#fff",
-
         }}
       >
-        <Box sx={{ width: "100%", marginTop: "16px", marginLeft: "16px",height:"80%",overflow:'scroll' }}>
+        <Box
+          sx={{
+            width: "100%",
+            marginTop: "16px",
+            marginLeft: "16px",
+            height: "80%",
+            overflow: "scroll",
+          }}
+        >
           <Grid
             container
             spacing={2}
@@ -100,12 +108,12 @@ const AccrualRemark = (props) => {
               <CustomDropDown
                 id="1"
                 label="Reason "
-                value={props.reason}
+                value={reason}
                 defaultValue="1"
                 required={true}
                 dropDownValue={resonValue}
                 onChange={(event) => {
-                  props.setReason(event.target.value);
+                  setReason(event.target.value);
                 }}
               />
             </Grid>
@@ -135,9 +143,9 @@ const AccrualRemark = (props) => {
                 id="accrual-textarea"
                 maxRows={4}
                 required={true}
-                value={props.remark}
+                value={remark}
                 aria-label="maximum height"
-                onChange={(event) => props.setRemark(event.target.value)}
+                onChange={(event) => setRemark(event.target.value)}
                 style={{
                   width: "100%",
                   height: "100px",

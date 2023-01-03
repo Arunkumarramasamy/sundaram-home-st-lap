@@ -59,11 +59,7 @@ const AdditionalWaiver = () => {
         }
       );
       setDataRow(response.data.gridData);
-      setReferenceNumber(
-        response.data.otherList.referenceNumber
-          ? response.data.otherList.referenceNumber
-          : ""
-      );
+      setReferenceNumber(response.data.otherList.referenceNumber + 1);
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
       setGridVisible("block");
