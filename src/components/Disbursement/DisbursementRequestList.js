@@ -314,6 +314,7 @@ export default function DisbursementRequestList(props) {
         modifiedDate: disbursementRow.lastModifiedDate,
         action: disbursementRow.requestStatus,
         disbursementDate: disbursementRow.dateOfDisb,
+        disbRequestId: disbursementRow.disbRequestId,
       };
       tempDataRows.push(dataMap1);
     });
@@ -475,6 +476,7 @@ export default function DisbursementRequestList(props) {
 }
 
 const LoadActionBtn = (props) => {
+  const service = new DisbursementRequestListService();
   const [record, setRecord] = React.useState(props.record);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -487,17 +489,25 @@ const LoadActionBtn = (props) => {
     setAnchorEl(null);
   };
 
+  const loadDetailPage = async (record, url, mode) => {
+    const response = await service.getDisbursementData({
+      disbRequestId: record.disbRequestId,
+      screenMode: mode,
+    });
+    navigate(url, { state: response.data });
+  };
+
   const handleIconClick = (value, record) => {
     handleClose();
     switch (value) {
       case "View":
-        navigate("/stlap/home/disbursementView");
+        loadDetailPage(record, "/stlap/home/disbursementView", "VIEW");
         break;
       case "Modify":
-        navigate("/stlap/home/disbursementModify");
+        loadDetailPage(record, "/stlap/home/disbursementModify", "MODIFY");
         break;
       case "Cancel":
-        navigate("/stlap/home/disbursementCancel");
+        loadDetailPage(record, "/stlap/home/disbursementCancel", "CANCEL");
         break;
     }
   };
