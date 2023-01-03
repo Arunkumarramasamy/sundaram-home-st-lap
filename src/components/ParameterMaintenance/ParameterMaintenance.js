@@ -535,21 +535,33 @@ const ParameterMaintenance = () => {
                               Effective Start Date
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${row.paramEffStartDt}`}
+                              {`: ${dayjs(row.paramEffStartDt).format(
+                                "DD/MM/YYYY"
+                              )}`}
                             </Grid>
 
                             <Grid item xs={7} md={5}>
                               Effective End Date
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${row.paramEffEndDt}`}
+                              {`: ${dayjs(row.paramEffEndDt).format(
+                                "DD/MM/YYYY"
+                              )}`}
                             </Grid>
 
                             <Grid item xs={7} md={5}>
                               Parameter Value
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${row.paramValue}`}
+                              {`: ${
+                                row.paramDataType === "Int"
+                                  ? parseInt(row.paramValue).toLocaleString(
+                                      "en-IN"
+                                    )
+                                  : row.paramDataType === "Date"
+                                  ? dayjs(row.paramValue).format("DD/MM/YYYY")
+                                  : row.paramValue
+                              }`}
                             </Grid>
                           </Grid>
                         </CardContent>
