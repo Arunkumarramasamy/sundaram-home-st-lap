@@ -34,11 +34,20 @@ const AdditionalWaiver = () => {
   const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [gridAlert, setGridAlert] = useState("none");
   const [reason, setReason] = useState("");
+  const [historyData, setHistorydata] = useState({});
   const [remark, setRemark] = useState("");
   const handleSearch = (event) => {
     event.preventDefault();
-    getData();
-    setGridVisible("block");
+    if (branchName && applicationNumber) {
+      getData();
+      setGridVisible("block");
+    } else {
+      branchName ? setBranchNameNotValid(false) : setBranchNameNotValid(true);
+      applicationNumber
+        ? setApplicationNumberNotValid(false)
+        : setApplicationNumberNotValid(true);
+      setGridVisible("none");
+    }
   };
   const getData = async () => {
     try {
@@ -46,21 +55,26 @@ const AdditionalWaiver = () => {
         "http://localhost:8080/additionalfee/getFeeData",
         {
           applicationNumber: applicationNumber,
-          type:'waiver'
+          type: "waiver",
         }
       );
       setDataRow(response.data.gridData);
       setReferenceNumber(
         response.data.otherList.referenceNumber
           ? response.data.otherList.referenceNumber
-          : 1
+          : ""
       );
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
+      setGridVisible("block");
     } catch {
+      setGridVisible("none");
       console.log("Network Error");
     }
   };
+  const [branchNameNotValid, setBranchNameNotValid] = useState(false);
+  const [applicationNumberNotValid, setApplicationNumberNotValid] =
+    useState(false);
   const onChangeCardItems = (row, value) => {
     row["waived"] = value;
     setDataRow((oldArray) => [...oldArray, row]);
@@ -95,18 +109,21 @@ const AdditionalWaiver = () => {
       setReferenceNumber("");
       setGridVisible("none");
     } else {
+      setApplicationNumberNotValid(false);
       setApplicationNumber(newValue.label);
     }
   };
   const handleCellChangedEvent = (event) => {
+    let tempValue = { ...historyData };
     const dataMap1 = [];
     dataRows.forEach((value) => {
       if (value.details === event.row.details) {
         value.additionalWaiver = event.value;
+        tempValue[value.details] = event.value;
       }
       dataMap1.push(value);
     });
-
+    setHistorydata(tempValue);
     setDataRow(dataMap1);
     if (
       !(
@@ -307,7 +324,8 @@ const AdditionalWaiver = () => {
           return (
             param.row.receiveable -
             param.row.received -
-            param.row.additionalWaiver - param.row.earlyWaiver
+            param.row.additionalWaiver -
+            param.row.earlyWaiver
           );
         } else {
           return param.row.receiveable - param.row.received;
@@ -316,7 +334,7 @@ const AdditionalWaiver = () => {
     },
     {
       field: "additionalWaiver",
-      headerName: "Additional Waiver(₹)",
+      headerName: "Fees to be Waiver(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -377,6 +395,9 @@ const AdditionalWaiver = () => {
                     placeholder="Branch Name"
                     autoCompleteValues={branchNames}
                   />
+                  {branchNameNotValid && (
+                    <p className="error">Please Enter valid Branch Name</p>
+                  )}
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
@@ -396,6 +417,11 @@ const AdditionalWaiver = () => {
                     placeholder="Application Number"
                     autoCompleteValues={applicationNumberList}
                   />
+                  {applicationNumberNotValid && (
+                    <p className="error">
+                      Please Enter valid Application Number
+                    </p>
+                  )}
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
@@ -606,6 +632,7 @@ const AdditionalWaiver = () => {
             remark={remark}
             setReason={setReason}
             setRemark={setRemark}
+            historyData={historyData}
           ></AccrualRemark>
           <Alert
             sx={{
