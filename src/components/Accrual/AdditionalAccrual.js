@@ -52,15 +52,19 @@ const AdditionalAccrual = () => {
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
   const [applicationNumberNotValid, setApplicationNumberNotValid] =
     useState(false);
+  const [historyData, setHistorydata] = useState({});
   const handleCellChangedEvent = (event) => {
     const dataMap1 = [];
+    let tempValue = { ...historyData };
+
     dataRows.forEach((value) => {
       if (value.details === event.row.details) {
         value.additionalAccrual = event.value;
+        tempValue[value.details] = event.value;
       }
       dataMap1.push(value);
     });
-
+    setHistorydata(tempValue);
     setDataRow(dataMap1);
   };
   const getData = async () => {
@@ -636,6 +640,7 @@ const AdditionalAccrual = () => {
             setReason={setReason}
             setRemark={setRemark}
             remark={remark}
+            historyData={historyData}
           ></AccrualRemark>
           <Alert
             sx={{

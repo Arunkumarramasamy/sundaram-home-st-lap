@@ -34,6 +34,7 @@ const AdditionalWaiver = () => {
   const [accordianOpen, setAccordianOpen] = React.useState(true);
   const [gridAlert, setGridAlert] = useState("none");
   const [reason, setReason] = useState("");
+  const [historyData, setHistorydata] = useState({});
   const [remark, setRemark] = useState("");
   const handleSearch = (event) => {
     event.preventDefault();
@@ -113,14 +114,16 @@ const AdditionalWaiver = () => {
     }
   };
   const handleCellChangedEvent = (event) => {
+    let tempValue = { ...historyData };
     const dataMap1 = [];
     dataRows.forEach((value) => {
       if (value.details === event.row.details) {
         value.additionalWaiver = event.value;
+        tempValue[value.details] = event.value;
       }
       dataMap1.push(value);
     });
-
+    setHistorydata(tempValue);
     setDataRow(dataMap1);
     if (
       !(
@@ -331,7 +334,7 @@ const AdditionalWaiver = () => {
     },
     {
       field: "additionalWaiver",
-      headerName: "Additional Waiver(₹)",
+      headerName: "Fees to be Waiver(₹)",
       headerAlign: "center",
       type: "number",
       width: 190,
@@ -629,6 +632,7 @@ const AdditionalWaiver = () => {
             remark={remark}
             setReason={setReason}
             setRemark={setRemark}
+            historyData={historyData}
           ></AccrualRemark>
           <Alert
             sx={{

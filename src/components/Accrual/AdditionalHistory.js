@@ -8,22 +8,34 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import { React, useEffect, useState } from "react";
 
 const columns = [
   {
     field: "id",
-    headerName: "S.No",
+    headerName: "",
+    headerAlign: "center",
+    type: "number",
+    hide: true,
+    sortable: false,
+    align: "center",
+    editable: false,
+  },
+  {
+    field: "refNum",
+    headerName: "Reference Number",
     headerAlign: "center",
     type: "number",
     hideable: false,
     sortable: false,
     align: "center",
     editable: false,
+    width: 123,
   },
   {
-    field: "modified",
+    field: "modifiedContent",
     headerName: "Modified",
     headerAlign: "center",
     type: "string",
@@ -34,7 +46,7 @@ const columns = [
     editable: false,
   },
   {
-    field: "amount",
+    field: "modifiedValue",
     headerName: "Amount",
     headerAlign: "center",
     type: "number",
@@ -51,60 +63,58 @@ const columns = [
     type: "String",
     hideable: false,
     sortable: false,
-    width: 100,
-    align: "right",
+    width: 200,
+    align: "center",
     editable: false,
+  },
+  {
+    field: "modifiedDate",
+    headerName: "Modified At",
+    headerAlign: "center",
+    type: "String",
+    hideable: false,
+    sortable: false,
+    width: 250,
+    align: "center",
+    editable: false,
+    valueGetter: (value) => new Date(value.value).toLocaleString(),
   },
 ];
 const AdditionalHistory = (props) => {
+  const [applicationNumber, setApplicationNumber] = useState(
+    props.applicationNumber
+  );
+  const [feeType, setFeeType] = useState(props.feeType);
+  useEffect(() => {
+    loadHistory();
+  }, []);
   const [rows, setRows] = useState([]);
   const [totalRowsCount, setTotalRowsCount] = useState(0);
   const closeDialog = () => {
     props.onClose();
   };
-
-  useEffect(() => {
-    const rows = [
-      {
-        id: 1234561,
-        modified: "File Processing Charges",
-        amount: 1000,
-        modifiedBy: "Arun",
-      },
-      {
-        id: 23456,
-
-        modified: "File Processing Charges",
-        amount: 1000,
-        modifiedBy: "Raagesh",
-      },
-      {
-        id: 376,
-
-        modified: "File Processing Charges",
-        amount: 1000,
-        modifiedBy: "Bala",
-      },
-      {
-        id: 4765,
-        modified: "File Processing Charges",
-        amount: 1000,
-        modifiedBy: "Vignesh",
-      },
-      {
-        id: 5765,
-        modified: "File Processing Charges",
-        amount: 1000,
-        modifiedBy: "Naveen",
-      },
-    ];
-    setRows(rows);
-    setTotalRowsCount(rows.length);
-  }, []);
+  const loadHistory = async (props) => {
+    const dataMap = {};
+    dataMap["applicationNumber"] = applicationNumber;
+    dataMap["feeType"] = feeType;
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/additionalfee/getHistoryData",
+        dataMap
+      );
+      if (response.data.historyData) {
+        setRows(response.data.historyData);
+      }
+    } catch {
+      console.log("Network Error");
+    }
+  };
 
   return (
     <>
-      <h4>{props.title}</h4>
+      <h4>
+        {props.feeType === "accrual" ? "Accrual History" : "Waiver History"}
+      </h4>
 
       {useMediaQuery("(min-width:1200px)") && (
         <DataGrid
@@ -122,10 +132,9 @@ const AdditionalHistory = (props) => {
           rows={rows}
           columns={columns}
           disableSelectionOnClick
-          autoHeight
+          pageSize={10}
           hideFooterPagination
-          hideFooterSelectedRowCount
-          // onCellEditCommit={(event)=>handleCellChangedEvent(event)}
+          // hideFooterSelectedRowCount
           getRowClassName={(params) =>
             params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
           }
@@ -161,7 +170,7 @@ const AdditionalHistory = (props) => {
                   <Grid item xs={12}>
                     <Card>
                       <CardHeader
-                        subheader={"Parameter Name : " + row.id}
+                        subheader={"Parameter Name : " + row.modifiedContent}
                         subheaderTypographyProps={{
                           color: "#004A92",
                           fontWeight: "700",
@@ -178,21 +187,21 @@ const AdditionalHistory = (props) => {
                             Reference Number
                           </Grid>
                           <Grid item xs={6} md={7}>
-                            {`: ${row.id}`}
+                            {`: ${row.refNum}`}
                           </Grid>
 
                           <Grid item xs={6} md={5}>
                             Modified
                           </Grid>
                           <Grid item xs={6} md={7}>
-                            {`: ${row.modified}`}
+                            {`: ${row.modifiedContent}`}
                           </Grid>
 
                           <Grid item xs={6} md={5}>
                             Amount
                           </Grid>
                           <Grid item xs={6} md={7}>
-                            {`: ${row.amount}`}
+                            {`: ${row.modifiedValue}`}
                           </Grid>
 
                           <Grid item xs={6} md={5}>
@@ -200,6 +209,12 @@ const AdditionalHistory = (props) => {
                           </Grid>
                           <Grid item xs={6} md={7}>
                             {`: ${row.modifiedBy}`}
+                          </Grid>
+                          <Grid item xs={6} md={5}>
+                            Modified At
+                          </Grid>
+                          <Grid item xs={6} md={7}>
+                            {`: ${new Date(row.modifiedDate).toLocaleString()}`}
                           </Grid>
                         </Grid>
                       </CardContent>
