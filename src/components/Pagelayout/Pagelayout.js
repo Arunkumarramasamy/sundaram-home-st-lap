@@ -494,9 +494,7 @@ export default function Pagelayout() {
           flexItem
         />
         <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />
-          </Badge>
         </IconButton>
         <Stack direction="row">
           {/* <Tooltip title="Change Password">
@@ -601,9 +599,7 @@ export default function Pagelayout() {
             flexItem
           />
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
-            </Badge>
           </IconButton>
         </MenuItem>
         <Divider />

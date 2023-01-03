@@ -82,8 +82,8 @@ const DisbursementDetailPage = (props) => {
   const errorInitialState = {
     currentDisbError : [false,"Current Disbursement Amount Cannot be Empty/Zero."],
     roiError : [false,"Rate of Interest Cannot be Empty/Zero."],
-    billingDateError : [false,"Please Select Billing Day."],
-    billingDayError : [false,"Please Select Billing Date."] , 
+    billingDateError : [false,"Please Select Billing Date."],
+    billingDayError : [false,"Please Select Billing Day."] , 
     shflBankError : [false,"SHFL Bank Cannot be Empty."],
     bankAccountError : [false,"Please Select Atlease One Bank Account."],
     overAllError : false,
@@ -185,9 +185,157 @@ const DisbursementDetailPage = (props) => {
       }
      };
 
+     const validateCreateRequestData = (data) => {
+          var status = true;
+
+          //Validating Current Disbursement Amount Field
+          if(data.disbAmt === 0 || data.disbAmt === null || data.disbAmt.trim() === ""){
+            errorDispatch({
+              type: errorParameters.currentDisbError,
+              value: [true,"Current Disbursement Amount Cannot be Empty/Zero."],
+            });
+            status=false; 
+          }  else if(data.disbAmt > props.rowClickData.sanctionAmount){
+            errorDispatch({
+              type: errorParameters.currentDisbError,
+              value: [true,"Current Disbursement Amount Cannot be Greater than Sanction Amount."],
+            }); 
+            status=false; 
+          }  else if(errorState.currentDisbError[0]){
+            errorDispatch({
+              type: errorParameters.currentDisbError,
+              value: [false,"Current Disbursement Amount Cannot be Empty/Zero."],
+            });  
+          }
+
+
+           //Validating Rate of Interest Field
+           if(data.rateOfInterest === 0 || data.rateOfInterest === null ){
+            errorDispatch({
+              type: errorParameters.roiError,
+              value: [true,"Rate of Interest Cannot be Empty."],
+            });
+            status=false; 
+          } else if(data.rateOfInterest < 18 || data.rateOfInterest > 22){
+            errorDispatch({
+              type: errorParameters.roiError,
+              value: [true,"Rate of Interest should be between 18 & 22."],
+            });
+            status=false;
+          } else if(errorState.roiError[0]){
+            errorDispatch({
+              type: errorParameters.roiError,
+              value: [false,"Rate of Interest Cannot be Empty/Zero."],
+            });  
+          }
+
+          //Validating Billing  Date Field
+          if(data.billingDate === "-1" ){
+            errorDispatch({
+              type: errorParameters.billingDateError,
+              value: [true,"Please Select Billing Date."],
+            });
+            status=false; 
+          } else if(errorState.billingDateError[0]){
+            errorDispatch({
+              type: errorParameters.billingDateError,
+              value: [false,"Please Select Billing Date."],
+            });  
+          }
+
+
+          //Validating Billing  Day Field
+          if(data.billingDay === "-1" ){
+            errorDispatch({
+              type: errorParameters.billingDayError,
+              value: [true,"Please Select Billing Day."],
+            });
+            status=false; 
+          } else if(errorState.billingDayError[0]){
+            errorDispatch({
+              type: errorParameters.billingDayError,
+              value: [false,"Please Select Billing Day."],
+            });  
+          }
+
+          //Validating SHFL Bank Field
+          if(data.shflBank === 0 || data.shflBank === null || data.shflBank.trim() === ""){
+            errorDispatch({
+              type: errorParameters.shflBankError,
+              value: [true,"SHFL Bank Cannot be Empty."],
+            });
+            status=false; 
+          } else if(errorState.shflBankError[0]){
+            errorDispatch({
+              type: errorParameters.shflBankError,
+              value: [false,"SHFL Bank Cannot be Empty."],
+            });  
+          }
+
+
+          //Validating Bank Grid
+          if(data.disbursementFavours.length === 0 ){
+            errorDispatch({
+              type: errorParameters.bankAccountError,
+              value: [true,"*No Bank Account Linked For this Application . Please Add Bank Account in Loan Origination System."],
+            });
+            status=false; 
+          } else {
+          var bankAccountSelectionCount = 0;
+          var totalAmountSelected = 0;
+          var netDisbAmt = data.disbAmt - props.rowClickData.memoDeduction;
+          data.disbursementFavours.filter((row)=> row.isChecked === true
+          ).forEach((row)=>{
+            const dataMap1 = {
+              "id": row.bankAccountNumber,
+              "applicationNumber": row.applicationNumber,
+              "bankAccNumber": row.bankAccountNumber,
+              "createdBy": "",
+              "createdDate": "",
+              "disbAmount": row.amount,
+              "disbRequestId": data.disbRequestId,
+              "distNo": data.disbNo,
+              "lastModifiedBy": "",
+              "lastModifiedDate": "",
+            };
+            bankAccountSelectionCount++;
+            totalAmountSelected = totalAmountSelected + row.amount ? row.amount : 0;
+          }); 
+
+          if(bankAccountSelectionCount === 0){
+            errorDispatch({
+              type: errorParameters.bankAccountError,
+              value: [true,"Please Select Atleast one Bank Account."],
+            });
+            status=false; 
+          } else if(totalAmountSelected < netDisbAmt){
+            errorDispatch({
+              type: errorParameters.bankAccountError,
+              value: [true,"Amount to be Sent is Less than Disbursement Amount."],
+            });
+            status=false; 
+          } else if(totalAmountSelected > netDisbAmt){
+            errorDispatch({
+              type: errorParameters.bankAccountError,
+              value: [true,"Amount to be Sent is Greater than Disbursement Amount."],
+            });
+            status=false; 
+          } else if(errorState.bankAccountError[0]){
+            errorDispatch({
+              type: errorParameters.bankAccountError,
+              value: [false,"Please Select Atleast one Bank Account."],
+            });  
+          }
+        
+        } 
+          setLoading(status);
+          return status;
+     };
+
 
   const createRequestHandler = (data) => {
     setLoading(true);
+    if(validateCreateRequestData(data)){
       const dataMap=[];
     data.disbursementFavours.filter((row)=> row.isChecked === true
     ).forEach((row)=>{
@@ -211,6 +359,7 @@ const DisbursementDetailPage = (props) => {
     data.firstEmiDueDate= data.firstEmiDueDate === null ? null : new Date(data.firstEmiDueDate);
     data.effectiveDate= new Date(data.effectiveDate);
     insertDisbursementDataToDB(data);
+  }
   };
 
   const handleSnackBarClose = () =>{

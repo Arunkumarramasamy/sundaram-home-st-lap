@@ -577,7 +577,7 @@ const DisbursementDetails = (props) => {
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.shflBank,
-                value: value,
+                value: event.target.value,
               });
             }}
           />
