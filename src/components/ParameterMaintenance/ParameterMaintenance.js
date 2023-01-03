@@ -53,25 +53,6 @@ const ParameterMaintenance = () => {
 
   const columns = [
     {
-      field: "action",
-      headerName: "",
-      headerAlign: "center",
-      align: "center",
-      width: 50,
-      hideable: false,
-      sortable: false,
-      filterable: false,
-      renderCell: (params) => {
-        return (
-          <MoreAction
-            params={params.row}
-            viewClickHandler={viewClickHandler}
-            modifyClickHandler={modifyClickHandler}
-          />
-        );
-      },
-    },
-    {
       field: "paramName",
       headerName: "Parameter Name",
       editable: "true",
@@ -91,10 +72,12 @@ const ParameterMaintenance = () => {
       headerName: "Parameter Value",
       headerAlign: "center",
       align: "center",
-      width: 160,
+      width: 250,
       renderCell: (params) => {
         if (params.row.paramDataType === "Int") {
           return parseInt(params.value).toLocaleString("en-IN");
+        } else if (params.row.paramDataType === "Date") {
+          return dayjs(params.value).format("DD/MM/YYYY");
         } else {
           return params.value;
         }
@@ -105,14 +88,39 @@ const ParameterMaintenance = () => {
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
-      width: 160,
+      width: 180,
+      renderCell: (params) => {
+        return dayjs(params.value).format("DD/MM/YYYY");
+      },
     },
     {
       field: "paramEffEndDt",
       headerName: "Effective End Date",
       headerAlign: "center",
       align: "center",
-      width: 160,
+      width: 180,
+      renderCell: (params) => {
+        return dayjs(params.value).format("DD/MM/YYYY");
+      },
+    },
+    {
+      field: "action",
+      headerName: "",
+      headerAlign: "center",
+      align: "center",
+      width: 50,
+      hideable: false,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => {
+        return (
+          <MoreAction
+            params={params.row}
+            viewClickHandler={viewClickHandler}
+            modifyClickHandler={modifyClickHandler}
+          />
+        );
+      },
     },
   ];
   const [columnsData, setColumns] = useState(columns);
@@ -160,8 +168,8 @@ const ParameterMaintenance = () => {
         paramName: "",
         paramType: "",
         paramValu: "",
-        effStartDate: dayjs().format("DD/MM/YYYY"),
-        effEndDate: dayjs().format("DD/MM/YYYY"),
+        effStartDate: dayjs(),
+        effEndDate: dayjs(),
       };
     });
   };
@@ -179,12 +187,12 @@ const ParameterMaintenance = () => {
     }
     setParamMeterName(values.paramName);
     setparamDataType(values.paramDataType);
-    setstartDate(dayjs(values.paramEffStartDt).format("DD/MM/YYYY"));
-    setEndDate(dayjs(values.paramEffEndDt).format("DD/MM/YYYY"));
+    setstartDate(values.paramEffStartDt);
+    setEndDate(values.paramEffEndDt);
     if (values.paramDataType === "Int") {
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
     } else if (values.paramDataType === "Date") {
-      setParamValue(dayjs(values.paramValue).format("DD/MM/YYYY"));
+      setParamValue(values.paramValue);
     } else {
       setParamValue(values.paramValue);
     }
@@ -199,14 +207,14 @@ const ParameterMaintenance = () => {
     setParamId(values.paramId);
     setParamMeterName(values.paramName);
     setparamDataType(values.paramDataType);
-    setstartDate(dayjs(values.paramEffStartDt).format("DD/MM/YYYY"));
-    setEndDate(dayjs(values.paramEffEndDt).format("DD/MM/YYYY"));
+    setstartDate(values.paramEffStartDt);
+    setEndDate(values.paramEffEndDt);
     if (values.paramDataType === "Int") {
       setDateValue(false);
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
     } else if (values.paramDataType === "Date") {
       setDateValue(true);
-      setParamValue(dayjs(values.paramValue).format("DD/MM/YYYY"));
+      setParamValue(values.paramValue);
     } else {
       setDateValue(false);
       setParamValue(values.paramValue);
@@ -222,13 +230,13 @@ const ParameterMaintenance = () => {
     //if save click happen
     if (paramNameIsValid && paramTypeIsValid && paramValueIsValid) {
       const val =
-        check.paramName == paraMeterName &&
-        check.paramType == paramDataType &&
+        check.paramName === paraMeterName &&
+        check.paramType === paramDataType &&
         check.effStartDate === startDate &&
         check.effEndDate === endDate &&
         (check.paramType === "Varchar" || check.paramType === "Date"
-          ? check.paramValu == ParamValue
-          : check.paramValu == ParamValue.replaceAll(",", ""));
+          ? check.paramValu === ParamValue
+          : check.paramValu === ParamValue.replaceAll(",", ""));
       if (val) {
         setState((pre) => {
           return { ...pre, vertical: "top", horizontal: "center" };
@@ -267,7 +275,7 @@ const ParameterMaintenance = () => {
       console.log(response.data);
       getData();
       setParamId("");
-      if (paramaId == "") {
+      if (paramaId === "") {
         setState((pre) => {
           return { ...pre, vertical: "bottom", horizontal: "left" };
         });
@@ -289,7 +297,7 @@ const ParameterMaintenance = () => {
         return { ...pre, vertical: "top", horizontal: "center" };
       });
       setAlertType("error");
-      if (paramaId == "") {
+      if (paramaId === "") {
         setMessage("Unable to Perform add operation");
         openAlertHandler();
       } else {
@@ -305,15 +313,17 @@ const ParameterMaintenance = () => {
   };
   const handleDialogClose = () => {
     if (
-      check.paramName == paraMeterName &&
-      check.paramType == paramDataType &&
-      check.effStartDate === dayjs(startDate).format("DD/MM/YYYY") &&
-      check.effEndDate === dayjs(endDate).format("DD/MM/YYYY") &&
+      check.paramName === paraMeterName &&
+      check.paramType === paramDataType &&
+      new Date(check.effStartDate).toISOString().slice(0, 10) ===
+        new Date(startDate).toISOString().slice(0, 10) &&
+      new Date(check.effEndDate).toISOString().slice(0, 10) ===
+        new Date(endDate).toISOString().slice(0, 10) &&
       (check.paramType === "Varchar"
-        ? check.paramValu == ParamValue
+        ? check.paramValu === ParamValue
         : check.paramType === "Date"
-        ? check.paramValu == dayjs(ParamValue).format("DD/MM/YYYY")
-        : check.paramValu == ParamValue.replaceAll(",", ""))
+        ? check.paramValu === ParamValue
+        : check.paramValu === ParamValue.replaceAll(",", ""))
     ) {
       setdisabled(true);
       setDialogOpen(false);
@@ -397,8 +407,8 @@ const ParameterMaintenance = () => {
     paramName: "",
     paramType: "",
     paramValu: "",
-    effStartDate: dayjs().format("DD/MM/YYYY"),
-    effEndDate: dayjs().format("DD/MM/YYYY"),
+    effStartDate: dayjs(),
+    effEndDate: dayjs(),
   });
   /**Ok Button Handler */
   const [OkButtonHandler, setOkButtonHandler] = useState(false);
@@ -525,21 +535,33 @@ const ParameterMaintenance = () => {
                               Effective Start Date
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${row.paramEffStartDt}`}
+                              {`: ${dayjs(row.paramEffStartDt).format(
+                                "DD/MM/YYYY"
+                              )}`}
                             </Grid>
 
                             <Grid item xs={7} md={5}>
                               Effective End Date
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${row.paramEffEndDt}`}
+                              {`: ${dayjs(row.paramEffEndDt).format(
+                                "DD/MM/YYYY"
+                              )}`}
                             </Grid>
 
                             <Grid item xs={7} md={5}>
                               Parameter Value
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${row.paramValue}`}
+                              {`: ${
+                                row.paramDataType === "Int"
+                                  ? parseInt(row.paramValue).toLocaleString(
+                                      "en-IN"
+                                    )
+                                  : row.paramDataType === "Date"
+                                  ? dayjs(row.paramValue).format("DD/MM/YYYY")
+                                  : row.paramValue
+                              }`}
                             </Grid>
                           </Grid>
                         </CardContent>
