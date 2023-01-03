@@ -348,6 +348,9 @@ const DisbursementDetails = (props) => {
               });
             }}
           />
+          {props.errorState.currentDisbError[0] && (
+                  <p className="error">{props.errorState.currentDisbError[1]}</p>
+                )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -376,6 +379,20 @@ const DisbursementDetails = (props) => {
           />
         </Grid>
 
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            disabled={true}
+            required={false}
+            label="Balance Amount"
+            id="balanceAmount"
+            variant="standard"
+            value={(props.losInitialState.sanctionAmount)-(props.detailPageInitialState.earlierDisbAmt)-(props.detailPageInitialState.disbAmt)}
+            type="text"
+            placeholder="Enter Balance Amount"
+          />
+        </Grid>
+
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomTextField
                   disabled={disabledState}
@@ -393,6 +410,9 @@ const DisbursementDetails = (props) => {
                     });
                   }}
                 />
+                {props.errorState.roiError[0] && (
+                  <p className="error">{props.errorState.roiError[1]}</p>
+                )}
                 </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -427,6 +447,9 @@ const DisbursementDetails = (props) => {
                   value={props.detailPageInitialState.billingDay}
                   onChange={onBillingDayChange}
                 />
+                {props.errorState.billingDayError[0] && (
+                  <p className="error">{props.errorState.billingDayError[1]}</p>
+                )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -447,6 +470,9 @@ const DisbursementDetails = (props) => {
                     });
                   }}
                 />
+                {props.errorState.billingDateError[0] && (
+                  <p className="error">{props.errorState.billingDateError[1]}</p>
+                )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -555,6 +581,9 @@ const DisbursementDetails = (props) => {
               });
             }}
           />
+          {props.errorState.shflBankError[0] && (
+                  <p className="error">{props.errorState.shflBankError[1]}</p>
+                )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -584,6 +613,9 @@ const DisbursementDetails = (props) => {
           margin: "auto",
         }}
       >
+        {props.errorState.bankAccountError[0] && (
+                  <p className="error">{props.errorState.bankAccountError[1]}</p>
+                )}
         {useMediaQuery("(min-width:1200px)") && (
           <CustomDataGrid
             noDataMessage="No Bank Data."

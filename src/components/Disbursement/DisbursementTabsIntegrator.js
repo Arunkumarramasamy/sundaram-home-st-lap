@@ -44,8 +44,8 @@ const DisbursementTabsIntegrator = (props) => {
     screenMode: "screenMode",
     rateOfInterest : "rateOfInterest",
   };
-  
- 
+
+
 
         const reducer = (state, action) => {
           switch (action.type) {
@@ -159,7 +159,7 @@ const DisbursementTabsIntegrator = (props) => {
           </Box>
 
           <TabPanel value="1">
-            <DisbursementDetails setListVisibility={props.setListVisibility}  detailPageInitialState={state} dispatchEvent={dispatch} fieldList={screenFields} losInitialState={props.searchStateValues}/>
+            <DisbursementDetails setListVisibility={props.setListVisibility}  detailPageInitialState={state} dispatchEvent={dispatch} fieldList={screenFields} losInitialState={props.searchStateValues} errorState={props.errorState}/>
           </TabPanel>
           <TabPanel value="2">
             <FeesOutstanding

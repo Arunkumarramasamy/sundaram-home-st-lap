@@ -1,6 +1,7 @@
 import { Close } from "@mui/icons-material";
 import { Alert, Backdrop, CircularProgress, IconButton, Snackbar } from "@mui/material";
 import axios from "axios";
+import { useReducer } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -67,6 +68,51 @@ const DisbursementDetailPage = (props) => {
   const[loading,setLoading] = useState(true);
 
   const[showSnackBar,setshowSnackBar] = useState(false);
+
+  const errorParameters = {
+    currentDisbError : "currentDisbError",
+    roiError : "roiError",
+    billingDateError : "billingDateError",
+    billingDayError : "billingDayError",
+    shflBankError : "shflBankError",
+    bankAccountError : "bankAccountError",
+    overAllError:"overAllError",
+  };
+  
+  const errorInitialState = {
+    currentDisbError : [false,"Current Disbursement Amount Cannot be Empty/Zero."],
+    roiError : [false,"Rate of Interest Cannot be Empty/Zero."],
+    billingDateError : [false,"Please Select Billing Day."],
+    billingDayError : [false,"Please Select Billing Date."] , 
+    shflBankError : [false,"SHFL Bank Cannot be Empty."],
+    bankAccountError : [false,"Please Select Atlease One Bank Account."],
+    overAllError : false,
+  };
+
+
+  const errorReducer = (state, action) => {
+    switch (action.type) {
+      case errorParameters.currentDisbError:
+      return { ...state, currentDisbError: action.value };
+      case errorParameters.roiError:
+      return { ...state, roiError: action.value };
+      case errorParameters.billingDateError:
+      return { ...state, billingDateError: action.value };
+      case errorParameters.billingDayError:
+      return { ...state, billingDayError: action.value };
+      case errorParameters.shflBankError:
+      return { ...state, shflBankError: action.value };
+      case errorParameters.bankAccountError:
+      return { ...state, bankAccountError: action.value };
+      case errorParameters.overAllError:
+      return { ...state, overAllError: action.value };
+      default:
+      return { ...errorInitialState};
+      }
+  };
+ 
+  const [errorState, errorDispatch] = useReducer(errorReducer, errorInitialState);
+
 
 
   useEffect(() => {
@@ -200,6 +246,7 @@ const DisbursementDetailPage = (props) => {
         mode={props.mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
+        errorState={errorState}
       />
     </>: 
     <>
@@ -210,6 +257,7 @@ const DisbursementDetailPage = (props) => {
         mode={props.mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
+        errorState={errorState}
       />
     </>}
     </>
