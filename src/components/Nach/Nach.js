@@ -1,14 +1,12 @@
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux/es/exports";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import { useSelector } from "react-redux/es/exports";
-import { useEffect } from "react";
 import { NachAction } from "../Store/NachStore";
-import { useDispatch } from "react-redux";
-import dayjs from "dayjs";
 const Nach = () => {
   const dispatch = useDispatch();
   //Disabling the State
@@ -39,6 +37,7 @@ const Nach = () => {
     };
     dispatch(NachAction.updateCustomerDataFromMaster(data));
   }, []);
+
   const onSaveButtonClickHandler = () => {
     console.log(data);
   };
@@ -213,13 +212,8 @@ const Nach = () => {
                 label="Mandate Start Date"
                 variant="standard"
                 value={data.mandateStartDate}
-                onChange={(event) => {
-                  if (event === null) {
-                    dispatch(NachAction.updateMandateStartDate(""));
-                  } else {
-                    let value = event.$M + 1 + "/" + event.$D + "/" + event.$y;
-                    dispatch(NachAction.updateMandateStartDate(value));
-                  }
+                onChange={(value) => {
+                  dispatch(NachAction.updateMandateStartDate(value));
                 }}
               ></CustomDateField>
             </Grid>
@@ -228,13 +222,8 @@ const Nach = () => {
                 label="First NACH Billing Date"
                 variant="standard"
                 value={data.firstNachBillingDate}
-                onChange={(event) => {
-                  if (event === null) {
-                    dispatch(NachAction.updateNachBillingDate(""));
-                  } else {
-                    let value = event.$M + 1 + "/" + event.$D + "/" + event.$y;
-                    dispatch(NachAction.updateNachBillingDate(value));
-                  }
+                onChange={(value) => {
+                  dispatch(NachAction.updateNachBillingDate(value));
                 }}
               ></CustomDateField>
             </Grid>

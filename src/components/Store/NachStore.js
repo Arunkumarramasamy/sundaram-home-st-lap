@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
-var today = new Date();
-var todayDate =
-  today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+// var today = new Date();
+// var todayDate =
+//   today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
 const initialState = {
   disablingState: true,
   data: {
@@ -20,8 +20,8 @@ const initialState = {
     mandateAmount: "",
     frequency: "",
     fbd: "",
-    mandateStartDate: todayDate,
-    firstNachBillingDate: todayDate,
+    mandateStartDate: dayjs(),
+    firstNachBillingDate: dayjs(),
     mandateValidity: "",
     mandateEndDate: "",
     maximumAmount: "",

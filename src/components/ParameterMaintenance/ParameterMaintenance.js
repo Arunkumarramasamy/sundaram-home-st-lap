@@ -105,10 +105,10 @@ const ParameterMaintenance = () => {
     },
     {
       field: "action",
-      headerName: "",
+      headerName: "Actions",
       headerAlign: "center",
       align: "center",
-      width: 50,
+      width: 80,
       hideable: false,
       sortable: false,
       filterable: false,
@@ -446,13 +446,13 @@ const ParameterMaintenance = () => {
             justifyContent: "flex-end",
           }}
         >
-          <Button
+          {/* <Button
             sx={{ fontWeight: "bold" }}
             variant="contained"
             onClick={addBtnHandler}
           >
             Add
-          </Button>
+          </Button> */}
         </Box>
         {useMediaQuery("(min-width:1200px)") && (
           <Box>
@@ -460,7 +460,7 @@ const ParameterMaintenance = () => {
               noDataMessage="No Data."
               noDataOnFilterMessage="No Data on Applied Filter."
               rows={rows}
-              // gridHeight={window.innerHeight - 230}
+              gridHeight={window.innerHeight - 190}
               columns={columnsData}
               pageSize={5}
               pageSizeOptions={[5, 10, 15, 20, 25]}
@@ -489,7 +489,7 @@ const ParameterMaintenance = () => {
             </Box>
             <Box
               sx={{
-                height: window.innerHeight - 300,
+                height: window.innerHeight - 260,
                 overflow: "auto",
                 flex: "1 auto",
               }}
@@ -599,7 +599,7 @@ const ParameterMaintenance = () => {
                   variant="standard"
                   value={paraMeterName}
                   error={paramNameHasError}
-                  disabled={disabled}
+                  disabled={true}
                   onChange={(e) => {
                     setOkButtonHandler(false);
                     setParamMeterName(e.target.value);
