@@ -32,8 +32,9 @@ import CustomDropDown from "../CustomComponents/CustomDropDown";
 
 const DisbursementDetails = (props) => {
   const[losInitialState,setlosInitialState] = useState(props.losInitialState);
+  const [ecdValues,setecdValues] = useState([]);
 
-  const [billingDateValues,setBillingDateValues] = useState([]);
+
   const [allCheckedValues, setChecked] = React.useState([
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
@@ -47,68 +48,57 @@ const DisbursementDetails = (props) => {
   var today = new Date();
 
   const billingDayValues = [
-    {	value:	1	,	text:	1	},
-{	value:	2	,	text:	2	},
-{	value:	3	,	text:	3	},
-{	value:	4	,	text:	4	},
 {	value:	5	,	text:	5	},
-{	value:	6	,	text:	6	},
 {	value:	7	,	text:	7	},
-{	value:	8	,	text:	8	},
-{	value:	9	,	text:	9	},
-{	value:	10	,	text:	10	},
-{	value:	11	,	text:	11	},
-{	value:	12	,	text:	12	},
-{	value:	13	,	text:	13	},
-{	value:	14	,	text:	14	},
-{	value:	15	,	text:	15	},
-{	value:	16	,	text:	16	},
-{	value:	17	,	text:	17	},
-{	value:	18	,	text:	18	},
-{	value:	19	,	text:	19	},
-{	value:	20	,	text:	20	},
-{	value:	21	,	text:	21	},
-{	value:	22	,	text:	22	},
-{	value:	23	,	text:	23	},
-{	value:	24	,	text:	24	},
-{	value:	25	,	text:	25	},
-{	value:	26	,	text:	26	},
-{	value:	27	,	text:	27	},
-{	value:	28	,	text:	28	},
-{	value:	29	,	text:	29	},
-{	value:	30	,	text:	30	},
-{	value:	31	,	text:	31	},
   ];
 
   const onBillingDayChange = (event) => {
-    props.dispatchEvent({
-      type: props.fieldList.billingDate,
-      value: "-1",
-    });
+    
     var value = event.target.value;
     props.dispatchEvent({
       type: props.fieldList.billingDay,
       value: value,
     });
-    setDropDownValues(value);
+    setBillingDate(value,props.detailPageInitialState.emiCommDate);
   };
 
-  const setDropDownValues = (value) =>{
-    var option1 = value   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
-    var option2 = value   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
+
+  const onECDChange = (event) => {
+    
+    var value = event.target.value;
+    props.dispatchEvent({
+      type: props.fieldList.emiCommDate,
+      value: value,
+    });
+    var dateSplit = value.split("/");
+    var lastdate = new Date(dateSplit[2], dateSplit[1], 0).getDate();
+    props.dispatchEvent({
+      type: props.fieldList.firstEmiDueDate,
+      value: lastdate + "/" + dateSplit[1] + "/" + dateSplit[2],
+    });
+    setBillingDate(props.detailPageInitialState.billingDay,value);
+  };
+
+  const setBillingDate = (billingDay,ecd) =>{
+    if(billingDay !== "-1" && ecd !== "-1"){
+      var value = billingDay + ecd.substring(ecd.indexOf("/"))
+    props.dispatchEvent({
+      type: props.fieldList.billingDate,
+      value: value,
+    });
+  }
+  }
+
+  
+  useEffect(() => {
+    var option1 = 1   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
+    var option2 = 1   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
     const dataMap = [
       {value:option1 ,text:option1},
       {value:option2 ,text:option2},
     ];
-
-    setBillingDateValues(dataMap);
-  }
-
-  useEffect(() => {
-    if(props.detailPageInitialState.billingDay!== "-1"){
-      setDropDownValues(props.detailPageInitialState.billingDay);
-    }
-  }, [props.detailPageInitialState.billingDay]);
+    setecdValues(dataMap);
+  }, []);
 
   
 
@@ -315,13 +305,13 @@ const DisbursementDetails = (props) => {
             label="Earlier Disbursement Amount"
             id="earlierDisbursementAmount"
             variant="standard"
-            value={props.detailPageInitialState.earlierDisbAmt}
+            value={parseInt(props.detailPageInitialState.earlierDisbAmt).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Earlier Disbursement Amount"
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.earlierDisbAmt,
-                value: value,
+                value: parseInt(event.target.value.replaceAll(",","")),
               });
             }}
           />
@@ -334,17 +324,17 @@ const DisbursementDetails = (props) => {
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
             variant="standard"
-            value={props.detailPageInitialState.disbAmt}
+            value={props.detailPageInitialState.disbAmt === "" ? 0 :   parseInt(props.detailPageInitialState.disbAmt).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Current Disbursement Amount"
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.disbAmt,
-                value: event.target.value,
+                value: event.target.value.replaceAll(",",""),
               });
               props.dispatchEvent({
                 type: props.fieldList.totalDisbAmt,
-                value: parseInt(event.target.value)-losInitialState.memoDeduction,
+                value: parseInt(event.target.value.replaceAll(",",""))-losInitialState.memoDeduction,
               });
             }}
           />
@@ -360,7 +350,7 @@ const DisbursementDetails = (props) => {
             label="Total Deductions"
             id="deductions"
             variant="standard"
-            value={losInitialState.memoDeduction}
+            value={parseInt(losInitialState.memoDeduction).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Total Deductions"
           />
@@ -373,7 +363,7 @@ const DisbursementDetails = (props) => {
             label="Net Current Disbursement Amount"
             id="netAmount"
             variant="standard"
-            value={props.detailPageInitialState.totalDisbAmt}
+            value={parseInt(props.detailPageInitialState.totalDisbAmt).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Net Disbursement Amount"
           />
@@ -387,7 +377,7 @@ const DisbursementDetails = (props) => {
             label="Balance Amount"
             id="balanceAmount"
             variant="standard"
-            value={(props.losInitialState.sanctionAmount)-(props.detailPageInitialState.earlierDisbAmt)-(props.detailPageInitialState.disbAmt)}
+            value={parseInt((props.losInitialState.sanctionAmount)-(props.detailPageInitialState.earlierDisbAmt)-(props.detailPageInitialState.disbAmt)).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Balance Amount"
           />
@@ -452,51 +442,42 @@ const DisbursementDetails = (props) => {
                 )}
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-        <CustomDropDown
-                  disabled={props.detailPageInitialState.billingDay === "-1" || disabledState}
+         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomDropDown
+                  disabled={disabledState}
                   required={true}
-                  label="Billing Date"
-                  id="billingDate"
+                  label="ECD"
+                  id="ecd"
                   variant="standard"
                   type="text"
-                  placeholder="Select Billing Date"
-                  dropDownValue={billingDateValues}
-                  value={props.detailPageInitialState.billingDate}
-                  onChange={(event) => {
-                    props.dispatchEvent({
-                      type: props.fieldList.billingDate,
-                      value: event.target.value,
-                    });
-                  }}
+                  placeholder="Select ECD Date"
+                  dropDownValue={ecdValues}
+                  value={props.detailPageInitialState.emiCommDate}
+                  onChange={onECDChange}
                 />
-                {props.errorState.billingDateError[0] && (
-                  <p className="error">{props.errorState.billingDateError[1]}</p>
+                {props.errorState.ecdError[0] && (
+                  <p className="error">{props.errorState.ecdError[1]}</p>
                 )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomDateField
-            disabled={!(props.detailPageInitialState.screenMode === "APPROVAL")}
+        <CustomTextField
+            disabled={true}
             required={false}
-            label="ECD"
-            id="ecd"
+            label="Billing Date"
+            id="billingDate"
             variant="standard"
-            value={props.detailPageInitialState.emiCommDate}
+            value={props.detailPageInitialState.billingDate}
             type="text"
-            placeholder=""
-            onChange={(event, value) => {
-              props.dispatchEvent({
-                type: props.fieldList.emiCommDate,
-                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
-              });
-            }}
+            placeholder="Billing Date"
           />
         </Grid>
 
+       
+
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomDateField
-            disabled={!(props.detailPageInitialState.screenMode === "APPROVAL")}
+          <CustomTextField
+            disabled={true}
             required={false}
             label="FEDD"
             id="fedd"
@@ -504,12 +485,6 @@ const DisbursementDetails = (props) => {
             value={props.detailPageInitialState.firstEmiDueDate}
             type="text"
             placeholder=""
-            onChange={(event, value) => {
-              props.dispatchEvent({
-                type: props.fieldList.firstEmiDueDate,
-                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
-              });
-            }}
           />
         </Grid>
 

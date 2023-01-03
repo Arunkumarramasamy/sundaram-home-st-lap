@@ -494,13 +494,13 @@ const FilterCondition = (props) => {
                   label="Loan Amount"
                   id="loanAmount"
                   variant="standard"
-                  value={state.loanAmount}
-                  type="number"
+                  value={state.loanAmount === "" ? 0 :   parseInt(state.loanAmount).toLocaleString("en-IN")}
+                  type="text"
                   placeholder="Enter Loan Amount"
                   onChange={(event) => {
                     dispatch({
                       type: filterValues.loanAmount,
-                      value: event.target.value,
+                      value: event.target.value.replaceAll(",",""),
                     });
                   }}
                 />
@@ -513,13 +513,13 @@ const FilterCondition = (props) => {
                   label="Sanctioned Amount"
                   id="sanctionAmount"
                   variant="standard"
-                  value={state.sanctionAmount}
-                  type="number"
+                  value={state.sanctionAmount === "" ? 0 :   parseInt(state.sanctionAmount).toLocaleString("en-IN")}
+                  type="text"
                   placeholder="Enter Sanctioned Amount"
                   onChange={(event) => {
                     dispatch({
                       type: filterValues.sanctionAmount,
-                      value: event.target.value,
+                      value: event.target.value.replaceAll(",",""),
                     });
                   }}
                 />

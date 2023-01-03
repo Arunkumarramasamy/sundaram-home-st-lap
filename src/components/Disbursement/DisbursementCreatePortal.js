@@ -32,7 +32,7 @@ const initialState = {
   customerType: "-1",
   rateOfInterest: "",
   loanAmount: "",
-  sanctionedAmount: "",
+  sanctionAmount: "",
 
   disbursementDateFromValue:
     today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),

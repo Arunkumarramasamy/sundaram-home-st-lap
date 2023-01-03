@@ -72,22 +72,22 @@ const ConditionsAndDeviations = (props) => {
     {
       id: 1,
       condition: "Legal Approved Date",
-      date: "01/12/2022",
+      date: new Date(props.losInitialState.legalApprovedDate).toLocaleDateString(),
     },
     {
       id: 2,
       condition: "Technical Approved Date",
-      date: "04/12/2022",
+      date: new Date(props.losInitialState.technicalApprovedDate).toLocaleDateString(),
     },
     {
       id: 3,
       condition: "Credit Approved Date",
-      date: "10/12/2022",
+      date: new Date(props.losInitialState.creditApprovedDate).toLocaleDateString(),
     },
     {
       id: 4,
       condition: "RCU Approved Date",
-      date: "11/12/2022",
+      date: new Date(props.losInitialState.rcuApprovedDate).toLocaleDateString(),
     },
   ];
 
@@ -95,17 +95,17 @@ const ConditionsAndDeviations = (props) => {
     {
       id: 1,
       deviation: "Legal Deviation Status",
-      status: "Approved",
+      status:  props.losInitialState.legalDeviationStatus,
     },
     {
       id: 2,
       deviation: "Technical Deviation Status",
-      status: "Approved",
+      status: props.losInitialState.techinicalDeviationStatus,
     },
     {
       id: 3,
       deviation: "Credit Deviation Status",
-      status: "Approved",
+      status: props.losInitialState.creditDeviationStatus,
     },
   ];
 

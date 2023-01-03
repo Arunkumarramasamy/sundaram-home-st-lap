@@ -12,7 +12,7 @@ var todayDate = today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFu
 
 var detailPageInitialState =   {
     "applicationNumber": "",
-    "billingDate": "-1",
+    "billingDate": "",
     "billingDay": "-1",
     "dateOfDisb": todayDate,
     "disbAmt": 0,
@@ -22,7 +22,7 @@ var detailPageInitialState =   {
     "earlierDisbAmt": 0,
     "editLock": false,
     "effectiveDate": todayDate,
-    "emiCommDate": "",
+    "emiCommDate": "-1",
     "firstEmiDueDate": "",
     "paymentMode": "RTGS",
     "remarks": "",
@@ -48,7 +48,7 @@ var losInitialState =   {
     customerType: "New",
     rateOfInterest: "0",
     loanAmount: "0",
-    sanctionedAmount: "0",
+    sanctionAmount: "0",
     screenModeTitle: "",
     requestNumber: "",
     memoDeduction:"0"
@@ -72,7 +72,7 @@ const DisbursementDetailPage = (props) => {
   const errorParameters = {
     currentDisbError : "currentDisbError",
     roiError : "roiError",
-    billingDateError : "billingDateError",
+    ecdError : "ecdError",
     billingDayError : "billingDayError",
     shflBankError : "shflBankError",
     bankAccountError : "bankAccountError",
@@ -82,7 +82,7 @@ const DisbursementDetailPage = (props) => {
   const errorInitialState = {
     currentDisbError : [false,"Current Disbursement Amount Cannot be Empty/Zero."],
     roiError : [false,"Rate of Interest Cannot be Empty/Zero."],
-    billingDateError : [false,"Please Select Billing Date."],
+    ecdError : [false,"Please Select Billing Date."],
     billingDayError : [false,"Please Select Billing Day."] , 
     shflBankError : [false,"SHFL Bank Cannot be Empty."],
     bankAccountError : [false,"Please Select Atlease One Bank Account."],
@@ -96,8 +96,8 @@ const DisbursementDetailPage = (props) => {
       return { ...state, currentDisbError: action.value };
       case errorParameters.roiError:
       return { ...state, roiError: action.value };
-      case errorParameters.billingDateError:
-      return { ...state, billingDateError: action.value };
+      case errorParameters.ecdError:
+      return { ...state, ecdError: action.value };
       case errorParameters.billingDayError:
       return { ...state, billingDayError: action.value };
       case errorParameters.shflBankError:
@@ -229,17 +229,17 @@ const DisbursementDetailPage = (props) => {
             });  
           }
 
-          //Validating Billing  Date Field
-          if(data.billingDate === "-1" ){
+          //Validating ECD Field
+          if(data.emiCommDate === "-1" ){
             errorDispatch({
-              type: errorParameters.billingDateError,
-              value: [true,"Please Select Billing Date."],
+              type: errorParameters.ecdError,
+              value: [true,"Please Select ECD Date."],
             });
             status=false; 
-          } else if(errorState.billingDateError[0]){
+          } else if(errorState.ecdError[0]){
             errorDispatch({
-              type: errorParameters.billingDateError,
-              value: [false,"Please Select Billing Date."],
+              type: errorParameters.ecdError,
+              value: [false,"Please Select ECD Date."],
             });  
           }
 
@@ -286,18 +286,6 @@ const DisbursementDetailPage = (props) => {
           var netDisbAmt = data.disbAmt - props.rowClickData.memoDeduction;
           data.disbursementFavours.filter((row)=> row.isChecked === true
           ).forEach((row)=>{
-            const dataMap1 = {
-              "id": row.bankAccountNumber,
-              "applicationNumber": row.applicationNumber,
-              "bankAccNumber": row.bankAccountNumber,
-              "createdBy": "",
-              "createdDate": "",
-              "disbAmount": row.amount,
-              "disbRequestId": data.disbRequestId,
-              "distNo": data.disbNo,
-              "lastModifiedBy": "",
-              "lastModifiedDate": "",
-            };
             bankAccountSelectionCount++;
             totalAmountSelected = totalAmountSelected + row.amount ? row.amount : 0;
           }); 
