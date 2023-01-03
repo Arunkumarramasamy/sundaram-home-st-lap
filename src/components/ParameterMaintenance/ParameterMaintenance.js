@@ -1,13 +1,7 @@
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  useMediaQuery,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, useMediaQuery } from "@mui/material";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
@@ -29,6 +23,7 @@ import dayjs from "dayjs";
 
 const ParameterMaintenance = () => {
   const [rows, setRows] = useState([]);
+  //State which manitain the date data type selected or not
   const [dateValue, setDateValue] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const getData = async () => {
@@ -54,25 +49,6 @@ const ParameterMaintenance = () => {
   };
   useEffect(() => {
     getData();
-    // const rows = [
-    //   {
-    //     id: "1",
-    //     parameterName: "Minimum Disbursement Amount",
-    //     parameterDatatype: "Int",
-    //     parameterValue: 100000,
-    //     effectiveStartDate: "01/01/2021",
-    //     effectiveEndDate: "10/06/2022",
-    //   },
-
-    //   {
-    //     id: "2",
-    //     parameterName: "Maximum Allowable Cash Receipt",
-    //     parameterDatatype: "BigInt",
-    //     parameterValue: 10000,
-    //     effectiveStartDate: "10/11/2021",
-    //     effectiveEndDate: "12/03/2022",
-    //   },
-    // ];
   }, []);
 
   const columns = [
@@ -145,9 +121,7 @@ const ParameterMaintenance = () => {
 
   const [totalRowsCount, setTotalRowsCount] = useState(0);
   /** Getting Current date */
-  var today = new Date();
-  var todayDate =
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+
   /**Disabled State */
   const [disabled, setdisabled] = useState(false);
   const [mode, setMode] = useState("0");
@@ -155,8 +129,14 @@ const ParameterMaintenance = () => {
   const [paramaId, setParamId] = useState("");
   const [paraMeterName, setParamMeterName] = useState("");
   const [paramDataType, setparamDataType] = useState("");
-  const [startDate, setstartDate] = useState(dayjs(todayDate));
-  const [endDate, setEndDate] = useState(dayjs(todayDate));
+  const [startDate, setstartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState(dayjs());
+  // let initialParamValue;
+  // if (dateValue) {
+  //   initialParamValue = dayjs();
+  // } else {
+  //   initialParamValue = "";
+  // }
   const [ParamValue, setParamValue] = useState("");
   // view cancel Button Handler
   const [showOkCancel, setShowOkCancel] = useState(false);
@@ -180,8 +160,8 @@ const ParameterMaintenance = () => {
         paramName: "",
         paramType: "",
         paramValu: "",
-        effStartDate: new Date(today).toLocaleDateString(),
-        effEndDate: new Date(today).toLocaleDateString(),
+        effStartDate: dayjs().format("DD/MM/YYYY"),
+        effEndDate: dayjs().format("DD/MM/YYYY"),
       };
     });
   };
@@ -192,12 +172,19 @@ const ParameterMaintenance = () => {
     setdisabled(true);
     handleClickDialogOpen();
     console.log(values);
+    if (values.paramDataType === "Date") {
+      setDateValue(true);
+    } else {
+      setDateValue(false);
+    }
     setParamMeterName(values.paramName);
     setparamDataType(values.paramDataType);
-    setstartDate(values.paramEffStartDt);
-    setEndDate(values.paramEffEndDt);
+    setstartDate(dayjs(values.paramEffStartDt).format("DD/MM/YYYY"));
+    setEndDate(dayjs(values.paramEffEndDt).format("DD/MM/YYYY"));
     if (values.paramDataType === "Int") {
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
+    } else if (values.paramDataType === "Date") {
+      setParamValue(dayjs(values.paramValue).format("DD/MM/YYYY"));
     } else {
       setParamValue(values.paramValue);
     }
@@ -209,15 +196,19 @@ const ParameterMaintenance = () => {
     setOkButtonHandler(true);
     setdisabled(false);
     handleClickDialogOpen();
-    console.log(values);
     setParamId(values.paramId);
     setParamMeterName(values.paramName);
     setparamDataType(values.paramDataType);
-    setstartDate(values.paramEffStartDt);
-    setEndDate(values.paramEffEndDt);
+    setstartDate(dayjs(values.paramEffStartDt).format("DD/MM/YYYY"));
+    setEndDate(dayjs(values.paramEffEndDt).format("DD/MM/YYYY"));
     if (values.paramDataType === "Int") {
+      setDateValue(false);
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
+    } else if (values.paramDataType === "Date") {
+      setDateValue(true);
+      setParamValue(dayjs(values.paramValue).format("DD/MM/YYYY"));
     } else {
+      setDateValue(false);
       setParamValue(values.paramValue);
     }
     console.log(check);
@@ -249,6 +240,7 @@ const ParameterMaintenance = () => {
         SendData();
         setDialogOpen(false);
         ResetTouchHandler(false);
+        resetChecker();
       }
     } else {
       ResetTouchHandler(true);
@@ -264,7 +256,11 @@ const ParameterMaintenance = () => {
           paramEffStartDt: new Date(startDate),
           paramEffEndDt: new Date(endDate),
           paramName: paraMeterName,
-          paramValue: ParamValue.replaceAll(",", ""),
+          paramValue: dateValue
+            ? new Date(ParamValue)
+            : paramDataType === "Int"
+            ? ParamValue.replaceAll(",", "")
+            : ParamValue,
           paramId: paramaId,
         }
       );
@@ -288,13 +284,6 @@ const ParameterMaintenance = () => {
       }
 
       Reset();
-      // let data = response.data;
-      // const newRow = { ...data, id: data.paramId };
-
-      // let existrows = [...rows];
-      // existrows.push(newRow);
-      // // setRows((oldArray) => [...oldArray, newElement]);
-      // setRows([...existrows]);
     } catch {
       setState((pre) => {
         return { ...pre, vertical: "top", horizontal: "center" };
@@ -318,10 +307,12 @@ const ParameterMaintenance = () => {
     if (
       check.paramName == paraMeterName &&
       check.paramType == paramDataType &&
-      check.effStartDate == startDate &&
-      check.effEndDate == endDate &&
-      (check.paramType === "Varchar" || check.paramType === "Date"
+      check.effStartDate === dayjs(startDate).format("DD/MM/YYYY") &&
+      check.effEndDate === dayjs(endDate).format("DD/MM/YYYY") &&
+      (check.paramType === "Varchar"
         ? check.paramValu == ParamValue
+        : check.paramType === "Date"
+        ? check.paramValu == dayjs(ParamValue).format("DD/MM/YYYY")
         : check.paramValu == ParamValue.replaceAll(",", ""))
     ) {
       setdisabled(true);
@@ -335,6 +326,7 @@ const ParameterMaintenance = () => {
   };
   const addBtnHandler = () => {
     setDialogTitle("Create Parameter");
+    setDateValue(false);
     setMode(0);
     setOkButtonHandler(false);
     Reset();
@@ -347,18 +339,20 @@ const ParameterMaintenance = () => {
     setParamId("");
     setParamMeterName("");
     setparamDataType("");
-    setstartDate(todayDate);
-    setEndDate(todayDate);
+    setstartDate(dayjs());
+    setEndDate(dayjs());
     setParamValue("");
   };
   /**Validation Handlers */
   /**Valid Handler */
   const paramNameIsValid =
     paraMeterName.trim() !== "" && paraMeterName.trim().length < 50;
-  const paramTypeIsValid = paramDataType.trim() !== "";
+  const paramTypeIsValid = paramDataType !== "";
   let paramValueIsValid;
-  if (paramDataType === "Varchar" || paramDataType === "Date") {
+  if (paramDataType === "Varchar") {
     paramValueIsValid = ParamValue.trim() !== "";
+  } else if (paramDataType === "Date") {
+    paramValueIsValid = ParamValue !== "";
   } else {
     paramValueIsValid = ParamValue.length !== 0 && ParamValue.length < 50;
   }
@@ -403,8 +397,8 @@ const ParameterMaintenance = () => {
     paramName: "",
     paramType: "",
     paramValu: "",
-    effStartDate: new Date(today).toLocaleDateString(),
-    effEndDate: new Date(today).toLocaleDateString(),
+    effStartDate: dayjs().format("DD/MM/YYYY"),
+    effEndDate: dayjs().format("DD/MM/YYYY"),
   });
   /**Ok Button Handler */
   const [OkButtonHandler, setOkButtonHandler] = useState(false);
@@ -553,6 +547,18 @@ const ParameterMaintenance = () => {
                     </Grid>
                   );
                 })}
+                {rows.length === 0 && (
+                  <NoDataFound
+                    message={"No Data."}
+                    imageStyle={{
+                      marginTop:
+                        // accordianOpen && window.innerHeight < 1000
+                        //   ? "20px"
+                        // :
+                        "20%",
+                    }}
+                  />
+                )}
               </Grid>
             </Box>
           </>
@@ -647,11 +653,16 @@ const ParameterMaintenance = () => {
               <Grid item xs={12} md={6}>
                 {dateValue && (
                   <CustomDateField
+                    value={ParamValue}
                     disableFuture={false}
                     disablePast={true}
                     label="Date"
                     variant="standard"
                     disabled={disabled}
+                    onChange={(value) => {
+                      setParamValue(value);
+                      setOkButtonHandler(false);
+                    }}
                   />
                 )}
                 {!dateValue && (
@@ -666,8 +677,6 @@ const ParameterMaintenance = () => {
                       if (paramDataType === "Varchar") {
                         let val = e.target.value.replace(/[0-9]/g, "");
                         setParamValue(val);
-                      } else if (paramDataType === "Date") {
-                        setParamValue(e.target.value);
                       } else {
                         let Value = e.target.value.replace(/\D/g, "");
                         if (Value === "") {
