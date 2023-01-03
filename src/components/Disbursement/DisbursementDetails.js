@@ -39,7 +39,7 @@ const DisbursementDetails = (props) => {
   const [allCheckedValues, setChecked] = React.useState([
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
-  const disabledState = props.detailPageInitialState.screenMode === "VIEW";
+  const disabledState = props.detailPageInitialState.screenMode !== "CREATE";
 
   const getBillingDayValues = async () =>{
     const api = axios.create({
@@ -325,7 +325,7 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState}
+            disabled={disabledState && props.detailPageInitialState.screenMode === "VIEW"}
             required={true}
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
@@ -413,7 +413,7 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={true}
+            disabled={disabledState &&  props.detailPageInitialState.screenMode === "VIEW"}
             required={false}
             label="Disbursement Date"
             id="disbursementDate"
@@ -432,7 +432,7 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomDropDown
-                  disabled={disabledState}
+                  disabled={disabledState &&  props.detailPageInitialState.screenMode === "VIEW"}
                   required={true}
                   label="Billing Day"
                   id="billingDay"

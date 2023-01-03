@@ -5,6 +5,7 @@ import { useReducer } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { DisbursementRequestListService } from "./DisbursementRequestListService";
 import DisbursementTabsIntegrator from "./DisbursementTabsIntegrator";
 
 var today = new Date();
@@ -72,6 +73,7 @@ const DisbursementDetailPage = (props) => {
   const [responseData,setResponseData] = useState({});
   const [urnContent,seturnContent] = useState("");
 
+  const service = new DisbursementRequestListService();
 
   const closeDialogHandler = () =>{
     setopenReferenceDialog(false);

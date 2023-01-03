@@ -13,10 +13,14 @@ import {
   ArrowForward,
 } from "@mui/icons-material";
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   Divider,
   Grid,
   Pagination,
@@ -36,6 +40,7 @@ import axios from "axios";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 
 export default function DisbursementRequestList(props) {
+
   const columns = [
     {
       field: "requestNumber",
@@ -101,7 +106,7 @@ export default function DisbursementRequestList(props) {
       sortable: false,
       filterable: false,
       renderCell: (params) => {
-        return <LoadActionBtn record={params.row} />;
+        return <LoadActionBtn record={params.row} setResponseData={setResponseData} setopenViewConfirmation={setopenViewConfirmation}/>;
       },
     },
   ];
@@ -150,8 +155,23 @@ export default function DisbursementRequestList(props) {
   const [branchNames, setTotalBranchNames] = React.useState([]);
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
+    const [openViewConfirmation,setopenViewConfirmation] = React.useState(false);
+    const [responseData,setResponseData] = React.useState({});
+  
   const rowsPerPage = 10;
   const service = new DisbursementRequestListService();
+  const navigate = useNavigate();
+
+
+  const closeDialogHandler = () =>{
+    setopenViewConfirmation(false);
+    navigate("/stlap/home/disbursementView",{state:responseData});
+  };
+
+  const cancelClickHandler = () =>{
+    setopenViewConfirmation(false);
+  };
+ 
 
   useEffect(() => {
     let dataMap = {};
@@ -324,6 +344,26 @@ export default function DisbursementRequestList(props) {
 
   return (
     <React.Fragment>
+       <Dialog
+        open={openViewConfirmation}
+        onClose={closeDialogHandler}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Typography>This Record is Being Edited by Other User.<br />Click OK to Navigate to View Screen.</Typography>
+        </DialogTitle>
+
+        <DialogActions>
+          <Button  autoFocus onClick={closeDialogHandler}>
+            OK
+          </Button>
+          <Button  autoFocus onClick={cancelClickHandler}>
+            Cancel
+          </Button>
+
+        </DialogActions>
+      </Dialog>
       <FilterCondition
         initialState={filterConditionState}
         title="Disbursement Information"
@@ -494,7 +534,13 @@ const LoadActionBtn = (props) => {
       disbRequestId: record.disbRequestId,
       screenMode: mode,
     });
-    navigate(url, { state: response.data });
+    if(response.data.editLock && mode !== "VIEW"){
+      props.setResponseData(response.data);
+      props.setopenViewConfirmation(true);
+    } else {
+      navigate(url, { state: response.data });
+    }
+    
   };
 
   const handleIconClick = (value, record) => {
