@@ -1,5 +1,6 @@
 import { InputLabel, TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "./Custom.css";
 
@@ -13,10 +14,10 @@ const CustomDateField = (props) => {
           disabled={props.disabled}
           disableFuture={props.disableFuture}
           disablePast={props.disablePast}
-          openTo="year"
+          openTo="day"
+          inputFormat="DD/MM/YYYY"
           views={["year", "month", "day"]}
           value={props.value}
-          defaultCalendarMonth
           onChange={props.onChange}
           renderInput={(params) => (
             <TextField
@@ -35,7 +36,7 @@ const CustomDateField = (props) => {
               }}
             />
           )}
-        />{" "}
+        />
       </LocalizationProvider>
     </>
   );
