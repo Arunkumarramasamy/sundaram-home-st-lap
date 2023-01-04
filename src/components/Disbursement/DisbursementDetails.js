@@ -295,7 +295,7 @@ const DisbursementDetails = (props) => {
   };
 
   return (
-    <Box sx={{ marginTop: "0.5rem" }}>
+    <Box sx={{marginTop:"-1%"}}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
@@ -514,7 +514,7 @@ const DisbursementDetails = (props) => {
             variant="standard"
             value={props.detailPageInitialState.disbRequestId}
             type="text"
-            placeholder="Enter Request Number"
+            placeholder="Request Number"
           />
         </Grid>
 
@@ -527,7 +527,7 @@ const DisbursementDetails = (props) => {
             variant="standard"
             value={props.detailPageInitialState.requestStatus}
             type="text"
-            placeholder="Enter Status"
+            placeholder="Status"
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.requestStatus,

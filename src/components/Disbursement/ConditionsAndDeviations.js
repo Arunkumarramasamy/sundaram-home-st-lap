@@ -150,8 +150,7 @@ const ConditionsAndDeviations = (props) => {
   return (
     <>
       {useMediaQuery("(min-width:1200px)") && (
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4} lg={9} xl={3}>
+        <Box sx={{width:"100%",alignContent:"center"}}>
             <CustomDataGrid
               noDataMessage="No Conditions."
               noDataOnFilterMessage="No Conditions on Applied Filter."
@@ -161,11 +160,11 @@ const ConditionsAndDeviations = (props) => {
               pageSizeOptions={[5, 10, 15, 20, 25]}
               hideFooter={true}
               gridHeight={"270px"}
+              gridWidth={"60%"}
             />
-          </Grid>
+            </Box>
 
         
-        </Grid>
       )}
       {useMediaQuery("(max-width:1200px)") && (
         <React.Fragment>
