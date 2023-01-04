@@ -244,25 +244,25 @@ const DisbursementDetailPage = (props) => {
           }
 
 
-           //Validating Rate of Interest Field
-           if(data.rateOfInterest === 0 || data.rateOfInterest === null ){
-            errorDispatch({
-              type: errorParameters.roiError,
-              value: [true,"Rate of Interest Cannot be Empty."],
-            });
-            status=false; 
-          } else if(data.rateOfInterest < 18 || data.rateOfInterest > 22){
-            errorDispatch({
-              type: errorParameters.roiError,
-              value: [true,"Rate of Interest should be between 18 & 22."],
-            });
-            status=false;
-          } else if(errorState.roiError[0]){
-            errorDispatch({
-              type: errorParameters.roiError,
-              value: [false,"Rate of Interest Cannot be Empty/Zero."],
-            });  
-          }
+          //  //Validating Rate of Interest Field
+          //  if(data.rateOfInterest === 0 || data.rateOfInterest === null ){
+          //   errorDispatch({
+          //     type: errorParameters.roiError,
+          //     value: [true,"Rate of Interest Cannot be Empty."],
+          //   });
+          //   status=false; 
+          // } else if(data.rateOfInterest < 18 || data.rateOfInterest > 22){
+          //   errorDispatch({
+          //     type: errorParameters.roiError,
+          //     value: [true,"Rate of Interest should be between 18 & 22."],
+          //   });
+          //   status=false;
+          // } else if(errorState.roiError[0]){
+          //   errorDispatch({
+          //     type: errorParameters.roiError,
+          //     value: [false,"Rate of Interest Cannot be Empty/Zero."],
+          //   });  
+          // }
 
           //Validating ECD Field
           if(data.emiCommDate === "-1" ){
@@ -293,19 +293,19 @@ const DisbursementDetailPage = (props) => {
             });  
           }
 
-          //Validating SHFL Bank Field
-          if(data.shflBank === 0 || data.shflBank === null || data.shflBank.trim() === ""){
-            errorDispatch({
-              type: errorParameters.shflBankError,
-              value: [true,"SHFL Bank Cannot be Empty."],
-            });
-            status=false; 
-          } else if(errorState.shflBankError[0]){
-            errorDispatch({
-              type: errorParameters.shflBankError,
-              value: [false,"SHFL Bank Cannot be Empty."],
-            });  
-          }
+          // //Validating SHFL Bank Field
+          // if(data.shflBank === 0 || data.shflBank === null || data.shflBank.trim() === ""){
+          //   errorDispatch({
+          //     type: errorParameters.shflBankError,
+          //     value: [true,"SHFL Bank Cannot be Empty."],
+          //   });
+          //   status=false; 
+          // } else if(errorState.shflBankError[0]){
+          //   errorDispatch({
+          //     type: errorParameters.shflBankError,
+          //     value: [false,"SHFL Bank Cannot be Empty."],
+          //   });  
+          // }
 
 
           //Validating Bank Grid

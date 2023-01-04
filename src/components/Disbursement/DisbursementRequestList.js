@@ -97,10 +97,10 @@ export default function DisbursementRequestList(props) {
     },
     {
       field: "action",
-      headerName: "",
+      headerName: "Action",
       headerAlign: "center",
       type: "string",
-      width: 50,
+      width: 60,
       align: "center",
       hideable: false,
       sortable: false,
