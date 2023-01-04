@@ -177,6 +177,7 @@ const AccrualRemark = (props) => {
               <HistoryIcon></HistoryIcon>
             </Button>
             <Button
+            disabled={props.updateDisable}
               variant="contained"
               onClick={saveAccrualDetails}
               sx={{ fontWeight: "bold" }}
