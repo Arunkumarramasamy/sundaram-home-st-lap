@@ -290,7 +290,7 @@ const AdditionalAccrual = () => {
       type: "number",
       hideable: false,
       sortable: false,
-      width: 250,
+      width: 310,
       align: "left",
       editable: false,
     },
@@ -344,12 +344,13 @@ const AdditionalAccrual = () => {
       headerName: "Outstanding Amount",
       headerAlign: "center",
       type: "number",
-      width: "200",
+      width: 200,
       editable: false,
       align: "right",
       valueGetter: (param) => {
         let additionalAccrual =
-          param.row.additionalAccrual === undefined
+          param.row.additionalAccrual === undefined ||
+          param.row.additionalAccrual < 0
             ? 0
             : param.row.additionalAccrual;
         if (
@@ -408,7 +409,7 @@ const AdditionalAccrual = () => {
               onSubmit={searchButtonClickHandler}
             >
               <form>
-                <Grid item container spacing={2}>
+                <Grid item container spacing={1}>
                   <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                     <CustomAutoComplete
                       required={true}
@@ -466,7 +467,7 @@ const AdditionalAccrual = () => {
                       // onChange={(event)=>setReferenceName(event.target.value)}
                     />
                   </Grid>
-                  <Grid xs={0} sm={0} md={0} lg={3} xl={3}></Grid>
+
                   <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                     <CustomTextField
                       required={false}
@@ -531,6 +532,7 @@ const AdditionalAccrual = () => {
               id="accord"
               title="Accrual Details"
               initialOpen={true}
+              sx={{ marignBottom: "8px !important" }}
             >
               <Grid
                 container
