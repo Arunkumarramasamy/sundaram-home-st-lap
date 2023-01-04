@@ -53,6 +53,27 @@ const DisbursementDetails = (props) => {
     getBillingDayValues();
     const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
     setChecked([...allChecked]);
+    var option1 = 1   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
+    var option2 = 1   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
+    const dataMap = [
+      {value:option1 ,text:option1},
+      {value:option2 ,text:option2},
+    ];
+    setecdValues(dataMap);
+      var value = losInitialState.sanctionAmount - props.detailPageInitialState.earlierDisbAmt;
+      var netDisb = parseInt(value)-losInitialState.memoDeduction;
+      props.dispatchEvent({
+        type: props.fieldList.disbAmt,
+        value: value,
+      });
+      props.dispatchEvent({
+        type: props.fieldList.totalDisbAmt,
+        value: netDisb,
+      });
+      if(props.detailPageInitialState.screenMode === "CREATE" && props.detailPageInitialState.disbursementFavours.length !== 0){
+        props.detailPageInitialState.disbursementFavours[0].isChecked = true;
+        props.detailPageInitialState.disbursementFavours[0].amount = netDisb;
+        }
   }, []);
 
   var today = new Date();
@@ -94,18 +115,6 @@ const DisbursementDetails = (props) => {
     });
   }
   }
-
-  
-  useEffect(() => {
-    var option1 = 1   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
-    var option2 = 1   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
-    const dataMap = [
-      {value:option1 ,text:option1},
-      {value:option2 ,text:option2},
-    ];
-    setecdValues(dataMap);
-  }, []);
-
   
 
   const columns = [
@@ -191,8 +200,8 @@ const DisbursementDetails = (props) => {
             label={""}
             id="amount"
             variant="standard"
-            value={params.value}
-            type="number"
+            value={params.value === "" ? 0 :   parseInt(params.value).toLocaleString("en-IN")}
+            type="text"
             onChange={onAmountChange(params.row.bankAccountNumber)}
             placeholder={!params.row.isChecked ? "Disabled" : "Enter Amount"}
           />
@@ -208,7 +217,7 @@ const DisbursementDetails = (props) => {
         ...value,
       };
       if (value.bankAccountNumber === bankAccountNumber) {
-        dataMap.amount = event.target.value;
+        dataMap.amount = event.target.value.replaceAll(",","");
       }
       dataMap1.push(dataMap);
     });
