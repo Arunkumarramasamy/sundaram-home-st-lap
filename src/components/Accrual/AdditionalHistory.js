@@ -41,7 +41,7 @@ const columns = [
     type: "string",
     hideable: false,
     sortable: false,
-    width: 300,
+    width: 350,
     align: "left",
     editable: false,
   },
@@ -52,7 +52,7 @@ const columns = [
     type: "number",
     hideable: false,
     sortable: false,
-    width: 100,
+    width: 120,
     align: "right",
     editable: false,
   },
@@ -74,10 +74,16 @@ const columns = [
     type: "String",
     hideable: false,
     sortable: false,
-    width: 250,
+    
+    minWidth:218,
     align: "left",
     editable: false,
-    valueGetter: (value) => new Date(value.value).toLocaleString(),
+    valueGetter: (value) => new Date(value.value).toLocaleString('en-IN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit', hour: '2-digit', minute:'2-digit', second : '2-digit',
+      hour12: false
+    }),
   },
 ];
 const AdditionalHistory = (props) => {
@@ -135,6 +141,7 @@ const AdditionalHistory = (props) => {
           columns={columns}
           disableSelectionOnClick
           pageSize={10}
+          rowHeight={40}
           hideFooterPagination
           // hideFooterSelectedRowCount
           getRowClassName={(params) =>

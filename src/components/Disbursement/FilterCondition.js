@@ -574,13 +574,14 @@ const FilterCondition = (props) => {
         {props.mode === "Search" ? (
           <Box
             sx={{
-              marginTop: "1rem",
+              marginTop: "8px",
+              marginBottom: "8px",
               display: "flex",
               justifyContent: "center",
             }}
           >
-            <Button variant="contained" type="submit">
-              <Search />
+            <Button variant="contained" type="submit" sx={{height: "2rem"}}>
+              {/* <Search /> */}
               Search
             </Button>
             <Button
@@ -588,6 +589,7 @@ const FilterCondition = (props) => {
                 marginLeft: "1rem",
                 color: "white",
                 backgroundColor: "black",
+                height: "2rem"
               }}
               onMouseOver={({ target }) => {
                 target.style.backgroundColor = "black";
@@ -599,7 +601,7 @@ const FilterCondition = (props) => {
                 props.onClearButtonClick();
               }}
             >
-              <Backspace sx={{ marginRight: "1rem" }} />
+              {/* <Backspace sx={{ marginRight: "1rem" }} /> */}
               Clear
             </Button>
           </Box>

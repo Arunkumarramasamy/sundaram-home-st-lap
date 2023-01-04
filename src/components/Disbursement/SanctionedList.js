@@ -55,7 +55,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       hideable: false,
-      width: 200,
+      width: 244,
       align: "center",
     },
     {
@@ -79,7 +79,7 @@ const SanctionedList = (props) => {
       headerName: "Approved Amount",
       headerAlign: "center",
       type: "string",
-      width: 170,
+      width: 190,
       align: "right",
       renderCell: (params) => {
         return (
@@ -97,7 +97,7 @@ const SanctionedList = (props) => {
       headerName: "Status",
       headerAlign: "center",
       type: "string",
-      width: 150,
+      width: 200,
       align: "center",
       renderCell: (params) => {
         return loadStatus(params.value);

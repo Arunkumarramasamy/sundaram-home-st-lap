@@ -108,7 +108,7 @@ const DisbursementTabsIntegrator = (props) => {
         title={props.searchStateValues.screenModeTitle}
         initialOpen={false}
       />
-      <Box sx={{ width: "100%", marginTop: "2%", backgroundColor: "white" }}>
+      <Box sx={{ width: "100%", marginTop: "1rem", backgroundColor: "white" }}>
         <TabContext value={value}>
           <Box
             sx={{
@@ -129,6 +129,8 @@ const DisbursementTabsIntegrator = (props) => {
                   borderTopLeftRadius: "1rem",
                   borderTopRightRadius: "1rem",
                   borderBottom: "none",
+                  minHeight: "0rem",
+                  height: "2.3rem"
                 },
                 "& div.MuiTabs-flexContainer": {
                   flexWrap: "wrap",
@@ -144,6 +146,8 @@ const DisbursementTabsIntegrator = (props) => {
                   borderTopLeftRadius: "1rem",
                   borderTopRightRadius: "1rem",
                   backgroundColor: "#D7D7D7",
+                  minHeight: "0rem",
+                  height: "2.3rem"
                 },
               }}
             >
@@ -194,6 +198,7 @@ const DisbursementTabsIntegrator = (props) => {
       >
         {props.mode === "CREATE" ? (
           <CustomButton
+          sx={{height: "2rem"}}
             variant="contained"
             onClick={() => {
               props.createRequestClickHandler(state, props.searchStateValues);
@@ -203,6 +208,7 @@ const DisbursementTabsIntegrator = (props) => {
           </CustomButton>
         ) : props.mode === "MODIFY" ? (
           <CustomButton
+          sx={{height: "2rem"}}
             variant="contained"
             onClick={() => {
               props.updateRequestHandler(state, props.searchStateValues);
@@ -212,6 +218,7 @@ const DisbursementTabsIntegrator = (props) => {
           </CustomButton>
         ) : props.mode === "CANCEL" ? (
           <CustomButton
+          sx={{height: "2rem"}}
             variant="contained"
             onClick={() => {
               props.cancelRequestHandler(state, props.searchStateValues);
@@ -222,7 +229,7 @@ const DisbursementTabsIntegrator = (props) => {
         ) : null}
         <CustomButton
           variant="contained"
-          sx={{ marginLeft: "1%" }}
+          sx={{ marginLeft: "1%",height: "2rem" }}
           onClick={() => {
             if (props.mode === "CREATE") {
               props.setListVisibility(true);
