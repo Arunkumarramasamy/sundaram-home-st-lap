@@ -18,6 +18,7 @@ import { navigate, useNavigate } from "react-router-dom";
 
 const AccrualRemark = (props) => {
   const [open, setOpen] = useState(false);
+  const [reasonError, setReasonError] = useState(false);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [content, setContent] = useState("");
@@ -43,39 +44,43 @@ const AccrualRemark = (props) => {
     border: "2px solid #000",
     boxShadow: 24,
     height: "80%",
-    overflow: "scroll",
     p: 4,
   };
   //save data
   const handleClose = () => setOpen(false);
   const saveAccrualDetails = async () => {
-    const dataMap = {};
-    dataMap["gridData"] = props.gridData;
-    dataMap["reason"] = reason;
-    dataMap["remarks"] = remark;
-    dataMap["refDate"] = props.refDate;
-    dataMap["referenceNumber"] = props.refNum;
-    dataMap["updatedBy"] = Cookies.get("userName");
-    dataMap["applicationNumber"] = props.applicationNumber;
-    dataMap["type"] = props.type;
-    dataMap["historyData"] = props.historyData;
-    try {
-      // const response = await axios(
-      const response = await axios.post(
-        "http://localhost:8080/additionalfee/saveFeeDetails",
-        dataMap
-      );
-      if (response.data === "saved") {
-        setContent("Saved Successfully");
-        setSeverity("success");
+    if (!reason) {
+      setReasonError(true);
+    } else {
+      setReasonError(false);
+      const dataMap = {};
+      dataMap["gridData"] = props.gridData;
+      dataMap["reason"] = reason;
+      dataMap["remarks"] = remark;
+      dataMap["refDate"] = props.refDate;
+      dataMap["referenceNumber"] = props.refNum;
+      dataMap["updatedBy"] = Cookies.get("userName");
+      dataMap["applicationNumber"] = props.applicationNumber;
+      dataMap["type"] = props.type;
+      dataMap["historyData"] = props.historyData;
+      try {
+        // const response = await axios(
+        const response = await axios.post(
+          "http://localhost:8080/additionalfee/saveFeeDetails",
+          dataMap
+        );
+        if (response.data === "saved") {
+          setContent("Saved Successfully");
+          setSeverity("success");
+          setToasterOpen(true);
+          window.location.reload();
+        }
+      } catch {
+        setContent("Network Error");
+        setSeverity("error");
         setToasterOpen(true);
-        window.location.reload();
+        console.log("Network Error");
       }
-    } catch {
-      setContent("Network Error");
-      setSeverity("error");
-      setToasterOpen(true);
-      console.log("Network Error");
     }
   };
   return (
@@ -93,10 +98,9 @@ const AccrualRemark = (props) => {
         <Box
           sx={{
             width: "100%",
-            marginTop: "16px",
+            marginTop: "8px",
             marginLeft: "16px",
             height: "80%",
-            overflow: "scroll",
           }}
         >
           <Grid
@@ -104,7 +108,7 @@ const AccrualRemark = (props) => {
             spacing={2}
             // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           >
-            <Grid item xs={12} sm={6} md={6} lg={4} xl={4}>
+            <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomDropDown
                 id="1"
                 label="Reason "
@@ -112,10 +116,13 @@ const AccrualRemark = (props) => {
                 defaultValue="1"
                 required={true}
                 dropDownValue={resonValue}
+                variant="standard"
                 onChange={(event) => {
                   setReason(event.target.value);
+                  setReasonError(false);
                 }}
               />
+              {reasonError && <p className="error">please select a reason</p>}
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomTextField
@@ -135,7 +142,7 @@ const AccrualRemark = (props) => {
             spacing={2}
             // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           >
-            <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
+            <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <Typography id="accrual-waiver-remark" required={true}>
                 Remarks
               </Typography>
@@ -177,7 +184,7 @@ const AccrualRemark = (props) => {
               <HistoryIcon></HistoryIcon>
             </Button>
             <Button
-            disabled={props.updateDisable}
+              disabled={props.updateDisable}
               variant="contained"
               onClick={saveAccrualDetails}
               sx={{ fontWeight: "bold" }}

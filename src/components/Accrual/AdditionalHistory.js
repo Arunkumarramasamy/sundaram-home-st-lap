@@ -30,7 +30,7 @@ const columns = [
     type: "number",
     hideable: false,
     sortable: false,
-    align: "center",
+    align: "right",
     editable: false,
     width: 123,
   },
@@ -42,7 +42,7 @@ const columns = [
     hideable: false,
     sortable: false,
     width: 300,
-    align: "center",
+    align: "left",
     editable: false,
   },
   {
@@ -64,7 +64,7 @@ const columns = [
     hideable: false,
     sortable: false,
     width: 200,
-    align: "center",
+    align: "left",
     editable: false,
   },
   {
@@ -75,7 +75,7 @@ const columns = [
     hideable: false,
     sortable: false,
     width: 250,
-    align: "center",
+    align: "left",
     editable: false,
     valueGetter: (value) => new Date(value.value).toLocaleString(),
   },
@@ -123,6 +123,7 @@ const AdditionalHistory = (props) => {
             boxShadow: 2,
             border: 2,
             minHeight: "280px",
+            height:'80%',
             borderColor: "white",
             "& .MuiDataGrid-columnHeaders": {
               color: "white",

@@ -78,7 +78,11 @@ const ParameterMaintenance = () => {
           return parseInt(params.value).toLocaleString("en-IN");
         } else if (params.row.paramDataType === "Date") {
           return dayjs(params.value).format("DD/MM/YYYY");
-        } else {
+        }
+        //else if (params.row.paramDataType === "Float") {
+        //   return Number(params.value.replaceAll(",", "")).toFixed(2);
+        // }
+        else {
           return params.value;
         }
       },
@@ -446,13 +450,13 @@ const ParameterMaintenance = () => {
             justifyContent: "flex-end",
           }}
         >
-          {/* <Button
+          <Button
             sx={{ fontWeight: "bold" }}
             variant="contained"
             onClick={addBtnHandler}
           >
             Add
-          </Button> */}
+          </Button>
         </Box>
         {useMediaQuery("(min-width:1200px)") && (
           <Box>
@@ -460,7 +464,7 @@ const ParameterMaintenance = () => {
               noDataMessage="No Data."
               noDataOnFilterMessage="No Data on Applied Filter."
               rows={rows}
-              gridHeight={window.innerHeight - 190}
+              gridHeight={window.innerHeight - 230}
               columns={columnsData}
               pageSize={5}
               pageSizeOptions={[5, 10, 15, 20, 25]}
@@ -599,7 +603,7 @@ const ParameterMaintenance = () => {
                   variant="standard"
                   value={paraMeterName}
                   error={paramNameHasError}
-                  disabled={true}
+                  disabled={disabled}
                   onChange={(e) => {
                     setOkButtonHandler(false);
                     setParamMeterName(e.target.value);
@@ -623,6 +627,7 @@ const ParameterMaintenance = () => {
                     { key: 0, value: "Varchar", text: "Varchar" },
                     { key: 1, value: "Int", text: "Int" },
                     { key: 2, value: "Date", text: "Date" },
+                    { key: 3, value: "Float", text: "Float" },
                   ]}
                   onChange={(e) => {
                     if (e.target.value === "Date") {
@@ -694,11 +699,28 @@ const ParameterMaintenance = () => {
                     variant="standard"
                     disabled={disabled}
                     error={paramValueHasError}
+                    onBlur={(e) => {
+                      setParamValueTouched(true);
+                      var new_value = Number(ParamValue) * 1; //removes trailing zeros
+                      new_value = new_value + ""; //casts it to string
+
+                      let pos = new_value.indexOf(".");
+                      if (pos == -1) new_value = new_value + ".00";
+                      else {
+                        var integer = new_value.substring(0, pos);
+                        var decimals = new_value.substring(pos + 1);
+                        while (decimals.length < 2) decimals = decimals + "0";
+                        new_value = integer + "." + decimals;
+                      }
+                      setParamValue(new_value);
+                    }}
                     onChange={(e) => {
                       setOkButtonHandler(false);
                       if (paramDataType === "Varchar") {
                         let val = e.target.value.replace(/[0-9]/g, "");
                         setParamValue(val);
+                      } else if (paramDataType === "Float") {
+                        setParamValue(e.target.value);
                       } else {
                         let Value = e.target.value.replace(/\D/g, "");
                         if (Value === "") {
@@ -711,9 +733,6 @@ const ParameterMaintenance = () => {
                           );
                         }
                       }
-                    }}
-                    onBlur={(e) => {
-                      setParamValueTouched(true);
                     }}
                   />
                 )}
