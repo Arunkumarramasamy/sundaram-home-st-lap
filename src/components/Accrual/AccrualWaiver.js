@@ -408,6 +408,7 @@ const AdditionalWaiver = () => {
               component="form"
               validate="true"
               onSubmit={searchButtonClickHandler}
+             
             >
               <Grid item container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
@@ -485,7 +486,7 @@ const AdditionalWaiver = () => {
               </Grid>
               <Box
                 sx={{
-                  marginTop: "1rem",
+                  marginTop: "8px",
                   display: "flex",
                   justifyContent: "center",
                 }}

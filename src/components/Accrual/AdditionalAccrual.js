@@ -485,7 +485,7 @@ const AdditionalAccrual = () => {
                 </Grid>
                 <Box
                   sx={{
-                    marginTop: "1rem",
+                    marginTop: "8px",
                     display: "flex",
                     justifyContent: "center",
                   }}

@@ -122,7 +122,7 @@ const AccrualRemark = (props) => {
                   setReasonError(false);
                 }}
               />
-              {reasonError && <p className="error">please select a reason</p>}
+              {reasonError && <p className="error">Please Select a Reason</p>}
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomTextField
