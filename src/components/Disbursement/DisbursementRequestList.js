@@ -372,6 +372,7 @@ export default function DisbursementRequestList(props) {
         setAccordianOpen={setAccordianOpen}
         mode={"Search"}
         disDetailPage={false}
+        initialOpen={true}
       />
       {useMediaQuery("(min-width:1200px)") && (
         <CustomDataGrid

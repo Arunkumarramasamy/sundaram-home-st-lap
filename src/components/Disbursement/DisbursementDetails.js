@@ -389,7 +389,7 @@ const DisbursementDetails = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomTextField
                   disabled={disabledState}
                   required={true}
@@ -409,7 +409,7 @@ const DisbursementDetails = (props) => {
                 {props.errorState.roiError[0] && (
                   <p className="error">{props.errorState.roiError[1]}</p>
                 )}
-                </Grid>
+                </Grid> */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
@@ -545,7 +545,7 @@ const DisbursementDetails = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             disabled={disabledState}
             required={true}
@@ -565,10 +565,10 @@ const DisbursementDetails = (props) => {
           {props.errorState.shflBankError[0] && (
                   <p className="error">{props.errorState.shflBankError[1]}</p>
                 )}
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <InputLabel >{"Remarks"}</InputLabel>
+          <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Remarks"}</InputLabel>
           <TextareaAutosize
           disabled = {disabledState && props.detailPageInitialState.screenMode === "VIEW"}
             style={{

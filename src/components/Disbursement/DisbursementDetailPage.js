@@ -138,6 +138,7 @@ const DisbursementDetailPage = (props) => {
         getDisbursementData(location.state);
         losInitialState.screenModeTitle=props.screenTitle;
     } else {
+      losInitialState.screenModeTitle=props.screenTitle;
       getCustomerBankDataForCreate(losInitialState.applicationNumber);
     }
    }, []);

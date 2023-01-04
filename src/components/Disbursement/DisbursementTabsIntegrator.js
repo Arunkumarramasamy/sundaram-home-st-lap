@@ -112,6 +112,7 @@ const DisbursementTabsIntegrator = (props) => {
         disDetailPage={true}
         initialState={props.searchStateValues}
         title={props.searchStateValues.screenModeTitle}
+        initialOpen={false}
       />
       <Box sx={{ width: "100%", marginTop: "2%", backgroundColor: "white" }}>
         <TabContext value={value}>
