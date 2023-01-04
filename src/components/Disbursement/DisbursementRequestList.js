@@ -38,6 +38,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
+import { useLayoutEffect } from "react";
 
 export default function DisbursementRequestList(props) {
   const columns = [
@@ -147,7 +148,7 @@ export default function DisbursementRequestList(props) {
     disbursementDateToValue:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     disbursementStatus: "",
-    referenceNumber: "",
+    requestNumber: "",
     screenModeTitle: "",
   };
 
@@ -168,7 +169,6 @@ export default function DisbursementRequestList(props) {
   const navigate = useNavigate();
   const location = useLocation();
 
-
   const closeDialogHandler = () => {
     setopenViewConfirmation(false);
     navigate("/stlap/home/disbursementView", { state: responseData });
@@ -179,9 +179,6 @@ export default function DisbursementRequestList(props) {
   };
 
   useEffect(() => {
-    if(!(location.state === null)){
-     updateFilterAutoFill(location.state);
-  }
     let dataMap = {};
     async function getAllData() {
       const allLosData = await service.getAllData();
@@ -196,6 +193,18 @@ export default function DisbursementRequestList(props) {
     getAllData();
     getAllDisbursementData();
   }, []);
+
+  useLayoutEffect(() => {
+    if (!(location.state === null)) {
+      filterConditionState.branch = location.state.branch;
+      updateFilterAutoFill(location.state);
+      setFilterConditionState({ ...filterConditionState });
+      // filter the data also, isbackfromdetailpage is true.
+      filterData(location.state, true);
+      console.log(location.state);
+      console.log("set timeout ...." + datarows + location.state);
+    }
+  }, [datarows]);
 
   const loadStatus = (value) => {
     return (
@@ -228,11 +237,11 @@ export default function DisbursementRequestList(props) {
   const handlePageChange = (event, newPage) => {
     let offset = (newPage - 1) * rowsPerPage;
     setPage(newPage);
-    setRows(datarows.slice(offset, offset + rowsPerPage));
+    setRows([...datarows].slice(offset, offset + rowsPerPage));
   };
 
   const resetFilterData = () => {
-    setRows(datarows.slice(0, rowsPerPage));
+    setRows([...datarows].slice(0, rowsPerPage));
     setTotalPageCount(
       datarows.length % 10 !== 0
         ? Number(Number((datarows.length / 10).toFixed()) + 1)
@@ -240,75 +249,80 @@ export default function DisbursementRequestList(props) {
     );
     setTotalRowsCount(datarows.length);
     setPage(1);
+    filterConditionState.branch = "";
+    updateFilterAutoFill(initialState);
+    setFilterConditionState({ ...filterConditionState });
   };
 
-  const filterData = (data) => {
+  const filterData = (data, isBackfromDetailPage) => {
     let filterrows = [];
-    // reset the autofill & retain back later.
-    updateFilterAutoFill(initialState);
-    switch (data.tabIndex) {
-      case "2":
-        // Basic search tab
-        if (data.branch && data.branch !== "") {
-          filterrows = datarows.filter((row) => row.branch === data.branch);
-          filterConditionState.branch = data.branch;
-        } else {
-          filterConditionState.branch = "";
-        }
-        if (data.applicationNumber && data.applicationNumber !== "") {
-          filterrows = filterrows.filter(
-            (row) => row.applicationNumber === data.applicationNumber
-          );
-          filterConditionState.applicationNumber = data.applicationNumber;
-        } else {
-          filterConditionState.applicationNumber = "";
-        }
-        if (data.applicantName && data.applicantName !== "") {
-          filterrows = filterrows.filter(
-            (row) => row.customerName === data.applicantName
-          );
-          filterConditionState.customerName = data.applicantName;
-        } else {
-          filterConditionState.customerName = "";
-        }
-        if (data.referenceNumber && data.referenceNumber !== "") {
-          filterrows = filterrows.filter(
-            (row) => row.requestNumber === data.referenceNumber
-          );
-          // since this filter is for sancation list, so 1  referenceNumber number has only one record.
-          updateFilterAutoFill(filterrows[0]);
-        } else {
-          updateFilterAutoFill(initialState);
-        }
-        if (data.disbursementStatus && data.disbursementStatus !== "") {
-          filterrows = filterrows.filter(
-            (row) => row.status === data.disbursementStatus
-          );
-          filterConditionState.disbursementStatus = data.disbursementStatus;
-        } else {
-          filterConditionState.disbursementStatus = "";
-        }
-        // few more conditions yet to be added based on fields decided to target need to add to dummy data.
-        setRows(filterrows);
-        setFilterConditionState({ ...filterConditionState });
-        setTotalPageCount(
-          filterrows.length % 10 !== 0
-            ? Number(Number((filterrows.length / 10).toFixed()) + 1)
-            : Number(Number((filterrows.length / 10).toFixed()))
-        );
-        setTotalRowsCount(filterrows.length);
-        setPage(1);
-        break;
-      default:
-        break;
+    if (!isBackfromDetailPage) {
+      // reset the autofill & retain back later.
+      updateFilterAutoFill(initialState);
     }
+
+    // Basic search tab
+    if (data.branch && data.branch !== "") {
+      filterrows = [...datarows].filter((row) => row.branch === data.branch);
+      filterConditionState.branch = data.branch;
+    } else {
+      filterConditionState.branch = "";
+    }
+    if (data.applicationNumber && data.applicationNumber !== "") {
+      filterrows = filterrows.filter(
+        (row) => row.applicationNumber === data.applicationNumber
+      );
+      filterConditionState.applicationNumber = data.applicationNumber;
+    } else {
+      filterConditionState.applicationNumber = "";
+    }
+    const applicantName = !isBackfromDetailPage
+      ? data.applicantName
+      : data.customerName;
+    if (applicantName && applicantName !== "") {
+      filterrows = filterrows.filter(
+        (row) => row.customerName === applicantName
+      );
+      filterConditionState.customerName = applicantName;
+    } else {
+      filterConditionState.customerName = "";
+    }
+    if (data.requestNumber && data.requestNumber !== "") {
+      filterrows = filterrows.filter(
+        (row) => row.requestNumber === data.requestNumber
+      );
+      // since this filter is for sancation list, so 1  requestNumber number has only one record.
+      if (filterrows.length === 1) {
+        updateFilterAutoFill(filterrows[0]);
+      }
+    } else {
+      updateFilterAutoFill(initialState);
+    }
+    if (data.disbursementStatus && data.disbursementStatus !== "") {
+      filterrows = filterrows.filter(
+        (row) => row.status === data.disbursementStatus
+      );
+      filterConditionState.disbursementStatus = data.disbursementStatus;
+    } else {
+      filterConditionState.disbursementStatus = "";
+    }
+    // few more conditions yet to be added based on fields decided to tarequestNumberrget need to add to dummy data.
+    setRows(filterrows);
+    setFilterConditionState({ ...filterConditionState });
+    setTotalPageCount(
+      filterrows.length % 10 !== 0
+        ? Number(Number((filterrows.length / 10).toFixed()) + 1)
+        : Number(Number((filterrows.length / 10).toFixed()))
+    );
+    setTotalRowsCount(filterrows.length);
+    setPage(1);
   };
 
   const updateFilterAutoFill = (data) => {
     // this method updates or removes other fields auto fill data to retain back
     filterConditionState.applicationNumber = data.applicationNumber;
     filterConditionState.customerName = data.customerName;
-    filterConditionState.referenceNumber = data.referenceNumber;
+    filterConditionState.requestNumber = data.requestNumber;
     filterConditionState.disbursementStatus = data.disbursementStatus;
   };
 
@@ -320,7 +334,7 @@ export default function DisbursementRequestList(props) {
     if (newPage >= page) {
       setPage(newPage + 1);
       const existrowsLength = rows.length;
-      setRows(datarows.slice(0, existrowsLength + rowsPerPage));
+      setRows([...datarows].slice(0, existrowsLength + rowsPerPage));
     }
   };
 
@@ -338,7 +352,7 @@ export default function DisbursementRequestList(props) {
     filterConditionState.branchNames = loadBranchNames;
     filterConditionState.disbursementList = [...tempDataRows];
     setFilterConditionState({ ...filterConditionState });
-    setRows(tempDataRows.slice(0, rowsPerPage));
+    setRows([...tempDataRows].slice(0, rowsPerPage));
     setTotalPageCount(
       tempDataRows.length % 10 !== 0
         ? Number(Number((tempDataRows.length / 10).toFixed()) + 1)
@@ -371,7 +385,7 @@ export default function DisbursementRequestList(props) {
       };
       tempDataRows.push(dataMap1);
     });
-    setdatarows(tempDataRows);
+    setdatarows([...tempDataRows]);
     if (JSON.stringify(tempDataRows) !== JSON.stringify(datarows)) {
       updateStateData(tempDataRows);
     } else {
@@ -405,7 +419,7 @@ export default function DisbursementRequestList(props) {
       <FilterCondition
         initialState={filterConditionState}
         title="Disbursement Information"
-        onSearchButtonClick={filterData}
+        onSearchButtonClick={(data) => filterData(data, false)}
         onClearButtonClick={resetFilterData}
         setAccordianOpen={setAccordianOpen}
         mode={"Search"}

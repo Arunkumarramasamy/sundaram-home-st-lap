@@ -133,6 +133,8 @@ const DisbursementCreatePortal = (props) => {
 
   const resetFilterData = () => {
     filterConditionState.sanctionList = [...searchValues.sanctionList];
+    filterConditionState.branch = "";
+    updateFilterAutoFill(initialState);
     setFilterConditionState({ ...filterConditionState });
   };
 

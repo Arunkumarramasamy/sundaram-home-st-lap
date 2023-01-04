@@ -29,7 +29,7 @@ const filterValues = {
   sanctionAmount: "sanctionAmount",
   disbursementDateFromValue: "disbursementDateFromValue",
   disbursementDateToValue: "disbursementDateToValue",
-  referenceNumber: "requestNumber",
+  requestNumber: "requestNumber",
   disbursementStatus: "disbursementStatus",
 };
 
@@ -72,8 +72,8 @@ const FilterCondition = (props) => {
         return { ...state, disbursementDateToValue: action.value };
       case filterValues.disbursementStatus:
         return { ...state, disbursementStatus: action.value };
-      case filterValues.referenceNumber:
-        return { ...state, referenceNumber: action.value };
+      case filterValues.requestNumber:
+        return { ...state, requestNumber: action.value };
       default:
         return { ...props.initialState, tabIndex: state.tabIndex };
     }
@@ -92,7 +92,7 @@ const FilterCondition = (props) => {
       // based on branch select dynamic load of application numbers
       if (!value && field === filterValues.applicationNumber) {
         removeSelectedData(dataList, value, field);
-      } else if (!value && field === filterValues.referenceNumber) {
+      } else if (!value && field === filterValues.requestNumber) {
         removeSelectedData(dataList, value, field);
         dataList = [...dataList].filter(
           (row) => row.applicationNumber === state.applicationNumber
@@ -127,16 +127,16 @@ const FilterCondition = (props) => {
       ];
       loadApplicantNames(applicantNames);
       // dynmaic load of reference numbers.
-      const referenceNumbers = [
+      const requestNumbers = [
         ...Array.from(new Set(dataList.map((row) => row.requestNumber))).map(
-          (referenceNumber) => {
+          (requestNumber) => {
             return {
-              label: referenceNumber,
+              label: requestNumber,
             };
           }
         ),
       ];
-      loadReferenceNumbers(referenceNumbers);
+      loadrequestNumbers(requestNumbers);
       // dynamic load of status.
       const status = [
         ...Array.from(new Set(dataList.map((row) => row.status))).map(
@@ -165,7 +165,7 @@ const FilterCondition = (props) => {
             : [{ label: dataList.at(0).customerName }]
           : [{ label: dataList.at(0).customerName }]
       );
-      loadReferenceNumbers(
+      loadrequestNumbers(
         !value
           ? field === filterValues.branch
             ? []
@@ -184,7 +184,7 @@ const FilterCondition = (props) => {
   };
 
   const removeSelectedData = (dataList, value, field) => {
-    if (field !== filterValues.referenceNumber) {
+    if (field !== filterValues.requestNumber) {
       dispatch({
         type: filterValues.applicationNumber,
         value:
@@ -199,7 +199,7 @@ const FilterCondition = (props) => {
         !value || dataList.length === 0 ? null : dataList.at(0).customerName,
     });
     dispatch({
-      type: filterValues.referenceNumber,
+      type: filterValues.requestNumber,
       value:
         !value || dataList.length === 0 ? null : dataList.at(0).requestNumber,
     });
@@ -236,7 +236,7 @@ const FilterCondition = (props) => {
   const disabledState = !(props.mode === "Search");
   const [applicationNumbers, loadApplicationNumbers] = React.useState([]);
   const [applicantNames, loadApplicantNames] = React.useState([]);
-  const [referenceNumbers, loadReferenceNumbers] = React.useState([]);
+  const [requestNumbers, loadrequestNumbers] = React.useState([]);
   const [disbursementStatus, loadDisbursementRecordsStatus] = React.useState(
     []
   );
@@ -512,20 +512,20 @@ const FilterCondition = (props) => {
                 <CustomAutoComplete
                   disabled={disabledState}
                   required={false}
-                  label="Reference Number"
-                  id="referenceNumber"
+                  label="Request Number"
+                  id="requestNumber"
                   variant="standard"
-                  value={state.referenceNumber}
+                  value={state.requestNumber}
                   type="text"
                   placeholder="Enter Reference Number"
-                  autoCompleteValues={referenceNumbers}
+                  autoCompleteValues={requestNumbers}
                   onChange={(event, value) => {
                     dispatch({
-                      type: filterValues.referenceNumber,
+                      type: filterValues.requestNumber,
                       value: value === null ? value : value.label,
                     });
                     updateFieldsData(
-                      filterValues.referenceNumber,
+                      filterValues.requestNumber,
                       value === null ? value : value.label
                     );
                   }}
