@@ -12,7 +12,6 @@ import CustomButton from "../CustomComponents/CustomButton";
 import { useNavigate } from "react-router-dom";
 
 const DisbursementTabsIntegrator = (props) => {
-
   const navigate = useNavigate();
   const [value, setValue] = React.useState("1");
   const [accordianOpen, setAccordianOpen] = React.useState(true);
@@ -42,67 +41,62 @@ const DisbursementTabsIntegrator = (props) => {
     totalDisbAmt: "totalDisbAmt",
     transactionId: "transactionId",
     screenMode: "screenMode",
-    rateOfInterest : "rateOfInterest",
+    rateOfInterest: "rateOfInterest",
   };
 
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case screenFields.billingDate:
+        return { ...state, billingDate: action.value };
+      case screenFields.billingDay:
+        return { ...state, billingDay: action.value };
+      case screenFields.dateOfDisb:
+        return { ...state, dateOfDisb: action.value };
+      case screenFields.disbAmt:
+        return { ...state, disbAmt: action.value };
+      case screenFields.disbNo:
+        return { ...state, disbNo: action.value };
+      case screenFields.disbRequestId:
+        return { ...state, disbRequestId: action.value };
+      case screenFields.disbursementFavours:
+        return { ...state, disbursementFavours: action.value };
+      case screenFields.earlierDisbAmt:
+        return { ...state, earlierDisbAmt: action.value };
+      case screenFields.editLock:
+        return { ...state, editLock: action.value };
+      case screenFields.effectiveDate:
+        return { ...state, effectiveDate: action.value };
+      case screenFields.emiCommDate:
+        return { ...state, emiCommDate: action.value };
+      case screenFields.firstEmiDueDate:
+        return { ...state, firstEmiDueDate: action.value };
+      case screenFields.paymentMode:
+        return { ...state, paymentMode: action.value };
+      case screenFields.remarks:
+        return { ...state, remarks: action.value };
+      case screenFields.requestStatus:
+        return { ...state, requestStatus: action.value };
+      case screenFields.shflBank:
+        return { ...state, shflBank: action.value };
+      case screenFields.totalDisbAmt:
+        return { ...state, totalDisbAmt: action.value };
+      case screenFields.screenMode:
+        return { ...state, screenMode: action.value };
+      case screenFields.rateOfInterest:
+        return { ...state, rateOfInterest: action.value };
+      default:
+        return { ...props.detailPageInitialState };
+    }
+  };
 
+  const [state, dispatch] = useReducer(reducer, props.detailPageInitialState);
 
-        const reducer = (state, action) => {
-          switch (action.type) {
-            case screenFields.billingDate:
-            return { ...state, billingDate: action.value };
-            case screenFields.billingDay:
-            return { ...state, billingDay: action.value };
-            case screenFields.dateOfDisb:
-            return { ...state, dateOfDisb: action.value };
-            case screenFields.disbAmt:
-            return { ...state, disbAmt: action.value };
-            case screenFields.disbNo:
-            return { ...state, disbNo: action.value };
-            case screenFields.disbRequestId:
-            return { ...state, disbRequestId: action.value };
-            case screenFields.disbursementFavours:
-            return { ...state, disbursementFavours: action.value };
-            case screenFields.earlierDisbAmt:
-            return { ...state, earlierDisbAmt: action.value };
-            case screenFields.editLock:
-            return { ...state, editLock: action.value };
-            case screenFields.effectiveDate:
-            return { ...state, effectiveDate: action.value };
-            case screenFields.emiCommDate:
-            return { ...state, emiCommDate: action.value };
-            case screenFields.firstEmiDueDate:
-            return { ...state, firstEmiDueDate: action.value };
-            case screenFields.paymentMode:
-            return { ...state, paymentMode: action.value };
-            case screenFields.remarks:
-            return { ...state, remarks: action.value };
-            case screenFields.requestStatus:
-            return { ...state, requestStatus: action.value };
-            case screenFields.shflBank:
-            return { ...state, shflBank: action.value };
-            case screenFields.totalDisbAmt:
-            return { ...state, totalDisbAmt: action.value };
-            case screenFields.screenMode:
-            return { ...state, screenMode: action.value };
-            case screenFields.rateOfInterest:
-            return { ...state, rateOfInterest: action.value };
-            default:
-            return { ...props.detailPageInitialState};
-            }
-        };
-
-        const [state, dispatch] = useReducer(reducer, props.detailPageInitialState);
-
-        
-
-        useEffect(() => {
-          dispatch({
-          type: screenFields.screenMode,
-          value: props.mode,
-        });
-        }, []);
-
+  useEffect(() => {
+    dispatch({
+      type: screenFields.screenMode,
+      value: props.mode,
+    });
+  }, []);
 
   return (
     <>
@@ -159,13 +153,20 @@ const DisbursementTabsIntegrator = (props) => {
           </Box>
 
           <TabPanel value="1">
-            <DisbursementDetails setListVisibility={props.setListVisibility}  detailPageInitialState={state} dispatchEvent={dispatch} fieldList={screenFields} losInitialState={props.searchStateValues} errorState={props.errorState}/>
+            <DisbursementDetails
+              setListVisibility={props.setListVisibility}
+              detailPageInitialState={state}
+              dispatchEvent={dispatch}
+              fieldList={screenFields}
+              losInitialState={props.searchStateValues}
+              errorState={props.errorState}
+            />
           </TabPanel>
           <TabPanel value="2">
             <FeesOutstanding
               setListVisibility={props.setListVisibility}
               accordianOpenState={props.accordianOpenState}
-              detailPageInitialState={state} 
+              detailPageInitialState={state}
               dispatchEvent={dispatch}
               fieldList={screenFields}
               losInitialState={props.searchStateValues}
@@ -175,47 +176,54 @@ const DisbursementTabsIntegrator = (props) => {
             <ConditionsAndDeviations
               setListVisibility={props.setListVisibility}
               accordianOpenState={props.accordianOpenState}
-              detailPageInitialState={state} 
+              detailPageInitialState={state}
               dispatchEvent={dispatch}
-              fieldList={screenFields}  
-              losInitialState={props.searchStateValues}         
-              />
+              fieldList={screenFields}
+              losInitialState={props.searchStateValues}
+            />
           </TabPanel>
         </TabContext>
       </Box>
-      
+
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
         }}
       >
-        {props.mode==="CREATE" ? 
-        <CustomButton variant="contained" 
-         onClick={() => {
-          props.createRequestClickHandler(state,props.searchStateValues);
-        }} >
-          Create Request
-        </CustomButton> : 
-         props.mode==="MODIFY" ? 
-         <CustomButton variant="contained" 
-         onClick={() => {
-          props.updateRequestHandler(state,props.searchStateValues);
-        }} >         
-          Update Request
-        </CustomButton>: 
-        props.mode==="CANCEL" ? 
-         <CustomButton variant="contained" 
-         onClick={() => {
-          props.cancelRequestHandler(state,props.searchStateValues);
-        }} >         
-          Cancel Request
-        </CustomButton>: null} 
+        {props.mode === "CREATE" ? (
+          <CustomButton
+            variant="contained"
+            onClick={() => {
+              props.createRequestClickHandler(state, props.searchStateValues);
+            }}
+          >
+            Create Request
+          </CustomButton>
+        ) : props.mode === "MODIFY" ? (
+          <CustomButton
+            variant="contained"
+            onClick={() => {
+              props.updateRequestHandler(state, props.searchStateValues);
+            }}
+          >
+            Update Request
+          </CustomButton>
+        ) : props.mode === "CANCEL" ? (
+          <CustomButton
+            variant="contained"
+            onClick={() => {
+              props.cancelRequestHandler(state, props.searchStateValues);
+            }}
+          >
+            Cancel Request
+          </CustomButton>
+        ) : null}
         <CustomButton
           variant="contained"
-          sx={{marginLeft: "1%" }}
+          sx={{ marginLeft: "1%" }}
           onClick={() => {
-            if(props.mode === "CREATE"){
+            if (props.mode === "CREATE") {
               props.setListVisibility(true);
             } else {
               navigate("/stlap/home/disbursementList");
@@ -224,7 +232,7 @@ const DisbursementTabsIntegrator = (props) => {
         >
           Back to search
         </CustomButton>
-      </Box> 
+      </Box>
     </>
   );
 };

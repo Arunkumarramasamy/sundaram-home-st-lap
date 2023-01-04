@@ -40,7 +40,6 @@ import axios from "axios";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 
 export default function DisbursementRequestList(props) {
-
   const columns = [
     {
       field: "requestNumber",
@@ -106,7 +105,13 @@ export default function DisbursementRequestList(props) {
       sortable: false,
       filterable: false,
       renderCell: (params) => {
-        return <LoadActionBtn record={params.row} setResponseData={setResponseData} setopenViewConfirmation={setopenViewConfirmation}/>;
+        return (
+          <LoadActionBtn
+            record={params.row}
+            setResponseData={setResponseData}
+            setopenViewConfirmation={setopenViewConfirmation}
+          />
+        );
       },
     },
   ];
@@ -155,23 +160,21 @@ export default function DisbursementRequestList(props) {
   const [branchNames, setTotalBranchNames] = React.useState([]);
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
-    const [openViewConfirmation,setopenViewConfirmation] = React.useState(false);
-    const [responseData,setResponseData] = React.useState({});
-  
+  const [openViewConfirmation, setopenViewConfirmation] = React.useState(false);
+  const [responseData, setResponseData] = React.useState({});
+
   const rowsPerPage = 10;
   const service = new DisbursementRequestListService();
   const navigate = useNavigate();
 
-
-  const closeDialogHandler = () =>{
+  const closeDialogHandler = () => {
     setopenViewConfirmation(false);
-    navigate("/stlap/home/disbursementView",{state:responseData});
+    navigate("/stlap/home/disbursementView", { state: responseData });
   };
 
-  const cancelClickHandler = () =>{
+  const cancelClickHandler = () => {
     setopenViewConfirmation(false);
   };
- 
 
   useEffect(() => {
     let dataMap = {};
@@ -187,7 +190,7 @@ export default function DisbursementRequestList(props) {
     }
     getAllData();
     getAllDisbursementData();
-  }, [datarows]);
+  }, []);
 
   const loadStatus = (value) => {
     return (
@@ -223,7 +226,7 @@ export default function DisbursementRequestList(props) {
     setRows(datarows.slice(offset, offset + rowsPerPage));
   };
 
-  const resetFilterData = (data) => {
+  const resetFilterData = () => {
     setRows(datarows.slice(0, rowsPerPage));
     setTotalPageCount(
       datarows.length % 10 !== 0
@@ -291,9 +294,9 @@ export default function DisbursementRequestList(props) {
     }
   };
 
-  const updateStateData = () => {
+  const updateStateData = (tempDataRows) => {
     const loadBranchNames = [
-      ...Array.from(new Set(datarows.map((row) => row.branchName))).map(
+      ...Array.from(new Set(tempDataRows.map((row) => row.branchName))).map(
         (branch) => {
           return {
             label: branch,
@@ -303,15 +306,15 @@ export default function DisbursementRequestList(props) {
     ];
     setTotalBranchNames(loadBranchNames);
     filterConditionState.branchNames = loadBranchNames;
-    filterConditionState.disbursementList = [...datarows];
+    filterConditionState.disbursementList = [...tempDataRows];
     setFilterConditionState({ ...filterConditionState });
-    setRows(datarows.slice(0, rowsPerPage));
+    setRows(tempDataRows.slice(0, rowsPerPage));
     setTotalPageCount(
-      datarows.length % 10 !== 0
-        ? Number(Number((datarows.length / 10).toFixed()) + 1)
-        : Number(Number((datarows.length / 10).toFixed()))
+      tempDataRows.length % 10 !== 0
+        ? Number(Number((tempDataRows.length / 10).toFixed()) + 1)
+        : Number(Number((tempDataRows.length / 10).toFixed()))
     );
-    setTotalRowsCount(datarows.length);
+    setTotalRowsCount(tempDataRows.length);
   };
 
   const getDisbursementData = (response, dataMap) => {
@@ -320,7 +323,8 @@ export default function DisbursementRequestList(props) {
     response.data.map((disbursementRow) => {
       const dataMap1 = {
         id: counter++,
-        requestNumber: dataMap[disbursementRow.applicationNumber].requestNumber,
+        requestNumber:
+          dataMap[disbursementRow.applicationNumber].requestNumber,
         branchName: dataMap[disbursementRow.applicationNumber].branch,
         customerName: dataMap[disbursementRow.applicationNumber].customerName,
         applicationNumber: disbursementRow.applicationNumber,
@@ -339,29 +343,34 @@ export default function DisbursementRequestList(props) {
       tempDataRows.push(dataMap1);
     });
     setdatarows(tempDataRows);
-    updateStateData();
+    if (JSON.stringify(tempDataRows) !== JSON.stringify(datarows)) {
+      updateStateData(tempDataRows);
+    } else {
+      resetFilterData();
+    }
   };
 
   return (
     <React.Fragment>
-       <Dialog
+      <Dialog
         open={openViewConfirmation}
         onClose={closeDialogHandler}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          <Typography>This Record is Being Edited by Other User.<br />Click OK to Navigate to View Screen.</Typography>
+          <Typography>
+            This Record is Being Edited by Other User.
+            <br />
+            Click OK to Navigate to View Screen.
+          </Typography>
         </DialogTitle>
 
         <DialogActions>
-          <Button  autoFocus onClick={closeDialogHandler}>
+          <Button autoFocus onClick={closeDialogHandler}>
             OK
           </Button>
-          <Button  onClick={cancelClickHandler}>
-            Cancel
-          </Button>
-
+          <Button onClick={cancelClickHandler}>Cancel</Button>
         </DialogActions>
       </Dialog>
       <FilterCondition
@@ -470,10 +479,7 @@ export default function DisbursementRequestList(props) {
                             {"Customer Name : " + row.customerName}
                           </Typography>
                           <Typography padding="1px">
-                            {"Last Modified : " + row.modifiedUser}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Last Modified Time : " + row.modifiedDate}
+                            {"Disbursement Date : " + row.disbursementDate}
                           </Typography>
                         </Grid>
                         <Grid
@@ -534,13 +540,12 @@ const LoadActionBtn = (props) => {
       disbRequestId: record.disbRequestId,
       screenMode: mode,
     });
-    if(response.data.editLock && mode !== "VIEW"){
+    if (response.data.editLock && mode !== "VIEW") {
       props.setResponseData(response.data);
       props.setopenViewConfirmation(true);
     } else {
       navigate(url, { state: response.data });
     }
-    
   };
 
   const handleIconClick = (value, record) => {

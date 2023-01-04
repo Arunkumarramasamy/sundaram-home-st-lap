@@ -59,22 +59,59 @@ const DisbursementCreatePortal = (props) => {
 
   const filterData = (data) => {
     let filterrows = [];
+    // reset the autofill & retain back later.
+    updateFilterAutoFill(initialState);
     switch (data.tabIndex) {
+      // for this filter use the disbursement list field on state since it contains all the sancation records all time.
       case "2":
         if (data.branch && data.branch !== "") {
-          filterrows = filterConditionState.sanctionList.filter(
+          filterrows = filterConditionState.disbursementList.filter(
             (row) => row.branch === data.branch
           );
+          filterConditionState.branch = data.branch;
+        } else {
+          filterConditionState.branch = "";
         }
         if (data.applicationNumber && data.applicationNumber !== "") {
           filterrows = filterrows.filter(
             (row) => row.applicationNumber === data.applicationNumber
           );
+          // since this filter is for sancation list, so 1  application number has only one record.
+          updateFilterAutoFill(filterrows[0]);
+        } else {
+          // when app no not filled, means search operated with other individual fields.
+          // reset all.
+          updateFilterAutoFill(initialState);
         }
         if (data.customerName && data.customerName !== "") {
           filterrows = filterrows.filter(
             (row) => row.customerName === data.customerName
           );
+          filterConditionState.customerName = data.customerName;
+        }
+        if (data.customerType && data.customerType !== "-1") {
+          filterrows = filterrows.filter(
+            (row) => row.customerType === data.customerType
+          );
+          filterConditionState.customerType = data.customerType;
+        }
+        if (data.rateOfInterest && data.rateOfInterest !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.rateOfInterest === data.rateOfInterest
+          );
+          filterConditionState.rateOfInterest = data.rateOfInterest;
+        }
+        if (data.loanAmount && data.loanAmount !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.loanAmount === data.loanAmount
+          );
+          filterConditionState.loanAmount = data.loanAmount;
+        }
+        if (data.sanctionAmount && data.sanctionAmount !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.sanctionAmount === data.sanctionAmount
+          );
+          filterConditionState.sanctionAmount = data.sanctionAmount;
         }
         filterConditionState.sanctionList = [...filterrows];
         setFilterConditionState({ ...filterConditionState });
@@ -84,13 +121,23 @@ const DisbursementCreatePortal = (props) => {
     }
   };
 
+  const updateFilterAutoFill = (data) => {
+    // this method updates or removes other fields auto fill data to retain back
+    filterConditionState.applicationNumber = data.applicationNumber;
+    filterConditionState.customerName = data.customerName;
+    filterConditionState.customerType = data.customerType;
+    filterConditionState.rateOfInterest = data.rateOfInterest;
+    filterConditionState.loanAmount = data.loanAmount;
+    filterConditionState.sanctionAmount = data.sanctionAmount;
+  };
+
   const resetFilterData = () => {
     filterConditionState.sanctionList = [...searchValues.sanctionList];
     setFilterConditionState({ ...filterConditionState });
   };
 
   useEffect(() => {
-   getSanctionList();
+    getSanctionList();
   }, []);
 
   const clearButtonClickHandler = (data) => {
@@ -108,41 +155,39 @@ const DisbursementCreatePortal = (props) => {
 
   const getSanctionList = async () => {
     const api = axios.create({
-      baseURL: "http://localhost:8080/losCustomer/"
+      baseURL: "http://localhost:8080/losCustomer/",
     });
     const response = await api.get("/getAllData");
 
     const api1 = axios.create({
-      baseURL: "http://localhost:8080/disbursement/"
+      baseURL: "http://localhost:8080/disbursement/",
     });
     const response1 = await api1.get("/getAllDisbursementData");
-      
 
-      if(response1.data.length === 0){
-        filterConditionState.sanctionList = response.data; 
-      } else {
-        let disbursedApplications = [];
-        response1.data.map((disbursementRow)=>{
-          disbursedApplications.push(disbursementRow.applicationNumber);
-    });
-        const dataMap = [];
-    response.data.map((sanctionRow)=>{ 
-            if(!(disbursedApplications.includes(sanctionRow.applicationNumber))){
-              dataMap.push(sanctionRow);
-            }
+    if (response1.data.length === 0) {
+      filterConditionState.sanctionList = response.data;
+    } else {
+      let disbursedApplications = [];
+      response1.data.map((disbursementRow) => {
+        disbursedApplications.push(disbursementRow.applicationNumber);
       });
-          filterConditionState.sanctionList = dataMap; 
-  }
+      const dataMap = [];
+      response.data.map((sanctionRow) => {
+        if (!disbursedApplications.includes(sanctionRow.applicationNumber)) {
+          dataMap.push(sanctionRow);
+        }
+      });
+      filterConditionState.sanctionList = dataMap;
+    }
 
-    
     const loadBranchNames = [
-      ...Array.from(
-        new Set([...response.data].map((row) => row.branch))
-      ).map((branch) => {
-        return {
-          label: branch,
-        };
-      }),
+      ...Array.from(new Set([...response.data].map((row) => row.branch))).map(
+        (branch) => {
+          return {
+            label: branch,
+          };
+        }
+      ),
     ];
     setTotalBranchNames(loadBranchNames);
     filterConditionState.branchNames = loadBranchNames;
@@ -161,7 +206,7 @@ const DisbursementCreatePortal = (props) => {
             setAccordianOpen={setAccordianOpen}
             disDetailPage={true}
             mode={"Search"}
-            initialState={initialState}
+            initialState={filterConditionState}
             title="Disbursement Request Create"
             onSearchButtonClick={searchButtonClickHandler}
             onClearButtonClick={clearButtonClickHandler}
