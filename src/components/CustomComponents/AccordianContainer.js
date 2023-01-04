@@ -37,8 +37,7 @@ const AccordianContainer = (props) => {
         sx={{
           width: "100%",
           margin: "unset",
-          paddingTop: "unset",
-          paddingBottom: "8px",
+          paddingTop: "8px",
         }}
       >
         {props.children}
