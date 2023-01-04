@@ -227,7 +227,7 @@ const DisbursementTabsIntegrator = (props) => {
             if (props.mode === "CREATE") {
               props.setListVisibility(true);
             } else {
-              navigate("/stlap/home/disbursementList");
+              navigate("/stlap/home/disbursementList",{state:props.searchStateValues});
             }
           }}
         >

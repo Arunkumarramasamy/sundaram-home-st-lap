@@ -35,7 +35,7 @@ import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import { display } from "@mui/system";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 
@@ -166,6 +166,8 @@ export default function DisbursementRequestList(props) {
   const rowsPerPage = 10;
   const service = new DisbursementRequestListService();
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   const closeDialogHandler = () => {
     setopenViewConfirmation(false);
@@ -177,6 +179,9 @@ export default function DisbursementRequestList(props) {
   };
 
   useEffect(() => {
+    if(!(location.state === null)){
+     updateFilterAutoFill(location.state);
+  }
     let dataMap = {};
     async function getAllData() {
       const allLosData = await service.getAllData();

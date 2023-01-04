@@ -28,34 +28,22 @@ const ConditionsAndDeviations = (props) => {
     },
     {
       field: "date",
-      headerName: "Date",
+      headerName: "Approved Date",
       headerAlign: "center",
       type: "string",
       width: 150,
       align: "right",
       editable: false,
     },
-  ];
-
-  const deviationColumns = [
     {
-      field: "deviation",
-      headerName: "Deviation",
+      field: "status",
+      headerName: "Deviation Status",
       headerAlign: "center",
       type: "string",
       hideable: false,
       sortable: false,
       width: 250,
       align: "center",
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      headerAlign: "center",
-      type: "string",
-      width: 150,
-      align: "right",
-      editable: false,
       renderCell: (params) => {
         return (
           <Chip
@@ -68,45 +56,32 @@ const ConditionsAndDeviations = (props) => {
     },
   ];
 
+  
+
   const conditionRows = [
     {
       id: 1,
-      condition: "Legal Approved Date",
+      condition: "Legal ",
       date: new Date(props.losInitialState.legalApprovedDate).toLocaleDateString(),
-    },
-    {
-      id: 2,
-      condition: "Technical Approved Date",
-      date: new Date(props.losInitialState.technicalApprovedDate).toLocaleDateString(),
-    },
-    {
-      id: 3,
-      condition: "Credit Approved Date",
-      date: new Date(props.losInitialState.creditApprovedDate).toLocaleDateString(),
-    },
-    {
-      id: 4,
-      condition: "RCU Approved Date",
-      date: new Date(props.losInitialState.rcuApprovedDate).toLocaleDateString(),
-    },
-  ];
-
-  const deviationRows = [
-    {
-      id: 1,
-      deviation: "Legal Deviation Status",
       status:  props.losInitialState.legalDeviationStatus,
     },
     {
       id: 2,
-      deviation: "Technical Deviation Status",
+      condition: "Technical ",
+      date: new Date(props.losInitialState.technicalApprovedDate).toLocaleDateString(),
       status: props.losInitialState.techinicalDeviationStatus,
     },
     {
       id: 3,
-      deviation: "Credit Deviation Status",
+      condition: "Credit ",
+      date: new Date(props.losInitialState.creditApprovedDate).toLocaleDateString(),
       status: props.losInitialState.creditDeviationStatus,
     },
+    // {
+    //   id: 4,
+    //   condition: "RCU Approved Date",
+    //   date: new Date(props.losInitialState.rcuApprovedDate).toLocaleDateString(),
+    // },
   ];
 
   const loadCardView = (cardHeaderName, rows, noDataMessage, cardMode) => {
@@ -122,7 +97,7 @@ const ConditionsAndDeviations = (props) => {
               <Grid container direction="column" sx={{ flex: "1 auto" }}>
                 <Card>
                   <CardHeader
-                    subheader={cardHeaderName}
+                    // subheader={cardHeaderName}
                     subheaderTypographyProps={{
                       color: "#004A92",
                       fontWeight: "700",
@@ -142,15 +117,12 @@ const ConditionsAndDeviations = (props) => {
                     >
                       {cardMode === "Conditions" &&
                         rows.map((row, index) => (
+                          <><h4>{row.condition}</h4>
                           <Typography padding="1px">
-                            {row.condition + " : " + row.date}
+                            {"Approved Date" + " : " + row.date}<br />
+                            {"Deviation Status" + " : " + row.status}
                           </Typography>
-                        ))}
-                      {cardMode === "Deviations" &&
-                        rows.map((row, index) => (
-                          <Typography padding="1px">
-                            {row.deviation + " : " + row.status}
-                          </Typography>
+                          </>
                         ))}
                     </Grid>
                   </CardContent>
@@ -179,7 +151,7 @@ const ConditionsAndDeviations = (props) => {
     <>
       {useMediaQuery("(min-width:1200px)") && (
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
+          <Grid item xs={12} sm={6} md={4} lg={9} xl={3}>
             <CustomDataGrid
               noDataMessage="No Conditions."
               noDataOnFilterMessage="No Conditions on Applied Filter."
@@ -192,18 +164,7 @@ const ConditionsAndDeviations = (props) => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4} lg={6} xl={3}>
-            <CustomDataGrid
-              noDataMessage="No Deviations."
-              noDataOnFilterMessage="No Deviations on Applied Filter."
-              rows={deviationRows}
-              columns={deviationColumns}
-              pageSize={5}
-              pageSizeOptions={[5, 10, 15, 20, 25]}
-              hideFooter={true}
-              gridHeight={"270px"}
-            />
-          </Grid>
+        
         </Grid>
       )}
       {useMediaQuery("(max-width:1200px)") && (
@@ -213,12 +174,6 @@ const ConditionsAndDeviations = (props) => {
             conditionRows,
             "No Conditions Found",
             "Conditions"
-          )}
-          {loadCardView(
-            "Deviations : ",
-            deviationRows,
-            "No Deviations Found",
-            "Deviations"
           )}
         </React.Fragment>
       )}

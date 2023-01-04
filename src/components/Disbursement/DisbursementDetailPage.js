@@ -27,7 +27,7 @@ var detailPageInitialState =   {
     "firstEmiDueDate": "",
     "paymentMode": "RTGS",
     "remarks": "",
-    "requestStatus": "Requested",
+    "requestStatus": "",
     "screenMode": "CREATE",
     "shflBank": "",
     "totalDisbAmt": 0,
@@ -202,7 +202,7 @@ const DisbursementDetailPage = (props) => {
       }
      };
 
-     const updateDisbursementDataToDB = async (data) => { 
+     const updateDisbursementDataToDB = async (data,losData) => { 
       const api = axios.create({
           baseURL: "http://localhost:8080/disbursement/"
         });
@@ -216,7 +216,7 @@ const DisbursementDetailPage = (props) => {
           
           setshowSnackBar(true);
           setLoading(false);
-          navigate("/stlap/home/disbursementList");
+          navigate("/stlap/home/disbursementList",{state:losData});
         }
        };
 
@@ -381,6 +381,7 @@ const DisbursementDetailPage = (props) => {
     data.effectiveDate= new Date(data.effectiveDate);
     data.applicantName = losData.customerName;
     data.branch = losData.branch;
+    data.requestStatus = "Requested";
     insertDisbursementDataToDB(data);
   }
   };
@@ -412,10 +413,8 @@ const DisbursementDetailPage = (props) => {
     disbursementData.branch = losData.branch;
     if(disbursementData.screenMode === "CANCEL"){
       disbursementData.requestStatus = "Cancelled";
-    } else if(disbursementData.screenMode === "MODIFY") {
-      disbursementData.requestStatus = "Modified";
-    }
-    updateDisbursementDataToDB(disbursementData);
+    } 
+    updateDisbursementDataToDB(disbursementData,losData);
   }
   };
 

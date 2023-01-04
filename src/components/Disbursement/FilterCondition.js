@@ -389,7 +389,7 @@ const FilterCondition = (props) => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                  {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomDateField
                       disabled={disabledState}
                       required={false}
@@ -400,38 +400,11 @@ const FilterCondition = (props) => {
                       type="text"
                       placeholder="Enter Effective Date"
                     />
-                  </Grid>
+                  </Grid> */}
                 </>
               ) : null}
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                {props.mode === "Search" ? (
-                  <CustomDateRangeField
-                    disabled={disabledState || disableSearchFields}
-                    required={false}
-                    label="Application Date"
-                    id="applicationDate"
-                    variant="standard"
-                    fromValue={state.applicationDateFromValue}
-                    toValue={state.applicationDateToValue}
-                    type="text"
-                    placeholder="Enter Application Date"
-                    onChange={[
-                      (event) => {
-                        dispatch({
-                          type: filterValues.applicationDateFromValue,
-                          value: event,
-                        });
-                      },
-                      (event) => {
-                        dispatch({
-                          type: filterValues.applicationDateToValue,
-                          value: event,
-                        });
-                      },
-                    ]}
-                  />
-                ) : (
                   <CustomDateField
                     disabled={disabledState}
                     required={false}
@@ -441,8 +414,14 @@ const FilterCondition = (props) => {
                     value={state.applicationDate}
                     type="text"
                     placeholder="Enter Application Date"
+                    onChange={(event) => {
+                      dispatch({
+                        type: filterValues.applicationDate,
+                        value: event,
+                      });
+                    }}
                   />
-                )}
+                
               </Grid>
 
               {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -572,30 +551,21 @@ const FilterCondition = (props) => {
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                <CustomDateRangeField
-                  disabled={disabledState || disableSearchFields}
-                  required={false}
-                  label="Disbursement Date Range"
-                  id="disbursementDateRange"
-                  variant="standard"
-                  fromValue={state.disbursementDateFromValue}
-                  toValue={state.disbursementDateToValue}
-                  type="text"
-                  placeholder="Enter Date Range"
-                  onChange={[
-                    (event) => {
+              <CustomDateField
+                    disabled={disabledState}
+                    required={false}
+                    label="Disbursement Date"
+                    id="disbursementDate"
+                    variant="standard"
+                    value={state.disbursementDateFromValue}
+                    type="text"
+                    placeholder="Enter Disbursement Date"
+                    onChange={(event) => {
                       dispatch({
                         type: filterValues.disbursementDateFromValue,
-                        value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                        value: event,
                       });
-                    },
-                    (event) => {
-                      dispatch({
-                        type: filterValues.disbursementDateToValue,
-                        value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
-                      });
-                    },
-                  ]}
+                    }}
                 />
               </Grid>
             </React.Fragment>
