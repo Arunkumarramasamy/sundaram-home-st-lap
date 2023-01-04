@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Grid,
+  InputLabel,
   Modal,
   TextareaAutosize,
   Typography,
@@ -122,7 +123,7 @@ const AccrualRemark = (props) => {
                   setReasonError(false);
                 }}
               />
-              {reasonError && <p className="error">please select a reason</p>}
+              {reasonError && <p className="error">Please Select a Reason</p>}
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomTextField
@@ -143,9 +144,13 @@ const AccrualRemark = (props) => {
             // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           >
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-              <Typography id="accrual-waiver-remark" required={true}>
+              <InputLabel
+                id="accrual-waiver-remark"
+                sx={{ color: "#004A92", fontWeight: 600 ,marginTop:'8px'}}
+                required={false}
+              >
                 Remarks
-              </Typography>
+              </InputLabel>
               <TextareaAutosize
                 id="accrual-textarea"
                 maxRows={4}
