@@ -60,6 +60,7 @@ const DisbursementDetails = (props) => {
       {value:option2 ,text:option2},
     ];
     setecdValues(dataMap);
+    if(props.detailPageInitialState.screenMode === "CREATE"){
       var value = losInitialState.sanctionAmount - props.detailPageInitialState.earlierDisbAmt;
       var netDisb = parseInt(value)-losInitialState.memoDeduction;
       props.dispatchEvent({
@@ -70,10 +71,11 @@ const DisbursementDetails = (props) => {
         type: props.fieldList.totalDisbAmt,
         value: netDisb,
       });
-      if(props.detailPageInitialState.screenMode === "CREATE" && props.detailPageInitialState.disbursementFavours.length !== 0){
+       if(props.detailPageInitialState.disbursementFavours.length !== 0){
         props.detailPageInitialState.disbursementFavours[0].isChecked = true;
         props.detailPageInitialState.disbursementFavours[0].amount = netDisb;
         }
+      }
   }, []);
 
   var today = new Date();
