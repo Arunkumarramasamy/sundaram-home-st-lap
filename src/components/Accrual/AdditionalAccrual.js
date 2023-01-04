@@ -311,7 +311,7 @@ const AdditionalAccrual = () => {
       headerName: "Amout Received(₹)",
       headerAlign: "center",
       type: "number",
-      width: 150,
+      minWidth: 150,
       align: "right",
       editable: false,
     },
@@ -345,7 +345,8 @@ const AdditionalAccrual = () => {
       headerName: "Outstanding Amount",
       headerAlign: "center",
       type: "number",
-      width: 200,
+      width:205,
+      minWidth: 205,
       editable: false,
       align: "right",
       valueGetter: (param) => {
@@ -402,7 +403,7 @@ const AdditionalAccrual = () => {
             id="accord"
             title="Fee Accural Details"
             initialOpen={true}
-            sx={{margin:'8px !important'}}
+            sx={{ margin: "8px !important" }}
           >
             <Box
               id="accord-box"
@@ -551,7 +552,7 @@ const AdditionalAccrual = () => {
                   sx={{
                     boxShadow: 2,
                     border: 2,
-                    minHeight: "280px",
+                    minHeight: "310px",
                     borderColor: "white",
                     "& .MuiDataGrid-columnHeaders": {
                       color: "white",
@@ -559,17 +560,18 @@ const AdditionalAccrual = () => {
                       backgroundColor: "#004A92",
                     },
                   }}
+                  rowThreshold={0}
+                  rowHeight={40}
                   rows={dataRows}
                   columns={columns}
                   pageSize={pageSize}
                   disableSelectionOnClick
-                  autoHeight
                   onCellEditCommit={(event) => handleCellChangedEvent(event)}
-                  getRowClassName={(params) =>
-                    params.id % 2
-                      ? `super-app-theme--even`
-                      : `super-app-theme--odd`
-                  }
+                  // getRowClassName={(params) =>
+                  //   params.id % 2
+                  //     ? `super-app-theme--even`
+                  //     : `super-app-theme--odd`
+                  // }
                   initialState={{
                     columns: {
                       columnVisibilityModel: {

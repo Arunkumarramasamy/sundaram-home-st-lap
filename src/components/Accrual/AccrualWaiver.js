@@ -354,7 +354,7 @@ const AdditionalWaiver = () => {
       headerName: "Fees to be Waiver(₹)",
       headerAlign: "center",
       type: "number",
-      width: 190,
+      minWidth:195,
       align: "right",
       editable: true,
       valueGetter: (param) => {
@@ -557,6 +557,7 @@ const AdditionalWaiver = () => {
                       backgroundColor: "#004A92",
                     },
                   }}
+                  rowHeight={40}
                   rows={dataRows}
                   columns={columns}
                   pageSize={pageSize}
