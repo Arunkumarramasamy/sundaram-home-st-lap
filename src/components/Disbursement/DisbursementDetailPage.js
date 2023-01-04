@@ -69,6 +69,7 @@ const DisbursementDetailPage = (props) => {
   const[loading,setLoading] = useState(true);
 
   const[showSnackBar,setshowSnackBar] = useState(false);
+  const[snackBarMsg,setsnackBarMsg] = useState("Empty SnackBar");
   const [openReferenceDialog,setopenReferenceDialog] = useState(false);
   const [responseData,setResponseData] = useState({});
   const [urnContent,seturnContent] = useState("");
@@ -192,6 +193,7 @@ const DisbursementDetailPage = (props) => {
       const response = await api.post("/insertDisbursement",data);
       if(response.status === 200){
         setResponseData(response.data);
+        setsnackBarMsg("Disbursement Request Created Successfully.");
         setshowSnackBar(true);
         setLoading(false);
         seturnContent(<Typography>Generated Reference Number is : {response.data.disbRequestId}</Typography>);
@@ -199,17 +201,34 @@ const DisbursementDetailPage = (props) => {
       }
      };
 
-     const validateCreateRequestData = (data) => {
+     const updateDisbursementDataToDB = async (data) => { 
+      const api = axios.create({
+          baseURL: "http://localhost:8080/disbursement/"
+        });
+        const response = await api.post("/updateDisbursement",data);
+        if(response.status === 200){
+          if(data.screenMode === "CANCEL"){
+            setsnackBarMsg("Disbursement Request Cancelled Successfully.");       
+             } else if(data.screenMode === "MODIFY") {
+              setsnackBarMsg("Disbursement Request Modified Successfully."); 
+          }
+          
+          setshowSnackBar(true);
+          setLoading(false);
+        }
+       };
+
+     const validateCreateRequestData = (data,losData) => {
           var status = true;
 
           //Validating Current Disbursement Amount Field
-          if(data.disbAmt === 0 || data.disbAmt === null || data.disbAmt.trim() === ""){
+          if(data.disbAmt === 0 || data.disbAmt === null ){
             errorDispatch({
               type: errorParameters.currentDisbError,
               value: [true,"Current Disbursement Amount Cannot be Empty/Zero."],
             });
             status=false; 
-          }  else if(data.disbAmt > props.rowClickData.sanctionAmount){
+          }  else if(data.disbAmt > losData.sanctionAmount){
             errorDispatch({
               type: errorParameters.currentDisbError,
               value: [true,"Current Disbursement Amount Cannot be Greater than Sanction Amount."],
@@ -297,7 +316,7 @@ const DisbursementDetailPage = (props) => {
           } else {
           var bankAccountSelectionCount = 0;
           var totalAmountSelected = 0;
-          var netDisbAmt = data.disbAmt - props.rowClickData.memoDeduction;
+          var netDisbAmt = data.disbAmt - losData.memoDeduction;
           data.disbursementFavours.filter((row)=> row.isChecked === true
           ).forEach((row)=>{
             bankAccountSelectionCount++;
@@ -335,9 +354,9 @@ const DisbursementDetailPage = (props) => {
      };
 
 
-  const createRequestHandler = (data) => {
+  const createRequestHandler = (data,losData) => {
     setLoading(true);
-    if(validateCreateRequestData(data)){
+    if(validateCreateRequestData(data,losData)){
       const dataMap=[];
     data.disbursementFavours.filter((row)=> row.isChecked === true
     ).forEach((row)=>{
@@ -358,11 +377,47 @@ const DisbursementDetailPage = (props) => {
     data.disbursementFavours = dataMap;
     data.dateOfDisb = new Date(data.dateOfDisb);
     data.effectiveDate= new Date(data.effectiveDate);
+    data.applicantName = losData.customerName;
+    data.branch = losData.branch;
     insertDisbursementDataToDB(data);
   }
   };
 
-  const handleSnackBarClose = () =>{
+  const updateRequestHandler = (disbursementData,losData) => {
+    setLoading(true);
+    if(validateCreateRequestData(disbursementData,losData)){
+      const dataMap=[];
+    disbursementData.disbursementFavours.filter((row)=> row.isChecked === true
+    ).forEach((row)=>{
+      const dataMap1 = {
+        "id": row.bankAccountNumber,
+        "applicationNumber": row.applicationNumber,
+        "bankAccNumber": row.bankAccountNumber,
+        "createdBy": "",
+        "createdDate": "",
+        "disbAmount": row.amount,
+        "disbRequestId": disbursementData.disbRequestId,
+        "distNo": disbursementData.disbNo,
+        "lastModifiedBy": "",
+        "lastModifiedDate": "",
+      };
+      dataMap.push(dataMap1);
+    });
+    disbursementData.disbursementFavours = dataMap;
+    disbursementData.dateOfDisb = new Date(disbursementData.dateOfDisb);
+    disbursementData.effectiveDate= new Date(disbursementData.effectiveDate);
+    disbursementData.applicantName = losData.customerName;
+    disbursementData.branch = losData.branch;
+    if(disbursementData.screenMode === "CANCEL"){
+      disbursementData.requestStatus = "CANCEL";
+    } else if(disbursementData.screenMode === "MODIFY") {
+      disbursementData.requestStatus = "MODIFY";
+    }
+    updateDisbursementDataToDB(disbursementData);
+  }
+  };
+
+   const handleSnackBarClose = () =>{
       setshowSnackBar(false);
   };
 
@@ -370,7 +425,7 @@ const DisbursementDetailPage = (props) => {
        <Snackbar
         open={showSnackBar}
         autoHideDuration={1000}
-        message={"Disbursement Request Created Successfully"}    
+        message={snackBarMsg}    
         action={
             <IconButton
               aria-label="close"
@@ -412,6 +467,8 @@ const DisbursementDetailPage = (props) => {
         mode={props.mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
+        updateRequestHandler = {updateRequestHandler}
+        cancelRequestHandler = {updateRequestHandler}
         errorState={errorState}
       />
     </>: 
@@ -423,6 +480,8 @@ const DisbursementDetailPage = (props) => {
         mode={props.mode}
         detailPageInitialState={detailPageInitialState}
         createRequestClickHandler = {createRequestHandler}
+        updateRequestHandler = {updateRequestHandler}
+        cancelRequestHandler = {updateRequestHandler}
         errorState={errorState}
       />
     </>}

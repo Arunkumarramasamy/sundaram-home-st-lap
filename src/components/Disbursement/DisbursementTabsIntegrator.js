@@ -193,10 +193,24 @@ const DisbursementTabsIntegrator = (props) => {
         {props.mode==="CREATE" ? 
         <CustomButton variant="contained" 
          onClick={() => {
-          props.createRequestClickHandler(state);
+          props.createRequestClickHandler(state,props.searchStateValues);
         }} >
           Create Request
-        </CustomButton> : null } 
+        </CustomButton> : 
+         props.mode==="MODIFY" ? 
+         <CustomButton variant="contained" 
+         onClick={() => {
+          props.updateRequestHandler(state,props.searchStateValues);
+        }} >         
+          Update Request
+        </CustomButton>: 
+        props.mode==="CANCEL" ? 
+         <CustomButton variant="contained" 
+         onClick={() => {
+          props.cancelRequestHandler(state,props.searchStateValues);
+        }} >         
+          Cancel Request
+        </CustomButton>: null} 
         <CustomButton
           variant="contained"
           sx={{marginLeft: "1%" }}

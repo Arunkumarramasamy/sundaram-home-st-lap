@@ -119,7 +119,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
-          disabled={disabledState}
+          disabled={disabledState && props.detailPageInitialState.screenMode === "VIEW"}
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
           />
@@ -186,7 +186,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
-            disabled={!params.row.isChecked || disabledState}
+            disabled={!params.row.isChecked || disabledState && props.detailPageInitialState.screenMode === "VIEW"}
             required={false}
             label={""}
             id="amount"
@@ -570,7 +570,7 @@ const DisbursementDetails = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <InputLabel >{"Remarks"}</InputLabel>
           <TextareaAutosize
-          disabled = {disabledState}
+          disabled = {disabledState && props.detailPageInitialState.screenMode === "VIEW"}
             style={{
               width: "100%",
               marginTop: "3%",
@@ -582,7 +582,7 @@ const DisbursementDetails = (props) => {
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.remarks,
-                value: value,
+                value: event.target.value,
               });
             }}
           />
