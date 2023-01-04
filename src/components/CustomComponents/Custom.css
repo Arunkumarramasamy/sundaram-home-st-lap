@@ -10,13 +10,14 @@
   width: 15%;
 }
 
-.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root{
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
   height: 2em;
 }
 
 .css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
   color: rgba(0, 0, 0, 0.699) !important;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.699) !important;
+  font-weight: 500;
 }
 
 .css-9npbnl-MuiFormLabel-root-MuiInputLabel-root {
@@ -27,7 +28,6 @@
 
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
   -webkit-text-fill-color: rgb(29 38 36 / 95%) !important;
-    
 }
 
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {

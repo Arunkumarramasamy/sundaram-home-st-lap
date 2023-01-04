@@ -7,7 +7,10 @@ import "./Custom.css";
 const CustomDateRangeField = (props) => {
   return (
     <>
-      <InputLabel required={props.required} sx={{ color: "#004A92" }}>
+      <InputLabel
+        required={props.required}
+        sx={{ color: "#004A92", fontWeight: 600 }}
+      >
         {props.label}
       </InputLabel>
       <ButtonGroup>
