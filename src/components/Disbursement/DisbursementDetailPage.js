@@ -27,7 +27,7 @@ var detailPageInitialState =   {
     "firstEmiDueDate": "",
     "paymentMode": "RTGS",
     "remarks": "",
-    "requestStatus": "REQUESTED",
+    "requestStatus": "Requested",
     "screenMode": "CREATE",
     "shflBank": "",
     "totalDisbAmt": 0,
@@ -215,6 +215,7 @@ const DisbursementDetailPage = (props) => {
           
           setshowSnackBar(true);
           setLoading(false);
+          navigate("/stlap/home/disbursementList");
         }
        };
 
@@ -409,9 +410,9 @@ const DisbursementDetailPage = (props) => {
     disbursementData.applicantName = losData.customerName;
     disbursementData.branch = losData.branch;
     if(disbursementData.screenMode === "CANCEL"){
-      disbursementData.requestStatus = "CANCEL";
+      disbursementData.requestStatus = "Cancelled";
     } else if(disbursementData.screenMode === "MODIFY") {
-      disbursementData.requestStatus = "MODIFY";
+      disbursementData.requestStatus = "Modified";
     }
     updateDisbursementDataToDB(disbursementData);
   }
