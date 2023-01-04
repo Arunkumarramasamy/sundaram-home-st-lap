@@ -14,7 +14,6 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import Logo from "../../images/SF_Logo.png";
@@ -493,9 +492,9 @@ export default function Pagelayout() {
           orientation="vertical"
           flexItem
         />
-        <IconButton color="inherit">
+        {/* <IconButton color="inherit">
             <NotificationsIcon />
-        </IconButton>
+        </IconButton> */}
         <Stack direction="row">
           {/* <Tooltip title="Change Password">
             <IconButton>
@@ -598,9 +597,9 @@ export default function Pagelayout() {
             orientation="vertical"
             flexItem
           />
-          <IconButton color="inherit">
+          {/* <IconButton color="inherit">
               <NotificationsIcon />
-          </IconButton>
+          </IconButton> */}
         </MenuItem>
         <Divider />
         <MenuItem>

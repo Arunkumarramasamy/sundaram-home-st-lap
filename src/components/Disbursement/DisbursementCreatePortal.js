@@ -210,6 +210,7 @@ const DisbursementCreatePortal = (props) => {
             title="Disbursement Request Create"
             onSearchButtonClick={searchButtonClickHandler}
             onClearButtonClick={clearButtonClickHandler}
+            initialOpen={true}
           />
           <SanctionedList
             accordianOpenState={accordianOpen}

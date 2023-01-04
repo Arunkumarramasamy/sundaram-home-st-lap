@@ -335,7 +335,7 @@ const FilterCondition = (props) => {
               {/* To Show other fields in view screen. */}
               {props.mode !== "Search" ? (
                 <>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                  {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
                       disabled={disabledState}
                       required={false}
@@ -352,8 +352,8 @@ const FilterCondition = (props) => {
                         });
                       }}
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                  </Grid> */}
+                  {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
                       disabled={disabledState}
                       required={false}
@@ -370,7 +370,7 @@ const FilterCondition = (props) => {
                         });
                       }}
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
                       disabled={disabledState}
@@ -445,7 +445,7 @@ const FilterCondition = (props) => {
                 )}
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+              {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomDropDown
                   disabled={disabledState || disableSearchFields}
                   required={false}
@@ -466,7 +466,7 @@ const FilterCondition = (props) => {
                     });
                   }}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
@@ -642,7 +642,7 @@ const FilterCondition = (props) => {
     <>
       <AccordianContainer
         title={props.title}
-        initialOpen={true}
+        initialOpen={props.initialOpen}
         setAccordianOpen={props.setAccordianOpen}
       >
         <Box

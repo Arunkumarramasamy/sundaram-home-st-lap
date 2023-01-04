@@ -1,17 +1,26 @@
-import Box from "@mui/material/Box";
-import React, { useEffect, useState } from "react";
-
-import { Card, CardContent, CardHeader, useMediaQuery } from "@mui/material";
-import Button from "@mui/material/Button";
+import {
+  Autocomplete,
+  Card,
+  CardContent,
+  CardHeader,
+  FormControl,
+  InputLabel,
+  TextField,
+  useMediaQuery,
+} from "@mui/material";
 import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
+import Snackbar from "@mui/material/Snackbar";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
+import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
@@ -19,13 +28,16 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import MoreAction from "./MoreAction";
-import dayjs from "dayjs";
 
 const ParameterMaintenance = () => {
+  const [globalRows, setGlobalRows] = useState([]);
   const [rows, setRows] = useState([]);
   //State which manitain the date data type selected or not
   const [dateValue, setDateValue] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
+  //State for maintaining search conditions
+  const [pModule, setModule] = useState();
+  const [moduleArray, setModuleArray] = useState([]);
   const getData = async () => {
     try {
       const response = await axios.get(
@@ -35,7 +47,29 @@ const ParameterMaintenance = () => {
       const data = response.data.map((data) => {
         return { ...data, id: data.paramId };
       });
+      // setModuleArray(data.module.map(lis)=>{
+      //   return label:list
+      // })
+      // let filterModule = data.map((list) => {
+      //   return {
+      //     label: list.module,
+      //   };
+      // });
+
+      const filterModule = [
+        ...Array.from(new Set([...data].map((row) => row.module.trim()))).map(
+          (module) => {
+            return {
+              label: module,
+            };
+          }
+        ),
+      ];
+
+      setModuleArray(filterModule);
+
       setRows(data);
+      setGlobalRows(data);
       setTotalRowsCount(data.length);
       setParamId("");
     } catch {
@@ -48,6 +82,7 @@ const ParameterMaintenance = () => {
     }
   };
   useEffect(() => {
+    setModuleArray([{ label: "a" }, { label: "b" }, { label: "c" }]);
     getData();
   }, []);
 
@@ -55,10 +90,16 @@ const ParameterMaintenance = () => {
     {
       field: "paramName",
       headerName: "Parameter Name",
-      editable: "true",
       headerAlign: "center",
       align: "center",
-      width: 350,
+      width: 150,
+    },
+    {
+      field: "module",
+      headerName: "Module",
+      headerAlign: "center",
+      align: "center",
+      width: 150,
     },
     {
       field: "paramDataType",
@@ -348,6 +389,14 @@ const ParameterMaintenance = () => {
     setDialogOpen(true);
     setShowOkCancel(false);
   };
+  const goBtnHandler = () => {
+    const filteredData =
+      pModule === ""
+        ? globalRows
+        : globalRows.filter((rows) => rows.module.trim() === pModule.trim());
+    console.log(filteredData);
+    setRows(filteredData);
+  };
   /**Reset All values */
   const Reset = () => {
     setParamId("");
@@ -447,11 +496,40 @@ const ParameterMaintenance = () => {
             marginTop: "5px",
             marginBottom: "5px",
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "center",
           }}
         >
+          <Box sx={{ display: "flex", gap: "12px", alignItems: "center" }}>
+            <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
+              Module
+            </InputLabel>
+            <FormControl>
+              <Autocomplete
+                sx={{ width: "250px" }}
+                variant="standard"
+                type="text"
+                placeholder="Select Module"
+                options={moduleArray}
+                value={pModule}
+                onChange={(e, value) => {
+                  setModule(value == null ? "" : value.label);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} variant="standard" />
+                )}
+              />
+            </FormControl>
+            <Button
+              sx={{ fontWeight: "bold" }}
+              variant="contained"
+              onClick={goBtnHandler}
+            >
+              Go
+            </Button>
+          </Box>
+
           <Button
-            sx={{ fontWeight: "bold" }}
+            sx={{ fontWeight: "bold", marginLeft: "100px" }}
             variant="contained"
             onClick={addBtnHandler}
           >
@@ -700,19 +778,23 @@ const ParameterMaintenance = () => {
                     disabled={disabled}
                     error={paramValueHasError}
                     onBlur={(e) => {
-                      setParamValueTouched(true);
-                      var new_value = Number(ParamValue) * 1; //removes trailing zeros
-                      new_value = new_value + ""; //casts it to string
+                      if (paramDataType === "Float") {
+                        setParamValueTouched(true);
+                        var new_value = Number(ParamValue) * 1; //removes trailing zeros
+                        new_value = new_value + ""; //casts it to string
 
-                      let pos = new_value.indexOf(".");
-                      if (pos == -1) new_value = new_value + ".00";
-                      else {
-                        var integer = new_value.substring(0, pos);
-                        var decimals = new_value.substring(pos + 1);
-                        while (decimals.length < 2) decimals = decimals + "0";
-                        new_value = integer + "." + decimals;
+                        let pos = new_value.indexOf(".");
+                        if (pos == -1) new_value = new_value + ".00";
+                        else {
+                          var integer = new_value.substring(0, pos);
+                          var decimals = new_value.substring(pos + 1);
+                          while (decimals.length < 2) decimals = decimals + "0";
+                          new_value = integer + "." + decimals;
+                        }
+                        setParamValue(new_value);
+                      } else {
+                        setParamValueTouched(true);
                       }
-                      setParamValue(new_value);
                     }}
                     onChange={(e) => {
                       setOkButtonHandler(false);

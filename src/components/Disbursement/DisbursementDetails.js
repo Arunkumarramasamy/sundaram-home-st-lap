@@ -53,6 +53,29 @@ const DisbursementDetails = (props) => {
     getBillingDayValues();
     const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
     setChecked([...allChecked]);
+    var option1 = 1   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
+    var option2 = 1   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
+    const dataMap = [
+      {value:option1 ,text:option1},
+      {value:option2 ,text:option2},
+    ];
+    setecdValues(dataMap);
+    if(props.detailPageInitialState.screenMode === "CREATE"){
+      var value = losInitialState.sanctionAmount - props.detailPageInitialState.earlierDisbAmt;
+      var netDisb = parseInt(value)-losInitialState.memoDeduction;
+      props.dispatchEvent({
+        type: props.fieldList.disbAmt,
+        value: value,
+      });
+      props.dispatchEvent({
+        type: props.fieldList.totalDisbAmt,
+        value: netDisb,
+      });
+       if(props.detailPageInitialState.disbursementFavours.length !== 0){
+        props.detailPageInitialState.disbursementFavours[0].isChecked = true;
+        props.detailPageInitialState.disbursementFavours[0].amount = netDisb;
+        }
+      }
   }, []);
 
   var today = new Date();
@@ -94,18 +117,6 @@ const DisbursementDetails = (props) => {
     });
   }
   }
-
-  
-  useEffect(() => {
-    var option1 = 1   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
-    var option2 = 1   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
-    const dataMap = [
-      {value:option1 ,text:option1},
-      {value:option2 ,text:option2},
-    ];
-    setecdValues(dataMap);
-  }, []);
-
   
 
   const columns = [
@@ -178,7 +189,7 @@ const DisbursementDetails = (props) => {
     },
     {
       field: "amount",
-      headerName: "Amount to be Sent",
+      headerName: "Amount",
       headerAlign: "center",
       type: "string",
       width: 170,
@@ -191,8 +202,8 @@ const DisbursementDetails = (props) => {
             label={""}
             id="amount"
             variant="standard"
-            value={params.value}
-            type="number"
+            value={params.value === "" ? 0 :   parseInt(params.value).toLocaleString("en-IN")}
+            type="text"
             onChange={onAmountChange(params.row.bankAccountNumber)}
             placeholder={!params.row.isChecked ? "Disabled" : "Enter Amount"}
           />
@@ -208,7 +219,7 @@ const DisbursementDetails = (props) => {
         ...value,
       };
       if (value.bankAccountNumber === bankAccountNumber) {
-        dataMap.amount = event.target.value;
+        dataMap.amount = event.target.value.replaceAll(",","");
       }
       dataMap1.push(dataMap);
     });
@@ -389,7 +400,7 @@ const DisbursementDetails = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomTextField
                   disabled={disabledState}
                   required={true}
@@ -409,7 +420,7 @@ const DisbursementDetails = (props) => {
                 {props.errorState.roiError[0] && (
                   <p className="error">{props.errorState.roiError[1]}</p>
                 )}
-                </Grid>
+                </Grid> */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
@@ -501,7 +512,7 @@ const DisbursementDetails = (props) => {
             label="Request Number"
             id="requestNumber"
             variant="standard"
-            value={losInitialState.requestNumber}
+            value={props.detailPageInitialState.disbRequestId}
             type="text"
             placeholder="Enter Request Number"
           />
@@ -545,7 +556,7 @@ const DisbursementDetails = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             disabled={disabledState}
             required={true}
@@ -565,10 +576,10 @@ const DisbursementDetails = (props) => {
           {props.errorState.shflBankError[0] && (
                   <p className="error">{props.errorState.shflBankError[1]}</p>
                 )}
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <InputLabel >{"Remarks"}</InputLabel>
+          <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Remarks"}</InputLabel>
           <TextareaAutosize
           disabled = {disabledState && props.detailPageInitialState.screenMode === "VIEW"}
             style={{

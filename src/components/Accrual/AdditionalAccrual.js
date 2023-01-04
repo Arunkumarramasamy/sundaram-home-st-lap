@@ -153,6 +153,7 @@ const AdditionalAccrual = () => {
       setApplicationNumber("");
       setGridVisible("none");
     } else {
+      setBranchNameNotValid(false);
       setApplicationSearchDisable(false);
     }
   };
@@ -401,6 +402,7 @@ const AdditionalAccrual = () => {
             id="accord"
             title="Fee Accural Details"
             initialOpen={true}
+            sx={{margin:'8px !important'}}
           >
             <Box
               id="accord-box"
@@ -485,7 +487,7 @@ const AdditionalAccrual = () => {
                 </Grid>
                 <Box
                   sx={{
-                    marginTop: "1rem",
+                    marginTop: "8px",
                     display: "flex",
                     justifyContent: "center",
                   }}
