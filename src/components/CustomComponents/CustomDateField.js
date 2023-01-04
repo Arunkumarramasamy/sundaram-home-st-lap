@@ -7,7 +7,9 @@ import "./Custom.css";
 const CustomDateField = (props) => {
   return (
     <>
-      <InputLabel required={props.required}>{props.label}</InputLabel>
+      <InputLabel required={props.required} sx={{ color: "#004A92" }}>
+        {props.label}
+      </InputLabel>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker

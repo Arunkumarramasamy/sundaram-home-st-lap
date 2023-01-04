@@ -9,7 +9,9 @@ import "./Custom.css";
 const CustomAutoComplete = (props) => {
   return (
     <>
-      <InputLabel required={props.required}>{props.label}</InputLabel>
+      <InputLabel required={props.required} sx={{ color: "#004A92" }}>
+        {props.label}
+      </InputLabel>
       <FormControl fullWidth>
         <Autocomplete
           id={props.id}

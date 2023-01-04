@@ -6,7 +6,7 @@ const CustomTextField = (props) => {
   return (
     <>
     {/* <Stack direction = "row"> */}<div>
-      <InputLabel required={props.required}>{props.label}</InputLabel>
+      <InputLabel required={props.required} sx={{color:'#004A92'}}>{props.label}</InputLabel>
       <TextField
         fullWidth
         id={props.id}
