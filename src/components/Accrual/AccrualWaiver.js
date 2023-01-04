@@ -409,7 +409,7 @@ const AdditionalWaiver = () => {
               component="form"
               validate="true"
               onSubmit={searchButtonClickHandler}
-             
+              sx={{margin:'8px !important'}}
             >
               <Grid item container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>

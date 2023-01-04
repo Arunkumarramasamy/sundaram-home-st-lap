@@ -402,6 +402,7 @@ const AdditionalAccrual = () => {
             id="accord"
             title="Fee Accural Details"
             initialOpen={true}
+            sx={{margin:'8px !important'}}
           >
             <Box
               id="accord-box"

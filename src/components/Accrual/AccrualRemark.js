@@ -147,7 +147,7 @@ const AccrualRemark = (props) => {
               <InputLabel
                 id="accrual-waiver-remark"
                 sx={{ color: "#004A92", fontWeight: 600 ,marginTop:'8px'}}
-                required={true}
+                required={false}
               >
                 Remarks
               </InputLabel>
