@@ -178,7 +178,7 @@ const DisbursementDetails = (props) => {
     },
     {
       field: "amount",
-      headerName: "Amount to be Sent",
+      headerName: "Amount",
       headerAlign: "center",
       type: "string",
       width: 170,
@@ -501,7 +501,7 @@ const DisbursementDetails = (props) => {
             label="Request Number"
             id="requestNumber"
             variant="standard"
-            value={losInitialState.requestNumber}
+            value={""}
             type="text"
             placeholder="Enter Request Number"
           />
