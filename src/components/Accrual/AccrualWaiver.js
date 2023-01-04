@@ -167,6 +167,7 @@ const AdditionalWaiver = () => {
       setApplicationNumber("");
       setGridVisible("none");
     } else {
+      setBranchNameNotValid(false);
       setApplicationSearchDisable(false);
     }
   };

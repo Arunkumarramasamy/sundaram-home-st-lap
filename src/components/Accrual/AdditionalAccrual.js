@@ -153,6 +153,7 @@ const AdditionalAccrual = () => {
       setApplicationNumber("");
       setGridVisible("none");
     } else {
+      setBranchNameNotValid(false);
       setApplicationSearchDisable(false);
     }
   };

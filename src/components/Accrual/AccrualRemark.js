@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Grid,
+  InputLabel,
   Modal,
   TextareaAutosize,
   Typography,
@@ -143,9 +144,13 @@ const AccrualRemark = (props) => {
             // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           >
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
-              <Typography id="accrual-waiver-remark" required={true}>
+              <InputLabel
+                id="accrual-waiver-remark"
+                sx={{ color: "#004A92", fontWeight: 600 ,marginTop:'8px'}}
+                required={true}
+              >
                 Remarks
-              </Typography>
+              </InputLabel>
               <TextareaAutosize
                 id="accrual-textarea"
                 maxRows={4}
