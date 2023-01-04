@@ -21,6 +21,7 @@ import AccrualRemark from "./AccrualRemark";
 import axios from "axios";
 
 const AdditionalWaiver = () => {
+  const [modifiedMaps, setModifiedmap] = React.useState({});
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
   const [applicationSearchDisable, setApplicationSearchDisable] =
@@ -36,6 +37,8 @@ const AdditionalWaiver = () => {
   const [reason, setReason] = useState("");
   const [historyData, setHistorydata] = useState({});
   const [remark, setRemark] = useState("");
+  const [gridData, setGridData] = useState([]);
+  const [updateDisable, setUpdateDisable] = useState(true);
   const handleSearch = (event) => {
     event.preventDefault();
     if (branchName && applicationNumber) {
@@ -59,7 +62,9 @@ const AdditionalWaiver = () => {
         }
       );
       setDataRow(response.data.gridData);
+      setGridData(response.data.gridData);
       setReferenceNumber(response.data.otherList.referenceNumber + 1);
+      setModifiedmap(getModifiedData(response.data.gridData));
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
       setGridVisible("block");
@@ -84,6 +89,13 @@ const AdditionalWaiver = () => {
     );
     setTotalRowsCount(dataRows.length);
   }, []);
+  const getModifiedData = (modifiedData) => {
+    let modifiedMap = {};
+    modifiedData.forEach(function (key) {
+      modifiedMap[key["details"]] = key["additionalWaiver"];
+    });
+    return modifiedMap;
+  };
   const [referenceNumber, setReferenceNumber] = useState(0);
   const [currentDate, setCurrentDate] = useState(
     `${new Date().getDate()}/${
@@ -128,6 +140,10 @@ const AdditionalWaiver = () => {
       )
     ) {
       setGridAlert("flex");
+      setUpdateDisable(
+        JSON.stringify(modifiedMaps) ===
+          JSON.stringify(getModifiedData(dataRows))
+      );
     }
   };
   const branchNames = [
@@ -268,7 +284,7 @@ const AdditionalWaiver = () => {
       hideable: false,
       sortable: false,
       width: 250,
-      align: "center",
+      align: "left",
       editable: false,
     },
     {
@@ -279,7 +295,7 @@ const AdditionalWaiver = () => {
       hideable: false,
       sortable: false,
       width: 250,
-      align: "center",
+      align: "right",
       editable: false,
     },
     {
@@ -308,7 +324,7 @@ const AdditionalWaiver = () => {
       type: "number",
       width: "200",
       editable: false,
-      align: "center",
+      align: "right",
       editable: false,
       valueGetter: (param) => {
         if (
@@ -629,6 +645,7 @@ const AdditionalWaiver = () => {
             setReason={setReason}
             setRemark={setRemark}
             historyData={historyData}
+            updateDisable={updateDisable}
           ></AccrualRemark>
           <Alert
             sx={{

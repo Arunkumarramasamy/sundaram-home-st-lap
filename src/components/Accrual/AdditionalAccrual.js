@@ -26,8 +26,8 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
 import axios from "axios";
-
 const AdditionalAccrual = () => {
+  const [modifiedMaps, setModifiedmap] = React.useState({});
   const [totalPageCount, setTotalPageCount] = React.useState(0);
   const [totalRowsCount, setTotalRowsCount] = React.useState(0);
   const [branchName, setBranchName] = useState("");
@@ -43,6 +43,7 @@ const AdditionalAccrual = () => {
   const [reason, setReason] = useState("");
   const [remark, setRemark] = useState("");
   const [referenceNumber, setReferenceNumber] = useState(0);
+  const [updateDisable, setUpdateDisable] = useState(true);
   const [openHistoryDialog, setOpenHistoryDialog] = useState(false);
   const [currentDate, setCurrentDate] = useState(
     `${new Date().getDate()}/${
@@ -66,6 +67,9 @@ const AdditionalAccrual = () => {
     });
     setHistorydata(tempValue);
     setDataRow(dataMap1);
+    setUpdateDisable(
+      JSON.stringify(modifiedMaps) === JSON.stringify(getModifiedData(dataRows))
+    );
   };
   const getData = async () => {
     try {
@@ -77,6 +81,7 @@ const AdditionalAccrual = () => {
         }
       );
       setDataRow(response.data.gridData);
+      setModifiedmap(getModifiedData(response.data.gridData));
       setReferenceNumber(response.data.otherList.referenceNumber + 1);
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
@@ -85,6 +90,14 @@ const AdditionalAccrual = () => {
       setGridVisible("none");
       console.log("Network Error");
     }
+  };
+
+  const getModifiedData = (modifiedData) => {
+    let modifiedMap = {};
+    modifiedData.forEach(function (key) {
+      modifiedMap[key["details"]] = key["additionalAccrual"];
+    });
+    return modifiedMap;
   };
   const [applicationNumber, setApplicationNumber] = useState("");
   const onChangeCardItems = (row, value) => {
@@ -278,7 +291,7 @@ const AdditionalAccrual = () => {
       hideable: false,
       sortable: false,
       width: 250,
-      align: "center",
+      align: "left",
       editable: false,
     },
     {
@@ -289,7 +302,7 @@ const AdditionalAccrual = () => {
       hideable: false,
       sortable: false,
       width: 250,
-      align: "center",
+      align: "right",
       editable: false,
     },
     {
@@ -318,6 +331,13 @@ const AdditionalAccrual = () => {
       width: 190,
       align: "right",
       editable: true,
+      valueGetter: (value) => {
+        if (value.value <= 0) {
+          return 0;
+        } else {
+          return value.value;
+        }
+      },
     },
     {
       field: "outstanding",
@@ -326,7 +346,7 @@ const AdditionalAccrual = () => {
       type: "number",
       width: "200",
       editable: false,
-      align: "center",
+      align: "right",
       valueGetter: (param) => {
         let additionalAccrual =
           param.row.additionalAccrual === undefined
@@ -637,6 +657,7 @@ const AdditionalAccrual = () => {
             setRemark={setRemark}
             remark={remark}
             historyData={historyData}
+            updateDisable={updateDisable}
           ></AccrualRemark>
           <Alert
             sx={{
