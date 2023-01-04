@@ -27,7 +27,7 @@ const AccordianContainer = (props) => {
         expandIcon={<ExpandMore />}
         aria-controls="panel1a-content"
         id="panel1a-header"
-        sx={{ width: "100%", margin: "unset" }}
+        sx={{ width: "100%", margin: "unset", minHeight: "48px !important" }}
       >
         <Typography>
           <h4>{props.title}</h4>

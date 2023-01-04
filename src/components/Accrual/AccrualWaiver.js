@@ -133,6 +133,9 @@ const AdditionalWaiver = () => {
     });
     setHistorydata(tempValue);
     setDataRow(dataMap1);
+    setUpdateDisable(
+      JSON.stringify(modifiedMaps) === JSON.stringify(getModifiedData(dataRows))
+    );
     if (
       !(
         event.row.receiveable - event.row.received - event.row.earlyWaiver >
@@ -140,10 +143,8 @@ const AdditionalWaiver = () => {
       )
     ) {
       setGridAlert("flex");
-      setUpdateDisable(
-        JSON.stringify(modifiedMaps) ===
-          JSON.stringify(getModifiedData(dataRows))
-      );
+      setUpdateDisable(true);
+    } else {
     }
   };
   const branchNames = [
@@ -283,7 +284,7 @@ const AdditionalWaiver = () => {
       type: "number",
       hideable: false,
       sortable: false,
-      width: 250,
+      width: 310,
       align: "left",
       editable: false,
     },
@@ -330,7 +331,8 @@ const AdditionalWaiver = () => {
         if (
           param.row.receiveable -
             param.row.received -
-            param.row.additionalWaiver >
+            param.row.additionalWaiver -
+            param.row.earlyWaiver >
           0
         ) {
           return (
@@ -340,7 +342,9 @@ const AdditionalWaiver = () => {
             param.row.earlyWaiver
           );
         } else {
-          return param.row.receiveable - param.row.received;
+          return (
+            param.row.receiveable - param.row.received - param.row.earlyWaiver
+          );
         }
       },
     },
@@ -352,6 +356,19 @@ const AdditionalWaiver = () => {
       width: 190,
       align: "right",
       editable: true,
+      valueGetter: (param) => {
+        if (
+          param.row.receiveable -
+            param.row.received -
+            param.row.additionalWaiver -
+            param.row.earlyWaiver >
+          0
+        ) {
+          return param.value;
+        } else {
+          return 0;
+        }
+      },
     },
   ];
   const handlePageChange = (event, newPage) => {
@@ -392,7 +409,7 @@ const AdditionalWaiver = () => {
               validate="true"
               onSubmit={searchButtonClickHandler}
             >
-              <Grid item container spacing={2}>
+              <Grid item container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
                     required={true}
@@ -450,7 +467,7 @@ const AdditionalWaiver = () => {
                     // onChange={(event)=>setReferenceName(event.target.value)}
                   />
                 </Grid>
-                <Grid xs={0} sm={0} md={0} lg={3} xl={3}></Grid>
+
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomTextField
                     required={false}
@@ -513,6 +530,7 @@ const AdditionalWaiver = () => {
               id="accord"
               title="Waiver Details"
               initialOpen={true}
+              sx={{ marignBottom: "8px !important" }}
             >
               <Grid
                 container
@@ -542,6 +560,8 @@ const AdditionalWaiver = () => {
                   pageSize={pageSize}
                   disableSelectionOnClick
                   autoHeight
+                  // onCellEditStart={console.log("ttt")}
+                  // onCellKeyDown={(event) => handleCellChangedEvent(event)}
                   onCellEditCommit={(event) => handleCellChangedEvent(event)}
                   getRowClassName={(params) =>
                     params.id % 2
@@ -657,6 +677,7 @@ const AdditionalWaiver = () => {
             }}
             onClose={() => {
               setGridAlert("none");
+              // setUpdateDisable(false);
             }}
             severity="error"
           >

@@ -30,3 +30,6 @@
 .MuiAccordionSummary-content {
   margin: unset !important;
 }
+.MuiDataGrid-cell {
+  border-bottom: 1px solid rgb(179, 179, 174) !important;
+}
