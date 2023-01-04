@@ -51,7 +51,7 @@ export default function DisbursementRequestList(props) {
       hideable: false,
     },
     {
-      field: "branchName",
+      field: "branch",
       headerName: "Disbursement Branch",
       headerAlign: "center",
       type: "string",
@@ -239,36 +239,53 @@ export default function DisbursementRequestList(props) {
 
   const filterData = (data) => {
     let filterrows = [];
+    // reset the autofill & retain back later.
+    updateFilterAutoFill(initialState);
     switch (data.tabIndex) {
       case "2":
         // Basic search tab
-        if (data.branchName && data.branchName !== "") {
-          filterrows = datarows.filter(
-            (row) => row.branchName === data.branchName
-          );
+        if (data.branch && data.branch !== "") {
+          filterrows = datarows.filter((row) => row.branch === data.branch);
+          filterConditionState.branch = data.branch;
+        } else {
+          filterConditionState.branch = "";
         }
         if (data.applicationNumber && data.applicationNumber !== "") {
           filterrows = filterrows.filter(
             (row) => row.applicationNumber === data.applicationNumber
           );
+          filterConditionState.applicationNumber = data.applicationNumber;
+        } else {
+          filterConditionState.applicationNumber = "";
         }
         if (data.applicantName && data.applicantName !== "") {
           filterrows = filterrows.filter(
             (row) => row.customerName === data.applicantName
           );
+          filterConditionState.customerName = data.applicantName;
+        } else {
+          filterConditionState.customerName = "";
         }
         if (data.referenceNumber && data.referenceNumber !== "") {
           filterrows = filterrows.filter(
             (row) => row.requestNumber === data.referenceNumber
           );
+          // since this filter is for sancation list, so 1  referenceNumber number has only one record.
+          updateFilterAutoFill(filterrows[0]);
+        } else {
+          updateFilterAutoFill(initialState);
         }
         if (data.disbursementStatus && data.disbursementStatus !== "") {
           filterrows = filterrows.filter(
             (row) => row.status === data.disbursementStatus
           );
+          filterConditionState.disbursementStatus = data.disbursementStatus;
+        } else {
+          filterConditionState.disbursementStatus = "";
         }
         // few more conditions yet to be added based on fields decided to target need to add to dummy data.
         setRows(filterrows);
+        setFilterConditionState({ ...filterConditionState });
         setTotalPageCount(
           filterrows.length % 10 !== 0
             ? Number(Number((filterrows.length / 10).toFixed()) + 1)
@@ -280,6 +297,14 @@ export default function DisbursementRequestList(props) {
       default:
         break;
     }
+  };
+
+  const updateFilterAutoFill = (data) => {
+    // this method updates or removes other fields auto fill data to retain back
+    filterConditionState.applicationNumber = data.applicationNumber;
+    filterConditionState.customerName = data.customerName;
+    filterConditionState.referenceNumber = data.referenceNumber;
+    filterConditionState.disbursementStatus = data.disbursementStatus;
   };
 
   const rowDoubleClickHandler = (event) => {
@@ -296,7 +321,7 @@ export default function DisbursementRequestList(props) {
 
   const updateStateData = (tempDataRows) => {
     const loadBranchNames = [
-      ...Array.from(new Set(tempDataRows.map((row) => row.branchName))).map(
+      ...Array.from(new Set(tempDataRows.map((row) => row.branch))).map(
         (branch) => {
           return {
             label: branch,
@@ -323,9 +348,8 @@ export default function DisbursementRequestList(props) {
     response.data.map((disbursementRow) => {
       const dataMap1 = {
         id: counter++,
-        requestNumber:
-          dataMap[disbursementRow.applicationNumber].requestNumber,
-        branchName: dataMap[disbursementRow.applicationNumber].branch,
+        requestNumber: dataMap[disbursementRow.applicationNumber].requestNumber,
+        branch: dataMap[disbursementRow.applicationNumber].branch,
         customerName: dataMap[disbursementRow.applicationNumber].customerName,
         applicationNumber: disbursementRow.applicationNumber,
         applicationDate:
@@ -474,7 +498,7 @@ export default function DisbursementRequestList(props) {
                             {"Request Number : " + row.requestNumber}
                           </Typography>
                           <Typography padding="1px">
-                            {"Disbursement Branch : " + row.branchName}
+                            {"Disbursement Branch : " + row.branch}
                           </Typography>
                           <Typography padding="1px">
                             {"Customer Name : " + row.customerName}
