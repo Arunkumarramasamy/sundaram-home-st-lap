@@ -18,7 +18,7 @@ var detailPageInitialState =   {
     "dateOfDisb": todayDate,
     "disbAmt": 0,
     "disbNo": 1,
-    "disbRequestId": 0,
+    "disbRequestId": "",
     "disbursementFavours": [],
     "earlierDisbAmt": 0,
     "editLock": false,

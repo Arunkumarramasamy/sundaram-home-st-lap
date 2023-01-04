@@ -501,7 +501,7 @@ const DisbursementDetails = (props) => {
             label="Request Number"
             id="requestNumber"
             variant="standard"
-            value={""}
+            value={props.detailPageInitialState.disbRequestId}
             type="text"
             placeholder="Enter Request Number"
           />
