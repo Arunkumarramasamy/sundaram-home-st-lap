@@ -8,6 +8,7 @@ import {
   Pagination,
   Alert,
 } from "@mui/material";
+import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
@@ -92,6 +93,8 @@ const AdditionalWaiver = () => {
         : Number(Number((dataRows.length / 10).toFixed()))
     );
     setTotalRowsCount(dataRows.length);
+    const branchValues = GetBranchDetails();
+    setbranchNames(branchValues);
   }, []);
   const getModifiedData = (modifiedData) => {
     let modifiedMap = {};
@@ -151,15 +154,8 @@ const AdditionalWaiver = () => {
     } else {
     }
   };
-  const branchNames = [
-    { label: "Mylapore", value: "" },
-    { label: "Royapettah", value: "" },
-    { label: "Light House", value: "" },
-    { label: "Chennai", value: "" },
-    { label: "Tambaram", value: "" },
-    { label: "Egmore", value: "" },
-  ];
 
+  const [branchNames, setbranchNames] = useState([]);
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
     // props.onSearchButtonClick(branch, trnNo, true);

@@ -14,6 +14,7 @@ import {
   Pagination,
   Alert,
 } from "@mui/material";
+import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -116,6 +117,8 @@ const AdditionalAccrual = () => {
         : Number(Number((dataRows.length / 10).toFixed()))
     );
     setTotalRowsCount(dataRows.length);
+    const branchValues = GetBranchDetails();
+    setbranchNames(branchValues);
   }, []);
   const applicationNumberList = [
     { label: "Application1234", value: "ReferenceNumber_0001" },
@@ -128,14 +131,15 @@ const AdditionalAccrual = () => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const branchNames = [
-    { label: "Mylapore", value: "" },
-    { label: "Royapettah", value: "" },
-    { label: "Light House", value: "" },
-    { label: "Chennai", value: "" },
-    { label: "Tambaram", value: "" },
-    { label: "Egmore", value: "" },
-  ];
+  // const branchNames = [
+  //   { label: "Mylapore", value: "" },
+  //   { label: "Royapettah", value: "" },
+  //   { label: "Light House", value: "" },
+  //   { label: "Chennai", value: "" },
+  //   { label: "Tambaram", value: "" },
+  //   { label: "Egmore", value: "" },
+  // ];
+  const [branchNames, setbranchNames] = useState([]);
   const handleSearch = (event) => {
     event.preventDefault();
     if (branchName && applicationNumber) {
