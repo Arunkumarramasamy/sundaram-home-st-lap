@@ -90,6 +90,7 @@ const DisbursementDetailPage = (props) => {
     billingDayError : "billingDayError",
     shflBankError : "shflBankError",
     bankAccountError : "bankAccountError",
+    dateOfDisbError : "dateOfDispError",
     overAllError:"overAllError",
   };
   
@@ -100,6 +101,7 @@ const DisbursementDetailPage = (props) => {
     billingDayError : [false,"Please Select Billing Day."] , 
     shflBankError : [false,"SHFL Bank Cannot be Empty."],
     bankAccountError : [false,"Please Select Atlease One Bank Account."],
+    dateOfDisbError : [false,"Please Select Date of Disbursement"],
     overAllError : false,
   };
 
@@ -118,6 +120,8 @@ const DisbursementDetailPage = (props) => {
       return { ...state, shflBankError: action.value };
       case errorParameters.bankAccountError:
       return { ...state, bankAccountError: action.value };
+      case errorParameters.dateOfDisbError:
+      return { ...state, dateOfDisbError: action.value };
       case errorParameters.overAllError:
       return { ...state, overAllError: action.value };
       default:
@@ -210,8 +214,8 @@ const DisbursementDetailPage = (props) => {
         if(response.status === 200){
           if(data.screenMode === "CANCEL"){
             setsnackBarMsg("Disbursement Request Cancelled Successfully.");       
-             } else if(data.screenMode === "MODIFY") {
-              setsnackBarMsg("Disbursement Request Modified Successfully."); 
+          } else if(data.screenMode === "MODIFY") {
+            setsnackBarMsg("Disbursement Request Modified Successfully."); 
           }
           
           setshowSnackBar(true);
@@ -240,6 +244,20 @@ const DisbursementDetailPage = (props) => {
             errorDispatch({
               type: errorParameters.currentDisbError,
               value: [false,"Current Disbursement Amount Cannot be Empty/Zero."],
+            });  
+          }
+
+          //Validation Date of Disbursement
+          if(data.dateOfDisb === 0 || data.dateOfDisb === null ){
+            errorDispatch({
+              type: errorParameters.dateOfDisbError,
+              value: [true,"Date of Disbursement Cannot be Empty."],
+            });
+            status=false; 
+          } else if(errorState.dateOfDisbError[0]){
+            errorDispatch({
+              type: errorParameters.dateOfDisbError,
+              value: [false,"Date of Disbursement Cannot be Empty."],
             });  
           }
 
@@ -413,12 +431,14 @@ const DisbursementDetailPage = (props) => {
     disbursementData.branch = losData.branch;
     if(disbursementData.screenMode === "CANCEL"){
       disbursementData.requestStatus = "Cancelled";
-    } 
+    } else if(disbursementData.screenMode === "APPROVAL"){
+      disbursementData.requestStatus = "Approved";
+    }
     updateDisbursementDataToDB(disbursementData,losData);
   }
   };
 
-   const handleSnackBarClose = () =>{
+  const handleSnackBarClose = () =>{
       setshowSnackBar(false);
   };
 

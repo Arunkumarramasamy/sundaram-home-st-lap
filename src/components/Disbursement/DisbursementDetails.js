@@ -42,6 +42,7 @@ const DisbursementDetails = (props) => {
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
   const disabledState = props.detailPageInitialState.screenMode !== "CREATE";
+  const disableForView = props.detailPageInitialState.screenMode === "VIEW" || props.detailPageInitialState.screenMode === "APPROVAL"; 
 
   const getBillingDayValues = async () =>{
     const api = axios.create({
@@ -132,7 +133,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
-          disabled={disabledState && props.detailPageInitialState.screenMode === "VIEW"}
+          disabled={disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
           />
@@ -199,7 +200,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
-            disabled={!params.row.isChecked || disabledState && props.detailPageInitialState.screenMode === "VIEW"}
+            disabled={!params.row.isChecked || disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
             required={false}
             label={""}
             id="amount"
@@ -338,8 +339,8 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState && props.detailPageInitialState.screenMode === "VIEW"}
-            required={true}
+            disabled={disabledState && disableForView}
+            required={true && !(disabledState && disableForView)}
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
             variant="standard"
@@ -426,8 +427,8 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disabledState &&  props.detailPageInitialState.screenMode === "VIEW"}
-            required={false}
+            disabled={disabledState &&  disableForView}
+            required={true && !(disabledState &&  disableForView)}
             label="Disbursement Date"
             id="disbursementDate"
             variant="standard"
@@ -441,12 +442,15 @@ const DisbursementDetails = (props) => {
               });
             }}
           />
+          {props.errorState.dateOfDisbError[0] && (
+                  <p className="error">{props.errorState.dateOfDisbError[1]}</p>
+                )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomDropDown
-                  disabled={disabledState &&  props.detailPageInitialState.screenMode === "VIEW"}
-                  required={true}
+                  disabled={disabledState &&  disableForView}
+                  required={true && !(disabledState &&  disableForView)}
                   label="Billing Day"
                   id="billingDay"
                   variant="standard"
@@ -464,7 +468,7 @@ const DisbursementDetails = (props) => {
          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
                   disabled={disabledState}
-                  required={true}
+                  required={true && !(disabledState)}
                   label="ECD"
                   id="ecd"
                   variant="standard"
@@ -583,7 +587,7 @@ const DisbursementDetails = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Remarks"}</InputLabel>
           <TextareaAutosize
-          disabled = {disabledState && props.detailPageInitialState.screenMode === "VIEW"}
+          disabled = {disabledState && disableForView}
             style={{
               width: "100%",
               marginTop: "3%",
