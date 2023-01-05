@@ -265,7 +265,7 @@ const FilterCondition = (props) => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomAutoComplete
               disabled={disabledState}
-              required={true}
+              required={true && !(disabledState)}
               label="Branch"
               id="branch"
               variant="standard"

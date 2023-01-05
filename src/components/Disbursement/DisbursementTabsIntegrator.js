@@ -226,6 +226,16 @@ const DisbursementTabsIntegrator = (props) => {
           >
             Cancel Request
           </CustomButton>
+        ) :  props.mode === "APPROVAL" ? (
+          <CustomButton
+          sx={{height: "2rem"}}
+            variant="contained"
+            onClick={() => {
+              props.updateRequestHandler(state, props.searchStateValues);
+            }}
+          >
+            Approve Request
+          </CustomButton>
         ) : null}
         <CustomButton
           variant="contained"

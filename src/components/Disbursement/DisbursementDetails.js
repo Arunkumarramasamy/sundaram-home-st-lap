@@ -30,6 +30,8 @@ import React, { useEffect, useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import axios from "axios";
+import dayjs from "dayjs";
+
 
 const DisbursementDetails = (props) => {
   const[losInitialState,setlosInitialState] = useState(props.losInitialState);
@@ -40,6 +42,7 @@ const DisbursementDetails = (props) => {
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
   const disabledState = props.detailPageInitialState.screenMode !== "CREATE";
+  const disableForView = props.detailPageInitialState.screenMode === "VIEW" || props.detailPageInitialState.screenMode === "APPROVAL"; 
 
   const getBillingDayValues = async () =>{
     const api = axios.create({
@@ -53,8 +56,8 @@ const DisbursementDetails = (props) => {
     getBillingDayValues();
     const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
     setChecked([...allChecked]);
-    var option1 = 1   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
-    var option2 = 1   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
+    var option1 =dayjs(new Date(Number(Number(today.getMonth()) + 2)   + "/" + 1 + "/" + today.getFullYear())).format('DD/MM/YYYY');
+    var option2 =dayjs(new Date(Number(Number(today.getMonth()) + 3)   + "/" + 1 + "/" + today.getFullYear())).format('DD/MM/YYYY');
     const dataMap = [
       {value:option1 ,text:option1},
       {value:option2 ,text:option2},
@@ -103,14 +106,14 @@ const DisbursementDetails = (props) => {
     var lastdate = new Date(dateSplit[2], dateSplit[1], 0).getDate();
     props.dispatchEvent({
       type: props.fieldList.firstEmiDueDate,
-      value: lastdate + "/" + dateSplit[1] + "/" + dateSplit[2],
+      value: dayjs(new Date(dateSplit[1]  + "/" + lastdate+ "/" + dateSplit[2])).format('DD/MM/YYYY'),
     });
     setBillingDate(props.detailPageInitialState.billingDay,value);
   };
 
   const setBillingDate = (billingDay,ecd) =>{
     if(billingDay !== "-1" && ecd !== "-1"){
-      var value = billingDay + ecd.substring(ecd.indexOf("/"))
+      var value = dayjs(new Date(billingDay + ecd.substring(ecd.indexOf("/")))).format("MM/DD/YYYY");
     props.dispatchEvent({
       type: props.fieldList.billingDate,
       value: value,
@@ -130,7 +133,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
-          disabled={disabledState && props.detailPageInitialState.screenMode === "VIEW"}
+          disabled={disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
           />
@@ -197,7 +200,7 @@ const DisbursementDetails = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
-            disabled={!params.row.isChecked || disabledState && props.detailPageInitialState.screenMode === "VIEW"}
+            disabled={!params.row.isChecked || disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
             required={false}
             label={""}
             id="amount"
@@ -336,8 +339,8 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disabledState && props.detailPageInitialState.screenMode === "VIEW"}
-            required={true}
+            disabled={disabledState && disableForView}
+            required={true && !(disabledState && disableForView)}
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
             variant="standard"
@@ -424,8 +427,8 @@ const DisbursementDetails = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disabledState &&  props.detailPageInitialState.screenMode === "VIEW"}
-            required={false}
+            disabled={disabledState &&  disableForView}
+            required={true && !(disabledState &&  disableForView)}
             label="Disbursement Date"
             id="disbursementDate"
             variant="standard"
@@ -435,16 +438,19 @@ const DisbursementDetails = (props) => {
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.dateOfDisb,
-                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                value: event,
               });
             }}
           />
+          {props.errorState.dateOfDisbError[0] && (
+                  <p className="error">{props.errorState.dateOfDisbError[1]}</p>
+                )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <CustomDropDown
-                  disabled={disabledState &&  props.detailPageInitialState.screenMode === "VIEW"}
-                  required={true}
+                  disabled={disabledState &&  disableForView}
+                  required={true && !(disabledState &&  disableForView)}
                   label="Billing Day"
                   id="billingDay"
                   variant="standard"
@@ -462,7 +468,7 @@ const DisbursementDetails = (props) => {
          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
                   disabled={disabledState}
-                  required={true}
+                  required={true && !(disabledState)}
                   label="ECD"
                   id="ecd"
                   variant="standard"
@@ -581,7 +587,7 @@ const DisbursementDetails = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Remarks"}</InputLabel>
           <TextareaAutosize
-          disabled = {disabledState && props.detailPageInitialState.screenMode === "VIEW"}
+          disabled = {disabledState && disableForView}
             style={{
               width: "100%",
               marginTop: "3%",
