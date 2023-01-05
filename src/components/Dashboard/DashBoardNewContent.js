@@ -96,7 +96,7 @@ function DashboardContent() {
                   <OpenInFullIcon size="small" />
                 </IconButton>
               }
-              subheader="Sanctioned"
+              subheader="Sanctioned List"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
@@ -120,7 +120,7 @@ function DashboardContent() {
                   <OpenInFullIcon size="small" />
                 </IconButton>
               }
-              subheader="Request List"
+              subheader="Requested List"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
@@ -144,7 +144,7 @@ function DashboardContent() {
                   <OpenInFullIcon size="small" />
                 </IconButton>
               }
-              subheader="Approval List"
+              subheader="Approved List"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
@@ -169,7 +169,7 @@ function DashboardContent() {
                 </IconButton>
               }
               sx={{ textAlign: "center" }}
-              subheader="Disbursment Amount (₹)"
+              subheader="Total Disbursed Amount (₹)"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
             />
             <CardContent sx={{ textAlign: "center" }}>
@@ -221,7 +221,7 @@ function DashboardContent() {
               variant="subtitle2"
               sx={{
                 pt: "8px",
-                color: "white",
+                color: "black",
                 fontSize: "1.3rem !important",
                 fontWeight: "500",
               }}
@@ -268,7 +268,7 @@ function DashboardContent() {
               variant="subtitle2"
               sx={{
                 pt: "8px",
-                color: "white",
+                color: "black",
                 fontSize: "1.3rem !important",
                 fontWeight: "500",
               }}
