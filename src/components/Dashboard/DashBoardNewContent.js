@@ -53,7 +53,11 @@ function DashboardContent() {
         dataMap
       );
       if (response.data) {
-        setSanction(response.data.sanctioned);
+        setSanction(
+          response.data.sanctioned -
+            response.data.requested -
+            response.data.approved
+        );
         setRequest(response.data.requested);
         setApproved(response.data.approved);
         setSanctionAmount(response.data.approvedAmount);
@@ -87,7 +91,15 @@ function DashboardContent() {
           />
         </LocalizationProvider>
       </div> */}
-      <Grid container spacing={1} sx={{ width: "fit-content !important" }}>
+      <Grid
+        container
+        spacing={1}
+        sx={{
+          marginTop: "2px",
+          marginLeft: "2px",
+          width: "fit-content !important",
+        }}
+      >
         <Grid item xs={12} lg={3} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
@@ -96,7 +108,7 @@ function DashboardContent() {
                   <OpenInFullIcon size="small" />
                 </IconButton>
               }
-              subheader="Sanctioned"
+              subheader="Sanctioned List"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
@@ -120,7 +132,7 @@ function DashboardContent() {
                   <OpenInFullIcon size="small" />
                 </IconButton>
               }
-              subheader="Request List"
+              subheader="Requested List"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
@@ -144,7 +156,7 @@ function DashboardContent() {
                   <OpenInFullIcon size="small" />
                 </IconButton>
               }
-              subheader="Approval List"
+              subheader="Approved List"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
@@ -169,7 +181,7 @@ function DashboardContent() {
                 </IconButton>
               }
               sx={{ textAlign: "center" }}
-              subheader="Disbursment Amount (₹)"
+              subheader="Total Disbursed Amount (₹)"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
             />
             <CardContent sx={{ textAlign: "center" }}>
@@ -221,7 +233,7 @@ function DashboardContent() {
               variant="subtitle2"
               sx={{
                 pt: "8px",
-                color: "white",
+                color: "black",
                 fontSize: "1.3rem !important",
                 fontWeight: "500",
               }}
@@ -234,7 +246,7 @@ function DashboardContent() {
           <Paper
             height={200}
             width="fit-content"
-            id = 'monthwise-chart'
+            id="monthwise-chart"
             sx={{
               alignContent: "center",
               textAlign: "center",
@@ -268,12 +280,12 @@ function DashboardContent() {
               variant="subtitle2"
               sx={{
                 pt: "8px",
-                color: "white",
+                color: "black",
                 fontSize: "1.3rem !important",
                 fontWeight: "500",
               }}
             >
-              Sancantioned List for current Year
+              Sancantioned List for Current Year
             </Typography>
           </Paper>
         </Grid>

@@ -7,6 +7,7 @@ import StlapFooter from "../CustomComponents/StlapFooter";
 import * as React from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import dayjs from "dayjs";
 
 var today = new Date();
 
@@ -21,23 +22,29 @@ const initialState = {
   coApplicantName: "",
   customerId: "",
   sanctionStatus: "",
-  effectiveDate:
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-  applicationDateFromValue:
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-  applicationDateToValue:
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-  applicationDate:
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+  effectiveDate: dayjs(
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+  ).format("DD/MM/YYYY"),
+  applicationDateFromValue: dayjs(
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+  ).format("DD/MM/YYYY"),
+  applicationDateToValue: dayjs(
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+  ).format("DD/MM/YYYY"),
+  applicationDate: dayjs(
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+  ).format("DD/MM/YYYY"),
   customerType: "-1",
   rateOfInterest: "",
   loanAmount: "",
   sanctionAmount: "",
 
-  disbursementDateFromValue:
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-  disbursementDateToValue:
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+  disbursementDateFromValue: dayjs(
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+  ).format("DD/MM/YYYY"),
+  disbursementDateToValue: dayjs(
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+  ).format("DD/MM/YYYY"),
   disbursementStatus: "",
   referenceNumber: "",
   screenModeTitle: "",
@@ -115,6 +122,17 @@ const DisbursementCreatePortal = (props) => {
         }
         filterConditionState.sanctionList = [...filterrows];
         setFilterConditionState({ ...filterConditionState });
+        const applicationDate = dayjs(data.applicationDate).format(
+          "DD/MM/YYYY"
+        );
+        if (applicationDate && applicationDate !== "") {
+          filterrows = filterrows.filter(
+            (row) => row.applicationDate === data.applicationDate
+          );
+          filterConditionState.applicationDate = data.applicationDate;
+        } else {
+          filterConditionState.applicationDate = "";
+        }
         break;
       default:
         break;
@@ -129,6 +147,9 @@ const DisbursementCreatePortal = (props) => {
     filterConditionState.rateOfInterest = data.rateOfInterest;
     filterConditionState.loanAmount = data.loanAmount;
     filterConditionState.sanctionAmount = data.sanctionAmount;
+    filterConditionState.applicationDate = dayjs(data.applicationDate).format(
+      "DD/MM/YYYY"
+    );
   };
 
   const resetFilterData = () => {

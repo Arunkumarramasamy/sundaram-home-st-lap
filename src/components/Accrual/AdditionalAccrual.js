@@ -14,6 +14,7 @@ import {
   Pagination,
   Alert,
 } from "@mui/material";
+import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -82,7 +83,11 @@ const AdditionalAccrual = () => {
       );
       // setDataRow(response.data.gridData);
       setModifiedmap(getModifiedData(response.data.gridData));
-      setReferenceNumber(response.data.otherList.referenceNumber + 1);
+      setReferenceNumber(
+        response.data.otherList.referenceNumber
+          ? response.data.otherList.referenceNumber + 1
+          : 1
+      );
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
       setGridVisible("block");
@@ -112,6 +117,8 @@ const AdditionalAccrual = () => {
         : Number(Number((dataRows.length / 10).toFixed()))
     );
     setTotalRowsCount(dataRows.length);
+    const branchValues = GetBranchDetails();
+    setbranchNames(branchValues);
   }, []);
   const applicationNumberList = [
     { label: "STLMYL20220001", value: "STLMYL20220001" },
@@ -124,14 +131,15 @@ const AdditionalAccrual = () => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const branchNames = [
-    { label: "Mylapore", value: "" },
-    { label: "Royapettah", value: "" },
-    { label: "Light House", value: "" },
-    { label: "Chennai", value: "" },
-    { label: "Tambaram", value: "" },
-    { label: "Egmore", value: "" },
-  ];
+  // const branchNames = [
+  //   { label: "Mylapore", value: "" },
+  //   { label: "Royapettah", value: "" },
+  //   { label: "Light House", value: "" },
+  //   { label: "Chennai", value: "" },
+  //   { label: "Tambaram", value: "" },
+  //   { label: "Egmore", value: "" },
+  // ];
+  const [branchNames, setbranchNames] = useState([]);
   const handleSearch = (event) => {
     event.preventDefault();
     if (branchName && applicationNumber) {
@@ -345,7 +353,7 @@ const AdditionalAccrual = () => {
       headerName: "Outstanding Amount",
       headerAlign: "center",
       type: "number",
-      width:205,
+      width: 205,
       minWidth: 205,
       editable: false,
       align: "right",
