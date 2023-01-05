@@ -22,6 +22,7 @@ import {
 } from "@mui/icons-material";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import { useEffect } from "react";
+import dayjs from "dayjs";
 
 const SanctionedList = (props) => {
   const columns = [
@@ -69,7 +70,7 @@ const SanctionedList = (props) => {
         var date = new Date(params.value);
         return (
           <Typography sx={{ display: "flex", alignItems: "center" }}>
-             {date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()}
+            {dayjs(date).format('DD/MM/YYYY')}
           </Typography>
         );
       },

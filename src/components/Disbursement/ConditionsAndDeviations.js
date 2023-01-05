@@ -13,6 +13,8 @@ import CustomButton from "../CustomComponents/CustomButton";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import * as React from "react";
+import dayjs from "dayjs";
+
 
 const ConditionsAndDeviations = (props) => {
   const conditionColumns = [
@@ -62,19 +64,19 @@ const ConditionsAndDeviations = (props) => {
     {
       id: 1,
       condition: "Legal ",
-      date: new Date(props.losInitialState.legalApprovedDate).toLocaleDateString(),
+      date: dayjs(new Date(props.losInitialState.legalApprovedDate)).format("DD/MM/YYYY"),
       status:  props.losInitialState.legalDeviationStatus,
     },
     {
       id: 2,
       condition: "Technical ",
-      date: new Date(props.losInitialState.technicalApprovedDate).toLocaleDateString(),
+      date: dayjs(new Date(props.losInitialState.technicalApprovedDate)).format("DD/MM/YYYY"),
       status: props.losInitialState.techinicalDeviationStatus,
     },
     {
       id: 3,
       condition: "Credit ",
-      date: new Date(props.losInitialState.creditApprovedDate).toLocaleDateString(),
+      date: dayjs(new Date(props.losInitialState.creditApprovedDate)).format("DD/MM/YYYY"),
       status: props.losInitialState.creditDeviationStatus,
     },
     // {

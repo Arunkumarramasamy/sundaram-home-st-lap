@@ -39,6 +39,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 import { useLayoutEffect } from "react";
+import dayjs from "dayjs";
+
 
 export default function DisbursementRequestList(props) {
   const columns = [
@@ -380,7 +382,7 @@ export default function DisbursementRequestList(props) {
         modifiedUser: disbursementRow.lastModifiedBy,
         modifiedDate: disbursementRow.lastModifiedDate,
         action: disbursementRow.requestStatus,
-        disbursementDate: disbursementRow.dateOfDisb,
+        disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format("DD/MM/YYYY"),
         disbRequestId: disbursementRow.disbRequestId,
       };
       tempDataRows.push(dataMap1);

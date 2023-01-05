@@ -30,6 +30,8 @@ import React, { useEffect, useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import axios from "axios";
+import dayjs from "dayjs";
+
 
 const DisbursementDetails = (props) => {
   const[losInitialState,setlosInitialState] = useState(props.losInitialState);
@@ -53,8 +55,8 @@ const DisbursementDetails = (props) => {
     getBillingDayValues();
     const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
     setChecked([...allChecked]);
-    var option1 = 1   + "/" + Number(Number(today.getMonth()) + 2) + "/" + today.getFullYear();
-    var option2 = 1   + "/" + Number(Number(today.getMonth()) + 3) + "/" + today.getFullYear();
+    var option1 =dayjs(new Date(Number(Number(today.getMonth()) + 2)   + "/" + 1 + "/" + today.getFullYear())).format('DD/MM/YYYY');
+    var option2 =dayjs(new Date(Number(Number(today.getMonth()) + 3)   + "/" + 1 + "/" + today.getFullYear())).format('DD/MM/YYYY');
     const dataMap = [
       {value:option1 ,text:option1},
       {value:option2 ,text:option2},
@@ -103,14 +105,14 @@ const DisbursementDetails = (props) => {
     var lastdate = new Date(dateSplit[2], dateSplit[1], 0).getDate();
     props.dispatchEvent({
       type: props.fieldList.firstEmiDueDate,
-      value: lastdate + "/" + dateSplit[1] + "/" + dateSplit[2],
+      value: dayjs(new Date(dateSplit[1]  + "/" + lastdate+ "/" + dateSplit[2])).format('DD/MM/YYYY'),
     });
     setBillingDate(props.detailPageInitialState.billingDay,value);
   };
 
   const setBillingDate = (billingDay,ecd) =>{
     if(billingDay !== "-1" && ecd !== "-1"){
-      var value = billingDay + ecd.substring(ecd.indexOf("/"))
+      var value = dayjs(new Date(billingDay + ecd.substring(ecd.indexOf("/")))).format("MM/DD/YYYY");
     props.dispatchEvent({
       type: props.fieldList.billingDate,
       value: value,
@@ -435,7 +437,7 @@ const DisbursementDetails = (props) => {
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.fieldList.dateOfDisb,
-                value: event.$M + 1 + "/" + event.$D + "/" + event.$y,
+                value: event,
               });
             }}
           />
