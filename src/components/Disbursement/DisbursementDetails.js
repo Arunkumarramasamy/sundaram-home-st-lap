@@ -42,7 +42,7 @@ const DisbursementDetails = (props) => {
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
   ]);
   const disabledState = props.detailPageInitialState.screenMode !== "CREATE";
-  const disableForView = props.detailPageInitialState.screenMode === "VIEW" || props.detailPageInitialState.screenMode === "APPROVAL"; 
+  const disableForView = props.detailPageInitialState.screenMode === "VIEW" || props.detailPageInitialState.screenMode === "APPROVE"; 
 
   const getBillingDayValues = async () =>{
     const api = axios.create({
@@ -604,6 +604,23 @@ const DisbursementDetails = (props) => {
             }}
           />
         </Grid>
+
+        {props.detailPageInitialState.requestStatus==="Approved" &&
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
+        <TextareaAutosize
+        disabled = {true}
+          style={{
+            width: "100%",
+            marginTop: "3%",
+            borderTop: "0px",
+            borderLeft: "0px",
+            borderRight: "0px",
+          }}
+          value={"Approval Remarks"}
+        />
+      </Grid> }
+
       </Grid>
       <Box
         sx={{

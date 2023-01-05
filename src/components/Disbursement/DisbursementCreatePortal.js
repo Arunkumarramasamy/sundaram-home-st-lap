@@ -24,7 +24,7 @@ const initialState = {
   effectiveDate:
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   applicationDateFromValue:
-    today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   applicationDateToValue:
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   applicationDate:
@@ -35,7 +35,7 @@ const initialState = {
   sanctionAmount: "",
 
   disbursementDateFromValue:
-    today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   disbursementDateToValue:
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
   disbursementStatus: "",

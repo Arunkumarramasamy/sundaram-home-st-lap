@@ -226,7 +226,7 @@ const DisbursementTabsIntegrator = (props) => {
           >
             Cancel Request
           </CustomButton>
-        ) :  props.mode === "APPROVAL" ? (
+        ) :  props.mode === "APPROVE" ? (
           <CustomButton
           sx={{height: "2rem"}}
             variant="contained"
@@ -244,7 +244,9 @@ const DisbursementTabsIntegrator = (props) => {
             if (props.mode === "CREATE") {
               props.setListVisibility(true);
             } else {
-              navigate("/stlap/home/disbursementList",{state:props.searchStateValues});
+              const tempState = {...props.searchStateValues};
+              tempState.disbursementStatus = state.requestStatus;
+              navigate("/stlap/home/disbursementList",{state:tempState});
             }
           }}
         >

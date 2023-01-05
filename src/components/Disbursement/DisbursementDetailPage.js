@@ -75,6 +75,7 @@ const DisbursementDetailPage = (props) => {
   const [openReferenceDialog,setopenReferenceDialog] = useState(false);
   const [openApprovalDialog,setopenApprovalDialog] = useState(false);
   const [responseData,setResponseData] = useState({});
+  const [losData,setLosData] = useState({});
   const [urnContent,seturnContent] = useState("");
 
   const service = new DisbursementRequestListService();
@@ -86,6 +87,7 @@ const DisbursementDetailPage = (props) => {
 
 const closeApprovalDialogHandler = () =>{
   setopenApprovalDialog(false);
+  updateDisbursementDataToDB(responseData,losData);
 };
 
 
@@ -227,7 +229,7 @@ const closeApprovalDialogHandler = () =>{
           
           setshowSnackBar(true);
           setLoading(false);
-          navigate("/stlap/home/disbursementList",{state:losData});
+          navigate("/stlap/home/disbursementView",{state:losData});
         }
        };
 
@@ -403,11 +405,12 @@ const closeApprovalDialogHandler = () =>{
     disbursementData.branch = losData.branch;
     if(disbursementData.screenMode === "CANCEL"){
       disbursementData.requestStatus = "Cancelled";
-    } else if(disbursementData.screenMode === "APPROVAL"){
+    } else if(disbursementData.screenMode === "APPROVE"){
       disbursementData.requestStatus = "Approved";
     }
-    if(disbursementData.screenMode === "Approval"){
+    if(disbursementData.screenMode === "APPROVE"){
       setResponseData(disbursementData);
+      setLosData(losData);
       setopenApprovalDialog(true);
     } else {
     updateDisbursementDataToDB(disbursementData,losData);
@@ -460,10 +463,12 @@ const closeApprovalDialogHandler = () =>{
       >
         <DialogTitle id="alert-dialog-title">
           <Box>
+            <h4>Approval Confirmation</h4>
           <InputLabel required={true}  sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
           <TextareaAutosize
             style={{
               width: "100%",
+              height: "100%"
             }}
             value={""}
           />

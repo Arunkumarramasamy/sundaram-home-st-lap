@@ -132,7 +132,7 @@ export default function DisbursementRequestList(props) {
     effectiveDate:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     applicationDateFromValue:
-      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     applicationDateToValue:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     applicationDate:
@@ -143,7 +143,7 @@ export default function DisbursementRequestList(props) {
     sanctionAmount: "",
 
     disbursementDateFromValue:
-      today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     disbursementDateToValue:
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
     disbursementStatus: "",
@@ -630,7 +630,7 @@ const LoadActionBtn = (props) => {
   const ITEM_HEIGHT = 48;
   return (
     <React.Fragment>
-      {record.status === "Paid" || record.status === "Cancelled" ? (
+      {record.status === "Paid" || record.status === "Cancelled" ||record.status === "Approved"? (
         <Tooltip title="View">
           <IconButton onClick={() => handleIconClick("View", record)}>
             <Preview sx={{ color: "#004A92", fontWeight: 700 }} />
