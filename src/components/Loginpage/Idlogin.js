@@ -64,30 +64,50 @@ const Idlogin = () => {
 
   const SendData = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/authenticate", {
-        employeeId: employeeID,
-        password: password,
-      });
-      console.log(response.status);
-      if (response.status) {
+      const loginResponse = await axios.post(
+        "https://bmapp.sundaramhome.in/stlap/ostlap/logindtls",
+        {
+          user_id: btoa(employeeID),
+          password: btoa(password),
+        }
+      );
+      console.log(loginResponse);
+
+      if (loginResponse.data.message === "Success") {
         Cookies.set("islogin", true);
-        Cookies.set("Token", response["data"]["jwToken"]);
-        Cookies.set("userName", response["data"]["userId"]);
-        Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
+        // Cookies.set("Token", response["data"]["jwToken"]);
+        Cookies.set("userName", employeeID);
+        // Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
         navigate("/stlap/home/dashboard");
         dispatch(loginAction.updateEmployeeIDScreen(false));
         dispatch(loginAction.updateLogin(true));
       }
+
+      if (loginResponse.data.message === "Failure") {
+        setErrorMessage(loginResponse.data.error_msg);
+        openAlertHandler();
+      }
+      const userBranches = await axios.post(
+        "https://bmapp.sundaramhome.in/stlap/ostlap/branchcluster",
+        {
+          username: btoa(employeeID),
+        }
+      );
+      console.log(userBranches.data.branch_details);
+      if (userBranches.data.message === "Success") {
+        Cookies.set(
+          "userBranches",
+          JSON.stringify(userBranches.data.branch_details)
+        );
+      } else {
+        setErrorMessage(userBranches.data.error_msg);
+        openAlertHandler();
+      }
     } catch (e) {
-      // console.log(e.response.data);
       console.log(e);
-      console.log(e.code);
       if (e.code === "ERR_NETWORK") {
         setErrorMessage(e.message);
-      } else {
-        setErrorMessage("Invalid UserId/Password");
       }
-
       openAlertHandler();
     }
   };
