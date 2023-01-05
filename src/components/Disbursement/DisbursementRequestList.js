@@ -11,6 +11,7 @@ import {
   Preview,
   ArrowBack,
   ArrowForward,
+  VerifiedOutlined,
 } from "@mui/icons-material";
 import {
   Button,
@@ -111,6 +112,7 @@ export default function DisbursementRequestList(props) {
             record={params.row}
             setResponseData={setResponseData}
             setopenViewConfirmation={setopenViewConfirmation}
+            listScreenMode={listScreenMode}
           />
         );
       },
@@ -163,6 +165,7 @@ export default function DisbursementRequestList(props) {
     React.useState(initialState);
   const [openViewConfirmation, setopenViewConfirmation] = React.useState(false);
   const [responseData, setResponseData] = React.useState({});
+  const [listScreenMode, setListScreenMode] = React.useState(props.mode);
 
   const rowsPerPage = 10;
   const service = new DisbursementRequestListService();
@@ -192,7 +195,7 @@ export default function DisbursementRequestList(props) {
     }
     getAllData();
     getAllDisbursementData();
-  }, []);
+  }, [listScreenMode]);
 
   useLayoutEffect(() => {
     if (!(location.state === null)) {
@@ -201,10 +204,8 @@ export default function DisbursementRequestList(props) {
       setFilterConditionState({ ...filterConditionState });
       // filter the data also, isbackfromdetailpage is true.
       filterData(location.state, true);
-      console.log(location.state);
-      console.log("set timeout ...." + datarows + location.state);
     }
-  }, [datarows]);
+  }, [datarows, listScreenMode]);
 
   const loadStatus = (value) => {
     return (
@@ -385,9 +386,13 @@ export default function DisbursementRequestList(props) {
       };
       tempDataRows.push(dataMap1);
     });
-    setdatarows([...tempDataRows]);
-    if (JSON.stringify(tempDataRows) !== JSON.stringify(datarows)) {
-      updateStateData(tempDataRows);
+    const totalDataRows =
+      listScreenMode === "REQUESTLIST"
+        ? [...tempDataRows]
+        : [...tempDataRows].filter((row) => row.status === "Requested");
+    setdatarows(totalDataRows);
+    if (JSON.stringify(totalDataRows) !== JSON.stringify(datarows)) {
+      updateStateData(totalDataRows);
     } else {
       resetFilterData();
     }
@@ -490,7 +495,16 @@ export default function DisbursementRequestList(props) {
                       <CardHeader
                         action={
                           <React.Fragment>
-                            {<LoadActionBtn record={row} />}
+                            {
+                              <LoadActionBtn
+                                record={row}
+                                setResponseData={setResponseData}
+                                setopenViewConfirmation={
+                                  setopenViewConfirmation
+                                }
+                                listScreenMode={listScreenMode}
+                              />
+                            }
                           </React.Fragment>
                         }
                         subheader={
@@ -569,6 +583,9 @@ const LoadActionBtn = (props) => {
   const service = new DisbursementRequestListService();
   const [record, setRecord] = React.useState(props.record);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [listScreenMode, setListScreenMode] = React.useState(
+    props.listScreenMode
+  );
   const open = Boolean(anchorEl);
   const req_mod_options = ["View", "Modify", "Cancel"];
   const navigate = useNavigate();
@@ -604,6 +621,8 @@ const LoadActionBtn = (props) => {
       case "Cancel":
         loadDetailPage(record, "/stlap/home/disbursementCancel", "CANCEL");
         break;
+      case "Approve":
+        loadDetailPage(record, "/stlap/home/disbursementApprove", "APPROVE");
     }
   };
 
@@ -617,88 +636,98 @@ const LoadActionBtn = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <div>
-          <Tooltip title="More Actions">
-            <IconButton
-              aria-label="more"
-              id="long-button"
-              aria-controls={open ? "long-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleMenuClick}
-            >
-              <MoreVert sx={{ color: "#004A92", fontWeight: 700 }} />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            id="long-menu"
-            MenuListProps={{
-              "aria-labelledby": "long-button",
-            }}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: "100px",
-              },
-            }}
-          >
-            {req_mod_options.map((option, index) => (
-              <MenuItem
-                key={option}
-                selected={option === "Pyxis"}
-                onClick={() => handleIconClick(option, record)}
-              >
-                <IconButton size="small">
-                  {(() => {
-                    switch (index) {
-                      case 0:
-                        return (
-                          <Preview
-                            fontSize="small"
-                            sx={{ color: "#004A92", fontWeight: 700 }}
-                          />
-                        );
-                      case 1:
-                        return (
-                          <Edit
-                            fontSize="small"
-                            sx={{ color: "#004A92", fontWeight: 700 }}
-                          />
-                        );
-                      case 2:
-                        return (
-                          <CancelScheduleSend
-                            fontSize="small"
-                            sx={{ color: "#004A92", fontWeight: 700 }}
-                          />
-                        );
-                    }
-                  })()}
-                </IconButton>
-                <Typography
-                  color="#004A92"
-                  variant="inherit"
-                  component="div"
-                  fontSize="14px"
-                  fontWeight="inherit"
+        <React.Fragment>
+          {listScreenMode === "REQUESTLIST" ? (
+            <div>
+              <Tooltip title="More Actions">
+                <IconButton
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls={open ? "long-menu" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  onClick={handleMenuClick}
                 >
-                  {option}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-        </div>
+                  <MoreVert sx={{ color: "#004A92", fontWeight: 700 }} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                id="long-menu"
+                MenuListProps={{
+                  "aria-labelledby": "long-button",
+                }}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                  style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: "100px",
+                  },
+                }}
+              >
+                {req_mod_options.map((option, index) => (
+                  <MenuItem
+                    key={option}
+                    selected={option === "Pyxis"}
+                    onClick={() => handleIconClick(option, record)}
+                  >
+                    <IconButton size="small">
+                      {(() => {
+                        switch (index) {
+                          case 0:
+                            return (
+                              <Preview
+                                fontSize="small"
+                                sx={{ color: "#004A92", fontWeight: 700 }}
+                              />
+                            );
+                          case 1:
+                            return (
+                              <Edit
+                                fontSize="small"
+                                sx={{ color: "#004A92", fontWeight: 700 }}
+                              />
+                            );
+                          case 2:
+                            return (
+                              <CancelScheduleSend
+                                fontSize="small"
+                                sx={{ color: "#004A92", fontWeight: 700 }}
+                              />
+                            );
+                        }
+                      })()}
+                    </IconButton>
+                    <Typography
+                      color="#004A92"
+                      variant="inherit"
+                      component="div"
+                      fontSize="14px"
+                      fontWeight="inherit"
+                    >
+                      {option}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </div>
+          ) : (
+            <Tooltip title="Approve">
+              <IconButton onClick={() => handleIconClick("Approve", record)}>
+                <VerifiedOutlined sx={{ color: "#004A92", fontWeight: 700 }} />
+              </IconButton>
+            </Tooltip>
+          )}
+        </React.Fragment>
       )}
     </React.Fragment>
   );

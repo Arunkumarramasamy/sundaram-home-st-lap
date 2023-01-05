@@ -32,6 +32,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   AccountTreeTwoTone,
   AdminPanelSettingsTwoTone,
+  ApprovalTwoTone,
   CurrencyRupeeTwoTone,
   DashboardTwoTone,
   DisabledByDefaultTwoTone,
@@ -56,6 +57,7 @@ import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
 import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
+import DisbursementApprovalList from "../Disbursement/DisbursementApprovalList";
 
 const drawerWidth = 300;
 
@@ -165,6 +167,9 @@ export default function Pagelayout() {
         break;
       case "disbursementList":
         path = "/stlap/home/disbursementList";
+        break;
+      case "disbursementApprovalList":
+        path = "/stlap/home/disbursementApprovalList";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -278,6 +283,26 @@ export default function Pagelayout() {
                 id="menu-lable"
                 sx={{ display: "block" }}
                 primary="Disbursement List"
+              />
+            </ListItemButton>
+
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="disbursementApprovalList"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip
+                  title="Disbursement Approval List"
+                  disableHoverListener={!expanded}
+                >
+                  <ApprovalTwoTone fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Disbursement Approval List"
               />
             </ListItemButton>
           </List>
@@ -692,7 +717,9 @@ export default function Pagelayout() {
 
           <Route
             path={`${search}/stlap/home/disbursementCreate`}
-            element={<DisbursementCreatePortal listVisibility={true} mode="CREATE"/>}
+            element={
+              <DisbursementCreatePortal listVisibility={true} mode="CREATE" />
+            }
           />
           <Route
             path={`${search}/stlap/home/disbursementView`}
@@ -721,10 +748,24 @@ export default function Pagelayout() {
               />
             }
           />
+          <Route
+            path={`${search}/stlap/home/disbursementApprove`}
+            element={
+              <DisbursementDetailPage
+                screenTitle="Disbursement Request Approve"
+                mode="APPROVE"
+              />
+            }
+          />
 
           <Route
             path={`${search}/stlap/home/disbursementList`}
-            element={<DisbursementRequestList />}
+            element={<DisbursementRequestList mode="REQUESTLIST" />}
+          />
+
+          <Route
+            path={`${search}/stlap/home/disbursementApprovalList`}
+            element={<DisbursementApprovalList />}
           />
 
           {/* Demo */}
