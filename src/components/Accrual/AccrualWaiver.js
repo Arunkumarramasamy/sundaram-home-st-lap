@@ -63,7 +63,11 @@ const AdditionalWaiver = () => {
       );
       setDataRow(response.data.gridData);
       setGridData(response.data.gridData);
-      setReferenceNumber(response.data.otherList.referenceNumber + 1);
+      setReferenceNumber(
+        response.data.otherList.referenceNumber
+          ? response.data.otherList.referenceNumber + 1
+          : 1
+      );
       setModifiedmap(getModifiedData(response.data.gridData));
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
@@ -354,7 +358,7 @@ const AdditionalWaiver = () => {
       headerName: "Fees to be Waiver(₹)",
       headerAlign: "center",
       type: "number",
-      minWidth:195,
+      minWidth: 195,
       align: "right",
       editable: true,
       valueGetter: (param) => {
@@ -409,7 +413,7 @@ const AdditionalWaiver = () => {
               component="form"
               validate="true"
               onSubmit={searchButtonClickHandler}
-              sx={{margin:'8px !important'}}
+              sx={{ margin: "8px !important" }}
             >
               <Grid item container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>

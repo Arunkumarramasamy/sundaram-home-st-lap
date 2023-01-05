@@ -82,7 +82,11 @@ const AdditionalAccrual = () => {
       );
       setDataRow(response.data.gridData);
       setModifiedmap(getModifiedData(response.data.gridData));
-      setReferenceNumber(response.data.otherList.referenceNumber + 1);
+      setReferenceNumber(
+        response.data.otherList.referenceNumber
+          ? response.data.otherList.referenceNumber + 1
+          : 1
+      );
       setReason(response.data.otherList.reason);
       setRemark(response.data.otherList.remark);
       setGridVisible("block");
@@ -345,7 +349,7 @@ const AdditionalAccrual = () => {
       headerName: "Outstanding Amount",
       headerAlign: "center",
       type: "number",
-      width:205,
+      width: 205,
       minWidth: 205,
       editable: false,
       align: "right",
