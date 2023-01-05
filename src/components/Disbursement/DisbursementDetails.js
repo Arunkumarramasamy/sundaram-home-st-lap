@@ -68,7 +68,7 @@ const DisbursementDetails = (props) => {
     setecdValues(dataMap);
     if(props.detailPageInitialState.screenMode === "CREATE"){
       var value = losInitialState.sanctionAmount - props.detailPageInitialState.earlierDisbAmt;
-      var netDisb = parseInt(value)-losInitialState.memoDeduction;
+      var netDisb = parseInt(value)-props.detailPageInitialState.totalDeductionAmt;
       props.dispatchEvent({
         type: props.fieldList.disbAmt,
         value: value,
@@ -357,7 +357,7 @@ const DisbursementDetails = (props) => {
               });
               props.dispatchEvent({
                 type: props.fieldList.totalDisbAmt,
-                value: parseInt(event.target.value.replaceAll(",",""))-losInitialState.memoDeduction,
+                value: parseInt(event.target.value.replaceAll(",",""))-props.detailPageInitialState.totalDeductionAmt,
               });
             }}
           />

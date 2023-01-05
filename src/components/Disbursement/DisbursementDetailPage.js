@@ -35,6 +35,7 @@ var detailPageInitialState =   {
     "shflBank": "",
     "totalDisbAmt": 0,
     "rateOfInterest": 0,
+    "totalDeductionAmt":0
   };
   
 var losInitialState =   {
@@ -169,7 +170,7 @@ const closeApprovalDialogHandler = () =>{
 
    useLayoutEffect(() => {
     if(props.mode==="CREATE"){
-    detailPageInitialState.totalDisbAmt = parseInt(detailPageInitialState.disbAmt)-deductionsState.totalDeductionsTotal ;
+    detailPageInitialState.totalDisbAmt = parseInt(detailPageInitialState.disbAmt)-detailPageInitialState.totalDeductionAmt ;
     }
   }, [deductionsState]);
 
@@ -197,6 +198,7 @@ const closeApprovalDialogHandler = () =>{
           data.waivedTotal = waivedTotal1;
           data.totalDeductionsTotal=  dueTotal1+deductionTotal1-paidTotal1-waivedTotal1;
     });
+    detailPageInitialState.totalDeductionAmt = data.totalDeductionsTotal;
     data.gridRows = response.data.gridData;
     setDeductionsState(data);
   };
@@ -357,7 +359,7 @@ const closeApprovalDialogHandler = () =>{
           } else {
           var bankAccountSelectionCount = 0;
           var totalAmountSelected = 0;
-          var netDisbAmt = data.disbAmt - losData.memoDeduction;
+          var netDisbAmt = data.disbAmt - data.totalDeductionAmt;
           data.disbursementFavours.filter((row)=> row.isChecked === true
           ).forEach((row)=>{
             bankAccountSelectionCount++;
