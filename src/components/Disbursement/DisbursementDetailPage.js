@@ -3,6 +3,7 @@ import { Alert, Backdrop, Button, CircularProgress, Dialog, DialogActions, Dialo
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useReducer } from "react";
+import { useLayoutEffect } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -57,6 +58,15 @@ var losInitialState =   {
     memoDeduction:"0"
 };
 
+var deductionsInitialState =   {
+      paidTotal : 0,
+      dueTotal : 0,
+      deductionTotal : 0,
+      waivedTotal : 0,
+      totalDeductionsTotal : 0,
+      gridRows : [],
+};
+
 const losCustomerApi = axios.create({
   baseURL: "http://localhost:8080/losCustomer/"
 });
@@ -77,6 +87,7 @@ const DisbursementDetailPage = (props) => {
   const [responseData,setResponseData] = useState({});
   const [losData,setLosData] = useState({});
   const [urnContent,seturnContent] = useState("");
+  const [deductionsState,setDeductionsState] = useState(deductionsInitialState);
 
   const service = new DisbursementRequestListService();
 
@@ -146,7 +157,7 @@ const closeApprovalDialogHandler = () =>{
     
     losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
     detailPageInitialState.applicationNumber = losInitialState.applicationNumber;
-    detailPageInitialState.totalDisbAmt = parseInt(detailPageInitialState.disbAmt)-losInitialState.memoDeduction ;
+    getDeductionsGridData();
     if(!(location.state === null)){
         getDisbursementData(location.state);
         losInitialState.screenModeTitle=props.screenTitle;
@@ -155,6 +166,41 @@ const closeApprovalDialogHandler = () =>{
       getCustomerBankDataForCreate(losInitialState.applicationNumber);
     }
    }, []);
+
+   useLayoutEffect(() => {
+    if(props.mode==="CREATE"){
+    detailPageInitialState.totalDisbAmt = parseInt(detailPageInitialState.disbAmt)-deductionsState.totalDeductionsTotal ;
+    }
+  }, [deductionsState]);
+
+   const getDeductionsGridData = async () =>{
+    const response = await axios.post(
+      "http://localhost:8080/additionalfee/getFeeData",
+      {
+        applicationNumber: losInitialState.applicationNumber,
+        type: "accrual",
+      }
+    );
+    let paidTotal1=0;
+    let dueTotal1=0;
+    let deductionTotal1=0;
+    let waivedTotal1 = 0;
+    const data = {};
+    response.data.gridData.map((rows) => {
+          paidTotal1 = paidTotal1 + rows.received;
+          dueTotal1 = dueTotal1 + rows.receiveable;
+          deductionTotal1 = deductionTotal1 + (rows.receiveable - rows.received - rows.earlyWaiver);
+          waivedTotal1 = waivedTotal1 + rows.earlyWaiver;
+          data.paidTotal = paidTotal1;
+          data.dueTotal = dueTotal1;
+          data.deductionTotal = deductionTotal1;
+          data.waivedTotal = waivedTotal1;
+          data.totalDeductionsTotal=  dueTotal1+deductionTotal1-paidTotal1-waivedTotal1;
+    });
+    data.gridRows = response.data.gridData;
+    setDeductionsState(data);
+  };
+
 
   const getCustomerBankDataForCreate = async (applicationNumber) => {
 
@@ -500,6 +546,7 @@ const closeApprovalDialogHandler = () =>{
         updateRequestHandler = {updateRequestHandler}
         cancelRequestHandler = {updateRequestHandler}
         errorState={errorState}
+        deductionsState = {deductionsState}
       />
     </>: 
     <>
@@ -513,6 +560,7 @@ const closeApprovalDialogHandler = () =>{
         updateRequestHandler = {updateRequestHandler}
         cancelRequestHandler = {updateRequestHandler}
         errorState={errorState}
+        deductionsState = {deductionsState}
       />
     </>}
     </>

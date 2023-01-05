@@ -165,6 +165,7 @@ const DisbursementTabsIntegrator = (props) => {
               fieldList={screenFields}
               losInitialState={props.searchStateValues}
               errorState={props.errorState}
+              deductionsState = {props.deductionsState}
             />
           </TabPanel>
           <TabPanel value="2">
@@ -175,6 +176,7 @@ const DisbursementTabsIntegrator = (props) => {
               dispatchEvent={dispatch}
               fieldList={screenFields}
               losInitialState={props.searchStateValues}
+              deductionsState = {props.deductionsState}
             />
           </TabPanel>
           <TabPanel value="3">

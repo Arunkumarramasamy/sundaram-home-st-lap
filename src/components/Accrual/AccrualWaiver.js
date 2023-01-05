@@ -104,12 +104,12 @@ const AdditionalWaiver = () => {
   );
   const [applicationNumber, setApplicationNumber] = useState("");
   const applicationNumberList = [
-    { label: "Application1234", value: "ReferenceNumber_0001" },
-    { label: "Application1235", value: "ReferenceNumber_0002" },
-    { label: "Application1236", value: "ReferenceNumber_0003" },
-    { label: "Application1237", value: "ReferenceNumber_0004" },
-    { label: "Application1238", value: "ReferenceNumber_0005" },
-    { label: "Application1239", value: "ReferenceNumber_0006" },
+    { label: "STLMYL20220001", value: "STLMYL20220001" },
+    { label: "STLMYL20220002", value: "STLMYL20220002" },
+    { label: "STLMYL20220003", value: "STLMYL20220003" },
+    { label: "STLMYL20220004", value: "STLMYL20220004" },
+    { label: "STLMYL20220005", value: "STLMYL20220005" },
+    { label: "STLMYL20220006", value: "STLMYL20220006" },
   ];
   const onChangeForReferenceEvent = (event, newValue) => {
     if (newValue === null) {

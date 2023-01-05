@@ -373,7 +373,7 @@ const DisbursementDetails = (props) => {
             label="Total Deductions"
             id="deductions"
             variant="standard"
-            value={parseInt(losInitialState.memoDeduction).toLocaleString("en-IN")}
+            value={parseInt(props.deductionsState.totalDeductionsTotal).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Total Deductions"
           />

@@ -13,17 +13,12 @@ import {
 import { useState } from "react";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import * as React from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 const FeesOutstanding = (props) => {
-  // const[paidTotal,setPaidTotal] = useState(0);
-  // const[dueTotal,setDueTotal] = useState(0);
-  // const[waivedTotal,setWaivedTotal] = useState(0);
-  // const[deductionTotal,setDeductionTotal] = useState(0);
 
-  let paidTotal = 0;
-  let dueTotal = 0;
-  let waivedTotal = 0;
-  let deductionTotal = 0;
+  console.log(props);
 
   const columns = [
     {
@@ -33,15 +28,15 @@ const FeesOutstanding = (props) => {
       type: "string",
       hideable: false,
       sortable: false,
-      width: 250,
+      width: 350,
       align: "center",
     },
     {
-      field: "due",
+      field: "receiveable",
       headerName: "Due Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 150,
+      width: 160,
       align: "right",
       editable: false,
       renderCell: (params) => {
@@ -49,131 +44,41 @@ const FeesOutstanding = (props) => {
       },
     },
     {
-      field: "paid",
+      field: "received",
       headerName: "Paid Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 190,
+      width: 200,
       align: "right",
       editable: false,
+      renderCell: (params) => {
+        return <>{params.value}</>;
+      },
     },
     {
-      field: "waited",
+      field: "earlyWaiver",
       headerName: "Waved Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 190,
+      width: 200,
       align: "right",
       editable: false,
+      renderCell: (params) => {
+        return <>{params.value}</>;
+      },
     },
     {
       field: "deduction",
       headerName: "Deduction",
       headerAlign: "center",
       type: "string",
-      width: "200",
+      width: "230",
       editable: false,
-      align: "center",
-    },
-  ];
-
-  const rows = [
-    {
-      id: 7,
-      details: "Mod Charges",
-      due: 450,
-      paid: 450,
-      waited: 80,
-      deduction: 0,
-    },
-    {
-      id: 8,
-      details: "Legal Charges",
-      due: 3000,
-      paid: 2500,
-      waited: 500,
-      deduction: 0,
-    },
-    {
-      id: 9,
-      details: "Technical Assistance Charges",
-      due: 5000,
-      paid: 5000,
-      waited: 0,
-      deduction: 0,
-    },
-    {
-      id: 10,
-      details: "Documentation Charges",
-      due: 80,
-      paid: 80,
-      waited: 0,
-      deduction: 0,
-    },
-    {
-      id: 11,
-      details: "File Processing Charges",
-      due: 1000,
-      paid: 1000,
-      waited: 0,
-      deduction: 0,
-    },
-    {
-      id: 1,
-      details: "Application Fee",
-      due: 10000,
-      paid: 7000,
-      waited: 3000,
-      deduction: 3000,
-    },
-    {
-      id: 2,
-      details: "Prepayment Charge",
-      due: 100000,
-      paid: 50000,
-      waited: 50000,
-      deduction: 0,
-    },
-    {
-      id: 3,
-      details: "Partial prepayment charge",
-      due: 30000,
-      paid: 30000,
-      waited: 0,
-      deduction: 0,
-    },
-    {
-      id: 4,
-      details: "Late Fee charge",
-      due: 250,
-      paid: 0,
-      waited: 250,
-      deduction: 250,
-    },
-    {
-      id: 5,
-      details: "Recovery Charge",
-      due: 2000,
-      paid: 2000,
-      waited: 2000,
-      deduction: 0,
-    },
-    {
-      id: 6,
-      details: "Insurance Premium Charge",
-      due: 784,
-      paid: 784,
-      waited: 0,
-      deduction: 0,
-    },
-
-    {
-      id: 12,
-      details: "Other Charges",
-      due: 0,
-      paid: 0,
-      waited: 0,
-      deduction: 0,
+      align: "right",
+      renderCell: (params) => {
+        var value = params.row.receiveable - params.row.received - params.row.earlyWaiver;
+        return value;
+      },
     },
   ];
 
@@ -190,7 +95,7 @@ const FeesOutstanding = (props) => {
               flex: "1 auto",
             }}
           >
-            {rows.map((row, index) => (
+            {props.deductionsState.gridRows.map((row, index) => (
               <React.Fragment>
                 <Grid container direction="column" sx={{ flex: "1 auto" }}>
                   <Card>
@@ -214,16 +119,16 @@ const FeesOutstanding = (props) => {
                         justifyContent="flex-start"
                       >
                         <Typography padding="1px">
-                          {"Paid Amount : " + row.paid}
+                          {"Paid Amount : " + row.receiveable}
                         </Typography>
                         <Typography padding="1px">
-                          {"Due Amount : " + row.due}
+                          {"Due Amount : " + row.received}
                         </Typography>
                         <Typography padding="1px">
-                          {"Waived Amount : " + row.waited}
+                          {"Waived Amount : " + row.earlyWaiver}
                         </Typography>
                         <Typography padding="1px">
-                          {"Deduction : " + row.deduction}
+                          {"Deduction : " + (row.receiveable - row.received - row.earlyWaiver)}
                         </Typography>
                       </Grid>
                     </CardContent>
@@ -253,32 +158,32 @@ const FeesOutstanding = (props) => {
     <>
      <Grid container spacing={0} >
           <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Green' }}>{'Total Deductions : '}<span style={{ color: 'Green' }}>{dueTotal+deductionTotal-paidTotal-waivedTotal}</span></label>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Green' }}>{'Total Deductions : '}<span style={{ color: 'Green' }}>{props.deductionsState.totalDeductionsTotal}</span></label>
           </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={1} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'blue' }}>{'(Paid : '}<span style={{ color: 'blue' }}>{paidTotal}</span>{``}</label>
+          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'blue' }}>{'(Paid : '}<span style={{ color: 'blue' }}>{props.deductionsState.paidTotal}</span>{``}</label>
           </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={1} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'red' }}>{'Due : '}<span style={{ color: 'red' }}>{dueTotal}</span>{``}</label>  
+          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'red' }}>{'Due : '}<span style={{ color: 'red' }}>{props.deductionsState.dueTotal}</span>{``}</label>  
           </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={1} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'saddlebrown' }}>{'Waived : '}<span style={{ color: 'saddlebrown' }}>{waivedTotal}</span>{``}</label>     
+          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'saddlebrown' }}>{'Waived : '}<span style={{ color: 'saddlebrown' }}>{props.deductionsState.waivedTotal}</span>{``}</label>     
           </Grid> 
           <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Purple' }}>{'Deduction : '}<span style={{ color: 'Purple' }}>{deductionTotal}</span>{`)`}</label>
+          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Purple' }}>{'Deduction : '}<span style={{ color: 'Purple' }}>{props.deductionsState.deductionTotal}</span>{`)`}</label>
           </Grid>  
           </Grid>
       {useMediaQuery("(min-width:1200px)") && (
         <CustomDataGrid
           noDataMessage="No Outstanding Dues."
           noDataOnFilterMessage="No Outstanding Dues on Applied Filter."
-          rows={rows}
+          rows={props.deductionsState.gridRows}
           columns={columns}
           pageSize={5}
           pageSizeOptions={[5, 10, 15, 20, 25]}
         />
       )}
-      {useMediaQuery("(max-width:1200px)") && loadCardView(rows)}
+      {useMediaQuery("(max-width:1200px)") && loadCardView(props.deductionsState.gridRows)}
 
       
     </>
