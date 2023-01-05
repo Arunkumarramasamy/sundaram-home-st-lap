@@ -243,7 +243,7 @@ const SanctionedList = (props) => {
                           </IconButton>
                         }
                         subheader={
-                          "Application Number : " + row.applicationNumber
+                          "Application Number : " + row.applicationNum
                         }
                         subheaderTypographyProps={{
                           color: "#004A92",

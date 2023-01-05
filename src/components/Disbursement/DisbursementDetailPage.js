@@ -15,13 +15,14 @@ var today = new Date();
 var todayDate = today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
 
 var detailPageInitialState =   {
-    "applicationNumber": "",
+    "applicationNum": "",
     "billingDate": "",
-    "billingDay": "-1",
+    "billDay": "-1",
     "dateOfDisb": todayDate,
     "disbAmt": 0,
     "disbNo": 1,
-    "transactionKey": "",
+    "transactionKey": 0,
+    "disbHeaderKey":0,
     "disbursementFavours": [],
     "earlierDisbAmt": 0,
     "editLock": false,
@@ -35,7 +36,8 @@ var detailPageInitialState =   {
     "shflBank": "",
     "totalDisbAmt": 0,
     "rateOfInterest": 0,
-    "totalDeductionAmt":0
+    "totalDeductionAmt":0,
+    "disbEmiAmt":0,
   };
   
 var losInitialState =   {
@@ -108,7 +110,7 @@ const closeApprovalDialogHandler = () =>{
     currentDisbError : "currentDisbError",
     roiError : "roiError",
     ecdError : "ecdError",
-    billingDayError : "billingDayError",
+    billDayError : "billDayError",
     shflBankError : "shflBankError",
     bankAccountError : "bankAccountError",
     dateOfDisbError : "dateOfDispError",
@@ -119,7 +121,7 @@ const closeApprovalDialogHandler = () =>{
     currentDisbError : [false,"Current Disbursement Amount Cannot be Empty/Zero."],
     roiError : [false,"Rate of Interest Cannot be Empty/Zero."],
     ecdError : [false,"Please Select Billing Date."],
-    billingDayError : [false,"Please Select Billing Day."] , 
+    billDayError : [false,"Please Select Billing Day."] , 
     shflBankError : [false,"SHFL Bank Cannot be Empty."],
     bankAccountError : [false,"Please Select Atlease One Bank Account."],
     dateOfDisbError : [false,"Please Select Date of Disbursement"],
@@ -135,8 +137,8 @@ const closeApprovalDialogHandler = () =>{
       return { ...state, roiError: action.value };
       case errorParameters.ecdError:
       return { ...state, ecdError: action.value };
-      case errorParameters.billingDayError:
-      return { ...state, billingDayError: action.value };
+      case errorParameters.billDayError:
+      return { ...state, billDayError: action.value };
       case errorParameters.shflBankError:
       return { ...state, shflBankError: action.value };
       case errorParameters.bankAccountError:
@@ -157,7 +159,7 @@ const closeApprovalDialogHandler = () =>{
   useEffect(() => {
     
     losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
-    detailPageInitialState.applicationNumber = losInitialState.applicationNumber;
+    detailPageInitialState.applicationNum = losInitialState.applicationNumber;
     getDeductionsGridData();
     if(!(location.state === null)){
         getDisbursementData(location.state);
@@ -186,8 +188,9 @@ const closeApprovalDialogHandler = () =>{
     let dueTotal1=0;
     let deductionTotal1=0;
     let waivedTotal1 = 0;
-    const data = {};
+    let data = {...deductionsInitialState};
     response.data.gridData.map((rows) => {
+      data = {};
           paidTotal1 = paidTotal1 + rows.received;
           dueTotal1 = dueTotal1 + rows.receiveable;
           deductionTotal1 = deductionTotal1 + (rows.receiveable - rows.received - rows.earlyWaiver);
@@ -224,22 +227,22 @@ const closeApprovalDialogHandler = () =>{
     const api1 = axios.create({
       baseURL: "http://localhost:8080/losCustomer/"
     });
-    const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": data.applicationNumber});
+    const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": data.applicationNum});
     const tempBankRow = response1.data ;
     var counter = 1;
     var dataMap = [];
     tempBankRow.map((bankRow)=>{
       tempDisbursementFavours.map((insertedBankROw)=>{
-            if(insertedBankROw.bankAccNumber === bankRow.bankAccountNumber ){
+            if(insertedBankROw.bankAccountNum === bankRow.bankAccountNumber ){
               bankRow.isChecked = true;
-              bankRow.amount = insertedBankROw.disbAmount;
+              bankRow.amount = insertedBankROw.disbAmt;
               bankRow.id = counter++;
               dataMap.push(bankRow);
             }
       });
     });
     detailPageInitialState.disbursementFavours = dataMap;
-    const response = await losCustomerApi.post("/getCustomerDataByAppNum",{"applicationNumber": data.applicationNumber});
+    const response = await losCustomerApi.post("/getCustomerDataByAppNum",{"applicationNumber": data.applicationNum});
     losInitialState = response.data;
     losInitialState.branchNames = [];
     losInitialState.screenModeTitle=props.screenTitle;
@@ -335,15 +338,15 @@ const closeApprovalDialogHandler = () =>{
 
 
           //Validating Billing  Day Field
-          if(data.billingDay === "-1" ){
+          if(data.billDay === "-1" ){
             errorDispatch({
-              type: errorParameters.billingDayError,
+              type: errorParameters.billDayError,
               value: [true,"Please Select Billing Day."],
             });
             status=false; 
-          } else if(errorState.billingDayError[0]){
+          } else if(errorState.billDayError[0]){
             errorDispatch({
-              type: errorParameters.billingDayError,
+              type: errorParameters.billDayError,
               value: [false,"Please Select Billing Day."],
             });  
           }
@@ -405,13 +408,13 @@ const closeApprovalDialogHandler = () =>{
     ).forEach((row)=>{
       const dataMap1 = {
         "id": row.bankAccountNumber,
-        "applicationNumber": row.applicationNumber,
-        "bankAccNumber": row.bankAccountNumber,
+        "applicationNum": row.applicationNumber,
+        "bankAccountNum": row.bankAccountNumber,
         "createdBy": "",
         "createdDate": "",
-        "disbAmount": row.amount,
-        "transactionKey": data.transactionKey,
-        "distNo": data.disbNo,
+        "disbAmt": row.amount,
+        "disbHeaderKey": data.disbHeaderKey,
+        "disbNum": data.disbNo,
         "lastModifiedBy": "",
         "lastModifiedDate": "",
       };
@@ -435,13 +438,13 @@ const closeApprovalDialogHandler = () =>{
     ).forEach((row)=>{
       const dataMap1 = {
         "id": row.bankAccountNumber,
-        "applicationNumber": row.applicationNumber,
-        "bankAccNumber": row.bankAccountNumber,
+        "applicationNum": row.applicationNum,
+        "bankAccountNum": row.bankAccountNumber,
         "createdBy": "",
         "createdDate": "",
-        "disbAmount": row.amount,
-        "transactionKey": disbursementData.transactionKey,
-        "distNo": disbursementData.disbNo,
+        "disbAmt": row.amount,
+        "disbHeaderKey": disbursementData.disbHeaderKey,
+        "disbNum": disbursementData.disbNo,
         "lastModifiedBy": "",
         "lastModifiedDate": "",
       };

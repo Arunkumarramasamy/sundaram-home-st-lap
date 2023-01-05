@@ -58,7 +58,7 @@ export default function DisbursementRequestList(props) {
       align: "center",
     },
     {
-      field: "applicationNumber",
+      field: "applicationNum",
       headerName: "Application Number",
       headerAlign: "center",
       type: "string",
@@ -397,20 +397,20 @@ export default function DisbursementRequestList(props) {
       const dataMap1 = {
         id: counter++,
         requestNumber: disbursementRow.transactionKey,
-        branch: dataMap[disbursementRow.applicationNumber].branch,
-        customerName: dataMap[disbursementRow.applicationNumber].customerName,
-        applicationNumber: disbursementRow.applicationNumber,
+        branch: dataMap[disbursementRow.applicationNum].branch,
+        customerName: dataMap[disbursementRow.applicationNum].customerName,
+        applicationNum: disbursementRow.applicationNum,
         applicationDate:
-          dataMap[disbursementRow.applicationNumber].applicationDate,
+          dataMap[disbursementRow.applicationNum].applicationDate,
         approvedAmount:
-          dataMap[disbursementRow.applicationNumber].sanctionAmount,
+          dataMap[disbursementRow.applicationNum].sanctionAmount,
         status: disbursementRow.requestStatus,
-        customerType: dataMap[disbursementRow.applicationNumber].customerType,
+        customerType: dataMap[disbursementRow.applicationNum].customerType,
         modifiedUser: disbursementRow.lastModifiedBy,
         modifiedDate: disbursementRow.lastModifiedDate,
         action: disbursementRow.requestStatus,
         disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format("DD/MM/YYYY"),
-        transactionKey: disbursementRow.transactionKey,
+        disbHeaderKey: disbursementRow.disbHeaderKey,
       };
       tempDataRows.push(dataMap1);
     });
@@ -626,7 +626,7 @@ const LoadActionBtn = (props) => {
 
   const loadDetailPage = async (record, url, mode) => {
     const response = await service.getDisbursementData({
-      transactionKey: record.transactionKey,
+      disbHeaderKey: record.disbHeaderKey,
       screenMode: mode,
     });
     if (response.data.editLock && mode !== "VIEW") {

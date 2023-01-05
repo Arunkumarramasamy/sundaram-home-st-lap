@@ -36,7 +36,7 @@ import dayjs from "dayjs";
 const DisbursementDetails = (props) => {
   const[losInitialState,setlosInitialState] = useState(props.losInitialState);
   const [ecdValues,setecdValues] = useState([]);
-  const [billingDayValues,setbillingDayValues] = useState([]);
+  const [billDayValues,setbillDayValues] = useState([]);
 
   const [allCheckedValues, setChecked] = React.useState([
     ...Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false),
@@ -44,16 +44,16 @@ const DisbursementDetails = (props) => {
   const disabledState = props.detailPageInitialState.screenMode !== "CREATE";
   const disableForView = props.detailPageInitialState.screenMode === "VIEW" || props.detailPageInitialState.screenMode === "APPROVE"; 
 
-  const getBillingDayValues = async () =>{
+  const getbillDayValues = async () =>{
     const api = axios.create({
       baseURL: "http://localhost:8080/disbursement/"
     });
     const response = await api.get("/getAllDisbursementBillingDayData");
-    setbillingDayValues(response.data);
+    setbillDayValues(response.data);
   };
 
   useEffect(() => {
-    getBillingDayValues();
+    getbillDayValues();
     let allChecked = [];
     props.detailPageInitialState.disbursementFavours.forEach((row,index)=>{
       allChecked.push((row.isChecked || index === 0)? true:false);
@@ -87,11 +87,11 @@ const DisbursementDetails = (props) => {
   var today = new Date();
 
   
-  const onBillingDayChange = (event) => {
+  const onbillDayChange = (event) => {
     
     var value = event.target.value;
     props.dispatchEvent({
-      type: props.fieldList.billingDay,
+      type: props.fieldList.billDay,
       value: value,
     });
     setBillingDate(value,props.detailPageInitialState.emiCommDate);
@@ -111,12 +111,12 @@ const DisbursementDetails = (props) => {
       type: props.fieldList.firstEmiDueDate,
       value: dayjs(new Date(dateSplit[1]  + "/" + lastdate+ "/" + dateSplit[2])).format('DD/MM/YYYY'),
     });
-    setBillingDate(props.detailPageInitialState.billingDay,value);
+    setBillingDate(props.detailPageInitialState.billDay,value);
   };
 
-  const setBillingDate = (billingDay,ecd) =>{
-    if(billingDay !== "-1" && ecd !== "-1"){
-      var value = dayjs(new Date(billingDay + ecd.substring(ecd.indexOf("/")))).format("MM/DD/YYYY");
+  const setBillingDate = (billDay,ecd) =>{
+    if(billDay !== "-1" && ecd !== "-1"){
+      var value = dayjs(new Date(billDay + ecd.substring(ecd.indexOf("/")))).format("MM/DD/YYYY");
     props.dispatchEvent({
       type: props.fieldList.billingDate,
       value: value,
@@ -455,16 +455,16 @@ const DisbursementDetails = (props) => {
                   disabled={disabledState &&  disableForView}
                   required={true && !(disabledState &&  disableForView)}
                   label="Billing Day"
-                  id="billingDay"
+                  id="billDay"
                   variant="standard"
                   type="text"
                   placeholder="Select Billing Day"
-                  dropDownValue={billingDayValues}
-                  value={props.detailPageInitialState.billingDay}
-                  onChange={onBillingDayChange}
+                  dropDownValue={billDayValues}
+                  value={props.detailPageInitialState.billDay}
+                  onChange={onbillDayChange}
                 />
-                {props.errorState.billingDayError[0] && (
-                  <p className="error">{props.errorState.billingDayError[1]}</p>
+                {props.errorState.billDayError[0] && (
+                  <p className="error">{props.errorState.billDayError[1]}</p>
                 )}
         </Grid>
 

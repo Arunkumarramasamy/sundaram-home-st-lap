@@ -192,7 +192,7 @@ const DisbursementCreatePortal = (props) => {
     } else {
       let disbursedApplications = [];
       response1.data.map((disbursementRow) => {
-        disbursedApplications.push(disbursementRow.applicationNumber);
+        disbursedApplications.push(disbursementRow.applicationNum);
       });
       const dataMap = [];
       response.data.map((sanctionRow) => {

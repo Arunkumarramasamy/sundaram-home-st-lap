@@ -21,13 +21,14 @@ const DisbursementTabsIntegrator = (props) => {
   };
 
   const screenFields = {
-    applicationNumber: "applicationNumber",
+    applicationNum: "applicationNum",
     billingDate: "billingDate",
-    billingDay: "billingDay",
+    billDay: "billDay",
     dateOfDisb: "dateOfDisb",
     disbAmt: "disbAmt",
     disbNo: "disbNo",
     transactionKey: "transactionKey",
+    disbHeaderKey:"disbHeaderKey",
     disbursementFavours: "disbursementFavours",
     earlierDisbAmt: "earlierDisbAmt",
     editLock: "editLock",
@@ -48,8 +49,8 @@ const DisbursementTabsIntegrator = (props) => {
     switch (action.type) {
       case screenFields.billingDate:
         return { ...state, billingDate: action.value };
-      case screenFields.billingDay:
-        return { ...state, billingDay: action.value };
+      case screenFields.billDay:
+        return { ...state, billDay: action.value };
       case screenFields.dateOfDisb:
         return { ...state, dateOfDisb: action.value };
       case screenFields.disbAmt:
