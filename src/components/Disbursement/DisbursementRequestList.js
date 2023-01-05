@@ -369,7 +369,7 @@ export default function DisbursementRequestList(props) {
     response.data.map((disbursementRow) => {
       const dataMap1 = {
         id: counter++,
-        requestNumber: dataMap[disbursementRow.applicationNumber].requestNumber,
+        requestNumber: disbursementRow.disbRequestId,
         branch: dataMap[disbursementRow.applicationNumber].branch,
         customerName: dataMap[disbursementRow.applicationNumber].customerName,
         applicationNumber: disbursementRow.applicationNumber,
