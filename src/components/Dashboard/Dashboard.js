@@ -4,24 +4,24 @@ import Masonry from "@mui/lab/Masonry";
 import { DashboardContent } from "./DashboardContent";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DashboardBoardNewContent from "./DashBoardNewContent";
+import "./Dashboard.css";
 
 export const Dashboard = (props) => {
-
   const gt = useMediaQuery("(min-width:1024px)");
   const lt = useMediaQuery("(max-width:1023px)");
   const ht = useMediaQuery("(max-height:768px)");
   const mt = useMediaQuery("(min-height:1366px)");
   const mansoryHeight = document.getElementById("mansory-id");
-  const [positionFooter,setPositionFooter] = useState('inherit');
-  const footerPosition = () =>{
-if(gt&&mt){
-  setPositionFooter('absolute');
-}else if(gt){
-  setPositionFooter('inherit');
-}else{
-  setPositionFooter('absolute');
-}
-  }
+  const [positionFooter, setPositionFooter] = useState("inherit");
+  const footerPosition = () => {
+    if (gt && mt) {
+      setPositionFooter("absolute");
+    } else if (gt) {
+      setPositionFooter("inherit");
+    } else {
+      setPositionFooter("absolute");
+    }
+  };
   return (
     <React.Fragment>
       {gt && (
@@ -59,7 +59,7 @@ if(gt&&mt){
           mt: "auto",
           textAlign: "center",
           marginTop: "8px",
-          position:  (gt&&mt)?"absolute":"inherit",
+          position: gt && mt ? "absolute" : "inherit",
           left: "0",
           bottom: "0",
           right: "0",
