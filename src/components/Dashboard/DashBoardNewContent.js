@@ -53,7 +53,11 @@ function DashboardContent() {
         dataMap
       );
       if (response.data) {
-        setSanction(response.data.sanctioned);
+        setSanction(
+          response.data.sanctioned -
+            response.data.requested -
+            response.data.approved
+        );
         setRequest(response.data.requested);
         setApproved(response.data.approved);
         setSanctionAmount(response.data.approvedAmount);
@@ -87,7 +91,15 @@ function DashboardContent() {
           />
         </LocalizationProvider>
       </div> */}
-      <Grid container spacing={1} sx={{ width: "fit-content !important" }}>
+      <Grid
+        container
+        spacing={1}
+        sx={{
+          marginTop: "2px",
+          marginLeft: "2px",
+          width: "fit-content !important",
+        }}
+      >
         <Grid item xs={12} lg={3} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
@@ -234,7 +246,7 @@ function DashboardContent() {
           <Paper
             height={200}
             width="fit-content"
-            id = 'monthwise-chart'
+            id="monthwise-chart"
             sx={{
               alignContent: "center",
               textAlign: "center",
@@ -273,7 +285,7 @@ function DashboardContent() {
                 fontWeight: "500",
               }}
             >
-              Sancantioned List for current Year
+              Sancantioned List for Current Year
             </Typography>
           </Paper>
         </Grid>
