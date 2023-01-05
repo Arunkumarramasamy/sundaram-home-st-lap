@@ -686,7 +686,7 @@ const ParameterMaintenance = () => {
                   variant="standard"
                   value={paraMeterName}
                   error={paramNameHasError}
-                  disabled={disabled}
+                  disabled={true}
                   onChange={(e) => {
                     setOkButtonHandler(false);
                     setParamMeterName(e.target.value);
@@ -703,7 +703,7 @@ const ParameterMaintenance = () => {
                 <CustomDropDown
                   label="Parameter Data Type"
                   variant="standard"
-                  disabled={disabled}
+                  disabled={true}
                   value={paramDataType}
                   error={paramTypeHasError}
                   dropDownValue={[
