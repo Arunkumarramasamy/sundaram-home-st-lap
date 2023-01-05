@@ -225,8 +225,9 @@ const closeApprovalDialogHandler = () =>{
             setsnackBarMsg("Disbursement Request Cancelled Successfully.");       
           } else if(data.screenMode === "MODIFY") {
             setsnackBarMsg("Disbursement Request Modified Successfully."); 
+          } else {
+            setsnackBarMsg("Disbursement Request Approved Successfully.");
           }
-          
           setshowSnackBar(true);
           setLoading(false);
           navigate("/stlap/home/disbursementView",{state:losData});
