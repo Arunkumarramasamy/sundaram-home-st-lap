@@ -1,10 +1,12 @@
 import { Close } from "@mui/icons-material";
-import { Alert, Backdrop, Button, CircularProgress, Dialog, DialogActions, DialogTitle, IconButton, Snackbar, Typography } from "@mui/material";
+import { Alert, Backdrop, Button, CircularProgress, Dialog, DialogActions, DialogTitle, IconButton, InputLabel, Snackbar, TextareaAutosize, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import axios from "axios";
 import { useReducer } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import CustomTextField from "../CustomComponents/CustomTextField";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 import DisbursementTabsIntegrator from "./DisbursementTabsIntegrator";
 
@@ -71,6 +73,7 @@ const DisbursementDetailPage = (props) => {
   const[showSnackBar,setshowSnackBar] = useState(false);
   const[snackBarMsg,setsnackBarMsg] = useState("Empty SnackBar");
   const [openReferenceDialog,setopenReferenceDialog] = useState(false);
+  const [openApprovalDialog,setopenApprovalDialog] = useState(false);
   const [responseData,setResponseData] = useState({});
   const [urnContent,seturnContent] = useState("");
 
@@ -79,6 +82,10 @@ const DisbursementDetailPage = (props) => {
   const closeDialogHandler = () =>{
     setopenReferenceDialog(false);
     navigate("/stlap/home/disbursementView",{state:responseData});
+};
+
+const closeApprovalDialogHandler = () =>{
+  setopenApprovalDialog(false);
 };
 
 
@@ -261,27 +268,6 @@ const DisbursementDetailPage = (props) => {
             });  
           }
 
-
-          //  //Validating Rate of Interest Field
-          //  if(data.rateOfInterest === 0 || data.rateOfInterest === null ){
-          //   errorDispatch({
-          //     type: errorParameters.roiError,
-          //     value: [true,"Rate of Interest Cannot be Empty."],
-          //   });
-          //   status=false; 
-          // } else if(data.rateOfInterest < 18 || data.rateOfInterest > 22){
-          //   errorDispatch({
-          //     type: errorParameters.roiError,
-          //     value: [true,"Rate of Interest should be between 18 & 22."],
-          //   });
-          //   status=false;
-          // } else if(errorState.roiError[0]){
-          //   errorDispatch({
-          //     type: errorParameters.roiError,
-          //     value: [false,"Rate of Interest Cannot be Empty/Zero."],
-          //   });  
-          // }
-
           //Validating ECD Field
           if(data.emiCommDate === "-1" ){
             errorDispatch({
@@ -310,20 +296,6 @@ const DisbursementDetailPage = (props) => {
               value: [false,"Please Select Billing Day."],
             });  
           }
-
-          // //Validating SHFL Bank Field
-          // if(data.shflBank === 0 || data.shflBank === null || data.shflBank.trim() === ""){
-          //   errorDispatch({
-          //     type: errorParameters.shflBankError,
-          //     value: [true,"SHFL Bank Cannot be Empty."],
-          //   });
-          //   status=false; 
-          // } else if(errorState.shflBankError[0]){
-          //   errorDispatch({
-          //     type: errorParameters.shflBankError,
-          //     value: [false,"SHFL Bank Cannot be Empty."],
-          //   });  
-          // }
 
 
           //Validating Bank Grid
@@ -434,7 +406,12 @@ const DisbursementDetailPage = (props) => {
     } else if(disbursementData.screenMode === "APPROVAL"){
       disbursementData.requestStatus = "Approved";
     }
+    if(disbursementData.screenMode === "Approval"){
+      setResponseData(disbursementData);
+      setopenApprovalDialog(true);
+    } else {
     updateDisbursementDataToDB(disbursementData,losData);
+    }
   }
   };
 
@@ -470,6 +447,32 @@ const DisbursementDetailPage = (props) => {
         <DialogActions>
           <Button  autoFocus onClick={closeDialogHandler}>
             OK
+          </Button>
+
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openApprovalDialog}
+        onClose={closeApprovalDialogHandler}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Box>
+          <InputLabel required={true}  sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
+          <TextareaAutosize
+            style={{
+              width: "100%",
+            }}
+            value={""}
+          />
+          </Box>
+        </DialogTitle>
+
+        <DialogActions>
+          <Button  autoFocus onClick={closeApprovalDialogHandler}>
+            APPROVE
           </Button>
 
         </DialogActions>
