@@ -54,7 +54,10 @@ const DisbursementDetails = (props) => {
 
   useEffect(() => {
     getBillingDayValues();
-    const allChecked = Array.from({ length: props.detailPageInitialState.disbursementFavours.length }, () => false);
+    let allChecked = [];
+    props.detailPageInitialState.disbursementFavours.forEach((row,index)=>{
+      allChecked.push((row.isChecked || index === 0)? true:false);
+    });
     setChecked([...allChecked]);
     var option1 =dayjs(new Date(Number(Number(today.getMonth()) + 2)   + "/" + 1 + "/" + today.getFullYear())).format('DD/MM/YYYY');
     var option2 =dayjs(new Date(Number(Number(today.getMonth()) + 3)   + "/" + 1 + "/" + today.getFullYear())).format('DD/MM/YYYY');
@@ -660,7 +663,7 @@ const DisbursementDetails = (props) => {
                     labelPlacement="start"
                     control={
                       <Checkbox
-                      disabled={disabledState}
+                      disabled={disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
                         checked={
                           [...new Set(allCheckedValues)].length === 1
                             ? [...new Set(allCheckedValues)][0]
@@ -706,7 +709,7 @@ const DisbursementDetails = (props) => {
                                   record={row}
                                   checked={allCheckedValues[index]}
                                   checkBoxChange={onCheckBoxChange}
-                                  disabledState = {disabledState} 
+                                  disabledState = {disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")} 
                                 />
                               }
                             </React.Fragment>
@@ -751,7 +754,7 @@ const DisbursementDetails = (props) => {
                               {"Amount to Disbursed : " + row.amount}
                             </Typography>
                             <CustomTextField
-                              disabled={!allCheckedValues[index] || disabledState}
+                              disabled={!allCheckedValues[index] || disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
                               required={false}
                               label={"Amount to Disbursed : "}
                               id="amount"
