@@ -222,6 +222,8 @@ export default function DisbursementRequestList(props) {
               ? "darkred"
               : value === "Modified"
               ? "blueviolet"
+              : value === "Approved"
+              ? "white"
               : "#004A92",
           bgcolor:
             value === "Paid"
@@ -230,6 +232,8 @@ export default function DisbursementRequestList(props) {
               ? "lightsalmon"
               : value === "Modified"
               ? "yellow"
+              : value === "Approved"
+              ? "darkgreen"
               : "lightskyblue",
           width: "90%",
         }}
