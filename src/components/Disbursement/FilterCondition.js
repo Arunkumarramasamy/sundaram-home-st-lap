@@ -10,6 +10,7 @@ import { useReducer } from "react";
 import { useState } from "react";
 import { Backspace, Search } from "@mui/icons-material";
 import axios from "axios";
+import dayjs from "dayjs";
 
 const filterValues = {
   tabIndex: "tabIndex",
@@ -32,6 +33,8 @@ const filterValues = {
   requestNumber: "requestNumber",
   disbursementStatus: "disbursementStatus",
 };
+
+var today = new Date();
 
 const FilterCondition = (props) => {
   const reducer = (state, action) => {
@@ -104,6 +107,7 @@ const FilterCondition = (props) => {
           type: filterValues.branch,
           value: !value ? null : value,
         });
+        removeSelectedData([], value, field);
       }
       const applicationNumbersData = [
         ...Array.from(
@@ -207,6 +211,20 @@ const FilterCondition = (props) => {
       type: filterValues.disbursementStatus,
       value: !value || dataList.length === 0 ? null : dataList.at(0).status,
     });
+    dispatch({
+      type: filterValues.disbursementDateFromValue,
+      value:
+        !value || dataList.length === 0
+          ? dayjs(
+              today.getDate() +
+                "/" +
+                today.getMonth() +
+                1 +
+                "/" +
+                today.getFullYear()
+            ).format("DD/MM/YYYY")
+          : dayjs(dataList.at(0).disbursementDate).format("DD/MM/YYYY"),
+    });
 
     if (props.disDetailPage) {
       dispatch({
@@ -228,6 +246,20 @@ const FilterCondition = (props) => {
         type: filterValues.rateOfInterest,
         value:
           !value || dataList.length === 0 ? "" : dataList.at(0).rateOfInterest,
+      });
+      dispatch({
+        type: filterValues.applicationDate,
+        value:
+          !value || dataList.length === 0
+            ? dayjs(
+                today.getDate() +
+                  "/" +
+                  today.getMonth() +
+                  1 +
+                  "/" +
+                  today.getFullYear()
+              ).format("DD/MM/YYYY")
+            : dataList.at(0).applicationDate,
       });
     }
   };
@@ -265,7 +297,7 @@ const FilterCondition = (props) => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomAutoComplete
               disabled={disabledState}
-              required={true && !(disabledState)}
+              required={true && !disabledState}
               label="Branch"
               id="branch"
               variant="standard"
@@ -405,23 +437,22 @@ const FilterCondition = (props) => {
               ) : null}
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                  <CustomDateField
-                    disabled={disabledState}
-                    required={false}
-                    label="Application Date"
-                    id="applicationDate"
-                    variant="standard"
-                    value={state.applicationDate}
-                    type="text"
-                    placeholder="Enter Application Date"
-                    onChange={(event) => {
-                      dispatch({
-                        type: filterValues.applicationDate,
-                        value: event,
-                      });
-                    }}
-                  />
-                
+                <CustomDateField
+                  disabled={disabledState}
+                  required={false}
+                  label="Application Date"
+                  id="applicationDate"
+                  variant="standard"
+                  value={state.applicationDate}
+                  type="text"
+                  placeholder="Enter Application Date"
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.applicationDate,
+                      value: event,
+                    });
+                  }}
+                />
               </Grid>
 
               {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -473,13 +504,17 @@ const FilterCondition = (props) => {
                   label="Loan Amount"
                   id="loanAmount"
                   variant="standard"
-                  value={state.loanAmount === "" ? 0 :   parseInt(state.loanAmount).toLocaleString("en-IN")}
+                  value={
+                    state.loanAmount === ""
+                      ? 0
+                      : parseInt(state.loanAmount).toLocaleString("en-IN")
+                  }
                   type="text"
                   placeholder="Enter Loan Amount"
                   onChange={(event) => {
                     dispatch({
                       type: filterValues.loanAmount,
-                      value: event.target.value.replaceAll(",",""),
+                      value: event.target.value.replaceAll(",", ""),
                     });
                   }}
                 />
@@ -492,13 +527,17 @@ const FilterCondition = (props) => {
                   label="Sanctioned Amount"
                   id="sanctionAmount"
                   variant="standard"
-                  value={state.sanctionAmount === "" ? 0 :   parseInt(state.sanctionAmount).toLocaleString("en-IN")}
+                  value={
+                    state.sanctionAmount === ""
+                      ? 0
+                      : parseInt(state.sanctionAmount).toLocaleString("en-IN")
+                  }
                   type="text"
                   placeholder="Enter Sanctioned Amount"
                   onChange={(event) => {
                     dispatch({
                       type: filterValues.sanctionAmount,
-                      value: event.target.value.replaceAll(",",""),
+                      value: event.target.value.replaceAll(",", ""),
                     });
                   }}
                 />
@@ -551,21 +590,21 @@ const FilterCondition = (props) => {
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-              <CustomDateField
-                    disabled={disabledState}
-                    required={false}
-                    label="Disbursement Date"
-                    id="disbursementDate"
-                    variant="standard"
-                    value={state.disbursementDateFromValue}
-                    type="text"
-                    placeholder="Enter Disbursement Date"
-                    onChange={(event) => {
-                      dispatch({
-                        type: filterValues.disbursementDateFromValue,
-                        value: event,
-                      });
-                    }}
+                <CustomDateField
+                  disabled={disabledState}
+                  required={false}
+                  label="Disbursement Date"
+                  id="disbursementDate"
+                  variant="standard"
+                  value={state.disbursementDateFromValue}
+                  type="text"
+                  placeholder="Enter Disbursement Date"
+                  onChange={(event) => {
+                    dispatch({
+                      type: filterValues.disbursementDateFromValue,
+                      value: event,
+                    });
+                  }}
                 />
               </Grid>
             </React.Fragment>
@@ -580,7 +619,7 @@ const FilterCondition = (props) => {
               justifyContent: "center",
             }}
           >
-            <Button variant="contained" type="submit" sx={{height: "2rem"}}>
+            <Button variant="contained" type="submit" sx={{ height: "2rem" }}>
               {/* <Search /> */}
               Search
             </Button>
@@ -589,7 +628,7 @@ const FilterCondition = (props) => {
                 marginLeft: "1rem",
                 color: "white",
                 backgroundColor: "black",
-                height: "2rem"
+                height: "2rem",
               }}
               onMouseOver={({ target }) => {
                 target.style.backgroundColor = "black";

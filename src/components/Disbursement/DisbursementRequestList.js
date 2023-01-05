@@ -129,23 +129,29 @@ export default function DisbursementRequestList(props) {
     coApplicantName: "",
     customerId: "",
     sanctionStatus: "",
-    effectiveDate:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    applicationDateFromValue:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    applicationDateToValue:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    applicationDate:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    effectiveDate: dayjs(
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+    ).format("DD/MM/YYYY"),
+    applicationDateFromValue: dayjs(
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+    ).format("DD/MM/YYYY"),
+    applicationDateToValue: dayjs(
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+    ).format("DD/MM/YYYY"),
+    applicationDate: dayjs(
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+    ).format("DD/MM/YYYY"),
     customerType: "-1",
     rateOfInterest: "",
     loanAmount: "",
     sanctionAmount: "",
 
-    disbursementDateFromValue:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
-    disbursementDateToValue:
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
+    disbursementDateFromValue: dayjs(
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+    ).format("DD/MM/YYYY"),
+    disbursementDateToValue: dayjs(
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
+    ).format("DD/MM/YYYY"),
     disbursementStatus: "",
     requestNumber: "",
     screenModeTitle: "",
@@ -197,7 +203,7 @@ export default function DisbursementRequestList(props) {
   useLayoutEffect(() => {
     if (!(location.state === null)) {
       filterConditionState.branch = location.state.branch;
-      updateFilterAutoFill(location.state);
+      updateFilterAutoFill(location.state, true);
       setFilterConditionState({ ...filterConditionState });
       // filter the data also, isbackfromdetailpage is true.
       filterData(location.state, true);
@@ -242,7 +248,7 @@ export default function DisbursementRequestList(props) {
     setRows([...datarows].slice(offset, offset + rowsPerPage));
   };
 
-  const resetFilterData = () => {
+  const resetFilterData = (isBackfromDetailPage) => {
     setRows([...datarows].slice(0, rowsPerPage));
     setTotalPageCount(
       datarows.length % 10 !== 0
@@ -252,7 +258,7 @@ export default function DisbursementRequestList(props) {
     setTotalRowsCount(datarows.length);
     setPage(1);
     filterConditionState.branch = "";
-    updateFilterAutoFill(initialState);
+    updateFilterAutoFill(initialState, isBackfromDetailPage);
     setFilterConditionState({ ...filterConditionState });
   };
 
@@ -260,7 +266,7 @@ export default function DisbursementRequestList(props) {
     let filterrows = [];
     if (!isBackfromDetailPage) {
       // reset the autofill & retain back later.
-      updateFilterAutoFill(initialState);
+      updateFilterAutoFill(initialState, isBackfromDetailPage);
     }
 
     // Basic search tab
@@ -295,10 +301,10 @@ export default function DisbursementRequestList(props) {
       );
       // since this filter is for sancation list, so 1  requestNumber number has only one record.
       if (filterrows.length === 1) {
-        updateFilterAutoFill(filterrows[0]);
+        updateFilterAutoFill(filterrows[0], isBackfromDetailPage);
       }
     } else {
-      updateFilterAutoFill(initialState);
+      updateFilterAutoFill(initialState, isBackfromDetailPage);
     }
     if (data.disbursementStatus && data.disbursementStatus !== "") {
       filterrows = filterrows.filter(
@@ -308,6 +314,21 @@ export default function DisbursementRequestList(props) {
     } else {
       filterConditionState.disbursementStatus = "";
     }
+
+    const disbursementDate = dayjs(
+      !isBackfromDetailPage
+        ? data.disbursementDateFromValue
+        : data.disbursementDate
+    ).format("DD/MM/YYYY");
+    if (disbursementDate && disbursementDate !== "") {
+      filterrows = filterrows.filter(
+        (row) => row.disbursementDate === disbursementDate
+      );
+      filterConditionState.disbursementDateFromValue = disbursementDate;
+    } else {
+      filterConditionState.disbursementDateFromValue = "";
+    }
+
     // few more conditions yet to be added based on fields decided to tarequestNumberrget need to add to dummy data.
     setRows(filterrows);
     setFilterConditionState({ ...filterConditionState });
@@ -320,12 +341,18 @@ export default function DisbursementRequestList(props) {
     setPage(1);
   };
 
-  const updateFilterAutoFill = (data) => {
+  const updateFilterAutoFill = (data, isBackfromDetailPage) => {
     // this method updates or removes other fields auto fill data to retain back
     filterConditionState.applicationNumber = data.applicationNumber;
     filterConditionState.customerName = data.customerName;
     filterConditionState.requestNumber = data.requestNumber;
     filterConditionState.disbursementStatus = data.disbursementStatus;
+    const disbursementDate = dayjs(
+      !isBackfromDetailPage
+        ? data.disbursementDateFromValue
+        : data.disbursementDate
+    ).format("DD/MM/YYYY");
+    filterConditionState.disbursementDateFromValue = disbursementDate;
   };
 
   const rowDoubleClickHandler = (event) => {
@@ -382,7 +409,9 @@ export default function DisbursementRequestList(props) {
         modifiedUser: disbursementRow.lastModifiedBy,
         modifiedDate: disbursementRow.lastModifiedDate,
         action: disbursementRow.requestStatus,
-        disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format("DD/MM/YYYY"),
+        disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format(
+          "DD/MM/YYYY"
+        ),
         disbRequestId: disbursementRow.disbRequestId,
       };
       tempDataRows.push(dataMap1);
@@ -395,7 +424,7 @@ export default function DisbursementRequestList(props) {
     if (JSON.stringify(totalDataRows) !== JSON.stringify(datarows)) {
       updateStateData(totalDataRows);
     } else {
-      resetFilterData();
+      resetFilterData(false);
     }
   };
 
@@ -426,7 +455,7 @@ export default function DisbursementRequestList(props) {
         initialState={filterConditionState}
         title="Disbursement Information"
         onSearchButtonClick={(data) => filterData(data, false)}
-        onClearButtonClick={resetFilterData}
+        onClearButtonClick={() => resetFilterData(false)}
         setAccordianOpen={setAccordianOpen}
         mode={"Search"}
         disDetailPage={false}
@@ -630,7 +659,9 @@ const LoadActionBtn = (props) => {
   const ITEM_HEIGHT = 48;
   return (
     <React.Fragment>
-      {record.status === "Paid" || record.status === "Cancelled" ||record.status === "Approved"? (
+      {record.status === "Paid" ||
+      record.status === "Cancelled" ||
+      record.status === "Approved" ? (
         <Tooltip title="View">
           <IconButton onClick={() => handleIconClick("View", record)}>
             <Preview sx={{ color: "#004A92", fontWeight: 700 }} />
