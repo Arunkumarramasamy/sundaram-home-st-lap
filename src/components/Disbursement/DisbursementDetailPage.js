@@ -20,7 +20,7 @@ var detailPageInitialState =   {
     "dateOfDisb": todayDate,
     "disbAmt": 0,
     "disbNo": 1,
-    "disbRequestId": "",
+    "transactionKey": "",
     "disbursementFavours": [],
     "earlierDisbAmt": 0,
     "editLock": false,
@@ -210,7 +210,7 @@ const closeApprovalDialogHandler = () =>{
         setsnackBarMsg("Disbursement Request Created Successfully.");
         setshowSnackBar(true);
         setLoading(false);
-        seturnContent(<Typography>Generated Reference Number is : {response.data.disbRequestId}</Typography>);
+        seturnContent(<Typography>Generated Reference Number is : {response.data.transactionKey}</Typography>);
         setopenReferenceDialog(true);
       }
      };
@@ -362,7 +362,7 @@ const closeApprovalDialogHandler = () =>{
         "createdBy": "",
         "createdDate": "",
         "disbAmount": row.amount,
-        "disbRequestId": data.disbRequestId,
+        "transactionKey": data.transactionKey,
         "distNo": data.disbNo,
         "lastModifiedBy": "",
         "lastModifiedDate": "",
@@ -392,7 +392,7 @@ const closeApprovalDialogHandler = () =>{
         "createdBy": "",
         "createdDate": "",
         "disbAmount": row.amount,
-        "disbRequestId": disbursementData.disbRequestId,
+        "transactionKey": disbursementData.transactionKey,
         "distNo": disbursementData.disbNo,
         "lastModifiedBy": "",
         "lastModifiedDate": "",

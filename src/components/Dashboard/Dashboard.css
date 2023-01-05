@@ -3,20 +3,21 @@
   color: white;
 }
 #card-design {
+  background: rgb(70, 183, 205);
   background: linear-gradient(
-    310deg,
-    rgba(28, 55, 129, 1) 50%,
-    rgba(9, 9, 121, 1) 1%,
-    rgba(0, 212, 255, 1) 100%
+    90deg,
+    rgba(70, 183, 205, 1) 0%,
+    rgba(46, 75, 235, 1) 51%,
+    rgba(38, 63, 205, 1) 88%
   );
   color: white;
 }
 #monthwise-chart {
-  background: rgb(28, 74, 129);
+  /* background: rgb(28, 74, 129);
   background: linear-gradient(
     90deg,
     rgba(28, 74, 129, 1) 0%,
     rgba(9, 121, 31, 1) 99%,
     rgba(0, 212, 255, 1) 100%
-  );
+  ); */
 }

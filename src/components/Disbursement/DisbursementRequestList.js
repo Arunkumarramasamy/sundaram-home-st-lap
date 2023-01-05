@@ -396,7 +396,7 @@ export default function DisbursementRequestList(props) {
     response.data.map((disbursementRow) => {
       const dataMap1 = {
         id: counter++,
-        requestNumber: disbursementRow.disbRequestId,
+        requestNumber: disbursementRow.transactionKey,
         branch: dataMap[disbursementRow.applicationNumber].branch,
         customerName: dataMap[disbursementRow.applicationNumber].customerName,
         applicationNumber: disbursementRow.applicationNumber,
@@ -409,10 +409,8 @@ export default function DisbursementRequestList(props) {
         modifiedUser: disbursementRow.lastModifiedBy,
         modifiedDate: disbursementRow.lastModifiedDate,
         action: disbursementRow.requestStatus,
-        disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format(
-          "DD/MM/YYYY"
-        ),
-        disbRequestId: disbursementRow.disbRequestId,
+        disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format("DD/MM/YYYY"),
+        transactionKey: disbursementRow.transactionKey,
       };
       tempDataRows.push(dataMap1);
     });
@@ -628,7 +626,7 @@ const LoadActionBtn = (props) => {
 
   const loadDetailPage = async (record, url, mode) => {
     const response = await service.getDisbursementData({
-      disbRequestId: record.disbRequestId,
+      transactionKey: record.transactionKey,
       screenMode: mode,
     });
     if (response.data.editLock && mode !== "VIEW") {

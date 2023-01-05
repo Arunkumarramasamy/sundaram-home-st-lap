@@ -184,6 +184,7 @@ const ParameterMaintenance = () => {
   const [paramDataType, setparamDataType] = useState("");
   const [startDate, setstartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs());
+  const [modules, setModules] = useState("");
   // let initialParamValue;
   // if (dateValue) {
   //   initialParamValue = dayjs();
@@ -233,6 +234,7 @@ const ParameterMaintenance = () => {
     setParamMeterName(values.paramName);
     setparamDataType(values.paramDataType);
     setstartDate(values.paramEffStartDt);
+    setModules(values.module);
     setEndDate(values.paramEffEndDt);
     if (values.paramDataType === "Int") {
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
@@ -254,6 +256,7 @@ const ParameterMaintenance = () => {
     setparamDataType(values.paramDataType);
     setstartDate(values.paramEffStartDt);
     setEndDate(values.paramEffEndDt);
+    setModules(values.module);
     if (values.paramDataType === "Int") {
       setDateValue(false);
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
@@ -306,6 +309,7 @@ const ParameterMaintenance = () => {
         "http://localhost:8080/parameter/insertOrUpdate",
         {
           paramDataType: paramDataType,
+          module: modules,
           paramEffStartDt: new Date(startDate),
           paramEffEndDt: new Date(endDate),
           paramName: paraMeterName,
@@ -327,6 +331,7 @@ const ParameterMaintenance = () => {
         setAlertType("success");
         setMessage("Record added Successfully");
         openAlertHandler();
+        setModules("");
       } else {
         setState((pre) => {
           return { ...pre, vertical: "bottom", horizontal: "left" };

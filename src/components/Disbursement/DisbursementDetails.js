@@ -521,7 +521,7 @@ const DisbursementDetails = (props) => {
             label="Request Number"
             id="requestNumber"
             variant="standard"
-            value={props.detailPageInitialState.disbRequestId}
+            value={props.detailPageInitialState.transactionKey}
             type="text"
             placeholder="Request Number"
           />
