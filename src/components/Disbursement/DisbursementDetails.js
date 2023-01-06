@@ -310,12 +310,12 @@ const DisbursementDetails = (props) => {
             label="Disbursement Number"
             id="disbursementNumber"
             variant="standard"
-            value={props.detailPageInitialState.disbNo}
+            value={props.detailPageInitialState.disbNum}
             type="text"
             placeholder="Enter Disbursement Number"
             onChange={(event, value) => {
               props.dispatchEvent({
-                type: props.fieldList.disbNo,
+                type: props.fieldList.disbNum,
                 value: value,
               });
             }}
@@ -379,7 +379,7 @@ const DisbursementDetails = (props) => {
             label="Total Deductions"
             id="deductions"
             variant="standard"
-            value={parseInt(props.deductionsState.totalDeductionsTotal).toLocaleString("en-IN")}
+            value={parseInt(props.detailPageInitialState.totalDeductionAmt).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Total Deductions"
           />

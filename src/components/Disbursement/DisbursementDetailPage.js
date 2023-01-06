@@ -20,7 +20,7 @@ var detailPageInitialState =   {
     "billDay": "-1",
     "dateOfDisb": todayDate,
     "disbAmt": 0,
-    "disbNo": 1,
+    "disbNum": 1,
     "transactionKey": 0,
     "disbHeaderKey":0,
     "disbursementFavours": [],
@@ -155,7 +155,6 @@ const DisbursementDetailPage = (props) => {
     
     losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
     detailPageInitialState.applicationNum = losInitialState.applicationNumber;
-    getDeductionsGridData();
     if(!(location.state === null)){
         getDisbursementData(location.state);
         losInitialState.screenModeTitle=props.screenTitle;
@@ -196,7 +195,9 @@ const DisbursementDetailPage = (props) => {
           data.waivedTotal = waivedTotal1;
           data.totalDeductionsTotal=  dueTotal1+deductionTotal1-paidTotal1-waivedTotal1;
     });
+    if(props.mode==="CREATE"){
     detailPageInitialState.totalDeductionAmt = data.totalDeductionsTotal;
+    }
     data.gridRows = response.data.gridData;
     setDeductionsState(data);
   };
@@ -212,6 +213,7 @@ const DisbursementDetailPage = (props) => {
            ))};
     detailPageInitialState.disbursementFavours = response.data ;
     detailPageInitialState.rateOfInterest = losInitialState.rateOfInterest;
+    getDeductionsGridData();
     setLoading(false);
   };
 
@@ -241,6 +243,7 @@ const DisbursementDetailPage = (props) => {
     losInitialState = response.data;
     losInitialState.branchNames = [];
     losInitialState.screenModeTitle=props.screenTitle;
+    getDeductionsGridData();
     setLoading(false);
   };
   
@@ -409,7 +412,7 @@ const DisbursementDetailPage = (props) => {
         "createdDate": "",
         "disbAmt": row.amount,
         "disbHeaderKey": data.disbHeaderKey,
-        "disbNum": data.disbNo,
+        "disbNum": data.disbNum,
         "lastModifiedBy": "",
         "lastModifiedDate": "",
       };
@@ -439,7 +442,7 @@ const DisbursementDetailPage = (props) => {
         "createdDate": "",
         "disbAmt": row.amount,
         "disbHeaderKey": disbursementData.disbHeaderKey,
-        "disbNum": disbursementData.disbNo,
+        "disbNum": disbursementData.disbNum,
         "lastModifiedBy": "",
         "lastModifiedDate": "",
       };

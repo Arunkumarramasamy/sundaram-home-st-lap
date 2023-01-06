@@ -27,7 +27,7 @@ const DisbursementTabsIntegrator = (props) => {
     billDay: "billDay",
     dateOfDisb: "dateOfDisb",
     disbAmt: "disbAmt",
-    disbNo: "disbNo",
+    disbNum: "disbNum",
     transactionKey: "transactionKey",
     disbHeaderKey:"disbHeaderKey",
     disbursementFavours: "disbursementFavours",
@@ -57,8 +57,8 @@ const DisbursementTabsIntegrator = (props) => {
         return { ...state, dateOfDisb: action.value };
       case screenFields.disbAmt:
         return { ...state, disbAmt: action.value };
-      case screenFields.disbNo:
-        return { ...state, disbNo: action.value };
+      case screenFields.disbNum:
+        return { ...state, disbNum: action.value };
       case screenFields.transactionKey:
         return { ...state, transactionKey: action.value };
       case screenFields.disbursementFavours:
