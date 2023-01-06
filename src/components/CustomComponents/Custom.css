@@ -42,7 +42,3 @@
   color: rgba(0, 0, 0, 0.699) !important;
   font-weight: bold !important;
 }
-.MuiDataGrid-row {
-  min-height: 49px !important;
-  max-height: 49px !important;
-}
