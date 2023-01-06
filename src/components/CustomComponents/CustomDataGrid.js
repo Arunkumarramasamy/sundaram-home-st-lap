@@ -39,12 +39,6 @@ const CustomDataGrid = (props) => {
           fontFamily: "Roboto",
           backgroundColor: "#004A92",
         },
-        "& .super-app-theme--odd": {
-          bgcolor: lighten("#D7D7D7", 0.15),
-        },
-        "& .super-app-theme--even": {
-          bgcolor: lighten("#AAAAAA", 0.15),
-        },
       }}
       rows={props.rows}
       columns={props.columns}
