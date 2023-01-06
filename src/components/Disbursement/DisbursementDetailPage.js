@@ -227,7 +227,7 @@ const closeApprovalDialogHandler = () =>{
     const api1 = axios.create({
       baseURL: "http://localhost:8080/losCustomer/"
     });
-    const response1 = await api1.post("/getCustBankDetailsByAppNum",{"applicationNumber": data.applicationNum});
+    const response1 = await losCustomerApi.post("/getCustBankDetailsByAppNum",{"applicationNumber": data.applicationNum});
     const tempBankRow = response1.data ;
     var counter = 1;
     var dataMap = [];
