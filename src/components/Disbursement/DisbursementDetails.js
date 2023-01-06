@@ -359,6 +359,12 @@ const DisbursementDetails = (props) => {
                 type: props.fieldList.totalDisbAmt,
                 value: parseInt(event.target.value.replaceAll(",",""))-props.detailPageInitialState.totalDeductionAmt,
               });
+              const dataMap1=[...props.detailPageInitialState.disbursementFavours];
+              dataMap1[0].amount = parseInt(event.target.value.replaceAll(",",""))-props.detailPageInitialState.totalDeductionAmt;
+              props.dispatchEvent({
+                type: props.fieldList.disbursementFavours,
+                value: dataMap1,
+              });
             }}
           />
           {props.errorState.currentDisbError[0] && (
@@ -389,6 +395,7 @@ const DisbursementDetails = (props) => {
             value={parseInt(props.detailPageInitialState.totalDisbAmt).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Net Disbursement Amount"
+           
           />
         </Grid>
 
@@ -620,7 +627,7 @@ const DisbursementDetails = (props) => {
             borderLeft: "0px",
             borderRight: "0px",
           }}
-          value={"Approval Remarks"}
+          value={props.detailPageInitialState.approvalRemarks}
         />
       </Grid> }
 

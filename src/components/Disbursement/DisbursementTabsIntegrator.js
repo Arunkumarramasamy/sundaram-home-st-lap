@@ -1,7 +1,7 @@
 import * as React from "react";
 import FilterCondition from "./FilterCondition";
 import "../Demo_Disbursement/TabsIntegrator";
-import { Box, Tab } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogTitle, InputLabel, Tab, TextareaAutosize } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import DisbursementDetails from "./DisbursementDetails";
 import FeesOutstanding from "./FeesOutstanding";
@@ -10,6 +10,7 @@ import { useReducer } from "react";
 import { useEffect } from "react";
 import CustomButton from "../CustomComponents/CustomButton";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const DisbursementTabsIntegrator = (props) => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const DisbursementTabsIntegrator = (props) => {
     firstEmiDueDate: "firstEmiDueDate",
     paymentMode: "paymentMode",
     remarks: "remarks",
+    approvalRemarks:"approvalRemarks",
     requestStatus: "requestStatus",
     shflBank: "shflBank",
     totalDisbAmt: "totalDisbAmt",
@@ -75,6 +77,8 @@ const DisbursementTabsIntegrator = (props) => {
         return { ...state, paymentMode: action.value };
       case screenFields.remarks:
         return { ...state, remarks: action.value };
+      case screenFields.approvalRemarks:
+        return { ...state, approvalRemarks: action.value };
       case screenFields.requestStatus:
         return { ...state, requestStatus: action.value };
       case screenFields.shflBank:
@@ -91,6 +95,17 @@ const DisbursementTabsIntegrator = (props) => {
   };
 
   const [state, dispatch] = useReducer(reducer, props.detailPageInitialState);
+  const [openApprovalDialog,setopenApprovalDialog] = useState(false);
+
+  const closeApprovalDialogHandler = () =>{
+    setopenApprovalDialog(false);
+    props.updateRequestHandler(state, props.searchStateValues);
+  };
+
+  const closeApprovalDialogHandlerOnMoveOut  = () =>{
+    setopenApprovalDialog(false);
+  };
+
 
   useEffect(() => {
     dispatch({
@@ -101,6 +116,39 @@ const DisbursementTabsIntegrator = (props) => {
 
   return (
     <>
+    <Dialog
+        open={openApprovalDialog}
+        onClose={closeApprovalDialogHandlerOnMoveOut}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Box>
+            <h4>Approval Confirmation</h4>
+          <InputLabel required={true}  sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
+          <TextareaAutosize
+            style={{
+              width: "100%",
+              height: "100%"
+            }}
+            value={state.approvalRemarks}
+            onChange={(event, value) => {
+              dispatch({
+                type: screenFields.approvalRemarks,
+                value: event.target.value,
+              });
+            }}
+          />
+          </Box>
+        </DialogTitle>
+
+        <DialogActions>
+          <Button  autoFocus onClick={closeApprovalDialogHandler}>
+            APPROVE
+          </Button>
+
+        </DialogActions>
+      </Dialog>
       <FilterCondition
         setAccordianOpen={setAccordianOpen}
         mode={"Detail"}
@@ -234,7 +282,8 @@ const DisbursementTabsIntegrator = (props) => {
           sx={{height: "2rem"}}
             variant="contained"
             onClick={() => {
-              props.updateRequestHandler(state, props.searchStateValues);
+              // props.updateRequestHandler(state, props.searchStateValues);
+              setopenApprovalDialog(true);
             }}
           >
             Approve Request

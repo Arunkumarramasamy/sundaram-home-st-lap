@@ -31,6 +31,7 @@ var detailPageInitialState =   {
     "firstEmiDueDate": "",
     "paymentMode": "RTGS",
     "remarks": "",
+    "approvalRemarks":"",
     "requestStatus": "",
     "screenMode": "CREATE",
     "shflBank": "",
@@ -86,7 +87,6 @@ const DisbursementDetailPage = (props) => {
   const[showSnackBar,setshowSnackBar] = useState(false);
   const[snackBarMsg,setsnackBarMsg] = useState("Empty SnackBar");
   const [openReferenceDialog,setopenReferenceDialog] = useState(false);
-  const [openApprovalDialog,setopenApprovalDialog] = useState(false);
   const [responseData,setResponseData] = useState({});
   const [losData,setLosData] = useState({});
   const [urnContent,seturnContent] = useState("");
@@ -97,11 +97,6 @@ const DisbursementDetailPage = (props) => {
   const closeDialogHandler = () =>{
     setopenReferenceDialog(false);
     navigate("/stlap/home/disbursementView",{state:responseData});
-};
-
-const closeApprovalDialogHandler = () =>{
-  setopenApprovalDialog(false);
-  updateDisbursementDataToDB(responseData,losData);
 };
 
 
@@ -460,13 +455,9 @@ const closeApprovalDialogHandler = () =>{
     } else if(disbursementData.screenMode === "APPROVE"){
       disbursementData.requestStatus = "Approved";
     }
-    if(disbursementData.screenMode === "APPROVE"){
-      setResponseData(disbursementData);
-      setLosData(losData);
-      setopenApprovalDialog(true);
-    } else {
+   
     updateDisbursementDataToDB(disbursementData,losData);
-    }
+    
   }
   };
 
@@ -507,33 +498,7 @@ const closeApprovalDialogHandler = () =>{
         </DialogActions>
       </Dialog>
 
-      <Dialog
-        open={openApprovalDialog}
-        onClose={closeApprovalDialogHandler}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          <Box>
-            <h4>Approval Confirmation</h4>
-          <InputLabel required={true}  sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
-          <TextareaAutosize
-            style={{
-              width: "100%",
-              height: "100%"
-            }}
-            value={""}
-          />
-          </Box>
-        </DialogTitle>
-
-        <DialogActions>
-          <Button  autoFocus onClick={closeApprovalDialogHandler}>
-            APPROVE
-          </Button>
-
-        </DialogActions>
-      </Dialog>
+      
     {loading  ?  <>
     <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
