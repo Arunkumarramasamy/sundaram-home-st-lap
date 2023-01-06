@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
 import CustomDateField from "../CustomComponents/CustomDateField";
@@ -41,7 +41,21 @@ const Nach = () => {
   const onSaveButtonClickHandler = () => {
     console.log(data);
   };
+  //Field Touch Handler
+  const [frequencyTouchHandler, setFrequencyTouchHandler] = useState(false);
+  const [fbdTouchHandler, setFbd] = useState(false);
+  const [mandateStartDateTouchHandler, setMandateStartDate] = useState(false);
+  const [firstNachBillingDateTouchHandler, setFirstNachBillingDate] =
+    useState(false);
 
+  //Validation
+  const frequncyValid = data.frequency.trim() !== "";
+  const fbdValid = data.fbd.trim() !== "";
+  const mandateStartDateValid = data.mandateStartDate !== "";
+  const firstNachBillingDateValid = data.firstNachBillingDate !== "";
+
+  //Has Error
+  const frequencyHasError = frequencyTouchHandler && !frequncyValid;
   return (
     <>
       <Box
