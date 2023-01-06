@@ -416,8 +416,8 @@ export default function DisbursementRequestList(props) {
     });
     const totalDataRows =
       listScreenMode === "REQUESTLIST"
-        ? [...tempDataRows]
-        : [...tempDataRows].filter((row) => row.status === "Requested");
+        ? [...tempDataRows].filter((row) => row.status !== "Approved")
+        : [...tempDataRows].filter((row) => row.status !== "Cancelled");
     setdatarows(totalDataRows);
     if (JSON.stringify(totalDataRows) !== JSON.stringify(datarows)) {
       updateStateData(totalDataRows);
