@@ -92,21 +92,24 @@ const ParameterMaintenance = () => {
       headerName: "Parameter Name",
       headerAlign: "center",
       align: "center",
-      width: 150,
+      width: 160,
+      align: "left",
     },
     {
       field: "module",
       headerName: "Module",
       headerAlign: "center",
       align: "center",
-      width: 150,
+      width: 178,
+      align: "left",
     },
     {
       field: "paramDataType",
       headerName: "Parameter Data Type",
       headerAlign: "center",
       align: "center",
-      width: 160,
+      width: 180,
+      align: "left",
     },
     {
       field: "paramValue",
@@ -114,6 +117,7 @@ const ParameterMaintenance = () => {
       headerAlign: "center",
       align: "center",
       width: 250,
+      align: "right",
       renderCell: (params) => {
         if (params.row.paramDataType === "Int") {
           return parseInt(params.value).toLocaleString("en-IN");
@@ -133,7 +137,8 @@ const ParameterMaintenance = () => {
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 150,
+      align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
       },
@@ -143,7 +148,8 @@ const ParameterMaintenance = () => {
       headerName: "Effective End Date",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 190,
+      align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
       },
@@ -269,6 +275,23 @@ const ParameterMaintenance = () => {
     }
     console.log(check);
   };
+  //Save Dialog Click Handler
+  const [saveDialogopen, setsaveDialogOpen] = React.useState(false);
+
+  const handleSaveDialogClickOpen = () => {
+    setsaveDialogOpen(true);
+  };
+
+  const handleSaveDialogClose = () => {
+    setsaveDialogOpen(false);
+  };
+  const saveDialogOkButtonClickHandler = () => {
+    SendData();
+    setDialogOpen(false);
+    ResetTouchHandler(false);
+    resetChecker();
+    setsaveDialogOpen(false);
+  };
   /**Dialog Click Handler */
   const DialogOkHandler = () => {
     // setdisabled(true);
@@ -293,10 +316,7 @@ const ParameterMaintenance = () => {
         setMessage("No changes Made");
         openAlertHandler();
       } else {
-        SendData();
-        setDialogOpen(false);
-        ResetTouchHandler(false);
-        resetChecker();
+        handleSaveDialogClickOpen();
       }
     } else {
       ResetTouchHandler(true);
@@ -501,10 +521,18 @@ const ParameterMaintenance = () => {
             marginTop: "5px",
             marginBottom: "5px",
             display: "flex",
+
             justifyContent: "center",
           }}
         >
-          <Box sx={{ display: "flex", gap: "12px", alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "12px",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
             <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
               Module
             </InputLabel>
@@ -533,13 +561,13 @@ const ParameterMaintenance = () => {
             </Button>
           </Box>
 
-          <Button
+          {/* <Button
             sx={{ fontWeight: "bold", marginLeft: "100px" }}
             variant="contained"
             onClick={addBtnHandler}
           >
             Add
-          </Button>
+          </Button> */}
         </Box>
         {useMediaQuery("(min-width:1200px)") && (
           <Box>
@@ -872,6 +900,44 @@ const ParameterMaintenance = () => {
             )}
           </DialogActions>
         </Dialog>
+        <div>
+          <Dialog
+            open={saveDialogopen}
+            onClose={handleSaveDialogClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              Do You Want to Proceed for Save ?
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                sx={{
+                  marginLeft: "1rem",
+                  color: "white",
+                  backgroundColor: "black",
+                  fontWeight: "bold",
+                }}
+                onMouseOver={({ target }) => {
+                  target.style.backgroundColor = "black";
+                  target.style.color = "white";
+                }}
+                variant="contained"
+                onClick={handleSaveDialogClose}
+              >
+                No
+              </Button>
+              <Button
+                sx={{ fontWeight: "bold" }}
+                variant="contained"
+                onClick={saveDialogOkButtonClickHandler}
+                autoFocus
+              >
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       </Box>
       <Box>
         <StlapFooter />

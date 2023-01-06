@@ -5,10 +5,9 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
-import store from "./components/Store/index";
-import axios from "axios";
-import Cookies from "js-cookie";
+import store, { persistor } from "./components/Store/index";
 
+import { PersistGate } from "redux-persist/integration/react";
 // axios.interceptors.request.use((request) => {
 //   if (Cookies.get("Token")) {
 //     request.headers.Authorization = "Bearer " + Cookies.get("Token");
@@ -20,9 +19,11 @@ import Cookies from "js-cookie";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
   </Provider>
 );
 

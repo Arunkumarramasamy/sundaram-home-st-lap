@@ -46,7 +46,7 @@ export default function DisbursementRequestList(props) {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
       hideable: false,
     },
     {
@@ -55,7 +55,7 @@ export default function DisbursementRequestList(props) {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "applicationNum",
@@ -64,7 +64,7 @@ export default function DisbursementRequestList(props) {
       type: "string",
       hideable: false,
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "customerName",
@@ -72,7 +72,7 @@ export default function DisbursementRequestList(props) {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "status",
@@ -80,7 +80,7 @@ export default function DisbursementRequestList(props) {
       headerAlign: "center",
       type: "string",
       width: 150,
-      align: "center",
+      align: "left",
       renderCell: (params) => {
         return loadStatus(params.value);
       },
@@ -91,7 +91,7 @@ export default function DisbursementRequestList(props) {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "action",

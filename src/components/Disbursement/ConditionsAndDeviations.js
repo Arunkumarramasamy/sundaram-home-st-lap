@@ -26,7 +26,7 @@ const ConditionsAndDeviations = (props) => {
       hideable: false,
       sortable: false,
       width: 250,
-      align: "center",
+      align: "left",
     },
     {
       field: "date",
@@ -34,7 +34,7 @@ const ConditionsAndDeviations = (props) => {
       headerAlign: "center",
       type: "string",
       width: 150,
-      align: "right",
+      align: "left",
       editable: false,
     },
     {
@@ -120,10 +120,10 @@ const ConditionsAndDeviations = (props) => {
                       {cardMode === "Conditions" &&
                         rows.map((row, index) => (
                           <><h4>{row.condition}</h4>
-                          <Typography padding="1px">
+                            <Typography padding="1px">
                             {"Approved Date" + " : " + row.date}<br />
-                            {"Deviation Status" + " : " + row.status}
-                          </Typography>
+                              {"Deviation Status" + " : " + row.status}
+                            </Typography>
                           </>
                         ))}
                     </Grid>
@@ -153,18 +153,18 @@ const ConditionsAndDeviations = (props) => {
     <>
       {useMediaQuery("(min-width:1200px)") && (
         <Box sx={{width:"100%",alignContent:"center"}}>
-            <CustomDataGrid
-              noDataMessage="No Conditions."
-              noDataOnFilterMessage="No Conditions on Applied Filter."
-              rows={conditionRows}
-              columns={conditionColumns}
-              pageSize={5}
-              pageSizeOptions={[5, 10, 15, 20, 25]}
-              hideFooter={true}
-              gridHeight={"270px"}
-              gridWidth={"60%"}
-            />
-            </Box>
+          <CustomDataGrid
+            noDataMessage="No Conditions."
+            noDataOnFilterMessage="No Conditions on Applied Filter."
+            rows={conditionRows}
+            columns={conditionColumns}
+            pageSize={5}
+            pageSizeOptions={[5, 10, 15, 20, 25]}
+            hideFooter={true}
+            gridHeight={"270px"}
+            gridWidth={"60%"}
+          />
+        </Box>
 
         
       )}

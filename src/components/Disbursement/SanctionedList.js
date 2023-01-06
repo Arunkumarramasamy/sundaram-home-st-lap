@@ -32,7 +32,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "customerType",
@@ -40,7 +40,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 140,
-      align: "center",
+      align: "left",
     },
     {
       field: "customerName",
@@ -48,7 +48,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "applicationNumber",
@@ -57,7 +57,7 @@ const SanctionedList = (props) => {
       type: "string",
       hideable: false,
       width: 244,
-      align: "center",
+      align: "left",
     },
     {
       field: "applicationDate",
@@ -65,7 +65,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 170,
-      align: "right",
+      align: "left",
       renderCell: (params) => {
         var date = new Date(params.value);
         return (
@@ -81,7 +81,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 190,
-      align: "right",
+      align: "left",
       renderCell: (params) => {
         return (
           <Typography sx={{ display: "flex", alignItems: "center" }}>
@@ -99,7 +99,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
       renderCell: (params) => {
         return loadStatus(params.value);
       },

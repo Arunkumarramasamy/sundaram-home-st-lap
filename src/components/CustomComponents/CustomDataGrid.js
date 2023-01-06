@@ -43,6 +43,8 @@ const CustomDataGrid = (props) => {
       rows={props.rows}
       columns={props.columns}
       pageSize={pageSize}
+      headerHeight={48}
+      rowHeight={40}
       // loading={props.loading}
       onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       onPageChange={props.gridLazyLoad}

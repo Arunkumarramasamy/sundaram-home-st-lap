@@ -80,8 +80,8 @@ const DisbursementDetails = (props) => {
        if(props.detailPageInitialState.disbursementFavours.length !== 0){
         props.detailPageInitialState.disbursementFavours[0].isChecked = true;
         props.detailPageInitialState.disbursementFavours[0].amount = netDisb;
-        }
       }
+    }
   }, []);
 
   var today = new Date();
@@ -117,11 +117,11 @@ const DisbursementDetails = (props) => {
   const setBillingDate = (billDay,ecd) =>{
     if(billDay !== "-1" && ecd !== "-1"){
       var value = dayjs(new Date(billDay + ecd.substring(ecd.indexOf("/")))).format("MM/DD/YYYY");
-    props.dispatchEvent({
-      type: props.fieldList.billingDate,
-      value: value,
-    });
-  }
+      props.dispatchEvent({
+        type: props.fieldList.billingDate,
+        value: value,
+      });
+    }
   }
   
 
@@ -149,7 +149,7 @@ const DisbursementDetails = (props) => {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "bankName",
@@ -157,7 +157,7 @@ const DisbursementDetails = (props) => {
       headerAlign: "center",
       type: "string",
       width: 100,
-      align: "center",
+      align: "left",
     },
     {
       field: "bankBranchName",
@@ -165,7 +165,7 @@ const DisbursementDetails = (props) => {
       headerAlign: "center",
       type: "string",
       width: 140,
-      align: "center",
+      align: "left",
     },
     {
       field: "bankAccountNumber",
@@ -173,7 +173,7 @@ const DisbursementDetails = (props) => {
       headerAlign: "center",
       type: "string",
       width: 180,
-      align: "center",
+      align: "left",
     },
     {
       field: "bankAccountType",
@@ -182,7 +182,7 @@ const DisbursementDetails = (props) => {
       type: "string",
       hideable: false,
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "ifscCode",
@@ -191,7 +191,7 @@ const DisbursementDetails = (props) => {
       type: "string",
       hideable: false,
       width: 200,
-      align: "center",
+      align: "left",
     },
     {
       field: "amount",
@@ -368,8 +368,8 @@ const DisbursementDetails = (props) => {
             }}
           />
           {props.errorState.currentDisbError[0] && (
-                  <p className="error">{props.errorState.currentDisbError[1]}</p>
-                )}
+            <p className="error">{props.errorState.currentDisbError[1]}</p>
+          )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -453,48 +453,48 @@ const DisbursementDetails = (props) => {
             }}
           />
           {props.errorState.dateOfDisbError[0] && (
-                  <p className="error">{props.errorState.dateOfDisbError[1]}</p>
-                )}
+            <p className="error">{props.errorState.dateOfDisbError[1]}</p>
+          )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-        <CustomDropDown
+          <CustomDropDown
                   disabled={disabledState &&  disableForView}
                   required={true && !(disabledState &&  disableForView)}
-                  label="Billing Day"
-                  id="billDay"
-                  variant="standard"
-                  type="text"
-                  placeholder="Select Billing Day"
-                  dropDownValue={billDayValues}
-                  value={props.detailPageInitialState.billDay}
-                  onChange={onbillDayChange}
-                />
-                {props.errorState.billDayError[0] && (
-                  <p className="error">{props.errorState.billDayError[1]}</p>
-                )}
-        </Grid>
-
-         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomDropDown
-                  disabled={disabledState}
-                  required={true && !(disabledState)}
-                  label="ECD"
-                  id="ecd"
-                  variant="standard"
-                  type="text"
-                  placeholder="Select ECD Date"
-                  dropDownValue={ecdValues}
-                  value={props.detailPageInitialState.emiCommDate}
-                  onChange={onECDChange}
-                />
-                {props.errorState.ecdError[0] && (
-                  <p className="error">{props.errorState.ecdError[1]}</p>
-                )}
+            label="Billing Day"
+            id="billDay"
+            variant="standard"
+            type="text"
+            placeholder="Select Billing Day"
+            dropDownValue={billDayValues}
+            value={props.detailPageInitialState.billDay}
+            onChange={onbillDayChange}
+          />
+          {props.errorState.billDayError[0] && (
+            <p className="error">{props.errorState.billDayError[1]}</p>
+          )}
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-        <CustomTextField
+          <CustomDropDown
+            disabled={disabledState}
+                  required={true && !(disabledState)}
+            label="ECD"
+            id="ecd"
+            variant="standard"
+            type="text"
+            placeholder="Select ECD Date"
+            dropDownValue={ecdValues}
+            value={props.detailPageInitialState.emiCommDate}
+            onChange={onECDChange}
+          />
+          {props.errorState.ecdError[0] && (
+            <p className="error">{props.errorState.ecdError[1]}</p>
+          )}
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
             disabled={true}
             required={false}
             label="Billing Date"
@@ -616,19 +616,19 @@ const DisbursementDetails = (props) => {
         </Grid>
 
         {props.detailPageInitialState.requestStatus==="Approved" &&
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
         <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
-        <TextareaAutosize
+            <TextareaAutosize
         disabled = {true}
-          style={{
-            width: "100%",
-            marginTop: "3%",
-            borderTop: "0px",
-            borderLeft: "0px",
-            borderRight: "0px",
-          }}
-          value={props.detailPageInitialState.approvalRemarks}
-        />
+              style={{
+                width: "100%",
+                marginTop: "3%",
+                borderTop: "0px",
+                borderLeft: "0px",
+                borderRight: "0px",
+              }}
+              value={props.detailPageInitialState.approvalRemarks}
+            />
       </Grid> }
 
       </Grid>
@@ -639,8 +639,8 @@ const DisbursementDetails = (props) => {
         }}
       >
         {props.errorState.bankAccountError[0] && (
-                  <p className="error">{props.errorState.bankAccountError[1]}</p>
-                )}
+          <p className="error">{props.errorState.bankAccountError[1]}</p>
+        )}
         {useMediaQuery("(min-width:1200px)") && (
           <CustomDataGrid
             noDataMessage="No Bank Data."
@@ -705,90 +705,90 @@ const DisbursementDetails = (props) => {
                 }}
               >
                 {props.detailPageInitialState.disbursementFavours.map((row, index) => (
-                  <React.Fragment>
+                    <React.Fragment>
                     <Grid container direction="column" sx={{ flex: "1 auto" }}>
-                      <Card>
-                        <CardHeader
-                          action={
-                            <React.Fragment>
-                              {
-                                <LoadActionBtn
-                                  record={row}
-                                  checked={allCheckedValues[index]}
-                                  checkBoxChange={onCheckBoxChange}
+                        <Card>
+                          <CardHeader
+                            action={
+                              <React.Fragment>
+                                {
+                                  <LoadActionBtn
+                                    record={row}
+                                    checked={allCheckedValues[index]}
+                                    checkBoxChange={onCheckBoxChange}
                                   disabledState = {disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")} 
-                                />
-                              }
-                            </React.Fragment>
-                          }
+                                  />
+                                }
+                              </React.Fragment>
+                            }
                           subheader={row.bankName + "- " + row.bankAccountNumber}
-                          subheaderTypographyProps={{
-                            color: "#004A92",
-                            fontWeight: "700",
-                          }}
-                          sx={{
-                            textAlign: "left",
-                            padding: "16px 16px 0px 16px !important",
-                          }}
-                        />
-                        <CardContent>
-                          <Grid
-                            container
-                            item
-                            direction="column"
-                            alignItems="flex-start"
-                            justifyContent="flex-start"
-                          >
-                            <Typography padding="1px">
-                              {"Account Holder Name : " + row.accHoldrName}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"Account Number : " + row.bankAccountNumber}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"Account Type : " + row.bankAccountType}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"Bank  : " + row.bankName}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"Branch : " + row.bankBranchName}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"IFSC Code : " + row.ifscCode}
-                            </Typography>
-                            <Typography padding="1px">
-                              {"Amount to Disbursed : " + row.amount}
-                            </Typography>
-                            <CustomTextField
+                            subheaderTypographyProps={{
+                              color: "#004A92",
+                              fontWeight: "700",
+                            }}
+                            sx={{
+                              textAlign: "left",
+                              padding: "16px 16px 0px 16px !important",
+                            }}
+                          />
+                          <CardContent>
+                            <Grid
+                              container
+                              item
+                              direction="column"
+                              alignItems="flex-start"
+                              justifyContent="flex-start"
+                            >
+                              <Typography padding="1px">
+                                {"Account Holder Name : " + row.accHoldrName}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Account Number : " + row.bankAccountNumber}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Account Type : " + row.bankAccountType}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Bank  : " + row.bankName}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Branch : " + row.bankBranchName}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"IFSC Code : " + row.ifscCode}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Amount to Disbursed : " + row.amount}
+                              </Typography>
+                              <CustomTextField
                               disabled={!allCheckedValues[index] || disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
-                              required={false}
-                              label={"Amount to Disbursed : "}
-                              id="amount"
-                              variant="standard"
-                              value={row.amount}
-                              type="number"
-                              onChange={(event) =>
-                                onCardViewAmountChange(event, index, row)
-                              }
-                            />
-                          </Grid>
-                          <Grid
-                            container
-                            item
-                            direction="row"
-                            alignItems="flex-end"
-                            justifyContent="flex-end"
-                          >
-                            <Typography sx={{ width: "40%" }}>
-                              {/* {loadStatus(row.status)} */}
-                            </Typography>
-                          </Grid>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                    <Divider />
-                  </React.Fragment>
+                                required={false}
+                                label={"Amount to Disbursed : "}
+                                id="amount"
+                                variant="standard"
+                                value={row.amount}
+                                type="number"
+                                onChange={(event) =>
+                                  onCardViewAmountChange(event, index, row)
+                                }
+                              />
+                            </Grid>
+                            <Grid
+                              container
+                              item
+                              direction="row"
+                              alignItems="flex-end"
+                              justifyContent="flex-end"
+                            >
+                              <Typography sx={{ width: "40%" }}>
+                                {/* {loadStatus(row.status)} */}
+                              </Typography>
+                            </Grid>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                      <Divider />
+                    </React.Fragment>
                 ))}
                 {props.detailPageInitialState.disbursementFavours.length === 0 && (
                   <NoDataFound
@@ -833,7 +833,7 @@ const LoadActionBtn = (props) => {
         labelPlacement="start"
         control={
           <Checkbox
-          disabled={props.disabledState}
+            disabled={props.disabledState}
             checked={checkedValue}
             onChange={handleChange}
             icon={<CheckBoxOutlineBlank />}
