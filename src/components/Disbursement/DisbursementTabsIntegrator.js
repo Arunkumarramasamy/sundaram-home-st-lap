@@ -293,10 +293,18 @@ const DisbursementTabsIntegrator = (props) => {
         <CustomButton
           variant="contained"
           sx={{ marginLeft: "1%",height: "2rem" }}
-          onClick={() => {
+          onClick={async () => {
             if (props.mode === "CREATE") {
               props.setListVisibility(true);
             } else {
+              // release lock and go back.
+              const api = axios.create({
+                baseURL: "http://localhost:8080/disbursement/",
+              });
+              const response = await api.post("/editLockUpdate", {
+                disbHeaderKey: losData.transactionKey,
+                screenMode: props.mode,
+              });
               const tempState = {...props.searchStateValues};
               tempState.disbursementStatus = state.requestStatus;
               navigate("/stlap/home/disbursementList",{state:tempState});
