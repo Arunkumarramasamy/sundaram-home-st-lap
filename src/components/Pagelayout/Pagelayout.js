@@ -9,6 +9,8 @@ import {
   Collapse,
   useMediaQuery,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { BranchAction } from "../Store/Branch";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -86,6 +88,7 @@ export default function Pagelayout() {
   const [openDemoSubmenu, setOpenDemoSubMenu] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { search } = useLocation();
   const open = Boolean(anchorEl);
 
@@ -125,7 +128,8 @@ export default function Pagelayout() {
   };
 
   const handleLogout = () => {
-    Cookies.remove("islogin");
+    // Cookies.remove("islogin");
+    dispatch(BranchAction.updateLoginStatus(false));
     navigate("/stlap/login");
     Cookies.remove("Token");
   };
