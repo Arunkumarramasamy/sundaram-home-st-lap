@@ -19,6 +19,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomTextField from "../CustomComponents/CustomTextField";
+import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
@@ -81,7 +82,7 @@ const AdditionalAccrual = () => {
           type: "accrual",
         }
       );
-      // setDataRow(response.data.gridData);
+      setDataRow(response.data.gridData);
       setModifiedmap(getModifiedData(response.data.gridData));
       setReferenceNumber(
         response.data.otherList.referenceNumber
@@ -96,7 +97,20 @@ const AdditionalAccrual = () => {
       console.log("Network Error");
     }
   };
-
+  const getApplicationListData = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/additionalfee/getApplicationNumber",
+        {
+          branchName: "string",
+        }
+      );
+      setApplicationNumberList(response.data);
+    } catch {
+      setGridVisible("none");
+      console.log("Network Error");
+    }
+  };
   const getModifiedData = (modifiedData) => {
     let modifiedMap = {};
     modifiedData.forEach(function (key) {
@@ -120,25 +134,10 @@ const AdditionalAccrual = () => {
     const branchValues = GetBranchDetails();
     setbranchNames(branchValues);
   }, []);
-  const applicationNumList = [
-    { label: "STLMYL20220001", value: "STLMYL20220001" },
-    { label: "STLMYL20220002", value: "STLMYL20220002" },
-    { label: "STLMYL20220003", value: "STLMYL20220003" },
-    { label: "STLMYL20220004", value: "STLMYL20220004" },
-    { label: "STLMYL20220005", value: "STLMYL20220005" },
-    { label: "STLMYL20220006", value: "STLMYL20220006" },
-  ];
+  const [applicationNumberList, setApplicationNumberList] = useState([]);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  // const branchNames = [
-  //   { label: "Mylapore", value: "" },
-  //   { label: "Royapettah", value: "" },
-  //   { label: "Light House", value: "" },
-  //   { label: "Chennai", value: "" },
-  //   { label: "Tambaram", value: "" },
-  //   { label: "Egmore", value: "" },
-  // ];
   const [branchNames, setbranchNames] = useState([]);
   const handleSearch = (event) => {
     event.preventDefault();
@@ -155,6 +154,7 @@ const AdditionalAccrual = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
+    getApplicationListData();
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
       setReferenceNumber("");
@@ -177,7 +177,6 @@ const AdditionalAccrual = () => {
   };
   const searchButtonClickHandler = (event) => {
     event.preventDefault();
-    // props.onSearchButtonClick(branch, trnNo, true);
   };
   const clearButtonClickHandler = () => {
     setBranchName("");
@@ -185,107 +184,7 @@ const AdditionalAccrual = () => {
   useEffect(() => {
     console.log(process.env.STLAP_LMS_BACKEND);
   }, []);
-  const [dataRows, setDataRow] = React.useState([
-    {
-      id: 1,
-      details: "Mod Charges",
-      receiveable: 5000,
-      received: 0,
-      due: 5000,
-      earlyWaiver: 2000,
-      additionalWaiver: 0,
-    },
-    {
-      id: 2,
-      details: "Legal Charges",
-      receiveable: 7000,
-      received: 0,
-      due: 0,
-      earlyWaiver: 0,
-      additionalWaiver: 0,
-    },
-    {
-      id: 3,
-      details: "Technical Assistance Charges",
-      due: 3000,
-      receiveable: 3000,
-      earlyWaiver: 3000,
-      received: 0,
-      additionalWaiver: 0,
-    },
-    {
-      id: 4,
-      details: "Documentation Charges",
-      due: 25000,
-      receiveable: 25000,
-      earlyWaiver: 10000,
-      received: 0,
-      additionalWaiver: 0,
-    },
-    {
-      id: 5,
-      details: "File Processing Charges",
-      due: 1000,
-      receiveable: 1000,
-      earlyWaiver: 500,
-      received: 0,
-      additionalWaiver: 0,
-    },
-    {
-      id: 6,
-      details: "Application Fee",
-      due: 8000,
-      receiveable: 8000,
-      received: 0,
-      earlyWaiver: 0,
-      additionalWaiver: 0,
-    },
-    {
-      id: 7,
-      details: "Prepayment Charge",
-      due: 1000,
-      receiveable: 1000,
-      earlyWaiver: 1000,
-      received: 0,
-      additionalWaiver: 0,
-    },
-    {
-      id: 8,
-      details: "Partial prepayment charge",
-      due: 20000,
-      received: 0,
-      receiveable: 30000,
-      earlyWaiver: 5000,
-      additionalWaiver: 0,
-    },
-    {
-      id: 9,
-      details: "Late Fee charge",
-      due: 250,
-      receiveable: 500,
-      received: 0,
-      earlyWaiver: 250,
-      additionalWaiver: 0,
-    },
-    {
-      id: 10,
-      details: "Recovery Charge",
-      due: 300,
-      earlyWaiver: 300,
-      receiveable: 0,
-      received: 0,
-      additionalWaiver: 0,
-    },
-    {
-      id: 11,
-      details: "Insurance Premium Charge",
-      due: 7000,
-      earlyWaiver: 7000,
-      received: 0,
-      receiveable: 7000,
-      additionalWaiver: 0,
-    },
-  ]);
+  const [dataRows, setDataRow] = React.useState([]);
   const handlePageChange = (event, newPage) => {
     let offset = (newPage - 1) * rowsPerPage;
     setPage(newPage);
@@ -570,10 +469,11 @@ const AdditionalAccrual = () => {
                   }}
                   rowThreshold={0}
                   rowHeight={40}
+                  headerHeight={48}
                   rows={dataRows}
                   columns={columns}
                   pageSize={pageSize}
-                  disableSelectionOnClick
+                  // autoHeight={true}
                   onCellEditCommit={(event) => handleCellChangedEvent(event)}
                   // getRowClassName={(params) =>
                   //   params.id % 2

@@ -65,7 +65,6 @@ const AccrualRemark = (props) => {
       dataMap["type"] = props.type;
       dataMap["historyData"] = props.historyData;
       try {
-        // const response = await axios(
         const response = await axios.post(
           "http://localhost:8080/additionalfee/saveFeeDetails",
           dataMap
@@ -89,7 +88,6 @@ const AccrualRemark = (props) => {
       <Grid
         container
         spacing={2}
-        // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
         sx={{
           width: "calc(100% - 8px)",
           margin: "unset",
@@ -107,7 +105,6 @@ const AccrualRemark = (props) => {
           <Grid
             container
             spacing={2}
-            // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           >
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomDropDown
@@ -141,12 +138,11 @@ const AccrualRemark = (props) => {
           <Grid
             container
             spacing={2}
-            // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           >
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <InputLabel
                 id="accrual-waiver-remark"
-                sx={{ color: "#004A92", fontWeight: 600 ,marginTop:'8px'}}
+                sx={{ color: "#004A92", marginTop: "8px" }}
                 required={false}
               >
                 Remarks
@@ -201,8 +197,6 @@ const AccrualRemark = (props) => {
                 sx={{
                   "& div.css-15edzf2": {
                     width: { xs: "90%", md: "80%", lg: "60%" },
-                    // height:"80%",
-                    // overflow:'scroll'
                   },
                 }}
                 open={open}

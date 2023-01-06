@@ -97,10 +97,10 @@ const Idlogin = () => {
       );
       console.log(userBranches.data.branch_details);
       if (userBranches.data.message === "Success") {
-        Cookies.set(
-          "userBranches",
-          JSON.stringify(userBranches.data.branch_details)
-        );
+        // Cookies.set(
+        //   "userBranches",JSON.stringify(userBranches.data.branch_details)
+        // );
+        dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
       } else {
         setErrorMessage(userBranches.data.error_msg);
         openAlertHandler();

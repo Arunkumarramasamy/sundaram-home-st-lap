@@ -28,7 +28,6 @@ export const Dashboard = (props) => {
         <Masonry
           id="mansory-id"
           spacing={1}
-          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           sx={{
             height: "auto",
 
@@ -43,7 +42,6 @@ export const Dashboard = (props) => {
         <Grid
           container
           spacing={1}
-          // columns={{ xs: 1, sm: 2, md: 3, lg: 6, xl: 6 }}
           sx={{
             width: window.innerWidth - 8,
             height: "auto",
