@@ -588,7 +588,7 @@ const ParameterMaintenance = () => {
               display="flex"
               alignItems="flex-end"
               justifyContent="flex-end"
-              sx={{ height: "60px", bgcolor: "white" }}
+              sx={{ bgcolor: "white" }}
             >
               {totalRowsCount > 10 && (
                 <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
@@ -604,7 +604,6 @@ const ParameterMaintenance = () => {
             </Box>
             <Box
               sx={{
-                height: window.innerHeight - 260,
                 overflow: "auto",
                 flex: "1 auto",
               }}
