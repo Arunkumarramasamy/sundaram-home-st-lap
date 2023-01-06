@@ -11,7 +11,8 @@ const CustomAutoComplete = (props) => {
     <>
       <InputLabel
         required={props.required}
-        sx={{ color: "#004A92", fontWeight: 600 }}
+        size="small"
+        sx={{ color: "#004A92", mb: 2 }}
       >
         {props.label}
       </InputLabel>
