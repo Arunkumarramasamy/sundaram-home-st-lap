@@ -162,7 +162,37 @@ const DisbursementDetailPage = (props) => {
       losInitialState.screenModeTitle=props.screenTitle;
       getCustomerBankDataForCreate(losInitialState.applicationNum);
     }
+    window.addEventListener("beforeunload", alertUser);
+    window.addEventListener("unload", handleTabClosing);
+    // window.addEventListener('popstate', (e) => {
+    //   // navigate back to same page and alert user and re-render.
+    //   window.history.go(1);
+    //   const url = window.location.pathname;
+    //   console.log(url);
+    //   navigate(url,losData);
+    //   alertUser(e);
+    // });
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+      window.removeEventListener("unload", handleTabClosing);
+      // window.removeEventListener("popstate", alertUser);
+    };
    }, []);
+
+   const handleTabClosing = async () => {
+     const api = axios.create({
+       baseURL: "http://localhost:8080/disbursement/",
+     });
+     const response = await api.post("/editLockUpdate", {
+       disbHeaderKey: losData.transactionKey,
+       screenMode: props.mode,
+     });
+   };
+
+   const alertUser = (event) => {
+     event.preventDefault();
+     event.returnValue = "";
+   };
 
    useLayoutEffect(() => {
     if(props.mode==="CREATE"){
