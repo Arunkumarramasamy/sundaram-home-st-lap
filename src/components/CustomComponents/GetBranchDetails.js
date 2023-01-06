@@ -1,7 +1,6 @@
-import React from "react";
-import Cookies from "js-cookie";
+import store from "./../Store/index";
 const GetBranchDetails = () => {
-  const branches = JSON.parse(Cookies.get("userBranches"));
+  const branches = store.getState().branch.branches;
   const branchValues = branches.map((row) => {
     return {
       label: row.branch_name,
