@@ -182,26 +182,26 @@ const DisbursementCreatePortal = (props) => {
     });
     const response = await api.get("/getAllData");
 
-    const api1 = axios.create({
-      baseURL: "http://localhost:8080/disbursement/",
-    });
-    const response1 = await api1.get("/getAllDisbursementData");
+    // const api1 = axios.create({
+    //   baseURL: "http://localhost:8080/disbursement/",
+    // });
+    // const response1 = await api1.get("/getAllDisbursementData");
 
-    if (response1.data.length === 0) {
+    // if (response1.data.length === 0) {
+    //   filterConditionState.sanctionList = response.data;
+    // } else {
+    //   let disbursedApplications = [];
+    //   response1.data.map((disbursementRow) => {
+    //     disbursedApplications.push(disbursementRow.applicationNum);
+    //   });
+    //   const dataMap = [];
+    //   response.data.map((sanctionRow) => {
+    //     if (!disbursedApplications.includes(sanctionRow.applicationNum)) {
+    //       dataMap.push(sanctionRow);
+    //     }
+    //   });
       filterConditionState.sanctionList = response.data;
-    } else {
-      let disbursedApplications = [];
-      response1.data.map((disbursementRow) => {
-        disbursedApplications.push(disbursementRow.applicationNum);
-      });
-      const dataMap = [];
-      response.data.map((sanctionRow) => {
-        if (!disbursedApplications.includes(sanctionRow.applicationNum)) {
-          dataMap.push(sanctionRow);
-        }
-      });
-      filterConditionState.sanctionList = dataMap;
-    }
+    // }
 
     const loadBranchNames = [
       ...Array.from(new Set([...response.data].map((row) => row.branch))).map(

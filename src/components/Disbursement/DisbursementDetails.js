@@ -67,7 +67,23 @@ const DisbursementDetails = (props) => {
     ];
     setecdValues(dataMap);
     if(props.detailPageInitialState.screenMode === "CREATE"){
-      var value = losInitialState.sanctionAmt - props.detailPageInitialState.earlierDisbAmt;
+      let earlierAmt = 0;
+      props.dispatchEvent({
+        type: props.fieldList.disbNum,
+        value: props.losInitialState.disbNum,
+      });
+      if(props.losInitialState.disbNum === 2){
+          // const api1 = axios.create({
+    //   baseURL: "http://localhost:8080/disbursement/",
+    // });
+    // const response1 = await api1.get("/getAllDisbursementData");
+    earlierAmt = 400000;
+    props.dispatchEvent({
+      type: props.fieldList.earlierDisbAmt,
+      value: 400000,
+     });
+      }
+      var value = losInitialState.sanctionAmt - earlierAmt;
       var netDisb = parseInt(value)-props.detailPageInitialState.totalDeductionAmt;
       props.dispatchEvent({
         type: props.fieldList.disbAmt,

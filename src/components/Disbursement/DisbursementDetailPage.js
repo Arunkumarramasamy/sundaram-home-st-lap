@@ -20,7 +20,7 @@ var detailPageInitialState =   {
     "billDay": "-1",
     "dateOfDisb": todayDate,
     "disbAmt": 0,
-    "disbNum": 1,
+    "disbNum": 0,
     "transactionKey": 0,
     "disbHeaderKey":0,
     "disbursementFavours": [],
@@ -249,18 +249,42 @@ const DisbursementDetailPage = (props) => {
   
 
 
-  const insertDisbursementDataToDB = async (data) => { 
+  const insertDisbursementDataToDB = async (data,losData) => { 
     const api = axios.create({
         baseURL: "http://localhost:8080/disbursement/"
       });
       const response = await api.post("/insertDisbursement",data);
       if(response.status === 200){
+        let updateModel = {};
+        if(data.disbAmt === losData.sanctionAmt){
+          updateModel = {
+            "applicationNum": losData.applicationNum,
+            "disbNum": 1,
+            "losStatus": "Fully Disbursed",
+          }; 
+        } else if(data.disbNum === 1){
+          updateModel = {
+            "applicationNum": losData.applicationNum,
+            "disbNum": 2,
+            "losStatus": "Partially Disbursed",
+          };
+        } else if(data.disbNum === 2){
+          updateModel = {
+            "applicationNum": losData.applicationNum,
+            "disbNum": 2,
+            "losStatus": "Fully Disbursed",
+          }; 
+
+        }
+        const response1 = await losCustomerApi.post("/updateCustomerData",updateModel);
+        if(response1.status === 200){
         setResponseData(response.data);
         setsnackBarMsg("Disbursement Request Created Successfully.");
         setshowSnackBar(true);
         setLoading(false);
         seturnContent(<Typography>Generated Reference Number is : {response.data.transactionKey}</Typography>);
         setopenReferenceDialog(true);
+        }
       }
      };
 
@@ -424,7 +448,7 @@ const DisbursementDetailPage = (props) => {
     data.applicantName = losData.customerName;
     data.branch = losData.branch;
     data.requestStatus = "Requested";
-    insertDisbursementDataToDB(data);
+    insertDisbursementDataToDB(data,losData);
   }
   };
 
