@@ -92,7 +92,7 @@ const ParameterMaintenance = () => {
       headerName: "Parameter Name",
       headerAlign: "center",
       align: "center",
-      width: 160,
+      width: 180,
       align: "left",
     },
     {
@@ -100,7 +100,7 @@ const ParameterMaintenance = () => {
       headerName: "Module",
       headerAlign: "center",
       align: "center",
-      width: 178,
+      width: 180,
       align: "left",
     },
     {
@@ -116,7 +116,7 @@ const ParameterMaintenance = () => {
       headerName: "Parameter Value",
       headerAlign: "center",
       align: "center",
-      width: 250,
+      width: 200,
       align: "right",
       renderCell: (params) => {
         if (params.row.paramDataType === "Int") {
@@ -137,7 +137,7 @@ const ParameterMaintenance = () => {
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
-      width: 150,
+      width: 180,
       align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
@@ -148,7 +148,7 @@ const ParameterMaintenance = () => {
       headerName: "Effective End Date",
       headerAlign: "center",
       align: "center",
-      width: 190,
+      width: 180,
       align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
