@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import CustomButton from "../CustomComponents/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const DisbursementTabsIntegrator = (props) => {
   const navigate = useNavigate();
@@ -302,7 +303,7 @@ const DisbursementTabsIntegrator = (props) => {
                 baseURL: "http://localhost:8080/disbursement/",
               });
               const response = await api.post("/editLockUpdate", {
-                disbHeaderKey: losData.transactionKey,
+                disbHeaderKey: response.data.transactionKey,
                 screenMode: props.mode,
               });
               const tempState = {...props.searchStateValues};
