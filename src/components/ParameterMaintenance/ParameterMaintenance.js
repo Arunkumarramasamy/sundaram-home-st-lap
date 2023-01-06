@@ -133,7 +133,7 @@ const ParameterMaintenance = () => {
       },
     },
     {
-      field: "paramEffStartDt",
+      field: "paramEffStartDate",
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
@@ -144,7 +144,7 @@ const ParameterMaintenance = () => {
       },
     },
     {
-      field: "paramEffEndDt",
+      field: "paramEffEndDate",
       headerName: "Effective End Date",
       headerAlign: "center",
       align: "center",
@@ -208,8 +208,8 @@ const ParameterMaintenance = () => {
         paramName: values.paramName,
         paramType: values.paramDataType,
         paramValu: values.paramValue,
-        effStartDate: values.paramEffStartDt,
-        effEndDate: values.paramEffEndDt,
+        effStartDate: values.paramEffStartDate,
+        effEndDate: values.paramEffEndDate,
       };
     });
   };
@@ -239,9 +239,9 @@ const ParameterMaintenance = () => {
     }
     setParamMeterName(values.paramName);
     setparamDataType(values.paramDataType);
-    setstartDate(values.paramEffStartDt);
+    setstartDate(values.paramEffStartDate);
     setModules(values.module);
-    setEndDate(values.paramEffEndDt);
+    setEndDate(values.paramEffEndDate);
     if (values.paramDataType === "Int") {
       setParamValue(parseInt(values.paramValue).toLocaleString("en-IN"));
     } else if (values.paramDataType === "Date") {
@@ -260,8 +260,8 @@ const ParameterMaintenance = () => {
     setParamId(values.paramId);
     setParamMeterName(values.paramName);
     setparamDataType(values.paramDataType);
-    setstartDate(values.paramEffStartDt);
-    setEndDate(values.paramEffEndDt);
+    setstartDate(values.paramEffStartDate);
+    setEndDate(values.paramEffEndDate);
     setModules(values.module);
     if (values.paramDataType === "Int") {
       setDateValue(false);
@@ -330,8 +330,8 @@ const ParameterMaintenance = () => {
         {
           paramDataType: paramDataType,
           module: modules,
-          paramEffStartDt: new Date(startDate),
-          paramEffEndDt: new Date(endDate),
+          paramEffStartDate: new Date(startDate),
+          paramEffEndDate: new Date(endDate),
           paramName: paraMeterName,
           paramValue: dateValue
             ? new Date(ParamValue)
@@ -649,7 +649,7 @@ const ParameterMaintenance = () => {
                               Effective Start Date
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${dayjs(row.paramEffStartDt).format(
+                              {`: ${dayjs(row.paramEffStartDate).format(
                                 "DD/MM/YYYY"
                               )}`}
                             </Grid>
@@ -658,7 +658,7 @@ const ParameterMaintenance = () => {
                               Effective End Date
                             </Grid>
                             <Grid item xs={5} md={7}>
-                              {`: ${dayjs(row.paramEffEndDt).format(
+                              {`: ${dayjs(row.paramEffEndDate).format(
                                 "DD/MM/YYYY"
                               )}`}
                             </Grid>
