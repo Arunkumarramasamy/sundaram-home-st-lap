@@ -208,7 +208,7 @@ const DisbursementDetails = (props) => {
             label={""}
             id="amount"
             variant="standard"
-            value={params.value === "" ? 0 :   parseInt(params.value).toLocaleString("en-IN")}
+            value={params.value === undefined ? 0 :   parseInt(params.value).toLocaleString("en-IN")}
             type="text"
             onChange={onAmountChange(params.row.bankAccountNumber)}
             placeholder={!params.row.isChecked ? "Disabled" : "Enter Amount"}
