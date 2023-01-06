@@ -595,7 +595,7 @@ const DisbursementDetails = (props) => {
         </Grid> */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Remarks"}</InputLabel>
+          <InputLabel size='small' sx={{ color: "#004A92", mb:2 }}>{"Remarks"}</InputLabel>
           <TextareaAutosize
           disabled = {disabledState && disableForView}
             style={{
@@ -617,7 +617,7 @@ const DisbursementDetails = (props) => {
 
         {props.detailPageInitialState.requestStatus==="Approved" &&
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-        <InputLabel           sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
+        <InputLabel size="small" sx={{ color: "#004A92", mb:2 }}>{"Approval Remarks"}</InputLabel>
             <TextareaAutosize
         disabled = {true}
               style={{

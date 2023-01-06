@@ -125,12 +125,13 @@ const DisbursementTabsIntegrator = (props) => {
         <DialogTitle id="alert-dialog-title">
           <Box>
             <h4>Approval Confirmation</h4>
-          <InputLabel required={true}  sx={{ color: "#004A92", fontWeight: 600 }}>{"Approval Remarks"}</InputLabel>
+          <InputLabel required={true} size='small' sx={{ color: "#004A92", mb:2 }}>{"Approval Remarks"}</InputLabel>
           <TextareaAutosize
             style={{
               width: "100%",
               height: "100%"
             }}
+            maxRows={4}
             value={state.approvalRemarks}
             onChange={(event, value) => {
               dispatch({
