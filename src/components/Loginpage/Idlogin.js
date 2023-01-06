@@ -16,6 +16,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Alert from "@mui/material/Alert";
+import { BranchAction } from "../Store/Branch";
 
 import Snackbar from "@mui/material/Snackbar";
 
@@ -74,7 +75,8 @@ const Idlogin = () => {
       console.log(loginResponse);
 
       if (loginResponse.data.message === "Success") {
-        Cookies.set("islogin", true);
+        dispatch(BranchAction.updateLoginStatus(true));
+        // Cookies.set("islogin", true);
         // Cookies.set("Token", response["data"]["jwToken"]);
         Cookies.set("userName", employeeID);
         // Cookies.set("lastLogin", response["data"]["lastLoginTime"]);

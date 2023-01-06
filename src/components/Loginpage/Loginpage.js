@@ -14,8 +14,8 @@ const LoginPage = () => {
   const loginPages = useSelector((state) => state.login.loginScreen);
   const EmployeeIDPage = useSelector((state) => state.login.EmployeeIDScreen);
   const MobilePage = useSelector((state) => state.login.MobileScreen);
-
-  return Cookies.get("islogin") ? (
+  const isLogin = useSelector((state) => state.branch.isLogin);
+  return isLogin ? (
     <Pagelayout />
   ) : (
     <>
