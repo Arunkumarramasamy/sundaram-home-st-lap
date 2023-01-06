@@ -17,7 +17,7 @@ const initialState = {
   sanctionList: [],
   branchNames: [],
   branch: "",
-  applicationNumber: "",
+  applicationNum: "",
   customerName: "",
   coApplicantName: "",
   customerId: "",
@@ -36,8 +36,8 @@ const initialState = {
   ).format("DD/MM/YYYY"),
   customerType: "-1",
   rateOfInterest: "",
-  loanAmount: "",
-  sanctionAmount: "",
+  loanAmt: "",
+  sanctionAmt: "",
 
   disbursementDateFromValue: dayjs(
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
@@ -79,9 +79,9 @@ const DisbursementCreatePortal = (props) => {
         } else {
           filterConditionState.branch = "";
         }
-        if (data.applicationNumber && data.applicationNumber !== "") {
+        if (data.applicationNum && data.applicationNum !== "") {
           filterrows = filterrows.filter(
-            (row) => row.applicationNumber === data.applicationNumber
+            (row) => row.applicationNum === data.applicationNum
           );
           // since this filter is for sancation list, so 1  application number has only one record.
           updateFilterAutoFill(filterrows[0]);
@@ -108,17 +108,17 @@ const DisbursementCreatePortal = (props) => {
           );
           filterConditionState.rateOfInterest = data.rateOfInterest;
         }
-        if (data.loanAmount && data.loanAmount !== "") {
+        if (data.loanAmt && data.loanAmt !== "") {
           filterrows = filterrows.filter(
-            (row) => row.loanAmount === data.loanAmount
+            (row) => row.loanAmt === data.loanAmt
           );
-          filterConditionState.loanAmount = data.loanAmount;
+          filterConditionState.loanAmt = data.loanAmt;
         }
-        if (data.sanctionAmount && data.sanctionAmount !== "") {
+        if (data.sanctionAmt && data.sanctionAmt !== "") {
           filterrows = filterrows.filter(
-            (row) => row.sanctionAmount === data.sanctionAmount
+            (row) => row.sanctionAmt === data.sanctionAmt
           );
-          filterConditionState.sanctionAmount = data.sanctionAmount;
+          filterConditionState.sanctionAmt = data.sanctionAmt;
         }
         filterConditionState.sanctionList = [...filterrows];
         setFilterConditionState({ ...filterConditionState });
@@ -141,12 +141,12 @@ const DisbursementCreatePortal = (props) => {
 
   const updateFilterAutoFill = (data) => {
     // this method updates or removes other fields auto fill data to retain back
-    filterConditionState.applicationNumber = data.applicationNumber;
+    filterConditionState.applicationNum = data.applicationNum;
     filterConditionState.customerName = data.customerName;
     filterConditionState.customerType = data.customerType;
     filterConditionState.rateOfInterest = data.rateOfInterest;
-    filterConditionState.loanAmount = data.loanAmount;
-    filterConditionState.sanctionAmount = data.sanctionAmount;
+    filterConditionState.loanAmt = data.loanAmt;
+    filterConditionState.sanctionAmt = data.sanctionAmt;
     filterConditionState.applicationDate = dayjs(data.applicationDate).format(
       "DD/MM/YYYY"
     );
@@ -196,7 +196,7 @@ const DisbursementCreatePortal = (props) => {
       });
       const dataMap = [];
       response.data.map((sanctionRow) => {
-        if (!disbursedApplications.includes(sanctionRow.applicationNumber)) {
+        if (!disbursedApplications.includes(sanctionRow.applicationNum)) {
           dataMap.push(sanctionRow);
         }
       });

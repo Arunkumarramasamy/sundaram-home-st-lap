@@ -44,7 +44,7 @@ var detailPageInitialState =   {
 var losInitialState =   {
     branchNames: [],
     branchName: "Branch Name",
-    applicationNumber: "Application Number",
+    applicationNum: "Application Number",
     applicantName: "Applicant Name",
     coApplicantName: "Co Applicant Name",
     customerId: "Customer ID",
@@ -55,8 +55,8 @@ var losInitialState =   {
     applicationDate: todayDate,
     customerType: "New",
     rateOfInterest: "0",
-    loanAmount: "0",
-    sanctionAmount: "0",
+    loanAmt: "0",
+    sanctionAmt: "0",
     screenModeTitle: "",
     requestNumber: "",
     memoDeduction:"0"
@@ -154,13 +154,13 @@ const DisbursementDetailPage = (props) => {
   useEffect(() => {
     
     losInitialState = props.rowClickData ?  props.rowClickData : losInitialState ;
-    detailPageInitialState.applicationNum = losInitialState.applicationNumber;
+    detailPageInitialState.applicationNum = losInitialState.applicationNum;
     if(!(location.state === null)){
         getDisbursementData(location.state);
         losInitialState.screenModeTitle=props.screenTitle;
     } else {
       losInitialState.screenModeTitle=props.screenTitle;
-      getCustomerBankDataForCreate(losInitialState.applicationNumber);
+      getCustomerBankDataForCreate(losInitialState.applicationNum);
     }
    }, []);
 
@@ -174,7 +174,7 @@ const DisbursementDetailPage = (props) => {
     const response = await axios.post(
       "http://localhost:8080/additionalfee/getFeeData",
       {
-        applicationNumber: losInitialState.applicationNumber,
+        applicationNum: losInitialState.applicationNum,
         type: "accrual",
       }
     );
@@ -203,9 +203,9 @@ const DisbursementDetailPage = (props) => {
   };
 
 
-  const getCustomerBankDataForCreate = async (applicationNumber) => {
+  const getCustomerBankDataForCreate = async (applicationNum) => {
 
-    const response = await losCustomerApi.post("/getCustBankDetailsByAppNum",{"applicationNumber": applicationNumber});
+    const response = await losCustomerApi.post("/getCustBankDetailsByAppNum",{"applicationNum": applicationNum});
     var counter = 1;
     {response.data.map((row, index) => ( 
       row.isChecked = false,
@@ -224,13 +224,13 @@ const DisbursementDetailPage = (props) => {
     const api1 = axios.create({
       baseURL: "http://localhost:8080/losCustomer/"
     });
-    const response1 = await losCustomerApi.post("/getCustBankDetailsByAppNum",{"applicationNumber": data.applicationNum});
+    const response1 = await losCustomerApi.post("/getCustBankDetailsByAppNum",{"applicationNum": data.applicationNum});
     const tempBankRow = response1.data ;
     var counter = 1;
     var dataMap = [];
     tempBankRow.map((bankRow)=>{
       tempDisbursementFavours.map((insertedBankROw)=>{
-            if(insertedBankROw.bankAccountNum === bankRow.bankAccountNumber ){
+            if(insertedBankROw.bankAccountNum === bankRow.bankAccountNum ){
               bankRow.isChecked = true;
               bankRow.amount = insertedBankROw.disbAmt;
               bankRow.id = counter++;
@@ -239,7 +239,7 @@ const DisbursementDetailPage = (props) => {
       });
     });
     detailPageInitialState.disbursementFavours = dataMap;
-    const response = await losCustomerApi.post("/getCustomerDataByAppNum",{"applicationNumber": data.applicationNum});
+    const response = await losCustomerApi.post("/getCustomerDataByAppNum",{"applicationNum": data.applicationNum});
     losInitialState = response.data;
     losInitialState.branchNames = [];
     losInitialState.screenModeTitle=props.screenTitle;
@@ -293,7 +293,7 @@ const DisbursementDetailPage = (props) => {
               value: [true,"Current Disbursement Amount Cannot be Empty/Zero."],
             });
             status=false; 
-          }  else if(data.disbAmt > losData.sanctionAmount){
+          }  else if(data.disbAmt > losData.sanctionAmt){
             errorDispatch({
               type: errorParameters.currentDisbError,
               value: [true,"Current Disbursement Amount Cannot be Greater than Sanction Amount."],
@@ -405,9 +405,9 @@ const DisbursementDetailPage = (props) => {
     data.disbursementFavours.filter((row)=> row.isChecked === true
     ).forEach((row)=>{
       const dataMap1 = {
-        "id": row.bankAccountNumber,
-        "applicationNum": row.applicationNumber,
-        "bankAccountNum": row.bankAccountNumber,
+        "id": row.bankAccountNum,
+        "applicationNum": row.applicationNum,
+        "bankAccountNum": row.bankAccountNum,
         "createdBy": "",
         "createdDate": "",
         "disbAmt": row.amount,
@@ -435,9 +435,9 @@ const DisbursementDetailPage = (props) => {
     disbursementData.disbursementFavours.filter((row)=> row.isChecked === true
     ).forEach((row)=>{
       const dataMap1 = {
-        "id": row.bankAccountNumber,
+        "id": row.bankAccountNum,
         "applicationNum": row.applicationNum,
-        "bankAccountNum": row.bankAccountNumber,
+        "bankAccountNum": row.bankAccountNum,
         "createdBy": "",
         "createdDate": "",
         "disbAmt": row.amount,

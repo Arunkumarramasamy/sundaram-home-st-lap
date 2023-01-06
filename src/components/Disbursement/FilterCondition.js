@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 const filterValues = {
   tabIndex: "tabIndex",
   branch: "branch",
-  applicationNumber: "applicationNumber",
+  applicationNum: "applicationNum",
   customerName: "customerName",
   coApplicantName: "coApplicantName",
   customerId: "customerId",
@@ -26,8 +26,8 @@ const filterValues = {
   applicationDate: "applicationDate",
   customerType: "customerType",
   rateOfInterest: "rateOfInterest",
-  loanAmount: "loanAmount",
-  sanctionAmount: "sanctionAmount",
+  loanAmt: "loanAmt",
+  sanctionAmt: "sanctionAmt",
   disbursementDateFromValue: "disbursementDateFromValue",
   disbursementDateToValue: "disbursementDateToValue",
   requestNumber: "requestNumber",
@@ -43,8 +43,8 @@ const FilterCondition = (props) => {
         return { ...state, tabIndex: action.value };
       case filterValues.branch:
         return { ...state, branch: action.value };
-      case filterValues.applicationNumber:
-        return { ...state, applicationNumber: action.value };
+      case filterValues.applicationNum:
+        return { ...state, applicationNum: action.value };
       case filterValues.customerName:
         return { ...state, customerName: action.value };
       case filterValues.coApplicantName:
@@ -65,10 +65,10 @@ const FilterCondition = (props) => {
         return { ...state, customerType: action.value };
       case filterValues.rateOfInterest:
         return { ...state, rateOfInterest: action.value };
-      case filterValues.loanAmount:
-        return { ...state, loanAmount: action.value };
-      case filterValues.sanctionAmount:
-        return { ...state, sanctionAmount: action.value };
+      case filterValues.loanAmt:
+        return { ...state, loanAmt: action.value };
+      case filterValues.sanctionAmt:
+        return { ...state, sanctionAmt: action.value };
       case filterValues.disbursementDateFromValue:
         return { ...state, disbursementDateFromValue: action.value };
       case filterValues.disbursementDateToValue:
@@ -109,16 +109,16 @@ const FilterCondition = (props) => {
         });
         removeSelectedData([], value, field);
       }
-      const applicationNumbersData = [
+      const applicationNumsData = [
         ...Array.from(
-          new Set(dataList.map((row) => row.applicationNumber))
-        ).map((applicationNumber) => {
+          new Set(dataList.map((row) => row.applicationNum))
+        ).map((applicationNum) => {
           return {
-            label: applicationNumber,
+            label: applicationNum,
           };
         }),
       ];
-      loadApplicationNumbers(applicationNumbersData);
+      loadapplicationNums(applicationNumsData);
       // dynamic load of customer names
       const applicantNames = [
         ...Array.from(new Set(dataList.map((row) => row.customerName))).map(
@@ -155,12 +155,12 @@ const FilterCondition = (props) => {
       setSearchDisabled(false);
     } else if (dataList.length === 1 || !value) {
       removeSelectedData(dataList, value, field);
-      loadApplicationNumbers(
+      loadapplicationNums(
         !value
           ? field === filterValues.branch
             ? []
-            : [{ label: dataList.at(0).applicationNumber }]
-          : [{ label: dataList.at(0).applicationNumber }]
+            : [{ label: dataList.at(0).applicationNum }]
+          : [{ label: dataList.at(0).applicationNum }]
       );
       loadApplicantNames(
         !value
@@ -190,11 +190,11 @@ const FilterCondition = (props) => {
   const removeSelectedData = (dataList, value, field) => {
     if (field !== filterValues.requestNumber) {
       dispatch({
-        type: filterValues.applicationNumber,
+        type: filterValues.applicationNum,
         value:
           !value || dataList.length === 0
             ? null
-            : dataList.at(0).applicationNumber,
+            : dataList.at(0).applicationNum,
       });
     }
     dispatch({
@@ -233,14 +233,14 @@ const FilterCondition = (props) => {
           !value || dataList.length === 0 ? "" : dataList.at(0).customerType,
       });
       dispatch({
-        type: filterValues.loanAmount,
+        type: filterValues.loanAmt,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmt,
       });
       dispatch({
-        type: filterValues.sanctionAmount,
+        type: filterValues.sanctionAmt,
         value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmount,
+          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmt,
       });
       dispatch({
         type: filterValues.rateOfInterest,
@@ -266,7 +266,7 @@ const FilterCondition = (props) => {
 
   const [state, dispatch] = useReducer(reducer, props.initialState);
   const disabledState = !(props.mode === "Search");
-  const [applicationNumbers, loadApplicationNumbers] = React.useState([]);
+  const [applicationNums, loadapplicationNums] = React.useState([]);
   const [applicantNames, loadApplicantNames] = React.useState([]);
   const [requestNumbers, loadrequestNumbers] = React.useState([]);
   const [disbursementStatus, loadDisbursementRecordsStatus] = React.useState(
@@ -323,19 +323,19 @@ const FilterCondition = (props) => {
               disabled={disabledState}
               required={false}
               label="Application Number"
-              id="applicationNumber"
+              id="applicationNum"
               variant="standard"
               type="text"
               placeholder="Select Application Number"
-              autoCompleteValues={applicationNumbers}
-              value={state.applicationNumber}
+              autoCompleteValues={applicationNums}
+              value={state.applicationNum}
               onChange={(event, value) => {
                 dispatch({
-                  type: filterValues.applicationNumber,
+                  type: filterValues.applicationNum,
                   value: value === null ? value : value.label,
                 });
                 updateFieldsData(
-                  filterValues.applicationNumber,
+                  filterValues.applicationNum,
                   value === null ? value : value.label
                 );
               }}
@@ -502,18 +502,18 @@ const FilterCondition = (props) => {
                   disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Loan Amount"
-                  id="loanAmount"
+                  id="loanAmt"
                   variant="standard"
                   value={
-                    state.loanAmount === ""
+                    state.loanAmt === ""
                       ? 0
-                      : parseInt(state.loanAmount).toLocaleString("en-IN")
+                      : parseInt(state.loanAmt).toLocaleString("en-IN")
                   }
                   type="text"
                   placeholder="Enter Loan Amount"
                   onChange={(event) => {
                     dispatch({
-                      type: filterValues.loanAmount,
+                      type: filterValues.loanAmt,
                       value: event.target.value.replaceAll(",", ""),
                     });
                   }}
@@ -525,18 +525,18 @@ const FilterCondition = (props) => {
                   disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Sanctioned Amount"
-                  id="sanctionAmount"
+                  id="sanctionAmt"
                   variant="standard"
                   value={
-                    state.sanctionAmount === ""
+                    state.sanctionAmt === ""
                       ? 0
-                      : parseInt(state.sanctionAmount).toLocaleString("en-IN")
+                      : parseInt(state.sanctionAmt).toLocaleString("en-IN")
                   }
                   type="text"
                   placeholder="Enter Sanctioned Amount"
                   onChange={(event) => {
                     dispatch({
-                      type: filterValues.sanctionAmount,
+                      type: filterValues.sanctionAmt,
                       value: event.target.value.replaceAll(",", ""),
                     });
                   }}

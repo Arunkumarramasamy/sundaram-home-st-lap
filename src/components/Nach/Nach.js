@@ -16,13 +16,13 @@ const Nach = () => {
     const data = {
       disablingState: true,
       branch: "Anna Nagar",
-      applicationNumber: 123,
+      applicationNum: 123,
       applicantCustomer: "Tom",
       bankName: "HDFC",
       branchName: "Anna Nagar",
       micr: "0000HDFC566",
       accountType: "Savings",
-      bankAccountNumber: "12345",
+      bankAccountNum: "12345",
       accountHolderName: "Tom",
       emiAmount: 12,
       nachAmount: 12,
@@ -92,7 +92,7 @@ const Nach = () => {
                 label="Application Number"
                 variant="standard"
                 disabled={DisablingState}
-                value={data.applicationNumber}
+                value={data.applicationNum}
               ></CustomTextField>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -146,7 +146,7 @@ const Nach = () => {
                 label="Bank Account Number"
                 variant="standard"
                 disabled={DisablingState}
-                value={data.bankAccountNumber}
+                value={data.bankAccountNum}
               ></CustomTextField>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>

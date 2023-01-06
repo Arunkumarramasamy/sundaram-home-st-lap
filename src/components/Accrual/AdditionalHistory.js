@@ -87,8 +87,8 @@ const columns = [
   },
 ];
 const AdditionalHistory = (props) => {
-  const [applicationNumber, setApplicationNumber] = useState(
-    props.applicationNumber
+  const [applicationNum, setapplicationNum] = useState(
+    props.applicationNum
   );
   const [feeType, setFeeType] = useState(props.feeType);
   useEffect(() => {
@@ -101,7 +101,7 @@ const AdditionalHistory = (props) => {
   };
   const loadHistory = async (props) => {
     const dataMap = {};
-    dataMap["applicationNumber"] = applicationNumber;
+    dataMap["applicationNum"] = applicationNum;
     dataMap["feeType"] = feeType;
     try {
       const response = await axios.post(

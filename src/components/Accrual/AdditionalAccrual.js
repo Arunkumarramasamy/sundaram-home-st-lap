@@ -52,7 +52,7 @@ const AdditionalAccrual = () => {
     }/${new Date().getFullYear()}`
   );
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
-  const [applicationNumberNotValid, setApplicationNumberNotValid] =
+  const [applicationNumNotValid, setapplicationNumNotValid] =
     useState(false);
   const [historyData, setHistorydata] = useState({});
   const handleCellChangedEvent = (event) => {
@@ -77,7 +77,7 @@ const AdditionalAccrual = () => {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getFeeData",
         {
-          applicationNumber: applicationNumber,
+          applicationNum: applicationNum,
           type: "accrual",
         }
       );
@@ -104,7 +104,7 @@ const AdditionalAccrual = () => {
     });
     return modifiedMap;
   };
-  const [applicationNumber, setApplicationNumber] = useState("");
+  const [applicationNum, setapplicationNum] = useState("");
   const onChangeCardItems = (row, value) => {
     row["additionalWaiver"] = value;
     setDataRow((oldArray) => [...oldArray, row]);
@@ -120,7 +120,7 @@ const AdditionalAccrual = () => {
     const branchValues = GetBranchDetails();
     setbranchNames(branchValues);
   }, []);
-  const applicationNumberList = [
+  const applicationNumList = [
     { label: "STLMYL20220001", value: "STLMYL20220001" },
     { label: "STLMYL20220002", value: "STLMYL20220002" },
     { label: "STLMYL20220003", value: "STLMYL20220003" },
@@ -142,14 +142,14 @@ const AdditionalAccrual = () => {
   const [branchNames, setbranchNames] = useState([]);
   const handleSearch = (event) => {
     event.preventDefault();
-    if (branchName && applicationNumber) {
+    if (branchName && applicationNum) {
       getData();
       setGridVisible("block");
     } else {
       branchName ? setBranchNameNotValid(false) : setBranchNameNotValid(true);
-      applicationNumber
-        ? setApplicationNumberNotValid(false)
-        : setApplicationNumberNotValid(true);
+      applicationNum
+        ? setapplicationNumNotValid(false)
+        : setapplicationNumNotValid(true);
       setGridVisible("none");
     }
   };
@@ -158,7 +158,7 @@ const AdditionalAccrual = () => {
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
       setReferenceNumber("");
-      setApplicationNumber("");
+      setapplicationNum("");
       setGridVisible("none");
     } else {
       setBranchNameNotValid(false);
@@ -167,12 +167,12 @@ const AdditionalAccrual = () => {
   };
   const onChangeForReferenceEvent = (event, newValue) => {
     if (newValue === null) {
-      setApplicationNumber("");
+      setapplicationNum("");
       setReferenceNumber("");
       setGridVisible("none");
     } else {
-      setApplicationNumberNotValid(false);
-      setApplicationNumber(newValue.label);
+      setapplicationNumNotValid(false);
+      setapplicationNum(newValue.label);
     }
   };
   const searchButtonClickHandler = (event) => {
@@ -448,16 +448,16 @@ const AdditionalAccrual = () => {
                       label="Application Number"
                       id="applicantName"
                       variant="standard"
-                      value={applicationNumber}
+                      value={applicationNum}
                       onChange={(event, newValue) =>
                         onChangeForReferenceEvent(event, newValue)
                       }
                       // value={applicantName}
                       type="text"
                       placeholder="Application Number"
-                      autoCompleteValues={applicationNumberList}
+                      autoCompleteValues={applicationNumList}
                     />
-                    {applicationNumberNotValid && (
+                    {applicationNumNotValid && (
                       <p className="error">
                         Please Enter valid Application Number
                       </p>
@@ -663,7 +663,7 @@ const AdditionalAccrual = () => {
             name="Accrued By"
             gridData={dataRows}
             refNum={referenceNumber}
-            applicationNumber={applicationNumber}
+            applicationNum={applicationNum}
             refDate={currentDate}
             type="accrual"
             reason={reason}

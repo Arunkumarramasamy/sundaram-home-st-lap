@@ -67,7 +67,7 @@ const DisbursementDetails = (props) => {
     ];
     setecdValues(dataMap);
     if(props.detailPageInitialState.screenMode === "CREATE"){
-      var value = losInitialState.sanctionAmount - props.detailPageInitialState.earlierDisbAmt;
+      var value = losInitialState.sanctionAmt - props.detailPageInitialState.earlierDisbAmt;
       var netDisb = parseInt(value)-props.detailPageInitialState.totalDeductionAmt;
       props.dispatchEvent({
         type: props.fieldList.disbAmt,
@@ -138,7 +138,7 @@ const DisbursementDetails = (props) => {
           <Checkbox
           disabled={disabledState && (disableForView || props.detailPageInitialState.screenMode==="CANCEL")}
             checked={params.value}
-            onChange={onCheckBoxEnable(params.row.bankAccountNumber)}
+            onChange={onCheckBoxEnable(params.row.bankAccountNum)}
           />
         );
       },
@@ -168,7 +168,7 @@ const DisbursementDetails = (props) => {
       align: "left",
     },
     {
-      field: "bankAccountNumber",
+      field: "bankAccountNum",
       headerName: "Bank Account Number",
       headerAlign: "center",
       type: "string",
@@ -210,7 +210,7 @@ const DisbursementDetails = (props) => {
             variant="standard"
             value={params.value === undefined ? 0 :   parseInt(params.value).toLocaleString("en-IN")}
             type="text"
-            onChange={onAmountChange(params.row.bankAccountNumber)}
+            onChange={onAmountChange(params.row.bankAccountNum)}
             placeholder={!params.row.isChecked ? "Disabled" : "Enter Amount"}
           />
         );
@@ -218,13 +218,13 @@ const DisbursementDetails = (props) => {
     },
   ];
 
-  const onAmountChange = (bankAccountNumber) => (event) => {
+  const onAmountChange = (bankAccountNum) => (event) => {
     const dataMap1 = [];
     props.detailPageInitialState.disbursementFavours.forEach((value) => {
       const dataMap = {
         ...value,
       };
-      if (value.bankAccountNumber === bankAccountNumber) {
+      if (value.bankAccountNum === bankAccountNum) {
         dataMap.amount = event.target.value.replaceAll(",","");
       }
       dataMap1.push(dataMap);
@@ -236,13 +236,13 @@ const DisbursementDetails = (props) => {
     //setRowState(dataMap1);
   };
 
-  const onCheckBoxEnable = (bankAccountNumber) => (event) => {
+  const onCheckBoxEnable = (bankAccountNum) => (event) => {
     const dataMap1 = [];
     props.detailPageInitialState.disbursementFavours.forEach((value) => {
       const dataMap = {
         ...value,
       };
-      if (value.bankAccountNumber === bankAccountNumber) {
+      if (value.bankAccountNum === bankAccountNum) {
         dataMap.isChecked = !dataMap.isChecked;
       }
       dataMap1.push(dataMap);
@@ -407,7 +407,7 @@ const DisbursementDetails = (props) => {
             label="Balance Amount"
             id="balanceAmount"
             variant="standard"
-            value={parseInt((props.losInitialState.sanctionAmount)-(props.detailPageInitialState.earlierDisbAmt)-(props.detailPageInitialState.disbAmt)).toLocaleString("en-IN")}
+            value={parseInt((props.losInitialState.sanctionAmt)-(props.detailPageInitialState.earlierDisbAmt)-(props.detailPageInitialState.disbAmt)).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Balance Amount"
           />
@@ -721,7 +721,7 @@ const DisbursementDetails = (props) => {
                                 }
                               </React.Fragment>
                             }
-                          subheader={row.bankName + "- " + row.bankAccountNumber}
+                          subheader={row.bankName + "- " + row.bankAccountNum}
                             subheaderTypographyProps={{
                               color: "#004A92",
                               fontWeight: "700",
@@ -743,7 +743,7 @@ const DisbursementDetails = (props) => {
                                 {"Account Holder Name : " + row.accHoldrName}
                               </Typography>
                               <Typography padding="1px">
-                                {"Account Number : " + row.bankAccountNumber}
+                                {"Account Number : " + row.bankAccountNum}
                               </Typography>
                               <Typography padding="1px">
                                 {"Account Type : " + row.bankAccountType}

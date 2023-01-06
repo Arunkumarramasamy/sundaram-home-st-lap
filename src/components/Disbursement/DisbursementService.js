@@ -8,8 +8,8 @@ import axios from "axios";
     baseURL: "http://localhost:8080/disbursement/"
   });
 
-export const getCustBankDetailsByAppNum = async (applicationNumber) => {
-      const response = await losCustomerAPI.post("/getCustBankDetailsByAppNum",{"applicationNumber": applicationNumber});
+export const getCustBankDetailsByAppNum = async (applicationNum) => {
+      const response = await losCustomerAPI.post("/getCustBankDetailsByAppNum",{"applicationNum": applicationNum});
       {
         response.data.map((row, index) => ( 
         row.isChecked = false

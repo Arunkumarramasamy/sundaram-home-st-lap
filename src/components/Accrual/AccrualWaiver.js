@@ -42,14 +42,14 @@ const AdditionalWaiver = () => {
   const [updateDisable, setUpdateDisable] = useState(true);
   const handleSearch = (event) => {
     event.preventDefault();
-    if (branchName && applicationNumber) {
+    if (branchName && applicationNum) {
       getData();
       setGridVisible("block");
     } else {
       branchName ? setBranchNameNotValid(false) : setBranchNameNotValid(true);
-      applicationNumber
-        ? setApplicationNumberNotValid(false)
-        : setApplicationNumberNotValid(true);
+      applicationNum
+        ? setapplicationNumNotValid(false)
+        : setapplicationNumNotValid(true);
       setGridVisible("none");
     }
   };
@@ -58,7 +58,7 @@ const AdditionalWaiver = () => {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getFeeData",
         {
-          applicationNumber: applicationNumber,
+          applicationNum: applicationNum,
           type: "waiver",
         }
       );
@@ -79,7 +79,7 @@ const AdditionalWaiver = () => {
     }
   };
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
-  const [applicationNumberNotValid, setApplicationNumberNotValid] =
+  const [applicationNumNotValid, setapplicationNumNotValid] =
     useState(false);
   const onChangeCardItems = (row, value) => {
     row["waived"] = value;
@@ -109,8 +109,8 @@ const AdditionalWaiver = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
-  const [applicationNumber, setApplicationNumber] = useState("");
-  const applicationNumberList = [
+  const [applicationNum, setapplicationNum] = useState("");
+  const applicationNumList = [
     { label: "STLMYL20220001", value: "STLMYL20220001" },
     { label: "STLMYL20220002", value: "STLMYL20220002" },
     { label: "STLMYL20220003", value: "STLMYL20220003" },
@@ -120,12 +120,12 @@ const AdditionalWaiver = () => {
   ];
   const onChangeForReferenceEvent = (event, newValue) => {
     if (newValue === null) {
-      setApplicationNumber("");
+      setapplicationNum("");
       setReferenceNumber("");
       setGridVisible("none");
     } else {
-      setApplicationNumberNotValid(false);
-      setApplicationNumber(newValue.label);
+      setapplicationNumNotValid(false);
+      setapplicationNum(newValue.label);
     }
   };
   const handleCellChangedEvent = (event) => {
@@ -164,7 +164,7 @@ const AdditionalWaiver = () => {
     setBranchName(newValue);
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
-      setApplicationNumber("");
+      setapplicationNum("");
       setGridVisible("none");
     } else {
       setBranchNameNotValid(false);
@@ -436,7 +436,7 @@ const AdditionalWaiver = () => {
                     required={false}
                     clearText={() => console.log("log")}
                     disabled={applicationSearchDisable}
-                    value={applicationNumber}
+                    value={applicationNum}
                     label="Application Number"
                     id="applicantName"
                     variant="standard"
@@ -446,9 +446,9 @@ const AdditionalWaiver = () => {
                     // value={applicantName}
                     type="text"
                     placeholder="Application Number"
-                    autoCompleteValues={applicationNumberList}
+                    autoCompleteValues={applicationNumList}
                   />
-                  {applicationNumberNotValid && (
+                  {applicationNumNotValid && (
                     <p className="error">
                       Please Enter valid Application Number
                     </p>
@@ -660,7 +660,7 @@ const AdditionalWaiver = () => {
             name="Waived By"
             gridData={dataRows}
             refNum={referenceNumber}
-            applicationNumber={applicationNumber}
+            applicationNum={applicationNum}
             refDate={currentDate}
             type="waiver"
             reason={reason}

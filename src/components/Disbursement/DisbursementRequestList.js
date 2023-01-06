@@ -124,7 +124,7 @@ export default function DisbursementRequestList(props) {
     sanctionList: [],
     branchNames: [],
     branch: "",
-    applicationNumber: "",
+    applicationNum: "",
     customerName: "",
     coApplicantName: "",
     customerId: "",
@@ -143,8 +143,8 @@ export default function DisbursementRequestList(props) {
     ).format("DD/MM/YYYY"),
     customerType: "-1",
     rateOfInterest: "",
-    loanAmount: "",
-    sanctionAmount: "",
+    loanAmt: "",
+    sanctionAmt: "",
 
     disbursementDateFromValue: dayjs(
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
@@ -189,7 +189,7 @@ export default function DisbursementRequestList(props) {
     async function getAllData() {
       const allLosData = await service.getAllData();
       allLosData.data.map((losCustomerRow) => {
-        dataMap[losCustomerRow.applicationNumber] = losCustomerRow;
+        dataMap[losCustomerRow.applicationNum] = losCustomerRow;
       });
     }
     async function getAllDisbursementData() {
@@ -276,13 +276,13 @@ export default function DisbursementRequestList(props) {
     } else {
       filterConditionState.branch = "";
     }
-    if (data.applicationNumber && data.applicationNumber !== "") {
+    if (data.applicationNum && data.applicationNum !== "") {
       filterrows = filterrows.filter(
-        (row) => row.applicationNumber === data.applicationNumber
+        (row) => row.applicationNum === data.applicationNum
       );
-      filterConditionState.applicationNumber = data.applicationNumber;
+      filterConditionState.applicationNum = data.applicationNum;
     } else {
-      filterConditionState.applicationNumber = "";
+      filterConditionState.applicationNum = "";
     }
     const applicantName = !isBackfromDetailPage
       ? data.applicantName
@@ -329,7 +329,7 @@ export default function DisbursementRequestList(props) {
       filterConditionState.disbursementDateFromValue = "";
     }
 
-    // few more conditions yet to be added based on fields decided to tarequestNumberrget need to add to dummy data.
+    // few more conditions yet to be added based on fields decided to tarequestNumrget need to add to dummy data.
     setRows(filterrows);
     setFilterConditionState({ ...filterConditionState });
     setTotalPageCount(
@@ -343,7 +343,7 @@ export default function DisbursementRequestList(props) {
 
   const updateFilterAutoFill = (data, isBackfromDetailPage) => {
     // this method updates or removes other fields auto fill data to retain back
-    filterConditionState.applicationNumber = data.applicationNumber;
+    filterConditionState.applicationNum = data.applicationNum;
     filterConditionState.customerName = data.customerName;
     filterConditionState.requestNumber = data.requestNumber;
     filterConditionState.disbursementStatus = data.disbursementStatus;
@@ -403,7 +403,7 @@ export default function DisbursementRequestList(props) {
         applicationDate:
           dataMap[disbursementRow.applicationNum].applicationDate,
         approvedAmount:
-          dataMap[disbursementRow.applicationNum].sanctionAmount,
+          dataMap[disbursementRow.applicationNum].sanctionAmt,
         status: disbursementRow.requestStatus,
         customerType: dataMap[disbursementRow.applicationNum].customerType,
         modifiedUser: disbursementRow.lastModifiedBy,
@@ -536,7 +536,7 @@ export default function DisbursementRequestList(props) {
                           </React.Fragment>
                         }
                         subheader={
-                          "Application Number : " + row.applicationNumber
+                          "Application Number : " + row.applicationNum
                         }
                         subheaderTypographyProps={{
                           color: "#004A92",

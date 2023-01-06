@@ -61,7 +61,7 @@ const AccrualRemark = (props) => {
       dataMap["refDate"] = props.refDate;
       dataMap["referenceNumber"] = props.refNum;
       dataMap["updatedBy"] = Cookies.get("userName");
-      dataMap["applicationNumber"] = props.applicationNumber;
+      dataMap["applicationNum"] = props.applicationNum;
       dataMap["type"] = props.type;
       dataMap["historyData"] = props.historyData;
       try {
@@ -213,7 +213,7 @@ const AccrualRemark = (props) => {
                 <Box sx={style}>
                   <AdditionalHistory
                     onClose={handleClose}
-                    applicationNumber={props.applicationNumber}
+                    applicationNum={props.applicationNum}
                     feeType={props.type}
                   />
                 </Box>

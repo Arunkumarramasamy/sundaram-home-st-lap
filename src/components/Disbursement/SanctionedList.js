@@ -51,7 +51,7 @@ const SanctionedList = (props) => {
       align: "left",
     },
     {
-      field: "applicationNumber",
+      field: "applicationNum",
       headerName: "Application Number",
       headerAlign: "center",
       type: "string",
@@ -76,7 +76,7 @@ const SanctionedList = (props) => {
       },
     },
     {
-      field: "sanctionAmount",
+      field: "sanctionAmt",
       headerName: "Approved Amount",
       headerAlign: "center",
       type: "string",
@@ -183,7 +183,7 @@ const SanctionedList = (props) => {
           pageSizeOptions={[5]}
           rowDoubleClickHandler={rowDoubleClickHandler}
           gridLazyLoad={gridLazyLoad}
-          getRowId={(row) => row.applicationNumber}
+          getRowId={(row) => row.applicationNum}
         />
       )}
       {useMediaQuery("(max-width:1200px)") && (
@@ -273,7 +273,7 @@ const SanctionedList = (props) => {
                           </Typography>
 
                           <Typography padding="1px">
-                            {"Sancationed Loan Amount : " + row.sanctionAmount}
+                            {"Sanctioned Loan Amount : " + row.sanctionAmt}
                           </Typography>
                           <Typography padding="1px">
                             {"Application Date : " + row.applicationDate}
