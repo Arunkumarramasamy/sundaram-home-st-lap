@@ -93,6 +93,7 @@ const ParameterMaintenance = () => {
       headerAlign: "center",
       align: "center",
       width: 160,
+      align: "left",
     },
     {
       field: "module",
@@ -100,6 +101,7 @@ const ParameterMaintenance = () => {
       headerAlign: "center",
       align: "center",
       width: 178,
+      align: "left",
     },
     {
       field: "paramDataType",
@@ -107,6 +109,7 @@ const ParameterMaintenance = () => {
       headerAlign: "center",
       align: "center",
       width: 180,
+      align: "left",
     },
     {
       field: "paramValue",
@@ -114,6 +117,7 @@ const ParameterMaintenance = () => {
       headerAlign: "center",
       align: "center",
       width: 250,
+      align: "right",
       renderCell: (params) => {
         if (params.row.paramDataType === "Int") {
           return parseInt(params.value).toLocaleString("en-IN");
@@ -133,7 +137,8 @@ const ParameterMaintenance = () => {
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
-      width: 190,
+      width: 150,
+      align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
       },
@@ -144,6 +149,7 @@ const ParameterMaintenance = () => {
       headerAlign: "center",
       align: "center",
       width: 190,
+      align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
       },
