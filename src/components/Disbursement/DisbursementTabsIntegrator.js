@@ -12,6 +12,7 @@ import CustomButton from "../CustomComponents/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import finalPropsSelectorFactory from "react-redux/es/connect/selectorFactory";
 
 const DisbursementTabsIntegrator = (props) => {
   const navigate = useNavigate();
@@ -217,6 +218,7 @@ const DisbursementTabsIntegrator = (props) => {
               losInitialState={props.searchStateValues}
               errorState={props.errorState}
               deductionsState = {props.deductionsState}
+              setLoading={props.setLoading}
             />
           </TabPanel>
           <TabPanel value="2">

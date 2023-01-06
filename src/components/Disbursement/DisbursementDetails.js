@@ -73,18 +73,10 @@ const DisbursementDetails = (props) => {
         value: props.losInitialState.disbNum,
       });
       if(props.losInitialState.disbNum === 2){
-          // const api1 = axios.create({
-    //   baseURL: "http://localhost:8080/disbursement/",
-    // });
-    // const response1 = await api1.get("/getAllDisbursementData");
-    earlierAmt = 400000;
-    props.dispatchEvent({
-      type: props.fieldList.earlierDisbAmt,
-      value: 400000,
-     });
-      }
+        setEarlierDisbAmt(props.losInitialState.applicationNum);
+      } else {
       var value = losInitialState.sanctionAmt - earlierAmt;
-      var netDisb = parseInt(value)-props.detailPageInitialState.totalDeductionAmt;
+      var netDisb = parseInt(value)-props.deductionsState.totalDeductionsTotal;
       props.dispatchEvent({
         type: props.fieldList.disbAmt,
         value: value,
@@ -98,9 +90,44 @@ const DisbursementDetails = (props) => {
         props.detailPageInitialState.disbursementFavours[0].amount = netDisb;
       }
     }
+  }
   }, []);
 
   var today = new Date();
+
+  const setEarlierDisbAmt = async (applicationNum) =>{
+    const api1 = axios.create({
+      baseURL: "http://localhost:8080/disbursement/",
+    });
+    let earlierAmt = 0;
+    const response1 = await api1.post("/getFirstDisbByAppNum",{applicationNum});
+    if(response1.status === 200){
+      earlierAmt = response1.data[0].disbAmt;
+    props.dispatchEvent({
+      type: props.fieldList.earlierDisbAmt,
+      value: earlierAmt,
+     });
+     props.dispatchEvent({
+      type: props.fieldList.disbAmt,
+      value: props.losInitialState.sanctionAmt - earlierAmt,
+     });
+     var value = losInitialState.sanctionAmt - earlierAmt;
+     var netDisb = parseInt(value);
+     
+     props.dispatchEvent({
+       type: props.fieldList.disbAmt,
+       value: value,
+     });
+     props.dispatchEvent({
+       type: props.fieldList.totalDisbAmt,
+       value: netDisb,
+     });
+      if(props.detailPageInitialState.disbursementFavours.length !== 0){
+       props.detailPageInitialState.disbursementFavours[0].isChecked = true;
+       props.detailPageInitialState.disbursementFavours[0].amount = netDisb;
+     }
+    }
+  };
 
   
   const onbillDayChange = (event) => {
@@ -408,7 +435,7 @@ const DisbursementDetails = (props) => {
             label="Net Current Disbursement Amount"
             id="netAmount"
             variant="standard"
-            value={parseInt(props.detailPageInitialState.totalDisbAmt).toLocaleString("en-IN")}
+            value={props.detailPageInitialState.totalDeductionAmt !== 0 && props.detailPageInitialState.disbNum === 1 && props.detailPageInitialState.totalDisbAmt ===props.detailPageInitialState.disbAmt ? parseInt(props.detailPageInitialState.disbAmt-props.detailPageInitialState.totalDeductionAmt).toLocaleString("en-IN"):parseInt(props.detailPageInitialState.totalDisbAmt).toLocaleString("en-IN")}
             type="text"
             placeholder="Enter Net Disbursement Amount"
            

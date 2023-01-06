@@ -176,7 +176,7 @@ const DisbursementDetailPage = (props) => {
       window.removeEventListener("beforeunload", alertUser);
       window.removeEventListener("unload", handleTabClosing);
       // window.removeEventListener("popstate", alertUser);
-    };
+      };
    }, []);
 
    const handleTabClosing = async () => {
@@ -195,7 +195,7 @@ const DisbursementDetailPage = (props) => {
    };
 
    useLayoutEffect(() => {
-    if(props.mode==="CREATE"){
+    if(props.mode==="CREATE" && losInitialState.disbNum === 1){
     detailPageInitialState.totalDisbAmt = parseInt(detailPageInitialState.disbAmt)-detailPageInitialState.totalDeductionAmt ;
     }
   }, [deductionsState]);
@@ -577,6 +577,7 @@ const DisbursementDetailPage = (props) => {
         cancelRequestHandler = {updateRequestHandler}
         errorState={errorState}
         deductionsState = {deductionsState}
+        setLoading={setLoading}
       />
     </>: 
     <>
@@ -591,6 +592,7 @@ const DisbursementDetailPage = (props) => {
         cancelRequestHandler = {updateRequestHandler}
         errorState={errorState}
         deductionsState = {deductionsState}
+        setLoading={setLoading}
       />
     </>}
     </>
