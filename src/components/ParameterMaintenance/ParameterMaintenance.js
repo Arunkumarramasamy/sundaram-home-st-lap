@@ -92,21 +92,21 @@ const ParameterMaintenance = () => {
       headerName: "Parameter Name",
       headerAlign: "center",
       align: "center",
-      width: 150,
+      width: 160,
     },
     {
       field: "module",
       headerName: "Module",
       headerAlign: "center",
       align: "center",
-      width: 150,
+      width: 178,
     },
     {
       field: "paramDataType",
       headerName: "Parameter Data Type",
       headerAlign: "center",
       align: "center",
-      width: 160,
+      width: 180,
     },
     {
       field: "paramValue",
@@ -133,7 +133,7 @@ const ParameterMaintenance = () => {
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 190,
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
       },
@@ -143,7 +143,7 @@ const ParameterMaintenance = () => {
       headerName: "Effective End Date",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 190,
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
       },
@@ -269,6 +269,23 @@ const ParameterMaintenance = () => {
     }
     console.log(check);
   };
+  //Save Dialog Click Handler
+  const [saveDialogopen, setsaveDialogOpen] = React.useState(false);
+
+  const handleSaveDialogClickOpen = () => {
+    setsaveDialogOpen(true);
+  };
+
+  const handleSaveDialogClose = () => {
+    setsaveDialogOpen(false);
+  };
+  const saveDialogOkButtonClickHandler = () => {
+    SendData();
+    setDialogOpen(false);
+    ResetTouchHandler(false);
+    resetChecker();
+    setsaveDialogOpen(false);
+  };
   /**Dialog Click Handler */
   const DialogOkHandler = () => {
     // setdisabled(true);
@@ -293,10 +310,7 @@ const ParameterMaintenance = () => {
         setMessage("No changes Made");
         openAlertHandler();
       } else {
-        SendData();
-        setDialogOpen(false);
-        ResetTouchHandler(false);
-        resetChecker();
+        handleSaveDialogClickOpen();
       }
     } else {
       ResetTouchHandler(true);
@@ -872,6 +886,44 @@ const ParameterMaintenance = () => {
             )}
           </DialogActions>
         </Dialog>
+        <div>
+          <Dialog
+            open={saveDialogopen}
+            onClose={handleSaveDialogClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              Do You Want to Proceed for Save ?
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                sx={{
+                  marginLeft: "1rem",
+                  color: "white",
+                  backgroundColor: "black",
+                  fontWeight: "bold",
+                }}
+                onMouseOver={({ target }) => {
+                  target.style.backgroundColor = "black";
+                  target.style.color = "white";
+                }}
+                variant="contained"
+                onClick={handleSaveDialogClose}
+              >
+                No
+              </Button>
+              <Button
+                sx={{ fontWeight: "bold" }}
+                variant="contained"
+                onClick={saveDialogOkButtonClickHandler}
+                autoFocus
+              >
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       </Box>
       <Box>
         <StlapFooter />
