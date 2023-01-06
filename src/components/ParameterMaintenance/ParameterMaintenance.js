@@ -515,10 +515,18 @@ const ParameterMaintenance = () => {
             marginTop: "5px",
             marginBottom: "5px",
             display: "flex",
+
             justifyContent: "center",
           }}
         >
-          <Box sx={{ display: "flex", gap: "12px", alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "12px",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
             <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
               Module
             </InputLabel>
@@ -547,13 +555,13 @@ const ParameterMaintenance = () => {
             </Button>
           </Box>
 
-          <Button
+          {/* <Button
             sx={{ fontWeight: "bold", marginLeft: "100px" }}
             variant="contained"
             onClick={addBtnHandler}
           >
             Add
-          </Button>
+          </Button> */}
         </Box>
         {useMediaQuery("(min-width:1200px)") && (
           <Box>
