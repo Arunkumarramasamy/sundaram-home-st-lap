@@ -60,6 +60,7 @@ import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
 import DisbursementApprovalList from "../Disbursement/DisbursementApprovalList";
+import GetBranchArray from "../CustomComponents/GetBranchArray";
 
 const drawerWidth = 300;
 
@@ -506,7 +507,7 @@ export default function Pagelayout() {
             {Cookies.get("userName")}
           </Typography>
           <Chip
-            label={Cookies.get("lastLogin")}
+            label={GetBranchArray()[0]}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
