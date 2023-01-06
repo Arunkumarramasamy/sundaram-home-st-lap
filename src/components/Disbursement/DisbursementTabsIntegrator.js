@@ -303,7 +303,7 @@ const DisbursementTabsIntegrator = (props) => {
                 baseURL: "http://localhost:8080/disbursement/",
               });
               const response = await api.post("/editLockUpdate", {
-                disbHeaderKey: response.data.transactionKey,
+                disbHeaderKey: props.detailPageInitialState.disbHeaderKey,
                 screenMode: props.mode,
               });
               const tempState = {...props.searchStateValues};

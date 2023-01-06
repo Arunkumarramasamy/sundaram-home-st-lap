@@ -264,6 +264,7 @@ const DisbursementDetailPage = (props) => {
               bankRow.isChecked = true;
               bankRow.amount = insertedBankROw.disbAmt;
               bankRow.id = counter++;
+              bankRow.disbAccountKey = insertedBankROw.disbAccountKey;
               dataMap.push(bankRow);
             }
       });
@@ -469,6 +470,7 @@ const DisbursementDetailPage = (props) => {
         "disbNum": data.disbNum,
         "lastModifiedBy": "",
         "lastModifiedDate": "",
+        "disbAccountKey":"",
       };
       dataMap.push(dataMap1);
     });
@@ -499,6 +501,7 @@ const DisbursementDetailPage = (props) => {
         "disbNum": disbursementData.disbNum,
         "lastModifiedBy": "",
         "lastModifiedDate": "",
+        "disbAccountKey":row.disbAccountKey,
       };
       dataMap.push(dataMap1);
     });
