@@ -110,14 +110,14 @@ const AdditionalWaiver = () => {
     }/${new Date().getFullYear()}`
   );
   const [applicationNumber, setApplicationNumber] = useState("");
-  const applicationNumberList = [
-    { label: "STLMYL20220001", value: "STLMYL20220001" },
-    { label: "STLMYL20220002", value: "STLMYL20220002" },
-    { label: "STLMYL20220003", value: "STLMYL20220003" },
-    { label: "STLMYL20220004", value: "STLMYL20220004" },
-    { label: "STLMYL20220005", value: "STLMYL20220005" },
-    { label: "STLMYL20220006", value: "STLMYL20220006" },
-  ];
+  const [applicationNumberList, setApplicationNumberList] = useState([
+    // { label: "STLMYL20220001", value: "STLMYL20220001" },
+    // { label: "STLMYL20220002", value: "STLMYL20220002" },
+    // { label: "STLMYL20220003", value: "STLMYL20220003" },
+    // { label: "STLMYL20220004", value: "STLMYL20220004" },
+    // { label: "STLMYL20220005", value: "STLMYL20220005" },
+    // { label: "STLMYL20220006", value: "STLMYL20220006" },
+  ]);
   const onChangeForReferenceEvent = (event, newValue) => {
     if (newValue === null) {
       setApplicationNumber("");
@@ -154,7 +154,20 @@ const AdditionalWaiver = () => {
     } else {
     }
   };
-
+  const getApplicationListData = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/additionalfee/getApplicationNumber",
+        {
+          branchName: "string",
+        }
+      );
+      setApplicationNumberList(response.data);
+    } catch {
+      setGridVisible("none");
+      console.log("Network Error");
+    }
+  };
   const [branchNames, setbranchNames] = useState([]);
   const searchButtonClickHandler = (event) => {
     // event.preventDefault();
@@ -162,6 +175,7 @@ const AdditionalWaiver = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
+    getApplicationListData();
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
       setApplicationNumber("");
@@ -176,107 +190,7 @@ const AdditionalWaiver = () => {
     setBranchName("");
   };
 
-  const [dataRows, setDataRow] = React.useState([
-    // {
-    //   id: 1,
-    //   details: "Mod Charges",
-    //   receiveable: 5000,
-    //   received: 0,
-    //   due: 5000,
-    //   paid: 2000,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 2,
-    //   details: "Legal Charges",
-    //   receiveable: 7000,
-    //   received: 7000,
-    //   due: 0,
-    //   paid: 0,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 3,
-    //   details: "Technical Assistance Charges",
-    //   due: 3000,
-    //   receiveable: 3000,
-    //   paid: 3000,
-    //   received: 0,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 4,
-    //   details: "Documentation Charges",
-    //   due: 25000,
-    //   receiveable: 25000,
-    //   paid: 10000,
-    //   received: 0,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 5,
-    //   details: "File Processing Charges",
-    //   due: 1000,
-    //   receiveable: 1000,
-    //   paid: 500,
-    //   received: 500,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 6,
-    //   details: "Application Fee",
-    //   due: 8000,
-    //   receiveable: 8000,
-    //   received: 8000,
-    //   paid: 0,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 7,
-    //   details: "Prepayment Charge",
-    //   due: 1000,
-    //   receiveable: 1000,
-    //   paid: 1000,
-    //   received: 1000,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 8,
-    //   details: "Partial prepayment charge",
-    //   due: 20000,
-    //   received: 10000,
-    //   receiveable: 30000,
-    //   paid: 5000,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 9,
-    //   details: "Late Fee charge",
-    //   due: 250,
-    //   receiveable: 500,
-    //   received: 250,
-    //   paid: 250,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 10,
-    //   details: "Recovery Charge",
-    //   due: 300,
-    //   paid: 300,
-    //   receiveable: 0,
-    //   received: 300,
-    //   waived: 0,
-    // },
-    // {
-    //   id: 11,
-    //   details: "Insurance Premium Charge",
-    //   due: 7000,
-    //   paid: 7000,
-    //   received: 7000,
-    //   receiveable: 0,
-    //   waived: 0,
-    // },
-  ]);
+  const [dataRows, setDataRow] = React.useState([]);
   const columns = [
     {
       field: "details",
@@ -558,6 +472,7 @@ const AdditionalWaiver = () => {
                     },
                   }}
                   rowHeight={40}
+                  headerHeight={48}
                   rows={dataRows}
                   columns={columns}
                   pageSize={pageSize}

@@ -143,7 +143,6 @@ const AdditionalHistory = (props) => {
           pageSize={10}
           rowHeight={40}
           hideFooterPagination
-          // hideFooterSelectedRowCount
           getRowClassName={(params) =>
             params.id % 2 ? `super-app-theme--even` : `super-app-theme--odd`
           }
