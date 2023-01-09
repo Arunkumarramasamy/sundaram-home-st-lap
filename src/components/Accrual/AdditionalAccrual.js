@@ -53,8 +53,7 @@ const AdditionalAccrual = () => {
     }/${new Date().getFullYear()}`
   );
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
-  const [applicationNumNotValid, setapplicationNumNotValid] =
-    useState(false);
+  const [applicationNumNotValid, setapplicationNumNotValid] = useState(false);
   const [historyData, setHistorydata] = useState({});
   const handleCellChangedEvent = (event) => {
     const dataMap1 = [];
@@ -97,12 +96,12 @@ const AdditionalAccrual = () => {
       console.log("Network Error");
     }
   };
-  const getApplicationListData = async () => {
+  const getApplicationListData = async (newValue) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getApplicationNumber",
         {
-          branchName: branchName,
+          branchName: newValue,
         }
       );
       setapplicationNumList(response.data);
@@ -154,7 +153,7 @@ const AdditionalAccrual = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
-    getApplicationListData();
+    getApplicationListData(newValue);
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
       setReferenceNumber("");
