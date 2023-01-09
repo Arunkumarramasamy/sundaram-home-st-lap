@@ -61,6 +61,7 @@ import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
 import DisbursementApprovalList from "../Disbursement/DisbursementApprovalList";
 import GetBranchArray from "../CustomComponents/GetBranchArray";
+import DisbursementDetailsViewPage from "../Disbursement/DisbursementDetailsViewPage";
 
 const drawerWidth = 300;
 
@@ -729,7 +730,7 @@ export default function Pagelayout() {
           <Route
             path={`${search}/stlap/home/disbursementView`}
             element={
-              <DisbursementDetailPage
+              <DisbursementDetailsViewPage
                 screenTitle="Disbursement Request View"
                 mode="VIEW"
               />

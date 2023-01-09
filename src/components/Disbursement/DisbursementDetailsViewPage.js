@@ -76,7 +76,7 @@ const losCustomerApi = axios.create({
 });
 
 
-const DisbursementDetailPage = (props) => {
+const DisbursementDetailsViewPage = (props) => {
 
   const location = useLocation();
 
@@ -288,8 +288,6 @@ const DisbursementDetailPage = (props) => {
   
 
 
-
-
   const insertDisbursementDataToDB = async (data,losData) => { 
     const api = axios.create({
         baseURL: "http://localhost:8080/disbursement/"
@@ -344,7 +342,7 @@ const DisbursementDetailPage = (props) => {
           }
           setshowSnackBar(true);
           setLoading(false);
-          navigate("/stlap/home/disbursementView",{state:data});
+          navigate("/stlap/home/disbursementView",{state:losData});
         }
        };
 
@@ -609,4 +607,4 @@ const DisbursementDetailPage = (props) => {
   );
 };
 
-export default DisbursementDetailPage;
+export default DisbursementDetailsViewPage;
