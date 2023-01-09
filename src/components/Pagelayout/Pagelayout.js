@@ -43,7 +43,9 @@ import {
   ExpandMore,
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
+  AppRegistrationTwoTone,
 } from "@mui/icons-material";
+import Nach from "../Nach/Nach";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
@@ -177,6 +179,9 @@ export default function Pagelayout() {
       case "disbursementApprovalList":
         path = "/stlap/home/disbursementApprovalList";
         break;
+      case "nachMandate":
+        path = "/stlap/home/nachMandate";
+        break;
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -226,7 +231,17 @@ export default function Pagelayout() {
             sx={{ display: "block" }}
           />
         </ListItemButton>
-
+        <ListItemButton id="nachMandate" onClick={menuClickHandler}>
+          <ListItemIcon>
+            <Tooltip title="Nach" disableHoverListener={!expanded}>
+              <AppRegistrationTwoTone
+                fontSize="medium"
+                sx={{ color: "white" }}
+              />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText primary="Nach" sx={{ display: "block" }} />
+        </ListItemButton>
         {/* Disbursement */}
         <ListItemButton id="disbursement" onClick={handleDisbursementMenuClick}>
           <ListItemIcon>
@@ -508,7 +523,7 @@ export default function Pagelayout() {
             {Cookies.get("userName")}
           </Typography>
           <Chip
-            label={GetBranchArray()[0]}
+            label={GetBranchArray().toString()}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -779,7 +794,7 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/disbursementProcessDemo`}
             element={<Process />}
           />
-
+          <Route path={`${search}/stlap/home/nachMandate`} element={<Nach />} />
           <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}
             element={<VoucherGeneration />}
