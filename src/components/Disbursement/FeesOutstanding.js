@@ -29,7 +29,7 @@ const FeesOutstanding = (props) => {
       hideable: false,
       sortable: false,
       width: 350,
-      align: "center",
+      align: "left",
     },
     {
       field: "receiveable",
