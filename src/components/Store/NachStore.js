@@ -19,6 +19,7 @@ const initialState = {
     nachAmount: "",
     mandateAmount: "",
     frequency: "",
+    debitType: "",
     fbd: "",
     mandateStartDate: dayjs(),
     firstNachBillingDate: dayjs(),
@@ -67,6 +68,9 @@ const NachStore = createSlice({
     },
     updateFbd(state, action) {
       state.data.fbd = action.payload;
+    },
+    updatedebitType(state, action) {
+      state.data.debitType = action.payload;
     },
     updateMandateStartDate(state, action) {
       state.data.mandateStartDate = action.payload;
