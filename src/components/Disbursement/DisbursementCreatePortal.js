@@ -8,7 +8,6 @@ import * as React from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 
 var today = new Date();
 
@@ -110,7 +109,9 @@ const DisbursementCreatePortal = (props) => {
           filterConditionState.rateOfInterest = data.rateOfInterest;
         }
         if (data.loanAmt && data.loanAmt !== "") {
-          filterrows = filterrows.filter((row) => row.loanAmt === data.loanAmt);
+          filterrows = filterrows.filter(
+            (row) => row.loanAmt === data.loanAmt
+          );
           filterConditionState.loanAmt = data.loanAmt;
         }
         if (data.sanctionAmt && data.sanctionAmt !== "") {
@@ -159,9 +160,6 @@ const DisbursementCreatePortal = (props) => {
   };
 
   useEffect(() => {
-    const loadBranchNames = GetBranchDetails();
-    setTotalBranchNames(loadBranchNames);
-    filterConditionState.branchNames = loadBranchNames;
     getSanctionList();
   }, []);
 
@@ -184,24 +182,30 @@ const DisbursementCreatePortal = (props) => {
     });
     const response = await api.get("/getAllData");
     const dataMap = [];
-    response.data.map((sanctionRow) => {
-      if (!(sanctionRow.losStatus === "Fully Disbursed")) {
-        dataMap.push(sanctionRow);
-      }
-    });
-    filterConditionState.sanctionList = dataMap;
+      response.data.map((sanctionRow) => {
+            if (!(sanctionRow.losStatus==="Fully Disbursed")) {
+              dataMap.push(sanctionRow);
+            }
+          });
+          filterConditionState.sanctionList = dataMap;
+
+
+
+    const loadBranchNames = [
+      ...Array.from(new Set([...response.data].map((row) => row.branch))).map(
+        (branch) => {
+          return {
+            label: branch,
+          };
+        }
+      ),
+    ];
+    setTotalBranchNames(loadBranchNames);
+    filterConditionState.branchNames = loadBranchNames;
     filterConditionState.disbursementList = [
       ...filterConditionState.sanctionList,
     ];
     filterConditionState.screenModeTitle = props.screenTitle;
-    setFilterConditionState({ ...filterConditionState });
-  };
-
-  const loadDataonBranchChange = (branchValue) => {
-    const listData = [...{ ...filterConditionState }.disbursementList];
-    const tempData = listData.filter((row) => row.branch === branchValue);
-    filterConditionState.sanctionList = tempData;
-    filterConditionState.disbursementList = [...tempData];
     setFilterConditionState({ ...filterConditionState });
   };
 
@@ -218,7 +222,6 @@ const DisbursementCreatePortal = (props) => {
             onSearchButtonClick={searchButtonClickHandler}
             onClearButtonClick={clearButtonClickHandler}
             initialOpen={true}
-            onBranchChange={loadDataonBranchChange}
           />
           <SanctionedList
             accordianOpenState={accordianOpen}

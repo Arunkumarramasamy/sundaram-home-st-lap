@@ -11,7 +11,6 @@ import { useState } from "react";
 import { Backspace, Search } from "@mui/icons-material";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useLayoutEffect } from "react";
 
 const filterValues = {
   tabIndex: "tabIndex",
@@ -83,17 +82,6 @@ const FilterCondition = (props) => {
     }
   };
 
-  useLayoutEffect(() => {
-    updateFieldsData(filterValues.branch, state.branch);
-  }, [props.initialState]);
-
-  const updateAutoCompleteFields = (field, value) => {
-    // on branch change need to load data from backend so dispatch event back to parent.
-    if (field === filterValues.branch && value) {
-      props.onBranchChange(value);
-    }
-  };
-
   const updateFieldsData = (field, value) => {
     let dataList = value
       ? [...state.disbursementList].filter((row) => row[field] === value)
@@ -122,13 +110,13 @@ const FilterCondition = (props) => {
         removeSelectedData([], value, field);
       }
       const applicationNumsData = [
-        ...Array.from(new Set(dataList.map((row) => row.applicationNum))).map(
-          (applicationNum) => {
-            return {
-              label: applicationNum,
-            };
-          }
-        ),
+        ...Array.from(
+          new Set(dataList.map((row) => row.applicationNum))
+        ).map((applicationNum) => {
+          return {
+            label: applicationNum,
+          };
+        }),
       ];
       loadapplicationNums(applicationNumsData);
       // dynamic load of customer names
@@ -322,7 +310,7 @@ const FilterCondition = (props) => {
                   type: filterValues.branch,
                   value: value === null ? value : value.label,
                 });
-                updateAutoCompleteFields(
+                updateFieldsData(
                   filterValues.branch,
                   value === null ? value : value.label
                 );

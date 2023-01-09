@@ -22,8 +22,4 @@ export class DisbursementRequestListService {
   getDisbursementData(data) {
     return disbursementAPI.post("/getDisbursementData", data);
   }
-
-  getDisbursementDataByBranch(branch) {
-    return disbursementAPI.post("/searchAllDisbBranchData", branch);
-  }
 }
