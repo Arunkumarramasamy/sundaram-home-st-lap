@@ -154,12 +154,12 @@ const AdditionalWaiver = () => {
     } else {
     }
   };
-  const getApplicationListData = async () => {
+  const getApplicationListData = async (branch) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getApplicationNumber",
         {
-          branchName: branchName,
+          branchName: branch.label,
         }
       );
       setapplicationNumList(response.data);
@@ -175,7 +175,7 @@ const AdditionalWaiver = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
-    getApplicationListData();
+    getApplicationListData(newValue);
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
       setapplicationNum("");
