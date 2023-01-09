@@ -84,35 +84,42 @@ const FilterCondition = (props) => {
   };
 
   useLayoutEffect(() => {
-    updateFieldsData(filterValues.branch, state.branch);
+    if (props.mode !== "Detail") {
+      // don't trigger on detail page load.
+      updateFieldsData(filterValues.branch, state.branch);
+    }
   }, [props.initialState]);
 
   const updateAutoCompleteFields = (field, value) => {
+    // clear other autofields set.
+    updateFieldsData(filterValues.branch, null);
     // on branch change need to load data from backend so dispatch event back to parent.
-    if (field === filterValues.branch && value) {
+    if (field === filterValues.branch) {
       props.onBranchChange(value);
     }
   };
 
   const updateFieldsData = (field, value) => {
     let dataList = value
-      ? [...state.disbursementList].filter((row) => row[field] === value)
+      ? [...props.initialState.disbursementList].filter(
+          (row) => row[field] === value
+        )
       : field === filterValues.branch
       ? []
       : // the other case is clear of application number
-        [...state.disbursementList].filter(
+        [...props.initialState.disbursementList].filter(
           (row) => row.branch === state.branch
         );
     if (dataList.length > 1) {
       // based on branch select dynamic load of application numbers
-      if (!value && field === filterValues.applicationNumber) {
+      if (!value && field === filterValues.applicationNum) {
         removeSelectedData(dataList, value, field);
       } else if (!value && field === filterValues.requestNumber) {
         removeSelectedData(dataList, value, field);
         dataList = [...dataList].filter(
-          (row) => row.applicationNumber === state.applicationNumber
+          (row) => row.applicationNum === state.applicationNum
         );
-      } else if (field === filterValues.branch) {
+      } else if (field === filterValues.branch && !value) {
         // on branch change.
         dispatch({ type: "", value: "" });
         dispatch({
@@ -147,7 +154,7 @@ const FilterCondition = (props) => {
         ...Array.from(new Set(dataList.map((row) => row.requestNumber))).map(
           (requestNumber) => {
             return {
-              label: requestNumber,
+              label: String(requestNumber),
             };
           }
         ),
@@ -185,8 +192,8 @@ const FilterCondition = (props) => {
         !value
           ? field === filterValues.branch
             ? []
-            : [{ label: dataList.at(0).requestNumber }]
-          : [{ label: dataList.at(0).requestNumber }]
+            : [{ label: String(dataList.at(0).requestNumber) }]
+          : [{ label: String(dataList.at(0).requestNumber) }]
       );
       loadDisbursementRecordsStatus(
         !value
@@ -217,7 +224,9 @@ const FilterCondition = (props) => {
     dispatch({
       type: filterValues.requestNumber,
       value:
-        !value || dataList.length === 0 ? null : dataList.at(0).requestNumber,
+        !value || dataList.length === 0
+          ? null
+          : String(dataList.at(0).requestNumber),
     });
     dispatch({
       type: filterValues.disbursementStatus,

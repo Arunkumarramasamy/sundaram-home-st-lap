@@ -310,7 +310,12 @@ const DisbursementTabsIntegrator = (props) => {
               });
               const tempState = {...props.searchStateValues};
               tempState.disbursementStatus = state.requestStatus;
-              navigate("/stlap/home/disbursementList",{state:tempState});
+              // if request status is Approved it indicates the view screen is for Approved,
+              // so navigate back to Approval list or else to normal request list.
+              const url = response.data.requestStatus === 'Approved' ? 
+              "/stlap/home/disbursementApprovalList" :
+              "/stlap/home/disbursementList";
+              navigate(url,{state:tempState});
             }
           }}
         >

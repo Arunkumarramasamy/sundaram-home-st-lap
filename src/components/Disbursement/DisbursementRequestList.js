@@ -200,8 +200,21 @@ export default function DisbursementRequestList(props) {
     setTotalBranchNames(loadBranchNames);
     async function getAllDisbursementData() {
       filterConditionState.branchNames = loadBranchNames;
-      const allDisRequestList = await service.getAllDisbursementData();
-      const totalTempRows = getDisbursementData(allDisRequestList);
+      let filterCondition = {};
+      filterCondition.applicationNum = filterConditionState.applicationNum;
+      filterCondition.branch = filterConditionState.branch;
+      filterCondition.applicantName = filterConditionState.customerName;
+      filterCondition.requestNumber = filterConditionState.requestNumber;
+      filterCondition.disbursementStatus =
+        filterConditionState.disbursementStatus;
+      filterCondition.disbursementDate =
+        filterConditionState.disbursementDateFromValue;
+      filterCondition.offset = 0;
+      filterCondition.pageSize = 100;
+      const allDisRequestList = await service.getAllDisbursementData(
+        filterCondition
+      );
+      const totalTempRows = getDisbursementData(allDisRequestList.data.content);
       setRowsData(totalTempRows);
     }
     getAllDisbursementData();
@@ -271,7 +284,7 @@ export default function DisbursementRequestList(props) {
 
   const filterData = (data, isBackfromDetailPage) => {
     let filterrows = [];
-    if (!isBackfromDetailPage) {
+    if (isBackfromDetailPage) {
       // reset the autofill & retain back later.
       updateFilterAutoFill(initialState, isBackfromDetailPage);
     }
@@ -291,7 +304,7 @@ export default function DisbursementRequestList(props) {
     } else {
       filterConditionState.applicationNum = "";
     }
-    const applicantName = !isBackfromDetailPage
+    const applicantName = isBackfromDetailPage
       ? data.applicantName
       : data.customerName;
     if (applicantName && applicantName !== "") {
@@ -384,15 +397,15 @@ export default function DisbursementRequestList(props) {
     setTotalRowsCount(tempDataRows.length);
   };
 
-  const getDisbursementData = (response) => {
+  const getDisbursementData = (disbreqlist) => {
     let counter = 1;
     let tempDataRows = [];
-    response.data.map((disbursementRow) => {
+    disbreqlist.map((disbursementRow) => {
       const dataMap1 = {
         id: counter++,
-        requestNumber: disbursementRow.transactionKey,
+        requestNumber: String(disbursementRow.transactionKey),
         branch: disbursementRow.branch,
-        customerName: disbursementRow.customerName,
+        customerName: disbursementRow.applicantName,
         applicationNum: disbursementRow.applicationNum,
         applicationDate: disbursementRow.applicationDate,
         approvedAmount: disbursementRow.sanctionAmt,
@@ -417,11 +430,16 @@ export default function DisbursementRequestList(props) {
   };
 
   const loadDataonBranchChange = async (branchValue) => {
-    const disreqlist = await service.getDisbursementDataByBranch({
-      branch: branchValue,
-    });
-    const totalTempRows = getDisbursementData(disreqlist);
-    setRowsData(totalTempRows);
+    if (branchValue) {
+      const disreqlist = await service.getDisbursementDataByBranch({
+        branch: branchValue,
+      });
+      const totalTempRows = getDisbursementData(disreqlist.data);
+      setRowsData(totalTempRows);
+    } else {
+      // when it was null was like reset filter, so retain the last set of data rows with all DB hit.
+      resetFilterData(false);
+    }
   };
 
   return (

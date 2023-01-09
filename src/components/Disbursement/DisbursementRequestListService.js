@@ -11,12 +11,8 @@ const disbursementAPI = axios.create({
 export class DisbursementRequestListService {
   constructor() {}
 
-  getAllDisbursementData() {
-    return disbursementAPI.get("/getAllDisbursementData");
-  }
-
-  getAllData() {
-    return losCustomerAPI.get("/getAllData");
+  getAllDisbursementData(filterCondition) {
+    return disbursementAPI.post("/getAllDisbursementData", filterCondition);
   }
 
   getDisbursementData(data) {
