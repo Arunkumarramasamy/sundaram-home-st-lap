@@ -398,6 +398,7 @@ const DisbursementDetails = (props) => {
                 type: props.fieldList.disbAmt,
                 value: event.target.value.replaceAll(",",""),
               });
+              if(props.detailPageInitialState.disbNum === 1){
               props.dispatchEvent({
                 type: props.fieldList.totalDisbAmt,
                 value: parseInt(event.target.value.replaceAll(",",""))-props.detailPageInitialState.totalDeductionAmt,
@@ -408,6 +409,19 @@ const DisbursementDetails = (props) => {
                 type: props.fieldList.disbursementFavours,
                 value: dataMap1,
               });
+            } else {
+              props.dispatchEvent({
+                type: props.fieldList.totalDisbAmt,
+                value: parseInt(event.target.value.replaceAll(",","")),
+              });
+              const dataMap1=[...props.detailPageInitialState.disbursementFavours];
+              dataMap1[0].amount = parseInt(event.target.value.replaceAll(",",""));
+              props.dispatchEvent({
+                type: props.fieldList.disbursementFavours,
+                value: dataMap1,
+              });
+            }
+              
             }}
           />
           {props.errorState.currentDisbError[0] && (
