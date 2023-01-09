@@ -523,7 +523,7 @@ export default function Pagelayout() {
             {Cookies.get("userName")}
           </Typography>
           <Chip
-            label={GetBranchArray()[0]}
+            label={GetBranchArray().toString()}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
