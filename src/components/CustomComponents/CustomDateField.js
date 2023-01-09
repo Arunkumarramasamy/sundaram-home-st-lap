@@ -32,6 +32,7 @@ const CustomDateField = (props) => {
               variant={props.variant}
               value={props.value}
               type={props.type}
+              onBlur={props.onBlur}
               placeholder={props.placeholder}
               {...params}
               sx={{
