@@ -203,7 +203,7 @@ const DisbursementDetailsViewPage = (props) => {
     const response = await axios.post(
       "http://localhost:8080/additionalfee/getFeeData",
       {
-        applicationNumber: losInitialState.applicationNum,
+        applicationNum: losInitialState.applicationNum,
         type: "accrual",
       }
     );
