@@ -102,10 +102,10 @@ const AdditionalAccrual = () => {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getApplicationNumber",
         {
-          branchName: "string",
+          branchName: branchName,
         }
       );
-      setApplicationNumberList(response.data);
+      setapplicationNumList(response.data);
     } catch {
       setGridVisible("none");
       console.log("Network Error");
@@ -134,7 +134,7 @@ const AdditionalAccrual = () => {
     const branchValues = GetBranchDetails();
     setbranchNames(branchValues);
   }, []);
-  const [applicationNumberList, setApplicationNumberList] = useState([]);
+  const [applicationNumList, setapplicationNumList] = useState([]);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);

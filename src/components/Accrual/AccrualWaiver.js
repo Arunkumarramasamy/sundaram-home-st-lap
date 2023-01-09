@@ -109,8 +109,8 @@ const AdditionalWaiver = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
-  const [applicationNumber, setApplicationNumber] = useState("");
-  const [applicationNumberList, setApplicationNumberList] = useState([
+  const [applicationNum, setapplicationNum] = useState("");
+  const [applicationNumList, setapplicationNumList] = useState([
     // { label: "STLMYL20220001", value: "STLMYL20220001" },
     // { label: "STLMYL20220002", value: "STLMYL20220002" },
     // { label: "STLMYL20220003", value: "STLMYL20220003" },
@@ -159,10 +159,10 @@ const AdditionalWaiver = () => {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getApplicationNumber",
         {
-          branchName: "string",
+          branchName: branchName,
         }
       );
-      setApplicationNumberList(response.data);
+      setapplicationNumList(response.data);
     } catch {
       setGridVisible("none");
       console.log("Network Error");

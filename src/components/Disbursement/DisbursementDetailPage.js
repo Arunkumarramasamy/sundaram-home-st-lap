@@ -415,7 +415,7 @@ const DisbursementDetailPage = (props) => {
           } else {
           var bankAccountSelectionCount = 0;
           var totalAmountSelected = 0;
-          var netDisbAmt = data.disbAmt - data.totalDeductionAmt;
+          var netDisbAmt = data.totalDisbAmt;
           data.disbursementFavours.filter((row)=> row.isChecked === true
           ).forEach((row)=>{
             bankAccountSelectionCount++;
