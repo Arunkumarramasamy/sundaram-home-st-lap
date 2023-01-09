@@ -28,6 +28,14 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
 import axios from "axios";
+
+var deductionsInitialState = {
+  paidTotal: 0,
+  dueTotal: 0,
+  deductionTotal: 0,
+  waivedTotal: 0,
+  totalDeductionsTotal: 0,
+};
 const AdditionalAccrual = () => {
   const [modifiedMaps, setModifiedmap] = React.useState({});
   const [totalPageCount, setTotalPageCount] = React.useState(0);
@@ -55,6 +63,10 @@ const AdditionalAccrual = () => {
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
   const [applicationNumNotValid, setapplicationNumNotValid] = useState(false);
   const [historyData, setHistorydata] = useState({});
+  const [deductionsState, setDeductionsState] = useState(
+    deductionsInitialState
+  );
+
   const handleCellChangedEvent = (event) => {
     const dataMap1 = [];
     let tempValue = { ...historyData };
@@ -67,6 +79,7 @@ const AdditionalAccrual = () => {
       dataMap1.push(value);
     });
     setHistorydata(tempValue);
+    getDataCount(dataMap1);
     setDataRow(dataMap1);
     setUpdateDisable(
       JSON.stringify(modifiedMaps) === JSON.stringify(getModifiedData(dataRows))
@@ -81,6 +94,7 @@ const AdditionalAccrual = () => {
           type: "accrual",
         }
       );
+      getDataCount(response.data.gridData);
       setDataRow(response.data.gridData);
       setModifiedmap(getModifiedData(response.data.gridData));
       setReferenceNumber(
@@ -96,6 +110,32 @@ const AdditionalAccrual = () => {
       console.log("Network Error");
     }
   };
+
+  const getDataCount = (gridRows) => {
+    let paidTotal1 = 0;
+    let dueTotal1 = 0;
+    let deductionTotal1 = 0;
+    let waivedTotal1 = 0;
+    let data = { ...deductionsInitialState };
+    gridRows.map((rows) => {
+      data = {};
+      paidTotal1 = paidTotal1 + rows.received;
+      dueTotal1 = dueTotal1 + rows.receiveable + rows.additionalAccrual;
+      deductionTotal1 =
+        deductionTotal1 +
+        rows.additionalAccrual +
+        (rows.receiveable - rows.received - rows.earlyWaiver);
+      waivedTotal1 = waivedTotal1 + rows.earlyWaiver;
+      data.paidTotal = paidTotal1;
+      data.dueTotal = dueTotal1;
+      data.deductionTotal = deductionTotal1;
+      data.waivedTotal = waivedTotal1;
+      data.totalDeductionsTotal =
+        dueTotal1 + deductionTotal1 - paidTotal1 - waivedTotal1;
+    });
+    setDeductionsState(data);
+  };
+
   const getApplicationListData = async (newValue) => {
     try {
       const response = await axios.post(
@@ -211,6 +251,7 @@ const AdditionalAccrual = () => {
       width: 250,
       align: "right",
       editable: false,
+      // valueGetter:(value) => setTotalPaid(totalPaid+value.value),
     },
     {
       field: "received",
@@ -443,6 +484,83 @@ const AdditionalAccrual = () => {
               initialOpen={true}
               sx={{ marignBottom: "8px !important" }}
             >
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "Green",
+                    }}
+                  >
+                    {"Total Outstanding : "}
+                    <span style={{ color: "Green" }}>
+                      {deductionsState.deductionTotal}
+                    </span>
+                  </label>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "red",
+                    }}
+                  >
+                    {"(Receivable : "}
+                    <span style={{ color: "red" }}>
+                      {deductionsState.dueTotal}
+                    </span>
+                    {``}
+                  </label>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "blue",
+                    }}
+                  >
+                    {"Received : "}
+                    <span style={{ color: "blue" }}>
+                      {deductionsState.paidTotal}
+                    </span>
+                    {``}
+                  </label>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "saddlebrown",
+                    }}
+                  >
+                    {"Early Waived : "}
+                    <span style={{ color: "saddlebrown" }}>
+                      {deductionsState.waivedTotal}
+                    </span>
+                    {``}
+                  </label>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "Purple",
+                    }}
+                  >
+                    {"Outstanding : "}
+                    <span style={{ color: "Purple" }}>
+                      {deductionsState.deductionTotal}
+                    </span>
+                    {`)`}
+                  </label>
+                </Grid>
+              </Grid>
               <Grid
                 container
                 spacing={2}
