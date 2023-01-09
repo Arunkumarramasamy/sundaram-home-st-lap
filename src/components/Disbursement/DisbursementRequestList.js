@@ -37,6 +37,7 @@ import { useEffect, useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 import dayjs from "dayjs";
+import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 
 export default function DisbursementRequestList(props) {
   const columns = [
@@ -184,19 +185,25 @@ export default function DisbursementRequestList(props) {
     setopenViewConfirmation(false);
   };
 
+  const setRowsData = (totalTempRows) => {
+    filterConditionState.disbursementList = [...totalTempRows];
+    setFilterConditionState({ ...filterConditionState });
+    if (JSON.stringify(totalTempRows) !== JSON.stringify(datarows)) {
+      updateStateData(totalTempRows);
+    } else {
+      resetFilterData(false);
+    }
+  };
+
   useEffect(() => {
-    let dataMap = {};
-    async function getAllData() {
-      const allLosData = await service.getAllData();
-      allLosData.data.map((losCustomerRow) => {
-        dataMap[losCustomerRow.applicationNum] = losCustomerRow;
-      });
-    }
+    const loadBranchNames = GetBranchDetails();
+    setTotalBranchNames(loadBranchNames);
     async function getAllDisbursementData() {
+      filterConditionState.branchNames = loadBranchNames;
       const allDisRequestList = await service.getAllDisbursementData();
-      getDisbursementData(allDisRequestList, dataMap);
+      const totalTempRows = getDisbursementData(allDisRequestList);
+      setRowsData(totalTempRows);
     }
-    getAllData();
     getAllDisbursementData();
   }, [listScreenMode]);
 
@@ -368,19 +375,6 @@ export default function DisbursementRequestList(props) {
   };
 
   const updateStateData = (tempDataRows) => {
-    const loadBranchNames = [
-      ...Array.from(new Set(tempDataRows.map((row) => row.branch))).map(
-        (branch) => {
-          return {
-            label: branch,
-          };
-        }
-      ),
-    ];
-    setTotalBranchNames(loadBranchNames);
-    filterConditionState.branchNames = loadBranchNames;
-    filterConditionState.disbursementList = [...tempDataRows];
-    setFilterConditionState({ ...filterConditionState });
     setRows([...tempDataRows].slice(0, rowsPerPage));
     setTotalPageCount(
       tempDataRows.length % 10 !== 0
@@ -390,26 +384,26 @@ export default function DisbursementRequestList(props) {
     setTotalRowsCount(tempDataRows.length);
   };
 
-  const getDisbursementData = (response, dataMap) => {
+  const getDisbursementData = (response) => {
     let counter = 1;
     let tempDataRows = [];
     response.data.map((disbursementRow) => {
       const dataMap1 = {
         id: counter++,
         requestNumber: disbursementRow.transactionKey,
-        branch: dataMap[disbursementRow.applicationNum].branch,
-        customerName: dataMap[disbursementRow.applicationNum].customerName,
+        branch: disbursementRow.branch,
+        customerName: disbursementRow.customerName,
         applicationNum: disbursementRow.applicationNum,
-        applicationDate:
-          dataMap[disbursementRow.applicationNum].applicationDate,
-        approvedAmount:
-          dataMap[disbursementRow.applicationNum].sanctionAmt,
+        applicationDate: disbursementRow.applicationDate,
+        approvedAmount: disbursementRow.sanctionAmt,
         status: disbursementRow.requestStatus,
-        customerType: dataMap[disbursementRow.applicationNum].customerType,
+        customerType: disbursementRow.customerType,
         modifiedUser: disbursementRow.lastModifiedBy,
         modifiedDate: disbursementRow.lastModifiedDate,
         action: disbursementRow.requestStatus,
-        disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format("DD/MM/YYYY"),
+        disbursementDate: dayjs(new Date(disbursementRow.dateOfDisb)).format(
+          "DD/MM/YYYY"
+        ),
         disbHeaderKey: disbursementRow.disbHeaderKey,
       };
       tempDataRows.push(dataMap1);
@@ -419,11 +413,15 @@ export default function DisbursementRequestList(props) {
         ? [...tempDataRows].filter((row) => row.status !== "Approved")
         : [...tempDataRows].filter((row) => row.status !== "Cancelled");
     setdatarows(totalDataRows);
-    if (JSON.stringify(totalDataRows) !== JSON.stringify(datarows)) {
-      updateStateData(totalDataRows);
-    } else {
-      resetFilterData(false);
-    }
+    return totalDataRows;
+  };
+
+  const loadDataonBranchChange = async (branchValue) => {
+    const disreqlist = await service.getDisbursementDataByBranch({
+      branch: branchValue,
+    });
+    const totalTempRows = getDisbursementData(disreqlist);
+    setRowsData(totalTempRows);
   };
 
   return (
@@ -458,6 +456,7 @@ export default function DisbursementRequestList(props) {
         mode={"Search"}
         disDetailPage={false}
         initialOpen={true}
+        onBranchChange={loadDataonBranchChange}
       />
       {useMediaQuery("(min-width:1200px)") && (
         <CustomDataGrid
@@ -535,9 +534,7 @@ export default function DisbursementRequestList(props) {
                             }
                           </React.Fragment>
                         }
-                        subheader={
-                          "Application Number : " + row.applicationNum
-                        }
+                        subheader={"Application Number : " + row.applicationNum}
                         subheaderTypographyProps={{
                           color: "#004A92",
                           fontWeight: "700",
