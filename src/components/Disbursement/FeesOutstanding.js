@@ -157,9 +157,9 @@ const FeesOutstanding = (props) => {
   return (
     <>
      <Grid container spacing={0} >
-          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          {/* <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Green' }}>{'Total Deductions : '}<span style={{ color: 'Green' }}>{props.deductionsState.totalDeductionsTotal}</span></label>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'blue' }}>{'(Paid : '}<span style={{ color: 'blue' }}>{props.deductionsState.paidTotal}</span>{``}</label>
           </Grid>

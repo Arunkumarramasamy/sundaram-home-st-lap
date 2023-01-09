@@ -76,7 +76,7 @@ const DisbursementDetails = (props) => {
         setEarlierDisbAmt(props.losInitialState.applicationNum);
       } else {
       var value = losInitialState.sanctionAmt - earlierAmt;
-      var netDisb = parseInt(value)-props.deductionsState.totalDeductionsTotal;
+      var netDisb = parseInt(value)-props.deductionsState.deductionTotal;
       props.dispatchEvent({
         type: props.fieldList.disbAmt,
         value: value,

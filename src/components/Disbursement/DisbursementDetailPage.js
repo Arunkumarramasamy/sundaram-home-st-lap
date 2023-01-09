@@ -67,7 +67,6 @@ var deductionsInitialState =   {
       dueTotal : 0,
       deductionTotal : 0,
       waivedTotal : 0,
-      totalDeductionsTotal : 0,
       gridRows : [],
 };
 
@@ -223,10 +222,9 @@ const DisbursementDetailPage = (props) => {
           data.dueTotal = dueTotal1;
           data.deductionTotal = deductionTotal1;
           data.waivedTotal = waivedTotal1;
-          data.totalDeductionsTotal=  dueTotal1+deductionTotal1-paidTotal1-waivedTotal1;
     });
     if(props.mode==="CREATE"){
-    detailPageInitialState.totalDeductionAmt = data.totalDeductionsTotal;
+    detailPageInitialState.totalDeductionAmt = data.deductionTotal;
     }
     data.gridRows = response.data.gridData;
     setDeductionsState(data);
