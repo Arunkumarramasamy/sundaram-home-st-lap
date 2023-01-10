@@ -54,13 +54,9 @@ function DashboardContent() {
       );
       if (response.data) {
         setSanction(
-          (response.data.sanctioned -
+          response.data.sanctioned -
             response.data.requested -
-            response.data.approved -
-            response.data.cancelled)<0?0:response.data.sanctioned -
-            response.data.requested -
-            response.data.approved -
-            response.data.cancelled
+            response.data.approved
         );
         setRequest(response.data.requested);
         setApproved(response.data.approved);
