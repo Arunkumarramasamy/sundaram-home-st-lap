@@ -179,13 +179,15 @@ const DisbursementDetailsViewPage = (props) => {
    }, []);
 
    const handleTabClosing = async () => {
-     const api = axios.create({
-       baseURL: "http://localhost:8080/disbursement/",
-     });
-     const response = await api.post("/editLockUpdate", {
-       disbHeaderKey: losData.transactionKey,
-       screenMode: props.mode,
-     });
+    if (props.mode !== "VIEW") {
+      const api = axios.create({
+        baseURL: "http://localhost:8080/disbursement/",
+      });
+      const response = await api.post("/editLockUpdate", {
+        disbHeaderKey: losData.transactionKey,
+        screenMode: props.mode,
+      });
+    }
    };
 
    const alertUser = (event) => {

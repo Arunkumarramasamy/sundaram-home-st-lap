@@ -301,18 +301,20 @@ const DisbursementTabsIntegrator = (props) => {
               props.setListVisibility(true);
             } else {
               // release lock and go back.
-              const api = axios.create({
-                baseURL: "http://localhost:8080/disbursement/",
-              });
-              const response = await api.post("/editLockUpdate", {
-                disbHeaderKey: props.detailPageInitialState.disbHeaderKey,
-                screenMode: props.mode,
-              });
+              if (props.mode !== "VIEW") {
+                const api = axios.create({
+                  baseURL: "http://localhost:8080/disbursement/",
+                });
+                const response = await api.post("/editLockUpdate", {
+                  disbHeaderKey: props.detailPageInitialState.disbHeaderKey,
+                  screenMode: props.mode,
+                });
+              }
               const tempState = {...props.searchStateValues};
               tempState.disbursementStatus = state.requestStatus;
               // if request status is Approved it indicates the view screen is for Approved,
               // so navigate back to Approval list or else to normal request list.
-              const url = response.data.requestStatus === 'Approved' ? 
+              const url = state.requestStatus === 'Approved' ? 
               "/stlap/home/disbursementApprovalList" :
               "/stlap/home/disbursementList";
               navigate(url,{state:tempState});
