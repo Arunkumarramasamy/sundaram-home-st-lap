@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
-// var today = new Date();
-// var todayDate =
-//   today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+
 const initialState = {
-  disablingState: true,
   data: {
     branch: "",
     applicationNum: "",
@@ -19,6 +16,7 @@ const initialState = {
     nachAmount: "",
     mandateAmount: "",
     frequency: "",
+    debitType: "",
     fbd: "",
     mandateStartDate: dayjs(),
     firstNachBillingDate: dayjs(),
@@ -35,9 +33,6 @@ const NachStore = createSlice({
   name: "Nach",
   initialState: initialState,
   reducers: {
-    updateDisablingState(state, action) {
-      state.disablingState = action.payload;
-    },
     updateCustomerDataFromMaster(state, action) {
       state.data = {
         ...state.data,
@@ -67,6 +62,9 @@ const NachStore = createSlice({
     },
     updateFbd(state, action) {
       state.data.fbd = action.payload;
+    },
+    updatedebitType(state, action) {
+      state.data.debitType = action.payload;
     },
     updateMandateStartDate(state, action) {
       state.data.mandateStartDate = action.payload;

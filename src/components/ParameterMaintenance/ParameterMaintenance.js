@@ -521,10 +521,41 @@ const ParameterMaintenance = () => {
             marginTop: "5px",
             marginBottom: "5px",
             display: "flex",
-
             justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "30px",
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              gap: "12px",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
+              Branch
+            </InputLabel>
+            <FormControl>
+              <Autocomplete
+                sx={{ width: "250px" }}
+                variant="standard"
+                type="text"
+                placeholder="Select Module"
+                options={[999]}
+                // value=""
+                // onChange={(e, value) => {
+                //   setModule(value == null ? "" : value.label);
+                // }}
+                renderInput={(params) => (
+                  <TextField {...params} variant="standard" />
+                )}
+              />
+            </FormControl>
+          </Box>
+          {/* Module search */}
+
           <Box
             sx={{
               display: "flex",
@@ -552,6 +583,9 @@ const ParameterMaintenance = () => {
                 )}
               />
             </FormControl>
+          </Box>
+
+          <Box>
             <Button
               sx={{ fontWeight: "bold" }}
               variant="contained"
@@ -560,7 +594,6 @@ const ParameterMaintenance = () => {
               Go
             </Button>
           </Box>
-
           {/* <Button
             sx={{ fontWeight: "bold", marginLeft: "100px" }}
             variant="contained"

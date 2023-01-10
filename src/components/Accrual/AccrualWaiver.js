@@ -20,7 +20,13 @@ import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
 import axios from "axios";
-
+var deductionsInitialState = {
+  paidTotal: 0,
+  dueTotal: 0,
+  deductionTotal: 0,
+  waivedTotal: 0,
+  totalDeductionsTotal: 0,
+};
 const AdditionalWaiver = () => {
   const [modifiedMaps, setModifiedmap] = React.useState({});
   const [pageSize, setPageSize] = useState(4);
@@ -40,6 +46,9 @@ const AdditionalWaiver = () => {
   const [remark, setRemark] = useState("");
   const [gridData, setGridData] = useState([]);
   const [updateDisable, setUpdateDisable] = useState(true);
+  const [deductionsState, setDeductionsState] = useState(
+    deductionsInitialState
+  );
   const handleSearch = (event) => {
     event.preventDefault();
     if (branchName && applicationNum) {
@@ -63,6 +72,7 @@ const AdditionalWaiver = () => {
         }
       );
       setDataRow(response.data.gridData);
+      getDataCount(response.data.gridData);
       setGridData(response.data.gridData);
       setReferenceNumber(
         response.data.otherList.referenceNumber
@@ -78,9 +88,32 @@ const AdditionalWaiver = () => {
       console.log("Network Error");
     }
   };
+  const getDataCount = (gridRows) => {
+    let paidTotal1 = 0;
+    let dueTotal1 = 0;
+    let deductionTotal1 = 0;
+    let waivedTotal1 = 0;
+    let data = { ...deductionsInitialState };
+    gridRows.map((rows) => {
+      data = {};
+      paidTotal1 = paidTotal1 + rows.received;
+      dueTotal1 = dueTotal1 + rows.receiveable + rows.additionalAccrual;
+      deductionTotal1 =
+        deductionTotal1 +
+        rows.additionalAccrual +
+        (rows.receiveable - rows.received - rows.earlyWaiver - rows.additionalWaiver);
+      waivedTotal1 = waivedTotal1 + rows.earlyWaiver;
+      data.paidTotal = paidTotal1;
+      data.dueTotal = dueTotal1;
+      data.deductionTotal = deductionTotal1- rows.additionalWaiver;
+      data.waivedTotal = waivedTotal1;
+      data.totalDeductionsTotal =
+        dueTotal1 + deductionTotal1 - paidTotal1 - waivedTotal1;
+    });
+    setDeductionsState(data);
+  };
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
-  const [applicationNumNotValid, setapplicationNumNotValid] =
-    useState(false);
+  const [applicationNumNotValid, setapplicationNumNotValid] = useState(false);
   const onChangeCardItems = (row, value) => {
     row["waived"] = value;
     setDataRow((oldArray) => [...oldArray, row]);
@@ -140,6 +173,7 @@ const AdditionalWaiver = () => {
     });
     setHistorydata(tempValue);
     setDataRow(dataMap1);
+    getDataCount(dataMap1);
     setUpdateDisable(
       JSON.stringify(modifiedMaps) === JSON.stringify(getModifiedData(dataRows))
     );
@@ -325,6 +359,7 @@ const AdditionalWaiver = () => {
               onSubmit={searchButtonClickHandler}
               sx={{ margin: "8px !important" }}
             >
+              
               <Grid item container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
@@ -448,6 +483,83 @@ const AdditionalWaiver = () => {
               initialOpen={true}
               sx={{ marignBottom: "8px !important" }}
             >
+               <Grid container spacing={0}>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "Green",
+                    }}
+                  >
+                    {"Total Outstanding : "}
+                    <span style={{ color: "Green" }}>
+                      {deductionsState.deductionTotal}
+                    </span>
+                  </label>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "red",
+                    }}
+                  >
+                    {"(Receivable : "}
+                    <span style={{ color: "red" }}>
+                      {deductionsState.dueTotal}
+                    </span>
+                    {``}
+                  </label>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "blue",
+                    }}
+                  >
+                    {"Received : "}
+                    <span style={{ color: "blue" }}>
+                      {deductionsState.paidTotal}
+                    </span>
+                    {``}
+                  </label>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "saddlebrown",
+                    }}
+                  >
+                    {"Early Waived : "}
+                    <span style={{ color: "saddlebrown" }}>
+                      {deductionsState.waivedTotal}
+                    </span>
+                    {``}
+                  </label>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "8px",
+                      color: "Purple",
+                    }}
+                  >
+                    {"Outstanding : "}
+                    <span style={{ color: "Purple" }}>
+                      {deductionsState.deductionTotal}
+                    </span>
+                    {`)`}
+                  </label>
+                </Grid>
+              </Grid>
               <Grid
                 container
                 spacing={2}

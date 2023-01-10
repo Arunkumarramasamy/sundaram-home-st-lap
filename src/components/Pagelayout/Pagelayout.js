@@ -43,7 +43,9 @@ import {
   ExpandMore,
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
+  AppRegistrationTwoTone,
 } from "@mui/icons-material";
+import Nach from "../Nach/Nach";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
@@ -62,6 +64,7 @@ import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
 import DisbursementApprovalList from "../Disbursement/DisbursementApprovalList";
 import GetBranchArray from "../CustomComponents/GetBranchArray";
 import DisbursementDetailsViewPage from "../Disbursement/DisbursementDetailsViewPage";
+import NachList from "../Nach/NachList";
 
 const drawerWidth = 300;
 
@@ -177,6 +180,9 @@ export default function Pagelayout() {
       case "disbursementApprovalList":
         path = "/stlap/home/disbursementApprovalList";
         break;
+      case "nachMandate":
+        path = "/stlap/home/nachMandate";
+        break;
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -226,7 +232,17 @@ export default function Pagelayout() {
             sx={{ display: "block" }}
           />
         </ListItemButton>
-
+        <ListItemButton id="nachMandate" onClick={menuClickHandler}>
+          <ListItemIcon>
+            <Tooltip title="Nach" disableHoverListener={!expanded}>
+              <AppRegistrationTwoTone
+                fontSize="medium"
+                sx={{ color: "white" }}
+              />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText primary="Nach" sx={{ display: "block" }} />
+        </ListItemButton>
         {/* Disbursement */}
         <ListItemButton id="disbursement" onClick={handleDisbursementMenuClick}>
           <ListItemIcon>
@@ -505,7 +521,7 @@ export default function Pagelayout() {
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
           <Typography sx={{ textAlign: "center" }}>
-            {Cookies.get("userName")}
+            {Cookies.get("userName").toUpperCase()}
           </Typography>
           <Chip
             label={GetBranchArray()[0]}
@@ -779,7 +795,11 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/disbursementProcessDemo`}
             element={<Process />}
           />
-
+          <Route
+            path={`${search}/stlap/home/nachMandate`}
+            element={<NachList />}
+          />
+          <Route path={`${search}/stlap/home/nach`} element={<Nach />} />
           <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}
             element={<VoucherGeneration />}
