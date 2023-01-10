@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomButton from "../../CustomComponents/CustomButton";
+import CustomConfirmationDialog from "../../CustomComponents/CustomConfirmationDialog";
+import CustomSnackBar from "../../CustomComponents/CustomSnackBar";
 import DisbursementTabIntegrator from "../Disbursement_Common/DisbursementTabIntegrator";
 
 var today = new Date();
@@ -42,6 +44,13 @@ const DisbursementModify = (props) => {
   const [billDayValues, setbillDayValues] = useState([]);
   const [deductionTabValue, setdeductionTabValue] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showConfirmation, setshowConfirmation] = useState(false);
+  const [saveData, setsaveData] = useState([]);
+  const [showSnackBar, setshowSnackBar] = useState(false);
+  const [snackBarMessage, setsnackBarMessage] = useState("");
+  const [dialogMessage, setdialogMessage] = useState(
+    "Do You Want to Update this Request?"
+  );
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -190,7 +199,9 @@ const DisbursementModify = (props) => {
       type: screenFields.screenMode,
       value: props.screenMode,
     });
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, []);
 
   const getBillingDayData = async () => {
@@ -209,14 +220,6 @@ const DisbursementModify = (props) => {
       applicationNum: location.state.applicationNum,
     });
     setlosData(response.data);
-    dispatch({
-      type: screenFields.disbNum,
-      value: response.data.disbNum,
-    });
-    dispatch({
-      type: screenFields.disbAmt,
-      value: response.data.sanctionAmt,
-    });
   };
 
   const getDeductionTabData = async () => {
@@ -245,10 +248,6 @@ const DisbursementModify = (props) => {
     data.deductionTotal = deductionTotal1;
     data.waivedTotal = waivedTotal1;
     data.gridRows = response.data.gridData;
-    dispatch({
-      type: screenFields.totalDeductionAmt,
-      value: data.deductionTotal,
-    });
     setdeductionTabValue(data);
   };
 
@@ -430,11 +429,18 @@ const DisbursementModify = (props) => {
       disbursementData.branch = losData.branch;
       if (disbursementData.screenMode === "CANCEL") {
         disbursementData.requestStatus = "Cancelled";
+        setdialogMessage("Do You Want to Cancel this Request?");
       } else if (disbursementData.screenMode === "APPROVE") {
         disbursementData.requestStatus = "Approved";
+        setdialogMessage("Do You Want to Approve this Request?");
       }
-
-      updateDisbursementDataToDB(disbursementData, losData);
+      setTimeout(() => {
+        const validatedData = [];
+        validatedData.push(disbursementData);
+        validatedData.push(losData);
+        setsaveData(validatedData);
+        setshowConfirmation(true);
+      }, 300);
     }
   };
 
@@ -445,15 +451,22 @@ const DisbursementModify = (props) => {
     const response = await api.post("/updateDisbursement", data);
     if (response.status === 200) {
       if (data.screenMode === "CANCEL") {
-        //setsnackBarMsg("Disbursement Request Cancelled Successfully.");
+        setsnackBarMessage("Disbursement Request Cancelled Successfully.");
       } else if (data.screenMode === "MODIFY") {
-        //setsnackBarMsg("Disbursement Request Modified Successfully.");
+        setsnackBarMessage("Disbursement Request Modified Successfully.");
       } else {
-        //setsnackBarMsg("Disbursement Request Approved Successfully.");
+        setsnackBarMessage("Disbursement Request Approved Successfully.");
       }
-      //setshowSnackBar(true);
-      navigate("/stlap/home/disbursementView", { state: data });
+      setshowSnackBar(true);
+      setTimeout(() => {
+        navigate("/stlap/home/disbursementView", { state: response.data });
+      }, 600);
     }
+  };
+
+  const confirmationOkClickHandler = () => {
+    setshowConfirmation(false);
+    updateDisbursementDataToDB(saveData[0], saveData[1]);
   };
 
   return (
@@ -478,6 +491,7 @@ const DisbursementModify = (props) => {
             screenFields={screenFields}
             dispatchEvent={dispatch}
             errorState={errorState}
+            screenTitle={props.screenTitle}
           />
           <Box
             sx={{
@@ -530,6 +544,27 @@ const DisbursementModify = (props) => {
               </CustomButton>
             )}
           </Box>
+          <CustomConfirmationDialog
+            dialogOpen={showConfirmation}
+            onDialogClose={() => {
+              setshowConfirmation(false);
+            }}
+            dialogTitle={"Confirmation"}
+            dialogContent={dialogMessage}
+            cancelButtonName={"Cancel"}
+            hideCancelButton={false}
+            okButtonName={"OK"}
+            onOkClick={confirmationOkClickHandler}
+          />
+          <CustomSnackBar
+            showSnackbar={showSnackBar}
+            autoHideDuration={600}
+            onClose={() => {
+              setshowSnackBar(false);
+            }}
+            message={snackBarMessage}
+            color={"green"}
+          />
         </>
       )}{" "}
     </>

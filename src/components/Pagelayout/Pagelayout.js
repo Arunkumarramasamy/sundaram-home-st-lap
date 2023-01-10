@@ -767,27 +767,52 @@ export default function Pagelayout() {
 
           <Route
             path={`${search}/stlap/home/disbursementCreate`}
-            element={<DisbursementCreate screenMode="CREATE" />}
+            element={
+              <DisbursementCreate
+                screenMode="CREATE"
+                screenTitle="Disbursement Request Create"
+              />
+            }
           />
 
           <Route
             path={`${search}/stlap/home/disbursementModify`}
-            element={<DisbursementModify screenMode="MODIFY" />}
+            element={
+              <DisbursementModify
+                screenMode="MODIFY"
+                screenTitle="Disbursement Request Modify"
+              />
+            }
           />
 
           <Route
             path={`${search}/stlap/home/disbursementCancel`}
-            element={<DisbursementModify screenMode="CANCEL" />}
+            element={
+              <DisbursementModify
+                screenMode="CANCEL"
+                screenTitle="Disbursement Request Cancel"
+              />
+            }
           />
 
           <Route
             path={`${search}/stlap/home/disbursementApprove`}
-            element={<DisbursementModify screenMode="APPROVE" />}
+            element={
+              <DisbursementModify
+                screenMode="APPROVE"
+                screenTitle="Disbursement Request Approve"
+              />
+            }
           />
 
           <Route
             path={`${search}/stlap/home/disbursementView`}
-            element={<DisbursementView screenMode="VIEW" />}
+            element={
+              <DisbursementView
+                screenMode="VIEW"
+                screenTitle="Disbursement Request View"
+              />
+            }
           />
 
           <Route
@@ -830,11 +855,6 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
           />
-          <Route
-            path={`${search}/stlap/home/newTab`}
-            element={<DisbursementCreate applicationNum="STLMYL20220001" />}
-          />
-
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
         {/* </Container> */}

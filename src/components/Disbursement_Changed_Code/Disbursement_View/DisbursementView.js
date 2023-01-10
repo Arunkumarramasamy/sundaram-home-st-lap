@@ -186,7 +186,13 @@ const DisbursementView = (props) => {
     getCustomerDataByAppNum();
     getDeductionTabData();
     getCustomerBankData();
-    setLoading(false);
+    dispatch({
+      type: screenFields.screenMode,
+      value: props.screenMode,
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, []);
 
   const getBillingDayData = async () => {
@@ -205,14 +211,6 @@ const DisbursementView = (props) => {
       applicationNum: location.state.applicationNum,
     });
     setlosData(response.data);
-    dispatch({
-      type: screenFields.disbNum,
-      value: response.data.disbNum,
-    });
-    dispatch({
-      type: screenFields.disbAmt,
-      value: response.data.sanctionAmt,
-    });
   };
 
   const getDeductionTabData = async () => {
@@ -241,10 +239,6 @@ const DisbursementView = (props) => {
     data.deductionTotal = deductionTotal1;
     data.waivedTotal = waivedTotal1;
     data.gridRows = response.data.gridData;
-    dispatch({
-      type: screenFields.totalDeductionAmt,
-      value: data.deductionTotal,
-    });
     setdeductionTabValue(data);
   };
 
@@ -299,6 +293,7 @@ const DisbursementView = (props) => {
             screenFields={screenFields}
             dispatchEvent={dispatch}
             errorState={errorState}
+            screenTitle={props.screenTitle}
           />
           <Box
             sx={{
@@ -310,13 +305,10 @@ const DisbursementView = (props) => {
               sx={{ height: "2rem" }}
               variant="contained"
               onClick={() => {
-                if (
-                  disbursementDetailTabValue.requestStatus === "Requested" ||
-                  "Cancelled"
-                ) {
-                  navigate("/stlap/home/disbursementList");
-                } else {
+                if (disbursementDetailTabValue.requestStatus === "Approved") {
                   navigate("/stlap/home/disbursementApprovalList");
+                } else {
+                  navigate("/stlap/home/disbursementList");
                 }
               }}
             >

@@ -1,9 +1,10 @@
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomButton from "../../CustomComponents/CustomButton";
+import CustomConfirmationDialog from "../../CustomComponents/CustomConfirmationDialog";
 import DisbursementTabIntegrator from "../Disbursement_Common/DisbursementTabIntegrator";
 
 var today = new Date();
@@ -42,6 +43,10 @@ const DisbursementCreate = (props) => {
   const [billDayValues, setbillDayValues] = useState([]);
   const [deductionTabValue, setdeductionTabValue] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showConfirmation, setshowConfirmation] = useState(false);
+  const [showGeneratedNumber, setshowGeneratedNumber] = useState(false);
+  const [saveData, setsaveData] = useState([]);
+  const [requestNumber, setrequestNumber] = useState(0);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -71,6 +76,7 @@ const DisbursementCreate = (props) => {
     screenMode: "screenMode",
     rateOfInterest: "rateOfInterest",
     totalDeductionAmt: "totalDeductionAmt",
+    listChange: "listChange",
   };
 
   const reducer = (state, action) => {
@@ -117,6 +123,8 @@ const DisbursementCreate = (props) => {
         return { ...state, rateOfInterest: action.value };
       case screenFields.totalDeductionAmt:
         return { ...state, totalDeductionAmt: action.value };
+      case screenFields.listChange:
+        return { ...action.value };
       default:
         return { ...disbursementDetailsInitialState };
     }
@@ -184,7 +192,13 @@ const DisbursementCreate = (props) => {
     getCustomerDataByAppNum();
     getDeductionTabData();
     getCustomerBankData();
-    setLoading(false);
+    dispatch({
+      type: screenFields.screenMode,
+      value: props.screenMode,
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, []);
 
   const getBillingDayData = async () => {
@@ -420,7 +434,11 @@ const DisbursementCreate = (props) => {
       data.branch = losData.branch;
       data.applicationNum = losData.applicationNum;
       data.requestStatus = "Requested";
-      insertDisbursementDataToDB(data, losData);
+      const validatedData = [];
+      validatedData.push(data);
+      validatedData.push(losData);
+      setsaveData(validatedData);
+      setshowConfirmation(true);
     }
   };
 
@@ -433,6 +451,10 @@ const DisbursementCreate = (props) => {
       disbursementDetailTabValue
     );
     if (response.status === 200) {
+      dispatch({
+        type: screenFields.listChange,
+        value: response.data,
+      });
       let updateModel = {};
       if (disbursementDetailTabValue.disbAmt === losData.sanctionAmt) {
         updateModel = {
@@ -458,11 +480,15 @@ const DisbursementCreate = (props) => {
       });
       const response1 = await api1.post("/updateCustomerData", updateModel);
       if (response1.status === 200) {
-        navigate("/stlap/home/disbursementView", {
-          state: disbursementDetailTabValue,
-        });
+        setshowGeneratedNumber(true);
+        setrequestNumber(response.data.transactionKey);
       }
     }
+  };
+
+  const confirmationOkClickHandler = () => {
+    setshowConfirmation(false);
+    insertDisbursementDataToDB(saveData[0], saveData[1]);
   };
 
   return (
@@ -487,6 +513,7 @@ const DisbursementCreate = (props) => {
             screenFields={screenFields}
             dispatchEvent={dispatch}
             errorState={errorState}
+            screenTitle={props.screenTitle}
           />
           <Box
             sx={{
@@ -514,6 +541,39 @@ const DisbursementCreate = (props) => {
               Create Request
             </CustomButton>
           </Box>
+          <CustomConfirmationDialog
+            dialogOpen={showConfirmation}
+            onDialogClose={() => {
+              setshowConfirmation(false);
+            }}
+            dialogTitle={"Confirmation"}
+            dialogContent={"Do You Really want to Create Request ?"}
+            cancelButtonName={"Cancel"}
+            hideCancelButton={false}
+            okButtonName={"OK"}
+            onOkClick={confirmationOkClickHandler}
+          />
+          <CustomConfirmationDialog
+            dialogOpen={showGeneratedNumber}
+            onDialogClose={() => {
+              setshowGeneratedNumber(false);
+              navigate("/stlap/home/disbursementView", {
+                state: disbursementDetailTabValue,
+              });
+            }}
+            dialogTitle={
+              <Typography sx={{ color: "green" }}>"Save Success!"</Typography>
+            }
+            dialogContent={"Generated Request Number is :" + requestNumber}
+            hideCancelButton={true}
+            okButtonName={"OK"}
+            onOkClick={() => {
+              setshowGeneratedNumber(false);
+              navigate("/stlap/home/disbursementView", {
+                state: disbursementDetailTabValue,
+              });
+            }}
+          />
         </>
       )}{" "}
     </>

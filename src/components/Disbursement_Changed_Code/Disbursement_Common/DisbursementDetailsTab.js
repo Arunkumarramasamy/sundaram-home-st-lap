@@ -143,7 +143,7 @@ const DisbursementDetailsTab = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
-            disabled={false || disableAllFields}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNum)}
           />
@@ -210,7 +210,11 @@ const DisbursementDetailsTab = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
-            disabled={!params.row.isChecked || disableAllFields}
+            disabled={
+              !params.row.isChecked ||
+              disableAllFields ||
+              props.screenMode === "APPROVE"
+            }
             required={false}
             label={""}
             id="amount"
@@ -261,7 +265,7 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disableAllFields}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             required={false}
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
@@ -353,7 +357,7 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disableAllFields}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             required={false}
             label="Disbursement Date"
             id="disbursementDate"
@@ -375,7 +379,7 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
-            disabled={disableAllFields}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             required={false}
             label="Billing Day"
             id="billDay"
@@ -393,7 +397,7 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
-            disabled={disableAllFields}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             required={false}
             label="ECD"
             id="ecd"
@@ -476,7 +480,7 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disableAllFields}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             required={false}
             label="Remarks"
             id="remarks"
@@ -493,7 +497,8 @@ const DisbursementDetailsTab = (props) => {
           />
         </Grid>
 
-        {props.screenMode === "APPROVE" ? (
+        {props.screenMode === "APPROVE" ||
+        props.disbursementDetailTabValue.requestStatus === "Approved" ? (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               disabled={disableAllFields}
@@ -504,6 +509,12 @@ const DisbursementDetailsTab = (props) => {
               value={props.disbursementDetailTabValue.approvalRemarks}
               type="text"
               placeholder="Enter Remarks"
+              onChange={(event, value) => {
+                props.dispatchEvent({
+                  type: props.screenFields.approvalRemarks,
+                  value: event.target.value,
+                });
+              }}
             />
           </Grid>
         ) : null}
