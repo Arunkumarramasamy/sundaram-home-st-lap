@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
-// var today = new Date();
-// var todayDate =
-//   today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+
 const initialState = {
-  disablingState: true,
   data: {
     branch: "",
     applicationNum: "",
@@ -36,9 +33,6 @@ const NachStore = createSlice({
   name: "Nach",
   initialState: initialState,
   reducers: {
-    updateDisablingState(state, action) {
-      state.disablingState = action.payload;
-    },
     updateCustomerDataFromMaster(state, action) {
       state.data = {
         ...state.data,
