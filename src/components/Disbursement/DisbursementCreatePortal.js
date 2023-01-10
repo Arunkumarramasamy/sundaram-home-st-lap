@@ -120,7 +120,6 @@ const DisbursementCreatePortal = (props) => {
           filterConditionState.sanctionAmt = data.sanctionAmt;
         }
         filterConditionState.sanctionList = [...filterrows];
-        setFilterConditionState({ ...filterConditionState });
         const applicationDate = dayjs(data.applicationDate).format(
           "DD/MM/YYYY"
         );
@@ -132,6 +131,7 @@ const DisbursementCreatePortal = (props) => {
         } else {
           filterConditionState.applicationDate = "";
         }
+        setFilterConditionState({ ...filterConditionState });
         break;
       default:
         break;

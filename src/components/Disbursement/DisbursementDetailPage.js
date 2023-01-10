@@ -185,17 +185,17 @@ const DisbursementDetailPage = (props) => {
     };
   }, []);
 
-   const handleTabClosing = async () => {
+  const handleTabClosing = async () => {
     if (props.mode !== "VIEW") {
       const api = axios.create({
         baseURL: "http://localhost:8080/disbursement/",
       });
       const response = await api.post("/editLockUpdate", {
-        disbHeaderKey: losData.transactionKey,
+        disbHeaderKey: detailPageInitialState.disbHeaderKey,
         screenMode: props.mode,
       });
     }
-   };
+  };
 
   const alertUser = (event) => {
     event.preventDefault();
