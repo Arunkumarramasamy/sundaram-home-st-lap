@@ -60,6 +60,7 @@ import DisbursementCreate from "../Disbursement_Changed_Code/Disbursement_Create
 import DisbursementModify from "../Disbursement_Changed_Code/Disbursement_Modify/DisbursementModify";
 import DisbursementView from "../Disbursement_Changed_Code/Disbursement_View/DisbursementView";
 import Nach from "../Nach/Nach";
+import NachList from "../Nach/NachList";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import { BranchAction } from "../Store/Branch";
 import "./PageLayout.css";
@@ -543,10 +544,10 @@ export default function Pagelayout() {
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
           <Typography sx={{ textAlign: "center" }}>
-            {Cookies.get("userName")}
+            {Cookies.get("userName").toUpperCase()}
           </Typography>
           <Chip
-            label={GetBranchArray().toString()}
+            label={GetBranchArray()[0]}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -804,7 +805,11 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/disbursementProcessDemo`}
             element={<Process />}
           />
-          <Route path={`${search}/stlap/home/nachMandate`} element={<Nach />} />
+          <Route
+            path={`${search}/stlap/home/nachMandate`}
+            element={<NachList />}
+          />
+          <Route path={`${search}/stlap/home/nach`} element={<Nach />} />
           <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}
             element={<VoucherGeneration />}
