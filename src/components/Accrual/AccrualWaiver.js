@@ -222,6 +222,9 @@ const AdditionalWaiver = () => {
 
   const clearButtonClickHandler = () => {
     setBranchName("");
+    setapplicationNum("");
+    setGridVisible("none");
+    setReferenceNumber("");
   };
 
   const [dataRows, setDataRow] = React.useState([]);
