@@ -25,12 +25,14 @@ import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
+import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import MoreAction from "./MoreAction";
 
 const ParameterMaintenance = () => {
   const [globalRows, setGlobalRows] = useState([]);
+  const [branchValues, setBranchValues] = useState([]);
   const [rows, setRows] = useState([]);
   //State which manitain the date data type selected or not
   const [dateValue, setDateValue] = useState(false);
@@ -84,6 +86,8 @@ const ParameterMaintenance = () => {
   useEffect(() => {
     setModuleArray([{ label: "a" }, { label: "b" }, { label: "c" }]);
     getData();
+    const branchValues = GetBranchDetails();
+    setBranchValues(branchValues);
   }, []);
 
   const columns = [
@@ -543,7 +547,7 @@ const ParameterMaintenance = () => {
                 variant="standard"
                 type="text"
                 placeholder="Select Module"
-                options={[999]}
+                options={branchValues}
                 // value=""
                 // onChange={(e, value) => {
                 //   setModule(value == null ? "" : value.label);
