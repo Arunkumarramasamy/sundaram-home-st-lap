@@ -253,7 +253,9 @@ const DisbursementDetailPage = (props) => {
     detailPageInitialState.disbursementFavours = response.data;
     detailPageInitialState.rateOfInterest = losInitialState.rateOfInterest;
     getDeductionsGridData();
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   };
 
   const getDetailPageData = async (record, mode) => {
