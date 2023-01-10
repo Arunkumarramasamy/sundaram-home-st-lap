@@ -54,9 +54,13 @@ function DashboardContent() {
       );
       if (response.data) {
         setSanction(
-          response.data.sanctioned -
+          (response.data.sanctioned -
             response.data.requested -
-            response.data.approved
+            response.data.approved -
+            response.data.cancelled)<0?0:response.data.sanctioned -
+            response.data.requested -
+            response.data.approved -
+            response.data.cancelled
         );
         setRequest(response.data.requested);
         setApproved(response.data.approved);
@@ -238,7 +242,7 @@ function DashboardContent() {
                 fontWeight: "500",
               }}
             >
-              Sanctioned List For Current Month
+              Requested List For Current Month
             </Typography>
           </Paper>
         </Grid>
@@ -285,7 +289,7 @@ function DashboardContent() {
                 fontWeight: "500",
               }}
             >
-              Sancantioned List for Current Year
+              Requested List for Current Year
             </Typography>
           </Paper>
         </Grid>
