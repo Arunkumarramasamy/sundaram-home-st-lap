@@ -76,7 +76,7 @@ export default function DisbursementRequestList(props) {
       align: "left",
     },
     {
-      field: "status",
+      field: "disbursementStatus",
       headerName: "Status",
       headerAlign: "center",
       type: "string",
@@ -190,8 +190,6 @@ export default function DisbursementRequestList(props) {
     setFilterConditionState({ ...filterConditionState });
     if (JSON.stringify(totalTempRows) !== JSON.stringify(datarows)) {
       updateStateData(totalTempRows);
-    } else {
-      resetFilterData(false);
     }
   };
 
@@ -201,16 +199,7 @@ export default function DisbursementRequestList(props) {
     async function getAllDisbursementData() {
       filterConditionState.branchNames = loadBranchNames;
       let filterCondition = {};
-      filterCondition.applicationNum = filterConditionState.applicationNum;
-      filterCondition.branch = filterConditionState.branch;
-      filterCondition.applicantName = filterConditionState.customerName;
-      filterCondition.requestNumber = filterConditionState.requestNumber;
-      filterCondition.disbursementStatus =
-        filterConditionState.disbursementStatus;
-      filterCondition.disbursementDate =
-        filterConditionState.disbursementDateFromValue;
-      filterCondition.offset = 0;
-      filterCondition.pageSize = 100;
+      createFilterCondition(filterCondition, filterConditionState);
       const allDisRequestList = await service.getAllDisbursementData(
         filterCondition
       );
@@ -227,6 +216,8 @@ export default function DisbursementRequestList(props) {
       setFilterConditionState({ ...filterConditionState });
       // filter the data also, isbackfromdetailpage is true.
       filterData(location.state, true);
+      // once back filter retain make location state back to null;
+      location.state = null;
     }
   }, [datarows, listScreenMode]);
 
@@ -268,18 +259,31 @@ export default function DisbursementRequestList(props) {
     setRows([...datarows].slice(offset, offset + rowsPerPage));
   };
 
-  const resetFilterData = (isBackfromDetailPage) => {
-    setRows([...datarows].slice(0, rowsPerPage));
-    setTotalPageCount(
-      datarows.length % 10 !== 0
-        ? Number(Number((datarows.length / 10).toFixed()) + 1)
-        : Number(Number((datarows.length / 10).toFixed()))
-    );
-    setTotalRowsCount(datarows.length);
-    setPage(1);
+  const createFilterCondition = (filterCondition, filterConditionStateData) => {
+    filterCondition.applicationNum = filterConditionStateData.applicationNum;
+    filterCondition.branch = filterConditionStateData.branch;
+    filterCondition.applicantName = filterConditionStateData.customerName;
+    filterCondition.requestNumber = filterConditionStateData.requestNumber;
+    filterCondition.disbursementStatus =
+      filterConditionStateData.disbursementStatus;
+    filterCondition.disbursementDate =
+      filterConditionStateData.disbursementDateFromValue;
+    filterCondition.offset = 0;
+    filterCondition.pageSize = 100;
+  };
+
+  const resetFilterData = async (isBackfromDetailPage) => {
     filterConditionState.branch = "";
     updateFilterAutoFill(initialState, isBackfromDetailPage);
     setFilterConditionState({ ...filterConditionState });
+    let filterCondition = {};
+    createFilterCondition(filterCondition, initialState);
+    const allDisRequestList = await service.getAllDisbursementData(
+      filterCondition
+    );
+    const totalTempRows = getDisbursementData(allDisRequestList.data.content);
+    setRowsData(totalTempRows);
+    setPage(1);
   };
 
   const filterData = (data, isBackfromDetailPage) => {
@@ -328,25 +332,29 @@ export default function DisbursementRequestList(props) {
     }
     if (data.disbursementStatus && data.disbursementStatus !== "") {
       filterrows = filterrows.filter(
-        (row) => row.status === data.disbursementStatus
+        (row) => row.disbursementStatus === data.disbursementStatus
       );
       filterConditionState.disbursementStatus = data.disbursementStatus;
     } else {
       filterConditionState.disbursementStatus = "";
     }
 
-    const disbursementDate = dayjs(
-      !isBackfromDetailPage
-        ? data.disbursementDateFromValue
-        : data.disbursementDate
-    ).format("DD/MM/YYYY");
-    if (disbursementDate && disbursementDate !== "") {
-      filterrows = filterrows.filter(
-        (row) => row.disbursementDate === disbursementDate
-      );
-      filterConditionState.disbursementDateFromValue = disbursementDate;
+    if (filterrows.length === 1) {
+      updateFilterAutoFill(filterrows[0], isBackfromDetailPage);
     } else {
-      filterConditionState.disbursementDateFromValue = "";
+      const disbursementDate = dayjs(
+        !isBackfromDetailPage
+          ? data.disbursementDateFromValue
+          : data.disbursementDate
+      ).format("DD/MM/YYYY");
+      if (disbursementDate && disbursementDate !== "") {
+        filterrows = filterrows.filter(
+          (row) => row.disbursementDate === disbursementDate
+        );
+        filterConditionState.disbursementDateFromValue = disbursementDate;
+      } else {
+        filterConditionState.disbursementDateFromValue = "";
+      }
     }
 
     // few more conditions yet to be added based on fields decided to tarequestNumrget need to add to dummy data.
@@ -409,7 +417,7 @@ export default function DisbursementRequestList(props) {
         applicationNum: disbursementRow.applicationNum,
         applicationDate: disbursementRow.applicationDate,
         approvedAmount: disbursementRow.sanctionAmt,
-        status: disbursementRow.requestStatus,
+        disbursementStatus: disbursementRow.requestStatus,
         customerType: disbursementRow.customerType,
         modifiedUser: disbursementRow.lastModifiedBy,
         modifiedDate: disbursementRow.lastModifiedDate,
@@ -423,14 +431,21 @@ export default function DisbursementRequestList(props) {
     });
     const totalDataRows =
       listScreenMode === "REQUESTLIST"
-        ? [...tempDataRows].filter((row) => row.status !== "Approved")
-        : [...tempDataRows].filter((row) => row.status !== "Cancelled");
+        ? [...tempDataRows].filter(
+            (row) => row.disbursementStatus !== "Approved"
+          )
+        : [...tempDataRows].filter(
+            (row) => row.disbursementStatus !== "Cancelled"
+          );
     setdatarows(totalDataRows);
     return totalDataRows;
   };
 
   const loadDataonBranchChange = async (branchValue) => {
     if (branchValue) {
+      // before response reset the rows also to empty.
+      setdatarows([]);
+      setRows([]);
       const disreqlist = await service.getDisbursementDataByBranch({
         branch: branchValue,
       });
@@ -591,7 +606,7 @@ export default function DisbursementRequestList(props) {
                           justifyContent="flex-end"
                         >
                           <Typography sx={{ width: "40%" }}>
-                            {loadStatus(row.status)}
+                            {loadStatus(row.disbursementStatus)}
                           </Typography>
                         </Grid>
                       </CardContent>
@@ -639,6 +654,16 @@ const LoadActionBtn = (props) => {
     setAnchorEl(null);
   };
 
+  useLayoutEffect(() => {
+    console.log("layout effect");
+    console.log(props.record);
+  }, [props.record]);
+
+  useEffect(() => {
+    console.log("effect");
+    console.log(props.record);
+  }, [props.record]);
+
   const loadDetailPage = async (record, url, mode) => {
     const response = await service.getDisbursementData({
       disbHeaderKey: record.disbHeaderKey,
@@ -672,9 +697,9 @@ const LoadActionBtn = (props) => {
   const ITEM_HEIGHT = 48;
   return (
     <React.Fragment>
-      {record.status === "Paid" ||
-      record.status === "Cancelled" ||
-      record.status === "Approved" ? (
+      {record.disbursementStatus === "Paid" ||
+      record.disbursementStatus === "Cancelled" ||
+      record.disbursementStatus === "Approved" ? (
         <Tooltip title="View">
           <IconButton onClick={() => handleIconClick("View", record)}>
             <Preview sx={{ color: "#004A92", fontWeight: 700 }} />

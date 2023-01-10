@@ -162,7 +162,7 @@ const FilterCondition = (props) => {
       loadrequestNumbers(requestNumbers);
       // dynamic load of status.
       const status = [
-        ...Array.from(new Set(dataList.map((row) => row.status))).map(
+        ...Array.from(new Set(dataList.map((row) => row.disbursementStatus))).map(
           (status) => {
             return {
               label: status,
@@ -199,8 +199,8 @@ const FilterCondition = (props) => {
         !value
           ? field === filterValues.branch
             ? []
-            : [{ label: dataList.at(0).status }]
-          : [{ label: dataList.at(0).status }]
+            : [{ label: dataList.at(0).disbursementStatus }]
+          : [{ label: dataList.at(0).disbursementStatus }]
       );
       setSearchDisabled(true);
     }
@@ -230,7 +230,7 @@ const FilterCondition = (props) => {
     });
     dispatch({
       type: filterValues.disbursementStatus,
-      value: !value || dataList.length === 0 ? null : dataList.at(0).status,
+      value: !value || dataList.length === 0 ? null : dataList.at(0).disbursementStatus,
     });
     dispatch({
       type: filterValues.disbursementDateFromValue,
