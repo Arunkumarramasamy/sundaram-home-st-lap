@@ -456,7 +456,6 @@ const DisbursementDetailPage = (props) => {
           }
         
         } 
-          setLoading(status);
           return status;
      };
 

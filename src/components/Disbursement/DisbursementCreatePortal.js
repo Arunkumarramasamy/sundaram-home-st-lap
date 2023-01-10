@@ -1,14 +1,13 @@
-import { useState } from "react";
-import FilterCondition from "./FilterCondition";
-import SanctionedList from "./SanctionedList";
-import DisbursementDetailPage from "./DisbursementDetailPage";
 import { Box } from "@mui/material";
-import StlapFooter from "../CustomComponents/StlapFooter";
-import * as React from "react";
-import { useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import GetBranchDetails from "../CustomComponents/GetBranchDetails";
+import StlapFooter from "../CustomComponents/StlapFooter";
+import FilterCondition from "./FilterCondition";
+import SanctionedList from "./SanctionedList";
 
 var today = new Date();
 
@@ -53,12 +52,12 @@ const initialState = {
 
 const DisbursementCreatePortal = (props) => {
   const [accordianOpen, setAccordianOpen] = useState(true);
-  const [listVisibility, setListVisibility] = useState(props.listVisibility);
   const [searchValues, setSearchValues] = useState(initialState);
-  const [rowClickData, setRowClickData] = useState({});
   const [branchNames, setTotalBranchNames] = React.useState([]);
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
+
+  const navigate = useNavigate();
 
   const searchButtonClickHandler = (data) => {
     setSearchValues(data);
@@ -170,12 +169,7 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const rowDoubleClickHandler = (data) => {
-    setListVisibility(!listVisibility);
-    const dataMap = {
-      ...data,
-    };
-    dataMap.branchNames = [dataMap.branch];
-    setRowClickData(dataMap);
+    navigate("/stlap/home/disbursementCreate", { state: data });
   };
 
   const getSanctionList = async () => {
@@ -207,35 +201,23 @@ const DisbursementCreatePortal = (props) => {
 
   return (
     <>
-      {listVisibility ? (
-        <>
-          <FilterCondition
-            setAccordianOpen={setAccordianOpen}
-            disDetailPage={true}
-            mode={"Search"}
-            initialState={filterConditionState}
-            title="Disbursement Request Create"
-            onSearchButtonClick={searchButtonClickHandler}
-            onClearButtonClick={clearButtonClickHandler}
-            initialOpen={true}
-            onBranchChange={loadDataonBranchChange}
-          />
-          <SanctionedList
-            accordianOpenState={accordianOpen}
-            onRowDoubleClick={rowDoubleClickHandler}
-            data={filterConditionState.sanctionList}
-          />
-        </>
-      ) : (
-        <DisbursementDetailPage
-          searchStateValues={searchValues}
-          setListVisibility={setListVisibility}
-          accordianOpenState={accordianOpen}
-          mode={"CREATE"}
-          screenTitle={"Disbursement Request Create"}
-          rowClickData={rowClickData}
-        />
-      )}
+      <FilterCondition
+        setAccordianOpen={setAccordianOpen}
+        disDetailPage={true}
+        mode={"Search"}
+        initialState={filterConditionState}
+        title="Disbursement Request Create"
+        onSearchButtonClick={searchButtonClickHandler}
+        onClearButtonClick={clearButtonClickHandler}
+        initialOpen={true}
+        onBranchChange={loadDataonBranchChange}
+      />
+      <SanctionedList
+        accordianOpenState={accordianOpen}
+        onRowDoubleClick={rowDoubleClickHandler}
+        data={filterConditionState.sanctionList}
+      />
+
       <Box>
         <StlapFooter />
       </Box>

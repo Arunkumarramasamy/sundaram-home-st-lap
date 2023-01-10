@@ -1,39 +1,7 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import {
-  ListItemText,
-  Chip,
-  Divider,
-  Tooltip,
-  Collapse,
-  useMediaQuery,
-} from "@mui/material";
-import { useDispatch } from "react-redux";
-import { BranchAction } from "../Store/Branch";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuIcon from "@mui/icons-material/Menu";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Badge from "@mui/material/Badge";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import Logo from "../../images/SF_Logo.png";
-import "./PageLayout.css";
-import Cookies from "js-cookie";
-import Stack from "@mui/material/Stack";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Avatar from "@mui/material/Avatar";
-import SFLogoSmall from "../../images/SFLogo.png";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar from "@mui/material/AppBar";
-import { styled } from "@mui/material/styles";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   AccountTreeTwoTone,
   AdminPanelSettingsTwoTone,
+  AppRegistrationTwoTone,
   ApprovalTwoTone,
   CurrencyRupeeTwoTone,
   DashboardTwoTone,
@@ -43,27 +11,58 @@ import {
   ExpandMore,
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
-  AppRegistrationTwoTone,
 } from "@mui/icons-material";
-import Nach from "../Nach/Nach";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
-import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
-import { useState } from "react";
+import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  Chip,
+  Collapse,
+  Divider,
+  ListItemText,
+  Tooltip,
+  useMediaQuery,
+} from "@mui/material";
+import MuiAppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Cookies from "js-cookie";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import SFLogoSmall from "../../images/SFLogo.png";
+import Logo from "../../images/SF_Logo.png";
+import AccrualWaiver from "../Accrual/AccrualWaiver";
+import AdditionalAccrual from "../Accrual/AdditionalAccrual";
+import GetBranchArray from "../CustomComponents/GetBranchArray";
 import { Dashboard } from "../Dashboard/Dashboard";
 import Process from "../Demo_Disbursement/Process";
-import VoucherGeneration from "../Demo_Disbursement/VoucherGeneration";
 import VoucherAuthorisation from "../Demo_Disbursement/VoucherAuthorisation";
 import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
-import AdditionalAccrual from "../Accrual/AdditionalAccrual";
-import AccrualWaiver from "../Accrual/AccrualWaiver";
-import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
-import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
-import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
-import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
+import VoucherGeneration from "../Demo_Disbursement/VoucherGeneration";
 import DisbursementApprovalList from "../Disbursement/DisbursementApprovalList";
-import GetBranchArray from "../CustomComponents/GetBranchArray";
-import DisbursementDetailsViewPage from "../Disbursement/DisbursementDetailsViewPage";
+import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
+import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
+import DisbursementCreate from "../Disbursement_Changed_Code/Disbursement_Create/DisbursementCreate";
+import DisbursementModify from "../Disbursement_Changed_Code/Disbursement_Modify/DisbursementModify";
+import DisbursementView from "../Disbursement_Changed_Code/Disbursement_View/DisbursementView";
+import Nach from "../Nach/Nach";
+import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
+import { BranchAction } from "../Store/Branch";
+import "./PageLayout.css";
 
 const drawerWidth = 300;
 
@@ -170,8 +169,8 @@ export default function Pagelayout() {
       case "additionalWaiver":
         path = "/stlap/home/additionalWaiver";
         break;
-      case "disbursementCreate":
-        path = "/stlap/home/disbursementCreate";
+      case "disbursementCreatePortal":
+        path = "/stlap/home/disbursementCreatePortal";
         break;
       case "disbursementList":
         path = "/stlap/home/disbursementList";
@@ -181,6 +180,9 @@ export default function Pagelayout() {
         break;
       case "nachMandate":
         path = "/stlap/home/nachMandate";
+        break;
+      case "newTab":
+        path = "/stlap/home/newTab";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -262,7 +264,7 @@ export default function Pagelayout() {
           <List component="div" disablePadding>
             <ListItemButton
               sx={{ pl: 4 }}
-              id="disbursementCreate"
+              id="disbursementCreatePortal"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
@@ -504,6 +506,27 @@ export default function Pagelayout() {
                 primary="Voucher Cancel Demo"
               />
             </ListItemButton>
+
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="newTab"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                {/* <img id='layout-menu-image' src={Insurance} /> */}
+                <Tooltip title="newTab" disableHoverListener={!expanded}>
+                  <DisabledByDefaultTwoTone
+                    fontSize="medium"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="newTab"
+              />
+            </ListItemButton>
           </List>
         </Collapse>
       </List>
@@ -737,46 +760,33 @@ export default function Pagelayout() {
           />
 
           <Route
+            path={`${search}/stlap/home/disbursementCreatePortal`}
+            element={<DisbursementCreatePortal />}
+          />
+
+          <Route
             path={`${search}/stlap/home/disbursementCreate`}
-            element={
-              <DisbursementCreatePortal listVisibility={true} mode="CREATE" />
-            }
+            element={<DisbursementCreate screenMode="CREATE" />}
           />
-          <Route
-            path={`${search}/stlap/home/disbursementView`}
-            element={
-              <DisbursementDetailsViewPage
-                screenTitle="Disbursement Request View"
-                mode="VIEW"
-              />
-            }
-          />
-          <Route
-            path={`${search}/stlap/home/disbursementCancel`}
-            element={
-              <DisbursementDetailPage
-                screenTitle="Disbursement Request Cancel"
-                mode="CANCEL"
-              />
-            }
-          />
+
           <Route
             path={`${search}/stlap/home/disbursementModify`}
-            element={
-              <DisbursementDetailPage
-                screenTitle="Disbursement Request Modify"
-                mode="MODIFY"
-              />
-            }
+            element={<DisbursementModify screenMode="MODIFY" />}
           />
+
+          <Route
+            path={`${search}/stlap/home/disbursementCancel`}
+            element={<DisbursementModify screenMode="CANCEL" />}
+          />
+
           <Route
             path={`${search}/stlap/home/disbursementApprove`}
-            element={
-              <DisbursementDetailPage
-                screenTitle="Disbursement Request Approve"
-                mode="APPROVE"
-              />
-            }
+            element={<DisbursementModify screenMode="APPROVE" />}
+          />
+
+          <Route
+            path={`${search}/stlap/home/disbursementView`}
+            element={<DisbursementView screenMode="VIEW" />}
           />
 
           <Route
@@ -814,6 +824,10 @@ export default function Pagelayout() {
           <Route
             path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
+          />
+          <Route
+            path={`${search}/stlap/home/newTab`}
+            element={<DisbursementCreate applicationNum="STLMYL20220001" />}
           />
 
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
