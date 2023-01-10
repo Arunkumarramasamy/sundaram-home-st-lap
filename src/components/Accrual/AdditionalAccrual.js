@@ -219,6 +219,9 @@ const AdditionalAccrual = () => {
   };
   const clearButtonClickHandler = () => {
     setBranchName("");
+    setapplicationNum("");
+    setGridVisible("none");
+    setReferenceNumber("");
   };
   useEffect(() => {
     console.log(process.env.STLAP_LMS_BACKEND);

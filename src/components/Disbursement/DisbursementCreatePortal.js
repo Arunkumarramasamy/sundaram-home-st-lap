@@ -119,7 +119,6 @@ const DisbursementCreatePortal = (props) => {
           filterConditionState.sanctionAmt = data.sanctionAmt;
         }
         filterConditionState.sanctionList = [...filterrows];
-        setFilterConditionState({ ...filterConditionState });
         const applicationDate = dayjs(data.applicationDate).format(
           "DD/MM/YYYY"
         );
@@ -131,6 +130,7 @@ const DisbursementCreatePortal = (props) => {
         } else {
           filterConditionState.applicationDate = "";
         }
+        setFilterConditionState({ ...filterConditionState });
         break;
       default:
         break;
@@ -151,10 +151,9 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const resetFilterData = () => {
-    filterConditionState.sanctionList = [...searchValues.sanctionList];
     filterConditionState.branch = "";
     updateFilterAutoFill(initialState);
-    setFilterConditionState({ ...filterConditionState });
+    getSanctionList();
   };
 
   useEffect(() => {
@@ -192,12 +191,16 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const loadDataonBranchChange = (branchValue) => {
-    const listData = [...{ ...filterConditionState }.disbursementList];
-    const tempData = listData.filter((row) => row.branch === branchValue);
-    filterConditionState.sanctionList = tempData;
-    // for now hold all the disbursement list data all the time.
-    //filterConditionState.disbursementList = [...tempData];
-    setFilterConditionState({ ...filterConditionState });
+    if (branchValue) {
+      const listData = [...{ ...filterConditionState }.disbursementList];
+      const tempData = listData.filter((row) => row.branch === branchValue);
+      filterConditionState.sanctionList = tempData;
+      // for now hold all the disbursement list data all the time.
+      //filterConditionState.disbursementList = [...tempData];
+      setFilterConditionState({ ...filterConditionState });
+    } else {
+      resetFilterData();
+    }
   };
 
   return (

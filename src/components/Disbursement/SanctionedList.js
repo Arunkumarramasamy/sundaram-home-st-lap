@@ -276,7 +276,7 @@ const SanctionedList = (props) => {
                             {"Sanctioned Loan Amount : " + row.sanctionAmt}
                           </Typography>
                           <Typography padding="1px">
-                            {"Application Date : " + row.applicationDate}
+                            {"Application Date : " + dayjs(row.applicationDate).format('DD/MM/YYYY')}
                           </Typography>
                         </Grid>
                         <Grid

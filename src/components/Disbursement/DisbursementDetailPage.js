@@ -191,7 +191,7 @@ const DisbursementDetailPage = (props) => {
         baseURL: "http://localhost:8080/disbursement/",
       });
       const response = await api.post("/editLockUpdate", {
-        disbHeaderKey: losData.transactionKey,
+        disbHeaderKey: detailPageInitialState.disbHeaderKey,
         screenMode: props.mode,
       });
     }
