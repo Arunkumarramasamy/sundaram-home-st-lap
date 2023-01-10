@@ -224,7 +224,7 @@ function DashboardContent() {
               <Tooltip />
               <Line
                 type="monotone"
-                dataKey="sanctioned"
+                dataKey="requested"
                 stroke="#82ca9d"
                 fill="#82ca9d"
               />
@@ -246,7 +246,7 @@ function DashboardContent() {
           <Paper
             height={200}
             width="fit-content"
-            id="monthwise-chart"
+            id="monthwise-char"
             sx={{
               alignContent: "center",
               textAlign: "center",
@@ -271,7 +271,7 @@ function DashboardContent() {
               <Tooltip />
               <Line
                 type="monotone"
-                dataKey="sanctioned"
+                dataKey="requested"
                 stroke="#82ca9d"
                 fill="#82ca9d"
               />
