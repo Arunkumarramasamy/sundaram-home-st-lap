@@ -201,7 +201,8 @@ const DisbursementCreatePortal = (props) => {
     const listData = [...{ ...filterConditionState }.disbursementList];
     const tempData = listData.filter((row) => row.branch === branchValue);
     filterConditionState.sanctionList = tempData;
-    filterConditionState.disbursementList = [...tempData];
+    // for now hold all the disbursement list data all the time.
+    //filterConditionState.disbursementList = [...tempData];
     setFilterConditionState({ ...filterConditionState });
   };
 
