@@ -152,10 +152,9 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const resetFilterData = () => {
-    filterConditionState.sanctionList = [...searchValues.sanctionList];
     filterConditionState.branch = "";
     updateFilterAutoFill(initialState);
-    setFilterConditionState({ ...filterConditionState });
+    getSanctionList();
   };
 
   useEffect(() => {
@@ -198,12 +197,16 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const loadDataonBranchChange = (branchValue) => {
-    const listData = [...{ ...filterConditionState }.disbursementList];
-    const tempData = listData.filter((row) => row.branch === branchValue);
-    filterConditionState.sanctionList = tempData;
-    // for now hold all the disbursement list data all the time.
-    //filterConditionState.disbursementList = [...tempData];
-    setFilterConditionState({ ...filterConditionState });
+    if (branchValue) {
+      const listData = [...{ ...filterConditionState }.disbursementList];
+      const tempData = listData.filter((row) => row.branch === branchValue);
+      filterConditionState.sanctionList = tempData;
+      // for now hold all the disbursement list data all the time.
+      //filterConditionState.disbursementList = [...tempData];
+      setFilterConditionState({ ...filterConditionState });
+    } else {
+      resetFilterData();
+    }
   };
 
   return (
