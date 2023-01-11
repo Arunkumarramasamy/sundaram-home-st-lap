@@ -588,7 +588,7 @@ export default function Pagelayout() {
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
           <Typography sx={{ textAlign: "center" }}>
-            {/* {Cookies.get("userName").toUpperCase()} */}
+            {Cookies.get("userName").toUpperCase()}
           </Typography>
           <Chip
             label={GetBranchArray()[0]}
