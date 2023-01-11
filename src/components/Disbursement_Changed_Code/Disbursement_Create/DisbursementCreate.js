@@ -446,29 +446,26 @@ const DisbursementCreate = (props) => {
     const api = axios.create({
       baseURL: "http://localhost:8080/disbursement/",
     });
-    const response = await api.post(
-      "/insertDisbursement",
-      disbursementDetailTabValue
-    );
+    const response = await api.post("/insertDisbursement", data);
     if (response.status === 200) {
       dispatch({
         type: screenFields.listChange,
         value: response.data,
       });
       let updateModel = {};
-      if (disbursementDetailTabValue.disbAmt === losData.sanctionAmt) {
+      if (data.disbAmt === losData.sanctionAmt) {
         updateModel = {
           applicationNum: losData.applicationNum,
           disbNum: 1,
           losStatus: "Fully Disbursed",
         };
-      } else if (disbursementDetailTabValue.disbNum === 1) {
+      } else if (data.disbNum === 1) {
         updateModel = {
           applicationNum: losData.applicationNum,
           disbNum: 2,
           losStatus: "Partially Disbursed",
         };
-      } else if (disbursementDetailTabValue.disbNum === 2) {
+      } else if (data.disbNum === 2) {
         updateModel = {
           applicationNum: losData.applicationNum,
           disbNum: 2,
@@ -535,7 +532,8 @@ const DisbursementCreate = (props) => {
               sx={{ height: "2rem", marginLeft: "1%" }}
               variant="contained"
               onClick={() => {
-                createRequestHandler(disbursementDetailTabValue, losData);
+                const dataValues = { ...disbursementDetailTabValue };
+                createRequestHandler(dataValues, losData);
               }}
             >
               Create Request

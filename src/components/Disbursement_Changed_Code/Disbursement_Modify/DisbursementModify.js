@@ -521,7 +521,8 @@ const DisbursementModify = (props) => {
                 sx={{ height: "2rem", marginLeft: "1%" }}
                 variant="contained"
                 onClick={() => {
-                  updateRequestHandler(disbursementDetailTabValue, losData);
+                  const dataValues = { ...disbursementDetailTabValue };
+                  updateRequestHandler(dataValues, losData);
                 }}
               >
                 Update Request
@@ -531,7 +532,8 @@ const DisbursementModify = (props) => {
                 sx={{ height: "2rem", marginLeft: "1%" }}
                 variant="contained"
                 onClick={() => {
-                  updateRequestHandler(disbursementDetailTabValue, losData);
+                  const dataValues = { ...disbursementDetailTabValue };
+                  updateRequestHandler(dataValues, losData);
                 }}
               >
                 Cancel Request
@@ -541,7 +543,8 @@ const DisbursementModify = (props) => {
                 sx={{ height: "2rem", marginLeft: "1%" }}
                 variant="contained"
                 onClick={() => {
-                  updateRequestHandler(disbursementDetailTabValue, losData);
+                  const dataValues = { ...disbursementDetailTabValue };
+                  updateRequestHandler(dataValues, losData);
                 }}
               >
                 Approve Request
