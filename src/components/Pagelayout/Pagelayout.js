@@ -45,7 +45,9 @@ import {
   PublishedWithChangesTwoTone,
   AppRegistrationTwoTone,
 } from "@mui/icons-material";
-import Nach from "../Nach/Nach";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import VerifiedIcon from "@mui/icons-material/Verified";
+
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
@@ -64,7 +66,8 @@ import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
 import DisbursementApprovalList from "../Disbursement/DisbursementApprovalList";
 import GetBranchArray from "../CustomComponents/GetBranchArray";
 import DisbursementDetailsViewPage from "../Disbursement/DisbursementDetailsViewPage";
-import NachList from "../Nach/NachList";
+import PreVerify from "../Nach/PreVerify";
+import NachMandate from "../Nach/NachMandate";
 
 const drawerWidth = 300;
 
@@ -91,6 +94,7 @@ export default function Pagelayout() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openAccrualSubMenu, setOpenAccrualSubMenu] = useState(false);
   const [openDemoSubmenu, setOpenDemoSubMenu] = useState(false);
+  const [openNachSubMenu, setOpenNachSubMenu] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -118,20 +122,28 @@ export default function Pagelayout() {
     setOpenDisbursementSubMenu(!openDisbursementSubMenu);
     setOpenAccrualSubMenu(false);
     setOpenDemoSubMenu(false);
+    setOpenNachSubMenu(false);
   };
 
   const handleDemoMenuClick = () => {
     setOpenDisbursementSubMenu(false);
     setOpenAccrualSubMenu(false);
     setOpenDemoSubMenu(!openDemoSubmenu);
+    setOpenNachSubMenu(false);
   };
 
   const handleAccrualSubMenu = () => {
     setOpenDisbursementSubMenu(false);
     setOpenAccrualSubMenu(!openAccrualSubMenu);
     setOpenDemoSubMenu(false);
+    setOpenNachSubMenu(false);
   };
-
+  const handlerNachSubMenu = () => {
+    setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
+    setOpenDemoSubMenu(false);
+    setOpenNachSubMenu(!openNachSubMenu);
+  };
   const handleLogout = () => {
     // Cookies.remove("islogin");
     dispatch(BranchAction.updateLoginStatus(false));
@@ -183,6 +195,10 @@ export default function Pagelayout() {
       case "nachMandate":
         path = "/stlap/home/nachMandate";
         break;
+      case "preVerify":
+        path = "/stlap/home/preVerify";
+        break;
+
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -232,7 +248,9 @@ export default function Pagelayout() {
             sx={{ display: "block" }}
           />
         </ListItemButton>
-        <ListItemButton id="nachMandate" onClick={menuClickHandler}>
+
+        {/* Nach */}
+        <ListItemButton id="fee" onClick={handlerNachSubMenu}>
           <ListItemIcon>
             <Tooltip title="Nach" disableHoverListener={!expanded}>
               <AppRegistrationTwoTone
@@ -241,8 +259,57 @@ export default function Pagelayout() {
               />
             </Tooltip>
           </ListItemIcon>
-          <ListItemText primary="Nach" sx={{ display: "block" }} />
+          <ListItemText
+            id="menu-lable"
+            primary="Nach"
+            sx={{ display: "block" }}
+          />
+          {openNachSubMenu ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+
+        <Collapse in={openNachSubMenu} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="nachMandate"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Nach Mandate" disableHoverListener={!expanded}>
+                  <AppRegistrationIcon
+                    fontSize="medium"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Nach Mandate"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="preVerify"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip
+                  title="Nach Pre verify"
+                  disableHoverListener={!expanded}
+                >
+                  <VerifiedIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Nach Pre verify"
+              />
+            </ListItemButton>
+          </List>
+        </Collapse>
+
         {/* Disbursement */}
         <ListItemButton id="disbursement" onClick={handleDisbursementMenuClick}>
           <ListItemIcon>
@@ -521,7 +588,7 @@ export default function Pagelayout() {
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
           <Typography sx={{ textAlign: "center" }}>
-            {Cookies.get("userName").toUpperCase()}
+            {/* {Cookies.get("userName").toUpperCase()} */}
           </Typography>
           <Chip
             label={GetBranchArray()[0]}
@@ -797,9 +864,12 @@ export default function Pagelayout() {
           />
           <Route
             path={`${search}/stlap/home/nachMandate`}
-            element={<NachList />}
+            element={<NachMandate />}
           />
-          <Route path={`${search}/stlap/home/nach`} element={<Nach />} />
+          <Route
+            path={`${search}/stlap/home/preVerify`}
+            element={<PreVerify />}
+          />
           <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}
             element={<VoucherGeneration />}
