@@ -550,15 +550,17 @@ const DisbursementCreate = (props) => {
             dialogContent={"Do You Really want to Create Request ?"}
             cancelButtonName={"Cancel"}
             hideCancelButton={false}
-            okButtonName={"OK"}
+            okButtonName={"Yes"}
             onOkClick={confirmationOkClickHandler}
           />
           <CustomConfirmationDialog
             dialogOpen={showGeneratedNumber}
             onDialogClose={() => {
               setshowGeneratedNumber(false);
+              const dataValue = { ...disbursementDetailTabValue };
+              dataValue.screenMode = props.screenMode;
               navigate("/stlap/home/disbursementView", {
-                state: disbursementDetailTabValue,
+                state: dataValue,
               });
             }}
             dialogTitle={
@@ -569,8 +571,10 @@ const DisbursementCreate = (props) => {
             okButtonName={"OK"}
             onOkClick={() => {
               setshowGeneratedNumber(false);
+              const dataValue = { ...disbursementDetailTabValue };
+              dataValue.screenMode = props.screenMode;
               navigate("/stlap/home/disbursementView", {
-                state: disbursementDetailTabValue,
+                state: dataValue,
               });
             }}
           />

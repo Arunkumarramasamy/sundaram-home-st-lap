@@ -459,7 +459,11 @@ const DisbursementModify = (props) => {
       }
       setshowSnackBar(true);
       setTimeout(() => {
-        navigate("/stlap/home/disbursementView", { state: response.data });
+        const dataValue = { ...response.data };
+        dataValue.screenMode = props.screenMode;
+        navigate("/stlap/home/disbursementView", {
+          state: dataValue,
+        });
       }, 600);
     }
   };
@@ -553,7 +557,7 @@ const DisbursementModify = (props) => {
             dialogContent={dialogMessage}
             cancelButtonName={"Cancel"}
             hideCancelButton={false}
-            okButtonName={"OK"}
+            okButtonName={"Yes"}
             onOkClick={confirmationOkClickHandler}
           />
           <CustomSnackBar

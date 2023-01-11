@@ -307,6 +307,8 @@ const DisbursementView = (props) => {
               onClick={() => {
                 if (disbursementDetailTabValue.requestStatus === "Approved") {
                   navigate("/stlap/home/disbursementApprovalList");
+                } else if (location.state.screenMode === "CREATE") {
+                  navigate("/stlap/home/disbursementCreatePortal");
                 } else {
                   navigate("/stlap/home/disbursementList");
                 }

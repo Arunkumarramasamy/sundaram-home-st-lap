@@ -1,16 +1,15 @@
-import * as React from "react";
 import {
+  ArrowBack,
+  ArrowForward,
   CancelScheduleSend,
   Edit,
   MoreVert,
   Preview,
-  ArrowBack,
-  ArrowForward,
   VerifiedOutlined,
 } from "@mui/icons-material";
 import {
-  Button,
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -29,15 +28,16 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import StlapFooter from "../CustomComponents/StlapFooter";
-import FilterCondition from "./FilterCondition";
-import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import NoDataFound from "../CustomComponents/NoDataFound";
+import dayjs from "dayjs";
+import * as React from "react";
 import { useEffect, useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DisbursementRequestListService } from "./DisbursementRequestListService";
-import dayjs from "dayjs";
+import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import GetBranchDetails from "../CustomComponents/GetBranchDetails";
+import NoDataFound from "../CustomComponents/NoDataFound";
+import StlapFooter from "../CustomComponents/StlapFooter";
+import { DisbursementRequestListService } from "./DisbursementRequestListService";
+import FilterCondition from "./FilterCondition";
 
 export default function DisbursementRequestList(props) {
   const columns = [
@@ -178,7 +178,11 @@ export default function DisbursementRequestList(props) {
 
   const closeDialogHandler = () => {
     setopenViewConfirmation(false);
-    navigate("/stlap/home/disbursementView", { state: responseData });
+    const dataValue = { ...responseData };
+    dataValue.screenMode = props.screenMode;
+    navigate("/stlap/home/disbursementView", {
+      state: dataValue,
+    });
   };
 
   const cancelClickHandler = () => {
@@ -673,7 +677,11 @@ const LoadActionBtn = (props) => {
       props.setResponseData(response.data);
       props.setopenViewConfirmation(true);
     } else {
-      navigate(url, { state: response.data });
+      const dataValue = { ...response.data };
+      dataValue.screenMode = props.screenMode;
+      navigate(url, {
+        state: dataValue,
+      });
     }
   };
 
