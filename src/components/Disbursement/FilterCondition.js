@@ -162,13 +162,13 @@ const FilterCondition = (props) => {
       loadrequestNumbers(requestNumbers);
       // dynamic load of status.
       const status = [
-        ...Array.from(new Set(dataList.map((row) => row.disbursementStatus))).map(
-          (status) => {
-            return {
-              label: status,
-            };
-          }
-        ),
+        ...Array.from(
+          new Set(dataList.map((row) => row.disbursementStatus))
+        ).map((status) => {
+          return {
+            label: status,
+          };
+        }),
       ];
       loadDisbursementRecordsStatus(status);
       setSearchDisabled(false);
@@ -230,20 +230,16 @@ const FilterCondition = (props) => {
     });
     dispatch({
       type: filterValues.disbursementStatus,
-      value: !value || dataList.length === 0 ? null : dataList.at(0).disbursementStatus,
+      value:
+        !value || dataList.length === 0
+          ? null
+          : dataList.at(0).disbursementStatus,
     });
     dispatch({
       type: filterValues.disbursementDateFromValue,
       value:
         !value || dataList.length === 0
-          ? dayjs(
-              today.getDate() +
-                "/" +
-                today.getMonth() +
-                1 +
-                "/" +
-                today.getFullYear()
-            ).format("DD/MM/YYYY")
+          ? null
           : dayjs(dataList.at(0).disbursementDate).format("DD/MM/YYYY"),
     });
 
@@ -255,8 +251,7 @@ const FilterCondition = (props) => {
       });
       dispatch({
         type: filterValues.loanAmt,
-        value:
-          !value || dataList.length === 0 ? "" : dataList.at(0).sanctionAmt,
+        value: !value || dataList.length === 0 ? "" : dataList.at(0).loanAmt,
       });
       dispatch({
         type: filterValues.sanctionAmt,
@@ -272,14 +267,7 @@ const FilterCondition = (props) => {
         type: filterValues.applicationDate,
         value:
           !value || dataList.length === 0
-            ? dayjs(
-                today.getDate() +
-                  "/" +
-                  today.getMonth() +
-                  1 +
-                  "/" +
-                  today.getFullYear()
-              ).format("DD/MM/YYYY")
+            ? null
             : dataList.at(0).applicationDate,
       });
     }
@@ -612,7 +600,7 @@ const FilterCondition = (props) => {
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomDateField
-                  disabled={disabledState}
+                  disabled={disabledState || disableSearchFields}
                   required={false}
                   label="Disbursement Date"
                   id="disbursementDate"

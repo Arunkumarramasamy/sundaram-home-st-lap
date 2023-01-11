@@ -32,17 +32,13 @@ const initialState = {
   applicationDateToValue: dayjs(
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
   ).format("DD/MM/YYYY"),
-  applicationDate: dayjs(
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
-  ).format("DD/MM/YYYY"),
+  applicationDate: null,
   customerType: "-1",
   rateOfInterest: "",
   loanAmt: "",
   sanctionAmt: "",
 
-  disbursementDateFromValue: dayjs(
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
-  ).format("DD/MM/YYYY"),
+  disbursementDateFromValue: null,
   disbursementDateToValue: dayjs(
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
   ).format("DD/MM/YYYY"),
@@ -129,7 +125,7 @@ const DisbursementCreatePortal = (props) => {
           );
           filterConditionState.applicationDate = data.applicationDate;
         } else {
-          filterConditionState.applicationDate = "";
+          filterConditionState.applicationDate = null;
         }
         setFilterConditionState({ ...filterConditionState });
         break;
