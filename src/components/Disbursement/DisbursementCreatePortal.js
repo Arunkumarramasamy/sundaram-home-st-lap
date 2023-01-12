@@ -200,6 +200,7 @@ const DisbursementCreatePortal = (props) => {
 
   const loadDataonBranchChange = (branchValue) => {
     if (branchValue) {
+      filterConditionState.branch = branchValue;
       const listData = [...{ ...filterConditionState }.disbursementList];
       const tempData = listData.filter((row) => row.branch === branchValue);
       filterConditionState.sanctionList = tempData;
