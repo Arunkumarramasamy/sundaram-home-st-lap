@@ -12,13 +12,13 @@ import {
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
 } from "@mui/icons-material";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import VerifiedIcon from "@mui/icons-material/Verified";
-
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import ApprovalIcon from "@mui/icons-material/Approval";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import MenuIcon from "@mui/icons-material/Menu";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import {
   Chip,
   Collapse,
@@ -62,8 +62,9 @@ import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
 import DisbursementCreate from "../Disbursement_Changed_Code/Disbursement_Create/DisbursementCreate";
 import DisbursementModify from "../Disbursement_Changed_Code/Disbursement_Modify/DisbursementModify";
 import DisbursementView from "../Disbursement_Changed_Code/Disbursement_View/DisbursementView";
+import NachApproval from "../Nach/NachApproval";
 import NachMandate from "../Nach/NachMandate";
-import PreVerify from "../Nach/PreVerify";
+import Verification from "../Nach/Verification";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import { BranchAction } from "../Store/Branch";
 import "./PageLayout.css";
@@ -194,10 +195,12 @@ export default function Pagelayout() {
       case "nachMandate":
         path = "/stlap/home/nachMandate";
         break;
-      case "preVerify":
-        path = "/stlap/home/preVerify";
+      case "verification":
+        path = "/stlap/home/verification";
         break;
-
+      case "approval":
+        path = "/stlap/home/approval";
+        break;
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -289,21 +292,37 @@ export default function Pagelayout() {
             </ListItemButton>
             <ListItemButton
               sx={{ pl: 4 }}
-              id="preVerify"
+              id="verification"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
                 <Tooltip
-                  title="Nach Pre verify"
+                  title="Nach verification"
                   disableHoverListener={!expanded}
                 >
-                  <VerifiedIcon fontSize="medium" sx={{ color: "white" }} />
+                  <VerifiedUserIcon fontSize="medium" sx={{ color: "white" }} />
                 </Tooltip>
               </ListItemIcon>
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Nach Pre verify"
+                primary="Nach verification"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="approval"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Nach Approval" disableHoverListener={!expanded}>
+                  <ApprovalIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Nach Approval"
               />
             </ListItemButton>
           </List>
@@ -898,9 +917,14 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/nachMandate`}
             element={<NachMandate />}
           />
+
           <Route
-            path={`${search}/stlap/home/preVerify`}
-            element={<PreVerify />}
+            path={`${search}/stlap/home/verification`}
+            element={<Verification />}
+          />
+          <Route
+            path={`${search}/stlap/home/approval`}
+            element={<NachApproval />}
           />
           <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}
