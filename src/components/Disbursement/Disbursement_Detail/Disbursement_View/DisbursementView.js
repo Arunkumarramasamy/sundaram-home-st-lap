@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import CustomButton from "../../CustomComponents/CustomButton";
+import CustomButton from "../../../CustomComponents/CustomButton";
 import DisbursementTabIntegrator from "../Disbursement_Common/DisbursementTabIntegrator";
 
 var today = new Date();

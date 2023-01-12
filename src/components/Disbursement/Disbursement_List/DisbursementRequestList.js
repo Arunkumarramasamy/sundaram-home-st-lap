@@ -32,10 +32,10 @@ import dayjs from "dayjs";
 import * as React from "react";
 import { useEffect, useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import GetBranchDetails from "../CustomComponents/GetBranchDetails";
-import NoDataFound from "../CustomComponents/NoDataFound";
-import StlapFooter from "../CustomComponents/StlapFooter";
+import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
+import GetBranchDetails from "../../CustomComponents/GetBranchDetails";
+import NoDataFound from "../../CustomComponents/NoDataFound";
+import StlapFooter from "../../CustomComponents/StlapFooter";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 import FilterCondition from "./FilterCondition";
 

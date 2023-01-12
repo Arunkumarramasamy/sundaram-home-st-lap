@@ -9,8 +9,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import * as React from "react";
-import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
-import NoDataFound from "../../CustomComponents/NoDataFound";
+import CustomDataGrid from "../../../CustomComponents/CustomDataGrid";
+import NoDataFound from "../../../CustomComponents/NoDataFound";
 
 const FeeOutstandingAndDeductionsTab = (props) => {
   const feeDeductionColumns = [

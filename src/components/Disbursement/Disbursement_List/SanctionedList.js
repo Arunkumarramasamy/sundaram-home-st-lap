@@ -13,14 +13,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
 import {
   ArrowBack,
   ArrowForward,
   CurrencyRupeeSharp,
   Shortcut,
 } from "@mui/icons-material";
-import NoDataFound from "../CustomComponents/NoDataFound";
+import NoDataFound from "../../CustomComponents/NoDataFound";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 

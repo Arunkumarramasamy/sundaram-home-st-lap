@@ -15,11 +15,11 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
-import CustomDateField from "../../CustomComponents/CustomDateField";
-import CustomDropDown from "../../CustomComponents/CustomDropDown";
-import CustomTextField from "../../CustomComponents/CustomTextField";
-import NoDataFound from "../../CustomComponents/NoDataFound";
+import CustomDataGrid from "../../../CustomComponents/CustomDataGrid";
+import CustomDateField from "../../../CustomComponents/CustomDateField";
+import CustomDropDown from "../../../CustomComponents/CustomDropDown";
+import CustomTextField from "../../../CustomComponents/CustomTextField";
+import NoDataFound from "../../../CustomComponents/NoDataFound";
 
 const DisbursementDetailsTab = (props) => {
   const [ecdValues, setecdValues] = useState([]);

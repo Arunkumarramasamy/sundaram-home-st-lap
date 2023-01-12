@@ -4,8 +4,8 @@ import dayjs from "dayjs";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import GetBranchDetails from "../CustomComponents/GetBranchDetails";
-import StlapFooter from "../CustomComponents/StlapFooter";
+import GetBranchDetails from "../../CustomComponents/GetBranchDetails";
+import StlapFooter from "../../CustomComponents/StlapFooter";
 import FilterCondition from "./FilterCondition";
 import SanctionedList from "./SanctionedList";
 

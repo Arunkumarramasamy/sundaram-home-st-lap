@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import AccordianContainer from "../../CustomComponents/AccordianContainer";
-import CustomTextField from "../../CustomComponents/CustomTextField";
+import AccordianContainer from "../../../CustomComponents/AccordianContainer";
+import CustomTextField from "../../../CustomComponents/CustomTextField";
 
 const BasicInformation = (props) => {
   const BasicContent = (

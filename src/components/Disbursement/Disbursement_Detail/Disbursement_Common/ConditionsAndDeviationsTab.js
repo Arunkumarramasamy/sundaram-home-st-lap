@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import * as React from "react";
-import CustomDataGrid from "../..//CustomComponents/CustomDataGrid";
-import NoDataFound from "../../CustomComponents/NoDataFound";
+import CustomDataGrid from "../../../CustomComponents/CustomDataGrid";
+import NoDataFound from "../../../CustomComponents/NoDataFound";
 
 const ConditionsAndDeviationsTab = (props) => {
   const conditionColumns = [
