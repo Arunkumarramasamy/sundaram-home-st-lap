@@ -1,97 +1,104 @@
+import { Button, Dialog, Grid } from "@mui/material";
 import React from "react";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import CustomTextField from "../CustomComponents/CustomTextField";
+import { Box } from "@mui/system";
 
 const NachPreVerification = () => {
-  const rows = [
-    {
-      id: 1,
-      branch: "",
-      UMRNNumber: "",
-      applicationNumber: "",
-      customerID: "",
-      customerName: "",
-      mandateNumber: "",
-      mandateBank: " ",
-    },
-  ];
-  const columns = [
-    {
-      field: "branch",
-      headerName: "Branch",
-      headerAlign: "center",
-      align: "left",
-      width: 140,
-      editable: true,
-    },
-    {
-      field: "UMRNNumber",
-      headerName: "UMRN Number",
-      headerAlign: "center",
-      align: "right",
-      width: 150,
-    },
-    {
-      field: "applicationNumber",
-      headerName: "Application Number",
-      headerAlign: "center",
-      align: "right",
-      width: 150,
-    },
-    {
-      field: "customerID",
-      headerName: "Customer ID",
-      headerAlign: "center",
-      align: "right",
-      width: 150,
-    },
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      headerAlign: "center",
-      align: "left",
-      width: 150,
-    },
-    {
-      field: "mandateNumber",
-      headerName: "Mandate Number",
-      headerAlign: "center",
-      align: "right",
-      width: 150,
-    },
-
-    {
-      field: "mandateBank",
-      headerName: "Mandate Bank",
-      headerAlign: "center",
-      align: "left",
-      width: 150,
-    },
-    {
-      field: "approve",
-      headerName: "Approve",
-      headerAlign: "center",
-      align: "center",
-      width: 150,
-    },
-  ];
+  /**Dialog Handlers */
+  const [Dialogopen, setDialogOpen] = React.useState(false);
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+  //Nach-PreverificationHandler
+  const nachPreVerificationButtonHandler = () => {
+    setDialogOpen(true);
+  };
   return (
-    <AccordianContainer
-      id="accord"
-      title="Nach Pre-Verify"
-      initialOpen={false}
-      sx={{ margin: "8px !important" }}
-    >
-      <CustomDataGrid
-        noDataMessage="No Data."
-        noDataOnFilterMessage="No Data on Applied Filter."
-        rows={rows}
-        gridHeight={window.innerHeight - 400}
-        columns={columns}
-        pageSizeOptions={[5, 10, 15, 20, 25]}
-      />
-    </AccordianContainer>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "6px 6px 0px 6px",
+        }}
+      >
+        <Button
+          sx={{ fontWeight: "bold" }}
+          variant="contained"
+          onClick={nachPreVerificationButtonHandler}
+        >
+          Nach Pre Verification
+        </Button>
+      </Box>
+      <Dialog open={Dialogopen} onClose={handleDialogClose}>
+        <DialogTitle>
+          <h4>Nach Pre verification</h4>
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <CustomTextField type="text" label="Branch" variant="standard" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                type="text"
+                label="UMRN Number"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                type="text"
+                label="Application Number"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                type="text"
+                label="Customer ID"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                type="text"
+                label="Customer Name"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                type="text"
+                label="Mandate Number"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                type="text"
+                label="Mandate Bank"
+                variant="standard"
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{ fontWeight: "bold" }}
+            variant="contained"
+            onClick={handleDialogClose}
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

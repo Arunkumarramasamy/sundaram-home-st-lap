@@ -1,9 +1,18 @@
-import { Button, Grid } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  Grid,
+  InputLabel,
+  TextareaAutosize,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useState } from "react";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import CustomTextField from "../CustomComponents/CustomTextField";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const NachApproval = () => {
   //Filter conditions State value
@@ -13,6 +22,16 @@ const NachApproval = () => {
   const [applicationValue, setApplicationValue] = useState();
   const [UMRNArray, setUMRNArray] = useState([]);
   const [UMRNValue, setUMRN] = useState();
+  /**Dialog Handlers */
+  const [Dialogopen, setDialogOpen] = React.useState(false);
+
+  //  Methods to update state values
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+  const rejectButtonHandler = () => {
+    setDialogOpen(true);
+  };
   return (
     <Box sx={{ padding: "18px", backgroundColor: "white" }}>
       <h4>Nach Approval</h4>
@@ -112,10 +131,72 @@ const NachApproval = () => {
             target.style.color = "white";
           }}
           variant="contained"
+          onClick={rejectButtonHandler}
         >
           Reject
         </Button>
       </Box>
+      <Dialog
+        open={Dialogopen}
+        onClose={handleDialogClose}
+        sx={{
+          "& div.css-1t1j96h-MuiPaper-root-MuiDialog-paper": {
+            width: "90%",
+          },
+        }}
+      >
+        <DialogTitle> Remarks</DialogTitle>
+        <DialogContent>
+          <InputLabel
+            id="accrual-waiver-remark"
+            sx={{ color: "#004A92", marginTop: "8px" }}
+            required={false}
+          >
+            Remarks
+          </InputLabel>
+          <TextareaAutosize
+            id="accrual-textarea"
+            maxRows={4}
+            required={true}
+            aria-label="maximum height"
+            style={{
+              width: "100%",
+              height: "100px",
+              borderRadius: "4px",
+              resize: "none",
+              outline: "none",
+              fontFamily: "inherit",
+              fontSize: "inherit",
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{
+              marginLeft: "1rem",
+              color: "white",
+              backgroundColor: "black",
+              fontWeight: "bold",
+            }}
+            onMouseOver={({ target }) => {
+              target.style.backgroundColor = "black";
+              target.style.color = "white";
+            }}
+            variant="contained"
+            onClick={handleDialogClose}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            sx={{ fontWeight: "bold" }}
+            variant="contained"
+            onClick={handleDialogClose}
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
