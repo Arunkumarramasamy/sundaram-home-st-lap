@@ -1,15 +1,13 @@
-import { DragHandleRounded } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import { NachAction } from "../Store/NachStore";
 import NachFilter from "./NachFilter";
 const NachMandate = () => {
   //Importing Hooks
@@ -110,7 +108,14 @@ const NachMandate = () => {
                       disabled={true}
                     ></CustomTextField>
                   </Grid>
-
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Branch Name"
+                      label="Branch Name"
+                      variant="standard"
+                      disabled={true}
+                    ></CustomTextField>
+                  </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
                       type="Drawee Place"
@@ -137,16 +142,27 @@ const NachMandate = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
-                      type="EMI Amount"
-                      label="EMI Amount"
+                      type="Account Type"
+                      label="Account Type"
                       variant="standard"
+                      disabled={true}
                     ></CustomTextField>
                   </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Mandate Number"
+                      label="Mandate Number"
+                      variant="standard"
+                      disabled={true}
+                    ></CustomTextField>
+                  </Grid>
+
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
                       type="NACH Amount"
                       label="NACH Amount"
                       variant="standard"
+                      disabled={true}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -214,20 +230,6 @@ const NachMandate = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
-                      type="Mandate Validity"
-                      label="Mandate Validity"
-                      variant="standard"
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomDateField
-                      type="Mandate End Date"
-                      label="Mandate End Date"
-                      variant="standard"
-                    ></CustomDateField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
                       type="Maximum Amount"
                       label="Maximum Amount"
                       variant="standard"
@@ -235,9 +237,27 @@ const NachMandate = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
+                      type="Mandate Validity"
+                      label="Mandate Validity"
+                      variant="standard"
+                      disabled={true}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomDateField
+                      type="Mandate End Date"
+                      label="Mandate End Date"
+                      variant="standard"
+                      disabled={true}
+                    ></CustomDateField>
+                  </Grid>
+
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
                       type="Status"
                       label="Status"
                       variant="standard"
+                      disabled={true}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -245,6 +265,7 @@ const NachMandate = () => {
                       type="Customer Mobile Number"
                       label="Customer Mobile Number"
                       variant="standard"
+                      disabled={true}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -252,6 +273,7 @@ const NachMandate = () => {
                       type="Customer Email ID"
                       label="Customer Email ID"
                       variant="standard"
+                      disabled={true}
                     ></CustomTextField>
                   </Grid>
                 </Grid>
