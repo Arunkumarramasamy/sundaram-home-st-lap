@@ -91,7 +91,7 @@ const NachFilter = () => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               type="text"
-              label="Emi amount"
+              label="Emi Amount"
               variant="standard"
               placeholder="Enter Emi amount"
               value={emiAmount}
