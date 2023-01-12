@@ -32,17 +32,13 @@ const initialState = {
   applicationDateToValue: dayjs(
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
   ).format("DD/MM/YYYY"),
-  applicationDate: dayjs(
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
-  ).format("DD/MM/YYYY"),
+  applicationDate: null,
   customerType: "-1",
   rateOfInterest: "",
   loanAmt: "",
   sanctionAmt: "",
 
-  disbursementDateFromValue: dayjs(
-    today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
-  ).format("DD/MM/YYYY"),
+  disbursementDateFromValue: null,
   disbursementDateToValue: dayjs(
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
   ).format("DD/MM/YYYY"),
@@ -97,40 +93,46 @@ const DisbursementCreatePortal = (props) => {
           );
           filterConditionState.customerName = data.customerName;
         }
-        if (data.customerType && data.customerType !== "-1") {
+        if (
+          data.rateOfInterest &&
+          data.rateOfInterest !== "" &&
+          Number(data.rateOfInterest) !== 0
+        ) {
           filterrows = filterrows.filter(
-            (row) => row.customerType === data.customerType
-          );
-          filterConditionState.customerType = data.customerType;
-        }
-        if (data.rateOfInterest && data.rateOfInterest !== "") {
-          filterrows = filterrows.filter(
-            (row) => row.rateOfInterest === data.rateOfInterest
+            (row) => String(row.rateOfInterest) === String(data.rateOfInterest)
           );
           filterConditionState.rateOfInterest = data.rateOfInterest;
         }
-        if (data.loanAmt && data.loanAmt !== "") {
-          filterrows = filterrows.filter((row) => row.loanAmt === data.loanAmt);
+        if (data.loanAmt && data.loanAmt !== "" && Number(data.loanAmt) !== 0) {
+          filterrows = filterrows.filter(
+            (row) => String(row.loanAmt) === String(data.loanAmt)
+          );
           filterConditionState.loanAmt = data.loanAmt;
         }
-        if (data.sanctionAmt && data.sanctionAmt !== "") {
+        if (
+          data.sanctionAmt &&
+          data.sanctionAmt !== "" &&
+          Number(data.sanctionAmt) !== 0
+        ) {
           filterrows = filterrows.filter(
-            (row) => row.sanctionAmt === data.sanctionAmt
+            (row) => String(row.sanctionAmt) === String(data.sanctionAmt)
           );
           filterConditionState.sanctionAmt = data.sanctionAmt;
         }
-        filterConditionState.sanctionList = [...filterrows];
-        const applicationDate = dayjs(data.applicationDate).format(
-          "DD/MM/YYYY"
-        );
+        const applicationDate = data.applicationDate
+          ? dayjs(data.applicationDate).format("DD/MM/YYYY")
+          : data.applicationDate;
         if (applicationDate && applicationDate !== "") {
           filterrows = filterrows.filter(
-            (row) => row.applicationDate === data.applicationDate
+            (row) =>
+              dayjs(row.applicationDate).format("DD/MM/YYYY") ===
+              applicationDate
           );
           filterConditionState.applicationDate = data.applicationDate;
         } else {
-          filterConditionState.applicationDate = "";
+          filterConditionState.applicationDate = null;
         }
+        filterConditionState.sanctionList = [...filterrows];
         setFilterConditionState({ ...filterConditionState });
         break;
       default:

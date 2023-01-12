@@ -139,17 +139,13 @@ export default function DisbursementRequestList(props) {
     applicationDateToValue: dayjs(
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
     ).format("DD/MM/YYYY"),
-    applicationDate: dayjs(
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
-    ).format("DD/MM/YYYY"),
+    applicationDate: null,
     customerType: "-1",
     rateOfInterest: "",
     loanAmt: "",
     sanctionAmt: "",
 
-    disbursementDateFromValue: dayjs(
-      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
-    ).format("DD/MM/YYYY"),
+    disbursementDateFromValue: null,
     disbursementDateToValue: dayjs(
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear()
     ).format("DD/MM/YYYY"),
@@ -275,6 +271,7 @@ export default function DisbursementRequestList(props) {
   const resetFilterData = async (isBackfromDetailPage) => {
     filterConditionState.branch = "";
     updateFilterAutoFill(initialState, isBackfromDetailPage);
+    filterConditionState.disbursementDateFromValue = null;
     setFilterConditionState({ ...filterConditionState });
     let filterCondition = {};
     createFilterCondition(filterCondition, initialState);
@@ -339,22 +336,19 @@ export default function DisbursementRequestList(props) {
       filterConditionState.disbursementStatus = "";
     }
 
-    if (filterrows.length === 1) {
-      updateFilterAutoFill(filterrows[0], isBackfromDetailPage);
+    let disbursementDate = !isBackfromDetailPage
+      ? data.disbursementDateFromValue
+      : data.disbursementDate;
+    disbursementDate = disbursementDate
+      ? dayjs(disbursementDate).format("DD/MM/YYYY")
+      : disbursementDate;
+    if (disbursementDate && disbursementDate !== "") {
+      filterrows = filterrows.filter(
+        (row) => row.disbursementDate === disbursementDate
+      );
+      filterConditionState.disbursementDateFromValue = disbursementDate;
     } else {
-      const disbursementDate = dayjs(
-        !isBackfromDetailPage
-          ? data.disbursementDateFromValue
-          : data.disbursementDate
-      ).format("DD/MM/YYYY");
-      if (disbursementDate && disbursementDate !== "") {
-        filterrows = filterrows.filter(
-          (row) => row.disbursementDate === disbursementDate
-        );
-        filterConditionState.disbursementDateFromValue = disbursementDate;
-      } else {
-        filterConditionState.disbursementDateFromValue = "";
-      }
+      filterConditionState.disbursementDateFromValue = null;
     }
 
     // few more conditions yet to be added based on fields decided to tarequestNumrget need to add to dummy data.

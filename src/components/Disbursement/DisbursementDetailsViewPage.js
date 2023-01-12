@@ -52,7 +52,7 @@ var losInitialState =   {
     effectiveDate:todayDate,
     applicationDateFromValue: today.getMonth() + 1 + "/" + "01" + "/" + today.getFullYear(),
     applicationDateToValue: todayDate,
-    applicationDate: todayDate,
+    applicationDate: null,
     customerType: "New",
     rateOfInterest: "0",
     loanAmt: "0",
