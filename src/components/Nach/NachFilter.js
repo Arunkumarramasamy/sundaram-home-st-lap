@@ -15,7 +15,7 @@ const NachFilter = () => {
   const [applicationValue, setApplicationValue] = useState();
   //Auto append values
   const [customerId, setCustomerId] = useState();
-  const [customerName, setcustomerName] = useState();
+  const [repayApplication, setRepayApplication] = useState();
   const [repayMode, setRepayMode] = useState();
   const [emiAmount, setEmiAmount] = useState();
   const [fileStatus, setFileStatus] = useState();
@@ -71,10 +71,10 @@ const NachFilter = () => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               type="text"
-              label="Customer Name"
+              label="Repay Application"
               variant="standard"
-              placeholder="Enter Customer Name"
-              value={customerName}
+              placeholder="Enter Repay Application"
+              value={repayApplication}
               disabled={true}
             />
           </Grid>
