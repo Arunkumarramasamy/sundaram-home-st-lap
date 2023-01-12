@@ -448,10 +448,6 @@ const DisbursementCreate = (props) => {
     });
     const response = await api.post("/insertDisbursement", data);
     if (response.status === 200) {
-      dispatch({
-        type: screenFields.listChange,
-        value: response.data,
-      });
       let updateModel = {};
       if (data.disbAmt === losData.sanctionAmt) {
         updateModel = {
@@ -555,11 +551,12 @@ const DisbursementCreate = (props) => {
             dialogOpen={showGeneratedNumber}
             onDialogClose={() => {
               setshowGeneratedNumber(false);
-              const dataValue = { ...disbursementDetailTabValue };
-              dataValue.screenMode = props.screenMode;
-              navigate("/stlap/home/disbursementView", {
-                state: dataValue,
-              });
+              // const dataValue = { ...disbursementDetailTabValue };
+              // dataValue.screenMode = props.screenMode;
+              // navigate("/stlap/home/disbursementView", {
+              //   state: dataValue,
+              // });
+              navigate("/stlap/home/disbursementCreatePortal");
             }}
             dialogTitle={
               <Typography sx={{ color: "green" }}>"Save Success!"</Typography>
@@ -569,11 +566,12 @@ const DisbursementCreate = (props) => {
             okButtonName={"OK"}
             onOkClick={() => {
               setshowGeneratedNumber(false);
-              const dataValue = { ...disbursementDetailTabValue };
-              dataValue.screenMode = props.screenMode;
-              navigate("/stlap/home/disbursementView", {
-                state: dataValue,
-              });
+              // const dataValue = { ...disbursementDetailTabValue };
+              // dataValue.screenMode = props.screenMode;
+              // navigate("/stlap/home/disbursementView", {
+              //   state: dataValue,
+              // });
+              navigate("/stlap/home/disbursementCreatePortal");
             }}
           />
         </>

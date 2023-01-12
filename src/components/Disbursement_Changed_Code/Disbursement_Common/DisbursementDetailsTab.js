@@ -1,4 +1,10 @@
-import { Box, Checkbox, Grid } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Grid,
+  InputLabel,
+  TextareaAutosize,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
@@ -480,21 +486,38 @@ const DisbursementDetailsTab = (props) => {
           />
         </Grid>
 
+        {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}></Grid> */}
+
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
-            disabled={disableAllFields || props.screenMode === "APPROVE"}
-            required={false}
-            label="Remarks"
+          <InputLabel
             id="remarks"
-            variant="standard"
+            sx={{ color: "#004A92", marginTop: "8px" }}
+            required={false}
+          >
+            Remarks
+          </InputLabel>
+          <TextareaAutosize
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
+            id="remarks"
+            maxRows={3}
+            required={false}
             value={props.disbursementDetailTabValue.remarks}
-            type="text"
-            placeholder="Enter Remarks"
+            aria-label="maximum height"
             onChange={(event, value) => {
               props.dispatchEvent({
                 type: props.screenFields.remarks,
                 value: event.target.value,
               });
+            }}
+            style={{
+              width: "100%",
+              height: "50px",
+              borderRadius: "4px",
+              resize: "none",
+              outline: "none",
+              fontFamily: "inherit",
+              fontSize: "inherit",
+              overflow: "auto",
             }}
           />
         </Grid>
@@ -502,20 +525,35 @@ const DisbursementDetailsTab = (props) => {
         {props.screenMode === "APPROVE" ||
         props.disbursementDetailTabValue.requestStatus === "Approved" ? (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-            <CustomTextField
-              disabled={disableAllFields}
+            <InputLabel
+              id="remarks"
+              sx={{ color: "#004A92", marginTop: "8px" }}
               required={false}
-              label="Approval Remarks"
+            >
+              Approval Remarks
+            </InputLabel>
+            <TextareaAutosize
+              disabled={disableAllFields}
               id="approvalRemarks"
-              variant="standard"
+              maxRows={4}
+              required={false}
               value={props.disbursementDetailTabValue.approvalRemarks}
-              type="text"
-              placeholder="Enter Remarks"
+              aria-label="maximum height"
               onChange={(event, value) => {
                 props.dispatchEvent({
                   type: props.screenFields.approvalRemarks,
                   value: event.target.value,
                 });
+              }}
+              style={{
+                width: "100%",
+                height: "50px",
+                borderRadius: "4px",
+                resize: "none",
+                outline: "none",
+                fontFamily: "inherit",
+                fontSize: "inherit",
+                overflow: "auto",
               }}
             />
           </Grid>
