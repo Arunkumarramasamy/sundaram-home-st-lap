@@ -1,6 +1,5 @@
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import dayjs from "dayjs";
 import AccordianContainer from "../../CustomComponents/AccordianContainer";
 import CustomTextField from "../../CustomComponents/CustomTextField";
 
@@ -45,7 +44,7 @@ const BasicInformation = (props) => {
               placeholder=""
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               disabled={true}
               required={false}
@@ -56,8 +55,8 @@ const BasicInformation = (props) => {
               type="text"
               placeholder=""
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          </Grid> */}
+          {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               disabled={true}
               required={false}
@@ -68,7 +67,7 @@ const BasicInformation = (props) => {
               type="text"
               placeholder=""
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               disabled={true}
@@ -97,6 +96,20 @@ const BasicInformation = (props) => {
             <CustomTextField
               disabled={true}
               required={false}
+              label="Earlier Disbursement Amount"
+              id="earlierDisbursementAmount"
+              variant="standard"
+              value={parseInt(
+                props.disbursementDetailTabValue.earlierDisbAmt
+              ).toLocaleString("en-IN")}
+              type="text"
+              placeholder="Enter Earlier Disbursement Amount"
+            />
+          </Grid>
+          {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomTextField
+              disabled={true}
+              required={false}
               label="Sanction Amount"
               id="sanctionAmt"
               variant="standard"
@@ -104,7 +117,7 @@ const BasicInformation = (props) => {
               type="text"
               placeholder=""
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </>

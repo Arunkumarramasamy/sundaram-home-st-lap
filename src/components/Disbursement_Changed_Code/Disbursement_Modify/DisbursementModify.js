@@ -202,7 +202,31 @@ const DisbursementModify = (props) => {
     setTimeout(() => {
       setLoading(false);
     }, 500);
+
+    window.addEventListener("beforeunload", alertUser);
+    window.addEventListener("unload", handleTabClosing);
+
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+      window.removeEventListener("unload", handleTabClosing);
+      // window.removeEventListener("popstate", alertUser);
+    };
   }, []);
+
+  const handleTabClosing = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/disbursement/",
+    });
+    const response = await api.post("/editLockUpdate", {
+      disbHeaderKey: disbursementDetailTabValue.disbHeaderKey,
+      screenMode: props.screenMode,
+    });
+  };
+
+  const alertUser = (event) => {
+    event.preventDefault();
+    event.returnValue = "";
+  };
 
   const getBillingDayData = async () => {
     const api = axios.create({

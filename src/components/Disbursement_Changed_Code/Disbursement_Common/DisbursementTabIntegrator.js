@@ -21,6 +21,7 @@ const DisbursementTabsIntegrator = (props) => {
         screenMode={props.screenMode}
         setAccordianOpen={setAccordianOpen}
         screenTitle={props.screenTitle}
+        disbursementDetailTabValue={props.disbursementDetailTabValue}
       />
       <Box sx={{ width: "100%", marginTop: "1rem", backgroundColor: "white" }}>
         <TabContext value={tabValue}>

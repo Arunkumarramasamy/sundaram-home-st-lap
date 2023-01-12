@@ -248,7 +248,7 @@ const DisbursementDetailsTab = (props) => {
             placeholder="Enter Disbursement Number"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             disabled={true}
             required={false}
@@ -261,7 +261,7 @@ const DisbursementDetailsTab = (props) => {
             type="text"
             placeholder="Enter Earlier Disbursement Amount"
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
@@ -338,7 +338,7 @@ const DisbursementDetailsTab = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+        {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
             disabled={true}
             required={false}
@@ -353,7 +353,7 @@ const DisbursementDetailsTab = (props) => {
             type="text"
             placeholder="Enter Balance Amount"
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
@@ -439,18 +439,20 @@ const DisbursementDetailsTab = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
-            disabled={true}
-            required={false}
-            label="Request Number"
-            id="requestNumber"
-            variant="standard"
-            value={props.disbursementDetailTabValue.transactionKey}
-            type="text"
-            placeholder="Request Number"
-          />
-        </Grid>
+        {props.screenMode !== "CREATE" ? (
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+            <CustomTextField
+              disabled={true}
+              required={false}
+              label="Request Number"
+              id="requestNumber"
+              variant="standard"
+              value={props.disbursementDetailTabValue.transactionKey}
+              type="text"
+              placeholder="Request Number"
+            />
+          </Grid>
+        ) : null}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
