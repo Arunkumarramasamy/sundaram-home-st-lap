@@ -209,7 +209,6 @@ const DisbursementModify = (props) => {
     return () => {
       window.removeEventListener("beforeunload", alertUser);
       window.removeEventListener("unload", handleTabClosing);
-      // window.removeEventListener("popstate", alertUser);
     };
   }, []);
 
@@ -497,6 +496,16 @@ const DisbursementModify = (props) => {
     updateDisbursementDataToDB(saveData[0], saveData[1]);
   };
 
+  const removeEditLock = async (disbHeaderKey, screenMode) => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/disbursement/",
+    });
+    const response = await api.post("/editLockUpdate", {
+      disbHeaderKey: disbHeaderKey,
+      screenMode: screenMode,
+    });
+  };
+
   return (
     <>
       {loading ? (
@@ -531,13 +540,10 @@ const DisbursementModify = (props) => {
               sx={{ height: "2rem" }}
               variant="contained"
               onClick={async () => {
-                const api = axios.create({
-                  baseURL: "http://localhost:8080/disbursement/",
-                });
-                const response = await api.post("/editLockUpdate", {
-                  disbHeaderKey: disbursementDetailTabValue.disbHeaderKey,
-                  screenMode: props.screenMode,
-                });
+                removeEditLock(
+                  disbursementDetailTabValue.disbHeaderKey,
+                  props.screenMode
+                );
                 if (props.screenMode === "MODIFY" || "CANCEL") {
                   navigate("/stlap/home/disbursementList");
                 } else {
