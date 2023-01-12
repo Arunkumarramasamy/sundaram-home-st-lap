@@ -85,6 +85,14 @@ const NachApproval = () => {
             placeholder="Enter Mandate Bank"
           />
         </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CustomTextField
+            type="text"
+            label="Status"
+            variant="standard"
+            placeholder="Enter Status"
+          />
+        </Grid>
       </Grid>
       <Box
         sx={{ display: "flex", justifyContent: "flex-end", marginTop: "18px" }}
