@@ -363,9 +363,9 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={disableAllFields || props.screenMode === "APPROVE"}
+            disabled={true}
             required={false}
-            label="Disbursement Date"
+            label="Disbursement Request Date"
             id="disbursementDate"
             variant="standard"
             value={props.disbursementDetailTabValue.dateOfDisb}
