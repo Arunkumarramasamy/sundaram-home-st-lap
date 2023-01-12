@@ -453,19 +453,19 @@ const DisbursementCreate = (props) => {
         updateModel = {
           applicationNum: losData.applicationNum,
           disbNum: 1,
-          losStatus: "Fully Disbursed",
+          losStatus: "Fully Requested",
         };
       } else if (data.disbNum === 1) {
         updateModel = {
           applicationNum: losData.applicationNum,
           disbNum: 2,
-          losStatus: "Partially Disbursed",
+          losStatus: "Partially Requested",
         };
       } else if (data.disbNum === 2) {
         updateModel = {
           applicationNum: losData.applicationNum,
           disbNum: 2,
-          losStatus: "Fully Disbursed",
+          losStatus: "Fully Requested",
         };
       }
       const api1 = axios.create({

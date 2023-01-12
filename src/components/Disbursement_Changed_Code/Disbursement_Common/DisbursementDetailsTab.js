@@ -1,19 +1,34 @@
+import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
 import {
   Box,
+  Card,
+  CardContent,
+  CardHeader,
   Checkbox,
+  Divider,
+  FormControlLabel,
   Grid,
   InputLabel,
   TextareaAutosize,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
 import CustomDateField from "../../CustomComponents/CustomDateField";
 import CustomDropDown from "../../CustomComponents/CustomDropDown";
 import CustomTextField from "../../CustomComponents/CustomTextField";
+import NoDataFound from "../../CustomComponents/NoDataFound";
 
 const DisbursementDetailsTab = (props) => {
   const [ecdValues, setecdValues] = useState([]);
+  const [allCheckedValues, setChecked] = React.useState([
+    ...Array.from(
+      { length: props.disbursementDetailTabValue.disbursementFavours.length },
+      () => false
+    ),
+  ]);
 
   const disableAllFields = props.screenMode === "VIEW";
 
@@ -132,11 +147,18 @@ const DisbursementDetailsTab = (props) => {
   };
 
   useEffect(() => {
+    let allChecked = [];
+    props.disbursementDetailTabValue.disbursementFavours.forEach(
+      (row, index) => {
+        allChecked.push(row.isChecked || index === 0 ? true : false);
+      }
+    );
+    setChecked([...allChecked]);
     getECDValues();
     if (props.screenMode === "CREATE") {
       setBankAmount();
     }
-  }, [props.disbursementDetailTabValue.disbursementFavours]);
+  }, []);
 
   const columns = [
     {
@@ -238,6 +260,55 @@ const DisbursementDetailsTab = (props) => {
       },
     },
   ];
+
+  const onCheckBoxChange = (checkedValue, record) => {
+    const allChecked = [...allCheckedValues];
+    allChecked[Number(record.id) - 1] = checkedValue;
+    setChecked(allChecked);
+    const existrows = [...props.disbursementDetailTabValue.disbursementFavours];
+    existrows
+      .filter((row) => row.id === record.id)
+      .forEach((value) => {
+        value.isChecked = checkedValue;
+      });
+    // setRowState(existrows);
+    props.dispatchEvent({
+      type: props.screenFields.disbursementFavours,
+      value: existrows,
+    });
+  };
+
+  const onCardViewAmountChange = (event, index, record) => {
+    const existrows = [...props.disbursementDetailTabValue.disbursementFavours];
+    existrows
+      .filter((row) => row.id === record.id)
+      .forEach((value) => {
+        value.isChecked = !value.isChecked;
+        value.amount = event.target.value;
+      });
+    //setRowState(existrows);
+    props.dispatchEvent({
+      type: props.screenFields.disbursementFavours,
+      value: existrows,
+    });
+  };
+
+  const handleMainCheckBoxChange = (checkedValue) => {
+    const allChecked = Array.from(
+      { length: props.disbursementDetailTabValue.disbursementFavours.length },
+      () => checkedValue
+    );
+    setChecked([...allChecked]);
+    const existrows = [...props.disbursementDetailTabValue.disbursementFavours];
+    existrows.forEach((value) => {
+      value.isChecked = checkedValue;
+    });
+    //setRowState(existrows);
+    props.dispatchEvent({
+      type: props.screenFields.disbursementFavours,
+      value: existrows,
+    });
+  };
 
   return (
     <Box sx={{ marginTop: "-1%" }}>
@@ -568,22 +639,229 @@ const DisbursementDetailsTab = (props) => {
         {props.errorState.bankAccountError[0] && (
           <p className="error">{props.errorState.bankAccountError[1]}</p>
         )}
-        <CustomDataGrid
-          noDataMessage="No Bank Data."
-          noDataOnFilterMessage="No Bank Data on Applied Filter."
-          gridHeight="270px"
-          rows={props.disbursementDetailTabValue.disbursementFavours}
-          columns={columns}
-          checkboxSelection={false}
-          pageSize={3}
-          pageSizeOptions={[3, 6, 9, 12]}
-          getRowId={(row) => {
-            return row.bankAccountNum;
-          }}
-        />
+        {useMediaQuery("(min-width:1200px)") && (
+          <CustomDataGrid
+            noDataMessage="No Bank Data."
+            noDataOnFilterMessage="No Bank Data on Applied Filter."
+            gridHeight="270px"
+            rows={props.disbursementDetailTabValue.disbursementFavours}
+            columns={columns}
+            checkboxSelection={false}
+            pageSize={3}
+            pageSizeOptions={[3, 6, 9, 12]}
+            getRowId={(row) => {
+              return row.bankAccountNum;
+            }}
+          />
+        )}
+        {useMediaQuery("(max-width:1200px)") && (
+          <React.Fragment>
+            <Grid
+              container
+              item
+              direction="row"
+              alignItems="flex-end"
+              justifyContent="flex-end"
+              sx={{ height: "60px", bgcolor: "white" }}
+            >
+              {props.disbursementDetailTabValue.disbursementFavours.length >
+                0 && (
+                <React.Fragment>
+                  <FormControlLabel
+                    label="Select All Accounts"
+                    labelPlacement="start"
+                    control={
+                      <Checkbox
+                        disabled={
+                          disableAllFields &&
+                          (props.screenMode === "APPROVE" ||
+                            props.screenMode === "CANCEL")
+                        }
+                        checked={
+                          [...new Set(allCheckedValues)].length === 1
+                            ? [...new Set(allCheckedValues)][0]
+                              ? true
+                              : false
+                            : true
+                        }
+                        indeterminate={
+                          [...new Set(allCheckedValues)].length === 1
+                            ? [...new Set(allCheckedValues)][0]
+                              ? false
+                              : false
+                            : true
+                        }
+                        onChange={(event) =>
+                          handleMainCheckBoxChange(event.target.checked)
+                        }
+                      />
+                    }
+                  />
+                </React.Fragment>
+              )}
+            </Grid>
+            <Grid container>
+              <Box
+                sx={{
+                  // height: accordianOpen
+                  //   ? window.innerHeight - 540
+                  //   : window.innerHeight - 250,
+                  // overflow: "auto",
+                  flex: "1 auto",
+                }}
+              >
+                {props.disbursementDetailTabValue.disbursementFavours.map(
+                  (row, index) => (
+                    <React.Fragment>
+                      <Grid
+                        container
+                        direction="column"
+                        sx={{ flex: "1 auto" }}
+                      >
+                        <Card>
+                          <CardHeader
+                            action={
+                              <React.Fragment>
+                                {
+                                  <LoadActionBtn
+                                    record={row}
+                                    checked={allCheckedValues[index]}
+                                    checkBoxChange={onCheckBoxChange}
+                                    disableAllFields={
+                                      disableAllFields &&
+                                      (props.screenMode === "APPROVE" ||
+                                        props.screenMode === "CANCEL")
+                                    }
+                                  />
+                                }
+                              </React.Fragment>
+                            }
+                            subheader={row.bankName + "- " + row.bankAccountNum}
+                            subheaderTypographyProps={{
+                              color: "#004A92",
+                              fontWeight: "700",
+                            }}
+                            sx={{
+                              textAlign: "left",
+                              padding: "16px 16px 0px 16px !important",
+                            }}
+                          />
+                          <CardContent>
+                            <Grid
+                              container
+                              item
+                              direction="column"
+                              alignItems="flex-start"
+                              justifyContent="flex-start"
+                            >
+                              <Typography padding="1px">
+                                {"Account Holder Name : " + row.accHoldrName}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Account Number : " + row.bankAccountNum}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Account Type : " + row.bankAccountType}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Bank  : " + row.bankName}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Branch : " + row.bankBranchName}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"IFSC Code : " + row.ifscCode}
+                              </Typography>
+                              <Typography padding="1px">
+                                {"Amount to Disbursed : " + row.amount}
+                              </Typography>
+                              <CustomTextField
+                                disabled={
+                                  !allCheckedValues[index] ||
+                                  (disableAllFields &&
+                                    (props.screenMode === "APPROVE" ||
+                                      props.screenMode === "CANCEL"))
+                                }
+                                required={false}
+                                label={"Amount to Disbursed : "}
+                                id="amount"
+                                variant="standard"
+                                value={row.amount}
+                                type="number"
+                                onChange={(event) =>
+                                  onCardViewAmountChange(event, index, row)
+                                }
+                              />
+                            </Grid>
+                            <Grid
+                              container
+                              item
+                              direction="row"
+                              alignItems="flex-end"
+                              justifyContent="flex-end"
+                            >
+                              <Typography sx={{ width: "40%" }}>
+                                {/* {loadStatus(row.status)} */}
+                              </Typography>
+                            </Grid>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                      <Divider />
+                    </React.Fragment>
+                  )
+                )}
+                {props.disbursementDetailTabValue.disbursementFavours.length ===
+                  0 && (
+                  <NoDataFound
+                    message={"No Bank Data."}
+                    imageStyle={{
+                      marginTop:
+                        // accordianOpen && window.innerHeight < 1000
+                        //   ? "20px"
+                        // :
+                        "20%",
+                    }}
+                  />
+                )}{" "}
+              </Box>
+            </Grid>
+          </React.Fragment>
+        )}
       </Box>
     </Box>
   );
 };
 
 export default DisbursementDetailsTab;
+
+const LoadActionBtn = (props) => {
+  const [record, setRecord] = React.useState(props.record);
+  const [checkedValue, setChecked] = React.useState(false);
+
+  useEffect(() => {
+    setChecked(props.checked);
+  }, [props.checked]);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    props.checkBoxChange(event.target.checked, record);
+  };
+  return (
+    <React.Fragment>
+      <FormControlLabel
+        label=""
+        labelPlacement="start"
+        control={
+          <Checkbox
+            disabled={props.disableAllFields}
+            checked={checkedValue}
+            onChange={handleChange}
+            icon={<CheckBoxOutlineBlank />}
+            checkedIcon={<CheckBoxOutlined />}
+          />
+        }
+      />
+    </React.Fragment>
+  );
+};
