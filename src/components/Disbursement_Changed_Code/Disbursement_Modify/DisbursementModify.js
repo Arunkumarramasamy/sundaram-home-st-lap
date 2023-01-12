@@ -506,7 +506,14 @@ const DisbursementModify = (props) => {
             <CustomButton
               sx={{ height: "2rem" }}
               variant="contained"
-              onClick={() => {
+              onClick={async () => {
+                const api = axios.create({
+                  baseURL: "http://localhost:8080/disbursement/",
+                });
+                const response = await api.post("/editLockUpdate", {
+                  disbHeaderKey: disbursementDetailTabValue.disbHeaderKey,
+                  screenMode: props.screenMode,
+                });
                 if (props.screenMode === "MODIFY" || "CANCEL") {
                   navigate("/stlap/home/disbursementList");
                 } else {
