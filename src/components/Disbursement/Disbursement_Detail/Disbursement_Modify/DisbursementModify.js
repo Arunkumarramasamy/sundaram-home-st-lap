@@ -478,6 +478,7 @@ const DisbursementModify = (props) => {
       } else if (data.screenMode === "MODIFY") {
         setsnackBarMessage("Disbursement Request Modified Successfully.");
       } else {
+        setLosStatus(losData);
         setsnackBarMessage("Disbursement Request Approved Successfully.");
       }
       setshowSnackBar(true);
@@ -504,6 +505,27 @@ const DisbursementModify = (props) => {
       disbHeaderKey: disbHeaderKey,
       screenMode: screenMode,
     });
+  };
+
+  const setLosStatus = async (losData) => {
+    let updateModel = {};
+    if (losData.losStatus === "Fully Requested") {
+      updateModel = {
+        applicationNum: losData.applicationNum,
+        disbNum: losData.disbNum,
+        losStatus: "Fully Disbursed",
+      };
+    } else if (losData.losStatus === "Partially Requested") {
+      updateModel = {
+        applicationNum: losData.applicationNum,
+        disbNum: 2,
+        losStatus: "Partially Disbursed",
+      };
+    }
+    const api1 = axios.create({
+      baseURL: "http://localhost:8080/losCustomer/",
+    });
+    const response1 = await api1.post("/updateCustomerData", updateModel);
   };
 
   return (
