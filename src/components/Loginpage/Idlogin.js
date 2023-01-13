@@ -76,9 +76,10 @@ const Idlogin = () => {
 
       if (loginResponse.data.message === "Success") {
         dispatch(BranchAction.updateLoginStatus(true));
+        dispatch(BranchAction.updateUserName(employeeID.toUpperCase()));
         // Cookies.set("islogin", true);
         // Cookies.set("Token", response["data"]["jwToken"]);
-        Cookies.set("userName", employeeID);
+        // Cookies.set("userName", employeeID);
         // Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
         navigate("/stlap/home/dashboard");
         dispatch(loginAction.updateEmployeeIDScreen(false));

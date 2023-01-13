@@ -43,7 +43,7 @@ import { styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import { default as React, default as React, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import SFLogoSmall from "../../images/SFLogo.png";
@@ -56,17 +56,18 @@ import Process from "../Demo_Disbursement/Process";
 import VoucherAuthorisation from "../Demo_Disbursement/VoucherAuthorisation";
 import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
 import VoucherGeneration from "../Demo_Disbursement/VoucherGeneration";
-import DisbursementApprovalList from "../Disbursement/Disbursement_List/DisbursementApprovalList";
-import DisbursementCreatePortal from "../Disbursement/Disbursement_List/DisbursementCreatePortal";
-import DisbursementRequestList from "../Disbursement/Disbursement_List/DisbursementRequestList";
 import DisbursementCreate from "../Disbursement/Disbursement_Detail/Disbursement_Create/DisbursementCreate";
 import DisbursementModify from "../Disbursement/Disbursement_Detail/Disbursement_Modify/DisbursementModify";
 import DisbursementView from "../Disbursement/Disbursement_Detail/Disbursement_View/DisbursementView";
+import DisbursementApprovalList from "../Disbursement/Disbursement_List/DisbursementApprovalList";
+import DisbursementCreatePortal from "../Disbursement/Disbursement_List/DisbursementCreatePortal";
+import DisbursementRequestList from "../Disbursement/Disbursement_List/DisbursementRequestList";
 import NachApproval from "../Nach/NachApproval";
 import NachMandate from "../Nach/NachMandate";
 import Verification from "../Nach/Verification";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import { BranchAction } from "../Store/Branch";
+import store from "../Store/index";
 import "./PageLayout.css";
 
 const drawerWidth = 300;
@@ -89,6 +90,14 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Pagelayout() {
+  const [branchValues, setBranchValues] = useState("");
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const users = store.getState().branch.userName;
+    const [branchName] = GetBranchArray();
+    setBranchValues(branchName);
+    setUserName(users);
+  }, []);
   const [expanded, setExpanded] = useState(false);
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -147,6 +156,8 @@ export default function Pagelayout() {
   const handleLogout = () => {
     // Cookies.remove("islogin");
     dispatch(BranchAction.updateLoginStatus(false));
+    dispatch(BranchAction.updateBranch([]));
+    dispatch(BranchAction.updateUserName(""));
     navigate("/stlap/login");
     Cookies.remove("Token");
   };
@@ -626,11 +637,9 @@ export default function Pagelayout() {
 
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>
-            {Cookies.get("userName").toUpperCase()}
-          </Typography>
+          <Typography sx={{ textAlign: "center" }}>{userName}</Typography>
           <Chip
-            label={GetBranchArray()[0]}
+            label={branchValues}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -732,10 +741,10 @@ export default function Pagelayout() {
         <MenuItem>
           <Stack direction="column" sx={{ paddingRight: "8px" }}>
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-              <strong>{Cookies.get("userName")}</strong>
+              <strong>{userName}</strong>
             </Typography>
             <Chip
-              label={Cookies.get("lastLogin")}
+              label={branchValues}
               component="div"
               sx={{ color: "white", bgcolor: "#727dff" }}
             />
