@@ -47,7 +47,7 @@ const DisbursementCreate = (props) => {
   const [showGeneratedNumber, setshowGeneratedNumber] = useState(false);
   const [saveData, setsaveData] = useState([]);
   const [requestNumber, setrequestNumber] = useState(0);
-  let firstDisbData = {};
+  let firstDisbData = null;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -124,6 +124,8 @@ const DisbursementCreate = (props) => {
         return { ...state, rateOfInterest: action.value };
       case screenFields.totalDeductionAmt:
         return { ...state, totalDeductionAmt: action.value };
+      case screenFields.disbHeaderKey:
+        return { ...state, disbHeaderKey: action.value };
       case screenFields.listChange:
         return { ...action.value };
       default:
@@ -262,6 +264,14 @@ const DisbursementCreate = (props) => {
             type: screenFields.firstEmiDueDate,
             value: response1.data[0].firstEmiDueDate,
           });
+          dispatch({
+            type: screenFields.disbHeaderKey,
+            value: response1.data[0].disbHeaderKey,
+          });
+          dispatch({
+            type: screenFields.transactionKey,
+            value: response1.data[0].transactionKey,
+          });
           firstDisbData = response1.data[0];
           getDeductionTabData();
         }
@@ -295,11 +305,17 @@ const DisbursementCreate = (props) => {
     data.deductionTotal = deductionTotal1;
     data.waivedTotal = waivedTotal1;
     data.gridRows = response.data.gridData;
-    console.log(firstDisbData);
-    dispatch({
-      type: screenFields.totalDeductionAmt,
-      value: data.deductionTotal - firstDisbData.totalDeductionAmt,
-    });
+    if (!(firstDisbData === null)) {
+      dispatch({
+        type: screenFields.totalDeductionAmt,
+        value: data.deductionTotal - firstDisbData.totalDeductionAmt,
+      });
+    } else {
+      dispatch({
+        type: screenFields.totalDeductionAmt,
+        value: data.deductionTotal,
+      });
+    }
     setdeductionTabValue(data);
   };
 
@@ -485,6 +501,28 @@ const DisbursementCreate = (props) => {
     }
   };
 
+  const updateSecondDisbursementData = async (data, losData) => {
+    data.requestStatus = "Requested";
+    const api = axios.create({
+      baseURL: "http://localhost:8080/disbursement/",
+    });
+    const response = await api.post("/updateDisbursement", data);
+    if (response.status === 200) {
+      const updateModel = {
+        applicationNum: losData.applicationNum,
+        disbNum: 2,
+        losStatus: "Fully Requested",
+      };
+      const api1 = axios.create({
+        baseURL: "http://localhost:8080/losCustomer/",
+      });
+      const response1 = await api1.post("/updateCustomerData", updateModel);
+      setTimeout(() => {
+        navigate("/stlap/home/disbursementCreatePortal");
+      }, 600);
+    }
+  };
+
   const insertDisbursementDataToDB = async (data, losData) => {
     const api = axios.create({
       baseURL: "http://localhost:8080/disbursement/",
@@ -524,7 +562,11 @@ const DisbursementCreate = (props) => {
 
   const confirmationOkClickHandler = () => {
     setshowConfirmation(false);
-    insertDisbursementDataToDB(saveData[0], saveData[1]);
+    if (saveData[1].disbNum === 2) {
+      updateSecondDisbursementData(saveData[0], saveData[1]);
+    } else {
+      insertDisbursementDataToDB(saveData[0], saveData[1]);
+    }
   };
 
   return (
