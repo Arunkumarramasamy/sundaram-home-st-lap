@@ -754,27 +754,65 @@ const DisbursementDetailsTab = (props) => {
                               alignItems="flex-start"
                               justifyContent="flex-start"
                             >
-                              <Typography padding="1px">
-                                {"Account Holder Name : " + row.accHoldrName}
-                              </Typography>
-                              <Typography padding="1px">
-                                {"Account Number : " + row.bankAccountNum}
-                              </Typography>
-                              <Typography padding="1px">
-                                {"Account Type : " + row.bankAccountType}
-                              </Typography>
-                              <Typography padding="1px">
-                                {"Bank  : " + row.bankName}
-                              </Typography>
-                              <Typography padding="1px">
-                                {"Branch : " + row.bankBranchName}
-                              </Typography>
-                              <Typography padding="1px">
-                                {"IFSC Code : " + row.ifscCode}
-                              </Typography>
-                              <Typography padding="1px">
-                                {"Amount to Disbursed : " + row.amount}
-                              </Typography>
+                              <Grid
+                                container
+                                direction="row"
+                                alignItems="flex-start"
+                                justifyContent="flex-start"
+                              >
+                                <Grid item xs={5} md={5}>
+                                  <Typography padding="1px">
+                                    {"Account Holder Name"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={7} md={7}>
+                                  <Typography>
+                                    {` :  ${row.accHoldrName}`}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={5} md={5}>
+                                  <Typography padding="1px">
+                                    {"Account Number"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={7} md={7}>
+                                  <Typography>
+                                    {` :  ${row.bankAccountNum}`}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={5} md={5}>
+                                  <Typography padding="1px">
+                                    {"Account Type"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={7} md={7}>
+                                  {` :  ${row.bankAccountType}`}
+                                </Grid>
+                                <Grid item xs={5} md={5}>
+                                  <Typography padding="1px">
+                                    {"Bank"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={7} md={7}>
+                                  {` :  ${row.bankName}`}
+                                </Grid>
+                                <Grid item xs={5} md={5}>
+                                  <Typography padding="1px">
+                                    {"Branch"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={7} md={7}>
+                                  {` :  ${row.bankBranchName}`}
+                                </Grid>
+                                <Grid item xs={5} md={5}>
+                                  <Typography padding="1px">
+                                    {"IFSC Code"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={7} md={7}>
+                                  {` :  ${row.ifscCode}`}
+                                </Grid>
+                              </Grid>
                               <CustomTextField
                                 disabled={
                                   !allCheckedValues[index] ||
