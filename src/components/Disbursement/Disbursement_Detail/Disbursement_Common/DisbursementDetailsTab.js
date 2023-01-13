@@ -342,7 +342,11 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
-            disabled={disableAllFields || props.screenMode === "APPROVE"}
+            disabled={
+              disableAllFields ||
+              props.screenMode === "APPROVE" ||
+              props.disbursementDetailTabValue.disbNum !== 1
+            }
             required={false}
             label="Current Disbursement Amount"
             id="currentDisbursementAmount"
@@ -456,7 +460,11 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
-            disabled={disableAllFields || props.screenMode === "APPROVE"}
+            disabled={
+              disableAllFields ||
+              props.screenMode === "APPROVE" ||
+              props.disbursementDetailTabValue.disbNum !== 1
+            }
             required={false}
             label="Billing Day"
             id="billDay"
@@ -474,7 +482,11 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDropDown
-            disabled={disableAllFields || props.screenMode === "APPROVE"}
+            disabled={
+              disableAllFields ||
+              props.screenMode === "APPROVE" ||
+              props.disbursementDetailTabValue.disbNum !== 1
+            }
             required={false}
             label="ECD"
             id="ecd"

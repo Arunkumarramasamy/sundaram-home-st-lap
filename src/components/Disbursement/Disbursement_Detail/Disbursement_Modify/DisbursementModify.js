@@ -474,6 +474,7 @@ const DisbursementModify = (props) => {
     const response = await api.post("/updateDisbursement", data);
     if (response.status === 200) {
       if (data.screenMode === "CANCEL") {
+        changeLosStatusOnCancel(losData);
         setsnackBarMessage("Disbursement Request Cancelled Successfully.");
       } else if (data.screenMode === "MODIFY") {
         setsnackBarMessage("Disbursement Request Modified Successfully.");
@@ -505,6 +506,19 @@ const DisbursementModify = (props) => {
       disbHeaderKey: disbHeaderKey,
       screenMode: screenMode,
     });
+  };
+
+  const changeLosStatusOnCancel = async (losData) => {
+    let updateModel = {};
+    updateModel = {
+      applicationNum: losData.applicationNum,
+      disbNum: 1,
+      losStatus: "Sanctioned",
+    };
+    const api1 = axios.create({
+      baseURL: "http://localhost:8080/losCustomer/",
+    });
+    const response1 = await api1.post("/updateCustomerData", updateModel);
   };
 
   const setLosStatus = async (losData) => {

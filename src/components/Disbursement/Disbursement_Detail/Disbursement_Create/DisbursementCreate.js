@@ -47,6 +47,7 @@ const DisbursementCreate = (props) => {
   const [showGeneratedNumber, setshowGeneratedNumber] = useState(false);
   const [saveData, setsaveData] = useState([]);
   const [requestNumber, setrequestNumber] = useState(0);
+  let firstDisbData = {};
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -190,7 +191,6 @@ const DisbursementCreate = (props) => {
   useEffect(() => {
     getBillingDayData();
     getCustomerDataByAppNum();
-    getDeductionTabData();
     getCustomerBankData();
     dispatch({
       type: screenFields.screenMode,
@@ -216,15 +216,57 @@ const DisbursementCreate = (props) => {
     const response = await api.post("/getCustomerDataByAppNum", {
       applicationNum: location.state.applicationNum,
     });
-    setlosData(response.data);
-    dispatch({
-      type: screenFields.disbNum,
-      value: response.data.disbNum,
-    });
-    dispatch({
-      type: screenFields.disbAmt,
-      value: response.data.sanctionAmt,
-    });
+    if (response.status === 200) {
+      setlosData(response.data);
+      dispatch({
+        type: screenFields.disbNum,
+        value: response.data.disbNum,
+      });
+      if (response.data.disbNum === 1) {
+        dispatch({
+          type: screenFields.disbAmt,
+          value: response.data.sanctionAmt,
+        });
+        getDeductionTabData();
+      } else {
+        const api1 = axios.create({
+          baseURL: "http://localhost:8080/disbursement/",
+        });
+        const response1 = await api1.post("/getFirstDisbByAppNum", {
+          applicationNum: location.state.applicationNum,
+        });
+        if (response1.status === 200) {
+          let secondDispAmt =
+            response.data.sanctionAmt - response1.data[0].disbAmt;
+          dispatch({
+            type: screenFields.disbAmt,
+            value: secondDispAmt,
+          });
+          dispatch({
+            type: screenFields.earlierDisbAmt,
+            value: response1.data[0].disbAmt,
+          });
+          dispatch({
+            type: screenFields.billDay,
+            value: response1.data[0].billDay,
+          });
+          dispatch({
+            type: screenFields.billingDate,
+            value: response1.data[0].billingDate,
+          });
+          dispatch({
+            type: screenFields.emiCommDate,
+            value: response1.data[0].emiCommDate,
+          });
+          dispatch({
+            type: screenFields.firstEmiDueDate,
+            value: response1.data[0].firstEmiDueDate,
+          });
+          firstDisbData = response1.data[0];
+          getDeductionTabData();
+        }
+      }
+    }
   };
 
   const getDeductionTabData = async () => {
@@ -253,9 +295,10 @@ const DisbursementCreate = (props) => {
     data.deductionTotal = deductionTotal1;
     data.waivedTotal = waivedTotal1;
     data.gridRows = response.data.gridData;
+    console.log(firstDisbData);
     dispatch({
       type: screenFields.totalDeductionAmt,
-      value: data.deductionTotal,
+      value: data.deductionTotal - firstDisbData.totalDeductionAmt,
     });
     setdeductionTabValue(data);
   };

@@ -43,7 +43,7 @@ import { styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
-import { default as React, default as React, useEffect, useState } from "react";
+import { default as React, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import SFLogoSmall from "../../images/SFLogo.png";
