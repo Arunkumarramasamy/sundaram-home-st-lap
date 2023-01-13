@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
+import store from "../Store/index";
 import {
   ListItemText,
   Chip,
@@ -71,6 +72,7 @@ import DisbursementDetailsViewPage from "../Disbursement/DisbursementDetailsView
 import NachMandate from "../Nach/NachMandate";
 import NachApproval from "../Nach/NachApproval";
 import Verification from "../Nach/Verification";
+import { useEffect } from "react";
 
 const drawerWidth = 300;
 
@@ -92,6 +94,14 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Pagelayout() {
+  const [branchValues, setBranchValues] = useState("");
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const users = store.getState().branch.userName;
+    const [branchName] = GetBranchArray();
+    setBranchValues(branchName);
+    setUserName(users);
+  }, []);
   const [expanded, setExpanded] = useState(false);
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -150,6 +160,8 @@ export default function Pagelayout() {
   const handleLogout = () => {
     // Cookies.remove("islogin");
     dispatch(BranchAction.updateLoginStatus(false));
+    dispatch(BranchAction.updateBranch([]));
+    dispatch(BranchAction.updateUserName(""));
     navigate("/stlap/login");
     Cookies.remove("Token");
   };
@@ -608,11 +620,9 @@ export default function Pagelayout() {
 
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>
-            {Cookies.get("userName").toUpperCase()}
-          </Typography>
+          <Typography sx={{ textAlign: "center" }}>{userName}</Typography>
           <Chip
-            label={GetBranchArray()[0]}
+            label={branchValues}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -714,10 +724,10 @@ export default function Pagelayout() {
         <MenuItem>
           <Stack direction="column" sx={{ paddingRight: "8px" }}>
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-              <strong>{Cookies.get("userName")}</strong>
+              <strong>{userName}</strong>
             </Typography>
             <Chip
-              label={Cookies.get("lastLogin")}
+              label={branchValues}
               component="div"
               sx={{ color: "white", bgcolor: "#727dff" }}
             />
