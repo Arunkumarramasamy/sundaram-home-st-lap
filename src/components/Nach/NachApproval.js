@@ -145,14 +145,16 @@ const NachApproval = () => {
           },
         }}
       >
-        <DialogTitle> Remarks</DialogTitle>
+        <DialogTitle>
+          <h4>Remarks</h4>
+        </DialogTitle>
         <DialogContent>
           <InputLabel
             id="accrual-waiver-remark"
             sx={{ color: "#004A92", marginTop: "8px" }}
             required={false}
           >
-            Remarks
+            Remark
           </InputLabel>
           <TextareaAutosize
             id="accrual-textarea"

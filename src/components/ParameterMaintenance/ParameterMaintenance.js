@@ -32,7 +32,8 @@ import MoreAction from "./MoreAction";
 
 const ParameterMaintenance = () => {
   const [globalRows, setGlobalRows] = useState([]);
-  const [branchValues, setBranchValues] = useState([]);
+  const [branchArray, setBranchArray] = useState([]);
+  const [branchValues, setBranchValues] = useState("");
   const [rows, setRows] = useState([]);
   //State which manitain the date data type selected or not
   const [dateValue, setDateValue] = useState(false);
@@ -86,8 +87,8 @@ const ParameterMaintenance = () => {
   useEffect(() => {
     setModuleArray([{ label: "a" }, { label: "b" }, { label: "c" }]);
     getData();
-    const branchValues = GetBranchDetails();
-    setBranchValues(branchValues);
+    const branchArr = GetBranchDetails();
+    setBranchArray(branchArr);
   }, []);
 
   const columns = [
@@ -334,6 +335,7 @@ const ParameterMaintenance = () => {
         {
           paramDataType: paramDataType,
           module: modules,
+          branch: branchValues,
           paramEffStartDate: new Date(startDate),
           paramEffEndDate: new Date(endDate),
           paramName: paraMeterName,
@@ -547,11 +549,11 @@ const ParameterMaintenance = () => {
                 variant="standard"
                 type="text"
                 placeholder="Select Module"
-                options={branchValues}
-                // value=""
-                // onChange={(e, value) => {
-                //   setModule(value == null ? "" : value.label);
-                // }}
+                options={branchArray}
+                value={branchValues}
+                onChange={(e, value) => {
+                  setBranchValues(value == null ? "" : value.label);
+                }}
                 renderInput={(params) => (
                   <TextField {...params} variant="standard" />
                 )}
