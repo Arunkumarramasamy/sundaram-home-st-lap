@@ -1,28 +1,59 @@
 import { Box, Button, Grid } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
+import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomTextField from "../CustomComponents/CustomTextField";
+import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import { NachFilterReducerAction } from "../Store/NachFilterReducer";
 const NachFilter = () => {
   //importing hook
   const dispatch = useDispatch();
+
+  //Selectors from redux store
+  const FilteredData = useSelector((state) => state.nachFilter.data);
+
   //Filter conditions State value
   const [branchArray, setBranchArray] = useState([]);
-  const [branchValue, setBranchValue] = useState();
+  const [branchValue, setBranchValue] = useState("");
   const [applicationArray, setApplicationArray] = useState([]);
   const [applicationValue, setApplicationValue] = useState();
-  //Auto append values
-  const [customerId, setCustomerId] = useState();
-  const [repayApplication, setRepayApplication] = useState();
-  const [repayMode, setRepayMode] = useState();
-  const [emiAmount, setEmiAmount] = useState();
-  const [fileStatus, setFileStatus] = useState();
-  const [loanAmount, setLoanAmount] = useState();
-  const [disbursementAmount, setDisbursementAmount] = useState();
-  const [sancationDate, setsancationDate] = useState();
 
+  //Touch Handler
+  const [branchHasTouched, setBranchHasTouched] = useState(false);
+  const [applicationHasTouched, setApplicationHasTouched] = useState(false);
+  //Input Validtion
+  const branchValid = branchValue !== undefined && branchValue !== "";
+  const appplicationNumberValid =
+    applicationValue !== undefined && applicationValue !== "";
+  //Has Error
+  const branchHasError = branchHasTouched && !branchValid;
+  const applicationHasError = applicationHasTouched && !appplicationNumberValid;
+
+  //Methods
+  //Search Button Handler
+  const SearchButtonHandler = () => {
+    setBranchHasTouched(true);
+    setApplicationHasTouched(true);
+    if (branchValid && appplicationNumberValid) {
+      dispatch(NachFilterReducerAction.updateShowMandate(true));
+    } else {
+      return;
+    }
+  };
+  //Clear Button Handler
+  const ClearButtonHandler = () => {
+    setBranchValue("");
+    setBranchHasTouched(false);
+    setApplicationHasTouched(false);
+    dispatch(NachFilterReducerAction.updateShowMandate(false));
+  };
+  useEffect(() => {
+    const branchValues = GetBranchDetails();
+    setBranchArray(branchValues);
+  }, []);
   return (
     <Box>
       <AccordianContainer
@@ -40,10 +71,14 @@ const NachFilter = () => {
               label="Branch"
               autoCompleteValues={branchArray}
               value={branchValue}
-              onChange={(value) => {
-                setBranchValue(value);
+              onBlur={() => {
+                setBranchHasTouched(true);
+              }}
+              onChange={(event, newValue) => {
+                setBranchValue(newValue);
               }}
             />
+            {branchHasError && <p className="error">Please Select Branch</p>}
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomAutoComplete
@@ -53,10 +88,16 @@ const NachFilter = () => {
               label="Application Number"
               autoCompleteValues={applicationArray}
               value={applicationValue}
+              onBlur={() => {
+                setApplicationHasTouched(true);
+              }}
               onChange={(value) => {
                 setBranchValue(value);
               }}
             />
+            {applicationHasError && (
+              <p className="error">Please Select Application Number</p>
+            )}
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
@@ -64,7 +105,7 @@ const NachFilter = () => {
               label="Customer ID"
               variant="standard"
               placeholder="Enter Customer ID"
-              value={customerId}
+              value={FilteredData.customerID}
               disabled={true}
             />
           </Grid>
@@ -74,7 +115,7 @@ const NachFilter = () => {
               label="Repay Application"
               variant="standard"
               placeholder="Enter Repay Application"
-              value={repayApplication}
+              value={FilteredData.repayApplication}
               disabled={true}
             />
           </Grid>
@@ -84,7 +125,7 @@ const NachFilter = () => {
               label="Repay Mode"
               variant="standard"
               placeholder="Enter Repay Mode"
-              value={repayMode}
+              value={FilteredData.repayMode}
               disabled={true}
             />
           </Grid>
@@ -94,7 +135,7 @@ const NachFilter = () => {
               label="Emi Amount"
               variant="standard"
               placeholder="Enter Emi amount"
-              value={emiAmount}
+              value={FilteredData.emiAmount}
               disabled={true}
             />
           </Grid>
@@ -104,7 +145,7 @@ const NachFilter = () => {
               label="File Status "
               variant="standard"
               placeholder="Enter File Status "
-              value={fileStatus}
+              value={FilteredData.fileStatus}
               disabled={true}
             />
           </Grid>
@@ -114,7 +155,7 @@ const NachFilter = () => {
               label="Loan Amount"
               variant="standard"
               placeholder="Enter Loan Amount"
-              value={loanAmount}
+              value={FilteredData.loanAmount}
               disabled={true}
             />
           </Grid>
@@ -124,17 +165,16 @@ const NachFilter = () => {
               label="Disbursement Amount"
               variant="standard"
               placeholder="Enter Disbursement Amount"
-              value={disbursementAmount}
+              value={FilteredData.disbursementAmount}
               disabled={true}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-            <CustomTextField
-              type="text"
+            <CustomDateField
               label="Sancation Date"
               variant="standard"
               placeholder="Enter Sancation Date"
-              value={sancationDate}
+              value={FilteredData.sancationDate}
               disabled={true}
             />
           </Grid>
@@ -151,9 +191,7 @@ const NachFilter = () => {
             variant="contained"
             type="submit"
             sx={{ height: "2rem" }}
-            onClick={() => {
-              dispatch(NachFilterReducerAction.updateShowMandate(true));
-            }}
+            onClick={SearchButtonHandler}
           >
             Search
           </Button>
@@ -169,9 +207,7 @@ const NachFilter = () => {
               target.style.color = "white";
             }}
             variant="contained"
-            onClick={() => {
-              dispatch(NachFilterReducerAction.updateShowMandate(false));
-            }}
+            onClick={ClearButtonHandler}
           >
             Clear
           </Button>

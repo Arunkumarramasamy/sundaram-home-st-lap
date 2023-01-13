@@ -15,6 +15,7 @@ const NachMandate = () => {
 
   //Selectors from redux store
   const showMandate = useSelector((state) => state.nachFilter.showMandate);
+  const FilteredData = useSelector((state) => state.nachFilter.data);
 
   //Field Touch Handler
   const [frequencyTouchHandler, setFrequencyTouchHandler] = useState(false);
@@ -24,39 +25,8 @@ const NachMandate = () => {
   const [firstNachBillingDateTouchHandler, setFirstNachBillingDate] =
     useState(false);
 
-  // //Validation
-  // const frequncyValid = data.frequency.trim() !== "";
-  // const debitValid = data.debitType.trim() !== "";
-  // const fbdValid = data.fbd.trim() !== "";
-  // const mandateStartDateValid = data.mandateStartDate !== null;
-  // const firstNachBillingDateValid = data.firstNachBillingDate !== null;
-
-  // //Has Error
-  // const frequencyHasError = frequencyTouchHandler && !frequncyValid;
-  // const debitHasError = debitTypeTouchHandler && !debitValid;
-  // const fbdHasError = fbdTouchHandler && !fbdValid;
-  // const mandateStartHasError =
-  //   mandateStartDateTouchHandler && !mandateStartDateValid;
-  // const firstNachBillingHasError =
-  //   firstNachBillingDateTouchHandler && !firstNachBillingDateValid;
-
-  // Save Button DragHandleRounded
-  const onSaveButtonClickHandler = () => {
-    setFrequencyTouchHandler(true);
-    setDebitTypeTouchHandler(true);
-    setFbd(true);
-    setMandateStartDate(true);
-    setFirstNachBillingDate(true);
-    // if (
-    //   frequncyValid &&
-    //   debitValid &&
-    //   fbdValid &&
-    //   mandateStartDateValid &&
-    //   firstNachBillingDateValid
-    // ) {
-    //   console.log(data);
-    // }
-  };
+  // Save Button Handler
+  const onSaveButtonClickHandler = () => {};
   return (
     <>
       <NachFilter />
@@ -82,6 +52,7 @@ const NachMandate = () => {
                       label="Nach Sponser Bank"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.nachSponserBank}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -90,6 +61,7 @@ const NachMandate = () => {
                       label="IFSC"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.IFSC}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -98,6 +70,7 @@ const NachMandate = () => {
                       label="MICR"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.MICR}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -106,6 +79,7 @@ const NachMandate = () => {
                       label="Bank Name"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.bankName}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -114,6 +88,7 @@ const NachMandate = () => {
                       label="Branch Name"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.branchName}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -122,6 +97,7 @@ const NachMandate = () => {
                       label="Drawee Place"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.draweePlace}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -130,6 +106,7 @@ const NachMandate = () => {
                       label="Bank Account Number"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.bankAccountNumber}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -138,6 +115,7 @@ const NachMandate = () => {
                       label="Account Holder Name"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.accountHolderName}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -146,6 +124,7 @@ const NachMandate = () => {
                       label="Account Type"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.accountType}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -154,6 +133,7 @@ const NachMandate = () => {
                       label="Mandate Number"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.mandateNumber}
                     ></CustomTextField>
                   </Grid>
 
@@ -163,6 +143,7 @@ const NachMandate = () => {
                       label="NACH Amount"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.nachAmount}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -170,6 +151,7 @@ const NachMandate = () => {
                       type="Mandate Amount"
                       label="Mandate Amount"
                       variant="standard"
+                      value={FilteredData.mandateAmount}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -177,6 +159,7 @@ const NachMandate = () => {
                       type="Frequency"
                       label="Frequency"
                       variant="standard"
+                      value={FilteredData.frequency}
                       dropDownValue={[
                         { key: 0, value: "monthly", text: "Monthly" },
                         { key: 1, value: "yearly", text: "Yearly" },
@@ -191,6 +174,7 @@ const NachMandate = () => {
                       type="Debit"
                       label="Debit Type"
                       variant="standard"
+                      value={FilteredData.debitType}
                       dropDownValue={[
                         { key: 0, value: "fixed", text: "Fixed amount" },
                         { key: 1, value: "maximum", text: "Maximum amount" },
@@ -205,6 +189,7 @@ const NachMandate = () => {
                       type="FBD"
                       label="FBD"
                       variant="standard"
+                      value={FilteredData.fbd}
                       onBlur={() => {
                         setFbd(true);
                       }}
@@ -214,6 +199,7 @@ const NachMandate = () => {
                     <CustomDateField
                       label="Mandate Start Date"
                       variant="standard"
+                      value={FilteredData.mandateStartDate}
                       onBlur={() => {
                         setMandateStartDate(true);
                       }}
@@ -223,6 +209,7 @@ const NachMandate = () => {
                     <CustomDateField
                       label="First NACH Billing Date"
                       variant="standard"
+                      value={FilteredData.firstNachBillingDate}
                       onBlur={() => {
                         setFirstNachBillingDate(true);
                       }}
@@ -233,6 +220,7 @@ const NachMandate = () => {
                       type="Maximum Amount"
                       label="Maximum Amount"
                       variant="standard"
+                      value={FilteredData.maximumAmount}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -241,6 +229,7 @@ const NachMandate = () => {
                       label="Mandate Validity"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.mandateValidity}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -249,6 +238,7 @@ const NachMandate = () => {
                       label="Mandate End Date"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.mandateEndDate}
                     ></CustomDateField>
                   </Grid>
 
@@ -258,6 +248,7 @@ const NachMandate = () => {
                       label="Status"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.status}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -266,6 +257,7 @@ const NachMandate = () => {
                       label="Customer Mobile Number"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.customerMobileNumber}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -274,6 +266,7 @@ const NachMandate = () => {
                       label="Customer Email ID"
                       variant="standard"
                       disabled={true}
+                      value={FilteredData.customerEmail}
                     ></CustomTextField>
                   </Grid>
                 </Grid>
