@@ -37,7 +37,7 @@ function DashboardContent() {
   const [sanction, setSanction] = useState(0);
   const [request, setRequest] = useState(0);
   const [approved, setApproved] = useState(0);
-  const [sanctionAmount, setSanctionAmount] = useState(0);
+  const [sanctionAmount, setSanctionAmount] = useState('');
   const [dateRange, setDateRange] = useState([null, null]);
   const [oneMonthData, setOneMonthData] = useState([]);
   const [oneYearData, setOneYearData] = useState([]);
@@ -60,7 +60,7 @@ function DashboardContent() {
         );
         setRequest(response.data.requested);
         setApproved(response.data.approved);
-        setSanctionAmount(response.data.approvedAmount);
+        setSanctionAmount(''===response.data.approvedAmount?0:Number(response.data.approvedAmount).toLocaleString());
         setOneMonthData(response.data.oneMonth);
         setOneYearData(response.data.oneYear);
       }

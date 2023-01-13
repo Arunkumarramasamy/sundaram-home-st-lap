@@ -68,6 +68,7 @@ import GetBranchArray from "../CustomComponents/GetBranchArray";
 import DisbursementDetailsViewPage from "../Disbursement/DisbursementDetailsViewPage";
 import PreVerify from "../Nach/PreVerify";
 import NachMandate from "../Nach/NachMandate";
+import EnachRegistration from "../Enach/EnachRegistration";
 
 const drawerWidth = 300;
 
@@ -890,7 +891,10 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
           />
-
+          <Route
+            path={`${search}/stlap/eNachRegisteration`}
+            element={<EnachRegistration/>}
+          />
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
         {/* </Container> */}
