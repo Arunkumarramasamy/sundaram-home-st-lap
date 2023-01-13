@@ -583,18 +583,45 @@ export default function DisbursementRequestList(props) {
                           alignItems="flex-start"
                           justifyContent="flex-start"
                         >
-                          <Typography padding="1px">
-                            {"Request Number : " + row.requestNumber}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Disbursement Branch : " + row.branch}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Customer Name : " + row.customerName}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Disbursement Date : " + row.disbursementDate}
-                          </Typography>
+                          <Grid
+                            container
+                            direction="row"
+                            alignItems="flex-start"
+                            justifyContent="flex-start"
+                          >
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Request Number"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.requestNumber}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Disbursement Branch"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.branch}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Customer Name"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.customerName}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Disbursement Date"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.disbursementDate}`}
+                            </Grid>
+                          </Grid>
                         </Grid>
                         <Grid
                           container
