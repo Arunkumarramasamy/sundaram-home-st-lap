@@ -13,14 +13,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import CustomDataGrid from "../CustomComponents/CustomDataGrid";
+import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
 import {
   ArrowBack,
   ArrowForward,
   CurrencyRupeeSharp,
   Shortcut,
 } from "@mui/icons-material";
-import NoDataFound from "../CustomComponents/NoDataFound";
+import NoDataFound from "../../CustomComponents/NoDataFound";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 
@@ -70,7 +70,7 @@ const SanctionedList = (props) => {
         var date = new Date(params.value);
         return (
           <Typography sx={{ display: "flex", alignItems: "center" }}>
-            {dayjs(date).format('DD/MM/YYYY')}
+            {dayjs(date).format("DD/MM/YYYY")}
           </Typography>
         );
       },
@@ -236,15 +236,17 @@ const SanctionedList = (props) => {
                     <Card>
                       <CardHeader
                         action={
-                          <IconButton onClick={() => {cardButtonClickHandler(row)}}>
+                          <IconButton
+                            onClick={() => {
+                              cardButtonClickHandler(row);
+                            }}
+                          >
                             <Shortcut
                               sx={{ color: "#004A92", fontWeight: 700 }}
                             />
                           </IconButton>
                         }
-                        subheader={
-                          "Application Number : " + row.applicationNum
-                        }
+                        subheader={"Application Number  : " + row.applicationNum}
                         subheaderTypographyProps={{
                           color: "#004A92",
                           fontWeight: "700",
@@ -262,22 +264,53 @@ const SanctionedList = (props) => {
                           alignItems="flex-start"
                           justifyContent="flex-start"
                         >
-                          <Typography padding="1px">
-                            {"Customer Name : " + row.customerName}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Branch : " + row.branch}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Customer Type : " + row.customerType}
-                          </Typography>
-
-                          <Typography padding="1px">
-                            {"Sanctioned Loan Amount : " + row.sanctionAmt}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Application Date : " + dayjs(row.applicationDate).format('DD/MM/YYYY')}
-                          </Typography>
+                          <Grid
+                            container
+                            direction="row"
+                            alignItems="flex-start"
+                            justifyContent="flex-start"
+                          >
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Customer Name"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.customerName}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">{"Branch"}</Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.branch}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Customer Type"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.customerType}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Sanctioned Loan Amount"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.sanctionAmt}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Application Date"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${dayjs(row.applicationDate).format(
+                                "DD/MM/YYYY"
+                              )}`}
+                            </Grid>
+                          </Grid>
                         </Grid>
                         <Grid
                           container

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialAuthState = {
   branches: [],
   isLogin: false,
+  userName: "",
 };
 const Branch = createSlice({
   name: "branch",
@@ -12,6 +13,9 @@ const Branch = createSlice({
     },
     updateLoginStatus(state, action) {
       state.isLogin = action.payload;
+    },
+    updateUserName(state, action) {
+      state.userName = action.payload;
     },
   },
 });

@@ -1,22 +1,20 @@
 import {
-  Chip,
-  Grid,
   Box,
   Card,
-  CardHeader,
   CardContent,
+  CardHeader,
+  Chip,
   Divider,
+  Grid,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import CustomButton from "../CustomComponents/CustomButton";
-import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import NoDataFound from "../CustomComponents/NoDataFound";
-import * as React from "react";
 import dayjs from "dayjs";
+import * as React from "react";
+import CustomDataGrid from "../../../CustomComponents/CustomDataGrid";
+import NoDataFound from "../../../CustomComponents/NoDataFound";
 
-
-const ConditionsAndDeviations = (props) => {
+const ConditionsAndDeviationsTab = (props) => {
   const conditionColumns = [
     {
       field: "condition",
@@ -58,35 +56,34 @@ const ConditionsAndDeviations = (props) => {
     },
   ];
 
-  
-
   const conditionRows = [
     {
       id: 1,
       condition: "Legal ",
-      date: dayjs(new Date(props.losInitialState.legalApprovedDate)).format("DD/MM/YYYY"),
-      status:  props.losInitialState.legalDeviationStatus,
+      date: dayjs(new Date(props.losData.legalApprovedDate)).format(
+        "DD/MM/YYYY"
+      ),
+      status: props.losData.legalDeviationStatus,
     },
     {
       id: 2,
       condition: "Technical ",
-      date: dayjs(new Date(props.losInitialState.technicalApprovedDate)).format("DD/MM/YYYY"),
-      status: props.losInitialState.techinicalDeviationStatus,
+      date: dayjs(new Date(props.losData.technicalApprovedDate)).format(
+        "DD/MM/YYYY"
+      ),
+      status: props.losData.techinicalDeviationStatus,
     },
     {
       id: 3,
       condition: "Credit ",
-      date: dayjs(new Date(props.losInitialState.creditApprovedDate)).format("DD/MM/YYYY"),
-      status: props.losInitialState.creditDeviationStatus,
+      date: dayjs(new Date(props.losData.creditApprovedDate)).format(
+        "DD/MM/YYYY"
+      ),
+      status: props.losData.creditDeviationStatus,
     },
-    // {
-    //   id: 4,
-    //   condition: "RCU Approved Date",
-    //   date: new Date(props.losInitialState.rcuApprovedDate).toLocaleDateString(),
-    // },
   ];
 
-  const loadCardView = (cardHeaderName, rows, noDataMessage, cardMode) => {
+  const loadCardView = (rows, noDataMessage, cardMode) => {
     return (
       <React.Fragment>
         <Grid container>
@@ -99,7 +96,6 @@ const ConditionsAndDeviations = (props) => {
               <Grid container direction="column" sx={{ flex: "1 auto" }}>
                 <Card>
                   <CardHeader
-                    // subheader={cardHeaderName}
                     subheaderTypographyProps={{
                       color: "#004A92",
                       fontWeight: "700",
@@ -119,9 +115,11 @@ const ConditionsAndDeviations = (props) => {
                     >
                       {cardMode === "Conditions" &&
                         rows.map((row, index) => (
-                          <><h4>{row.condition}</h4>
+                          <>
+                            <h4>{row.condition}</h4>
                             <Typography padding="1px">
-                            {"Approved Date" + " : " + row.date}<br />
+                              {"Approved Date" + " : " + row.date}
+                              <br />
                               {"Deviation Status" + " : " + row.status}
                             </Typography>
                           </>
@@ -152,7 +150,7 @@ const ConditionsAndDeviations = (props) => {
   return (
     <>
       {useMediaQuery("(min-width:1200px)") && (
-        <Box sx={{width:"100%",alignContent:"center"}}>
+        <Box sx={{ width: "100%", alignContent: "center" }}>
           <CustomDataGrid
             noDataMessage="No Conditions."
             noDataOnFilterMessage="No Conditions on Applied Filter."
@@ -165,23 +163,14 @@ const ConditionsAndDeviations = (props) => {
             gridWidth={"60%"}
           />
         </Box>
-
-        
       )}
       {useMediaQuery("(max-width:1200px)") && (
         <React.Fragment>
-          {loadCardView(
-            "Conditions : ",
-            conditionRows,
-            "No Conditions Found",
-            "Conditions"
-          )}
+          {loadCardView(conditionRows, "No Conditions Found", "Conditions")}
         </React.Fragment>
       )}
-
-      
     </>
   );
 };
 
-export default ConditionsAndDeviations;
+export default ConditionsAndDeviationsTab;

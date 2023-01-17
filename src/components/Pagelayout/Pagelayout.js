@@ -1,39 +1,7 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import {
-  ListItemText,
-  Chip,
-  Divider,
-  Tooltip,
-  Collapse,
-  useMediaQuery,
-} from "@mui/material";
-import { useDispatch } from "react-redux";
-import { BranchAction } from "../Store/Branch";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuIcon from "@mui/icons-material/Menu";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Badge from "@mui/material/Badge";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import Logo from "../../images/SF_Logo.png";
-import "./PageLayout.css";
-import Cookies from "js-cookie";
-import Stack from "@mui/material/Stack";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Avatar from "@mui/material/Avatar";
-import SFLogoSmall from "../../images/SFLogo.png";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar from "@mui/material/AppBar";
-import { styled } from "@mui/material/styles";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   AccountTreeTwoTone,
   AdminPanelSettingsTwoTone,
+  AppRegistrationTwoTone,
   ApprovalTwoTone,
   CurrencyRupeeTwoTone,
   DashboardTwoTone,
@@ -43,32 +11,65 @@ import {
   ExpandMore,
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
-  AppRegistrationTwoTone,
 } from "@mui/icons-material";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import VerifiedIcon from "@mui/icons-material/Verified";
-
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
-import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import ApprovalIcon from "@mui/icons-material/Approval";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
-import { useState } from "react";
+import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
+import MenuIcon from "@mui/icons-material/Menu";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import {
+  Chip,
+  Collapse,
+  Divider,
+  ListItemText,
+  Tooltip,
+  useMediaQuery,
+} from "@mui/material";
+import MuiAppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Cookies from "js-cookie";
+import { default as React, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import SFLogoSmall from "../../images/SFLogo.png";
+import Logo from "../../images/SF_Logo.png";
+import AccrualWaiver from "../Accrual/AccrualWaiver";
+import AdditionalAccrual from "../Accrual/AdditionalAccrual";
+import GetBranchArray from "../CustomComponents/GetBranchArray";
 import { Dashboard } from "../Dashboard/Dashboard";
 import Process from "../Demo_Disbursement/Process";
-import VoucherGeneration from "../Demo_Disbursement/VoucherGeneration";
 import VoucherAuthorisation from "../Demo_Disbursement/VoucherAuthorisation";
 import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
-import AdditionalAccrual from "../Accrual/AdditionalAccrual";
-import AccrualWaiver from "../Accrual/AccrualWaiver";
-import DisbursementRequestList from "../Disbursement/DisbursementRequestList";
-import DisbursementCreatePortal from "../Disbursement/DisbursementCreatePortal";
-import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
-import DisbursementDetailPage from "../Disbursement/DisbursementDetailPage";
-import DisbursementApprovalList from "../Disbursement/DisbursementApprovalList";
-import GetBranchArray from "../CustomComponents/GetBranchArray";
-import DisbursementDetailsViewPage from "../Disbursement/DisbursementDetailsViewPage";
-import PreVerify from "../Nach/PreVerify";
+import VoucherGeneration from "../Demo_Disbursement/VoucherGeneration";
+import DisbursementCreate from "../Disbursement/Disbursement_Detail/Disbursement_Create/DisbursementCreate";
+import DisbursementModify from "../Disbursement/Disbursement_Detail/Disbursement_Modify/DisbursementModify";
+import DisbursementView from "../Disbursement/Disbursement_Detail/Disbursement_View/DisbursementView";
+import DisbursementApprovalList from "../Disbursement/Disbursement_List/DisbursementApprovalList";
+import DisbursementCreatePortal from "../Disbursement/Disbursement_List/DisbursementCreatePortal";
+import DisbursementRequestList from "../Disbursement/Disbursement_List/DisbursementRequestList";
+import NachApproval from "../Nach/NachApproval";
 import NachMandate from "../Nach/NachMandate";
 import EnachRegistration from "../Enach/EnachRegistration";
+import Verification from "../Nach/Verification";
+import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
+import { BranchAction } from "../Store/Branch";
+import store from "../Store/index";
+import "./PageLayout.css";
 
 const drawerWidth = 300;
 
@@ -90,6 +91,14 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Pagelayout() {
+  const [branchValues, setBranchValues] = useState("");
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const users = store.getState().branch.userName;
+    const [branchName] = GetBranchArray();
+    setBranchValues(branchName);
+    setUserName(users);
+  }, []);
   const [expanded, setExpanded] = useState(false);
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -148,6 +157,8 @@ export default function Pagelayout() {
   const handleLogout = () => {
     // Cookies.remove("islogin");
     dispatch(BranchAction.updateLoginStatus(false));
+    dispatch(BranchAction.updateBranch([]));
+    dispatch(BranchAction.updateUserName(""));
     navigate("/stlap/login");
     Cookies.remove("Token");
   };
@@ -184,8 +195,8 @@ export default function Pagelayout() {
       case "additionalWaiver":
         path = "/stlap/home/additionalWaiver";
         break;
-      case "disbursementCreate":
-        path = "/stlap/home/disbursementCreate";
+      case "disbursementCreatePortal":
+        path = "/stlap/home/disbursementCreatePortal";
         break;
       case "disbursementList":
         path = "/stlap/home/disbursementList";
@@ -196,10 +207,12 @@ export default function Pagelayout() {
       case "nachMandate":
         path = "/stlap/home/nachMandate";
         break;
-      case "preVerify":
-        path = "/stlap/home/preVerify";
+      case "verification":
+        path = "/stlap/home/verification";
         break;
-
+      case "approval":
+        path = "/stlap/home/approval";
+        break;
       default:
         path = "/stlap/home/dashboard";
         break;
@@ -291,21 +304,37 @@ export default function Pagelayout() {
             </ListItemButton>
             <ListItemButton
               sx={{ pl: 4 }}
-              id="preVerify"
+              id="verification"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
                 <Tooltip
-                  title="Nach Pre verify"
+                  title="Nach verification"
                   disableHoverListener={!expanded}
                 >
-                  <VerifiedIcon fontSize="medium" sx={{ color: "white" }} />
+                  <VerifiedUserIcon fontSize="medium" sx={{ color: "white" }} />
                 </Tooltip>
               </ListItemIcon>
               <ListItemText
                 id="menu-lable"
                 sx={{ display: "block" }}
-                primary="Nach Pre verify"
+                primary="Nach verification"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="approval"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Nach Approval" disableHoverListener={!expanded}>
+                  <ApprovalIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Nach Approval"
               />
             </ListItemButton>
           </List>
@@ -331,7 +360,7 @@ export default function Pagelayout() {
           <List component="div" disablePadding>
             <ListItemButton
               sx={{ pl: 4 }}
-              id="disbursementCreate"
+              id="disbursementCreatePortal"
               onClick={menuClickHandler}
             >
               <ListItemIcon>
@@ -573,6 +602,27 @@ export default function Pagelayout() {
                 primary="Voucher Cancel Demo"
               />
             </ListItemButton>
+
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="newTab"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                {/* <img id='layout-menu-image' src={Insurance} /> */}
+                <Tooltip title="newTab" disableHoverListener={!expanded}>
+                  <DisabledByDefaultTwoTone
+                    fontSize="medium"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="newTab"
+              />
+            </ListItemButton>
           </List>
         </Collapse>
       </List>
@@ -588,11 +638,9 @@ export default function Pagelayout() {
 
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>
-            {Cookies.get("userName").toUpperCase()}
-          </Typography>
+          <Typography sx={{ textAlign: "center" }}>{userName}</Typography>
           <Chip
-            label={GetBranchArray()[0]}
+            label={branchValues}
             component="div"
             sx={{ color: "white", bgcolor: "#727dff" }}
           />
@@ -694,10 +742,10 @@ export default function Pagelayout() {
         <MenuItem>
           <Stack direction="column" sx={{ paddingRight: "8px" }}>
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
-              <strong>{Cookies.get("userName")}</strong>
+              <strong>{userName}</strong>
             </Typography>
             <Chip
-              label={Cookies.get("lastLogin")}
+              label={branchValues}
               component="div"
               sx={{ color: "white", bgcolor: "#727dff" }}
             />
@@ -806,44 +854,56 @@ export default function Pagelayout() {
           />
 
           <Route
+            path={`${search}/stlap/home/disbursementCreatePortal`}
+            element={<DisbursementCreatePortal />}
+          />
+
+          <Route
             path={`${search}/stlap/home/disbursementCreate`}
             element={
-              <DisbursementCreatePortal listVisibility={true} mode="CREATE" />
-            }
-          />
-          <Route
-            path={`${search}/stlap/home/disbursementView`}
-            element={
-              <DisbursementDetailsViewPage
-                screenTitle="Disbursement Request View"
-                mode="VIEW"
+              <DisbursementCreate
+                screenMode="CREATE"
+                screenTitle="Disbursement Request Create"
               />
             }
           />
-          <Route
-            path={`${search}/stlap/home/disbursementCancel`}
-            element={
-              <DisbursementDetailPage
-                screenTitle="Disbursement Request Cancel"
-                mode="CANCEL"
-              />
-            }
-          />
+
           <Route
             path={`${search}/stlap/home/disbursementModify`}
             element={
-              <DisbursementDetailPage
+              <DisbursementModify
+                screenMode="MODIFY"
                 screenTitle="Disbursement Request Modify"
-                mode="MODIFY"
               />
             }
           />
+
+          <Route
+            path={`${search}/stlap/home/disbursementCancel`}
+            element={
+              <DisbursementModify
+                screenMode="CANCEL"
+                screenTitle="Disbursement Request Cancel"
+              />
+            }
+          />
+
           <Route
             path={`${search}/stlap/home/disbursementApprove`}
             element={
-              <DisbursementDetailPage
+              <DisbursementModify
+                screenMode="APPROVE"
                 screenTitle="Disbursement Request Approve"
-                mode="APPROVE"
+              />
+            }
+          />
+
+          <Route
+            path={`${search}/stlap/home/disbursementView`}
+            element={
+              <DisbursementView
+                screenMode="VIEW"
+                screenTitle="Disbursement Request View"
               />
             }
           />
@@ -867,9 +927,14 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/nachMandate`}
             element={<NachMandate />}
           />
+
           <Route
-            path={`${search}/stlap/home/preVerify`}
-            element={<PreVerify />}
+            path={`${search}/stlap/home/verification`}
+            element={<Verification />}
+          />
+          <Route
+            path={`${search}/stlap/home/approval`}
+            element={<NachApproval />}
           />
           <Route
             path={`${search}/stlap/home/voucherGenerationDemo`}

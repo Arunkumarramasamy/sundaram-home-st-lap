@@ -1,16 +1,15 @@
-import * as React from "react";
 import {
+  ArrowBack,
+  ArrowForward,
   CancelScheduleSend,
   Edit,
   MoreVert,
   Preview,
-  ArrowBack,
-  ArrowForward,
   VerifiedOutlined,
 } from "@mui/icons-material";
 import {
-  Button,
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -29,15 +28,16 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import StlapFooter from "../CustomComponents/StlapFooter";
-import FilterCondition from "./FilterCondition";
-import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import NoDataFound from "../CustomComponents/NoDataFound";
+import dayjs from "dayjs";
+import * as React from "react";
 import { useEffect, useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
+import GetBranchDetails from "../../CustomComponents/GetBranchDetails";
+import NoDataFound from "../../CustomComponents/NoDataFound";
+import StlapFooter from "../../CustomComponents/StlapFooter";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
-import dayjs from "dayjs";
-import GetBranchDetails from "../CustomComponents/GetBranchDetails";
+import FilterCondition from "./FilterCondition";
 
 export default function DisbursementRequestList(props) {
   const columns = [
@@ -174,7 +174,11 @@ export default function DisbursementRequestList(props) {
 
   const closeDialogHandler = () => {
     setopenViewConfirmation(false);
-    navigate("/stlap/home/disbursementView", { state: responseData });
+    const dataValue = { ...responseData };
+    dataValue.screenMode = props.screenMode;
+    navigate("/stlap/home/disbursementView", {
+      state: dataValue,
+    });
   };
 
   const cancelClickHandler = () => {
@@ -579,18 +583,45 @@ export default function DisbursementRequestList(props) {
                           alignItems="flex-start"
                           justifyContent="flex-start"
                         >
-                          <Typography padding="1px">
-                            {"Request Number : " + row.requestNumber}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Disbursement Branch : " + row.branch}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Customer Name : " + row.customerName}
-                          </Typography>
-                          <Typography padding="1px">
-                            {"Disbursement Date : " + row.disbursementDate}
-                          </Typography>
+                          <Grid
+                            container
+                            direction="row"
+                            alignItems="flex-start"
+                            justifyContent="flex-start"
+                          >
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Request Number"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.requestNumber}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Disbursement Branch"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.branch}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Customer Name"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.customerName}`}
+                            </Grid>
+                            <Grid item xs={7} md={5}>
+                              <Typography padding="1px">
+                                {"Disbursement Date"}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={5} md={7}>
+                              {` :  ${row.disbursementDate}`}
+                            </Grid>
+                          </Grid>
                         </Grid>
                         <Grid
                           container
@@ -667,7 +698,11 @@ const LoadActionBtn = (props) => {
       props.setResponseData(response.data);
       props.setopenViewConfirmation(true);
     } else {
-      navigate(url, { state: response.data });
+      const dataValue = { ...response.data };
+      dataValue.screenMode = props.screenMode;
+      navigate(url, {
+        state: dataValue,
+      });
     }
   };
 

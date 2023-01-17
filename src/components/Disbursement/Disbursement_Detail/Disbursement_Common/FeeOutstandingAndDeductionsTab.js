@@ -1,5 +1,3 @@
-import CustomButton from "../CustomComponents/CustomButton";
-import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import {
   Box,
   Card,
@@ -10,17 +8,12 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useState } from "react";
-import NoDataFound from "../CustomComponents/NoDataFound";
 import * as React from "react";
-import { useEffect } from "react";
-import axios from "axios";
+import CustomDataGrid from "../../../CustomComponents/CustomDataGrid";
+import NoDataFound from "../../../CustomComponents/NoDataFound";
 
-const FeesOutstanding = (props) => {
-
-  console.log(props);
-
-  const columns = [
+const FeeOutstandingAndDeductionsTab = (props) => {
+  const feeDeductionColumns = [
     {
       field: "details",
       headerName: "Details",
@@ -76,7 +69,8 @@ const FeesOutstanding = (props) => {
       editable: false,
       align: "right",
       renderCell: (params) => {
-        var value = params.row.receiveable - params.row.received - params.row.earlyWaiver;
+        var value =
+          params.row.receiveable - params.row.received - params.row.earlyWaiver;
         return value;
       },
     },
@@ -95,7 +89,7 @@ const FeesOutstanding = (props) => {
               flex: "1 auto",
             }}
           >
-            {props.deductionsState.gridRows.map((row, index) => (
+            {props.deductionTabValue.gridRows.map((row, index) => (
               <React.Fragment>
                 <Grid container direction="column" sx={{ flex: "1 auto" }}>
                   <Card>
@@ -128,7 +122,8 @@ const FeesOutstanding = (props) => {
                           {"Waived Amount : " + row.earlyWaiver}
                         </Typography>
                         <Typography padding="1px">
-                          {"Deduction : " + (row.receiveable - row.received - row.earlyWaiver)}
+                          {"Deduction : " +
+                            (row.receiveable - row.received - row.earlyWaiver)}
                         </Typography>
                       </Grid>
                     </CardContent>
@@ -156,38 +151,80 @@ const FeesOutstanding = (props) => {
 
   return (
     <>
-     <Grid container spacing={0} >
-          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Green' }}>{'Total Deductions : '}<span style={{ color: 'Green' }}>{props.deductionsState.deductionTotal}</span></label>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'blue' }}>{'(Paid : '}<span style={{ color: 'blue' }}>{props.deductionsState.paidTotal}</span>{``}</label>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'red' }}>{'Due : '}<span style={{ color: 'red' }}>{props.deductionsState.dueTotal}</span>{``}</label>  
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'saddlebrown' }}>{'Waived : '}<span style={{ color: 'saddlebrown' }}>{props.deductionsState.waivedTotal}</span>{``}</label>     
-          </Grid> 
-          <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
-          <label style={{ fontWeight: 'bold', marginLeft: '8px' , color: 'Purple' }}>{'Deduction : '}<span style={{ color: 'Purple' }}>{props.deductionsState.deductionTotal}</span>{`)`}</label>
-          </Grid>  
-          </Grid>
+      <Grid container spacing={0}>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "Green" }}
+          >
+            {"Total Deductions : "}
+            <span style={{ color: "Green" }}>
+              {props.deductionTabValue.deductionTotal}
+            </span>
+          </label>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "blue" }}
+          >
+            {"(Paid : "}
+            <span style={{ color: "blue" }}>
+              {props.deductionTabValue.paidTotal}
+            </span>
+            {``}
+          </label>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "red" }}
+          >
+            {"Due : "}
+            <span style={{ color: "red" }}>
+              {props.deductionTabValue.dueTotal}
+            </span>
+            {``}
+          </label>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label
+            style={{
+              fontWeight: "bold",
+              marginLeft: "8px",
+              color: "saddlebrown",
+            }}
+          >
+            {"Waived : "}
+            <span style={{ color: "saddlebrown" }}>
+              {props.deductionTabValue.waivedTotal}
+            </span>
+            {``}
+          </label>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
+          <label
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "Purple" }}
+          >
+            {"Deduction : "}
+            <span style={{ color: "Purple" }}>
+              {props.deductionTabValue.deductionTotal}
+            </span>
+            {`)`}
+          </label>
+        </Grid>
+      </Grid>
       {useMediaQuery("(min-width:1200px)") && (
         <CustomDataGrid
           noDataMessage="No Outstanding Dues."
           noDataOnFilterMessage="No Outstanding Dues on Applied Filter."
-          rows={props.deductionsState.gridRows}
-          columns={columns}
+          rows={props.deductionTabValue.gridRows}
+          columns={feeDeductionColumns}
           pageSize={5}
           pageSizeOptions={[5, 10, 15, 20, 25]}
         />
       )}
-      {useMediaQuery("(max-width:1200px)") && loadCardView(props.deductionsState.gridRows)}
-
-      
+      {useMediaQuery("(max-width:1200px)") &&
+        loadCardView(props.deductionTabValue.gridRows)}
     </>
   );
 };
 
-export default FeesOutstanding;
+export default FeeOutstandingAndDeductionsTab;

@@ -22,6 +22,7 @@ const CustomAutoComplete = (props) => {
           value={props.value}
           disabled={props.disabled}
           onChange={props.onChange}
+          onBlur={props.onBlur}
           onInputChange={props.onInputChange}
           clearText={props.clearText}
           clearicon={(event) => console.log("cleared")}

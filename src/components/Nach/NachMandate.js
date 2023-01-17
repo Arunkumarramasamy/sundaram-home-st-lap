@@ -1,48 +1,21 @@
-import { DragHandleRounded } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
-import { NachAction } from "../Store/NachStore";
 import NachFilter from "./NachFilter";
 const NachMandate = () => {
-  useEffect(() => {
-    const data = {
-      branch: "Anna Nagar",
-      applicationNum: 123,
-      applicantCustomer: "Tom",
-      bankName: "HDFC",
-      branchName: "Anna Nagar",
-      micr: "0000HDFC566",
-      accountType: "Savings",
-      bankAccountNum: "12345",
-      accountHolderName: "Tom",
-      emiAmount: 12,
-      nachAmount: 12,
-      mandateAmount: 12,
-      mandateValidity: "two",
-      mandateEndDate: "12/31/2022",
-      maximumAmount: 2344,
-      customerMobileNumber: "9750208902",
-      customerEmailId: "tom@gmail.com",
-      status: "Active",
-      mandateNumber: 8875899,
-    };
-    dispatch(NachAction.updateCustomerDataFromMaster(data));
-  }, []);
-
   //Importing Hooks
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.nach.data);
 
   //Selectors from redux store
   const showMandate = useSelector((state) => state.nachFilter.showMandate);
+  const FilteredData = useSelector((state) => state.nachFilter.data);
 
   //Field Touch Handler
   const [frequencyTouchHandler, setFrequencyTouchHandler] = useState(false);
@@ -52,39 +25,8 @@ const NachMandate = () => {
   const [firstNachBillingDateTouchHandler, setFirstNachBillingDate] =
     useState(false);
 
-  //Validation
-  const frequncyValid = data.frequency.trim() !== "";
-  const debitValid = data.debitType.trim() !== "";
-  const fbdValid = data.fbd.trim() !== "";
-  const mandateStartDateValid = data.mandateStartDate !== null;
-  const firstNachBillingDateValid = data.firstNachBillingDate !== null;
-
-  //Has Error
-  const frequencyHasError = frequencyTouchHandler && !frequncyValid;
-  const debitHasError = debitTypeTouchHandler && !debitValid;
-  const fbdHasError = fbdTouchHandler && !fbdValid;
-  const mandateStartHasError =
-    mandateStartDateTouchHandler && !mandateStartDateValid;
-  const firstNachBillingHasError =
-    firstNachBillingDateTouchHandler && !firstNachBillingDateValid;
-
-  // Save Button DragHandleRounded
-  const onSaveButtonClickHandler = () => {
-    setFrequencyTouchHandler(true);
-    setDebitTypeTouchHandler(true);
-    setFbd(true);
-    setMandateStartDate(true);
-    setFirstNachBillingDate(true);
-    if (
-      frequncyValid &&
-      debitValid &&
-      fbdValid &&
-      mandateStartDateValid &&
-      firstNachBillingDateValid
-    ) {
-      console.log(data);
-    }
-  };
+  // Save Button Handler
+  const onSaveButtonClickHandler = () => {};
   return (
     <>
       <NachFilter />
@@ -106,47 +48,20 @@ const NachMandate = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
-                      type="Branch"
-                      label="Branch"
+                      type="Nach Sponser Bank"
+                      label="Nach Sponser Bank"
                       variant="standard"
                       disabled={true}
-                      value={data.branch}
+                      value={FilteredData.nachSponserBank}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
-                      type="Application Number"
-                      label="Application Number"
+                      type="IFSC"
+                      label="IFSC"
                       variant="standard"
                       disabled={true}
-                      value={data.applicationNum}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Applicant Customer"
-                      label="Applicant Customer"
-                      variant="standard"
-                      disabled={true}
-                      value={data.applicantCustomer}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Bank Name "
-                      label="Bank Name "
-                      variant="standard"
-                      disabled={true}
-                      value={data.bankName}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Branch Name"
-                      label="Branch Name"
-                      variant="standard"
-                      disabled={true}
-                      value={data.branchName}
+                      value={FilteredData.IFSC}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -155,16 +70,34 @@ const NachMandate = () => {
                       label="MICR"
                       variant="standard"
                       disabled={true}
-                      value={data.micr}
+                      value={FilteredData.MICR}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
-                      type="Account Type"
-                      label="Account Type"
+                      type="Bank Name"
+                      label="Bank Name"
                       variant="standard"
                       disabled={true}
-                      value={data.accountType}
+                      value={FilteredData.bankName}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Branch Name"
+                      label="Branch Name"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.branchName}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Drawee Place"
+                      label="Drawee Place"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.draweePlace}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -173,7 +106,7 @@ const NachMandate = () => {
                       label="Bank Account Number"
                       variant="standard"
                       disabled={true}
-                      value={data.bankAccountNum}
+                      value={FilteredData.bankAccountNumber}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -182,175 +115,16 @@ const NachMandate = () => {
                       label="Account Holder Name"
                       variant="standard"
                       disabled={true}
-                      value={data.accountHolderName}
+                      value={FilteredData.accountHolderName}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
-                      type="EMI Amount"
-                      label="EMI Amount"
+                      type="Account Type"
+                      label="Account Type"
                       variant="standard"
-                      value={data.emiAmount}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="NACH Amount"
-                      label="NACH Amount"
-                      variant="standard"
-                      value={data.nachAmount}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Mandate Amount"
-                      label="Mandate Amount"
-                      variant="standard"
-                      value={data.mandateAmount}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomDropDown
-                      type="Frequency"
-                      label="Frequency"
-                      variant="standard"
-                      value={data.frequency}
-                      error={frequencyHasError}
-                      dropDownValue={[
-                        { key: 0, value: "monthly", text: "Monthly" },
-                        { key: 1, value: "yearly", text: "Yearly" },
-                      ]}
-                      onChange={(e) => {
-                        dispatch(NachAction.updateFrequency(e.target.value));
-                      }}
-                      onBlur={() => {
-                        setFrequencyTouchHandler(true);
-                      }}
-                    />
-                    {frequencyHasError && (
-                      <p className="error">Please Select Frequency </p>
-                    )}
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomDropDown
-                      type="Debit"
-                      label="Debit Type"
-                      variant="standard"
-                      value={data.debitType}
-                      error={debitHasError}
-                      dropDownValue={[
-                        { key: 0, value: "fixed", text: "Fixed amount" },
-                        { key: 1, value: "maximum", text: "Maximum amount" },
-                      ]}
-                      onChange={(e) => {
-                        dispatch(NachAction.updatedebitType(e.target.value));
-                      }}
-                      onBlur={() => {
-                        setDebitTypeTouchHandler(true);
-                      }}
-                    />
-                    {debitHasError && (
-                      <p className="error">Please Select Debit Type </p>
-                    )}
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="FBD"
-                      label="FBD"
-                      variant="standard"
-                      value={data.fbd}
-                      error={fbdHasError}
-                      onChange={(e) => {
-                        dispatch(NachAction.updateFbd(e.target.value));
-                      }}
-                      onBlur={() => {
-                        setFbd(true);
-                      }}
-                    ></CustomTextField>
-                    {fbdHasError && <p className="error">Please Select FBD </p>}
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomDateField
-                      label="Mandate Start Date"
-                      variant="standard"
-                      value={data.mandateStartDate}
-                      error={mandateStartHasError}
-                      onChange={(value) => {
-                        dispatch(NachAction.updateMandateStartDate(value));
-                      }}
-                      onBlur={() => {
-                        setMandateStartDate(true);
-                      }}
-                    ></CustomDateField>
-                    {mandateStartHasError && (
-                      <p className="error">Please Enter Mandate Start Date </p>
-                    )}
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomDateField
-                      label="First NACH Billing Date"
-                      variant="standard"
-                      value={data.firstNachBillingDate}
-                      error={firstNachBillingHasError}
-                      onChange={(value) => {
-                        dispatch(NachAction.updateNachBillingDate(value));
-                      }}
-                      onBlur={() => {
-                        setFirstNachBillingDate(true);
-                      }}
-                    ></CustomDateField>
-                    {firstNachBillingHasError && (
-                      <p className="error">
-                        Please Enter First NACH Billing Date{" "}
-                      </p>
-                    )}
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Mandate Validity"
-                      label="Mandate Validity"
-                      variant="standard"
-                      value={data.mandateValidity}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomDateField
-                      type="Mandate End Date"
-                      label="Mandate End Date"
-                      variant="standard"
-                      value={data.mandateEndDate}
-                    ></CustomDateField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Maximum Amount"
-                      label="Maximum Amount"
-                      variant="standard"
-                      value={data.maximumAmount}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Customer Mobile Number"
-                      label="Customer Mobile Number"
-                      variant="standard"
-                      value={data.customerMobileNumber}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Customer Email ID"
-                      label="Customer Email ID"
-                      variant="standard"
-                      value={data.customerEmailId}
-                    ></CustomTextField>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Status"
-                      label="Status"
-                      variant="standard"
-                      value={data.status}
+                      disabled={true}
+                      value={FilteredData.accountType}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -358,7 +132,141 @@ const NachMandate = () => {
                       type="Mandate Number"
                       label="Mandate Number"
                       variant="standard"
-                      value={data.mandateNumber}
+                      disabled={true}
+                      value={FilteredData.mandateNumber}
+                    ></CustomTextField>
+                  </Grid>
+
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="NACH Amount"
+                      label="NACH Amount"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.nachAmount}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Mandate Amount"
+                      label="Mandate Amount"
+                      variant="standard"
+                      value={FilteredData.mandateAmount}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomDropDown
+                      type="Frequency"
+                      label="Frequency"
+                      variant="standard"
+                      value={FilteredData.frequency}
+                      dropDownValue={[
+                        { key: 0, value: "monthly", text: "Monthly" },
+                        { key: 1, value: "yearly", text: "Yearly" },
+                      ]}
+                      onBlur={() => {
+                        setFrequencyTouchHandler(true);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomDropDown
+                      type="Debit"
+                      label="Debit Type"
+                      variant="standard"
+                      value={FilteredData.debitType}
+                      dropDownValue={[
+                        { key: 0, value: "fixed", text: "Fixed amount" },
+                        { key: 1, value: "maximum", text: "Maximum amount" },
+                      ]}
+                      onBlur={() => {
+                        setDebitTypeTouchHandler(true);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="FBD"
+                      label="FBD"
+                      variant="standard"
+                      value={FilteredData.fbd}
+                      onBlur={() => {
+                        setFbd(true);
+                      }}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomDateField
+                      label="Mandate Start Date"
+                      variant="standard"
+                      value={FilteredData.mandateStartDate}
+                      onBlur={() => {
+                        setMandateStartDate(true);
+                      }}
+                    ></CustomDateField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomDateField
+                      label="First NACH Billing Date"
+                      variant="standard"
+                      value={FilteredData.firstNachBillingDate}
+                      onBlur={() => {
+                        setFirstNachBillingDate(true);
+                      }}
+                    ></CustomDateField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Maximum Amount"
+                      label="Maximum Amount"
+                      variant="standard"
+                      value={FilteredData.maximumAmount}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Mandate Validity"
+                      label="Mandate Validity"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.mandateValidity}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomDateField
+                      type="Mandate End Date"
+                      label="Mandate End Date"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.mandateEndDate}
+                    ></CustomDateField>
+                  </Grid>
+
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Status"
+                      label="Status"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.status}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Customer Mobile Number"
+                      label="Customer Mobile Number"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.customerMobileNumber}
+                    ></CustomTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <CustomTextField
+                      type="Customer Email ID"
+                      label="Customer Email ID"
+                      variant="standard"
+                      disabled={true}
+                      value={FilteredData.customerEmail}
                     ></CustomTextField>
                   </Grid>
                 </Grid>
