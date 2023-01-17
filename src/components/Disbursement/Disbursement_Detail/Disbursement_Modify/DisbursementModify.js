@@ -146,6 +146,8 @@ const DisbursementModify = (props) => {
     bankAccountError: "bankAccountError",
     dateOfDisbError: "dateOfDispError",
     overAllError: "overAllError",
+    remarksError: "remarksError",
+    approvalRemarksError: "approvalRemarksError",
   };
 
   const errorInitialState = {
@@ -160,6 +162,11 @@ const DisbursementModify = (props) => {
     bankAccountError: [false, "Please Select Atlease One Bank Account."],
     dateOfDisbError: [false, "Please Select Date of Disbursement"],
     overAllError: false,
+    approvalRemarksError: [
+      false,
+      "Please Enter Approval Remarks less than 4000 characters.",
+    ],
+    remarksError: [false, "Please Enter Remarks less than 4000 characters."],
   };
 
   const errorReducer = (state, action) => {
@@ -180,6 +187,10 @@ const DisbursementModify = (props) => {
         return { ...state, dateOfDisbError: action.value };
       case errorParameters.overAllError:
         return { ...state, overAllError: action.value };
+      case errorParameters.remarksError:
+        return { ...state, remarksError: action.value };
+      case errorParameters.approvalRemarksError:
+        return { ...state, approvalRemarksError: action.value };
       default:
         return { ...errorInitialState };
     }
@@ -369,6 +380,27 @@ const DisbursementModify = (props) => {
         type: errorParameters.billDayError,
         value: [false, "Please Select Billing Day."],
       });
+    }
+
+    // validating remarks fields length.
+    if (data.remarks && String(data.remarks).length > 4000) {
+      errorDispatch({
+        type: errorParameters.remarksError,
+        value: [true, "Please Enter Remarks less than 4000 Characters."],
+      });
+      status = false;
+    } else if (
+      data.approvalRemarks &&
+      String(data.approvalRemarks).length > 4000
+    ) {
+      errorDispatch({
+        type: errorParameters.approvalRemarksError,
+        value: [
+          true,
+          "Please Enter Approval Remarks less than 4000 Characters.",
+        ],
+      });
+      status = false;
     }
 
     //Validating Bank Grid

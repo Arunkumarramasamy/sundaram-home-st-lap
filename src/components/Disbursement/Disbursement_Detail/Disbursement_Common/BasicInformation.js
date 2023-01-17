@@ -87,7 +87,7 @@ const BasicInformation = (props) => {
               label="Loan Amount"
               id="loanAmt"
               variant="standard"
-              value={props.losData.loanAmt}
+              value={parseInt(props.losData.loanAmt).toLocaleString("en-IN")}
               type="text"
               placeholder=""
             />

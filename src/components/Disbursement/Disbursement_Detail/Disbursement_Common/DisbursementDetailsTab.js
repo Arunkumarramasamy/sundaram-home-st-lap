@@ -310,6 +310,20 @@ const DisbursementDetailsTab = (props) => {
     });
   };
 
+  const removeUnwantedChars = (inputValue, typeValue) => {
+    const regExpString =
+      /^(?=\n)$|^\s*|^\s*$(?:\r\n?|\n)|\n\n+|\t|[^a-zA-Z0-9]|[%<>\\$'"{}\[\]]/gim;
+    let formattedValue = String(inputValue).replace(regExpString, " ");
+    // we need to remove twice since relaced space shouldbe removed
+    formattedValue = String(formattedValue).replace(/[^\u0000-\u007F]+/, "");
+    const finalValue = String(formattedValue).replace(regExpString, " ");
+    finalValue.trim();
+    props.dispatchEvent({
+      type: typeValue,
+      value: finalValue,
+    });
+  };
+
   return (
     <Box sx={{ marginTop: "-1%" }}>
       <Grid container spacing={2}>
@@ -587,10 +601,10 @@ const DisbursementDetailsTab = (props) => {
             value={props.disbursementDetailTabValue.remarks}
             aria-label="maximum height"
             onChange={(event, value) => {
-              props.dispatchEvent({
-                type: props.screenFields.remarks,
-                value: event.target.value,
-              });
+              removeUnwantedChars(
+                event.target.value,
+                props.screenFields.remarks
+              );
             }}
             style={{
               width: "100%",
@@ -603,6 +617,9 @@ const DisbursementDetailsTab = (props) => {
               overflow: "auto",
             }}
           />
+          {props.errorState.remarksError[0] && (
+            <p className="error">{props.errorState.remarksError[1]}</p>
+          )}
         </Grid>
 
         {props.screenMode === "APPROVE" ||
@@ -623,10 +640,10 @@ const DisbursementDetailsTab = (props) => {
               value={props.disbursementDetailTabValue.approvalRemarks}
               aria-label="maximum height"
               onChange={(event, value) => {
-                props.dispatchEvent({
-                  type: props.screenFields.approvalRemarks,
-                  value: event.target.value,
-                });
+                removeUnwantedChars(
+                  event.target.value,
+                  props.screenFields.approvalRemarks
+                );
               }}
               style={{
                 width: "100%",
@@ -639,6 +656,11 @@ const DisbursementDetailsTab = (props) => {
                 overflow: "auto",
               }}
             />
+            {props.errorState.approvalRemarksError[0] && (
+              <p className="error">
+                {props.errorState.approvalRemarksError[1]}
+              </p>
+            )}
           </Grid>
         ) : null}
       </Grid>

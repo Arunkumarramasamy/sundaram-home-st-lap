@@ -137,6 +137,8 @@ const DisbursementView = (props) => {
     bankAccountError: "bankAccountError",
     dateOfDisbError: "dateOfDispError",
     overAllError: "overAllError",
+    remarksError: "remarksError",
+    approvalRemarksError: "approvalRemarksError",
   };
 
   const errorInitialState = {
@@ -151,6 +153,11 @@ const DisbursementView = (props) => {
     bankAccountError: [false, "Please Select Atlease One Bank Account."],
     dateOfDisbError: [false, "Please Select Date of Disbursement"],
     overAllError: false,
+    approvalRemarksError: [
+      false,
+      "Please Enter Approval Remarks less than 4000 characters.",
+    ],
+    remarksError: [false, "Please Enter Remarks less than 4000 characters."],
   };
 
   const errorReducer = (state, action) => {
@@ -171,6 +178,10 @@ const DisbursementView = (props) => {
         return { ...state, dateOfDisbError: action.value };
       case errorParameters.overAllError:
         return { ...state, overAllError: action.value };
+      case errorParameters.remarksError:
+        return { ...state, remarksError: action.value };
+      case errorParameters.approvalRemarksError:
+        return { ...state, approvalRemarksError: action.value };
       default:
         return { ...errorInitialState };
     }
