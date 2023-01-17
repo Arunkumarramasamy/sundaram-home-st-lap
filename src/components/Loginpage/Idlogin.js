@@ -80,7 +80,7 @@ const Idlogin = () => {
         // Cookies.set("Token", response["data"]["jwToken"]);
         // Cookies.set("userName", employeeID);
         // Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
-
+        dispatch(BranchAction.updateLoginStatus(true));
         dispatch(loginAction.updateEmployeeIDScreen(false));
         dispatch(loginAction.updateLogin(true));
       }
@@ -102,7 +102,7 @@ const Idlogin = () => {
         // );
 
         dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
-        dispatch(BranchAction.updateLoginStatus(true));
+
         navigate("/stlap/home/dashboard");
       } else {
         setErrorMessage(userBranches.data.error_msg);
