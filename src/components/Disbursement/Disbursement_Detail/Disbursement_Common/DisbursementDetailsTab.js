@@ -171,7 +171,9 @@ const DisbursementDetailsTab = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
-            disabled={disableAllFields || props.screenMode === "APPROVE"}
+            disabled={
+              true || disableAllFields || props.screenMode === "APPROVE"
+            }
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNum)}
           />
@@ -239,6 +241,7 @@ const DisbursementDetailsTab = (props) => {
         return (
           <CustomTextField
             disabled={
+              true ||
               !params.row.isChecked ||
               disableAllFields ||
               props.screenMode === "APPROVE"
@@ -707,6 +710,7 @@ const DisbursementDetailsTab = (props) => {
                     control={
                       <Checkbox
                         disabled={
+                          true &&
                           disableAllFields &&
                           (props.screenMode === "APPROVE" ||
                             props.screenMode === "CANCEL")
@@ -762,6 +766,7 @@ const DisbursementDetailsTab = (props) => {
                                     checked={allCheckedValues[index]}
                                     checkBoxChange={onCheckBoxChange}
                                     disableAllFields={
+                                      true &&
                                       disableAllFields &&
                                       (props.screenMode === "APPROVE" ||
                                         props.screenMode === "CANCEL")

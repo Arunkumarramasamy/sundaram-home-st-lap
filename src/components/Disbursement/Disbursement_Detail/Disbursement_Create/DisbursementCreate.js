@@ -358,7 +358,7 @@ const DisbursementCreate = (props) => {
     var status = true;
 
     //Validating Current Disbursement Amount Field
-    if (data.disbAmt === 0 || data.disbAmt === null) {
+    if (data.disbAmt === 0 || data.disbAmt === null || data.disbAmt === "") {
       errorDispatch({
         type: errorParameters.currentDisbError,
         value: [true, "Current Disbursement Amount Cannot be Empty/Zero."],
@@ -371,6 +371,12 @@ const DisbursementCreate = (props) => {
           true,
           "Current Disbursement Amount Cannot be Greater than Sanction Amount.",
         ],
+      });
+      status = false;
+    } else if (data.totalDisbAmt < 0) {
+      errorDispatch({
+        type: errorParameters.currentDisbError,
+        value: [true, "Net Disbursement Amount Cannot be Less than Zero."],
       });
       status = false;
     } else if (errorState.currentDisbError[0]) {
