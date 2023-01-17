@@ -75,13 +75,12 @@ const Idlogin = () => {
       console.log(loginResponse);
 
       if (loginResponse.data.message === "Success") {
-        dispatch(BranchAction.updateLoginStatus(true));
         dispatch(BranchAction.updateUserName(employeeID.toUpperCase()));
         // Cookies.set("islogin", true);
         // Cookies.set("Token", response["data"]["jwToken"]);
         // Cookies.set("userName", employeeID);
         // Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
-        navigate("/stlap/home/dashboard");
+
         dispatch(loginAction.updateEmployeeIDScreen(false));
         dispatch(loginAction.updateLogin(true));
       }
@@ -101,7 +100,10 @@ const Idlogin = () => {
         // Cookies.set(
         //   "userBranches",JSON.stringify(userBranches.data.branch_details)
         // );
+
         dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
+        dispatch(BranchAction.updateLoginStatus(true));
+        navigate("/stlap/home/dashboard");
       } else {
         setErrorMessage(userBranches.data.error_msg);
         openAlertHandler();
