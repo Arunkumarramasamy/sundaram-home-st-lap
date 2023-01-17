@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
@@ -9,6 +9,7 @@ import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NachFilter from "./NachFilter";
+import { NachFilterReducerAction } from "../Store/NachFilterReducer";
 const NachMandate = () => {
   //Importing Hooks
   const dispatch = useDispatch();
@@ -16,7 +17,16 @@ const NachMandate = () => {
   //Selectors from redux store
   const showMandate = useSelector((state) => state.nachFilter.showMandate);
   const FilteredData = useSelector((state) => state.nachFilter.data);
+  //Button updation
+  const [btnName, setBtnName] = useState("");
 
+  useEffect(() => {
+    if (FilteredData.fileStatus === "To Be Registered") {
+      setBtnName("Submit");
+    } else {
+      setBtnName("Update");
+    }
+  }, [FilteredData]);
   //Field Touch Handler
   const [frequencyTouchHandler, setFrequencyTouchHandler] = useState(false);
   const [debitTypeTouchHandler, setDebitTypeTouchHandler] = useState(false);
@@ -24,9 +34,42 @@ const NachMandate = () => {
   const [mandateStartDateTouchHandler, setMandateStartDate] = useState(false);
   const [firstNachBillingDateTouchHandler, setFirstNachBillingDate] =
     useState(false);
+  //Field Validation
+  const frequencyIsValid =
+    FilteredData.frequency !== "" && FilteredData.frequency !== undefined;
+  const debitTypeIsValid =
+    FilteredData.debitType !== "" && FilteredData.debitType !== undefined;
+  const FBDIsValid = FilteredData.fbd !== "";
+  const mandateStartDateIsValid = FilteredData.mandateStartDate !== "";
+  const firstNachBillingDateIsValid = FilteredData.firstNachBillingDate !== "";
+  //Has Error
+  const frequencyHasError = frequencyTouchHandler && !frequencyIsValid;
+  const debitTypeHasError = debitTypeTouchHandler && !debitTypeIsValid;
+  const FBDHasError = fbdTouchHandler && !FBDIsValid;
+  const mandateStartDateHasError =
+    mandateStartDateTouchHandler && !mandateStartDateIsValid;
+  const firstNachBillingDateHasError =
+    firstNachBillingDateTouchHandler && !firstNachBillingDateIsValid;
 
   // Save Button Handler
-  const onSaveButtonClickHandler = () => {};
+  const onSaveButtonClickHandler = () => {
+    setFrequencyTouchHandler(true);
+    setDebitTypeTouchHandler(true);
+    setFbd(true);
+    setMandateStartDate(true);
+    setFirstNachBillingDate(true);
+    if (
+      frequencyIsValid &&
+      debitTypeIsValid &&
+      FBDIsValid &&
+      mandateStartDateIsValid &&
+      firstNachBillingDateIsValid
+    ) {
+      console.log(FilteredData);
+    } else {
+      return;
+    }
+  };
   return (
     <>
       <NachFilter />
@@ -106,7 +149,7 @@ const NachMandate = () => {
                       label="Bank Account Number"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.bankAccountNumber}
+                      value={FilteredData.bankAccountNum}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -115,7 +158,7 @@ const NachMandate = () => {
                       label="Account Holder Name"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.accountHolderName}
+                      value={FilteredData.bankAccHolderName}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -133,7 +176,7 @@ const NachMandate = () => {
                       label="Mandate Number"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.mandateNumber}
+                      value={FilteredData.mandateNum}
                     ></CustomTextField>
                   </Grid>
 
@@ -143,7 +186,7 @@ const NachMandate = () => {
                       label="NACH Amount"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.nachAmount}
+                      value={FilteredData.nachAmt}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -151,7 +194,8 @@ const NachMandate = () => {
                       type="Mandate Amount"
                       label="Mandate Amount"
                       variant="standard"
-                      value={FilteredData.mandateAmount}
+                      value={FilteredData.mandateAmt}
+                      disabled={true}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -167,7 +211,17 @@ const NachMandate = () => {
                       onBlur={() => {
                         setFrequencyTouchHandler(true);
                       }}
+                      onChange={(e) => {
+                        dispatch(
+                          NachFilterReducerAction.updateFrequency(
+                            e.target.value
+                          )
+                        );
+                      }}
                     />
+                    {frequencyHasError && (
+                      <p className="error">Please Select Frequency</p>
+                    )}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomDropDown
@@ -182,7 +236,17 @@ const NachMandate = () => {
                       onBlur={() => {
                         setDebitTypeTouchHandler(true);
                       }}
+                      onChange={(e) => {
+                        dispatch(
+                          NachFilterReducerAction.updateDebitType(
+                            e.target.value
+                          )
+                        );
+                      }}
                     />
+                    {debitTypeHasError && (
+                      <p className="error">Please Select Debit Type</p>
+                    )}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
@@ -193,7 +257,13 @@ const NachMandate = () => {
                       onBlur={() => {
                         setFbd(true);
                       }}
+                      onChange={(e) => {
+                        dispatch(
+                          NachFilterReducerAction.updateFBD(e.target.value)
+                        );
+                      }}
                     ></CustomTextField>
+                    {FBDHasError && <p className="error">Please Select FBD</p>}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomDateField
@@ -203,7 +273,15 @@ const NachMandate = () => {
                       onBlur={() => {
                         setMandateStartDate(true);
                       }}
+                      onChange={(value) => {
+                        dispatch(
+                          NachFilterReducerAction.updateMandateStartDate(value)
+                        );
+                      }}
                     ></CustomDateField>
+                    {mandateStartDateHasError && (
+                      <p className="error">Please Select Mandate Start Date</p>
+                    )}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomDateField
@@ -213,14 +291,26 @@ const NachMandate = () => {
                       onBlur={() => {
                         setFirstNachBillingDate(true);
                       }}
+                      onChange={(value) => {
+                        dispatch(
+                          NachFilterReducerAction.updateFirstNachBillingDate(
+                            value
+                          )
+                        );
+                      }}
                     ></CustomDateField>
+                    {firstNachBillingDateHasError && (
+                      <p className="error">
+                        Please Select First Naching Billing Date
+                      </p>
+                    )}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
                       type="Maximum Amount"
                       label="Maximum Amount"
                       variant="standard"
-                      value={FilteredData.maximumAmount}
+                      value={FilteredData.maximumAmt}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -241,23 +331,13 @@ const NachMandate = () => {
                       value={FilteredData.mandateEndDate}
                     ></CustomDateField>
                   </Grid>
-
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
-                      type="Status"
-                      label="Status"
-                      variant="standard"
-                      disabled={true}
-                      value={FilteredData.status}
-                    ></CustomTextField>
-                  </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomTextField
                       type="Customer Mobile Number"
                       label="Customer Mobile Number"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.customerMobileNumber}
+                      value={FilteredData.customerMobileNum}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -266,7 +346,7 @@ const NachMandate = () => {
                       label="Customer Email ID"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.customerEmail}
+                      value={FilteredData.customerEmailId}
                     ></CustomTextField>
                   </Grid>
                 </Grid>
@@ -292,7 +372,7 @@ const NachMandate = () => {
                   variant="contained"
                   onClick={onSaveButtonClickHandler}
                 >
-                  Submit
+                  {btnName}
                 </Button>
               </Box>
             </Box>

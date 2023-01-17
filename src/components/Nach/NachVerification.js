@@ -1,8 +1,13 @@
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { Tooltip } from "recharts";
+import { IconButton } from "@mui/material";
 
 const NachVerification = () => {
+  const ApproveButtonOnClickHandler = (value) => {
+    console.log(value);
+  };
   const rows = [
     {
       id: 1,
@@ -83,7 +88,11 @@ const NachVerification = () => {
       align: "center",
       width: 150,
       renderCell: (params) => {
-        return <CheckCircleIcon />;
+        return (
+          <IconButton onClick={() => ApproveButtonOnClickHandler(params)}>
+            <CheckCircleOutlineIcon sx={{ fill: "#004A92" }} />
+          </IconButton>
+        );
       },
     },
   ];

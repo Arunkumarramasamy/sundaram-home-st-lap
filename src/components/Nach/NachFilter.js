@@ -8,6 +8,7 @@ import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import { NachFilterReducerAction } from "../Store/NachFilterReducer";
+
 const NachFilter = () => {
   //importing hook
   const dispatch = useDispatch();
@@ -19,8 +20,9 @@ const NachFilter = () => {
   const [branchArray, setBranchArray] = useState([]);
   const [branchValue, setBranchValue] = useState("");
   const [applicationArray, setApplicationArray] = useState([]);
-  const [applicationValue, setApplicationValue] = useState();
-
+  const [applicationValue, setApplicationValue] = useState("");
+  //All Data
+  const [allRows, setAllRows] = useState("");
   //Touch Handler
   const [branchHasTouched, setBranchHasTouched] = useState(false);
   const [applicationHasTouched, setApplicationHasTouched] = useState(false);
@@ -33,6 +35,24 @@ const NachFilter = () => {
   const applicationHasError = applicationHasTouched && !appplicationNumberValid;
 
   //Methods
+  const branchOnChangeHandler = (value) => {
+    setApplicationArray([]);
+    setApplicationValue("");
+    setBranchValue(value);
+    const applicationArray = allRows.filter((item) => {
+      return item.branch === value.label;
+    });
+    const app = applicationArray.map((itm) => itm.applicationNum);
+    setApplicationArray(app);
+  };
+  const applicationNumberOnChangeHandler = (value) => {
+    setApplicationValue(value);
+    dispatch(NachFilterReducerAction.updateShowMandate(false));
+    dispatch(NachFilterReducerAction.resetValues());
+    const data = allRows.find((item) => item.applicationNum === value);
+    dispatch(NachFilterReducerAction.updateValues(data));
+    console.log(data);
+  };
   //Search Button Handler
   const SearchButtonHandler = () => {
     setBranchHasTouched(true);
@@ -46,11 +66,115 @@ const NachFilter = () => {
   //Clear Button Handler
   const ClearButtonHandler = () => {
     setBranchValue("");
+    setApplicationValue("");
     setBranchHasTouched(false);
     setApplicationHasTouched(false);
     dispatch(NachFilterReducerAction.updateShowMandate(false));
+    dispatch(NachFilterReducerAction.resetValues());
   };
   useEffect(() => {
+    const data = [
+      {
+        accountType: "savings",
+        applicationCustomer: "Tom",
+        applicationNum: 3456789,
+        bankAccHolderName: "Naveen",
+        bankAccountNum: "182949849494",
+        bankName: "HDFC",
+        branch: "TNAGAR",
+        branchName: "West",
+        customerEmailId: "naveen@gmail.com",
+        customerMobileNum: 9750208902,
+        emiAmt: 2500,
+        fbd: "",
+        firstNachBillingDate: "",
+        mandateAmt: 0,
+        mandateNum: "43244",
+        mandateStartDate: "",
+        mandateValidity: "01/13/2023",
+        maximumAmt: 10,
+        MICR: "600002025",
+        nachAmt: 10,
+        fileStatus: "Registered",
+        customerID: "Naveen07",
+        repayApplication: "Nach",
+        repayMode: "Nach",
+        loanAmount: 1240000,
+        disbursementAmount: 1240,
+        sancationDate: "01/13/2023",
+        nachSponserBank: "HDFC",
+        IFSC: "HDFC0000100",
+        draweePlace: "chennai",
+        mandateEndDate: "01/13/2023",
+      },
+      {
+        accountType: "savings",
+        applicationCustomer: "Tom",
+        applicationNum: 987654,
+        bankAccHolderName: "Jack",
+        bankAccountNum: "183847549402",
+        bankName: "HDFC",
+        branch: "TNAGAR",
+        branchName: "West",
+        customerEmailId: "jack@gmail.com",
+        customerMobileNum: 8974398383,
+        emiAmt: 2000,
+        fbd: "",
+        firstNachBillingDate: "",
+        mandateAmt: 0,
+        mandateNum: "43244",
+        mandateStartDate: "",
+        mandateValidity: "01/13/2023",
+        maximumAmt: 10,
+        MICR: "600002025",
+        nachAmt: 10,
+        fileStatus: "To Be Registered",
+        customerID: "Jack06",
+        repayApplication: "Nach",
+        repayMode: "Nach",
+        loanAmount: 133002224,
+        disbursementAmount: 13300,
+        sancationDate: "01/13/2023",
+        nachSponserBank: "HDFC",
+        IFSC: "HDFC0000100",
+        draweePlace: "chennai",
+        mandateEndDate: "01/13/2023",
+      },
+      {
+        accountType: "savings",
+        applicationCustomer: "Abishek",
+        applicationNum: 876543,
+        bankAccHolderName: "Abishek",
+        bankAccountNum: "134598249291",
+        bankName: "HDFC",
+        branch: "AMBATTUR",
+        branchName: "West",
+        customerEmailId: "abishek@gmail.com",
+        customerMobileNum: 8743232113,
+        emiAmt: 1780,
+        fbd: "",
+        firstNachBillingDate: "",
+        mandateAmt: 0,
+        mandateNum: "43244",
+        mandateStartDate: "",
+        mandateValidity: "01/13/2023",
+        maximumAmt: 10,
+        MICR: "600002025",
+        nachAmt: 10,
+        fileStatus: "To Be Registered",
+        customerID: "Abi22",
+        repayApplication: "Nach",
+        repayMode: "Nach",
+        loanAmount: 1989282000,
+        disbursementAmount: 1989282,
+        sancationDate: "01/13/2023",
+        nachSponserBank: "HDFC",
+        IFSC: "HDFC0000100",
+        draweePlace: "chennai",
+        mandateEndDate: "01/13/2023",
+      },
+    ];
+    setAllRows(data);
     const branchValues = GetBranchDetails();
     setBranchArray(branchValues);
   }, []);
@@ -75,7 +199,7 @@ const NachFilter = () => {
                 setBranchHasTouched(true);
               }}
               onChange={(event, newValue) => {
-                setBranchValue(newValue);
+                branchOnChangeHandler(newValue);
               }}
             />
             {branchHasError && <p className="error">Please Select Branch</p>}
@@ -91,8 +215,8 @@ const NachFilter = () => {
               onBlur={() => {
                 setApplicationHasTouched(true);
               }}
-              onChange={(value) => {
-                setBranchValue(value);
+              onChange={(event, value) => {
+                applicationNumberOnChangeHandler(value);
               }}
             />
             {applicationHasError && (
