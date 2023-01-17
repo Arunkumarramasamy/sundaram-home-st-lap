@@ -16,7 +16,7 @@ import { PieChart, Pie, Sector, Cell, LineChart, Line, Brush } from "recharts";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import CheckIcon from "@mui/icons-material/Check";
-import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import {
   BarChart,
   Bar,
@@ -311,7 +311,7 @@ function DashboardContent() {
                 fontWeight: "500",
               }}
             >
-              Approved List for Current Year
+              Approved List for Current Month
             </Typography>
           </Paper>
         </Grid>
