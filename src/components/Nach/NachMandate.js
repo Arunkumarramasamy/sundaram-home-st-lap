@@ -10,6 +10,11 @@ import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import NachFilter from "./NachFilter";
 import { NachFilterReducerAction } from "../Store/NachFilterReducer";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 const NachMandate = () => {
   //Importing Hooks
   const dispatch = useDispatch();
@@ -17,8 +22,6 @@ const NachMandate = () => {
   //Selectors from redux store
   const showMandate = useSelector((state) => state.nachFilter.showMandate);
   const FilteredData = useSelector((state) => state.nachFilter.data);
-  //Button updation
-  const [btnName, setBtnName] = useState("");
 
   useEffect(() => {
     if (FilteredData.fileStatus === "To Be Registered") {
@@ -27,6 +30,7 @@ const NachMandate = () => {
       setBtnName("Update");
     }
   }, [FilteredData]);
+
   //Field Touch Handler
   const [frequencyTouchHandler, setFrequencyTouchHandler] = useState(false);
   const [debitTypeTouchHandler, setDebitTypeTouchHandler] = useState(false);
@@ -34,6 +38,13 @@ const NachMandate = () => {
   const [mandateStartDateTouchHandler, setMandateStartDate] = useState(false);
   const [firstNachBillingDateTouchHandler, setFirstNachBillingDate] =
     useState(false);
+  //Button updation
+  const [btnName, setBtnName] = useState("");
+  //Maintaining Mandate Reference Number
+  const [mandateReferenceNumber, setMandateReferenceNumber] = useState("");
+  //Maintainig State for Dialog while submitting the application
+  const [open, setOpen] = useState(false);
+
   //Field Validation
   const frequencyIsValid =
     FilteredData.frequency !== "" && FilteredData.frequency !== undefined;
@@ -42,6 +53,7 @@ const NachMandate = () => {
   const FBDIsValid = FilteredData.fbd !== "";
   const mandateStartDateIsValid = FilteredData.mandateStartDate !== "";
   const firstNachBillingDateIsValid = FilteredData.firstNachBillingDate !== "";
+
   //Has Error
   const frequencyHasError = frequencyTouchHandler && !frequencyIsValid;
   const debitTypeHasError = debitTypeTouchHandler && !debitTypeIsValid;
@@ -51,6 +63,13 @@ const NachMandate = () => {
   const firstNachBillingDateHasError =
     firstNachBillingDateTouchHandler && !firstNachBillingDateIsValid;
 
+  //Handling Dailog methods
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   // Save Button Handler
   const onSaveButtonClickHandler = () => {
     setFrequencyTouchHandler(true);
@@ -66,6 +85,11 @@ const NachMandate = () => {
       firstNachBillingDateIsValid
     ) {
       console.log(FilteredData);
+      setMandateReferenceNumber("12768997992X");
+      handleClickOpen();
+      dispatch(
+        NachFilterReducerAction.updateMandateNum(mandateReferenceNumber)
+      );
     } else {
       return;
     }
@@ -158,7 +182,7 @@ const NachMandate = () => {
                       label="Account Holder Name"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.bankAccHolderName}
+                      value={FilteredData.bankAccHolderName.toUpperCase()}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -377,6 +401,27 @@ const NachMandate = () => {
               </Box>
             </Box>
           </>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{"Application Submitted"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                {`Mandate Number ${mandateReferenceNumber} is generated for this application`}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                sx={{ fontWeight: "bold" }}
+                variant="contained"
+                onClick={handleClose}
+              >
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
         </AccordianContainer>
       )}
     </>

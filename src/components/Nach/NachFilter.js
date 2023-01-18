@@ -37,6 +37,8 @@ const NachFilter = () => {
   //Methods
   const branchOnChangeHandler = (value) => {
     setApplicationArray([]);
+    dispatch(NachFilterReducerAction.updateShowMandate(false));
+    dispatch(NachFilterReducerAction.resetValues());
     setApplicationValue("");
     setBranchValue(value);
     const applicationArray = allRows.filter((item) => {
@@ -89,7 +91,6 @@ const NachFilter = () => {
         fbd: "",
         firstNachBillingDate: "",
         mandateAmt: 0,
-        mandateNum: "43244",
         mandateStartDate: "",
         mandateValidity: "01/13/2023",
         maximumAmt: 10,
@@ -122,7 +123,6 @@ const NachFilter = () => {
         fbd: "",
         firstNachBillingDate: "",
         mandateAmt: 0,
-        mandateNum: "43244",
         mandateStartDate: "",
         mandateValidity: "01/13/2023",
         maximumAmt: 10,
@@ -155,7 +155,6 @@ const NachFilter = () => {
         fbd: "",
         firstNachBillingDate: "",
         mandateAmt: 0,
-        mandateNum: "43244",
         mandateStartDate: "",
         mandateValidity: "01/13/2023",
         maximumAmt: 10,
@@ -229,7 +228,7 @@ const NachFilter = () => {
               label="Customer ID"
               variant="standard"
               placeholder="Enter Customer ID"
-              value={FilteredData.customerID}
+              value={FilteredData.customerID.toUpperCase()}
               disabled={true}
             />
           </Grid>
@@ -317,7 +316,7 @@ const NachFilter = () => {
             sx={{ height: "2rem" }}
             onClick={SearchButtonHandler}
           >
-            Search
+            Detail
           </Button>
           <Button
             sx={{

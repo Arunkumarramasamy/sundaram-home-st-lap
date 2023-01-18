@@ -61,7 +61,6 @@ const NachFilterReducer = createSlice({
       state.data.bankAccountNum = action.payload.bankAccountNum;
       state.data.bankAccHolderName = action.payload.bankAccHolderName;
       state.data.accountType = action.payload.accountType;
-      state.data.mandateNum = action.payload.mandateNum;
       state.data.nachAmt = action.payload.nachAmt;
       state.data.mandateAmt = action.payload.emiAmt * 2;
       state.data.frequency = action.payload.frequency;
@@ -121,6 +120,9 @@ const NachFilterReducer = createSlice({
     },
     updateFirstNachBillingDate(state, action) {
       state.data.firstNachBillingDate = action.payload;
+    },
+    updateMandateNum(state, action) {
+      state.data.mandateNum = action.payload;
     },
   },
 });
