@@ -57,7 +57,7 @@ const SanctionedList = (props) => {
       type: "string",
       hideable: false,
       width: 244,
-      align: "right",
+      align: "left",
     },
     {
       field: "applicationDate",

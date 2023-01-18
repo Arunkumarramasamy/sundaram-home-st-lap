@@ -65,7 +65,7 @@ export default function DisbursementRequestList(props) {
       type: "string",
       hideable: false,
       width: 200,
-      align: "right",
+      align: "left",
     },
     {
       field: "customerName",
