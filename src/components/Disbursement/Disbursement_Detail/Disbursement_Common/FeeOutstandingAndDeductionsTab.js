@@ -29,7 +29,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Due Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 160,
+      width: 235,
       align: "right",
       editable: false,
       renderCell: (params) => {
@@ -41,7 +41,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Paid Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 235,
       align: "right",
       editable: false,
       renderCell: (params) => {
@@ -53,7 +53,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Waved Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 235,
       align: "right",
       editable: false,
       renderCell: (params) => {
@@ -65,7 +65,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Deduction",
       headerAlign: "center",
       type: "string",
-      width: "230",
+      width: "235",
       editable: false,
       align: "right",
       renderCell: (params) => {
@@ -160,10 +160,10 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       <Grid container spacing={0}>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "Green" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"Total Deductions : "}
-            <span style={{ color: "Green" }}>
+            <span style={{ color: "#2F7DC4" }}>
               {parseInt(props.deductionTabValue.deductionTotal).toLocaleString(
                 "en-IN"
               )}
@@ -172,10 +172,10 @@ const FeeOutstandingAndDeductionsTab = (props) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "blue" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"(Paid : "}
-            <span style={{ color: "blue" }}>
+            <span style={{ color: "#2F7DC4" }}>
               {parseInt(props.deductionTabValue.paidTotal).toLocaleString(
                 "en-IN"
               )}
@@ -185,10 +185,10 @@ const FeeOutstandingAndDeductionsTab = (props) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "red" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"Due : "}
-            <span style={{ color: "red" }}>
+            <span style={{ color: "#2F7DC4" }}>
               {parseInt(props.deductionTabValue.dueTotal).toLocaleString(
                 "en-IN"
               )}
@@ -201,11 +201,11 @@ const FeeOutstandingAndDeductionsTab = (props) => {
             style={{
               fontWeight: "bold",
               marginLeft: "8px",
-              color: "saddlebrown",
+              color: "#2F7DC4",
             }}
           >
             {"Waived : "}
-            <span style={{ color: "saddlebrown" }}>
+            <span style={{ color: "#2F7DC4" }}>
               {parseInt(props.deductionTabValue.waivedTotal).toLocaleString(
                 "en-IN"
               )}
@@ -215,10 +215,10 @@ const FeeOutstandingAndDeductionsTab = (props) => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "Purple" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"Deduction : "}
-            <span style={{ color: "Purple" }}>
+            <span style={{ color: "#2F7DC4" }}>
               {parseInt(props.deductionTabValue.deductionTotal).toLocaleString(
                 "en-IN"
               )}

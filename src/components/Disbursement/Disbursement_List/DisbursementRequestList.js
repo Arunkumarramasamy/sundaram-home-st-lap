@@ -72,7 +72,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Customer Name",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 240,
       align: "left",
     },
     {
@@ -80,7 +80,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Status",
       headerAlign: "center",
       type: "string",
-      width: 158,
+      width: 200,
       align: "left",
       renderCell: (params) => {
         return loadStatus(params.value);

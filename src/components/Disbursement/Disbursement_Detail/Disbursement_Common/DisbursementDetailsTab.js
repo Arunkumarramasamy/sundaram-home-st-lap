@@ -201,7 +201,7 @@ const DisbursementDetailsTab = (props) => {
       headerName: "Bank Branch",
       headerAlign: "center",
       type: "string",
-      width: 140,
+      width: 194,
       align: "left",
     },
     {
@@ -240,6 +240,7 @@ const DisbursementDetailsTab = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
+            align="right"
             disabled={
               true ||
               !params.row.isChecked ||
@@ -692,7 +693,7 @@ const DisbursementDetailsTab = (props) => {
           <CustomDataGrid
             noDataMessage="No Bank Data."
             noDataOnFilterMessage="No Bank Data on Applied Filter."
-            gridHeight="270px"
+            gridHeight="145px"
             rows={props.disbursementDetailTabValue.disbursementFavours}
             columns={columns}
             checkboxSelection={false}

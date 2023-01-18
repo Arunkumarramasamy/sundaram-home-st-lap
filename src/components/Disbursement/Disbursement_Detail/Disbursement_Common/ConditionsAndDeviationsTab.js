@@ -31,7 +31,7 @@ const ConditionsAndDeviationsTab = (props) => {
       headerName: "Approved Date",
       headerAlign: "center",
       type: "string",
-      width: 150,
+      width: 194,
       align: "right",
       editable: false,
     },
