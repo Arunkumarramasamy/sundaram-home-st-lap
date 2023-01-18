@@ -499,7 +499,9 @@ const AdditionalWaiver = () => {
                   >
                     {"Total Outstanding : "}
                     <span style={{ color: "Green" }}>
-                      {deductionsState.deductionTotal}
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                   </label>
                 </Grid>
@@ -513,7 +515,9 @@ const AdditionalWaiver = () => {
                   >
                     {"(Receivable : "}
                     <span style={{ color: "red" }}>
-                      {deductionsState.dueTotal}
+                      {parseInt(deductionsState.dueTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -528,7 +532,9 @@ const AdditionalWaiver = () => {
                   >
                     {"Received : "}
                     <span style={{ color: "blue" }}>
-                      {deductionsState.paidTotal}
+                      {parseInt(deductionsState.paidTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -544,7 +550,9 @@ const AdditionalWaiver = () => {
                   >
                     {"Early Waived : "}
                     <span style={{ color: "saddlebrown" }}>
-                      {deductionsState.waivedTotal}
+                      {parseInt(deductionsState.waivedTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -559,7 +567,9 @@ const AdditionalWaiver = () => {
                   >
                     {"Outstanding : "}
                     <span style={{ color: "Purple" }}>
-                      {deductionsState.deductionTotal}
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {`)`}
                   </label>
