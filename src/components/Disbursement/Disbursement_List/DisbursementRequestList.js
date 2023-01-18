@@ -61,11 +61,11 @@ export default function DisbursementRequestList(props) {
     {
       field: "applicationNum",
       headerName: "Application Number",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       hideable: false,
       width: 200,
-      align: "left",
+      align: "right",
     },
     {
       field: "customerName",
@@ -80,7 +80,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Status",
       headerAlign: "center",
       type: "string",
-      width: 150,
+      width: 158,
       align: "left",
       renderCell: (params) => {
         return loadStatus(params.value);
@@ -89,17 +89,17 @@ export default function DisbursementRequestList(props) {
     {
       field: "disbursementDate",
       headerName: "Disbursement Date",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 200,
-      align: "left",
+      align: "right",
     },
     {
       field: "action",
       headerName: "Action",
       headerAlign: "center",
       type: "string",
-      width: 60,
+      width: 100,
       align: "center",
       hideable: false,
       sortable: false,

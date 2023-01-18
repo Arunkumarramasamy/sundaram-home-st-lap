@@ -27,7 +27,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
     {
       field: "receiveable",
       headerName: "Due Amount (₹)",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 160,
       align: "right",
@@ -39,7 +39,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
     {
       field: "received",
       headerName: "Paid Amount (₹)",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 200,
       align: "right",
@@ -51,7 +51,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
     {
       field: "earlyWaiver",
       headerName: "Waved Amount (₹)",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 200,
       align: "right",
@@ -63,7 +63,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
     {
       field: "deduction",
       headerName: "Deduction",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: "230",
       editable: false,

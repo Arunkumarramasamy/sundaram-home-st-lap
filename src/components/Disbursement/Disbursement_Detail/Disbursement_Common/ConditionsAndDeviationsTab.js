@@ -29,10 +29,10 @@ const ConditionsAndDeviationsTab = (props) => {
     {
       field: "date",
       headerName: "Approved Date",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 150,
-      align: "left",
+      align: "right",
       editable: false,
     },
     {
@@ -157,10 +157,10 @@ const ConditionsAndDeviationsTab = (props) => {
             rows={conditionRows}
             columns={conditionColumns}
             pageSize={5}
-            pageSizeOptions={[5, 10, 15, 20, 25]}
+            pageSizeOptions={[5]}
             hideFooter={true}
             gridHeight={"270px"}
-            gridWidth={"60%"}
+            gridWidth={"53.40%"}
           />
         </Box>
       )}

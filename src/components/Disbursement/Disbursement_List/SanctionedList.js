@@ -53,19 +53,19 @@ const SanctionedList = (props) => {
     {
       field: "applicationNum",
       headerName: "Application Number",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       hideable: false,
       width: 244,
-      align: "left",
+      align: "right",
     },
     {
       field: "applicationDate",
       headerName: "Application Date",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 170,
-      align: "left",
+      align: "right",
       renderCell: (params) => {
         var date = new Date(params.value);
         return (
@@ -78,10 +78,10 @@ const SanctionedList = (props) => {
     {
       field: "sanctionAmt",
       headerName: "Approved Amount",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 190,
-      align: "left",
+      align: "right",
       renderCell: (params) => {
         return (
           <Typography sx={{ display: "flex", alignItems: "center" }}>

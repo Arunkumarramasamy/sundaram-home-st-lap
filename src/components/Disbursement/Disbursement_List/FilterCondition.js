@@ -487,7 +487,7 @@ const FilterCondition = (props) => {
                 />
               </Grid> */}
 
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+              {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
                   disabled={disabledState || disableSearchFields}
                   required={false}
@@ -504,7 +504,7 @@ const FilterCondition = (props) => {
                     });
                   }}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField

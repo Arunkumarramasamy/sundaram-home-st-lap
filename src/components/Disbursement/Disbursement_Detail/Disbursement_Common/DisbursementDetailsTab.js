@@ -207,28 +207,28 @@ const DisbursementDetailsTab = (props) => {
     {
       field: "bankAccountNum",
       headerName: "Bank Account Number",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       width: 180,
-      align: "left",
+      align: "right",
     },
     {
       field: "bankAccountType",
       headerName: "Bank Account Type",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       hideable: false,
       width: 200,
-      align: "left",
+      align: "right",
     },
     {
       field: "ifscCode",
       headerName: "IFSC",
-      headerAlign: "center",
+      headerAlign: "right",
       type: "string",
       hideable: false,
       width: 200,
-      align: "left",
+      align: "right",
     },
     {
       field: "amount",
@@ -591,7 +591,12 @@ const DisbursementDetailsTab = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <InputLabel
             id="remarks"
-            sx={{ color: "#004A92", marginTop: "8px" }}
+            sx={{
+              color: "#004A92",
+              marginTop: "8px",
+              fontWeight: 400,
+              fontSize: "0.875rem",
+            }}
             required={false}
           >
             Remarks
@@ -630,7 +635,12 @@ const DisbursementDetailsTab = (props) => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <InputLabel
               id="remarks"
-              sx={{ color: "#004A92", marginTop: "8px" }}
+              sx={{
+                color: "#004A92",
+                marginTop: "8px",
+                fontWeight: 400,
+                fontSize: "0.875rem",
+              }}
               required={false}
             >
               Approval Remarks
