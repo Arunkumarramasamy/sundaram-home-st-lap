@@ -33,7 +33,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       align: "right",
       editable: false,
       renderCell: (params) => {
-        return <>{params.value}</>;
+        return <>{parseInt(params.value).toLocaleString("en-IN")}</>;
       },
     },
     {
@@ -45,7 +45,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       align: "right",
       editable: false,
       renderCell: (params) => {
-        return <>{params.value}</>;
+        return <>{parseInt(params.value).toLocaleString("en-IN")}</>;
       },
     },
     {
@@ -57,7 +57,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       align: "right",
       editable: false,
       renderCell: (params) => {
-        return <>{params.value}</>;
+        return <>{parseInt(params.value).toLocaleString("en-IN")}</>;
       },
     },
     {
@@ -71,7 +71,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       renderCell: (params) => {
         var value =
           params.row.receiveable - params.row.received - params.row.earlyWaiver;
-        return value;
+        return <>{parseInt(value).toLocaleString("en-IN")}</>;
       },
     },
   ];
@@ -105,7 +105,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
                         padding: "16px 16px 0px 16px !important",
                       }}
                     />
-                    <CardContent sx={{fontFamily: "Roboto"}}>
+                    <CardContent sx={{ fontFamily: "Roboto" }}>
                       <Grid
                         container
                         item
