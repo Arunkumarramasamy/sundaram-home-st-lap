@@ -164,7 +164,9 @@ const FeeOutstandingAndDeductionsTab = (props) => {
           >
             {"Total Deductions : "}
             <span style={{ color: "Green" }}>
-              {props.deductionTabValue.deductionTotal}
+              {parseInt(props.deductionTabValue.deductionTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
           </label>
         </Grid>
@@ -174,7 +176,9 @@ const FeeOutstandingAndDeductionsTab = (props) => {
           >
             {"(Paid : "}
             <span style={{ color: "blue" }}>
-              {props.deductionTabValue.paidTotal}
+              {parseInt(props.deductionTabValue.paidTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {``}
           </label>
@@ -185,7 +189,9 @@ const FeeOutstandingAndDeductionsTab = (props) => {
           >
             {"Due : "}
             <span style={{ color: "red" }}>
-              {props.deductionTabValue.dueTotal}
+              {parseInt(props.deductionTabValue.dueTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {``}
           </label>
@@ -200,7 +206,9 @@ const FeeOutstandingAndDeductionsTab = (props) => {
           >
             {"Waived : "}
             <span style={{ color: "saddlebrown" }}>
-              {props.deductionTabValue.waivedTotal}
+              {parseInt(props.deductionTabValue.waivedTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {``}
           </label>
@@ -211,7 +219,9 @@ const FeeOutstandingAndDeductionsTab = (props) => {
           >
             {"Deduction : "}
             <span style={{ color: "Purple" }}>
-              {props.deductionTabValue.deductionTotal}
+              {parseInt(props.deductionTabValue.deductionTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {`)`}
           </label>
