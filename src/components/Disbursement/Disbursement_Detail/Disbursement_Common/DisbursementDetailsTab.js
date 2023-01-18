@@ -791,13 +791,14 @@ const DisbursementDetailsTab = (props) => {
                             subheaderTypographyProps={{
                               color: "#004A92",
                               fontWeight: "700",
+                              fontFamily: "Roboto",
                             }}
                             sx={{
                               textAlign: "left",
                               padding: "16px 16px 0px 16px !important",
                             }}
                           />
-                          <CardContent>
+                          <CardContent sx={{ fontFamily: "Roboto" }}>
                             <Grid
                               container
                               item
