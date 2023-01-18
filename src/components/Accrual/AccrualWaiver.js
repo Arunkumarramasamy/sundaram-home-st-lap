@@ -101,11 +101,14 @@ const AdditionalWaiver = () => {
       deductionTotal1 =
         deductionTotal1 +
         rows.additionalAccrual +
-        (rows.receiveable - rows.received - rows.earlyWaiver - rows.additionalWaiver);
+        (rows.receiveable -
+          rows.received -
+          rows.earlyWaiver -
+          rows.additionalWaiver);
       waivedTotal1 = waivedTotal1 + rows.earlyWaiver;
       data.paidTotal = paidTotal1;
       data.dueTotal = dueTotal1;
-      data.deductionTotal = deductionTotal1- rows.additionalWaiver;
+      data.deductionTotal = deductionTotal1 - rows.additionalWaiver;
       data.waivedTotal = waivedTotal1;
       data.totalDeductionsTotal =
         dueTotal1 + deductionTotal1 - paidTotal1 - waivedTotal1;
@@ -362,7 +365,6 @@ const AdditionalWaiver = () => {
               onSubmit={searchButtonClickHandler}
               sx={{ margin: "8px !important" }}
             >
-              
               <Grid item container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
@@ -486,7 +488,7 @@ const AdditionalWaiver = () => {
               initialOpen={true}
               sx={{ marignBottom: "8px !important" }}
             >
-               <Grid container spacing={0}>
+              <Grid container spacing={0}>
                 <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
                   <label
                     style={{
@@ -629,13 +631,24 @@ const AdditionalWaiver = () => {
                 sx={{ height: "60px", bgcolor: "white" }}
               >
                 {totalRowsCount > 10 && (
-                  <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                  <Typography
+                    sx={{
+                      mr: 2,
+                      color: "#004A92",
+                      fontWeight: 700,
+                      fontFamily: "Roboto",
+                    }}
+                  >
                     {"Page Max Records : " + rowsPerPage}
                   </Typography>
                 )}
                 <Typography
                   padding="1px"
-                  sx={{ color: "#004A92", fontWeight: 700 }}
+                  sx={{
+                    color: "#004A92",
+                    fontWeight: 700,
+                    fontFamily: "Roboto",
+                  }}
                 >
                   {"Total Records : " + totalRowsCount}
                 </Typography>
