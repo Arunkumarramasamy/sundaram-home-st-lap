@@ -63,6 +63,7 @@ const DisbursementTabsIntegrator = (props) => {
                   backgroundColor: "#D7D7D7",
                   minHeight: "0rem",
                   height: "2.3rem",
+                  fontFamily: "Roboto",
                 },
               }}
             >
