@@ -74,22 +74,24 @@ const columns = [
     type: "String",
     hideable: false,
     sortable: false,
-    
-    minWidth:218,
+
+    minWidth: 218,
     align: "left",
     editable: false,
-    valueGetter: (value) => new Date(value.value).toLocaleString('en-IN', {
-      day: '2-digit',
-      month: '2-digit',
-      year: '2-digit', hour: '2-digit', minute:'2-digit', second : '2-digit',
-      hour12: false
-    }),
+    valueGetter: (value) =>
+      new Date(value.value).toLocaleString("en-IN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }),
   },
 ];
 const AdditionalHistory = (props) => {
-  const [applicationNum, setapplicationNum] = useState(
-    props.applicationNum
-  );
+  const [applicationNum, setapplicationNum] = useState(props.applicationNum);
   const [feeType, setFeeType] = useState(props.feeType);
   useEffect(() => {
     loadHistory();
@@ -107,11 +109,11 @@ const AdditionalHistory = (props) => {
       const response = await axios.post(
         "http://localhost:8080/additionalfee/getHistoryData",
         dataMap
-        );
-        if (response.data.historyData) {
-          setRows(response.data.historyData);
-          setTotalRowsCount(response.data.historyData.length);
-        }
+      );
+      if (response.data.historyData) {
+        setRows(response.data.historyData);
+        setTotalRowsCount(response.data.historyData.length);
+      }
     } catch {
       console.log("Network Error");
     }
@@ -129,7 +131,7 @@ const AdditionalHistory = (props) => {
             boxShadow: 2,
             border: 2,
             minHeight: "280px",
-            height:'80%',
+            height: "80%",
             borderColor: "white",
             "& .MuiDataGrid-columnHeaders": {
               color: "white",
@@ -159,7 +161,7 @@ const AdditionalHistory = (props) => {
           >
             <Typography
               padding="1px"
-              sx={{ color: "#004A92", fontWeight: 700 }}
+              sx={{ color: "#004A92", fontWeight: 700, fontFamily: "Roboto" }}
             >
               {"Total Records : " + totalRowsCount}
             </Typography>
@@ -182,6 +184,7 @@ const AdditionalHistory = (props) => {
                         subheaderTypographyProps={{
                           color: "#004A92",
                           fontWeight: "700",
+                          fontFamily: "Roboto",
                         }}
                         sx={{
                           textAlign: "left",

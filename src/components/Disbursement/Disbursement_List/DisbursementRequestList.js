@@ -513,13 +513,20 @@ export default function DisbursementRequestList(props) {
             sx={{ height: "60px", bgcolor: "white" }}
           >
             {totalRowsCount > 10 && (
-              <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+              <Typography
+                sx={{
+                  mr: 2,
+                  color: "#004A92",
+                  fontWeight: 700,
+                  fontFamily: "Roboto",
+                }}
+              >
                 {"Page Max Records : " + rowsPerPage}
               </Typography>
             )}
             <Typography
               padding="1px"
-              sx={{ color: "#004A92", fontWeight: 700 }}
+              sx={{ color: "#004A92", fontWeight: 700, fontFamily: "Roboto" }}
             >
               {"Total Records : " + totalRowsCount}
             </Typography>
