@@ -21,7 +21,7 @@ const CustomTextField = (props) => {
           {props.label}
         </InputLabel>
         <TextField
-          inputProps={{ min: 0, style: { textAlign: `${props.align}` } }}
+          inputProps={{ style: { textAlign: `${props.align}` } }}
           fullWidth
           id={props.id}
           variant={props.variant}
