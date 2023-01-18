@@ -333,10 +333,10 @@ const DisbursementModify = (props) => {
         ],
       });
       status = false;
-    } else if (data.totalDisbAmt < 0) {
+    } else if (data.totalDisbAmt <= 0) {
       errorDispatch({
         type: errorParameters.currentDisbError,
-        value: [true, "Net Disbursement Amount Cannot be Less than Zero."],
+        value: [true, "Net Disbursement Amount Cannot be Less than Zero or Equal to Zero."],
       });
       status = false;
     } else if (errorState.currentDisbError[0]) {
