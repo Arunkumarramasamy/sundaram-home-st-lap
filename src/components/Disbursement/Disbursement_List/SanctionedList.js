@@ -197,13 +197,20 @@ const SanctionedList = (props) => {
             sx={{ height: "60px", bgcolor: "white" }}
           >
             {totalRowsCount > 10 && (
-              <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+              <Typography
+                sx={{
+                  mr: 2,
+                  color: "#004A92",
+                  fontWeight: 700,
+                  fontFamily: "Roboto",
+                }}
+              >
                 {"Page Max Records : " + rowsPerPage}
               </Typography>
             )}
             <Typography
               padding="1px"
-              sx={{ color: "#004A92", fontWeight: 700 }}
+              sx={{ color: "#004A92", fontWeight: 700, fontFamily: "Roboto" }}
             >
               {"Total Records : " + totalRowsCount}
             </Typography>
@@ -246,10 +253,13 @@ const SanctionedList = (props) => {
                             />
                           </IconButton>
                         }
-                        subheader={"Application Number  : " + row.applicationNum}
+                        subheader={
+                          "Application Number  : " + row.applicationNum
+                        }
                         subheaderTypographyProps={{
                           color: "#004A92",
                           fontWeight: "700",
+                          fontFamily: "Roboto",
                         }}
                         sx={{
                           textAlign: "left",

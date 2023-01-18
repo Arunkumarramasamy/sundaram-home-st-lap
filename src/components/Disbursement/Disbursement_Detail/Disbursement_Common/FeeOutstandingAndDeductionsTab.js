@@ -98,6 +98,7 @@ const FeeOutstandingAndDeductionsTab = (props) => {
                       subheaderTypographyProps={{
                         color: "#004A92",
                         fontWeight: "700",
+                        fontFamily: "Roboto",
                       }}
                       sx={{
                         textAlign: "left",
