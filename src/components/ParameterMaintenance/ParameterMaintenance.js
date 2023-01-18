@@ -597,7 +597,7 @@ const ParameterMaintenance = () => {
 
           <Box>
             <Button
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontFamily: "Roboto" }}
               variant="contained"
               onClick={goBtnHandler}
             >
@@ -640,7 +640,7 @@ const ParameterMaintenance = () => {
               )}
               <Typography
                 padding="1px"
-                sx={{ color: "#004A92", fontWeight: 700 }}
+                sx={{ color: "#004A92", fontWeight: 700, fontFamily: "Roboto" }}
               >
                 {"Total Records : " + totalRowsCount}
               </Typography>
@@ -672,6 +672,7 @@ const ParameterMaintenance = () => {
                           subheaderTypographyProps={{
                             color: "#004A92",
                             fontWeight: "700",
+                            fontFamily: "Roboto",
                           }}
                           sx={{
                             textAlign: "left",
