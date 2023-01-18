@@ -114,17 +114,22 @@ const FeeOutstandingAndDeductionsTab = (props) => {
                         justifyContent="flex-start"
                       >
                         <Typography padding="1px">
-                          {"Paid Amount : " + row.receiveable}
+                          {"Paid Amount : " +
+                            parseInt(row.receiveable).toLocaleString("en-IN")}
                         </Typography>
                         <Typography padding="1px">
-                          {"Due Amount : " + row.received}
+                          {"Due Amount : " +
+                            parseInt(row.received).toLocaleString("en-IN")}
                         </Typography>
                         <Typography padding="1px">
-                          {"Waived Amount : " + row.earlyWaiver}
+                          {"Waived Amount : " +
+                            parseInt(row.earlyWaiver).toLocaleString("en-IN")}
                         </Typography>
                         <Typography padding="1px">
                           {"Deduction : " +
-                            (row.receiveable - row.received - row.earlyWaiver)}
+                            parseInt(
+                              row.receiveable - row.received - row.earlyWaiver
+                            ).toLocaleString("en-IN")}
                         </Typography>
                       </Grid>
                     </CardContent>
