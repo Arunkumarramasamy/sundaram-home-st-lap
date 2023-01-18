@@ -498,7 +498,9 @@ const AdditionalAccrual = () => {
                   >
                     {"Total Outstanding : "}
                     <span style={{ color: "Green" }}>
-                      {deductionsState.deductionTotal}
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                   </label>
                 </Grid>
@@ -512,7 +514,9 @@ const AdditionalAccrual = () => {
                   >
                     {"(Receivable : "}
                     <span style={{ color: "red" }}>
-                      {deductionsState.dueTotal}
+                      {parseInt(deductionsState.dueTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -527,7 +531,9 @@ const AdditionalAccrual = () => {
                   >
                     {"Received : "}
                     <span style={{ color: "blue" }}>
-                      {deductionsState.paidTotal}
+                      {parseInt(deductionsState.paidTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -543,7 +549,9 @@ const AdditionalAccrual = () => {
                   >
                     {"Early Waived : "}
                     <span style={{ color: "saddlebrown" }}>
-                      {deductionsState.waivedTotal}
+                      {parseInt(deductionsState.waivedTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -558,7 +566,9 @@ const AdditionalAccrual = () => {
                   >
                     {"Outstanding : "}
                     <span style={{ color: "Purple" }}>
-                      {deductionsState.deductionTotal}
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {`)`}
                   </label>
