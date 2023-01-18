@@ -540,7 +540,9 @@ const ParameterMaintenance = () => {
               flexWrap: "wrap",
             }}
           >
-            <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
+            <InputLabel
+              sx={{ color: "#004A92", fontWeight: 400, fontFamily: "Roboto" }}
+            >
               Branch
             </InputLabel>
             <FormControl>
@@ -570,7 +572,9 @@ const ParameterMaintenance = () => {
               flexWrap: "wrap",
             }}
           >
-            <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
+            <InputLabel
+              sx={{ color: "#004A92", fontWeight: 400, fontFamily: "Roboto" }}
+            >
               Module
             </InputLabel>
             <FormControl>
