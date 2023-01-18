@@ -15,6 +15,7 @@ const CustomTextField = (props) => {
             mb: 2,
             fontWeight: 400,
             fontSize: "0.875rem",
+            fontFamily: "Roboto",
           }}
         >
           {props.label}

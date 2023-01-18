@@ -14,6 +14,9 @@ body {
   color: #aaaaaa;
   padding: 0;
   margin: 0;
+  font-family: "Roboto" !important;
+  font-weight: 400;
+  font-size: "0.875rem";
 }
 @media (max-width: 34em) {
   .MuiTabs-flexContainer {

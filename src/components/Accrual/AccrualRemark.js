@@ -102,10 +102,7 @@ const AccrualRemark = (props) => {
             height: "80%",
           }}
         >
-          <Grid
-            container
-            spacing={2}
-          >
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomDropDown
                 id="1"
@@ -135,14 +132,17 @@ const AccrualRemark = (props) => {
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            spacing={2}
-          >
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <InputLabel
                 id="accrual-waiver-remark"
-                sx={{ color: "#004A92", marginTop: "8px" }}
+                sx={{
+                  color: "#004A92",
+                  marginTop: "8px",
+                  fontWeight: 400,
+                  fontSize: "0.875rem",
+                  fontFamily: "Roboto",
+                }}
                 required={false}
               >
                 Remarks

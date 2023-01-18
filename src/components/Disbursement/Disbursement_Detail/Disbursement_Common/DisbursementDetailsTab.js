@@ -596,6 +596,7 @@ const DisbursementDetailsTab = (props) => {
               marginTop: "8px",
               fontWeight: 400,
               fontSize: "0.875rem",
+              fontFamily: "Roboto",
             }}
             required={false}
           >
@@ -640,6 +641,7 @@ const DisbursementDetailsTab = (props) => {
                 marginTop: "8px",
                 fontWeight: 400,
                 fontSize: "0.875rem",
+                fontFamily: "Roboto",
               }}
               required={false}
             >

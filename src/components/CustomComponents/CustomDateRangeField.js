@@ -10,7 +10,8 @@ const CustomDateRangeField = (props) => {
       <InputLabel
         required={props.required}
         size="small"
-        sx={{ color: "#004A92", mb: 2, fontWeight: 400, fontSize: "0.875rem" }}
+        sx={{ color: "#004A92", mb: 2, fontWeight: 400, fontSize: "0.875rem",
+        fontFamily: "Roboto" }}
       >
         {props.label}
       </InputLabel>
