@@ -493,11 +493,11 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "Green",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Total Outstanding : "}
-                    <span style={{ color: "Green" }}>
+                    <span style={{ color: "#2F7DC4" }}>
                       {parseInt(deductionsState.deductionTotal).toLocaleString(
                         "en-IN"
                       )}
@@ -509,11 +509,11 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "red",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"(Receivable : "}
-                    <span style={{ color: "red" }}>
+                    <span style={{ color: "#2F7DC4" }}>
                       {parseInt(deductionsState.dueTotal).toLocaleString(
                         "en-IN"
                       )}
@@ -526,11 +526,11 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "blue",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Received : "}
-                    <span style={{ color: "blue" }}>
+                    <span style={{ color: "#2F7DC4" }}>
                       {parseInt(deductionsState.paidTotal).toLocaleString(
                         "en-IN"
                       )}
@@ -544,11 +544,11 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "saddlebrown",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Early Waived : "}
-                    <span style={{ color: "saddlebrown" }}>
+                    <span style={{ color: "#2F7DC4" }}>
                       {parseInt(deductionsState.waivedTotal).toLocaleString(
                         "en-IN"
                       )}
@@ -561,11 +561,11 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "Purple",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Outstanding : "}
-                    <span style={{ color: "Purple" }}>
+                    <span style={{ color: "#2F7DC4" }}>
                       {parseInt(deductionsState.deductionTotal).toLocaleString(
                         "en-IN"
                       )}
