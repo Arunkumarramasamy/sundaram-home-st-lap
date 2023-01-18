@@ -61,7 +61,7 @@ export default function DisbursementRequestList(props) {
     {
       field: "applicationNum",
       headerName: "Application Number",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       hideable: false,
       width: 200,
@@ -89,7 +89,7 @@ export default function DisbursementRequestList(props) {
     {
       field: "disbursementDate",
       headerName: "Disbursement Date",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       width: 200,
       align: "right",

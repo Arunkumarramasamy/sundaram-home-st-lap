@@ -207,7 +207,7 @@ const DisbursementDetailsTab = (props) => {
     {
       field: "bankAccountNum",
       headerName: "Bank Account Number",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       width: 180,
       align: "right",
@@ -215,7 +215,7 @@ const DisbursementDetailsTab = (props) => {
     {
       field: "bankAccountType",
       headerName: "Bank Account Type",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       hideable: false,
       width: 200,
@@ -224,7 +224,7 @@ const DisbursementDetailsTab = (props) => {
     {
       field: "ifscCode",
       headerName: "IFSC",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       hideable: false,
       width: 200,

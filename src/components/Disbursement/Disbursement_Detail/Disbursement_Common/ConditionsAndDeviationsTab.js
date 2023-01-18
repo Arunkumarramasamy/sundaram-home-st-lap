@@ -29,7 +29,7 @@ const ConditionsAndDeviationsTab = (props) => {
     {
       field: "date",
       headerName: "Approved Date",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       width: 150,
       align: "right",

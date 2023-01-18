@@ -53,7 +53,7 @@ const SanctionedList = (props) => {
     {
       field: "applicationNum",
       headerName: "Application Number",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       hideable: false,
       width: 244,
@@ -62,7 +62,7 @@ const SanctionedList = (props) => {
     {
       field: "applicationDate",
       headerName: "Application Date",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       width: 170,
       align: "right",
@@ -78,7 +78,7 @@ const SanctionedList = (props) => {
     {
       field: "sanctionAmt",
       headerName: "Approved Amount",
-      headerAlign: "right",
+      headerAlign: "center",
       type: "string",
       width: 190,
       align: "right",
