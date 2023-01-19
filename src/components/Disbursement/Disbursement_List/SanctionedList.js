@@ -107,11 +107,17 @@ const SanctionedList = (props) => {
   ];
 
   const rowDoubleClickHandler = (event) => {
-    props.onRowDoubleClick(event.row);
+    const rowStatus = event.row.losStatus;
+    if (rowStatus !== "Fully Requested" && rowStatus !== "Fully Disbursed") {
+      props.onRowDoubleClick(event.row);
+    }
   };
 
-  const cardButtonClickHandler = (event) => {
-    props.onRowDoubleClick(event);
+  const cardButtonClickHandler = (row) => {
+    const rowStatus = row.losStatus;
+    if (rowStatus !== "Fully Requested" && rowStatus !== "Fully Disbursed") {
+      props.onRowDoubleClick(row);
+    }
   };
 
   const [page, setPage] = React.useState(1);
@@ -243,15 +249,22 @@ const SanctionedList = (props) => {
                     <Card>
                       <CardHeader
                         action={
-                          <IconButton
-                            onClick={() => {
-                              cardButtonClickHandler(row);
-                            }}
-                          >
-                            <Shortcut
-                              sx={{ color: "#004A92", fontWeight: 700 }}
-                            />
-                          </IconButton>
+                          row.losStatus !== "Fully Requested" &&
+                          row.losStatus !== "Fully Disbursed" ? (
+                            <React.Fragment>
+                              <IconButton
+                                onClick={() => {
+                                  cardButtonClickHandler(row);
+                                }}
+                              >
+                                <Shortcut
+                                  sx={{ color: "#004A92", fontWeight: 700 }}
+                                />
+                              </IconButton>
+                            </React.Fragment>
+                          ) : (
+                            <React.Fragment></React.Fragment>
+                          )
                         }
                         subheader={
                           "Application Number  : " + row.applicationNum

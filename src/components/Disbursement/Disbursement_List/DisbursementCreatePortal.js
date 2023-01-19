@@ -180,9 +180,10 @@ const DisbursementCreatePortal = (props) => {
     const response = await api.get("/getAllData");
     const dataMap = [];
     response.data.map((sanctionRow) => {
-      if (!((sanctionRow.losStatus === "Fully Disbursed") || (sanctionRow.losStatus === "Partially Requested") || (sanctionRow.losStatus === "Fully Requested"))) {
-        dataMap.push(sanctionRow);
-      }
+      // if (!((sanctionRow.losStatus === "Fully Disbursed") ||
+      //  (sanctionRow.losStatus === "Partially Requested") || (sanctionRow.losStatus === "Fully Requested"))) {
+      dataMap.push(sanctionRow);
+      // }
     });
     filterConditionState.sanctionList = dataMap;
     filterConditionState.disbursementList = [
