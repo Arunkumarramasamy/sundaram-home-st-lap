@@ -182,20 +182,24 @@ const SanctionedList = (props) => {
         component="div"
         sx={{
           color:
-            value === "Approved"
+            value === "Fully Disbursed"
+              ? "white"
+              : value === "Fully Requested"
               ? "darkgreen"
-              : value === "Cancelled"
-              ? "darkred"
-              : value === "Modified"
+              : value === "Partially Requested"
               ? "blueviolet"
+              : value === "Partially Disbursed"
+              ? "darkgreen"
               : "#004A92",
           bgcolor:
-            value === "Approved"
-              ? "lightgreen"
-              : value === "Cancelled"
+            value === "Fully Disbursed"
+              ? "darkgreen"
+              : value === "Fully Requested"
               ? "lightsalmon"
-              : value === "Modified"
+              : value === "Partially Requested"
               ? "yellow"
+              : value === "Partially Disbursed"
+              ? "lightgreen"
               : "lightskyblue",
           width: "90%",
         }}
