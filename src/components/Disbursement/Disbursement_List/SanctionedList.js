@@ -88,7 +88,7 @@ const SanctionedList = (props) => {
             <Box>
               <CurrencyRupeeSharp fontSize="small" />{" "}
             </Box>
-            <Box>{params.value.toLocaleString("en-IN") + ".00"}</Box>
+            <Box>{params.value.toLocaleString("en-IN")}</Box>
           </Typography>
         );
       },
@@ -266,7 +266,7 @@ const SanctionedList = (props) => {
                           padding: "16px 16px 0px 16px !important",
                         }}
                       />
-                      <CardContent sx={{fontFamily: "Roboto",}}>
+                      <CardContent sx={{ fontFamily: "Roboto" }}>
                         <Grid
                           container
                           item
