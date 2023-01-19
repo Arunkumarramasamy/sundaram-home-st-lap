@@ -108,14 +108,22 @@ const SanctionedList = (props) => {
 
   const rowDoubleClickHandler = (event) => {
     const rowStatus = event.row.losStatus;
-    if (rowStatus !== "Fully Requested" && rowStatus !== "Fully Disbursed") {
+    if (
+      rowStatus !== "Fully Requested" &&
+      rowStatus !== "Fully Disbursed" &&
+      rowStatus !== "Partially Requested"
+    ) {
       props.onRowDoubleClick(event.row);
     }
   };
 
   const cardButtonClickHandler = (row) => {
     const rowStatus = row.losStatus;
-    if (rowStatus !== "Fully Requested" && rowStatus !== "Fully Disbursed") {
+    if (
+      rowStatus !== "Fully Requested" &&
+      rowStatus !== "Fully Disbursed" &&
+      rowStatus !== "Partially Requested"
+    ) {
       props.onRowDoubleClick(row);
     }
   };
@@ -250,7 +258,8 @@ const SanctionedList = (props) => {
                       <CardHeader
                         action={
                           row.losStatus !== "Fully Requested" &&
-                          row.losStatus !== "Fully Disbursed" ? (
+                          row.losStatus !== "Fully Disbursed" &&
+                          row.losStatus !== "Partially Requested" ? (
                             <React.Fragment>
                               <IconButton
                                 onClick={() => {

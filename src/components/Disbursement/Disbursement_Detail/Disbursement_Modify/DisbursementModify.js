@@ -635,7 +635,10 @@ const DisbursementModify = (props) => {
                   disbursementDetailTabValue.disbHeaderKey,
                   props.screenMode
                 );
-                if (props.screenMode === "MODIFY" || "CANCEL") {
+                if (
+                  props.screenMode === "MODIFY" ||
+                  props.screenMode === "CANCEL"
+                ) {
                   navigate("/stlap/home/disbursementList");
                 } else {
                   navigate("/stlap/home/disbursementApprovalList");

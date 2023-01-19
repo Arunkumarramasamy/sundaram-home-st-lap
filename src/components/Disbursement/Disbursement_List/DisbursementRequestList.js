@@ -382,7 +382,7 @@ export default function DisbursementRequestList(props) {
   };
 
   const rowDoubleClickHandler = (event) => {
-    props.onRowDoubleClick(event.row);
+    // on request list or approval list had nothing to do on row click.
   };
 
   const gridLazyLoad = (newPage) => {
