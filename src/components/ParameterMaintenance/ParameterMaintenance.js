@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
@@ -28,6 +29,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
+import { BranchAction } from "../Store/Branch";
 import MoreAction from "./MoreAction";
 
 const ParameterMaintenance = () => {
@@ -35,6 +37,7 @@ const ParameterMaintenance = () => {
   const [branchArray, setBranchArray] = useState([]);
   const [branchValues, setBranchValues] = useState("");
   const [rows, setRows] = useState([]);
+  const dispatch = useDispatch();
   //State which manitain the date data type selected or not
   const [dateValue, setDateValue] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
@@ -555,6 +558,8 @@ const ParameterMaintenance = () => {
                 value={branchValues}
                 onChange={(e, value) => {
                   setBranchValues(value == null ? "" : value.label);
+                  dispatch(BranchAction.updateInitialLoad(false));
+                  dispatch(BranchAction.updateHeaderBranchDetails(value.label));
                 }}
                 renderInput={(params) => (
                   <TextField {...params} variant="standard" />

@@ -44,7 +44,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
 import { default as React, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import SFLogoSmall from "../../images/SFLogo.png";
 import Logo from "../../images/SF_Logo.png";
@@ -93,12 +93,16 @@ const AppBar = styled(MuiAppBar, {
 export default function Pagelayout() {
   const [branchValues, setBranchValues] = useState("");
   const [userName, setUserName] = useState("");
+  const branchDetails = useSelector((state) => state.branch.header);
+  const initialLoad = useSelector((state) => state.branch.initialLoad);
   useEffect(() => {
     const users = store.getState().branch.userName;
-    const [branchName] = GetBranchArray();
-    setBranchValues(branchName);
+    if (initialLoad) {
+      const [branchName] = GetBranchArray();
+      dispatch(BranchAction.updateInitialHeaderBranchDetails(branchName));
+    }
     setUserName(users);
-  }, []);
+  }, [branchDetails, initialLoad]);
   const [expanded, setExpanded] = useState(false);
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -159,6 +163,7 @@ export default function Pagelayout() {
     dispatch(BranchAction.updateLoginStatus(false));
     dispatch(BranchAction.updateBranch([]));
     dispatch(BranchAction.updateUserName(""));
+    dispatch(BranchAction.resetHeaderValues());
     navigate("/stlap/login");
     Cookies.remove("Token");
   };
@@ -638,11 +643,17 @@ export default function Pagelayout() {
 
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>{userName}</Typography>
+          <Typography sx={{ textAlign: "right" }}>{userName}</Typography>
           <Chip
-            label={branchValues}
+            label={`Area : ${branchDetails.areaName}, Zone : ${
+              branchDetails.zoneName
+            }, Branch :${
+              branchDetails.branchName !== ""
+                ? ` ${branchDetails.branchName}`
+                : ""
+            }  `}
             component="div"
-            sx={{ color: "white", bgcolor: "#727dff" }}
+            sx={{ color: "white" }}
           />
         </Stack>
         <Divider
@@ -745,9 +756,15 @@ export default function Pagelayout() {
               <strong>{userName}</strong>
             </Typography>
             <Chip
-              label={branchValues}
+              label={`Area Name : ${branchDetails.areaName}, Zone Name : ${
+                branchDetails.zoneName
+              }${
+                branchDetails.branchName !== ""
+                  ? `, Branch Name : ${branchDetails.branchName}`
+                  : ""
+              }  `}
               component="div"
-              sx={{ color: "white", bgcolor: "#727dff" }}
+              sx={{ color: "white" }}
             />
           </Stack>
           <Divider
@@ -958,7 +975,7 @@ export default function Pagelayout() {
           />
           <Route
             path={`${search}/stlap/eNachRegisteration`}
-            element={<EnachRegistration/>}
+            element={<EnachRegistration />}
           />
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>

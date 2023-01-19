@@ -75,37 +75,27 @@ const Idlogin = () => {
       console.log(loginResponse);
 
       if (loginResponse.data.message === "Success") {
-        dispatch(BranchAction.updateUserName(employeeID.toUpperCase()));
-        // Cookies.set("islogin", true);
-        // Cookies.set("Token", response["data"]["jwToken"]);
-        // Cookies.set("userName", employeeID);
-        // Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
-        dispatch(BranchAction.updateLoginStatus(true));
-        dispatch(loginAction.updateEmployeeIDScreen(false));
-        dispatch(loginAction.updateLogin(true));
+        const userBranches = await axios.post(
+          "https://bmapp.sundaramhome.in/stlap/ostlap/branchcluster",
+          {
+            username: btoa(employeeID),
+          }
+        );
+        if (userBranches.data.message === "Success") {
+          dispatch(BranchAction.updateUserName(employeeID.toUpperCase()));
+          dispatch(BranchAction.updateLoginStatus(true));
+          dispatch(loginAction.updateEmployeeIDScreen(false));
+          dispatch(loginAction.updateLogin(true));
+          dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
+          navigate("/stlap/home/dashboard");
+        } else {
+          setErrorMessage(userBranches.data.error_msg);
+          openAlertHandler();
+        }
       }
 
       if (loginResponse.data.message === "Failure") {
         setErrorMessage(loginResponse.data.error_msg);
-        openAlertHandler();
-      }
-      const userBranches = await axios.post(
-        "https://bmapp.sundaramhome.in/stlap/ostlap/branchcluster",
-        {
-          username: btoa(employeeID),
-        }
-      );
-      console.log(userBranches.data.branch_details);
-      if (userBranches.data.message === "Success") {
-        // Cookies.set(
-        //   "userBranches",JSON.stringify(userBranches.data.branch_details)
-        // );
-
-        dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
-
-        navigate("/stlap/home/dashboard");
-      } else {
-        setErrorMessage(userBranches.data.error_msg);
         openAlertHandler();
       }
     } catch (e) {
@@ -126,6 +116,7 @@ const Idlogin = () => {
   };
   const employeeBlurHandler = () => {
     setEmployeeIdIsTouched(true);
+    setEmployeeId(employeeID.toUpperCase());
   };
   const passwordBlurHandler = () => {
     setPasswordIsTouched(true);
