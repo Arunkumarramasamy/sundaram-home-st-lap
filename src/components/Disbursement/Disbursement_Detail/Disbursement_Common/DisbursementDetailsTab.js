@@ -693,12 +693,19 @@ const DisbursementDetailsTab = (props) => {
           <CustomDataGrid
             noDataMessage="No Bank Data."
             noDataOnFilterMessage="No Bank Data on Applied Filter."
-            gridHeight="145px"
+            gridHeight={
+              props.disbursementDetailTabValue.disbursementFavours.length > 1
+                ? "320px"
+                : props.disbursementDetailTabValue.disbursementFavours
+                    .length === 1
+                ? "160px"
+                : "320px"
+            }
             rows={props.disbursementDetailTabValue.disbursementFavours}
             columns={columns}
             checkboxSelection={false}
             pageSize={3}
-            pageSizeOptions={[3, 6, 9, 12]}
+            pageSizeOptions={[3]}
             getRowId={(row) => {
               return row.bankAccountNum;
             }}

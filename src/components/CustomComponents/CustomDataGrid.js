@@ -27,7 +27,7 @@ const CustomDataGrid = (props) => {
       sx={{
         boxShadow: 2,
         border: 2,
-        height: props.gridHeight ? props.gridHeight : "400px",
+        height: props.gridHeight ? props.gridHeight : "320px",
         width: props.gridWidth ? props.gridWidth : "100%",
         borderColor: "white",
         "& .MuiDataGrid-row:hover": {
