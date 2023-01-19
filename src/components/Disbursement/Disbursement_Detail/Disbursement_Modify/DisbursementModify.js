@@ -318,7 +318,13 @@ const DisbursementModify = (props) => {
     var status = true;
 
     //Validating Current Disbursement Amount Field
-    if (data.disbAmt === 0 || data.disbAmt === null || data.disbAmt === "") {
+    if (
+      data.disbAmt === 0 ||
+      data.disbAmt === null ||
+      data.disbAmt === "" ||
+      data.disbAmt === "0" ||
+      data.disbAmt === "00"
+    ) {
       errorDispatch({
         type: errorParameters.currentDisbError,
         value: [true, "Current Disbursement Amount Cannot be Empty/Zero."],
@@ -336,7 +342,10 @@ const DisbursementModify = (props) => {
     } else if (data.totalDisbAmt <= 0) {
       errorDispatch({
         type: errorParameters.currentDisbError,
-        value: [true, "Net Disbursement Amount Cannot be Less than Zero or Equal to Zero."],
+        value: [
+          true,
+          "Net Disbursement Amount Cannot be Less than Zero or Equal to Zero.",
+        ],
       });
       status = false;
     } else if (errorState.currentDisbError[0]) {
