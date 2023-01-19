@@ -358,7 +358,13 @@ const DisbursementCreate = (props) => {
     var status = true;
 
     //Validating Current Disbursement Amount Field
-    if (data.disbAmt === 0 || data.disbAmt === null || data.disbAmt === "") {
+    if (
+      data.disbAmt === 0 ||
+      data.disbAmt === null ||
+      data.disbAmt === "" ||
+      data.disbAmt === "0" ||
+      data.disbAmt === "00"
+    ) {
       errorDispatch({
         type: errorParameters.currentDisbError,
         value: [true, "Current Disbursement Amount Cannot be Empty/Zero."],
@@ -376,7 +382,10 @@ const DisbursementCreate = (props) => {
     } else if (data.totalDisbAmt <= 0) {
       errorDispatch({
         type: errorParameters.currentDisbError,
-        value: [true, "Net Disbursement Amount Cannot be Less than Zero or Equal to Zero."],
+        value: [
+          true,
+          "Net Disbursement Amount Cannot be Less than Zero or Equal to Zero.",
+        ],
       });
       status = false;
     } else if (errorState.currentDisbError[0]) {
@@ -503,6 +512,7 @@ const DisbursementCreate = (props) => {
   };
 
   const createRequestHandler = (data, losData) => {
+    data.totalDisbAmt = data.disbAmt - data.totalDeductionAmt;
     if (validateCreateRequestData(data, losData)) {
       const dataMap = [];
       data.disbursementFavours
@@ -526,7 +536,6 @@ const DisbursementCreate = (props) => {
       data.disbursementFavours = dataMap;
       data.dateOfDisb = new Date(data.dateOfDisb);
       data.effectiveDate = new Date(data.effectiveDate);
-      data.totalDisbAmt = data.disbAmt - data.totalDeductionAmt;
       data.applicantName = losData.customerName;
       data.branch = losData.branch;
       data.applicationNum = losData.applicationNum;
