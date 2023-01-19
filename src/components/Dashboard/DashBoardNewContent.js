@@ -16,6 +16,7 @@ import { PieChart, Pie, Sector, Cell, LineChart, Line, Brush } from "recharts";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import CheckIcon from "@mui/icons-material/Check";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import {
   BarChart,
   Bar,
@@ -36,8 +37,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 function DashboardContent() {
   const [sanction, setSanction] = useState(0);
   const [request, setRequest] = useState(0);
+  const [partialAmount, setPartialAmount] = useState(0);
   const [approved, setApproved] = useState(0);
-  const [sanctionAmount, setSanctionAmount] = useState(0);
+  const [sanctionAmount, setSanctionAmount] = useState("");
   const [dateRange, setDateRange] = useState([null, null]);
   const [oneMonthData, setOneMonthData] = useState([]);
   const [oneYearData, setOneYearData] = useState([]);
@@ -60,7 +62,12 @@ function DashboardContent() {
         );
         setRequest(response.data.requested);
         setApproved(response.data.approved);
-        setSanctionAmount(response.data.approvedAmount);
+        setPartialAmount(response.data.partialAmount);
+        setSanctionAmount(
+          "" === response.data.approvedAmount
+            ? 0
+            : Number(response.data.approvedAmount).toLocaleString()
+        );
         setOneMonthData(response.data.oneMonth);
         setOneYearData(response.data.oneYear);
       }
@@ -100,7 +107,7 @@ function DashboardContent() {
           width: "fit-content !important",
         }}
       >
-        <Grid item xs={12} lg={3} sm={6} sx={{ flex: "1 auto" }}>
+        <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
               action={
@@ -124,7 +131,7 @@ function DashboardContent() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} lg={3} sm={6} sx={{ flex: "1 auto" }}>
+        <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
               action={
@@ -148,7 +155,7 @@ function DashboardContent() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} lg={3} sm={6} sx={{ flex: "1 auto" }}>
+        <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
               action={
@@ -172,7 +179,7 @@ function DashboardContent() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} lg={3} sm={6} sx={{ flex: "1 auto" }}>
+        <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
               action={
@@ -181,7 +188,27 @@ function DashboardContent() {
                 </IconButton>
               }
               sx={{ textAlign: "center" }}
-              subheader="Total Disbursed Amount (₹)"
+              subheader="Partially Disbursed List"
+              subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
+            />
+            <CardContent sx={{ textAlign: "center" }}>
+              <Typography variant="h5" component="h5">
+                {partialAmount}
+              </Typography>
+              <HourglassBottomIcon sx={{ fontSize: 50 }} />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
+          <Card id="card-design">
+            <CardHeader
+              action={
+                <IconButton size="small">
+                  <OpenInFullIcon size="small" />
+                </IconButton>
+              }
+              sx={{ textAlign: "center" }}
+              subheader="Total Disbursed (₹)"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
             />
             <CardContent sx={{ textAlign: "center" }}>
@@ -192,7 +219,6 @@ function DashboardContent() {
             </CardContent>
           </Card>
         </Grid>
-
         <Grid item xs={12} sx={{ flex: "1 auto" }}>
           <Paper
             id="monthwise-chart"
@@ -285,7 +311,7 @@ function DashboardContent() {
                 fontWeight: "500",
               }}
             >
-              Requested List for Current Year
+              Approved List for Current Month
             </Typography>
           </Paper>
         </Grid>

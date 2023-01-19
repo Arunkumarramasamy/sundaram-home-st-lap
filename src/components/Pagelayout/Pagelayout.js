@@ -64,6 +64,7 @@ import DisbursementCreatePortal from "../Disbursement/Disbursement_List/Disburse
 import DisbursementRequestList from "../Disbursement/Disbursement_List/DisbursementRequestList";
 import NachApproval from "../Nach/NachApproval";
 import NachMandate from "../Nach/NachMandate";
+import EnachRegistration from "../Enach/EnachRegistration";
 import Verification from "../Nach/Verification";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import { BranchAction } from "../Store/Branch";
@@ -954,6 +955,10 @@ export default function Pagelayout() {
           <Route
             path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
+          />
+          <Route
+            path={`${search}/stlap/eNachRegisteration`}
+            element={<EnachRegistration/>}
           />
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
