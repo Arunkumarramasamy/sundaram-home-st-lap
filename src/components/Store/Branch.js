@@ -3,6 +3,12 @@ const initialAuthState = {
   branches: [],
   isLogin: false,
   userName: "",
+  header: {
+    areaName: "",
+    zoneName: "",
+    branchName: "",
+  },
+  initialLoad: true,
 };
 const Branch = createSlice({
   name: "branch",
@@ -16,6 +22,31 @@ const Branch = createSlice({
     },
     updateUserName(state, action) {
       state.userName = action.payload;
+    },
+    updateHeaderBranchDetails(state, action) {
+      const data = state.branches.find(
+        (itm) => itm.branch_name === action.payload
+      );
+      state.header.areaName = data.area_name;
+      state.header.zoneName = data.zone_name;
+      state.header.branchName = data.branch_name;
+    },
+    updateInitialHeaderBranchDetails(state, action) {
+      const data = state.branches.find(
+        (itm) => itm.branch_name === action.payload
+      );
+      state.header.areaName = data.area_name;
+      state.header.zoneName = data.zone_name;
+      state.header.branchName = "";
+    },
+    updateInitialLoad(state, action) {
+      state.initialLoad = action.payload;
+    },
+    resetHeaderValues(state, action) {
+      state.header.areaName = "";
+      state.header.branchName = "";
+      state.header.zoneName = "";
+      state.initialLoad = true;
     },
   },
 });
