@@ -12,6 +12,7 @@ import {
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
 } from "@mui/icons-material";
+import PersonIcon from "@mui/icons-material/Person";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ApprovalIcon from "@mui/icons-material/Approval";
@@ -710,7 +711,9 @@ export default function Pagelayout() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>KV</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              <PersonIcon sx={{ color: "#004a92" }} />
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Stack>
@@ -755,17 +758,50 @@ export default function Pagelayout() {
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
               <strong>{userName}</strong>
             </Typography>
-            <Chip
-              label={`Area Name : ${branchDetails.areaName}, Zone Name : ${
-                branchDetails.zoneName
-              }${
-                branchDetails.branchName !== ""
-                  ? `, Branch Name : ${branchDetails.branchName}`
-                  : ""
-              }  `}
-              component="div"
-              sx={{ color: "white" }}
-            />
+            {/* Large Devices */}
+            {useMediaQuery("(min-width:750px)") && (
+              <Chip
+                label={`Area : ${branchDetails.areaName}, Zone : ${
+                  branchDetails.zoneName
+                }, Branch :${
+                  branchDetails.branchName !== ""
+                    ? ` ${branchDetails.branchName}`
+                    : ""
+                }  `}
+                component="div"
+                sx={{ color: "white", bgcolor: "#004a92" }}
+              />
+            )}
+            {/* Small Devices */}
+            {useMediaQuery("(max-width:750px)") && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  alignItems: "center",
+                }}
+              >
+                <Box>
+                  <Chip
+                    label={`Area : ${branchDetails.areaName}, Zone : ${branchDetails.zoneName}`}
+                    component="div"
+                    sx={{ color: "white", bgcolor: "#004a92" }}
+                  />
+                </Box>
+                <Box>
+                  <Chip
+                    label={`Branch :${
+                      branchDetails.branchName !== ""
+                        ? ` ${branchDetails.branchName}`
+                        : ""
+                    }  `}
+                    component="div"
+                    sx={{ color: "white", bgcolor: "#004a92" }}
+                  />
+                </Box>
+              </Box>
+            )}
           </Stack>
           <Divider
             sx={{
@@ -782,7 +818,7 @@ export default function Pagelayout() {
           </IconButton> */}
         </MenuItem>
         <Divider />
-        <MenuItem>
+        {/* <MenuItem>
           <ListItemButton>
             <ListItemIcon>
               <Tooltip title="Change Password" disableHoverListener={!expanded}>
@@ -794,7 +830,7 @@ export default function Pagelayout() {
             </ListItemIcon>
             <ListItemText id="menu-lable" primary="Change Password" />
           </ListItemButton>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem>
           <ListItemButton onClick={handleLogout}>
             <ListItemIcon>
