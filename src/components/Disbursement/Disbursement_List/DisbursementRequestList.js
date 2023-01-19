@@ -31,11 +31,13 @@ import {
 import dayjs from "dayjs";
 import * as React from "react";
 import { useEffect, useLayoutEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
 import GetBranchDetails from "../../CustomComponents/GetBranchDetails";
 import NoDataFound from "../../CustomComponents/NoDataFound";
 import StlapFooter from "../../CustomComponents/StlapFooter";
+import { BranchAction } from "../../Store/Branch";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 import FilterCondition from "./FilterCondition";
 
@@ -171,6 +173,7 @@ export default function DisbursementRequestList(props) {
   const service = new DisbursementRequestListService();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const closeDialogHandler = () => {
     setopenViewConfirmation(false);
@@ -449,6 +452,8 @@ export default function DisbursementRequestList(props) {
       });
       const totalTempRows = getDisbursementData(disreqlist.data);
       setRowsData(totalTempRows);
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(branchValue));
     } else {
       // when it was null was like reset filter, so retain the last set of data rows with all DB hit.
       resetFilterData(false);

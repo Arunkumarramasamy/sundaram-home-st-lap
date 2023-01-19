@@ -22,7 +22,9 @@ import {
 } from "@mui/icons-material";
 import NoDataFound from "../../CustomComponents/NoDataFound";
 import { useEffect } from "react";
+import axios from "axios";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const SanctionedList = (props) => {
   const columns = [
@@ -107,17 +109,10 @@ const SanctionedList = (props) => {
   ];
 
   const rowDoubleClickHandler = (event) => {
-    const rowStatus = event.row.losStatus;
-    if (
-      rowStatus !== "Fully Requested" &&
-      rowStatus !== "Fully Disbursed" &&
-      rowStatus !== "Partially Requested"
-    ) {
-      props.onRowDoubleClick(event.row);
-    }
+    checkNavigationToCreateOrView(event.row);
   };
 
-  const cardButtonClickHandler = (row) => {
+  const checkNavigationToCreateOrView = async (row) => {
     const rowStatus = row.losStatus;
     if (
       rowStatus !== "Fully Requested" &&
@@ -125,7 +120,29 @@ const SanctionedList = (props) => {
       rowStatus !== "Partially Requested"
     ) {
       props.onRowDoubleClick(row);
+    } else {
+      const disbAPI = axios.create({
+        baseURL: "http://localhost:8080/disbursement/",
+      });
+      const response = await disbAPI.post("/getFirstDisbByAppNum", {
+        applicationNum: row.applicationNum,
+      });
+      const disbrecords = response.data;
+      const disbRecord = disbrecords[disbrecords.length - 1];
+      const disbRecordResponse = await disbAPI.post("/getDisbursementData", {
+        disbHeaderKey: disbRecord.disbHeaderKey,
+        screenMode: "VIEW",
+      });
+      let dataValue = { ...disbRecordResponse.data };
+      dataValue.fromSancationListPage = true;
+      navigate("/stlap/home/disbursementView", {
+        state: dataValue,
+      });
     }
+  };
+
+  const cardButtonClickHandler = (row) => {
+    checkNavigationToCreateOrView(row);
   };
 
   const [page, setPage] = React.useState(1);
@@ -133,6 +150,7 @@ const SanctionedList = (props) => {
   const [totalPageCount, setTotalPageCount] = React.useState(0);
   const [totalRowsCount, setTotalRowsCount] = React.useState(0);
   const rowsPerPage = 10;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setRows(props.data.slice(0, rowsPerPage));
@@ -257,23 +275,15 @@ const SanctionedList = (props) => {
                     <Card>
                       <CardHeader
                         action={
-                          row.losStatus !== "Fully Requested" &&
-                          row.losStatus !== "Fully Disbursed" &&
-                          row.losStatus !== "Partially Requested" ? (
-                            <React.Fragment>
-                              <IconButton
-                                onClick={() => {
-                                  cardButtonClickHandler(row);
-                                }}
-                              >
-                                <Shortcut
-                                  sx={{ color: "#004A92", fontWeight: 700 }}
-                                />
-                              </IconButton>
-                            </React.Fragment>
-                          ) : (
-                            <React.Fragment></React.Fragment>
-                          )
+                          <IconButton
+                            onClick={() => {
+                              cardButtonClickHandler(row);
+                            }}
+                          >
+                            <Shortcut
+                              sx={{ color: "#004A92", fontWeight: 700 }}
+                            />
+                          </IconButton>
                         }
                         subheader={
                           "Application Number  : " + row.applicationNum

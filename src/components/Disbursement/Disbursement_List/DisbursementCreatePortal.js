@@ -8,6 +8,8 @@ import GetBranchDetails from "../../CustomComponents/GetBranchDetails";
 import StlapFooter from "../../CustomComponents/StlapFooter";
 import FilterCondition from "./FilterCondition";
 import SanctionedList from "./SanctionedList";
+import { useDispatch } from "react-redux";
+import { BranchAction } from "../../Store/Branch";
 
 var today = new Date();
 
@@ -52,6 +54,7 @@ const DisbursementCreatePortal = (props) => {
   const [branchNames, setTotalBranchNames] = React.useState([]);
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -202,6 +205,8 @@ const DisbursementCreatePortal = (props) => {
       // for now hold all the disbursement list data all the time.
       //filterConditionState.disbursementList = [...tempData];
       setFilterConditionState({ ...filterConditionState });
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(branchValue));
     } else {
       resetFilterData();
     }

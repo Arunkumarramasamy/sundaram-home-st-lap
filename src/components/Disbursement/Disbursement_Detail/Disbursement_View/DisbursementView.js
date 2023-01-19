@@ -316,12 +316,16 @@ const DisbursementView = (props) => {
               sx={{ height: "2rem" }}
               variant="contained"
               onClick={() => {
-                if (disbursementDetailTabValue.requestStatus === "Approved") {
-                  navigate("/stlap/home/disbursementApprovalList");
-                } else if (location.state.screenMode === "CREATE") {
+                if (location.state.fromSancationListPage) {
                   navigate("/stlap/home/disbursementCreatePortal");
                 } else {
-                  navigate("/stlap/home/disbursementList");
+                  if (disbursementDetailTabValue.requestStatus === "Approved") {
+                    navigate("/stlap/home/disbursementApprovalList");
+                  } else if (location.state.screenMode === "CREATE") {
+                    navigate("/stlap/home/disbursementCreatePortal");
+                  } else {
+                    navigate("/stlap/home/disbursementList");
+                  }
                 }
               }}
             >
