@@ -12,6 +12,7 @@ import {
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
 } from "@mui/icons-material";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PersonIcon from "@mui/icons-material/Person";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
@@ -213,6 +214,9 @@ export default function Pagelayout() {
       case "nachMandate":
         path = "/stlap/home/nachMandate";
         break;
+      case "ENach":
+        path = "/stlap/home/eNachRegisteration";
+        break;
       case "verification":
         path = "/stlap/home/verification";
         break;
@@ -265,6 +269,22 @@ export default function Pagelayout() {
           </ListItemIcon>
           <ListItemText
             primary="Parameter Maintenance"
+            sx={{ display: "block" }}
+          />
+        </ListItemButton>
+
+        {/* ENach Registeration */}
+        <ListItemButton id="ENach" onClick={menuClickHandler}>
+          <ListItemIcon>
+            <Tooltip
+              title="ENach Registeration"
+              disableHoverListener={!expanded}
+            >
+              <AccountBalanceIcon fontSize="medium" sx={{ color: "white" }} />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText
+            primary="ENach Registeration"
             sx={{ display: "block" }}
           />
         </ListItemButton>
@@ -1010,7 +1030,7 @@ export default function Pagelayout() {
             element={<AccrualWaiver />}
           />
           <Route
-            path={`${search}/stlap/eNachRegisteration`}
+            path={`${search}/stlap/home/eNachRegisteration`}
             element={<EnachRegistration />}
           />
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
