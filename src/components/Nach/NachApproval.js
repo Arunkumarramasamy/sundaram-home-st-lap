@@ -13,6 +13,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
 
 const NachApproval = () => {
   //Filter conditions State value
@@ -20,8 +21,7 @@ const NachApproval = () => {
   const [branchValue, setBranchValue] = useState();
   const [applicationArray, setApplicationArray] = useState([]);
   const [applicationValue, setApplicationValue] = useState();
-  const [UMRNArray, setUMRNArray] = useState([]);
-  const [UMRNValue, setUMRN] = useState();
+
   /**Dialog Handlers */
   const [Dialogopen, setDialogOpen] = React.useState(false);
 
@@ -60,16 +60,11 @@ const NachApproval = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomAutoComplete
-            variant="standard"
+          <CustomTextField
             type="text"
-            placeholder="Select UMRN Number"
-            label="Application Number"
-            autoCompleteValues={UMRNArray}
-            value={UMRNValue}
-            onChange={(value) => {
-              setUMRN(value);
-            }}
+            label="UMRN Number"
+            variant="standard"
+            placeholder="Enter UMRN Number"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -105,11 +100,13 @@ const NachApproval = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-          <CustomTextField
-            type="text"
+          <CustomDropDown
             label="Status"
             variant="standard"
-            placeholder="Enter Status"
+            dropDownValue={[
+              { key: 0, value: "accept", text: "Accept" },
+              { key: 1, value: "reject", text: "Reject" },
+            ]}
           />
         </Grid>
       </Grid>

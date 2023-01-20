@@ -1,11 +1,16 @@
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { Tooltip } from "recharts";
 import { IconButton } from "@mui/material";
+import { Box } from "@mui/system";
 
 const NachVerification = () => {
   const ApproveButtonOnClickHandler = (value) => {
+    console.log(value);
+  };
+  const CancelButtonClickHandler = (value) => {
     console.log(value);
   };
   const rows = [
@@ -65,6 +70,9 @@ const NachVerification = () => {
       headerAlign: "center",
       align: "left",
       width: 150,
+      renderCell: (params) => {
+        return params.value.toUpperCase();
+      },
     },
     {
       field: "mandateNumber",
@@ -89,9 +97,14 @@ const NachVerification = () => {
       width: 150,
       renderCell: (params) => {
         return (
-          <IconButton onClick={() => ApproveButtonOnClickHandler(params)}>
-            <CheckCircleOutlineIcon sx={{ fill: "#004A92" }} />
-          </IconButton>
+          <Box sx={{ display: "flex", gap: "5px" }}>
+            <IconButton onClick={() => ApproveButtonOnClickHandler(params)}>
+              <CheckCircleOutlineIcon sx={{ fill: "#004A92" }} />
+            </IconButton>
+            <IconButton onClick={() => CancelButtonClickHandler(params)}>
+              <CancelOutlinedIcon sx={{ fill: "#004A92" }} />
+            </IconButton>
+          </Box>
         );
       },
     },

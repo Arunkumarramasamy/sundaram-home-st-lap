@@ -25,7 +25,7 @@ const NachMandate = () => {
 
   useEffect(() => {
     if (FilteredData.fileStatus === "To Be Registered") {
-      setBtnName("Submit");
+      setBtnName("Save");
     } else {
       setBtnName("Update");
     }
@@ -84,8 +84,8 @@ const NachMandate = () => {
       mandateStartDateIsValid &&
       firstNachBillingDateIsValid
     ) {
-      console.log(FilteredData);
       setMandateReferenceNumber("12768997992X");
+      console.log(FilteredData);
       handleClickOpen();
       dispatch(
         NachFilterReducerAction.updateMandateNum(mandateReferenceNumber)
@@ -231,6 +231,11 @@ const NachMandate = () => {
                       dropDownValue={[
                         { key: 0, value: "monthly", text: "Monthly" },
                         { key: 1, value: "yearly", text: "Yearly" },
+                        {
+                          key: 2,
+                          value: "asWhen",
+                          text: " As and when required",
+                        },
                       ]}
                       onBlur={() => {
                         setFrequencyTouchHandler(true);
@@ -335,16 +340,17 @@ const NachMandate = () => {
                       label="Maximum Amount"
                       variant="standard"
                       value={FilteredData.maximumAmt}
+                      disabled={true}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
+                    <CustomDateField
                       type="Mandate Validity"
                       label="Mandate Validity"
                       variant="standard"
                       disabled={true}
                       value={FilteredData.mandateValidity}
-                    ></CustomTextField>
+                    ></CustomDateField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                     <CustomDateField
@@ -378,7 +384,7 @@ const NachMandate = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "flex-end",
+                  justifyContent: "center",
                   marginTop: "18px",
                 }}
               >
