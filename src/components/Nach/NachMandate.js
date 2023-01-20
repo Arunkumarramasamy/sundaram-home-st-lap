@@ -366,7 +366,6 @@ const NachMandate = () => {
                       type="Customer Mobile Number"
                       label="Customer Mobile Number"
                       variant="standard"
-                      disabled={true}
                       value={FilteredData.customerMobileNum}
                     ></CustomTextField>
                   </Grid>
@@ -375,7 +374,6 @@ const NachMandate = () => {
                       type="Customer Email ID"
                       label="Customer Email ID"
                       variant="standard"
-                      disabled={true}
                       value={FilteredData.customerEmailId}
                     ></CustomTextField>
                   </Grid>

@@ -6,7 +6,7 @@ import {
   TextareaAutosize,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import CustomTextField from "../CustomComponents/CustomTextField";
@@ -14,7 +14,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
-
+import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 const NachApproval = () => {
   //Filter conditions State value
   const [branchArray, setBranchArray] = useState([]);
@@ -23,7 +23,7 @@ const NachApproval = () => {
   const [applicationValue, setApplicationValue] = useState();
 
   /**Dialog Handlers */
-  const [Dialogopen, setDialogOpen] = React.useState(false);
+  const [Dialogopen, setDialogOpen] = useState(false);
 
   //  Methods to update state values
   const handleDialogClose = () => {
@@ -32,6 +32,10 @@ const NachApproval = () => {
   const rejectButtonHandler = () => {
     setDialogOpen(true);
   };
+  useEffect(() => {
+    const branchArr = GetBranchDetails();
+    setBranchArray(branchArr);
+  }, []);
   return (
     <Box sx={{ padding: "18px", backgroundColor: "white" }}>
       <h4>Nach Approval</h4>
@@ -44,6 +48,9 @@ const NachApproval = () => {
             label="Branch"
             autoCompleteValues={branchArray}
             value={branchValue}
+            onChange={(e, value) => {
+              setBranchValue(value == null ? "" : value.label);
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -65,6 +72,7 @@ const NachApproval = () => {
             label="UMRN Number"
             variant="standard"
             placeholder="Enter UMRN Number"
+            disabled={true}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -73,6 +81,7 @@ const NachApproval = () => {
             label="Customer ID"
             variant="standard"
             placeholder="Enter Customer ID"
+            disabled={true}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -81,6 +90,7 @@ const NachApproval = () => {
             label="Customer Name"
             variant="standard"
             placeholder="Enter Customer Name"
+            disabled={true}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -89,6 +99,7 @@ const NachApproval = () => {
             label="Mandate Number"
             variant="standard"
             placeholder="Enter Mandate Number"
+            disabled={true}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -97,6 +108,7 @@ const NachApproval = () => {
             label="Mandate Bank"
             variant="standard"
             placeholder="Enter Mandate Bank"
+            disabled={true}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -111,9 +123,9 @@ const NachApproval = () => {
         </Grid>
       </Grid>
       <Box
-        sx={{ display: "flex", justifyContent: "flex-end", marginTop: "18px" }}
+        sx={{ display: "flex", justifyContent: "center", marginTop: "18px" }}
       >
-        <Button variant="contained" type="submit" sx={{ height: "2rem" }}>
+        {/* <Button variant="contained" type="submit" sx={{ height: "2rem" }}>
           Accept
         </Button>
         <Button
@@ -131,6 +143,9 @@ const NachApproval = () => {
           onClick={rejectButtonHandler}
         >
           Reject
+        </Button> */}
+        <Button variant="contained" type="submit" sx={{ height: "2rem" }}>
+          Submit
         </Button>
       </Box>
       <Dialog
