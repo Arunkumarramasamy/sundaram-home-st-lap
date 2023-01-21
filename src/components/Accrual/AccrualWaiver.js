@@ -20,6 +20,8 @@ import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
 import axios from "axios";
+import { BranchAction } from "../Store/Branch";
+import { useDispatch } from "react-redux";
 var deductionsInitialState = {
   paidTotal: 0,
   dueTotal: 0,
@@ -28,6 +30,7 @@ var deductionsInitialState = {
   totalDeductionsTotal: 0,
 };
 const AdditionalWaiver = () => {
+  const dispatch = useDispatch();
   const [modifiedMaps, setModifiedmap] = React.useState({});
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
@@ -213,6 +216,8 @@ const AdditionalWaiver = () => {
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
     getApplicationListData(newValue);
+    // dispatch(BranchAction.updateInitialLoad(false));
+    // dispatch(BranchAction.updateHeaderBranchDetails(newValue));
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
       setapplicationNum("");
