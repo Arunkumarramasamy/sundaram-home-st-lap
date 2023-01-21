@@ -24,9 +24,10 @@ import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-
+import { BranchAction } from "../Store/Branch";
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 var deductionsInitialState = {
@@ -37,6 +38,7 @@ var deductionsInitialState = {
   totalDeductionsTotal: 0,
 };
 const AdditionalAccrual = () => {
+  const dispatch = useDispatch();
   const [modifiedMaps, setModifiedmap] = React.useState({});
   const [totalPageCount, setTotalPageCount] = React.useState(0);
   const [totalRowsCount, setTotalRowsCount] = React.useState(0);
@@ -193,6 +195,8 @@ const AdditionalAccrual = () => {
   };
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
+    dispatch(BranchAction.updateInitialLoad(false));
+    dispatch(BranchAction.updateHeaderBranchDetails(newValue));
     getApplicationListData(newValue);
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);

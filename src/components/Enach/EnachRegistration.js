@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -73,12 +74,20 @@ const EnachRegistration = () => {
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
           >
-            <FormControlLabel
-              sx={{ width: "100%" }}
-              value="true"
-              control={<Radio checked={true} />}
-              label="Existing Customer"
-            />
+            <Stack direction="row">
+              <FormControlLabel
+                sx={{ width: "100%" }}
+                value="true"
+                control={<Radio checked={true} />}
+                label="Existing Customer"
+              />
+              <FormControlLabel
+                sx={{ width: "100%" }}
+                value="true"
+                control={<Radio checked={false} />}
+                label="New Customer"
+              />
+            </Stack>
           </RadioGroup>
           <Grid container spacing={1}>
             <Grid
@@ -184,7 +193,10 @@ const EnachRegistration = () => {
                 />
               </Paper>
             </Grid>
-            <FormControl component="fieldset"  sx={{ margin: "8px", marginRight: "8px" }}>
+            <FormControl
+              component="fieldset"
+              sx={{ margin: "8px", marginRight: "8px" }}
+            >
               <FormLabel
                 sx={{ marginTop: "8px", marginRight: "8px" }}
                 component="legend"
@@ -197,23 +209,29 @@ const EnachRegistration = () => {
                 handleChange={(event) => handleChange(event)}
                 value={paymentType}
               >
-             <Stack direction='row'>
-               
-                <FormControlLabel
-                  value="netbank"
-                  labelPlacement="end"
-                  control={<Radio />}
-                  label="Net Banking"
-                />
-                <FormControlLabel
-                  value="debit"
-                  labelPlacement="end"
-                  control={<Radio />}
-                  label="Debit Card"
-                />
+                <Stack direction="row">
+                  <FormControlLabel
+                    value="netbank"
+                    labelPlacement="end"
+                    control={<Radio />}
+                    label="Net Banking"
+                  />
+                  <FormControlLabel
+                    value="debit"
+                    labelPlacement="end"
+                    control={<Radio />}
+                    label="Debit Card"
+                  />
                 </Stack>
               </RadioGroup>
             </FormControl>
+            <div
+              style={{ padding: "8px", marginTop: "12px", direction: "rtl" }}
+            >
+              <Button variant="contained" sx={{ fontWeight: "bold" }}>
+                Update
+              </Button>
+            </div>
           </Grid>
         </AccordianContainer>
       </Box>
