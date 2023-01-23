@@ -220,6 +220,8 @@ const DisbursementModify = (props) => {
     return () => {
       window.removeEventListener("beforeunload", alertUser);
       window.removeEventListener("unload", handleTabClosing);
+      // event to call extra for default on component unmount on navigate using sidemenu was below.
+      handleTabClosing();
     };
   }, []);
 
