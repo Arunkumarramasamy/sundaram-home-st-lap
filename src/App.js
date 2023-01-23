@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route path="/stlap/login" element={<Loginpage />} />
         <Route path="/stlap/home" element={<PageLayout />} />
-        <Route path="/" exact element={<Navigate to="/stlap/login" />} />
+        <Route path="/" exact element={<Navigate to="/stlap/login"  replace/>} />
         <Route path="*" exact element={<Loginpage />} />
       </Routes>
     </div>

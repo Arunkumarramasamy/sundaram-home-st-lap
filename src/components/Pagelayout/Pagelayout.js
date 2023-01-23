@@ -166,7 +166,7 @@ export default function Pagelayout() {
     dispatch(BranchAction.updateBranch([]));
     dispatch(BranchAction.updateUserName(""));
     dispatch(BranchAction.resetHeaderValues());
-    navigate("/stlap/login");
+    navigate("/stlap/login", { replace: true });
     Cookies.remove("Token");
   };
 
@@ -227,7 +227,7 @@ export default function Pagelayout() {
         path = "/stlap/home/dashboard";
         break;
     }
-    navigate(path);
+    navigate(path, { replace: true });
   };
 
   const list = (

@@ -534,6 +534,7 @@ const DisbursementModify = (props) => {
         const dataValue = { ...response.data };
         dataValue.screenMode = props.screenMode;
         navigate("/stlap/home/disbursementView", {
+          replace: true,
           state: dataValue,
         });
       }, 600);
@@ -639,9 +640,11 @@ const DisbursementModify = (props) => {
                   props.screenMode === "MODIFY" ||
                   props.screenMode === "CANCEL"
                 ) {
-                  navigate("/stlap/home/disbursementList");
+                  navigate("/stlap/home/disbursementList", { replace: true });
                 } else {
-                  navigate("/stlap/home/disbursementApprovalList");
+                  navigate("/stlap/home/disbursementApprovalList", {
+                    replace: true,
+                  });
                 }
               }}
             >

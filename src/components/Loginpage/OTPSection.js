@@ -112,7 +112,7 @@ const OTPSection = () => {
       Cookies.set("Token", response["data"]["jwToken"]);
       Cookies.set("userName", response["data"]["userId"]);
       Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
-      navigate("/stlap/home/dashboard");
+      navigate("/stlap/home/dashboard",{replace:true});
       dispatch(MobileLoginAction.updateOTPSection(false));
       dispatch(loginAction.updateLogin(true));
     } catch (e) {
