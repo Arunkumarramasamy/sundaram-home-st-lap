@@ -43,6 +43,7 @@ const DisbursementModify = (props) => {
   const [losData, setlosData] = useState({});
   const [billDayValues, setbillDayValues] = useState([]);
   const [deductionTabValue, setdeductionTabValue] = useState({});
+  const [deductionTabSaveValue, setdeductionTabSaveValue] = useState({});
   const [loading, setLoading] = useState(true);
   const [showConfirmation, setshowConfirmation] = useState(false);
   const [saveData, setsaveData] = useState([]);
@@ -269,8 +270,17 @@ const DisbursementModify = (props) => {
     let deductionTotal1 = 0;
     let waivedTotal1 = 0;
     let data = {};
+    let saveData = [];
     response.data.gridData.map((rows) => {
       data = {};
+      let saveData1 = {};
+      saveData1 = {
+        applicationNum: location.state.applicationNum,
+        received:
+          rows.received + (rows.receiveable - rows.received - rows.earlyWaiver),
+        details: rows.details,
+      };
+      saveData.push(saveData1);
       paidTotal1 = paidTotal1 + rows.received;
       dueTotal1 = dueTotal1 + rows.receiveable;
       deductionTotal1 =
@@ -283,6 +293,7 @@ const DisbursementModify = (props) => {
     data.waivedTotal = waivedTotal1;
     data.gridRows = response.data.gridData;
     setdeductionTabValue(data);
+    setdeductionTabSaveValue(saveData);
   };
 
   const getCustomerBankData = async () => {
@@ -344,7 +355,7 @@ const DisbursementModify = (props) => {
         type: errorParameters.currentDisbError,
         value: [
           true,
-          "Net Disbursement Amount Cannot be Less than Zero or Equal to Zero.",
+          "Current Disbursement Amount Cannot be Less than or Equal to Total Deduction Amount.",
         ],
       });
       status = false;
@@ -595,6 +606,17 @@ const DisbursementModify = (props) => {
       baseURL: "http://localhost:8080/losCustomer/",
     });
     const response1 = await api1.post("/updateCustomerData", updateModel);
+    updateDeductionsData();
+  };
+
+  const updateDeductionsData = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/additionalfee/",
+    });
+    const response1 = await api.post(
+      "/updateReceivedAmount",
+      deductionTabSaveValue
+    );
   };
 
   return (

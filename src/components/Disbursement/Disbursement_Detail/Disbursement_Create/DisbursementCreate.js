@@ -316,17 +316,10 @@ const DisbursementCreate = (props) => {
     data.deductionTotal = deductionTotal1;
     data.waivedTotal = waivedTotal1;
     data.gridRows = response.data.gridData;
-    if (!(firstDisbData === null)) {
-      dispatch({
-        type: screenFields.totalDeductionAmt,
-        value: data.deductionTotal - firstDisbData.totalDeductionAmt,
-      });
-    } else {
-      dispatch({
-        type: screenFields.totalDeductionAmt,
-        value: data.deductionTotal,
-      });
-    }
+    dispatch({
+      type: screenFields.totalDeductionAmt,
+      value: data.deductionTotal,
+    });
     setdeductionTabValue(data);
   };
 
@@ -384,7 +377,7 @@ const DisbursementCreate = (props) => {
         type: errorParameters.currentDisbError,
         value: [
           true,
-          "Net Disbursement Amount Cannot be Less than Zero or Equal to Zero.",
+          "Current Disbursement Amount Cannot be Less than or Equal to Total Deduction Amount.",
         ],
       });
       status = false;
