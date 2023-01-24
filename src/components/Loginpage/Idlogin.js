@@ -87,7 +87,7 @@ const Idlogin = () => {
           dispatch(loginAction.updateEmployeeIDScreen(false));
           dispatch(loginAction.updateLogin(true));
           dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
-          navigate("/stlap/home/dashboard");
+          navigate("/stlap/home/dashboard",{replace:true});
         } else {
           setErrorMessage(userBranches.data.error_msg);
           openAlertHandler();

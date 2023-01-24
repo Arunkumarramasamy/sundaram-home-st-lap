@@ -180,6 +180,7 @@ export default function DisbursementRequestList(props) {
     const dataValue = { ...responseData };
     dataValue.screenMode = props.screenMode;
     navigate("/stlap/home/disbursementView", {
+      replace:true,
       state: dataValue,
     });
   };
@@ -715,6 +716,7 @@ const LoadActionBtn = (props) => {
       const dataValue = { ...response.data };
       dataValue.screenMode = props.screenMode;
       navigate(url, {
+        replace:true,
         state: dataValue,
       });
     }

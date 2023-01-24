@@ -136,6 +136,7 @@ const SanctionedList = (props) => {
       let dataValue = { ...disbRecordResponse.data };
       dataValue.fromSancationListPage = true;
       navigate("/stlap/home/disbursementView", {
+        replace:true,
         state: dataValue,
       });
     }

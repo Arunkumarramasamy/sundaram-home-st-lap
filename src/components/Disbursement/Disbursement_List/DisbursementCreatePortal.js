@@ -173,7 +173,7 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const rowDoubleClickHandler = (data) => {
-    navigate("/stlap/home/disbursementCreate", { state: data });
+    navigate("/stlap/home/disbursementCreate", { replace:true,state: data });
   };
 
   const getSanctionList = async () => {

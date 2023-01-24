@@ -317,14 +317,14 @@ const DisbursementView = (props) => {
               variant="contained"
               onClick={() => {
                 if (location.state.fromSancationListPage) {
-                  navigate("/stlap/home/disbursementCreatePortal");
+                  navigate("/stlap/home/disbursementCreatePortal",{replace:true});
                 } else {
                   if (disbursementDetailTabValue.requestStatus === "Approved") {
-                    navigate("/stlap/home/disbursementApprovalList");
+                    navigate("/stlap/home/disbursementApprovalList",{replace:true});
                   } else if (location.state.screenMode === "CREATE") {
-                    navigate("/stlap/home/disbursementCreatePortal");
+                    navigate("/stlap/home/disbursementCreatePortal",{replace:true});
                   } else {
-                    navigate("/stlap/home/disbursementList");
+                    navigate("/stlap/home/disbursementList",{replace:true});
                   }
                 }
               }}

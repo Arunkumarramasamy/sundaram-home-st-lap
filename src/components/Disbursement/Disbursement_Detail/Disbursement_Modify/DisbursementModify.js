@@ -221,6 +221,8 @@ const DisbursementModify = (props) => {
     return () => {
       window.removeEventListener("beforeunload", alertUser);
       window.removeEventListener("unload", handleTabClosing);
+      // event to call extra for default on component unmount on navigate using sidemenu was below.
+      handleTabClosing();
     };
   }, []);
 
@@ -545,6 +547,7 @@ const DisbursementModify = (props) => {
         const dataValue = { ...response.data };
         dataValue.screenMode = props.screenMode;
         navigate("/stlap/home/disbursementView", {
+          replace: true,
           state: dataValue,
         });
       }, 600);
@@ -661,9 +664,11 @@ const DisbursementModify = (props) => {
                   props.screenMode === "MODIFY" ||
                   props.screenMode === "CANCEL"
                 ) {
-                  navigate("/stlap/home/disbursementList");
+                  navigate("/stlap/home/disbursementList", { replace: true });
                 } else {
-                  navigate("/stlap/home/disbursementApprovalList");
+                  navigate("/stlap/home/disbursementApprovalList", {
+                    replace: true,
+                  });
                 }
               }}
             >

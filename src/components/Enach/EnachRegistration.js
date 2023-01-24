@@ -9,6 +9,7 @@ import {
   RadioGroup,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { React, useState } from "react";
@@ -70,6 +71,7 @@ const EnachRegistration = () => {
             </Grid>
           </Grid>
           <h4 sx={{ margin: "8px" }}>Customer Bank Details</h4>
+          <div style={{width:"fit-content", wordWrap:'nowrap'}}>
           <RadioGroup
             aria-labelledby="demo-controlled-radio-buttons-group"
             name="controlled-radio-buttons-group"
@@ -89,6 +91,7 @@ const EnachRegistration = () => {
               />
             </Stack>
           </RadioGroup>
+          </div>
           <Grid container spacing={1}>
             <Grid
               item
@@ -99,7 +102,7 @@ const EnachRegistration = () => {
               xl={12}
               sx={{ marginTop: "8px" }}
             >
-              <Paper sx={{ padding: "8px" }}>
+              <Paper sx={{ padding: "8px" ,background:'#e9e9e9'}}>
                 <CustomTextField
                   type="text"
                   label="Bank Name"
@@ -146,7 +149,7 @@ const EnachRegistration = () => {
               xl={12}
               sx={{ marginTop: "8px" }}
             >
-              <Paper sx={{ padding: "8px" }}>
+              <Paper sx={{ padding: "8px" ,background:'#e9e9e9' }}>
                 <CustomTextField
                   type="text"
                   label="Emi Amount"
@@ -226,7 +229,7 @@ const EnachRegistration = () => {
               </RadioGroup>
             </FormControl>
             <div
-              style={{ padding: "8px", marginTop: "12px", direction: "rtl" }}
+              style={{ padding: "8px", marginTop: useMediaQuery("(min-width:400px)")?"24px":"0px", marginLeft:'130px', direction: "rtl" }}
             >
               <Button variant="contained" sx={{ fontWeight: "bold" }}>
                 Update

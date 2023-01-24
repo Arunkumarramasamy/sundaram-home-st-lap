@@ -558,7 +558,7 @@ const DisbursementCreate = (props) => {
       });
       const response1 = await api1.post("/updateCustomerData", updateModel);
       setTimeout(() => {
-        navigate("/stlap/home/disbursementCreatePortal");
+        navigate("/stlap/home/disbursementCreatePortal", {replace:true});
       }, 600);
     }
   };
@@ -643,7 +643,7 @@ const DisbursementCreate = (props) => {
               sx={{ height: "2rem" }}
               variant="contained"
               onClick={() => {
-                navigate("/stlap/home/disbursementCreatePortal");
+                navigate("/stlap/home/disbursementCreatePortal", {replace:true});
               }}
             >
               Back to Search
@@ -681,7 +681,7 @@ const DisbursementCreate = (props) => {
               // navigate("/stlap/home/disbursementView", {
               //   state: dataValue,
               // });
-              navigate("/stlap/home/disbursementCreatePortal");
+              navigate("/stlap/home/disbursementCreatePortal",{replace:true});
             }}
             dialogTitle={
               <Typography sx={{ color: "green" }}>"Save Success!"</Typography>
@@ -696,7 +696,7 @@ const DisbursementCreate = (props) => {
               // navigate("/stlap/home/disbursementView", {
               //   state: dataValue,
               // });
-              navigate("/stlap/home/disbursementCreatePortal");
+              navigate("/stlap/home/disbursementCreatePortal", {replace:true});
             }}
           />
         </>
