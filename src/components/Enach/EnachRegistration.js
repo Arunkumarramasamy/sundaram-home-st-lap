@@ -15,10 +15,12 @@ import { Box } from "@mui/system";
 import { React, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
+import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 
 const EnachRegistration = () => {
   const [paymentType, setPayMentType] = useState("netbank");
+  const [applicantName, setApplicantName] = useState("");
 
   const handleChange = (event) => {
     setPayMentType(event.target.value);
@@ -34,12 +36,20 @@ const EnachRegistration = () => {
         >
           <Grid container spacing={1}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-              <CustomTextField
-                type="text"
+              <CustomDropDown
+                id="1"
                 label="Applicant Name"
+                type="text"
                 variant="standard"
-                value={""}
-                disabled={true}
+                value={applicantName}
+                disabled={false}
+                dropDownValue={[
+                  { value: 1, text: "Applicant" },
+                  { value: 2, text: "Co-Applicant" },
+                ]}
+                onChange={(event) => {
+                  setApplicantName(event.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -70,39 +80,43 @@ const EnachRegistration = () => {
               />
             </Grid>
           </Grid>
-          <h4 sx={{ margin: "8px" }}>Customer Bank Details</h4>
-          <div style={{width:"fit-content", wordWrap:'nowrap'}}>
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-          >
-            <Stack direction="row">
-              <FormControlLabel
-                sx={{ width: "100%" }}
-                value="true"
-                control={<Radio checked={true} />}
-                label="Existing Customer"
-              />
-              <FormControlLabel
-                sx={{ width: "100%" }}
-                value="true"
-                control={<Radio checked={false} />}
-                label="New Customer"
-              />
-            </Stack>
-          </RadioGroup>
+          <div style={{marginTop:'24px'}}>
+          <h4 sx={{ margin: "8px", marginTop: "24px !important" }}>
+            Customer Bank Details
+          </h4>
+          </div>
+          <div style={{ width: "fit-content", whiteSpace: "nowrap" }}>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+            >
+              <Stack direction="row">
+                <FormControlLabel
+                  sx={{ width: "100%" }}
+                  value="true"
+                  control={<Radio checked={true} />}
+                  label="Existing Customer"
+                />
+                <FormControlLabel
+                  sx={{ width: "100%" }}
+                  value="true"
+                  control={<Radio checked={false} />}
+                  label="New Customer"
+                />
+              </Stack>
+            </RadioGroup>
           </div>
           <Grid container spacing={1}>
             <Grid
               item
               xs={12}
               sm={6}
-              md={4}
+              md={6}
               lg={6}
               xl={12}
               sx={{ marginTop: "8px" }}
             >
-              <Paper sx={{ padding: "8px" ,background:'#e9e9e9'}}>
+              <Paper sx={{ padding: "8px", background: "#e9e9e9" }}>
                 <CustomTextField
                   type="text"
                   label="Bank Name"
@@ -144,12 +158,12 @@ const EnachRegistration = () => {
               item
               xs={12}
               sm={6}
-              md={4}
+              md={6}
               lg={6}
               xl={12}
               sx={{ marginTop: "8px" }}
             >
-              <Paper sx={{ padding: "8px" ,background:'#e9e9e9' }}>
+              <Paper sx={{ padding: "8px", background: "#e9e9e9" }}>
                 <CustomTextField
                   type="text"
                   label="Emi Amount"
@@ -229,7 +243,12 @@ const EnachRegistration = () => {
               </RadioGroup>
             </FormControl>
             <div
-              style={{ padding: "8px", marginTop: useMediaQuery("(min-width:400px)")?"24px":"0px", marginLeft:'130px', direction: "rtl" }}
+              style={{
+                padding: "8px",
+                marginTop: useMediaQuery("(min-width:400px)") ? "24px" : "0px",
+                marginLeft: "130px",
+                direction: "rtl",
+              }}
             >
               <Button variant="contained" sx={{ fontWeight: "bold" }}>
                 Update
