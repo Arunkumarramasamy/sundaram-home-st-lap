@@ -216,8 +216,8 @@ const AdditionalWaiver = () => {
   const onChangeForBranchEvent = (event, newValue) => {
     setBranchName(newValue);
     getApplicationListData(newValue);
-    // dispatch(BranchAction.updateInitialLoad(false));
-    // dispatch(BranchAction.updateHeaderBranchDetails(newValue));
+    dispatch(BranchAction.updateInitialLoad(false));
+    dispatch(BranchAction.updateHeaderBranchDetails(newValue.label));
     if (newValue === null || newValue === "") {
       setApplicationSearchDisable(true);
       setapplicationNum("");
