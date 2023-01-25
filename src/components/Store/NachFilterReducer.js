@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   showMandate: false,
   data: {
+    applicationNum: "",
     customerID: "",
     repayApplication: "",
     repayMode: "",
@@ -44,6 +45,7 @@ const NachFilterReducer = createSlice({
       state.showMandate = action.payload;
     },
     updateValues(state, action) {
+      state.data.applicationNum = action.payload.applicationNum;
       state.data.customerID = action.payload.customerID;
       state.data.repayApplication = action.payload.repayApplication;
       state.data.repayMode = action.payload.repayMode;
@@ -62,19 +64,20 @@ const NachFilterReducer = createSlice({
       state.data.bankAccHolderName = action.payload.bankAccHolderName;
       state.data.accountType = action.payload.accountType;
       state.data.nachAmt = action.payload.nachAmt;
-      state.data.mandateAmt = action.payload.emiAmt * 2;
+      state.data.mandateAmt = action.payload.emiAmt;
       state.data.frequency = action.payload.frequency;
       state.data.debitType = action.payload.debitType;
       state.data.fbd = action.payload.fbd;
       state.data.mandateStartDate = action.payload.mandateStartDate;
       state.data.firstNachBillingDate = action.payload.firstNachBillingDate;
-      state.data.maximumAmt = action.payload.emiAmt * 2;
+      state.data.maximumAmt = action.payload.emiAmt;
       state.data.mandateValidity = action.payload.mandateValidity;
       state.data.mandateEndDate = action.payload.mandateEndDate;
       state.data.customerMobileNum = action.payload.customerMobileNum;
       state.data.customerEmailId = action.payload.customerEmailId;
     },
     resetValues(state, action) {
+      state.data.applicationNum = "";
       state.data.customerID = "";
       state.data.repayApplication = "";
       state.data.repayMode = "";
@@ -82,7 +85,7 @@ const NachFilterReducer = createSlice({
       state.data.fileStatus = "";
       state.data.loanAmount = "";
       state.data.disbursementAmount = "";
-      state.data.sancationDate = null;
+      state.data.sancationDate = "";
       state.data.nachSponserBank = "";
       state.data.IFSC = "";
       state.data.MICR = "";
