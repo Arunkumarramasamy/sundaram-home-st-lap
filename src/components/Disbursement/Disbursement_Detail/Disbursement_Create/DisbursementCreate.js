@@ -396,6 +396,18 @@ const DisbursementCreate = (props) => {
         ],
       });
       status = false;
+    } else if (
+      data.disbAmt <
+      Number(parameterValues["Disbursement Minimum Amount"]["paramValue"])
+    ) {
+      errorDispatch({
+        type: errorParameters.currentDisbError,
+        value: [
+          true,
+          "Current Disbursement Amount Cannot be Less than Minimum Disbursement Amount given in Parameter.",
+        ],
+      });
+      status = false;
     } else if (errorState.currentDisbError[0]) {
       errorDispatch({
         type: errorParameters.currentDisbError,
