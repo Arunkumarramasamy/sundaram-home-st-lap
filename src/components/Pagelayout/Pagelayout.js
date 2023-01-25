@@ -74,6 +74,9 @@ import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import { BranchAction } from "../Store/Branch";
 import store from "../Store/index";
 import "./PageLayout.css";
+import Posting from "../Report/Posting";
+import Repayment from "../Report/Repayment";
+import Retrival from "../Report/Retrival";
 
 const drawerWidth = 300;
 
@@ -118,6 +121,15 @@ export default function Pagelayout() {
   const dispatch = useDispatch();
   const { search } = useLocation();
   const open = Boolean(anchorEl);
+  const [openReportSubMenu, setOpenReportSubMenu] = useState(false);
+
+  const handlerReportSubMenu = () => {
+    setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
+    setOpenDemoSubMenu(false);
+    setOpenNachSubMenu(false);
+    setOpenReportSubMenu(!openReportSubMenu);
+  };
 
   const handleDrawerOpen = (event) => {
     setExpanded(true);
@@ -227,6 +239,15 @@ export default function Pagelayout() {
         break;
       case "approval":
         path = "/stlap/home/approval";
+        break;
+      case "posting":
+        path = "/stlap/home/posting";
+        break;
+      case "repayment":
+        path = "/stlap/home/repayment";
+        break;
+      case "retrival":
+        path = "/stlap/home/retrival";
         break;
       default:
         path = "/stlap/home/dashboard";
@@ -675,6 +696,79 @@ export default function Pagelayout() {
             </ListItemButton>
           </List>
         </Collapse>
+        {/* Report*/}
+        <ListItemButton id="report" onClick={handlerReportSubMenu}>
+          <ListItemIcon>
+            <Tooltip title="Report" disableHoverListener={!expanded}>
+              <AppRegistrationTwoTone
+                fontSize="medium"
+                sx={{ color: "white" }}
+              />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText
+            id="menu-lable"
+            primary="Report"
+            sx={{ display: "block" }}
+          />
+          {openReportSubMenu ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={openReportSubMenu} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="repayment"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Repayment" disableHoverListener={!expanded}>
+                  <AppRegistrationIcon
+                    fontSize="medium"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Repayment"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="posting"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Posting" disableHoverListener={!expanded}>
+                  <VerifiedUserIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Posting"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="retrival"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Retrival" disableHoverListener={!expanded}>
+                  <ApprovalIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Retrival"
+              />
+            </ListItemButton>
+          </List>
+        </Collapse>
       </List>
       <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
@@ -692,9 +786,9 @@ export default function Pagelayout() {
           <Chip
             label={`Area : ${branchDetails.areaName}, Zone : ${
               branchDetails.zoneName
-            }, Branch :${
+            }${
               branchDetails.branchName !== ""
-                ? ` ${branchDetails.branchName}`
+                ? `, Branch : ${branchDetails.branchName}`
                 : ""
             }  `}
             component="div"
@@ -807,9 +901,9 @@ export default function Pagelayout() {
               <Chip
                 label={`Area : ${branchDetails.areaName}, Zone : ${
                   branchDetails.zoneName
-                }, Branch :${
+                }${
                   branchDetails.branchName !== ""
-                    ? ` ${branchDetails.branchName}`
+                    ? `, Branch : ${branchDetails.branchName}`
                     : ""
                 }  `}
                 component="div"
@@ -834,15 +928,17 @@ export default function Pagelayout() {
                   />
                 </Box>
                 <Box>
-                  <Chip
-                    label={`Branch :${
-                      branchDetails.branchName !== ""
-                        ? ` ${branchDetails.branchName}`
-                        : ""
-                    }  `}
-                    component="div"
-                    sx={{ color: "white", bgcolor: "#004a92" }}
-                  />
+                  {branchDetails.branchName !== "" ? (
+                    <Chip
+                      label={`${
+                        branchDetails.branchName !== ""
+                          ? `Branch : ${branchDetails.branchName}`
+                          : ""
+                      }  `}
+                      component="div"
+                      sx={{ color: "white", bgcolor: "#004a92" }}
+                    />
+                  ) : null}
                 </Box>
               </Box>
             )}
@@ -1060,6 +1156,16 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/eNachRegisteration`}
             element={<EnachRegistration />}
           />
+          <Route path={`${search}/stlap/home/posting`} element={<Posting />} />
+          <Route
+            path={`${search}/stlap/home/retrival`}
+            element={<Retrival />}
+          />
+          <Route
+            path={`${search}/stlap/home/repayment`}
+            element={<Repayment />}
+          />
+
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
         {/* </Container> */}
