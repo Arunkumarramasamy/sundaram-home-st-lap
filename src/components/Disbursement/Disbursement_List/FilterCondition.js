@@ -1,17 +1,11 @@
 import { Box, Button, Grid } from "@mui/material";
-import React from "react";
-import CustomTextField from "../../CustomComponents/CustomTextField";
-import AccordianContainer from "../../CustomComponents/AccordianContainer";
-import CustomAutoComplete from "../../CustomComponents/CustomAutoComplete";
-import CustomDropDown from "../../CustomComponents/CustomDropDown";
-import CustomDateField from "../../CustomComponents/CustomDateField";
-import CustomDateRangeField from "../../CustomComponents/CustomDateRangeField";
-import { useReducer } from "react";
-import { useState } from "react";
-import { Backspace, Search } from "@mui/icons-material";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useReducer } from "react";
+import AccordianContainer from "../../CustomComponents/AccordianContainer";
+import CustomAutoComplete from "../../CustomComponents/CustomAutoComplete";
+import CustomDateField from "../../CustomComponents/CustomDateField";
+import CustomTextField from "../../CustomComponents/CustomTextField";
 
 const filterValues = {
   tabIndex: "tabIndex",
@@ -529,7 +523,7 @@ const FilterCondition = (props) => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+              {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
                 <CustomTextField
                   disabled={disabledState || disableSearchFields}
                   required={false}
@@ -550,7 +544,7 @@ const FilterCondition = (props) => {
                     });
                   }}
                 />
-              </Grid>
+              </Grid> */}
             </React.Fragment>
           )}
           {/* disDetailPage page is false means it was the disbursement list screen search container */}

@@ -718,7 +718,8 @@ const DisbursementCreate = (props) => {
             dialogTitle={
               <Typography sx={{ color: "green" }}>"Save Success!"</Typography>
             }
-            dialogContent={"Generated Request Number is :" + requestNumber}
+            // dialogContent={"Generated Request Number is :" + requestNumber}
+            dialogContent={"Disbursement Request Created Successfully.."}
             hideCancelButton={true}
             okButtonName={"OK"}
             onOkClick={() => {

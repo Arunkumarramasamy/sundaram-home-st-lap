@@ -555,7 +555,7 @@ const DisbursementDetailsTab = (props) => {
           />
         </Grid>
 
-        {props.screenMode !== "CREATE" ? (
+        {/* {props.screenMode !== "CREATE" ? (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               disabled={true}
@@ -568,7 +568,7 @@ const DisbursementDetailsTab = (props) => {
               placeholder="Request Number"
             />
           </Grid>
-        ) : null}
+        ) : null} */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
