@@ -5,19 +5,19 @@ const initialState = {
   showMandate: false,
   data: {
     applicationNum: "",
-    customerID: "",
+    customerId: "",
     repayApplication: "",
-    repayMode: "",
-    emiAmount: "",
-    fileStatus: "",
+    repay: "",
+    emiAmt: "",
+    status: "",
     loanAmount: "",
     disbursementAmount: "",
     sancationDate: null,
     nachSponserBank: "",
-    IFSC: "",
-    MICR: "",
+    ifscCode: "",
+    micr: "",
     bankName: "",
-    branchName: "",
+    branch: "",
     draweePlace: "",
     bankAccountNum: "",
     bankAccHolderName: "",
@@ -46,19 +46,19 @@ const NachFilterReducer = createSlice({
     },
     updateValues(state, action) {
       state.data.applicationNum = action.payload.applicationNum;
-      state.data.customerID = String(action.payload.customerId);
+      state.data.customerId = String(action.payload.customerId);
       state.data.repayApplication = action.payload.repayApplication;
-      state.data.repayMode = action.payload.repay;
-      state.data.emiAmount = action.payload.emiAmt;
-      state.data.fileStatus = action.payload.fileStatus;
+      state.data.repay = action.payload.repay;
+      state.data.emiAmt = action.payload.emiAmt;
+      state.data.status = action.payload.status;
       state.data.loanAmount = action.payload.loanAmount;
       state.data.disbursementAmount = action.payload.disbursementAmount;
       state.data.sancationDate = action.payload.sancationDate;
       state.data.nachSponserBank = action.payload.nachSponserBank;
-      state.data.IFSC = action.payload.IFSC;
-      state.data.MICR = action.payload.MICR;
+      state.data.ifscCode = action.payload.ifscCode;
+      state.data.micr = action.payload.micr;
       state.data.bankName = action.payload.bankName;
-      state.data.branchName = action.payload.branchName;
+      state.data.branch = action.payload.branch;
       state.data.draweePlace = action.payload.draweePlace;
       state.data.bankAccountNum = action.payload.bankAccountNum;
       state.data.bankAccHolderName = action.payload.bankAccHolderName;
@@ -78,19 +78,19 @@ const NachFilterReducer = createSlice({
     },
     resetValues(state, action) {
       state.data.applicationNum = "";
-      state.data.customerID = "";
+      state.data.customerId = "";
       state.data.repayApplication = "";
-      state.data.repayMode = "";
-      state.data.emiAmount = "";
-      state.data.fileStatus = "";
+      state.data.repay = "";
+      state.data.emiAmt = "";
+      state.data.status = "";
       state.data.loanAmount = "";
       state.data.disbursementAmount = "";
       state.data.sancationDate = "";
       state.data.nachSponserBank = "";
-      state.data.IFSC = "";
-      state.data.MICR = "";
+      state.data.ifscCode = "";
+      state.data.micr = "";
       state.data.bankName = "";
-      state.data.branchName = "";
+      state.data.branch = "";
       state.data.draweePlace = "";
       state.data.bankAccountNum = "";
       state.data.bankAccHolderName = "";

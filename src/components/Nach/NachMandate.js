@@ -27,11 +27,11 @@ const NachMandate = () => {
   const touchHandlers = useSelector((state) => state.nach.touchHandler);
 
   useEffect(() => {
-    if (FilteredData.fileStatus === "New") {
+    if (FilteredData.status === "New") {
       setBtnName("Save");
-    } else if (FilteredData.fileStatus === "Registered") {
+    } else if (FilteredData.status === "Registered") {
       setBtnName("Update");
-    } else if (FilteredData.fileStatus === "Verified") {
+    } else if (FilteredData.status === "Verified") {
       setShowBtn(false);
     }
   }, [FilteredData]);
@@ -72,14 +72,12 @@ const NachMandate = () => {
   };
   //on Save
   const SendData = async () => {
+    const data = { ...FilteredData };
     try {
-      const response = await axios.post("http://localhost:8080/nach/register", {
-        applicationNum: FilteredData.applicationNum,
-        bankAccountNum: FilteredData.bankAccountNum,
-        branch: FilteredData.branchName,
-        debitType: FilteredData.debitType,
-        fbd: FilteredData.fbd,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/nach/register",
+        data
+      );
     } catch {}
   };
   // Save Button Handler
@@ -141,7 +139,7 @@ const NachMandate = () => {
                       label="IFSC"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.IFSC}
+                      value={FilteredData.ifscCode}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -150,7 +148,7 @@ const NachMandate = () => {
                       label="MICR"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.MICR}
+                      value={FilteredData.micr}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -168,7 +166,7 @@ const NachMandate = () => {
                       label="Branch Name"
                       variant="standard"
                       disabled={true}
-                      value={FilteredData.branchName}
+                      value={FilteredData.branch}
                     ></CustomTextField>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -291,10 +289,11 @@ const NachMandate = () => {
                     )}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                    <CustomTextField
+                    <CustomDateField
                       type="FBD"
                       label="FBD"
                       variant="standard"
+                      disabled={true}
                       value={FilteredData.fbd}
                       onBlur={() => {
                         dispatch(NachAction.updateFbdTouchHandler(true));
@@ -304,7 +303,7 @@ const NachMandate = () => {
                           NachFilterReducerAction.updateFBD(e.target.value)
                         );
                       }}
-                    ></CustomTextField>
+                    ></CustomDateField>
                     {FBDHasError && <p className="error">Please Select FBD</p>}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -331,6 +330,7 @@ const NachMandate = () => {
                     <CustomDateField
                       label="First NACH Billing Date"
                       variant="standard"
+                      disabled={true}
                       value={FilteredData.firstNachBillingDate}
                       onBlur={() => {
                         dispatch(
