@@ -12,16 +12,59 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { React, useState } from "react";
+import axios from "axios";
+import { React, useEffect, useState } from "react";
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import CustomTextField from "../CustomComponents/CustomTextField";
 
 const EnachRegistration = () => {
+  const [currentDate, setCurrentDate] = useState(
+    `${new Date().getDate()}/${
+      new Date().getMonth() + 1
+    }/${new Date().getFullYear()}`
+  );
+  const [branch, setBranch] = useState("");
+  const [emiAmount, setEmiAmout] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [mailId, setMailId] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountType, setAccountType] = useState("");
+  const [ifscCode, setIfscCode] = useState("");
   const [paymentType, setPayMentType] = useState("netbank");
   const [applicantName, setApplicantName] = useState("");
-
+  const [nachAmount, setNachAmount] = useState("");
+  const [mandateEndDate, setMandateEndDate] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [debitType, setDebitType] = useState("");
+  useEffect(() => {
+    const getApplicationListData = async (newValue) => {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/enach/enachDetails",
+          {
+            applicationNumber: "",
+          }
+        );
+        setBranch(response["branch"]);
+        setEmiAmout(response["emiAmount"]);
+        setAccountNumber(response["accountNumber"]);
+        setAccountType(response["accountType"]);
+        setBankName(response["bankName"]);
+        setDebitType(response["debitType"]);
+        setFrequency(response["frequency"]);
+        setIfscCode(response["ifscCode"]);
+        setMailId(response["mailID"]);
+        setMobileNumber(response["mobileNumber"]);
+        setNachAmount(response["nachAmount"]);
+        setMandateEndDate(response["endDate"]);
+      } catch {
+        console.log("Network Error");
+      }
+    };
+  }, []);
   const handleChange = (event) => {
     setPayMentType(event.target.value);
   };
@@ -57,7 +100,7 @@ const EnachRegistration = () => {
                 type="text"
                 label="Branch"
                 variant="standard"
-                value={""}
+                value={branch}
                 disabled={true}
               />
             </Grid>
@@ -66,7 +109,7 @@ const EnachRegistration = () => {
                 type="text"
                 label="Mobile Number"
                 variant="standard"
-                value={""}
+                value={mobileNumber}
                 disabled={true}
               />
             </Grid>
@@ -75,15 +118,15 @@ const EnachRegistration = () => {
                 type="text"
                 label="Mail Id"
                 variant="standard"
-                value={""}
+                value={mailId}
                 disabled={true}
               />
             </Grid>
           </Grid>
-          <div style={{marginTop:'24px'}}>
-          <h4 sx={{ margin: "8px", marginTop: "24px !important" }}>
-            Customer Bank Details
-          </h4>
+          <div style={{ marginTop: "24px" }}>
+            <h4 sx={{ margin: "8px", marginTop: "24px !important" }}>
+              Customer Bank Details
+            </h4>
           </div>
           <div style={{ width: "fit-content", whiteSpace: "nowrap" }}>
             <RadioGroup
@@ -121,35 +164,35 @@ const EnachRegistration = () => {
                   type="text"
                   label="Bank Name"
                   variant="standard"
-                  value={""}
+                  value={bankName}
                   disabled={true}
                 />
                 <CustomTextField
                   type="text"
                   label="Account Number"
                   variant="standard"
-                  value={""}
+                  value={accountNumber}
                   disabled={true}
                 />
                 <CustomTextField
                   type="text"
                   label="Account Type"
                   variant="standard"
-                  value={""}
+                  value={accountType}
                   disabled={true}
                 />
                 <CustomTextField
                   type="text"
                   label="IFSC Code"
                   variant="standard"
-                  value={""}
+                  value={ifscCode}
                   disabled={true}
                 />
                 <CustomTextField
                   type="text"
                   label="Branch"
                   variant="standard"
-                  value={""}
+                  value={branch}
                   disabled={true}
                 />
               </Paper>
@@ -168,14 +211,14 @@ const EnachRegistration = () => {
                   type="text"
                   label="Emi Amount"
                   variant="standard"
-                  value={""}
+                  value={emiAmount}
                   disabled={true}
                 />
                 <CustomTextField
                   type="text"
                   label="Nach Amount"
                   variant="standard"
-                  value={""}
+                  value={nachAmount}
                   disabled={true}
                 />
                 <Stack direction="row" spacing={1}>
@@ -183,14 +226,14 @@ const EnachRegistration = () => {
                     type="text"
                     label="Mandate Start Date"
                     variant="standard"
-                    value={""}
+                    value={currentDate}
                     disabled={true}
                   />
                   <CustomTextField
                     type="text"
                     label="Mandate End Date"
                     variant="standard"
-                    value={""}
+                    value={mandateEndDate}
                     disabled={true}
                   />
                 </Stack>
@@ -198,14 +241,14 @@ const EnachRegistration = () => {
                   type="text"
                   label="Frequency"
                   variant="standard"
-                  value={""}
+                  value={frequency}
                   disabled={true}
                 />
                 <CustomTextField
                   type="text"
                   label="Debit Type"
                   variant="standard"
-                  value={""}
+                  value={debitType}
                   disabled={true}
                 />
               </Paper>

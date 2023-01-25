@@ -66,7 +66,7 @@ function DashboardContent() {
         setSanctionAmount(
           "" === response.data.approvedAmount
             ? 0
-            : Number(response.data.approvedAmount).toLocaleString()
+            : Number(response.data.approvedAmount).toLocaleString("en-IN")
         );
         setOneMonthData(response.data.oneMonth);
         setOneYearData(response.data.oneYear);
@@ -110,17 +110,17 @@ function DashboardContent() {
         <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
-              action={
-                <IconButton size="small">
-                  <OpenInFullIcon size="small" />
-                </IconButton>
-              }
-              subheader="Sanctioned List"
+              // action={
+              //   <IconButton size="small">
+              //     <OpenInFullIcon size="small" />
+              //   </IconButton>
+              // }
+              subheader="Sanctioned"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
-            <CardContent sx={{ textAlign: "center" }}>
-              <Typography variant="h5" component="h5">
+            <CardContent sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}>
+              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
                 {sanction}
               </Typography>
               <ApprovalIcon sx={{ fontSize: 50 }} />
@@ -134,17 +134,17 @@ function DashboardContent() {
         <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
-              action={
-                <IconButton size="small">
-                  <OpenInFullIcon size="small" />
-                </IconButton>
-              }
-              subheader="Requested List"
+              // action={
+              //   <IconButton size="small">
+              //     <OpenInFullIcon size="small" />
+              //   </IconButton>
+              // }
+              subheader="Requested"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
-            <CardContent sx={{ textAlign: "center" }}>
-              <Typography variant="h5" component="h5">
+            <CardContent sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}>
+              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
                 {request}
               </Typography>
               <PendingActionsIcon sx={{ fontSize: 50 }} />
@@ -158,17 +158,17 @@ function DashboardContent() {
         <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
-              action={
-                <IconButton size="small">
-                  <OpenInFullIcon size="small" />
-                </IconButton>
-              }
-              subheader="Approved List"
+              // action={
+              //   <IconButton size="small">
+              //     <OpenInFullIcon size="small" />
+              //   </IconButton>
+              // }
+              subheader="Approved"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
-            <CardContent sx={{ textAlign: "center" }}>
-              <Typography variant="h5" component="h5">
+            <CardContent sx={{ textAlign: "center", fontWeight:'700',fontSize:'2.0rem' }}>
+              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
                 {approved}
               </Typography>
               <CheckIcon sx={{ fontSize: 50 }} />
@@ -182,17 +182,17 @@ function DashboardContent() {
         <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
-              action={
-                <IconButton size="small">
-                  <OpenInFullIcon size="small" />
-                </IconButton>
-              }
-              sx={{ textAlign: "center" }}
-              subheader="Partially Disbursed List"
+              // action={
+              //   <IconButton size="small">
+              //     <OpenInFullIcon size="small" />
+              //   </IconButton>
+              // }
+              sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}
+              subheader="Partially Disbursed"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
             />
-            <CardContent sx={{ textAlign: "center" }}>
-              <Typography variant="h5" component="h5">
+            <CardContent sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}>
+              <Typography variant="h5" sx={{fontWeight:'700',fontSize:'2.0rem'}} component="h5">
                 {partialAmount}
               </Typography>
               <HourglassBottomIcon sx={{ fontSize: 50 }} />
@@ -202,17 +202,17 @@ function DashboardContent() {
         <Grid item xs={12} lg={2.4} sm={6} sx={{ flex: "1 auto" }}>
           <Card id="card-design">
             <CardHeader
-              action={
-                <IconButton size="small">
-                  <OpenInFullIcon size="small" />
-                </IconButton>
-              }
-              sx={{ textAlign: "center" }}
-              subheader="Total Disbursed (₹)"
+              // action={
+              //   <IconButton size="small">
+              //     <OpenInFullIcon size="small" />
+              //   </IconButton>
+              // }
+              sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}
+              subheader="Disbursed (₹)"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
             />
-            <CardContent sx={{ textAlign: "center" }}>
-              <Typography variant="h5" component="h5">
+            <CardContent sx={{ textAlign: "center" ,fontWeight:'700',fontSize:'2.0rem'}}>
+              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
                 {sanctionAmount}
               </Typography>
               <AssuredWorkloadIcon sx={{ fontSize: 50 }} />
@@ -264,7 +264,7 @@ function DashboardContent() {
                 fontWeight: "500",
               }}
             >
-              Requested List For Current Month
+              Request List For Current Month
             </Typography>
           </Paper>
         </Grid>
@@ -311,7 +311,7 @@ function DashboardContent() {
                 fontWeight: "500",
               }}
             >
-              Approved List for Current Month
+              Approve List for Current Month
             </Typography>
           </Paper>
         </Grid>
