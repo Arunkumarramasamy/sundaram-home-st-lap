@@ -26,6 +26,12 @@ const NachMandate = () => {
   const FilteredData = useSelector((state) => state.nachFilter.data);
   const touchHandlers = useSelector((state) => state.nach.touchHandler);
 
+  //frequency type
+  const [frequencyTypeArray, setFrequencyTypeArray] = useState([]);
+
+  //Debit type
+  const [debitTypeArray, setDebitTypeArray] = useState([]);
+
   useEffect(() => {
     if (FilteredData.status.toUpperCase() === "New".toUpperCase()) {
       setBtnName("Save");
@@ -36,6 +42,37 @@ const NachMandate = () => {
     } else if (FilteredData.status.toUpperCase() === "Verified".toUpperCase()) {
       setShowBtn(false);
     }
+    async function fetchFrequencyType() {
+      const frequencyTypeApi = axios.create({
+        baseURL: "http://localhost:8080/frequency/",
+      });
+      const frequencyResponse = await frequencyTypeApi.get("/getAll");
+      const frequencyTypeData = frequencyResponse.data.map((type) => {
+        return {
+          key: type.id,
+          value: type.frequencyType,
+          text: type.frequencyType,
+        };
+      });
+      setFrequencyTypeArray(frequencyTypeData);
+    }
+
+    async function fetchDebitType() {
+      const debitTypeApi = axios.create({
+        baseURL: "http://localhost:8080/debit/",
+      });
+      const debitTypeResponse = await debitTypeApi.get("/getAll");
+      const debitTypeData = debitTypeResponse.data.map((type) => {
+        return {
+          key: type.id,
+          value: type.debitType,
+          text: type.debitType,
+        };
+      });
+      setDebitTypeArray(debitTypeData);
+    }
+    fetchFrequencyType();
+    fetchDebitType();
   }, [FilteredData]);
 
   //Button updation
@@ -241,15 +278,7 @@ const NachMandate = () => {
                       label="Frequency"
                       variant="standard"
                       value={FilteredData.frequency}
-                      dropDownValue={[
-                        { key: 0, value: "monthly", text: "Monthly" },
-                        { key: 1, value: "yearly", text: "Yearly" },
-                        {
-                          key: 2,
-                          value: "asWhen",
-                          text: " As and when required",
-                        },
-                      ]}
+                      dropDownValue={frequencyTypeArray}
                       onBlur={() => {
                         dispatch(NachAction.updateFrequencyTouchHandler(true));
                       }}
@@ -271,10 +300,7 @@ const NachMandate = () => {
                       label="Debit Type"
                       variant="standard"
                       value={FilteredData.debitType}
-                      dropDownValue={[
-                        { key: 0, value: "fixed", text: "Fixed amount" },
-                        { key: 1, value: "maximum", text: "Maximum amount" },
-                      ]}
+                      dropDownValue={debitTypeArray}
                       onBlur={() => {
                         dispatch(NachAction.updateDebitTypeTouchHandler(true));
                       }}

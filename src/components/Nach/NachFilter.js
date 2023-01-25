@@ -93,17 +93,20 @@ const NachFilter = () => {
     dispatch(NachAction.updateMandateStartDateTouchHandler(false));
     dispatch(NachAction.updateFirstNachBillingDateTouchHandler(false));
   };
-  useEffect(async () => {
-    const api = axios.create({
-      baseURL: "http://localhost:8080/losCustomer/",
-    });
-    const response = await api.get("/getAllData");
-    const data = response.data.filter(
-      (sanctionRow) =>
-        sanctionRow.losStatus === "Fully Requested" ||
-        sanctionRow.losStatus === "Partially Requested"
-    );
-    setLosData(data);
+  useEffect(() => {
+    async function fetchLosData() {
+      const api = axios.create({
+        baseURL: "http://localhost:8080/losCustomer/",
+      });
+      const response = await api.get("/getAllData");
+      const data = response.data.filter(
+        (sanctionRow) =>
+          sanctionRow.losStatus === "Fully Requested" ||
+          sanctionRow.losStatus === "Partially Requested"
+      );
+      setLosData(data);
+    }
+    fetchLosData();
     const branchValues = GetBranchDetails();
     setBranchArray(branchValues);
   }, []);
