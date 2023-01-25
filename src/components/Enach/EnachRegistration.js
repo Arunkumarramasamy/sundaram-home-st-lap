@@ -39,32 +39,62 @@ const EnachRegistration = () => {
   const [mandateEndDate, setMandateEndDate] = useState("");
   const [frequency, setFrequency] = useState("");
   const [debitType, setDebitType] = useState("");
+  const [applicantNameList, setApplicantNameList] = useState([]);
   useEffect(() => {
-    const getApplicationListData = async (newValue) => {
-      try {
-        const response = await axios.post(
-          "http://localhost:8080/enach/enachDetails",
-          {
-            applicationNumber: "",
-          }
-        );
-        setBranch(response["branch"]);
-        setEmiAmout(response["emiAmount"]);
-        setAccountNumber(response["accountNumber"]);
-        setAccountType(response["accountType"]);
-        setBankName(response["bankName"]);
-        setDebitType(response["debitType"]);
-        setFrequency(response["frequency"]);
-        setIfscCode(response["ifscCode"]);
-        setMailId(response["mailID"]);
-        setMobileNumber(response["mobileNumber"]);
-        setNachAmount(response["nachAmount"]);
-        setMandateEndDate(response["endDate"]);
-      } catch {
-        console.log("Network Error");
-      }
-    };
+    getApplicationListData();
   }, []);
+  const getApplicationListData = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/enach/getApplicants",
+        {
+          applicationNum: "string",
+        }
+      );
+      setApplicantNameList(response.data);
+      // setBranch(response["branch"]);
+      // setEmiAmout(response["emiAmount"]);
+      // setAccountNumber(response["accountNumber"]);
+      // setAccountType(response["accountType"]);
+      // setBankName(response["bankName"]);
+      // setDebitType(response["debitType"]);
+      // setFrequency(response["frequency"]);
+      // setIfscCode(response["ifscCode"]);
+      // setMailId(response["mailID"]);
+      // setMobileNumber(response["mobileNumber"]);
+      // setNachAmount(response["nachAmount"]);
+      // setMandateEndDate(response["endDate"]);
+    } catch {
+      console.log("Network Error");
+    }
+  };
+
+  const getEnachDetails = async (applicantName) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/enach/enachDetails",
+        {
+          applicationNum: "string",
+          applicantName: "string",
+        }
+      );
+      // setApplicantNameList(response.data);
+      setBranch(response.data["branch"]);
+      setEmiAmout(response.data["emiAmount"]);
+      setAccountNumber(response.data["accountNumber"]);
+      setAccountType(response.data["accountType"]);
+      setBankName(response.data["bankName"]);
+      setDebitType(response.data["debitType"]);
+      setFrequency(response.data["frequency"]);
+      setIfscCode(response.data["ifscCode"]);
+      setMailId(response.data["emailId"]);
+      setMobileNumber(response.data["mobileNumber"]);
+      setNachAmount(response.data["nachAmount"]);
+      setMandateEndDate(response.data["endDate"]);
+    } catch {
+      console.log("Network Error");
+    }
+  };
   const handleChange = (event) => {
     setPayMentType(event.target.value);
   };
@@ -86,12 +116,10 @@ const EnachRegistration = () => {
                 variant="standard"
                 value={applicantName}
                 disabled={false}
-                dropDownValue={[
-                  { value: 1, text: "Applicant" },
-                  { value: 2, text: "Co-Applicant" },
-                ]}
+                dropDownValue={applicantNameList}
                 onChange={(event) => {
                   setApplicantName(event.target.value);
+                  getEnachDetails(event.target.name);
                 }}
               />
             </Grid>
