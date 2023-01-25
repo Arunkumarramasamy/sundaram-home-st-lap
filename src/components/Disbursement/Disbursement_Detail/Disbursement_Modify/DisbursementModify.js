@@ -49,6 +49,7 @@ const DisbursementModify = (props) => {
   const [saveData, setsaveData] = useState([]);
   const [showSnackBar, setshowSnackBar] = useState(false);
   const [snackBarMessage, setsnackBarMessage] = useState("");
+  const [parameterValues, setparameterValues] = useState({});
   const [dialogMessage, setdialogMessage] = useState(
     "Do You Want to Update this Request?"
   );
@@ -207,6 +208,7 @@ const DisbursementModify = (props) => {
     getCustomerDataByAppNum();
     getDeductionTabData();
     getCustomerBankData();
+    getParameterValues();
     dispatch({
       type: screenFields.screenMode,
       value: props.screenMode,
@@ -325,6 +327,19 @@ const DisbursementModify = (props) => {
       type: screenFields.disbursementFavours,
       value: dataMap,
     });
+  };
+
+  const getParameterValues = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/parameter/",
+    });
+
+    const response = await api.get("/getAllParameterData");
+    const dataMap = {};
+    response.data.map((parameter) => {
+      dataMap[parameter.paramName] = parameter;
+    });
+    setparameterValues(dataMap);
   };
 
   const validateCreateRequestData = (data, losData) => {
@@ -645,6 +660,7 @@ const DisbursementModify = (props) => {
             dispatchEvent={dispatch}
             errorState={errorState}
             screenTitle={props.screenTitle}
+            parameterValues={parameterValues}
           />
           <Box
             sx={{

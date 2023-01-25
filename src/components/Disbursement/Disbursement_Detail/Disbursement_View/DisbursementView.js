@@ -42,6 +42,7 @@ const DisbursementView = (props) => {
   const [billDayValues, setbillDayValues] = useState([]);
   const [deductionTabValue, setdeductionTabValue] = useState({});
   const [loading, setLoading] = useState(true);
+  const [parameterValues, setparameterValues] = useState({});
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -197,6 +198,7 @@ const DisbursementView = (props) => {
     getCustomerDataByAppNum();
     getDeductionTabData();
     getCustomerBankData();
+    getParameterValues();
     dispatch({
       type: screenFields.screenMode,
       value: props.screenMode,
@@ -282,6 +284,19 @@ const DisbursementView = (props) => {
     });
   };
 
+  const getParameterValues = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/parameter/",
+    });
+
+    const response = await api.get("/getAllParameterData");
+    const dataMap = {};
+    response.data.map((parameter) => {
+      dataMap[parameter.paramName] = parameter;
+    });
+    setparameterValues(dataMap);
+  };
+
   return (
     <>
       {loading ? (
@@ -305,6 +320,7 @@ const DisbursementView = (props) => {
             dispatchEvent={dispatch}
             errorState={errorState}
             screenTitle={props.screenTitle}
+            parameterValues={parameterValues}
           />
           <Box
             sx={{
@@ -317,14 +333,20 @@ const DisbursementView = (props) => {
               variant="contained"
               onClick={() => {
                 if (location.state.fromSancationListPage) {
-                  navigate("/stlap/home/disbursementCreatePortal",{replace:true});
+                  navigate("/stlap/home/disbursementCreatePortal", {
+                    replace: true,
+                  });
                 } else {
                   if (disbursementDetailTabValue.requestStatus === "Approved") {
-                    navigate("/stlap/home/disbursementApprovalList",{replace:true});
+                    navigate("/stlap/home/disbursementApprovalList", {
+                      replace: true,
+                    });
                   } else if (location.state.screenMode === "CREATE") {
-                    navigate("/stlap/home/disbursementCreatePortal",{replace:true});
+                    navigate("/stlap/home/disbursementCreatePortal", {
+                      replace: true,
+                    });
                   } else {
-                    navigate("/stlap/home/disbursementList",{replace:true});
+                    navigate("/stlap/home/disbursementList", { replace: true });
                   }
                 }
               }}
