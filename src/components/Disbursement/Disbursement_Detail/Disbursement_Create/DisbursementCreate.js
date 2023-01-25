@@ -47,7 +47,7 @@ const DisbursementCreate = (props) => {
   const [showGeneratedNumber, setshowGeneratedNumber] = useState(false);
   const [saveData, setsaveData] = useState([]);
   const [requestNumber, setrequestNumber] = useState(0);
-  let firstDisbData = null;
+  const [parameterValues, setparameterValues] = useState({});
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -224,55 +224,75 @@ const DisbursementCreate = (props) => {
         type: screenFields.disbNum,
         value: response.data.disbNum,
       });
-      if (response.data.disbNum === 1) {
+      // if (response.data.disbNum === 1) {
+      //   dispatch({
+      //     type: screenFields.disbAmt,
+      //     value: response.data.sanctionAmt,
+      //   });
+      //   getDeductionTabData();
+      // } else {
+      const api1 = axios.create({
+        baseURL: "http://localhost:8080/disbursement/",
+      });
+      const response1 = await api1.post("/getFirstDisbByAppNum", {
+        applicationNum: location.state.applicationNum,
+      });
+
+      if (response1.data.length === 0) {
         dispatch({
           type: screenFields.disbAmt,
           value: response.data.sanctionAmt,
         });
         getDeductionTabData();
       } else {
-        const api1 = axios.create({
-          baseURL: "http://localhost:8080/disbursement/",
+        let firstDisbData = [];
+        response1.data.map((row) => {
+          if (row.requestStatus === "Approved") {
+            firstDisbData.push(row);
+          }
         });
-        const response1 = await api1.post("/getFirstDisbByAppNum", {
-          applicationNum: location.state.applicationNum,
-        });
-        if (response1.status === 200) {
+
+        if (firstDisbData.length !== 0) {
           let secondDispAmt =
-            response.data.sanctionAmt - response1.data[0].disbAmt;
+            response.data.sanctionAmt - firstDisbData[0].disbAmt;
           dispatch({
             type: screenFields.disbAmt,
             value: secondDispAmt,
           });
           dispatch({
             type: screenFields.earlierDisbAmt,
-            value: response1.data[0].disbAmt,
+            value: firstDisbData[0].disbAmt,
           });
           dispatch({
             type: screenFields.billDay,
-            value: response1.data[0].billDay,
+            value: firstDisbData[0].billDay,
           });
           dispatch({
             type: screenFields.billingDate,
-            value: response1.data[0].billingDate,
+            value: firstDisbData[0].billingDate,
           });
           dispatch({
             type: screenFields.emiCommDate,
-            value: response1.data[0].emiCommDate,
+            value: firstDisbData[0].emiCommDate,
           });
           dispatch({
             type: screenFields.firstEmiDueDate,
-            value: response1.data[0].firstEmiDueDate,
+            value: firstDisbData[0].firstEmiDueDate,
           });
           dispatch({
             type: screenFields.disbHeaderKey,
-            value: response1.data[0].disbHeaderKey,
+            value: firstDisbData[0].disbHeaderKey,
           });
           dispatch({
             type: screenFields.transactionKey,
-            value: response1.data[0].transactionKey,
+            value: firstDisbData[0].transactionKey,
           });
-          firstDisbData = response1.data[0];
+          getDeductionTabData();
+        } else {
+          dispatch({
+            type: screenFields.disbAmt,
+            value: response.data.sanctionAmt,
+          });
           getDeductionTabData();
         }
       }
@@ -530,23 +550,17 @@ const DisbursementCreate = (props) => {
     const response = await api.post("/insertDisbursement", data);
     if (response.status === 200) {
       let updateModel = {};
-      if (data.disbAmt === losData.sanctionAmt) {
+      if (data.disbAmt === losData.sanctionAmt || data.earlierDisbAmt !== 0) {
         updateModel = {
           applicationNum: losData.applicationNum,
-          disbNum: 1,
+          disbNum: data.disbNum + 1,
           losStatus: "Fully Requested",
         };
-      } else if (data.disbNum === 1) {
+      } else {
         updateModel = {
           applicationNum: losData.applicationNum,
-          disbNum: 2,
+          disbNum: data.disbNum + 1,
           losStatus: "Partially Requested",
-        };
-      } else if (data.disbNum === 2) {
-        updateModel = {
-          applicationNum: losData.applicationNum,
-          disbNum: 2,
-          losStatus: "Fully Requested",
         };
       }
       const api1 = axios.create({
@@ -562,11 +576,7 @@ const DisbursementCreate = (props) => {
 
   const confirmationOkClickHandler = () => {
     setshowConfirmation(false);
-    if (saveData[1].disbNum === 2) {
-      updateSecondDisbursementData(saveData[0], saveData[1]);
-    } else {
-      insertDisbursementDataToDB(saveData[0], saveData[1]);
-    }
+    insertDisbursementDataToDB(saveData[0], saveData[1]);
   };
 
   return (

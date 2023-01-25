@@ -345,7 +345,7 @@ const DisbursementDetailsTab = (props) => {
             disabled={
               disableAllFields ||
               props.screenMode === "APPROVE" ||
-              props.disbursementDetailTabValue.disbNum !== 1
+              props.disbursementDetailTabValue.earlierDisbAmt !== 0
             }
             required={false}
             label="Current Disbursement Amount"
@@ -463,7 +463,7 @@ const DisbursementDetailsTab = (props) => {
             disabled={
               disableAllFields ||
               props.screenMode === "APPROVE" ||
-              props.disbursementDetailTabValue.disbNum !== 1
+              props.disbursementDetailTabValue.earlierDisbAmt !== 0
             }
             required={false}
             label="Billing Day"
@@ -485,7 +485,7 @@ const DisbursementDetailsTab = (props) => {
             disabled={
               disableAllFields ||
               props.screenMode === "APPROVE" ||
-              props.disbursementDetailTabValue.disbNum !== 1
+              props.disbursementDetailTabValue.earlierDisbAmt !== 0
             }
             required={false}
             label="ECD"

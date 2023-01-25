@@ -510,11 +510,19 @@ const DisbursementModify = (props) => {
 
   const changeLosStatusOnCancel = async (losData) => {
     let updateModel = {};
-    updateModel = {
-      applicationNum: losData.applicationNum,
-      disbNum: 1,
-      losStatus: "Sanctioned",
-    };
+    if (losData.losStatus === "Fully Requested") {
+      updateModel = {
+        applicationNum: losData.applicationNum,
+        disbNum: losData.disbNum,
+        losStatus: "Sanctioned",
+      };
+    } else if (losData.losStatus === "Partially Requested") {
+      updateModel = {
+        applicationNum: losData.applicationNum,
+        disbNum: losData.disbNum,
+        losStatus: "Sanctioned",
+      };
+    }
     const api1 = axios.create({
       baseURL: "http://localhost:8080/losCustomer/",
     });
@@ -532,7 +540,7 @@ const DisbursementModify = (props) => {
     } else if (losData.losStatus === "Partially Requested") {
       updateModel = {
         applicationNum: losData.applicationNum,
-        disbNum: 2,
+        disbNum: losData.disbNum,
         losStatus: "Partially Disbursed",
       };
     }
