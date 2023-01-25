@@ -52,6 +52,8 @@ const AdditionalWaiver = () => {
   const [deductionsState, setDeductionsState] = useState(
     deductionsInitialState
   );
+  const [branchNameValue, setBranchNameValue] = useState("");
+  const [discardOpen, setDiscardOpen] = useState(false);
   const handleSearch = (event) => {
     event.preventDefault();
     if (branchName && applicationNum) {
@@ -149,14 +151,17 @@ const AdditionalWaiver = () => {
     }/${new Date().getFullYear()}`
   );
   const [applicationNum, setapplicationNum] = useState("");
-  const [applicationNumList, setapplicationNumList] = useState([
-    // { label: "STLMYL20220001", value: "STLMYL20220001" },
-    // { label: "STLMYL20220002", value: "STLMYL20220002" },
-    // { label: "STLMYL20220003", value: "STLMYL20220003" },
-    // { label: "STLMYL20220004", value: "STLMYL20220004" },
-    // { label: "STLMYL20220005", value: "STLMYL20220005" },
-    // { label: "STLMYL20220006", value: "STLMYL20220006" },
-  ]);
+  const [applicationNumList, setapplicationNumList] = useState([]);
+  const discardChanges = () => {
+    setUpdateDisable(true);
+    setBranchName(branchNameValue);
+    dispatch(BranchAction.updateInitialLoad(false));
+    dispatch(BranchAction.updateHeaderBranchDetails(branchNameValue));
+    getApplicationListData(branchNameValue);
+    setapplicationNum("");
+    setGridVisible("none");
+    setDiscardOpen(false);
+  };
   const onChangeForReferenceEvent = (event, newValue) => {
     if (newValue === null) {
       setapplicationNum("");
@@ -214,17 +219,22 @@ const AdditionalWaiver = () => {
     // props.onSearchButtonClick(branch, trnNo, true);
   };
   const onChangeForBranchEvent = (event, newValue) => {
-    setBranchName(newValue);
-    getApplicationListData(newValue);
-    dispatch(BranchAction.updateInitialLoad(false));
-    dispatch(BranchAction.updateHeaderBranchDetails(newValue.label));
-    if (newValue === null || newValue === "") {
-      setApplicationSearchDisable(true);
-      setapplicationNum("");
-      setGridVisible("none");
+    if (updateDisable) {
+      setBranchName(newValue);
+      getApplicationListData(newValue);
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(newValue.label));
+      if (newValue === null || newValue === "") {
+        setApplicationSearchDisable(true);
+        setapplicationNum("");
+        setGridVisible("none");
+      } else {
+        setBranchNameNotValid(false);
+        setApplicationSearchDisable(false);
+      }
     } else {
-      setBranchNameNotValid(false);
-      setApplicationSearchDisable(false);
+      setBranchNameValue(newValue);
+      setDiscardOpen(true);
     }
   };
 
@@ -727,6 +737,9 @@ const AdditionalWaiver = () => {
             setRemark={setRemark}
             historyData={historyData}
             updateDisable={updateDisable}
+            discardChanges={discardChanges}
+            discardOpen={discardOpen}
+            setDiscardOpen={setDiscardOpen}
           ></AccrualRemark>
           <Alert
             sx={{

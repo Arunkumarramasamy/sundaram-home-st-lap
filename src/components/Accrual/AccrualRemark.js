@@ -32,6 +32,7 @@ const AccrualRemark = (props) => {
   const [content, setContent] = useState("");
   const [reason, setReason] = useState("");
   const [remark, setRemark] = useState("");
+  const [discardOpen, setDiscardOpen] = useState(props.discardOpen);
   const [openSaveConfirmation, setOpenSaveConfirmation] = useState(false);
   const openSaveDialog = (value) => {
     if (!reason) {
@@ -47,6 +48,9 @@ const AccrualRemark = (props) => {
   const handleOpen = () => setOpen(true);
   const handleHistoryDialog = () => {
     handleOpen(true);
+  };
+  const cancelHandleClose = () => {
+    props.setDiscardOpen(false);
   };
   const resonValue = [
     { value: "Reverse Payment", text: "Reverse Payment" },
@@ -67,6 +71,7 @@ const AccrualRemark = (props) => {
   };
   //save data
   const handleClose = () => setOpen(false);
+  const [cancelOpen, cancelSetOpen] = React.useState(false);
   // const handleCloseSaveDialog = () => setOpenSaveConfirmation(false);
   const saveAccrualDetails = async () => {
     if (!reason) {
@@ -249,7 +254,7 @@ const AccrualRemark = (props) => {
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             {" "}
-            Do you want to update ?
+            Do you want to update fee details?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -260,6 +265,23 @@ const AccrualRemark = (props) => {
           >
             OK
           </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={props.discardOpen}
+        onClose={cancelHandleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Are You Sure want to discard the Changes ?
+        </DialogTitle>
+
+        <DialogActions>
+          <Button onClick={cancelHandleClose} autoFocus>
+            Cancel
+          </Button>
+          <Button onClick={props.discardChanges}>Yes</Button>
         </DialogActions>
       </Dialog>
     </>

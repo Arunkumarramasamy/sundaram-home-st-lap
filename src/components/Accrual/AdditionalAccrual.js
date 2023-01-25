@@ -62,6 +62,8 @@ const AdditionalAccrual = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
+  const [branchNameValue, setBranchNameValue] = useState("");
+  const [discardOpen, setDiscardOpen] = useState(false);
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
   const [applicationNumNotValid, setapplicationNumNotValid] = useState(false);
   const [historyData, setHistorydata] = useState({});
@@ -193,19 +195,34 @@ const AdditionalAccrual = () => {
       setGridVisible("none");
     }
   };
-  const onChangeForBranchEvent = (event, newValue) => {
-    setBranchName(newValue);
+  const discardChanges = () => {
+    setUpdateDisable(true);
+    setBranchName(branchNameValue);
     dispatch(BranchAction.updateInitialLoad(false));
-    dispatch(BranchAction.updateHeaderBranchDetails(newValue));
-    getApplicationListData(newValue);
-    if (newValue === null || newValue === "") {
-      setApplicationSearchDisable(true);
-      setReferenceNumber("");
-      setapplicationNum("");
-      setGridVisible("none");
+    dispatch(BranchAction.updateHeaderBranchDetails(branchNameValue));
+    getApplicationListData(branchNameValue);
+    setapplicationNum('');
+    setGridVisible("none");
+    setDiscardOpen(false);
+  };
+  const onChangeForBranchEvent = (event, newValue) => {
+    if (updateDisable) {
+      setBranchName(newValue);
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(newValue));
+      getApplicationListData(newValue);
+      if (newValue === null || newValue === "") {
+        setApplicationSearchDisable(true);
+        setReferenceNumber("");
+        setapplicationNum("");
+        setGridVisible("none");
+      } else {
+        setBranchNameNotValid(false);
+        setApplicationSearchDisable(false);
+      }
     } else {
-      setBranchNameNotValid(false);
-      setApplicationSearchDisable(false);
+      setBranchNameValue(newValue);
+      setDiscardOpen(true);
     }
   };
   const onChangeForReferenceEvent = (event, newValue) => {
@@ -717,6 +734,10 @@ const AdditionalAccrual = () => {
             remark={remark}
             historyData={historyData}
             updateDisable={updateDisable}
+            // setUpdateDisable={setUpdateDisable}
+            discardChanges={discardChanges}
+            discardOpen={discardOpen}
+            setDiscardOpen={setDiscardOpen}
           ></AccrualRemark>
           <Alert
             sx={{
