@@ -12,6 +12,7 @@ import {
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
 } from "@mui/icons-material";
+import NachRetrieval from "../Nach/NachRetrieval";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PersonIcon from "@mui/icons-material/Person";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
@@ -30,6 +31,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
+import GetAppIcon from "@mui/icons-material/GetApp";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -217,6 +219,9 @@ export default function Pagelayout() {
       case "ENach":
         path = "/stlap/home/eNachRegisteration";
         break;
+      case "nachRetrieval":
+        path = "/stlap/home/nachRetrieval";
+        break;
       case "verification":
         path = "/stlap/home/verification";
         break;
@@ -361,6 +366,25 @@ export default function Pagelayout() {
                 id="menu-lable"
                 sx={{ display: "block" }}
                 primary="Nach Approval"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="nachRetrieval"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip
+                  title="Nach Retrieval"
+                  disableHoverListener={!expanded}
+                >
+                  <GetAppIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Nach Retrieval"
               />
             </ListItemButton>
           </List>
@@ -1000,7 +1024,10 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/nachMandate`}
             element={<NachMandate />}
           />
-
+          <Route
+            path={`${search}/stlap/home/nachRetrieval`}
+            element={<NachRetrieval />}
+          />
           <Route
             path={`${search}/stlap/home/verification`}
             element={<Verification />}

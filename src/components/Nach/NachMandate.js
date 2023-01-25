@@ -15,6 +15,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { NachAction } from "../Store/NachStore";
 const NachMandate = () => {
   //Importing Hooks
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const NachMandate = () => {
   //Selectors from redux store
   const showMandate = useSelector((state) => state.nachFilter.showMandate);
   const FilteredData = useSelector((state) => state.nachFilter.data);
+  const touchHandlers = useSelector((state) => state.nach.touchHandler);
 
   useEffect(() => {
     if (FilteredData.fileStatus === "To Be Registered") {
@@ -31,13 +33,6 @@ const NachMandate = () => {
     }
   }, [FilteredData]);
 
-  //Field Touch Handler
-  const [frequencyTouchHandler, setFrequencyTouchHandler] = useState(false);
-  const [debitTypeTouchHandler, setDebitTypeTouchHandler] = useState(false);
-  const [fbdTouchHandler, setFbd] = useState(false);
-  const [mandateStartDateTouchHandler, setMandateStartDate] = useState(false);
-  const [firstNachBillingDateTouchHandler, setFirstNachBillingDate] =
-    useState(false);
   //Button updation
   const [btnName, setBtnName] = useState("");
   //Maintaining Mandate Reference Number
@@ -55,13 +50,13 @@ const NachMandate = () => {
   const firstNachBillingDateIsValid = FilteredData.firstNachBillingDate !== "";
 
   //Has Error
-  const frequencyHasError = frequencyTouchHandler && !frequencyIsValid;
-  const debitTypeHasError = debitTypeTouchHandler && !debitTypeIsValid;
-  const FBDHasError = fbdTouchHandler && !FBDIsValid;
+  const frequencyHasError = touchHandlers.frequency && !frequencyIsValid;
+  const debitTypeHasError = touchHandlers.debitType && !debitTypeIsValid;
+  const FBDHasError = touchHandlers.fbd && !FBDIsValid;
   const mandateStartDateHasError =
-    mandateStartDateTouchHandler && !mandateStartDateIsValid;
+    touchHandlers.mandateStartDate && !mandateStartDateIsValid;
   const firstNachBillingDateHasError =
-    firstNachBillingDateTouchHandler && !firstNachBillingDateIsValid;
+    touchHandlers.firstNachBillingDate && !firstNachBillingDateIsValid;
 
   //Handling Dailog methods
   const handleClickOpen = () => {
@@ -72,11 +67,11 @@ const NachMandate = () => {
   };
   // Save Button Handler
   const onSaveButtonClickHandler = () => {
-    setFrequencyTouchHandler(true);
-    setDebitTypeTouchHandler(true);
-    setFbd(true);
-    setMandateStartDate(true);
-    setFirstNachBillingDate(true);
+    dispatch(NachAction.updateFrequencyTouchHandler(true));
+    dispatch(NachAction.updateDebitTypeTouchHandler(true));
+    dispatch(NachAction.updateFbdTouchHandler(true));
+    dispatch(NachAction.updateMandateStartDateTouchHandler(true));
+    dispatch(NachAction.updateFirstNachBillingDateTouchHandler(true));
     if (
       frequencyIsValid &&
       debitTypeIsValid &&
@@ -238,7 +233,7 @@ const NachMandate = () => {
                         },
                       ]}
                       onBlur={() => {
-                        setFrequencyTouchHandler(true);
+                        dispatch(NachAction.updateFrequencyTouchHandler(true));
                       }}
                       onChange={(e) => {
                         dispatch(
@@ -263,7 +258,7 @@ const NachMandate = () => {
                         { key: 1, value: "maximum", text: "Maximum amount" },
                       ]}
                       onBlur={() => {
-                        setDebitTypeTouchHandler(true);
+                        dispatch(NachAction.updateDebitTypeTouchHandler(true));
                       }}
                       onChange={(e) => {
                         dispatch(
@@ -284,7 +279,7 @@ const NachMandate = () => {
                       variant="standard"
                       value={FilteredData.fbd}
                       onBlur={() => {
-                        setFbd(true);
+                        dispatch(NachAction.updateFbdTouchHandler(true));
                       }}
                       onChange={(e) => {
                         dispatch(
@@ -300,7 +295,9 @@ const NachMandate = () => {
                       variant="standard"
                       value={FilteredData.mandateStartDate}
                       onBlur={() => {
-                        setMandateStartDate(true);
+                        dispatch(
+                          NachAction.updateMandateStartDateTouchHandler(true)
+                        );
                       }}
                       onChange={(value) => {
                         dispatch(
@@ -318,7 +315,11 @@ const NachMandate = () => {
                       variant="standard"
                       value={FilteredData.firstNachBillingDate}
                       onBlur={() => {
-                        setFirstNachBillingDate(true);
+                        dispatch(
+                          NachAction.updateFirstNachBillingDateTouchHandler(
+                            true
+                          )
+                        );
                       }}
                       onChange={(value) => {
                         dispatch(

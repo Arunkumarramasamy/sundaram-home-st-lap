@@ -8,6 +8,7 @@ import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomTextField from "../CustomComponents/CustomTextField";
 import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import { NachFilterReducerAction } from "../Store/NachFilterReducer";
+import { NachAction } from "../Store/NachStore";
 
 const NachFilter = () => {
   //importing hook
@@ -73,6 +74,11 @@ const NachFilter = () => {
     setApplicationHasTouched(false);
     dispatch(NachFilterReducerAction.updateShowMandate(false));
     dispatch(NachFilterReducerAction.resetValues());
+    dispatch(NachAction.updateFrequencyTouchHandler(false));
+    dispatch(NachAction.updateDebitTypeTouchHandler(false));
+    dispatch(NachAction.updateFbdTouchHandler(false));
+    dispatch(NachAction.updateMandateStartDateTouchHandler(false));
+    dispatch(NachAction.updateFirstNachBillingDateTouchHandler(false));
   };
   useEffect(() => {
     const data = [

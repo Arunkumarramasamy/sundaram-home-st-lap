@@ -25,6 +25,7 @@ const CustomDateField = (props) => {
         <DatePicker
           disabled={props.disabled}
           disableFuture={props.disableFuture}
+          maxDate={props.maxDate}
           disablePast={props.disablePast}
           openTo="day"
           inputFormat="DD/MM/YYYY"
