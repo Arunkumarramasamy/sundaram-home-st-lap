@@ -119,8 +119,18 @@ function DashboardContent() {
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
-            <CardContent sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}>
-              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
+            <CardContent
+              sx={{
+                textAlign: "center",
+                fontWeight: "700",
+                fontSize: "2.0rem",
+              }}
+            >
+              <Typography
+                sx={{ fontWeight: "700", fontSize: "2.0rem" }}
+                variant="h5"
+                component="h5"
+              >
                 {sanction}
               </Typography>
               <ApprovalIcon sx={{ fontSize: 50 }} />
@@ -143,8 +153,18 @@ function DashboardContent() {
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
-            <CardContent sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}>
-              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
+            <CardContent
+              sx={{
+                textAlign: "center",
+                fontWeight: "700",
+                fontSize: "2.0rem",
+              }}
+            >
+              <Typography
+                sx={{ fontWeight: "700", fontSize: "2.0rem" }}
+                variant="h5"
+                component="h5"
+              >
                 {request}
               </Typography>
               <PendingActionsIcon sx={{ fontSize: 50 }} />
@@ -167,8 +187,18 @@ function DashboardContent() {
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
               sx={{ textAlign: "center" }}
             />
-            <CardContent sx={{ textAlign: "center", fontWeight:'700',fontSize:'2.0rem' }}>
-              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
+            <CardContent
+              sx={{
+                textAlign: "center",
+                fontWeight: "700",
+                fontSize: "2.0rem",
+              }}
+            >
+              <Typography
+                sx={{ fontWeight: "700", fontSize: "2.0rem" }}
+                variant="h5"
+                component="h5"
+              >
                 {approved}
               </Typography>
               <CheckIcon sx={{ fontSize: 50 }} />
@@ -187,12 +217,26 @@ function DashboardContent() {
               //     <OpenInFullIcon size="small" />
               //   </IconButton>
               // }
-              sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}
-              subheader="Partially Disbursed"
+              sx={{
+                textAlign: "center",
+                fontWeight: "700",
+                fontSize: "2.0rem",
+              }}
+              subheader="Part Disbursed"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
             />
-            <CardContent sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}>
-              <Typography variant="h5" sx={{fontWeight:'700',fontSize:'2.0rem'}} component="h5">
+            <CardContent
+              sx={{
+                textAlign: "center",
+                fontWeight: "700",
+                fontSize: "2.0rem",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{ fontWeight: "700", fontSize: "2.0rem" }}
+                component="h5"
+              >
                 {partialAmount}
               </Typography>
               <HourglassBottomIcon sx={{ fontSize: 50 }} />
@@ -207,12 +251,26 @@ function DashboardContent() {
               //     <OpenInFullIcon size="small" />
               //   </IconButton>
               // }
-              sx={{ textAlign: "center",fontWeight:'700',fontSize:'2.0rem' }}
+              sx={{
+                textAlign: "center",
+                fontWeight: "700",
+                fontSize: "2.0rem",
+              }}
               subheader="Disbursed (₹)"
               subheaderTypographyProps={{ color: "white", fontWeight: "700" }}
             />
-            <CardContent sx={{ textAlign: "center" ,fontWeight:'700',fontSize:'2.0rem'}}>
-              <Typography sx={{fontWeight:'700',fontSize:'2.0rem'}} variant="h5" component="h5">
+            <CardContent
+              sx={{
+                textAlign: "center",
+                fontWeight: "700",
+                fontSize: "2.0rem",
+              }}
+            >
+              <Typography
+                sx={{ fontWeight: "700", fontSize: "2.0rem" }}
+                variant="h5"
+                component="h5"
+              >
                 {sanctionAmount}
               </Typography>
               <AssuredWorkloadIcon sx={{ fontSize: 50 }} />

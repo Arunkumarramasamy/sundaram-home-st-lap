@@ -79,18 +79,18 @@ const EnachRegistration = () => {
         }
       );
       // setApplicantNameList(response.data);
-      setBranch(response.data["branch"]);
-      setEmiAmout(response.data["emiAmount"]);
-      setAccountNumber(response.data["accountNumber"]);
-      setAccountType(response.data["accountType"]);
-      setBankName(response.data["bankName"]);
-      setDebitType(response.data["debitType"]);
-      setFrequency(response.data["frequency"]);
-      setIfscCode(response.data["ifscCode"]);
-      setMailId(response.data["emailId"]);
-      setMobileNumber(response.data["mobileNumber"]);
-      setNachAmount(response.data["nachAmount"]);
-      setMandateEndDate(response.data["endDate"]);
+      setBranch(response.data.losData["branch"]);
+      setEmiAmout(response.data.losData["emiAmount"]);
+      setAccountNumber(response.data.losData["accountNumber"]);
+      setAccountType(response.data.losData["accountType"]);
+      setBankName(response.data.losData["bankName"]);
+      setDebitType(response.data.losData["debitType"]);
+      setFrequency(response.data.losData["frequency"]);
+      setIfscCode(response.data.losData["ifscCode"]);
+      setMailId(response.data.losData["emailId"]);
+      setMobileNumber(response.data.losData["mobileNumber"]);
+      setNachAmount(response.data.losData["nachAmount"]);
+      setMandateEndDate(response.data.losData["endDate"]);
     } catch {
       console.log("Network Error");
     }
