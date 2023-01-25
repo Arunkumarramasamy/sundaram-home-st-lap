@@ -12,6 +12,9 @@ import {
   LogoutTwoTone,
   PublishedWithChangesTwoTone,
 } from "@mui/icons-material";
+import NachRetrieval from "../Nach/NachRetrieval";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import PersonIcon from "@mui/icons-material/Person";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ApprovalIcon from "@mui/icons-material/Approval";
@@ -28,6 +31,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
+import GetAppIcon from "@mui/icons-material/GetApp";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -44,7 +48,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Cookies from "js-cookie";
 import { default as React, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import SFLogoSmall from "../../images/SFLogo.png";
 import Logo from "../../images/SF_Logo.png";
@@ -64,11 +68,15 @@ import DisbursementCreatePortal from "../Disbursement/Disbursement_List/Disburse
 import DisbursementRequestList from "../Disbursement/Disbursement_List/DisbursementRequestList";
 import NachApproval from "../Nach/NachApproval";
 import NachMandate from "../Nach/NachMandate";
+import EnachRegistration from "../Enach/EnachRegistration";
 import Verification from "../Nach/Verification";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
 import { BranchAction } from "../Store/Branch";
 import store from "../Store/index";
 import "./PageLayout.css";
+import Posting from "../Report/Posting";
+import Repayment from "../Report/Repayment";
+import Retrival from "../Report/Retrival";
 
 const drawerWidth = 300;
 
@@ -92,12 +100,16 @@ const AppBar = styled(MuiAppBar, {
 export default function Pagelayout() {
   const [branchValues, setBranchValues] = useState("");
   const [userName, setUserName] = useState("");
+  const branchDetails = useSelector((state) => state.branch.header);
+  const initialLoad = useSelector((state) => state.branch.initialLoad);
   useEffect(() => {
     const users = store.getState().branch.userName;
-    const [branchName] = GetBranchArray();
-    setBranchValues(branchName);
+    if (initialLoad) {
+      const [branchName] = GetBranchArray();
+      dispatch(BranchAction.updateInitialHeaderBranchDetails(branchName));
+    }
     setUserName(users);
-  }, []);
+  }, [branchDetails, initialLoad]);
   const [expanded, setExpanded] = useState(false);
   const [openDisbursementSubMenu, setOpenDisbursementSubMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -109,6 +121,15 @@ export default function Pagelayout() {
   const dispatch = useDispatch();
   const { search } = useLocation();
   const open = Boolean(anchorEl);
+  const [openReportSubMenu, setOpenReportSubMenu] = useState(false);
+
+  const handlerReportSubMenu = () => {
+    setOpenDisbursementSubMenu(false);
+    setOpenAccrualSubMenu(false);
+    setOpenDemoSubMenu(false);
+    setOpenNachSubMenu(false);
+    setOpenReportSubMenu(!openReportSubMenu);
+  };
 
   const handleDrawerOpen = (event) => {
     setExpanded(true);
@@ -158,7 +179,8 @@ export default function Pagelayout() {
     dispatch(BranchAction.updateLoginStatus(false));
     dispatch(BranchAction.updateBranch([]));
     dispatch(BranchAction.updateUserName(""));
-    navigate("/stlap/login");
+    dispatch(BranchAction.resetHeaderValues());
+    navigate("/stlap/login", { replace: true });
     Cookies.remove("Token");
   };
 
@@ -206,17 +228,32 @@ export default function Pagelayout() {
       case "nachMandate":
         path = "/stlap/home/nachMandate";
         break;
+      case "ENach":
+        path = "/stlap/home/eNachRegisteration";
+        break;
+      case "nachRetrieval":
+        path = "/stlap/home/nachRetrieval";
+        break;
       case "verification":
         path = "/stlap/home/verification";
         break;
       case "approval":
         path = "/stlap/home/approval";
         break;
+      case "posting":
+        path = "/stlap/home/posting";
+        break;
+      case "repayment":
+        path = "/stlap/home/repayment";
+        break;
+      case "retrival":
+        path = "/stlap/home/retrival";
+        break;
       default:
         path = "/stlap/home/dashboard";
         break;
     }
-    navigate(path);
+    navigate(path, { replace: true });
   };
 
   const list = (
@@ -258,6 +295,22 @@ export default function Pagelayout() {
           </ListItemIcon>
           <ListItemText
             primary="Parameter Maintenance"
+            sx={{ display: "block" }}
+          />
+        </ListItemButton>
+
+        {/* ENach Registeration */}
+        <ListItemButton id="ENach" onClick={menuClickHandler}>
+          <ListItemIcon>
+            <Tooltip
+              title="ENach Registeration"
+              disableHoverListener={!expanded}
+            >
+              <AccountBalanceIcon fontSize="medium" sx={{ color: "white" }} />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText
+            primary="ENach Registeration"
             sx={{ display: "block" }}
           />
         </ListItemButton>
@@ -334,6 +387,25 @@ export default function Pagelayout() {
                 id="menu-lable"
                 sx={{ display: "block" }}
                 primary="Nach Approval"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="nachRetrieval"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip
+                  title="Nach Retrieval"
+                  disableHoverListener={!expanded}
+                >
+                  <GetAppIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Nach Retrieval"
               />
             </ListItemButton>
           </List>
@@ -624,6 +696,79 @@ export default function Pagelayout() {
             </ListItemButton>
           </List>
         </Collapse>
+        {/* Report*/}
+        <ListItemButton id="report" onClick={handlerReportSubMenu}>
+          <ListItemIcon>
+            <Tooltip title="Report" disableHoverListener={!expanded}>
+              <AppRegistrationTwoTone
+                fontSize="medium"
+                sx={{ color: "white" }}
+              />
+            </Tooltip>
+          </ListItemIcon>
+          <ListItemText
+            id="menu-lable"
+            primary="Report"
+            sx={{ display: "block" }}
+          />
+          {openReportSubMenu ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={openReportSubMenu} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="repayment"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Repayment" disableHoverListener={!expanded}>
+                  <AppRegistrationIcon
+                    fontSize="medium"
+                    sx={{ color: "white" }}
+                  />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Repayment"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="posting"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Posting" disableHoverListener={!expanded}>
+                  <VerifiedUserIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Posting"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              id="retrival"
+              onClick={menuClickHandler}
+            >
+              <ListItemIcon>
+                <Tooltip title="Retrival" disableHoverListener={!expanded}>
+                  <ApprovalIcon fontSize="medium" sx={{ color: "white" }} />
+                </Tooltip>
+              </ListItemIcon>
+              <ListItemText
+                id="menu-lable"
+                sx={{ display: "block" }}
+                primary="Retrival"
+              />
+            </ListItemButton>
+          </List>
+        </Collapse>
       </List>
       <div id="drawer-closer" onClick={handleDrawerClose}></div>
     </Box>
@@ -637,11 +782,17 @@ export default function Pagelayout() {
 
       <Stack direction="row" sx={{ width: "100%", justifyContent: "flex-end" }}>
         <Stack direction="column" sx={{ paddingRight: "8px" }}>
-          <Typography sx={{ textAlign: "center" }}>{userName}</Typography>
+          <Typography sx={{ textAlign: "right" }}>{userName}</Typography>
           <Chip
-            label={branchValues}
+            label={`Area : ${branchDetails.areaName}, Zone : ${
+              branchDetails.zoneName
+            }${
+              branchDetails.branchName !== ""
+                ? `, Branch : ${branchDetails.branchName}`
+                : ""
+            }  `}
             component="div"
-            sx={{ color: "white", bgcolor: "#727dff" }}
+            sx={{ color: "white" }}
           />
         </Stack>
         <Divider
@@ -698,7 +849,9 @@ export default function Pagelayout() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>KV</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              <PersonIcon sx={{ color: "#004a92" }} />
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Stack>
@@ -743,11 +896,52 @@ export default function Pagelayout() {
             <Typography sx={{ marginTop: "8px", textAlign: "center" }}>
               <strong>{userName}</strong>
             </Typography>
-            <Chip
-              label={branchValues}
-              component="div"
-              sx={{ color: "white", bgcolor: "#727dff" }}
-            />
+            {/* Large Devices */}
+            {useMediaQuery("(min-width:750px)") && (
+              <Chip
+                label={`Area : ${branchDetails.areaName}, Zone : ${
+                  branchDetails.zoneName
+                }${
+                  branchDetails.branchName !== ""
+                    ? `, Branch : ${branchDetails.branchName}`
+                    : ""
+                }  `}
+                component="div"
+                sx={{ color: "white", bgcolor: "#004a92" }}
+              />
+            )}
+            {/* Small Devices */}
+            {useMediaQuery("(max-width:750px)") && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  alignItems: "center",
+                }}
+              >
+                <Box>
+                  <Chip
+                    label={`Area : ${branchDetails.areaName}, Zone : ${branchDetails.zoneName}`}
+                    component="div"
+                    sx={{ color: "white", bgcolor: "#004a92" }}
+                  />
+                </Box>
+                <Box>
+                  {branchDetails.branchName !== "" ? (
+                    <Chip
+                      label={`${
+                        branchDetails.branchName !== ""
+                          ? `Branch : ${branchDetails.branchName}`
+                          : ""
+                      }  `}
+                      component="div"
+                      sx={{ color: "white", bgcolor: "#004a92" }}
+                    />
+                  ) : null}
+                </Box>
+              </Box>
+            )}
           </Stack>
           <Divider
             sx={{
@@ -764,7 +958,7 @@ export default function Pagelayout() {
           </IconButton> */}
         </MenuItem>
         <Divider />
-        <MenuItem>
+        {/* <MenuItem>
           <ListItemButton>
             <ListItemIcon>
               <Tooltip title="Change Password" disableHoverListener={!expanded}>
@@ -776,7 +970,7 @@ export default function Pagelayout() {
             </ListItemIcon>
             <ListItemText id="menu-lable" primary="Change Password" />
           </ListItemButton>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem>
           <ListItemButton onClick={handleLogout}>
             <ListItemIcon>
@@ -926,7 +1120,10 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/nachMandate`}
             element={<NachMandate />}
           />
-
+          <Route
+            path={`${search}/stlap/home/nachRetrieval`}
+            element={<NachRetrieval />}
+          />
           <Route
             path={`${search}/stlap/home/verification`}
             element={<Verification />}
@@ -955,6 +1152,20 @@ export default function Pagelayout() {
             path={`${search}/stlap/home/additionalWaiver`}
             element={<AccrualWaiver />}
           />
+          <Route
+            path={`${search}/stlap/home/eNachRegisteration`}
+            element={<EnachRegistration />}
+          />
+          <Route path={`${search}/stlap/home/posting`} element={<Posting />} />
+          <Route
+            path={`${search}/stlap/home/retrival`}
+            element={<Retrival />}
+          />
+          <Route
+            path={`${search}/stlap/home/repayment`}
+            element={<Repayment />}
+          />
+
           {/* <Route path="*" exact={true} element={<Loginpage />} /> */}
         </Routes>
         {/* </Container> */}

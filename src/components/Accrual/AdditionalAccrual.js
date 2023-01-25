@@ -24,9 +24,10 @@ import "./Accrual.css";
 import StlapFooter from "../CustomComponents/StlapFooter";
 import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-
+import { BranchAction } from "../Store/Branch";
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 var deductionsInitialState = {
@@ -37,6 +38,7 @@ var deductionsInitialState = {
   totalDeductionsTotal: 0,
 };
 const AdditionalAccrual = () => {
+  const dispatch = useDispatch();
   const [modifiedMaps, setModifiedmap] = React.useState({});
   const [totalPageCount, setTotalPageCount] = React.useState(0);
   const [totalRowsCount, setTotalRowsCount] = React.useState(0);
@@ -60,6 +62,8 @@ const AdditionalAccrual = () => {
       new Date().getMonth() + 1
     }/${new Date().getFullYear()}`
   );
+  const [branchNameValue, setBranchNameValue] = useState("");
+  const [discardOpen, setDiscardOpen] = useState(false);
   const [branchNameNotValid, setBranchNameNotValid] = useState(false);
   const [applicationNumNotValid, setapplicationNumNotValid] = useState(false);
   const [historyData, setHistorydata] = useState({});
@@ -191,17 +195,34 @@ const AdditionalAccrual = () => {
       setGridVisible("none");
     }
   };
+  const discardChanges = () => {
+    setUpdateDisable(true);
+    setBranchName(branchNameValue);
+    dispatch(BranchAction.updateInitialLoad(false));
+    dispatch(BranchAction.updateHeaderBranchDetails(branchNameValue));
+    getApplicationListData(branchNameValue);
+    setapplicationNum('');
+    setGridVisible("none");
+    setDiscardOpen(false);
+  };
   const onChangeForBranchEvent = (event, newValue) => {
-    setBranchName(newValue);
-    getApplicationListData(newValue);
-    if (newValue === null || newValue === "") {
-      setApplicationSearchDisable(true);
-      setReferenceNumber("");
-      setapplicationNum("");
-      setGridVisible("none");
+    if (updateDisable) {
+      setBranchName(newValue);
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(newValue));
+      getApplicationListData(newValue);
+      if (newValue === null || newValue === "") {
+        setApplicationSearchDisable(true);
+        setReferenceNumber("");
+        setapplicationNum("");
+        setGridVisible("none");
+      } else {
+        setBranchNameNotValid(false);
+        setApplicationSearchDisable(false);
+      }
     } else {
-      setBranchNameNotValid(false);
-      setApplicationSearchDisable(false);
+      setBranchNameValue(newValue);
+      setDiscardOpen(true);
     }
   };
   const onChangeForReferenceEvent = (event, newValue) => {
@@ -493,12 +514,14 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "Green",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Total Outstanding : "}
-                    <span style={{ color: "Green" }}>
-                      {deductionsState.deductionTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                   </label>
                 </Grid>
@@ -507,12 +530,14 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "red",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"(Receivable : "}
-                    <span style={{ color: "red" }}>
-                      {deductionsState.dueTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.dueTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -522,12 +547,14 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "blue",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Received : "}
-                    <span style={{ color: "blue" }}>
-                      {deductionsState.paidTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.paidTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -538,12 +565,14 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "saddlebrown",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Early Waived : "}
-                    <span style={{ color: "saddlebrown" }}>
-                      {deductionsState.waivedTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.waivedTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -553,12 +582,14 @@ const AdditionalAccrual = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "Purple",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Outstanding : "}
-                    <span style={{ color: "Purple" }}>
-                      {deductionsState.deductionTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {`)`}
                   </label>
@@ -622,13 +653,24 @@ const AdditionalAccrual = () => {
                 sx={{ height: "60px", bgcolor: "white" }}
               >
                 {totalRowsCount > 10 && (
-                  <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                  <Typography
+                    sx={{
+                      mr: 2,
+                      color: "#004A92",
+                      fontWeight: 700,
+                      fontFamily: "Roboto",
+                    }}
+                  >
                     {"Page Max Records : " + rowsPerPage}
                   </Typography>
                 )}
                 <Typography
                   padding="1px"
-                  sx={{ color: "#004A92", fontWeight: 700 }}
+                  sx={{
+                    color: "#004A92",
+                    fontWeight: 700,
+                    fontFamily: "Roboto",
+                  }}
                 >
                   {"Total Records : " + totalRowsCount}
                 </Typography>
@@ -692,6 +734,10 @@ const AdditionalAccrual = () => {
             remark={remark}
             historyData={historyData}
             updateDisable={updateDisable}
+            // setUpdateDisable={setUpdateDisable}
+            discardChanges={discardChanges}
+            discardOpen={discardOpen}
+            setDiscardOpen={setDiscardOpen}
           ></AccrualRemark>
           <Alert
             sx={{

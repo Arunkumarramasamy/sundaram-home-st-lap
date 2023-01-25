@@ -20,6 +20,8 @@ import CustomAutoComplete from "../CustomComponents/CustomAutoComplete";
 import AccrualCardItems from "./AccrualCardItems";
 import AccrualRemark from "./AccrualRemark";
 import axios from "axios";
+import { BranchAction } from "../Store/Branch";
+import { useDispatch } from "react-redux";
 var deductionsInitialState = {
   paidTotal: 0,
   dueTotal: 0,
@@ -28,6 +30,7 @@ var deductionsInitialState = {
   totalDeductionsTotal: 0,
 };
 const AdditionalWaiver = () => {
+  const dispatch = useDispatch();
   const [modifiedMaps, setModifiedmap] = React.useState({});
   const [pageSize, setPageSize] = useState(4);
   const [girdVisible, setGridVisible] = useState("none");
@@ -49,6 +52,8 @@ const AdditionalWaiver = () => {
   const [deductionsState, setDeductionsState] = useState(
     deductionsInitialState
   );
+  const [branchNameValue, setBranchNameValue] = useState("");
+  const [discardOpen, setDiscardOpen] = useState(false);
   const handleSearch = (event) => {
     event.preventDefault();
     if (branchName && applicationNum) {
@@ -101,11 +106,14 @@ const AdditionalWaiver = () => {
       deductionTotal1 =
         deductionTotal1 +
         rows.additionalAccrual +
-        (rows.receiveable - rows.received - rows.earlyWaiver - rows.additionalWaiver);
+        (rows.receiveable -
+          rows.received -
+          rows.earlyWaiver -
+          rows.additionalWaiver);
       waivedTotal1 = waivedTotal1 + rows.earlyWaiver;
       data.paidTotal = paidTotal1;
       data.dueTotal = dueTotal1;
-      data.deductionTotal = deductionTotal1- rows.additionalWaiver;
+      data.deductionTotal = deductionTotal1 - rows.additionalWaiver;
       data.waivedTotal = waivedTotal1;
       data.totalDeductionsTotal =
         dueTotal1 + deductionTotal1 - paidTotal1 - waivedTotal1;
@@ -143,14 +151,17 @@ const AdditionalWaiver = () => {
     }/${new Date().getFullYear()}`
   );
   const [applicationNum, setapplicationNum] = useState("");
-  const [applicationNumList, setapplicationNumList] = useState([
-    // { label: "STLMYL20220001", value: "STLMYL20220001" },
-    // { label: "STLMYL20220002", value: "STLMYL20220002" },
-    // { label: "STLMYL20220003", value: "STLMYL20220003" },
-    // { label: "STLMYL20220004", value: "STLMYL20220004" },
-    // { label: "STLMYL20220005", value: "STLMYL20220005" },
-    // { label: "STLMYL20220006", value: "STLMYL20220006" },
-  ]);
+  const [applicationNumList, setapplicationNumList] = useState([]);
+  const discardChanges = () => {
+    setUpdateDisable(true);
+    setBranchName(branchNameValue);
+    dispatch(BranchAction.updateInitialLoad(false));
+    dispatch(BranchAction.updateHeaderBranchDetails(branchNameValue));
+    getApplicationListData(branchNameValue);
+    setapplicationNum("");
+    setGridVisible("none");
+    setDiscardOpen(false);
+  };
   const onChangeForReferenceEvent = (event, newValue) => {
     if (newValue === null) {
       setapplicationNum("");
@@ -208,15 +219,22 @@ const AdditionalWaiver = () => {
     // props.onSearchButtonClick(branch, trnNo, true);
   };
   const onChangeForBranchEvent = (event, newValue) => {
-    setBranchName(newValue);
-    getApplicationListData(newValue);
-    if (newValue === null || newValue === "") {
-      setApplicationSearchDisable(true);
-      setapplicationNum("");
-      setGridVisible("none");
+    if (updateDisable) {
+      setBranchName(newValue);
+      getApplicationListData(newValue);
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(newValue.label));
+      if (newValue === null || newValue === "") {
+        setApplicationSearchDisable(true);
+        setapplicationNum("");
+        setGridVisible("none");
+      } else {
+        setBranchNameNotValid(false);
+        setApplicationSearchDisable(false);
+      }
     } else {
-      setBranchNameNotValid(false);
-      setApplicationSearchDisable(false);
+      setBranchNameValue(newValue);
+      setDiscardOpen(true);
     }
   };
 
@@ -362,7 +380,6 @@ const AdditionalWaiver = () => {
               onSubmit={searchButtonClickHandler}
               sx={{ margin: "8px !important" }}
             >
-              
               <Grid item container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
                   <CustomAutoComplete
@@ -486,18 +503,20 @@ const AdditionalWaiver = () => {
               initialOpen={true}
               sx={{ marignBottom: "8px !important" }}
             >
-               <Grid container spacing={0}>
+              <Grid container spacing={0}>
                 <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
                   <label
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "Green",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Total Outstanding : "}
-                    <span style={{ color: "Green" }}>
-                      {deductionsState.deductionTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                   </label>
                 </Grid>
@@ -506,12 +525,14 @@ const AdditionalWaiver = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "red",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"(Receivable : "}
-                    <span style={{ color: "red" }}>
-                      {deductionsState.dueTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.dueTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -521,12 +542,14 @@ const AdditionalWaiver = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "blue",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Received : "}
-                    <span style={{ color: "blue" }}>
-                      {deductionsState.paidTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.paidTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -537,12 +560,14 @@ const AdditionalWaiver = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "saddlebrown",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Early Waived : "}
-                    <span style={{ color: "saddlebrown" }}>
-                      {deductionsState.waivedTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.waivedTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {``}
                   </label>
@@ -552,12 +577,14 @@ const AdditionalWaiver = () => {
                     style={{
                       fontWeight: "bold",
                       marginLeft: "8px",
-                      color: "Purple",
+                      color: "#2F7DC4",
                     }}
                   >
                     {"Outstanding : "}
-                    <span style={{ color: "Purple" }}>
-                      {deductionsState.deductionTotal}
+                    <span style={{ color: "#2F7DC4" }}>
+                      {parseInt(deductionsState.deductionTotal).toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
                     {`)`}
                   </label>
@@ -629,13 +656,24 @@ const AdditionalWaiver = () => {
                 sx={{ height: "60px", bgcolor: "white" }}
               >
                 {totalRowsCount > 10 && (
-                  <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+                  <Typography
+                    sx={{
+                      mr: 2,
+                      color: "#004A92",
+                      fontWeight: 700,
+                      fontFamily: "Roboto",
+                    }}
+                  >
                     {"Page Max Records : " + rowsPerPage}
                   </Typography>
                 )}
                 <Typography
                   padding="1px"
-                  sx={{ color: "#004A92", fontWeight: 700 }}
+                  sx={{
+                    color: "#004A92",
+                    fontWeight: 700,
+                    fontFamily: "Roboto",
+                  }}
                 >
                   {"Total Records : " + totalRowsCount}
                 </Typography>
@@ -699,6 +737,9 @@ const AdditionalWaiver = () => {
             setRemark={setRemark}
             historyData={historyData}
             updateDisable={updateDisable}
+            discardChanges={discardChanges}
+            discardOpen={discardOpen}
+            setDiscardOpen={setDiscardOpen}
           ></AccrualRemark>
           <Alert
             sx={{

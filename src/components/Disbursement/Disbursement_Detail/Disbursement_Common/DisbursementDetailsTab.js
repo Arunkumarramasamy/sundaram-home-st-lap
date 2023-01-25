@@ -30,6 +30,13 @@ const DisbursementDetailsTab = (props) => {
     ),
   ]);
 
+  const minDateValue = Number(
+    props.parameterValues["Request Date Back Count"]["paramValue"]
+  );
+  const maxDateValue = Number(
+    props.parameterValues["Request Date Future Count"]["paramValue"]
+  );
+
   const disableAllFields = props.screenMode === "VIEW";
 
   var today = new Date();
@@ -171,7 +178,9 @@ const DisbursementDetailsTab = (props) => {
       renderCell: (params) => {
         return (
           <Checkbox
-            disabled={disableAllFields || props.screenMode === "APPROVE"}
+            disabled={
+              true || disableAllFields || props.screenMode === "APPROVE"
+            }
             checked={params.value}
             onChange={onCheckBoxEnable(params.row.bankAccountNum)}
           />
@@ -199,7 +208,7 @@ const DisbursementDetailsTab = (props) => {
       headerName: "Bank Branch",
       headerAlign: "center",
       type: "string",
-      width: 140,
+      width: 194,
       align: "left",
     },
     {
@@ -238,7 +247,9 @@ const DisbursementDetailsTab = (props) => {
       renderCell: (params) => {
         return (
           <CustomTextField
+            align="right"
             disabled={
+              true ||
               !params.row.isChecked ||
               disableAllFields ||
               props.screenMode === "APPROVE"
@@ -307,6 +318,20 @@ const DisbursementDetailsTab = (props) => {
     props.dispatchEvent({
       type: props.screenFields.disbursementFavours,
       value: existrows,
+    });
+  };
+
+  const removeUnwantedChars = (inputValue, typeValue) => {
+    const regExpString =
+      /^(?=\n)$|^\s*|^\s*$(?:\r\n?|\n)|\n\n+|\t|[^a-zA-Z0-9]|[%<>\\$'"{}\[\]]/gim;
+    let formattedValue = String(inputValue).replace(regExpString, " ");
+    // we need to remove twice since relaced space shouldbe removed
+    formattedValue = String(formattedValue).replace(/[^\u0000-\u007F]+/, "");
+    const finalValue = String(formattedValue).replace(regExpString, " ");
+    finalValue.trim();
+    props.dispatchEvent({
+      type: typeValue,
+      value: finalValue,
     });
   };
 
@@ -438,12 +463,14 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={true}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             required={false}
             label="Disbursement Request Date"
             id="disbursementDate"
             variant="standard"
             value={props.disbursementDetailTabValue.dateOfDisb}
+            maxDate={new Date().setDate(new Date().getDate() + maxDateValue)}
+            minDate={new Date().setDate(new Date().getDate() - minDateValue)}
             type="text"
             placeholder=""
             onChange={(event, value) => {
@@ -528,7 +555,7 @@ const DisbursementDetailsTab = (props) => {
           />
         </Grid>
 
-        {props.screenMode !== "CREATE" ? (
+        {/* {props.screenMode !== "CREATE" ? (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <CustomTextField
               disabled={true}
@@ -541,7 +568,7 @@ const DisbursementDetailsTab = (props) => {
               placeholder="Request Number"
             />
           </Grid>
-        ) : null}
+        ) : null} */}
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomTextField
@@ -574,7 +601,13 @@ const DisbursementDetailsTab = (props) => {
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <InputLabel
             id="remarks"
-            sx={{ color: "#004A92", marginTop: "8px" }}
+            sx={{
+              color: "#004A92",
+              marginTop: "8px",
+              fontWeight: 400,
+              fontSize: "0.875rem",
+              fontFamily: "Roboto",
+            }}
             required={false}
           >
             Remarks
@@ -587,10 +620,10 @@ const DisbursementDetailsTab = (props) => {
             value={props.disbursementDetailTabValue.remarks}
             aria-label="maximum height"
             onChange={(event, value) => {
-              props.dispatchEvent({
-                type: props.screenFields.remarks,
-                value: event.target.value,
-              });
+              removeUnwantedChars(
+                event.target.value,
+                props.screenFields.remarks
+              );
             }}
             style={{
               width: "100%",
@@ -603,6 +636,9 @@ const DisbursementDetailsTab = (props) => {
               overflow: "auto",
             }}
           />
+          {props.errorState.remarksError[0] && (
+            <p className="error">{props.errorState.remarksError[1]}</p>
+          )}
         </Grid>
 
         {props.screenMode === "APPROVE" ||
@@ -610,7 +646,13 @@ const DisbursementDetailsTab = (props) => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
             <InputLabel
               id="remarks"
-              sx={{ color: "#004A92", marginTop: "8px" }}
+              sx={{
+                color: "#004A92",
+                marginTop: "8px",
+                fontWeight: 400,
+                fontSize: "0.875rem",
+                fontFamily: "Roboto",
+              }}
               required={false}
             >
               Approval Remarks
@@ -623,10 +665,10 @@ const DisbursementDetailsTab = (props) => {
               value={props.disbursementDetailTabValue.approvalRemarks}
               aria-label="maximum height"
               onChange={(event, value) => {
-                props.dispatchEvent({
-                  type: props.screenFields.approvalRemarks,
-                  value: event.target.value,
-                });
+                removeUnwantedChars(
+                  event.target.value,
+                  props.screenFields.approvalRemarks
+                );
               }}
               style={{
                 width: "100%",
@@ -639,6 +681,11 @@ const DisbursementDetailsTab = (props) => {
                 overflow: "auto",
               }}
             />
+            {props.errorState.approvalRemarksError[0] && (
+              <p className="error">
+                {props.errorState.approvalRemarksError[1]}
+              </p>
+            )}
           </Grid>
         ) : null}
       </Grid>
@@ -655,12 +702,19 @@ const DisbursementDetailsTab = (props) => {
           <CustomDataGrid
             noDataMessage="No Bank Data."
             noDataOnFilterMessage="No Bank Data on Applied Filter."
-            gridHeight="270px"
+            gridHeight={
+              props.disbursementDetailTabValue.disbursementFavours.length > 1
+                ? "320px"
+                : props.disbursementDetailTabValue.disbursementFavours
+                    .length === 1
+                ? "160px"
+                : "320px"
+            }
             rows={props.disbursementDetailTabValue.disbursementFavours}
             columns={columns}
             checkboxSelection={false}
             pageSize={3}
-            pageSizeOptions={[3, 6, 9, 12]}
+            pageSizeOptions={[3]}
             getRowId={(row) => {
               return row.bankAccountNum;
             }}
@@ -685,6 +739,7 @@ const DisbursementDetailsTab = (props) => {
                     control={
                       <Checkbox
                         disabled={
+                          true &&
                           disableAllFields &&
                           (props.screenMode === "APPROVE" ||
                             props.screenMode === "CANCEL")
@@ -740,6 +795,7 @@ const DisbursementDetailsTab = (props) => {
                                     checked={allCheckedValues[index]}
                                     checkBoxChange={onCheckBoxChange}
                                     disableAllFields={
+                                      true &&
                                       disableAllFields &&
                                       (props.screenMode === "APPROVE" ||
                                         props.screenMode === "CANCEL")
@@ -752,13 +808,14 @@ const DisbursementDetailsTab = (props) => {
                             subheaderTypographyProps={{
                               color: "#004A92",
                               fontWeight: "700",
+                              fontFamily: "Roboto",
                             }}
                             sx={{
                               textAlign: "left",
                               padding: "16px 16px 0px 16px !important",
                             }}
                           />
-                          <CardContent>
+                          <CardContent sx={{ fontFamily: "Roboto" }}>
                             <Grid
                               container
                               item

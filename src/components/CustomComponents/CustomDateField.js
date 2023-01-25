@@ -10,7 +10,13 @@ const CustomDateField = (props) => {
       <InputLabel
         required={props.required}
         size="small"
-        sx={{ color: "#004A92", mb: 2 }}
+        sx={{
+          color: "#004A92",
+          mb: 2,
+          fontWeight: 400,
+          fontSize: "0.875rem",
+          fontFamily: "Roboto",
+        }}
       >
         {props.label}
       </InputLabel>
@@ -19,6 +25,8 @@ const CustomDateField = (props) => {
         <DatePicker
           disabled={props.disabled}
           disableFuture={props.disableFuture}
+          maxDate={props.maxDate}
+          minDate={props.minDate}
           disablePast={props.disablePast}
           openTo="day"
           inputFormat="DD/MM/YYYY"

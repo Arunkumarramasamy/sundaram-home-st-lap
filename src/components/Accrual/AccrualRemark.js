@@ -1,6 +1,11 @@
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
   InputLabel,
   Modal,
@@ -16,8 +21,10 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import CustomeToaster from "../CustomComponents/CustomToaster";
 import { navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AccrualRemark = (props) => {
+  const userName = useSelector((state) => state.branch.userName);
   const [open, setOpen] = useState(false);
   const [reasonError, setReasonError] = useState(false);
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -25,10 +32,25 @@ const AccrualRemark = (props) => {
   const [content, setContent] = useState("");
   const [reason, setReason] = useState("");
   const [remark, setRemark] = useState("");
+  const [discardOpen, setDiscardOpen] = useState(props.discardOpen);
+  const [openSaveConfirmation, setOpenSaveConfirmation] = useState(false);
+  const openSaveDialog = (value) => {
+    if (!reason) {
+      setReasonError(true);
+    } else {
+      setReasonError(false);
+
+      setOpenSaveConfirmation(value);
+    }
+  };
+  // const closeSaveDialog
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
   const handleHistoryDialog = () => {
     handleOpen(true);
+  };
+  const cancelHandleClose = () => {
+    props.setDiscardOpen(false);
   };
   const resonValue = [
     { value: "Reverse Payment", text: "Reverse Payment" },
@@ -49,6 +71,8 @@ const AccrualRemark = (props) => {
   };
   //save data
   const handleClose = () => setOpen(false);
+  const [cancelOpen, cancelSetOpen] = React.useState(false);
+  // const handleCloseSaveDialog = () => setOpenSaveConfirmation(false);
   const saveAccrualDetails = async () => {
     if (!reason) {
       setReasonError(true);
@@ -60,7 +84,7 @@ const AccrualRemark = (props) => {
       dataMap["remarks"] = remark;
       dataMap["refDate"] = props.refDate;
       dataMap["referenceNumber"] = props.refNum;
-      dataMap["updatedBy"] = Cookies.get("userName");
+      dataMap["updatedBy"] = userName;
       dataMap["applicationNum"] = props.applicationNum;
       dataMap["type"] = props.type;
       dataMap["historyData"] = props.historyData;
@@ -102,10 +126,7 @@ const AccrualRemark = (props) => {
             height: "80%",
           }}
         >
-          <Grid
-            container
-            spacing={2}
-          >
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <CustomDropDown
                 id="1"
@@ -128,21 +149,24 @@ const AccrualRemark = (props) => {
                 disabled={true}
                 label={props.name}
                 id="refdate"
-                value={Cookies.get("userName")}
+                value={userName}
                 type="text"
                 placeholder={props.name}
                 variant="standard"
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            spacing={2}
-          >
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
               <InputLabel
                 id="accrual-waiver-remark"
-                sx={{ color: "#004A92", marginTop: "8px" }}
+                sx={{
+                  color: "#004A92",
+                  marginTop: "8px",
+                  fontWeight: 400,
+                  fontSize: "0.875rem",
+                  fontFamily: "Roboto",
+                }}
                 required={false}
               >
                 Remarks
@@ -187,7 +211,7 @@ const AccrualRemark = (props) => {
             <Button
               disabled={props.updateDisable}
               variant="contained"
-              onClick={saveAccrualDetails}
+              onClick={() => openSaveDialog(true)}
               sx={{ fontWeight: "bold" }}
             >
               Update
@@ -221,6 +245,45 @@ const AccrualRemark = (props) => {
           </div>
         </Box>
       </Grid>
+      <Dialog
+        open={openSaveConfirmation}
+        // onClose={openSaveDialog(false)}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Save Confirmation"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            {" "}
+            Do you want to update fee details?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{ fontWeight: "bold" }}
+            variant="contained"
+            onClick={saveAccrualDetails}
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={props.discardOpen}
+        onClose={cancelHandleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Are You Sure want to discard the Changes ?
+        </DialogTitle>
+
+        <DialogActions>
+          <Button onClick={cancelHandleClose} autoFocus>
+            Cancel
+          </Button>
+          <Button onClick={props.discardChanges}>Yes</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

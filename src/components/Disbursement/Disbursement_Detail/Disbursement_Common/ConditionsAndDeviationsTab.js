@@ -31,8 +31,8 @@ const ConditionsAndDeviationsTab = (props) => {
       headerName: "Approved Date",
       headerAlign: "center",
       type: "string",
-      width: 150,
-      align: "left",
+      width: 194,
+      align: "right",
       editable: false,
     },
     {
@@ -99,13 +99,14 @@ const ConditionsAndDeviationsTab = (props) => {
                     subheaderTypographyProps={{
                       color: "#004A92",
                       fontWeight: "700",
+                      fontFamily: "Roboto",
                     }}
                     sx={{
                       textAlign: "left",
                       padding: "16px 16px 0px 16px !important",
                     }}
                   />
-                  <CardContent>
+                  <CardContent sx={{ fontFamily: "Roboto" }}>
                     <Grid
                       container
                       item
@@ -157,10 +158,10 @@ const ConditionsAndDeviationsTab = (props) => {
             rows={conditionRows}
             columns={conditionColumns}
             pageSize={5}
-            pageSizeOptions={[5, 10, 15, 20, 25]}
+            pageSizeOptions={[5]}
             hideFooter={true}
             gridHeight={"270px"}
-            gridWidth={"60%"}
+            gridWidth={"53.40%"}
           />
         </Box>
       )}

@@ -43,11 +43,13 @@ const DisbursementModify = (props) => {
   const [losData, setlosData] = useState({});
   const [billDayValues, setbillDayValues] = useState([]);
   const [deductionTabValue, setdeductionTabValue] = useState({});
+  const [deductionTabSaveValue, setdeductionTabSaveValue] = useState({});
   const [loading, setLoading] = useState(true);
   const [showConfirmation, setshowConfirmation] = useState(false);
   const [saveData, setsaveData] = useState([]);
   const [showSnackBar, setshowSnackBar] = useState(false);
   const [snackBarMessage, setsnackBarMessage] = useState("");
+  const [parameterValues, setparameterValues] = useState({});
   const [dialogMessage, setdialogMessage] = useState(
     "Do You Want to Update this Request?"
   );
@@ -146,6 +148,8 @@ const DisbursementModify = (props) => {
     bankAccountError: "bankAccountError",
     dateOfDisbError: "dateOfDispError",
     overAllError: "overAllError",
+    remarksError: "remarksError",
+    approvalRemarksError: "approvalRemarksError",
   };
 
   const errorInitialState = {
@@ -160,6 +164,11 @@ const DisbursementModify = (props) => {
     bankAccountError: [false, "Please Select Atlease One Bank Account."],
     dateOfDisbError: [false, "Please Select Date of Disbursement"],
     overAllError: false,
+    approvalRemarksError: [
+      false,
+      "Please Enter Approval Remarks less than 4000 characters.",
+    ],
+    remarksError: [false, "Please Enter Remarks less than 4000 characters."],
   };
 
   const errorReducer = (state, action) => {
@@ -180,6 +189,10 @@ const DisbursementModify = (props) => {
         return { ...state, dateOfDisbError: action.value };
       case errorParameters.overAllError:
         return { ...state, overAllError: action.value };
+      case errorParameters.remarksError:
+        return { ...state, remarksError: action.value };
+      case errorParameters.approvalRemarksError:
+        return { ...state, approvalRemarksError: action.value };
       default:
         return { ...errorInitialState };
     }
@@ -195,6 +208,7 @@ const DisbursementModify = (props) => {
     getCustomerDataByAppNum();
     getDeductionTabData();
     getCustomerBankData();
+    getParameterValues();
     dispatch({
       type: screenFields.screenMode,
       value: props.screenMode,
@@ -209,6 +223,8 @@ const DisbursementModify = (props) => {
     return () => {
       window.removeEventListener("beforeunload", alertUser);
       window.removeEventListener("unload", handleTabClosing);
+      // event to call extra for default on component unmount on navigate using sidemenu was below.
+      handleTabClosing();
     };
   }, []);
 
@@ -258,8 +274,17 @@ const DisbursementModify = (props) => {
     let deductionTotal1 = 0;
     let waivedTotal1 = 0;
     let data = {};
+    let saveData = [];
     response.data.gridData.map((rows) => {
       data = {};
+      let saveData1 = {};
+      saveData1 = {
+        applicationNum: location.state.applicationNum,
+        received:
+          rows.received + (rows.receiveable - rows.received - rows.earlyWaiver),
+        details: rows.details,
+      };
+      saveData.push(saveData1);
       paidTotal1 = paidTotal1 + rows.received;
       dueTotal1 = dueTotal1 + rows.receiveable;
       deductionTotal1 =
@@ -272,6 +297,7 @@ const DisbursementModify = (props) => {
     data.waivedTotal = waivedTotal1;
     data.gridRows = response.data.gridData;
     setdeductionTabValue(data);
+    setdeductionTabSaveValue(saveData);
   };
 
   const getCustomerBankData = async () => {
@@ -303,11 +329,30 @@ const DisbursementModify = (props) => {
     });
   };
 
+  const getParameterValues = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/parameter/",
+    });
+
+    const response = await api.get("/getAllParameterData");
+    const dataMap = {};
+    response.data.map((parameter) => {
+      dataMap[parameter.paramName] = parameter;
+    });
+    setparameterValues(dataMap);
+  };
+
   const validateCreateRequestData = (data, losData) => {
     var status = true;
 
     //Validating Current Disbursement Amount Field
-    if (data.disbAmt === 0 || data.disbAmt === null) {
+    if (
+      data.disbAmt === 0 ||
+      data.disbAmt === null ||
+      data.disbAmt === "" ||
+      data.disbAmt === "0" ||
+      data.disbAmt === "00"
+    ) {
       errorDispatch({
         type: errorParameters.currentDisbError,
         value: [true, "Current Disbursement Amount Cannot be Empty/Zero."],
@@ -319,6 +364,15 @@ const DisbursementModify = (props) => {
         value: [
           true,
           "Current Disbursement Amount Cannot be Greater than Sanction Amount.",
+        ],
+      });
+      status = false;
+    } else if (data.totalDisbAmt <= 0) {
+      errorDispatch({
+        type: errorParameters.currentDisbError,
+        value: [
+          true,
+          "Current Disbursement Amount Cannot be Less than or Equal to Total Deduction Amount.",
         ],
       });
       status = false;
@@ -369,6 +423,27 @@ const DisbursementModify = (props) => {
         type: errorParameters.billDayError,
         value: [false, "Please Select Billing Day."],
       });
+    }
+
+    // validating remarks fields length.
+    if (data.remarks && String(data.remarks).length > 4000) {
+      errorDispatch({
+        type: errorParameters.remarksError,
+        value: [true, "Please Enter Remarks less than 4000 Characters."],
+      });
+      status = false;
+    } else if (
+      data.approvalRemarks &&
+      String(data.approvalRemarks).length > 4000
+    ) {
+      errorDispatch({
+        type: errorParameters.approvalRemarksError,
+        value: [
+          true,
+          "Please Enter Approval Remarks less than 4000 Characters.",
+        ],
+      });
+      status = false;
     }
 
     //Validating Bank Grid
@@ -487,6 +562,7 @@ const DisbursementModify = (props) => {
         const dataValue = { ...response.data };
         dataValue.screenMode = props.screenMode;
         navigate("/stlap/home/disbursementView", {
+          replace: true,
           state: dataValue,
         });
       }, 600);
@@ -548,6 +624,17 @@ const DisbursementModify = (props) => {
       baseURL: "http://localhost:8080/losCustomer/",
     });
     const response1 = await api1.post("/updateCustomerData", updateModel);
+    updateDeductionsData();
+  };
+
+  const updateDeductionsData = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/additionalfee/",
+    });
+    const response1 = await api.post(
+      "/updateReceivedAmount",
+      deductionTabSaveValue
+    );
   };
 
   return (
@@ -573,6 +660,7 @@ const DisbursementModify = (props) => {
             dispatchEvent={dispatch}
             errorState={errorState}
             screenTitle={props.screenTitle}
+            parameterValues={parameterValues}
           />
           <Box
             sx={{
@@ -588,10 +676,15 @@ const DisbursementModify = (props) => {
                   disbursementDetailTabValue.disbHeaderKey,
                   props.screenMode
                 );
-                if (props.screenMode === "MODIFY" || "CANCEL") {
-                  navigate("/stlap/home/disbursementList");
+                if (
+                  props.screenMode === "MODIFY" ||
+                  props.screenMode === "CANCEL"
+                ) {
+                  navigate("/stlap/home/disbursementList", { replace: true });
                 } else {
-                  navigate("/stlap/home/disbursementApprovalList");
+                  navigate("/stlap/home/disbursementApprovalList", {
+                    replace: true,
+                  });
                 }
               }}
             >

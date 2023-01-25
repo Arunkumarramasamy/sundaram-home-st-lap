@@ -1,6 +1,6 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BasicInformation from "./BasicInformation";
 import ConditionsAndDeviationsTab from "./ConditionsAndDeviationsTab";
 import DisbursementDetailsTab from "./DisbursementDetailsTab";
@@ -13,6 +13,14 @@ const DisbursementTabsIntegrator = (props) => {
   const handleTabChange = (event, newValue) => {
     settabValue(newValue);
   };
+
+  useEffect(() => {
+    const errorData = Object.values({ ...props.errorState });
+    const errorDataExist = errorData.filter((error) => error[0] === true);
+    if (errorDataExist.length > 0) {
+      settabValue("1");
+    }
+  }, [props.errorState]);
 
   return (
     <>
@@ -63,6 +71,7 @@ const DisbursementTabsIntegrator = (props) => {
                   backgroundColor: "#D7D7D7",
                   minHeight: "0rem",
                   height: "2.3rem",
+                  fontFamily: "Roboto",
                 },
               }}
             >
@@ -81,6 +90,7 @@ const DisbursementTabsIntegrator = (props) => {
               screenFields={props.screenFields}
               dispatchEvent={props.dispatchEvent}
               errorState={props.errorState}
+              parameterValues={props.parameterValues}
             />
           </TabPanel>
           <TabPanel value="2">

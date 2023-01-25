@@ -36,7 +36,7 @@ const Login = () => {
       <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
         <LockIcon sx={{ color: "#004a92" }} />
         <Typography variant="body" sx={{ color: "#004a92", fontWeight: 700 }}>
-          Login to Sundaram Home
+        LMS Login
         </Typography>
       </Box>
       <Box sx={{ marginTop: "1.5rem" }}>

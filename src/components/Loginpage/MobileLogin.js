@@ -32,7 +32,7 @@ const MobileLogin = () => {
       <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
         <SendToMobileIcon sx={{ color: "#004a92" }} />
         <Typography variant="body" sx={{ color: "#004a92", fontWeight: 700 }}>
-          Login to Sundaram Home
+        LMS Login
         </Typography>
       </Box>
       {numberSection && <NumberSection />}

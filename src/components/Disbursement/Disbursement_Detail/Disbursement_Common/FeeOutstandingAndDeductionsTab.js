@@ -29,11 +29,11 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Due Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 160,
+      width: 235,
       align: "right",
       editable: false,
       renderCell: (params) => {
-        return <>{params.value}</>;
+        return <>{parseInt(params.value).toLocaleString("en-IN")}</>;
       },
     },
     {
@@ -41,11 +41,11 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Paid Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 235,
       align: "right",
       editable: false,
       renderCell: (params) => {
-        return <>{params.value}</>;
+        return <>{parseInt(params.value).toLocaleString("en-IN")}</>;
       },
     },
     {
@@ -53,11 +53,11 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Waved Amount (₹)",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 235,
       align: "right",
       editable: false,
       renderCell: (params) => {
-        return <>{params.value}</>;
+        return <>{parseInt(params.value).toLocaleString("en-IN")}</>;
       },
     },
     {
@@ -65,13 +65,13 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       headerName: "Deduction",
       headerAlign: "center",
       type: "string",
-      width: "230",
+      width: "235",
       editable: false,
       align: "right",
       renderCell: (params) => {
         var value =
           params.row.receiveable - params.row.received - params.row.earlyWaiver;
-        return value;
+        return <>{parseInt(value).toLocaleString("en-IN")}</>;
       },
     },
   ];
@@ -98,13 +98,14 @@ const FeeOutstandingAndDeductionsTab = (props) => {
                       subheaderTypographyProps={{
                         color: "#004A92",
                         fontWeight: "700",
+                        fontFamily: "Roboto",
                       }}
                       sx={{
                         textAlign: "left",
                         padding: "16px 16px 0px 16px !important",
                       }}
                     />
-                    <CardContent>
+                    <CardContent sx={{ fontFamily: "Roboto" }}>
                       <Grid
                         container
                         item
@@ -113,17 +114,22 @@ const FeeOutstandingAndDeductionsTab = (props) => {
                         justifyContent="flex-start"
                       >
                         <Typography padding="1px">
-                          {"Paid Amount : " + row.receiveable}
+                          {"Paid Amount : " +
+                            parseInt(row.receiveable).toLocaleString("en-IN")}
                         </Typography>
                         <Typography padding="1px">
-                          {"Due Amount : " + row.received}
+                          {"Due Amount : " +
+                            parseInt(row.received).toLocaleString("en-IN")}
                         </Typography>
                         <Typography padding="1px">
-                          {"Waived Amount : " + row.earlyWaiver}
+                          {"Waived Amount : " +
+                            parseInt(row.earlyWaiver).toLocaleString("en-IN")}
                         </Typography>
                         <Typography padding="1px">
                           {"Deduction : " +
-                            (row.receiveable - row.received - row.earlyWaiver)}
+                            parseInt(
+                              row.receiveable - row.received - row.earlyWaiver
+                            ).toLocaleString("en-IN")}
                         </Typography>
                       </Grid>
                     </CardContent>
@@ -154,32 +160,38 @@ const FeeOutstandingAndDeductionsTab = (props) => {
       <Grid container spacing={0}>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "Green" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"Total Deductions : "}
-            <span style={{ color: "Green" }}>
-              {props.deductionTabValue.deductionTotal}
+            <span style={{ color: "#2F7DC4" }}>
+              {parseInt(props.deductionTabValue.deductionTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
           </label>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "blue" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"(Paid : "}
-            <span style={{ color: "blue" }}>
-              {props.deductionTabValue.paidTotal}
+            <span style={{ color: "#2F7DC4" }}>
+              {parseInt(props.deductionTabValue.paidTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {``}
           </label>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "red" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"Due : "}
-            <span style={{ color: "red" }}>
-              {props.deductionTabValue.dueTotal}
+            <span style={{ color: "#2F7DC4" }}>
+              {parseInt(props.deductionTabValue.dueTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {``}
           </label>
@@ -189,23 +201,27 @@ const FeeOutstandingAndDeductionsTab = (props) => {
             style={{
               fontWeight: "bold",
               marginLeft: "8px",
-              color: "saddlebrown",
+              color: "#2F7DC4",
             }}
           >
             {"Waived : "}
-            <span style={{ color: "saddlebrown" }}>
-              {props.deductionTabValue.waivedTotal}
+            <span style={{ color: "#2F7DC4" }}>
+              {parseInt(props.deductionTabValue.waivedTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {``}
           </label>
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={2} xl={3}>
           <label
-            style={{ fontWeight: "bold", marginLeft: "8px", color: "Purple" }}
+            style={{ fontWeight: "bold", marginLeft: "8px", color: "#2F7DC4" }}
           >
             {"Deduction : "}
-            <span style={{ color: "Purple" }}>
-              {props.deductionTabValue.deductionTotal}
+            <span style={{ color: "#2F7DC4" }}>
+              {parseInt(props.deductionTabValue.deductionTotal).toLocaleString(
+                "en-IN"
+              )}
             </span>
             {`)`}
           </label>

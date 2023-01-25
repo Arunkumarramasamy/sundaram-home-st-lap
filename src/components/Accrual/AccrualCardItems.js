@@ -62,6 +62,7 @@ const AccrualCardItems = (props) => {
             subheaderTypographyProps={{
               color: "#004A92",
               fontWeight: "700",
+              fontFamily: "Roboto",
             }}
             sx={{
               textAlign: "left",
@@ -77,16 +78,19 @@ const AccrualCardItems = (props) => {
               justifyContent="flex-start"
             >
               <Typography padding="1px">
-                {"Amount Receivable : " + row.receiveable}
+                {"Amount Receivable : " +
+                  parseInt(row.receiveable).toLocaleString("en-IN")}
               </Typography>
               <Typography padding="1px">
-                {"Amount Received : " + row.received}
+                {"Amount Received : " +
+                  parseInt(row.received).toLocaleString("en-IN")}
               </Typography>
               <Typography
                 padding="1px"
                 sx={{ display: props.screen === "accrual" ? "none" : "block" }}
               >
-                {"Earlier Waived : " + row.earlyWaiver}
+                {"Amount Received : " +
+                  parseInt(row.earlyWaiver).toLocaleString("en-IN")}
               </Typography>
               {/* <Typography padding="1px">
                                 {"Additional Waived : " + row.received}
@@ -115,7 +119,8 @@ const AccrualCardItems = (props) => {
                   sx={{ fontWeight: "400 !important" }}
                 ></CustomTextField>
                 <Typography padding="1px">
-                  {"Outstanding Amount : " + outStandingAmount}
+                  {"Outstanding Amount : " +
+                    parseInt(outStandingAmount).toLocaleString("en-IN")}
                 </Typography>
               </div>
             </Grid>

@@ -10,11 +10,18 @@ const CustomTextField = (props) => {
         <InputLabel
           required={props.required}
           size="small"
-          sx={{ color: "#004A92", mb: 2 }}
+          sx={{
+            color: "#004A92",
+            mb: 2,
+            fontWeight: 400,
+            fontSize: "0.875rem",
+            fontFamily: "Roboto",
+          }}
         >
           {props.label}
         </InputLabel>
         <TextField
+          inputProps={{ style: { textAlign: `${props.align}` } }}
           fullWidth
           id={props.id}
           variant={props.variant}

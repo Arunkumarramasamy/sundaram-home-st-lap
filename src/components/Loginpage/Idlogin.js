@@ -57,7 +57,7 @@ const Idlogin = () => {
   const nameHasError = employeeIdIsTouched && !nameValid;
   const passwordHasError = passwordIsTouched && !passwordValid;
   const onChangeEmployeeID = (event) => {
-    setEmployeeId(event.target.value);
+    setEmployeeId(event.target.value.toUpperCase());
   };
   const onChangePassword = (event) => {
     setPassword(event.target.value);
@@ -75,35 +75,27 @@ const Idlogin = () => {
       console.log(loginResponse);
 
       if (loginResponse.data.message === "Success") {
-        dispatch(BranchAction.updateLoginStatus(true));
-        dispatch(BranchAction.updateUserName(employeeID.toUpperCase()));
-        // Cookies.set("islogin", true);
-        // Cookies.set("Token", response["data"]["jwToken"]);
-        // Cookies.set("userName", employeeID);
-        // Cookies.set("lastLogin", response["data"]["lastLoginTime"]);
-        navigate("/stlap/home/dashboard");
-        dispatch(loginAction.updateEmployeeIDScreen(false));
-        dispatch(loginAction.updateLogin(true));
+        const userBranches = await axios.post(
+          "https://bmapp.sundaramhome.in/stlap/ostlap/branchcluster",
+          {
+            username: btoa(employeeID),
+          }
+        );
+        if (userBranches.data.message === "Success") {
+          dispatch(BranchAction.updateUserName(employeeID.toUpperCase()));
+          dispatch(BranchAction.updateLoginStatus(true));
+          dispatch(loginAction.updateEmployeeIDScreen(false));
+          dispatch(loginAction.updateLogin(true));
+          dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
+          navigate("/stlap/home/dashboard", { replace: true });
+        } else {
+          setErrorMessage(userBranches.data.error_msg);
+          openAlertHandler();
+        }
       }
 
       if (loginResponse.data.message === "Failure") {
         setErrorMessage(loginResponse.data.error_msg);
-        openAlertHandler();
-      }
-      const userBranches = await axios.post(
-        "https://bmapp.sundaramhome.in/stlap/ostlap/branchcluster",
-        {
-          username: btoa(employeeID),
-        }
-      );
-      console.log(userBranches.data.branch_details);
-      if (userBranches.data.message === "Success") {
-        // Cookies.set(
-        //   "userBranches",JSON.stringify(userBranches.data.branch_details)
-        // );
-        dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
-      } else {
-        setErrorMessage(userBranches.data.error_msg);
         openAlertHandler();
       }
     } catch (e) {
@@ -148,7 +140,7 @@ const Idlogin = () => {
       <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
         <LockIcon sx={{ color: "#004a92" }} />
         <Typography variant="body" sx={{ color: "#004a92", fontWeight: 700 }}>
-          Login to Sundaram Home
+          LMS Login
         </Typography>
       </Box>
       <Grid container spacing={1} sx={{ marginTop: "1.5rem" }}>

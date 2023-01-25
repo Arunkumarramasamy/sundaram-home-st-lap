@@ -8,6 +8,8 @@ import GetBranchDetails from "../../CustomComponents/GetBranchDetails";
 import StlapFooter from "../../CustomComponents/StlapFooter";
 import FilterCondition from "./FilterCondition";
 import SanctionedList from "./SanctionedList";
+import { useDispatch } from "react-redux";
+import { BranchAction } from "../../Store/Branch";
 
 var today = new Date();
 
@@ -52,6 +54,7 @@ const DisbursementCreatePortal = (props) => {
   const [branchNames, setTotalBranchNames] = React.useState([]);
   const [filterConditionState, setFilterConditionState] =
     React.useState(initialState);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -170,7 +173,7 @@ const DisbursementCreatePortal = (props) => {
   };
 
   const rowDoubleClickHandler = (data) => {
-    navigate("/stlap/home/disbursementCreate", { state: data });
+    navigate("/stlap/home/disbursementCreate", { replace:true,state: data });
   };
 
   const getSanctionList = async () => {
@@ -180,9 +183,10 @@ const DisbursementCreatePortal = (props) => {
     const response = await api.get("/getAllData");
     const dataMap = [];
     response.data.map((sanctionRow) => {
-      if (!((sanctionRow.losStatus === "Fully Disbursed") || (sanctionRow.losStatus === "Partially Requested") || (sanctionRow.losStatus === "Fully Requested"))) {
-        dataMap.push(sanctionRow);
-      }
+      // if (!((sanctionRow.losStatus === "Fully Disbursed") ||
+      //  (sanctionRow.losStatus === "Partially Requested") || (sanctionRow.losStatus === "Fully Requested"))) {
+      dataMap.push(sanctionRow);
+      // }
     });
     filterConditionState.sanctionList = dataMap;
     filterConditionState.disbursementList = [
@@ -201,6 +205,8 @@ const DisbursementCreatePortal = (props) => {
       // for now hold all the disbursement list data all the time.
       //filterConditionState.disbursementList = [...tempData];
       setFilterConditionState({ ...filterConditionState });
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(branchValue));
     } else {
       resetFilterData();
     }

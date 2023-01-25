@@ -1,8 +1,46 @@
 import AccordianContainer from "../CustomComponents/AccordianContainer";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { Tooltip } from "recharts";
+import { Button, Chip, IconButton } from "@mui/material";
+import { Box } from "@mui/system";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useState } from "react";
 
 const NachVerification = () => {
+  //Dialog state maintaining while submission
+  const [open, setOpen] = useState(false);
+  //To Display UMRN Number in Dialog
+  const [UMRNNumer, setUMRNNumber] = useState("");
+  //Maintaining Content to Display on the dialog
+  const [dialogText, setDialogText] = useState("");
+
+  //Dialog onOpen and onClose methods
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // Grid Accept and Reject button handlers
+  const ApproveButtonOnClickHandler = (value) => {
+    setUMRNNumber(value.row.UMRNNumber);
+    setDialogText("Accepted");
+    handleClickOpen();
+  };
+  const CancelButtonClickHandler = (value) => {
+    console.log(value);
+    setUMRNNumber(value.row.UMRNNumber);
+    setDialogText("Rejected");
+    handleClickOpen();
+  };
+
   const rows = [
     {
       id: 1,
@@ -13,16 +51,29 @@ const NachVerification = () => {
       customerName: "Tom",
       mandateNumber: 323221,
       mandateBank: "HDFC Bank",
+      status: "PreVerified",
     },
     {
       id: 2,
-      branch: "TNAGAR",
-      UMRNNumber: 76889298,
-      applicationNumber: 33213443,
-      customerID: 9383393,
-      customerName: "Tom",
-      mandateNumber: 323221,
-      mandateBank: "HDFC Bank",
+      branch: "TNagar",
+      UMRNNumber: 1189933993,
+      applicationNumber: 5337765544,
+      customerID: 331250484,
+      customerName: "Shareef",
+      mandateNumber: 23872810,
+      mandateBank: "ICIC Bank",
+      status: "Accepted",
+    },
+    {
+      id: 3,
+      branch: "Ambattur",
+      UMRNNumber: 8993993,
+      applicationNumber: 7765544,
+      customerID: 1250484,
+      customerName: "Naveen",
+      mandateNumber: 87210,
+      mandateBank: "SBI Bank",
+      status: "Rejected",
     },
   ];
   const columns = [
@@ -60,6 +111,9 @@ const NachVerification = () => {
       headerAlign: "center",
       align: "left",
       width: 150,
+      renderCell: (params) => {
+        return params.value.toUpperCase();
+      },
     },
     {
       field: "mandateNumber",
@@ -83,7 +137,32 @@ const NachVerification = () => {
       align: "center",
       width: 150,
       renderCell: (params) => {
-        return <CheckCircleIcon />;
+        if (params.row.status === "Accepted") {
+          return (
+            <Chip
+              label="Accepted"
+              sx={{ background: "#2F7DC4", color: "white" }}
+            />
+          );
+        } else if (params.row.status === "Rejected") {
+          return (
+            <Chip
+              label="Rejected"
+              sx={{ background: "#F6A030", color: "white" }}
+            />
+          );
+        } else {
+          return (
+            <Box sx={{ display: "flex" }}>
+              <IconButton onClick={() => ApproveButtonOnClickHandler(params)}>
+                <CheckCircleOutlineIcon sx={{ fill: "#004A92" }} />
+              </IconButton>
+              <IconButton onClick={() => CancelButtonClickHandler(params)}>
+                <CancelOutlinedIcon sx={{ fill: "#004A92" }} />
+              </IconButton>
+            </Box>
+          );
+        }
       },
     },
   ];
@@ -103,6 +182,27 @@ const NachVerification = () => {
         pageSize={5}
         pageSizeOptions={[5, 10, 15, 20, 25]}
       />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Application Submitted"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            {`The UMRN Number ${UMRNNumer} application is ${dialogText}`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{ fontWeight: "bold" }}
+            variant="contained"
+            onClick={handleClose}
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </AccordianContainer>
   );
 };

@@ -42,6 +42,7 @@ const DisbursementView = (props) => {
   const [billDayValues, setbillDayValues] = useState([]);
   const [deductionTabValue, setdeductionTabValue] = useState({});
   const [loading, setLoading] = useState(true);
+  const [parameterValues, setparameterValues] = useState({});
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -137,6 +138,8 @@ const DisbursementView = (props) => {
     bankAccountError: "bankAccountError",
     dateOfDisbError: "dateOfDispError",
     overAllError: "overAllError",
+    remarksError: "remarksError",
+    approvalRemarksError: "approvalRemarksError",
   };
 
   const errorInitialState = {
@@ -151,6 +154,11 @@ const DisbursementView = (props) => {
     bankAccountError: [false, "Please Select Atlease One Bank Account."],
     dateOfDisbError: [false, "Please Select Date of Disbursement"],
     overAllError: false,
+    approvalRemarksError: [
+      false,
+      "Please Enter Approval Remarks less than 4000 characters.",
+    ],
+    remarksError: [false, "Please Enter Remarks less than 4000 characters."],
   };
 
   const errorReducer = (state, action) => {
@@ -171,6 +179,10 @@ const DisbursementView = (props) => {
         return { ...state, dateOfDisbError: action.value };
       case errorParameters.overAllError:
         return { ...state, overAllError: action.value };
+      case errorParameters.remarksError:
+        return { ...state, remarksError: action.value };
+      case errorParameters.approvalRemarksError:
+        return { ...state, approvalRemarksError: action.value };
       default:
         return { ...errorInitialState };
     }
@@ -186,6 +198,7 @@ const DisbursementView = (props) => {
     getCustomerDataByAppNum();
     getDeductionTabData();
     getCustomerBankData();
+    getParameterValues();
     dispatch({
       type: screenFields.screenMode,
       value: props.screenMode,
@@ -271,6 +284,19 @@ const DisbursementView = (props) => {
     });
   };
 
+  const getParameterValues = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/parameter/",
+    });
+
+    const response = await api.get("/getAllParameterData");
+    const dataMap = {};
+    response.data.map((parameter) => {
+      dataMap[parameter.paramName] = parameter;
+    });
+    setparameterValues(dataMap);
+  };
+
   return (
     <>
       {loading ? (
@@ -294,6 +320,7 @@ const DisbursementView = (props) => {
             dispatchEvent={dispatch}
             errorState={errorState}
             screenTitle={props.screenTitle}
+            parameterValues={parameterValues}
           />
           <Box
             sx={{
@@ -305,12 +332,22 @@ const DisbursementView = (props) => {
               sx={{ height: "2rem" }}
               variant="contained"
               onClick={() => {
-                if (disbursementDetailTabValue.requestStatus === "Approved") {
-                  navigate("/stlap/home/disbursementApprovalList");
-                } else if (location.state.screenMode === "CREATE") {
-                  navigate("/stlap/home/disbursementCreatePortal");
+                if (location.state.fromSancationListPage) {
+                  navigate("/stlap/home/disbursementCreatePortal", {
+                    replace: true,
+                  });
                 } else {
-                  navigate("/stlap/home/disbursementList");
+                  if (disbursementDetailTabValue.requestStatus === "Approved") {
+                    navigate("/stlap/home/disbursementApprovalList", {
+                      replace: true,
+                    });
+                  } else if (location.state.screenMode === "CREATE") {
+                    navigate("/stlap/home/disbursementCreatePortal", {
+                      replace: true,
+                    });
+                  } else {
+                    navigate("/stlap/home/disbursementList", { replace: true });
+                  }
                 }
               }}
             >

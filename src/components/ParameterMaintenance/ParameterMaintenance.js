@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import CustomDataGrid from "../CustomComponents/CustomDataGrid";
 import CustomDateField from "../CustomComponents/CustomDateField";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
@@ -28,6 +29,7 @@ import CustomTextField from "../CustomComponents/CustomTextField";
 import GetBranchDetails from "../CustomComponents/GetBranchDetails";
 import NoDataFound from "../CustomComponents/NoDataFound";
 import StlapFooter from "../CustomComponents/StlapFooter";
+import { BranchAction } from "../Store/Branch";
 import MoreAction from "./MoreAction";
 
 const ParameterMaintenance = () => {
@@ -35,6 +37,7 @@ const ParameterMaintenance = () => {
   const [branchArray, setBranchArray] = useState([]);
   const [branchValues, setBranchValues] = useState("");
   const [rows, setRows] = useState([]);
+  const dispatch = useDispatch();
   //State which manitain the date data type selected or not
   const [dateValue, setDateValue] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
@@ -97,7 +100,7 @@ const ParameterMaintenance = () => {
       headerName: "Parameter Name",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 200,
       align: "left",
     },
     {
@@ -105,7 +108,7 @@ const ParameterMaintenance = () => {
       headerName: "Module",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 200,
       align: "left",
     },
     {
@@ -113,7 +116,7 @@ const ParameterMaintenance = () => {
       headerName: "Parameter Data Type",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 185,
       align: "left",
     },
     {
@@ -142,7 +145,7 @@ const ParameterMaintenance = () => {
       headerName: "Effective Start Date",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 210,
       align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
@@ -153,7 +156,7 @@ const ParameterMaintenance = () => {
       headerName: "Effective End Date",
       headerAlign: "center",
       align: "center",
-      width: 180,
+      width: 210,
       align: "left",
       renderCell: (params) => {
         return dayjs(params.value).format("DD/MM/YYYY");
@@ -164,7 +167,7 @@ const ParameterMaintenance = () => {
       headerName: "Actions",
       headerAlign: "center",
       align: "center",
-      width: 80,
+      width: 100,
       hideable: false,
       sortable: false,
       filterable: false,
@@ -540,7 +543,9 @@ const ParameterMaintenance = () => {
               flexWrap: "wrap",
             }}
           >
-            <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
+            <InputLabel
+              sx={{ color: "#004A92", fontWeight: 400, fontFamily: "Roboto" }}
+            >
               Branch
             </InputLabel>
             <FormControl>
@@ -553,6 +558,8 @@ const ParameterMaintenance = () => {
                 value={branchValues}
                 onChange={(e, value) => {
                   setBranchValues(value == null ? "" : value.label);
+                  dispatch(BranchAction.updateInitialLoad(false));
+                  dispatch(BranchAction.updateHeaderBranchDetails(value.label));
                 }}
                 renderInput={(params) => (
                   <TextField {...params} variant="standard" />
@@ -570,7 +577,9 @@ const ParameterMaintenance = () => {
               flexWrap: "wrap",
             }}
           >
-            <InputLabel sx={{ color: "#004A92", fontWeight: 600 }}>
+            <InputLabel
+              sx={{ color: "#004A92", fontWeight: 400, fontFamily: "Roboto" }}
+            >
               Module
             </InputLabel>
             <FormControl>
@@ -593,7 +602,7 @@ const ParameterMaintenance = () => {
 
           <Box>
             <Button
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontFamily: "Roboto" }}
               variant="contained"
               onClick={goBtnHandler}
             >
@@ -636,7 +645,7 @@ const ParameterMaintenance = () => {
               )}
               <Typography
                 padding="1px"
-                sx={{ color: "#004A92", fontWeight: 700 }}
+                sx={{ color: "#004A92", fontWeight: 700, fontFamily: "Roboto" }}
               >
                 {"Total Records : " + totalRowsCount}
               </Typography>
@@ -668,6 +677,7 @@ const ParameterMaintenance = () => {
                           subheaderTypographyProps={{
                             color: "#004A92",
                             fontWeight: "700",
+                            fontFamily: "Roboto",
                           }}
                           sx={{
                             textAlign: "left",

@@ -22,7 +22,9 @@ import {
 } from "@mui/icons-material";
 import NoDataFound from "../../CustomComponents/NoDataFound";
 import { useEffect } from "react";
+import axios from "axios";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const SanctionedList = (props) => {
   const columns = [
@@ -65,7 +67,7 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 170,
-      align: "left",
+      align: "right",
       renderCell: (params) => {
         var date = new Date(params.value);
         return (
@@ -81,14 +83,14 @@ const SanctionedList = (props) => {
       headerAlign: "center",
       type: "string",
       width: 190,
-      align: "left",
+      align: "right",
       renderCell: (params) => {
         return (
           <Typography sx={{ display: "flex", alignItems: "center" }}>
             <Box>
               <CurrencyRupeeSharp fontSize="small" />{" "}
             </Box>
-            <Box>{params.value.toLocaleString("en-IN") + ".00"}</Box>
+            <Box>{params.value.toLocaleString("en-IN")}</Box>
           </Typography>
         );
       },
@@ -107,11 +109,41 @@ const SanctionedList = (props) => {
   ];
 
   const rowDoubleClickHandler = (event) => {
-    props.onRowDoubleClick(event.row);
+    checkNavigationToCreateOrView(event.row);
   };
 
-  const cardButtonClickHandler = (event) => {
-    props.onRowDoubleClick(event);
+  const checkNavigationToCreateOrView = async (row) => {
+    const rowStatus = row.losStatus;
+    if (
+      rowStatus !== "Fully Requested" &&
+      rowStatus !== "Fully Disbursed" &&
+      rowStatus !== "Partially Requested"
+    ) {
+      props.onRowDoubleClick(row);
+    } else {
+      const disbAPI = axios.create({
+        baseURL: "http://localhost:8080/disbursement/",
+      });
+      const response = await disbAPI.post("/getFirstDisbByAppNum", {
+        applicationNum: row.applicationNum,
+      });
+      const disbrecords = response.data;
+      const disbRecord = disbrecords[disbrecords.length - 1];
+      const disbRecordResponse = await disbAPI.post("/getDisbursementData", {
+        disbHeaderKey: disbRecord.disbHeaderKey,
+        screenMode: "VIEW",
+      });
+      let dataValue = { ...disbRecordResponse.data };
+      dataValue.fromSancationListPage = true;
+      navigate("/stlap/home/disbursementView", {
+        replace:true,
+        state: dataValue,
+      });
+    }
+  };
+
+  const cardButtonClickHandler = (row) => {
+    checkNavigationToCreateOrView(row);
   };
 
   const [page, setPage] = React.useState(1);
@@ -119,6 +151,7 @@ const SanctionedList = (props) => {
   const [totalPageCount, setTotalPageCount] = React.useState(0);
   const [totalRowsCount, setTotalRowsCount] = React.useState(0);
   const rowsPerPage = 10;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setRows(props.data.slice(0, rowsPerPage));
@@ -150,20 +183,24 @@ const SanctionedList = (props) => {
         component="div"
         sx={{
           color:
-            value === "Approved"
+            value === "Fully Disbursed"
+              ? "white"
+              : value === "Fully Requested"
               ? "darkgreen"
-              : value === "Cancelled"
-              ? "darkred"
-              : value === "Modified"
+              : value === "Partially Requested"
               ? "blueviolet"
+              : value === "Partially Disbursed"
+              ? "darkgreen"
               : "#004A92",
           bgcolor:
-            value === "Approved"
-              ? "lightgreen"
-              : value === "Cancelled"
+            value === "Fully Disbursed"
+              ? "darkgreen"
+              : value === "Fully Requested"
               ? "lightsalmon"
-              : value === "Modified"
+              : value === "Partially Requested"
               ? "yellow"
+              : value === "Partially Disbursed"
+              ? "lightgreen"
               : "lightskyblue",
           width: "90%",
         }}
@@ -197,13 +234,20 @@ const SanctionedList = (props) => {
             sx={{ height: "60px", bgcolor: "white" }}
           >
             {totalRowsCount > 10 && (
-              <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+              <Typography
+                sx={{
+                  mr: 2,
+                  color: "#004A92",
+                  fontWeight: 700,
+                  fontFamily: "Roboto",
+                }}
+              >
                 {"Page Max Records : " + rowsPerPage}
               </Typography>
             )}
             <Typography
               padding="1px"
-              sx={{ color: "#004A92", fontWeight: 700 }}
+              sx={{ color: "#004A92", fontWeight: 700, fontFamily: "Roboto" }}
             >
               {"Total Records : " + totalRowsCount}
             </Typography>
@@ -246,17 +290,20 @@ const SanctionedList = (props) => {
                             />
                           </IconButton>
                         }
-                        subheader={"Application Number  : " + row.applicationNum}
+                        subheader={
+                          "Application Number  : " + row.applicationNum
+                        }
                         subheaderTypographyProps={{
                           color: "#004A92",
                           fontWeight: "700",
+                          fontFamily: "Roboto",
                         }}
                         sx={{
                           textAlign: "left",
                           padding: "16px 16px 0px 16px !important",
                         }}
                       />
-                      <CardContent>
+                      <CardContent sx={{ fontFamily: "Roboto" }}>
                         <Grid
                           container
                           item

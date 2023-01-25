@@ -1,9 +1,17 @@
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import AccordianContainer from "../../../CustomComponents/AccordianContainer";
 import CustomTextField from "../../../CustomComponents/CustomTextField";
+import { BranchAction } from "../../../Store/Branch";
 
 const BasicInformation = (props) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(BranchAction.updateInitialLoad(false));
+    dispatch(BranchAction.updateHeaderBranchDetails(props.losData.branch));
+  }, []);
   const BasicContent = (
     <>
       <Box component="form">
@@ -87,7 +95,7 @@ const BasicInformation = (props) => {
               label="Loan Amount"
               id="loanAmt"
               variant="standard"
-              value={props.losData.loanAmt}
+              value={parseInt(props.losData.loanAmt).toLocaleString("en-IN")}
               type="text"
               placeholder=""
             />

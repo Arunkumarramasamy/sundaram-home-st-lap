@@ -31,11 +31,13 @@ import {
 import dayjs from "dayjs";
 import * as React from "react";
 import { useEffect, useLayoutEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomDataGrid from "../../CustomComponents/CustomDataGrid";
 import GetBranchDetails from "../../CustomComponents/GetBranchDetails";
 import NoDataFound from "../../CustomComponents/NoDataFound";
 import StlapFooter from "../../CustomComponents/StlapFooter";
+import { BranchAction } from "../../Store/Branch";
 import { DisbursementRequestListService } from "./DisbursementRequestListService";
 import FilterCondition from "./FilterCondition";
 
@@ -72,7 +74,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Customer Name",
       headerAlign: "center",
       type: "string",
-      width: 200,
+      width: 240,
       align: "left",
     },
     {
@@ -80,7 +82,7 @@ export default function DisbursementRequestList(props) {
       headerName: "Status",
       headerAlign: "center",
       type: "string",
-      width: 150,
+      width: 200,
       align: "left",
       renderCell: (params) => {
         return loadStatus(params.value);
@@ -92,14 +94,14 @@ export default function DisbursementRequestList(props) {
       headerAlign: "center",
       type: "string",
       width: 200,
-      align: "left",
+      align: "right",
     },
     {
       field: "action",
       headerName: "Action",
       headerAlign: "center",
       type: "string",
-      width: 60,
+      width: 100,
       align: "center",
       hideable: false,
       sortable: false,
@@ -171,12 +173,14 @@ export default function DisbursementRequestList(props) {
   const service = new DisbursementRequestListService();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const closeDialogHandler = () => {
     setopenViewConfirmation(false);
     const dataValue = { ...responseData };
     dataValue.screenMode = props.screenMode;
     navigate("/stlap/home/disbursementView", {
+      replace:true,
       state: dataValue,
     });
   };
@@ -382,7 +386,7 @@ export default function DisbursementRequestList(props) {
   };
 
   const rowDoubleClickHandler = (event) => {
-    props.onRowDoubleClick(event.row);
+    // on request list or approval list had nothing to do on row click.
   };
 
   const gridLazyLoad = (newPage) => {
@@ -449,6 +453,8 @@ export default function DisbursementRequestList(props) {
       });
       const totalTempRows = getDisbursementData(disreqlist.data);
       setRowsData(totalTempRows);
+      dispatch(BranchAction.updateInitialLoad(false));
+      dispatch(BranchAction.updateHeaderBranchDetails(branchValue));
     } else {
       // when it was null was like reset filter, so retain the last set of data rows with all DB hit.
       resetFilterData(false);
@@ -513,13 +519,20 @@ export default function DisbursementRequestList(props) {
             sx={{ height: "60px", bgcolor: "white" }}
           >
             {totalRowsCount > 10 && (
-              <Typography sx={{ mr: 2, color: "#004A92", fontWeight: 700 }}>
+              <Typography
+                sx={{
+                  mr: 2,
+                  color: "#004A92",
+                  fontWeight: 700,
+                  fontFamily: "Roboto",
+                }}
+              >
                 {"Page Max Records : " + rowsPerPage}
               </Typography>
             )}
             <Typography
               padding="1px"
-              sx={{ color: "#004A92", fontWeight: 700 }}
+              sx={{ color: "#004A92", fontWeight: 700, fontFamily: "Roboto" }}
             >
               {"Total Records : " + totalRowsCount}
             </Typography>
@@ -569,19 +582,21 @@ export default function DisbursementRequestList(props) {
                         subheaderTypographyProps={{
                           color: "#004A92",
                           fontWeight: "700",
+                          fontFamily: "Roboto",
                         }}
                         sx={{
                           textAlign: "left",
                           padding: "16px 16px 0px 16px !important",
                         }}
                       />
-                      <CardContent>
+                      <CardContent sx={{ fontFamily: "Roboto" }}>
                         <Grid
                           container
                           item
                           direction="column"
                           alignItems="flex-start"
                           justifyContent="flex-start"
+                          sx={{ fontFamily: "Roboto" }}
                         >
                           <Grid
                             container
@@ -701,6 +716,7 @@ const LoadActionBtn = (props) => {
       const dataValue = { ...response.data };
       dataValue.screenMode = props.screenMode;
       navigate(url, {
+        replace:true,
         state: dataValue,
       });
     }
