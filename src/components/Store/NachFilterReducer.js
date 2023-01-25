@@ -46,9 +46,9 @@ const NachFilterReducer = createSlice({
     },
     updateValues(state, action) {
       state.data.applicationNum = action.payload.applicationNum;
-      state.data.customerID = action.payload.customerID;
+      state.data.customerID = String(action.payload.customerId);
       state.data.repayApplication = action.payload.repayApplication;
-      state.data.repayMode = action.payload.repayMode;
+      state.data.repayMode = action.payload.repay;
       state.data.emiAmount = action.payload.emiAmt;
       state.data.fileStatus = action.payload.fileStatus;
       state.data.loanAmount = action.payload.loanAmount;
