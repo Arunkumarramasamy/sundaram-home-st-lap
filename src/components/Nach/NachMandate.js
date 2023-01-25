@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Alert, Grid, Snackbar } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
@@ -31,6 +31,23 @@ const NachMandate = () => {
 
   //Debit type
   const [debitTypeArray, setDebitTypeArray] = useState([]);
+
+  //SnackBar Handler
+  const [message, setMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
+  const [snackBarState, setSnackBarState] = React.useState({
+    vertical: "bottom",
+    horizontal: "left",
+  });
+  const { vertical, horizontal } = snackBarState;
+  const [alert, setAlert] = useState(false);
+
+  const openAlertHandler = () => {
+    setAlert(true);
+  };
+  const closeAlertHandler = () => {
+    setAlert(false);
+  };
 
   useEffect(() => {
     if (FilteredData.status.toUpperCase() === "New".toUpperCase()) {
@@ -117,7 +134,20 @@ const NachMandate = () => {
         "http://localhost:8080/nach/register",
         data
       );
-    } catch {}
+      setMandateReferenceNumber(response.data.mandateNum);
+      dispatch(
+        NachFilterReducerAction.updateMandateNum(response.data.mandateNum)
+      );
+      console.log(response.data);
+      handleClickOpen();
+      setAlertType("success");
+      setMessage("Nach Registration Successful");
+      openAlertHandler();
+    } catch {
+      setAlertType("error");
+      setMessage("Nach Registration Failed");
+      openAlertHandler();
+    }
   };
   // Save Button Handler
   const onSaveButtonClickHandler = () => {
@@ -134,12 +164,6 @@ const NachMandate = () => {
       firstNachBillingDateIsValid
     ) {
       SendData();
-      setMandateReferenceNumber("12768997992X");
-      console.log(FilteredData);
-      handleClickOpen();
-      dispatch(
-        NachFilterReducerAction.updateMandateNum(mandateReferenceNumber)
-      );
     } else {
       return;
     }
@@ -479,6 +503,21 @@ const NachMandate = () => {
           </Dialog>
         </AccordianContainer>
       )}
+      <Snackbar
+        open={alert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={closeAlertHandler}
+      >
+        <Alert
+          onClose={closeAlertHandler}
+          severity={alertType}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
