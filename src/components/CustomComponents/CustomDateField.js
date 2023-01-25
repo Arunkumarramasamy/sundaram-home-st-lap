@@ -26,6 +26,7 @@ const CustomDateField = (props) => {
           disabled={props.disabled}
           disableFuture={props.disableFuture}
           maxDate={props.maxDate}
+          minDate={props.minDate}
           disablePast={props.disablePast}
           openTo="day"
           inputFormat="DD/MM/YYYY"

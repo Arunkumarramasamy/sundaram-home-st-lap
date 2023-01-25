@@ -1,7 +1,6 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BasicInformation from "./BasicInformation";
 import ConditionsAndDeviationsTab from "./ConditionsAndDeviationsTab";
 import DisbursementDetailsTab from "./DisbursementDetailsTab";
@@ -91,6 +90,7 @@ const DisbursementTabsIntegrator = (props) => {
               screenFields={props.screenFields}
               dispatchEvent={props.dispatchEvent}
               errorState={props.errorState}
+              parameterValues={props.parameterValues}
             />
           </TabPanel>
           <TabPanel value="2">
