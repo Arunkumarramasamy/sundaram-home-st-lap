@@ -27,11 +27,13 @@ const NachMandate = () => {
   const touchHandlers = useSelector((state) => state.nach.touchHandler);
 
   useEffect(() => {
-    if (FilteredData.status === "New") {
+    if (FilteredData.status.toUpperCase() === "New".toUpperCase()) {
       setBtnName("Save");
-    } else if (FilteredData.status === "Registered") {
+    } else if (
+      FilteredData.status.toUpperCase() === "Registered".toUpperCase()
+    ) {
       setBtnName("Update");
-    } else if (FilteredData.status === "Verified") {
+    } else if (FilteredData.status.toUpperCase() === "Verified".toUpperCase()) {
       setShowBtn(false);
     }
   }, [FilteredData]);
