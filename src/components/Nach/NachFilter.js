@@ -1,4 +1,5 @@
 import { Box, Button, Grid } from "@mui/material";
+import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +25,7 @@ const NachFilter = () => {
   const [applicationValue, setApplicationValue] = useState("");
   //All Data
   const [allRows, setAllRows] = useState("");
+  const [losData, setLosData] = useState("");
   //Touch Handler
   const [branchHasTouched, setBranchHasTouched] = useState(false);
   const [applicationHasTouched, setApplicationHasTouched] = useState(false);
@@ -42,7 +44,7 @@ const NachFilter = () => {
     dispatch(NachFilterReducerAction.resetValues());
     setApplicationValue("");
     setBranchValue(value);
-    const applicationArray = allRows.filter((item) => {
+    const applicationArray = losData.filter((item) => {
       return item.branch === value.label;
     });
     const app = applicationArray.map((itm) => itm.applicationNum);
@@ -52,9 +54,20 @@ const NachFilter = () => {
     setApplicationValue(value);
     dispatch(NachFilterReducerAction.updateShowMandate(false));
     dispatch(NachFilterReducerAction.resetValues());
-    const data = allRows.find((item) => item.applicationNum === value);
-    dispatch(NachFilterReducerAction.updateValues(data));
-    console.log(data);
+    changeAppNumReq(value);
+    //const data = allRows.find((item) => item.applicationNum === value);
+  };
+  const changeAppNumReq = async (value) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/nach/getDisbRequestedData",
+        {
+          branch: branchValue.label,
+          applicationNum: value,
+        }
+      );
+      dispatch(NachFilterReducerAction.updateValues(response.data));
+    } catch {}
   };
   //Search Button Handler
   const SearchButtonHandler = () => {
@@ -80,106 +93,116 @@ const NachFilter = () => {
     dispatch(NachAction.updateMandateStartDateTouchHandler(false));
     dispatch(NachAction.updateFirstNachBillingDateTouchHandler(false));
   };
-  useEffect(() => {
-    const data = [
-      {
-        accountType: "savings",
-        applicationCustomer: "Tom",
-        applicationNum: 3456789,
-        bankAccHolderName: "Naveen",
-        bankAccountNum: "182949849494",
-        bankName: "HDFC",
-        branch: "TNAGAR",
-        branchName: "West",
-        customerEmailId: "naveen@gmail.com",
-        customerMobileNum: 9750208902,
-        emiAmt: 2500,
-        fbd: "",
-        firstNachBillingDate: "",
-        mandateAmt: 0,
-        mandateStartDate: "",
-        mandateValidity: "01/13/2023",
-        maximumAmt: 10,
-        MICR: "600002025",
-        nachAmt: 10,
-        fileStatus: "Registered",
-        customerID: "Naveen07",
-        repayApplication: "Nach",
-        repayMode: "Nach",
-        loanAmount: 1240000,
-        disbursementAmount: 1240,
-        sancationDate: "01/13/2023",
-        nachSponserBank: "HDFC",
-        IFSC: "HDFC0000100",
-        draweePlace: "chennai",
-        mandateEndDate: "01/13/2023",
-      },
-      {
-        accountType: "savings",
-        applicationCustomer: "Tom",
-        applicationNum: 987654,
-        bankAccHolderName: "Jack",
-        bankAccountNum: "183847549402",
-        bankName: "HDFC",
-        branch: "TNAGAR",
-        branchName: "West",
-        customerEmailId: "jack@gmail.com",
-        customerMobileNum: 8974398383,
-        emiAmt: 2000,
-        fbd: "",
-        firstNachBillingDate: "",
-        mandateAmt: 0,
-        mandateStartDate: "",
-        mandateValidity: "01/13/2023",
-        maximumAmt: 10,
-        MICR: "600002025",
-        nachAmt: 10,
-        fileStatus: "New",
-        customerID: "Jack06",
-        repayApplication: "Nach",
-        repayMode: "Nach",
-        loanAmount: 133002224,
-        disbursementAmount: 13300,
-        sancationDate: "01/13/2023",
-        nachSponserBank: "HDFC",
-        IFSC: "HDFC0000100",
-        draweePlace: "chennai",
-        mandateEndDate: "01/13/2023",
-      },
-      {
-        accountType: "savings",
-        applicationCustomer: "Abishek",
-        applicationNum: 876543,
-        bankAccHolderName: "Abishek",
-        bankAccountNum: "134598249291",
-        bankName: "HDFC",
-        branch: "AMBATTUR",
-        branchName: "West",
-        customerEmailId: "abishek@gmail.com",
-        customerMobileNum: 8743232113,
-        emiAmt: 1780,
-        fbd: "",
-        firstNachBillingDate: "",
-        mandateAmt: 0,
-        mandateStartDate: "",
-        mandateValidity: "01/13/2023",
-        maximumAmt: 10,
-        MICR: "600002025",
-        nachAmt: 10,
-        fileStatus: "New",
-        customerID: "Abi22",
-        repayApplication: "Nach",
-        repayMode: "Nach",
-        loanAmount: 1989282000,
-        disbursementAmount: 1989282,
-        sancationDate: "01/13/2023",
-        nachSponserBank: "HDFC",
-        IFSC: "HDFC0000100",
-        draweePlace: "chennai",
-        mandateEndDate: "01/13/2023",
-      },
-    ];
-    setAllRows(data);
+  useEffect(async () => {
+    // const data = [
+    //   {
+    //     accountType: "savings",
+    //     applicationCustomer: "Tom",
+    //     applicationNum: 3456789,
+    //     bankAccHolderName: "Naveen",
+    //     bankAccountNum: "182949849494",
+    //     bankName: "HDFC",
+    //     branch: "TNAGAR",
+    //     branchName: "West",
+    //     customerEmailId: "naveen@gmail.com",
+    //     customerMobileNum: 9750208902,
+    //     emiAmt: 2500,
+    //     fbd: "",
+    //     firstNachBillingDate: "",
+    //     mandateAmt: 0,
+    //     mandateStartDate: "",
+    //     mandateValidity: "01/13/2023",
+    //     maximumAmt: 10,
+    //     MICR: "600002025",
+    //     nachAmt: 10,
+    //     fileStatus: "Registered",
+    //     customerID: "Naveen07",
+    //     repayApplication: "Nach",
+    //     repayMode: "Nach",
+    //     loanAmount: 1240000,
+    //     disbursementAmount: 1240,
+    //     sancationDate: "01/13/2023",
+    //     nachSponserBank: "HDFC",
+    //     IFSC: "HDFC0000100",
+    //     draweePlace: "chennai",
+    //     mandateEndDate: "01/13/2023",
+    //   },
+    //   {
+    //     accountType: "savings",
+    //     applicationCustomer: "Tom",
+    //     applicationNum: 987654,
+    //     bankAccHolderName: "Jack",
+    //     bankAccountNum: "183847549402",
+    //     bankName: "HDFC",
+    //     branch: "TNAGAR",
+    //     branchName: "West",
+    //     customerEmailId: "jack@gmail.com",
+    //     customerMobileNum: 8974398383,
+    //     emiAmt: 2000,
+    //     fbd: "",
+    //     firstNachBillingDate: "",
+    //     mandateAmt: 0,
+    //     mandateStartDate: "",
+    //     mandateValidity: "01/13/2023",
+    //     maximumAmt: 10,
+    //     MICR: "600002025",
+    //     nachAmt: 10,
+    //     fileStatus: "New",
+    //     customerID: "Jack06",
+    //     repayApplication: "Nach",
+    //     repayMode: "Nach",
+    //     loanAmount: 133002224,
+    //     disbursementAmount: 13300,
+    //     sancationDate: "01/13/2023",
+    //     nachSponserBank: "HDFC",
+    //     IFSC: "HDFC0000100",
+    //     draweePlace: "chennai",
+    //     mandateEndDate: "01/13/2023",
+    //   },
+    //   {
+    //     accountType: "savings",
+    //     applicationCustomer: "Abishek",
+    //     applicationNum: 876543,
+    //     bankAccHolderName: "Abishek",
+    //     bankAccountNum: "134598249291",
+    //     bankName: "HDFC",
+    //     branch: "AMBATTUR",
+    //     branchName: "West",
+    //     customerEmailId: "abishek@gmail.com",
+    //     customerMobileNum: 8743232113,
+    //     emiAmt: 1780,
+    //     fbd: "",
+    //     firstNachBillingDate: "",
+    //     mandateAmt: 0,
+    //     mandateStartDate: "",
+    //     mandateValidity: "01/13/2023",
+    //     maximumAmt: 10,
+    //     MICR: "600002025",
+    //     nachAmt: 10,
+    //     fileStatus: "New",
+    //     customerID: "Abi22",
+    //     repayApplication: "Nach",
+    //     repayMode: "Nach",
+    //     loanAmount: 1989282000,
+    //     disbursementAmount: 1989282,
+    //     sancationDate: "01/13/2023",
+    //     nachSponserBank: "HDFC",
+    //     IFSC: "HDFC0000100",
+    //     draweePlace: "chennai",
+    //     mandateEndDate: "01/13/2023",
+    //   },
+    // ];
+    const api = axios.create({
+      baseURL: "http://localhost:8080/losCustomer/",
+    });
+    const response = await api.get("/getAllData");
+    const data = response.data.filter(
+      (sanctionRow) =>
+        sanctionRow.losStatus === "Fully Requested" ||
+        sanctionRow.losStatus === "Partially Requested"
+    );
+    //setAllRows(data);
+    setLosData(data);
     const branchValues = GetBranchDetails();
     setBranchArray(branchValues);
   }, []);

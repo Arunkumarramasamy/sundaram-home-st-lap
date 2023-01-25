@@ -16,6 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { NachAction } from "../Store/NachStore";
+import axios from "axios";
 const NachMandate = () => {
   //Importing Hooks
   const dispatch = useDispatch();
@@ -26,15 +27,19 @@ const NachMandate = () => {
   const touchHandlers = useSelector((state) => state.nach.touchHandler);
 
   useEffect(() => {
-    if (FilteredData.fileStatus === "To Be Registered") {
+    if (FilteredData.fileStatus === "New") {
       setBtnName("Save");
-    } else {
+    } else if (FilteredData.fileStatus === "Registered") {
       setBtnName("Update");
+    } else if (FilteredData.fileStatus === "Verified") {
+      setShowBtn(false);
     }
   }, [FilteredData]);
 
   //Button updation
   const [btnName, setBtnName] = useState("");
+  //Button state to show or Hide
+  const [showBtn, setShowBtn] = useState(true);
   //Maintaining Mandate Reference Number
   const [mandateReferenceNumber, setMandateReferenceNumber] = useState("");
   //Maintainig State for Dialog while submitting the application
@@ -65,6 +70,18 @@ const NachMandate = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  //on Save
+  const SendData = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/nach/register", {
+        applicationNum: FilteredData.applicationNum,
+        bankAccountNum: FilteredData.bankAccountNum,
+        branch: FilteredData.branchName,
+        debitType: FilteredData.debitType,
+        fbd: FilteredData.fbd,
+      });
+    } catch {}
+  };
   // Save Button Handler
   const onSaveButtonClickHandler = () => {
     dispatch(NachAction.updateFrequencyTouchHandler(true));
@@ -79,6 +96,7 @@ const NachMandate = () => {
       mandateStartDateIsValid &&
       firstNachBillingDateIsValid
     ) {
+      SendData();
       setMandateReferenceNumber("12768997992X");
       console.log(FilteredData);
       handleClickOpen();
@@ -367,6 +385,7 @@ const NachMandate = () => {
                       type="Customer Mobile Number"
                       label="Customer Mobile Number"
                       variant="standard"
+                      disabled={true}
                       value={FilteredData.customerMobileNum}
                     ></CustomTextField>
                   </Grid>
@@ -375,35 +394,38 @@ const NachMandate = () => {
                       type="Customer Email ID"
                       label="Customer Email ID"
                       variant="standard"
+                      disabled={true}
                       value={FilteredData.customerEmailId}
                     ></CustomTextField>
                   </Grid>
                 </Grid>
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "18px",
-                }}
-              >
-                <Button
+              {showBtn && (
+                <Box
                   sx={{
-                    marginLeft: "1rem",
-                    color: "white",
-                    backgroundColor: "#004a92",
-                    fontWeight: "bold",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "18px",
                   }}
-                  onMouseOver={({ target }) => {
-                    target.style.backgroundColor = "#004a92";
-                    target.style.color = "white";
-                  }}
-                  variant="contained"
-                  onClick={onSaveButtonClickHandler}
                 >
-                  {btnName}
-                </Button>
-              </Box>
+                  <Button
+                    sx={{
+                      marginLeft: "1rem",
+                      color: "white",
+                      backgroundColor: "#004a92",
+                      fontWeight: "bold",
+                    }}
+                    onMouseOver={({ target }) => {
+                      target.style.backgroundColor = "#004a92";
+                      target.style.color = "white";
+                    }}
+                    variant="contained"
+                    onClick={onSaveButtonClickHandler}
+                  >
+                    {btnName}
+                  </Button>
+                </Box>
+              )}
             </Box>
           </>
           <Dialog
