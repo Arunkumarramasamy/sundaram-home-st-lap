@@ -30,6 +30,13 @@ const DisbursementDetailsTab = (props) => {
     ),
   ]);
 
+  const minDateValue = Number(
+    props.parameterValues["Request Date Back Count"]["paramValue"]
+  );
+  const maxDateValue = Number(
+    props.parameterValues["Request Date Future Count"]["paramValue"]
+  );
+
   const disableAllFields = props.screenMode === "VIEW";
 
   var today = new Date();
@@ -456,12 +463,14 @@ const DisbursementDetailsTab = (props) => {
 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
           <CustomDateField
-            disabled={true}
+            disabled={disableAllFields || props.screenMode === "APPROVE"}
             required={false}
             label="Disbursement Request Date"
             id="disbursementDate"
             variant="standard"
             value={props.disbursementDetailTabValue.dateOfDisb}
+            maxDate={new Date().setDate(new Date().getDate() + maxDateValue)}
+            minDate={new Date().setDate(new Date().getDate() - minDateValue)}
             type="text"
             placeholder=""
             onChange={(event, value) => {

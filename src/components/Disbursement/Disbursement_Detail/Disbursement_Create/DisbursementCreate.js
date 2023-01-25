@@ -47,6 +47,7 @@ const DisbursementCreate = (props) => {
   const [showGeneratedNumber, setshowGeneratedNumber] = useState(false);
   const [saveData, setsaveData] = useState([]);
   const [requestNumber, setrequestNumber] = useState(0);
+  const [parameterValues, setparameterValues] = useState({});
   let firstDisbData = null;
 
   const location = useLocation();
@@ -205,6 +206,7 @@ const DisbursementCreate = (props) => {
     getBillingDayData();
     getCustomerDataByAppNum();
     getCustomerBankData();
+    getParameterValues();
     dispatch({
       type: screenFields.screenMode,
       value: props.screenMode,
@@ -347,6 +349,19 @@ const DisbursementCreate = (props) => {
     });
   };
 
+  const getParameterValues = async () => {
+    const api = axios.create({
+      baseURL: "http://localhost:8080/parameter/",
+    });
+
+    const response = await api.get("/getAllParameterData");
+    const dataMap = {};
+    response.data.map((parameter) => {
+      dataMap[parameter.paramName] = parameter;
+    });
+    setparameterValues(dataMap);
+  };
+
   const validateCreateRequestData = (data, losData) => {
     var status = true;
 
@@ -378,6 +393,18 @@ const DisbursementCreate = (props) => {
         value: [
           true,
           "Current Disbursement Amount Cannot be Less than or Equal to Total Deduction Amount.",
+        ],
+      });
+      status = false;
+    } else if (
+      data.disbAmt <
+      Number(parameterValues["Disbursement Minimum Amount"]["paramValue"])
+    ) {
+      errorDispatch({
+        type: errorParameters.currentDisbError,
+        value: [
+          true,
+          "Current Disbursement Amount Cannot be Less than Minimum Disbursement Amount given in Parameter.",
         ],
       });
       status = false;
@@ -558,7 +585,7 @@ const DisbursementCreate = (props) => {
       });
       const response1 = await api1.post("/updateCustomerData", updateModel);
       setTimeout(() => {
-        navigate("/stlap/home/disbursementCreatePortal", {replace:true});
+        navigate("/stlap/home/disbursementCreatePortal", { replace: true });
       }, 600);
     }
   };
@@ -632,6 +659,7 @@ const DisbursementCreate = (props) => {
             dispatchEvent={dispatch}
             errorState={errorState}
             screenTitle={props.screenTitle}
+            parameterValues={parameterValues}
           />
           <Box
             sx={{
@@ -643,7 +671,9 @@ const DisbursementCreate = (props) => {
               sx={{ height: "2rem" }}
               variant="contained"
               onClick={() => {
-                navigate("/stlap/home/disbursementCreatePortal", {replace:true});
+                navigate("/stlap/home/disbursementCreatePortal", {
+                  replace: true,
+                });
               }}
             >
               Back to Search
@@ -681,7 +711,9 @@ const DisbursementCreate = (props) => {
               // navigate("/stlap/home/disbursementView", {
               //   state: dataValue,
               // });
-              navigate("/stlap/home/disbursementCreatePortal",{replace:true});
+              navigate("/stlap/home/disbursementCreatePortal", {
+                replace: true,
+              });
             }}
             dialogTitle={
               <Typography sx={{ color: "green" }}>"Save Success!"</Typography>
@@ -696,7 +728,9 @@ const DisbursementCreate = (props) => {
               // navigate("/stlap/home/disbursementView", {
               //   state: dataValue,
               // });
-              navigate("/stlap/home/disbursementCreatePortal", {replace:true});
+              navigate("/stlap/home/disbursementCreatePortal", {
+                replace: true,
+              });
             }}
           />
         </>
