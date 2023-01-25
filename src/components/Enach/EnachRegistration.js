@@ -80,13 +80,13 @@ const EnachRegistration = () => {
       );
       // setApplicantNameList(response.data);
       setBranch(response.data.losData["branch"]);
-      setEmiAmout(response.data.losData["emiAmount"]);
-      setAccountNumber(response.data.losData["accountNumber"]);
-      setAccountType(response.data.losData["accountType"]);
-      setBankName(response.data.losData["bankName"]);
+      setEmiAmout(response.data.nachAmount["emiAmount"]);
+      setAccountNumber(response.data.bankDetails["bankAccountNum"]);
+      setAccountType(response.data.bankDetails["bankAccountType"]);
+      setBankName(response.data.bankDetails["bankName"]);
       setDebitType(response.data.losData["debitType"]);
       setFrequency(response.data.losData["frequency"]);
-      setIfscCode(response.data.losData["ifscCode"]);
+      setIfscCode(response.data.bankDetails["ifscCode"]);
       setMailId(response.data.losData["emailId"]);
       setMobileNumber(response.data.losData["mobileNumber"]);
       setNachAmount(response.data.losData["nachAmount"]);
