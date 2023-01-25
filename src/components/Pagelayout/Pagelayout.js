@@ -692,9 +692,9 @@ export default function Pagelayout() {
           <Chip
             label={`Area : ${branchDetails.areaName}, Zone : ${
               branchDetails.zoneName
-            }, Branch :${
+            }${
               branchDetails.branchName !== ""
-                ? ` ${branchDetails.branchName}`
+                ? `, Branch : ${branchDetails.branchName}`
                 : ""
             }  `}
             component="div"
@@ -807,9 +807,9 @@ export default function Pagelayout() {
               <Chip
                 label={`Area : ${branchDetails.areaName}, Zone : ${
                   branchDetails.zoneName
-                }, Branch :${
+                }${
                   branchDetails.branchName !== ""
-                    ? ` ${branchDetails.branchName}`
+                    ? `, Branch : ${branchDetails.branchName}`
                     : ""
                 }  `}
                 component="div"
@@ -834,15 +834,17 @@ export default function Pagelayout() {
                   />
                 </Box>
                 <Box>
-                  <Chip
-                    label={`Branch :${
-                      branchDetails.branchName !== ""
-                        ? ` ${branchDetails.branchName}`
-                        : ""
-                    }  `}
-                    component="div"
-                    sx={{ color: "white", bgcolor: "#004a92" }}
-                  />
+                  {branchDetails.branchName !== "" ? (
+                    <Chip
+                      label={`${
+                        branchDetails.branchName !== ""
+                          ? `Branch : ${branchDetails.branchName}`
+                          : ""
+                      }  `}
+                      component="div"
+                      sx={{ color: "white", bgcolor: "#004a92" }}
+                    />
+                  ) : null}
                 </Box>
               </Box>
             )}
