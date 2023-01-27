@@ -330,12 +330,12 @@ const DisbursementDetailsTab = (props) => {
     let finalValue = String(formattedValue).replace(regExpString, " ");
     finalValue = finalValue.trim();
     // remove the starting space, comma, dot at starting position of string only.
-    finalValue = finalValue.replace(/,+/g, ",");
-    finalValue = finalValue.replace(/,/, "");
-    finalValue = finalValue.replace(/\.+/g, ".");
-    finalValue = finalValue.replace(/./, "");
-    finalValue = finalValue.replace(/\s+/g, " ");
-    finalValue = finalValue.trim();
+    // finalValue = finalValue.replace(/,+/g, ",");
+    // finalValue = finalValue.replace(/,/, "");
+    // finalValue = finalValue.replace(/\.+/g, ".");
+    // finalValue = finalValue.replace(/./, "");
+    // finalValue = finalValue.replace(/\s+/g, " ");
+    // finalValue = finalValue.trim();
     props.dispatchEvent({
       type: typeValue,
       value: finalValue,
