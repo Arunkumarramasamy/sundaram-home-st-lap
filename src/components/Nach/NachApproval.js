@@ -15,7 +15,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CustomDropDown from "../CustomComponents/CustomDropDown";
 import GetBranchDetails from "../CustomComponents/GetBranchDetails";
+import { useSelector } from "react-redux";
 const NachApproval = () => {
+  //Getting approval data from Store
+  const aprovableData = useSelector((state) => state.nachApproval.approvalData);
   //Filter conditions State value
   const [branchArray, setBranchArray] = useState([]);
   const [branchValue, setBranchValue] = useState();
@@ -23,14 +26,15 @@ const NachApproval = () => {
   const [applicationValue, setApplicationValue] = useState();
 
   /**Dialog Handlers */
-  const [Dialogopen, setDialogOpen] = useState(false);
+  // const [Dialogopen, setDialogOpen] = useState(false);
 
   //  Methods to update state values
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-  const rejectButtonHandler = () => {
-    setDialogOpen(true);
+  // const handleDialogClose = () => {
+  //   setDialogOpen(false);
+  // };
+  //Methods
+  const branchOnChangeHandler = (value) => {
+    setBranchValue(value == null ? "" : value.label);
   };
   useEffect(() => {
     const branchArr = GetBranchDetails();
@@ -49,7 +53,7 @@ const NachApproval = () => {
             autoCompleteValues={branchArray}
             value={branchValue}
             onChange={(e, value) => {
-              setBranchValue(value == null ? "" : value.label);
+              branchOnChangeHandler(value);
             }}
           />
         </Grid>
@@ -73,6 +77,7 @@ const NachApproval = () => {
             variant="standard"
             placeholder="Enter UMRN Number"
             disabled={true}
+            value={aprovableData.UMRNNumber}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -82,6 +87,7 @@ const NachApproval = () => {
             variant="standard"
             placeholder="Enter Customer ID"
             disabled={true}
+            value={aprovableData.customerId}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -91,6 +97,7 @@ const NachApproval = () => {
             variant="standard"
             placeholder="Enter Customer Name"
             disabled={true}
+            value={aprovableData.customerName}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -100,6 +107,7 @@ const NachApproval = () => {
             variant="standard"
             placeholder="Enter Mandate Number"
             disabled={true}
+            value={aprovableData.mandateNumber}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -109,6 +117,7 @@ const NachApproval = () => {
             variant="standard"
             placeholder="Enter Mandate Bank"
             disabled={true}
+            value={aprovableData.mandateBank}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -148,7 +157,7 @@ const NachApproval = () => {
           Submit
         </Button>
       </Box>
-      <Dialog
+      {/* <Dialog
         open={Dialogopen}
         onClose={handleDialogClose}
         sx={{
@@ -210,7 +219,7 @@ const NachApproval = () => {
             OK
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </Box>
   );
 };

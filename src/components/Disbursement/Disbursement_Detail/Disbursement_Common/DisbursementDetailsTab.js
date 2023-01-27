@@ -323,12 +323,19 @@ const DisbursementDetailsTab = (props) => {
 
   const removeUnwantedChars = (inputValue, typeValue) => {
     const regExpString =
-      /^(?=\n)$|^\s*|^\s*$(?:\r\n?|\n)|\n\n+|\t|[^a-zA-Z0-9]|[%<>\\$'"{}\[\]]/gim;
+      /^(?=\n)$|^\s*|^\s*$(?:\r\n?|\n)|\n\n+|\t|[^a-zA-Z0-9.,]|[%<>\\$'"{}\[\]]/gim;
     let formattedValue = String(inputValue).replace(regExpString, " ");
     // we need to remove twice since relaced space shouldbe removed
     formattedValue = String(formattedValue).replace(/[^\u0000-\u007F]+/, "");
-    const finalValue = String(formattedValue).replace(regExpString, " ");
-    finalValue.trim();
+    let finalValue = String(formattedValue).replace(regExpString, " ");
+    finalValue = finalValue.trim();
+    // remove the starting space, comma, dot at starting position of string only.
+    finalValue = finalValue.replace(/,+/g, ",");
+    finalValue = finalValue.replace(/,/, "");
+    finalValue = finalValue.replace(/\.+/g, ".");
+    finalValue = finalValue.replace(/./, "");
+    finalValue = finalValue.replace(/\s+/g, " ");
+    finalValue = finalValue.trim();
     props.dispatchEvent({
       type: typeValue,
       value: finalValue,
