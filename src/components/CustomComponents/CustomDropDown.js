@@ -13,7 +13,7 @@ const CustomDropDown = (props) => {
         {props.label}
       </InputLabel>
       <FormControl fullWidth variant={props.variant}>
-        <Select
+        <Select sx={{fontFamily: "Roboto"}}
           onChange={props.onChange}
           onBlur={props.onBlur}
           error={props.error}

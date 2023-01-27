@@ -24,6 +24,7 @@ const CustomAutoComplete = (props) => {
       </InputLabel>
       <FormControl fullWidth>
         <Autocomplete
+          sx={{ fontFamily: "Roboto" }}
           id={props.id}
           value={props.value}
           disabled={props.disabled}
