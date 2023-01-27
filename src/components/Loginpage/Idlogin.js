@@ -150,7 +150,7 @@ const Idlogin = () => {
               <InputLabel
                 sx={{ color: "#004a92", fontWeight: 550, fontSize: "14px" }}
               >
-                Employee ID
+                User ID
               </InputLabel>
             </Grid>
             <Grid item xs={12}>
