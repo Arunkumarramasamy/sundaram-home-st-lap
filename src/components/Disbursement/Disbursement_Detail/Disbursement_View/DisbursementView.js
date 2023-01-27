@@ -353,6 +353,21 @@ const DisbursementView = (props) => {
             >
               Back to Search
             </CustomButton>
+            <CustomButton
+              sx={{
+                height: "2rem",
+                marginLeft: "1%",
+                backgroundColor: "black",
+              }}
+              onMouseOver={({ target }) => {
+                target.style.backgroundColor = "black";
+                target.style.color = "white";
+              }}
+              variant="contained"
+              onClick={() => {}}
+            >
+              Repayment Structure
+            </CustomButton>
           </Box>
         </>
       )}{" "}
