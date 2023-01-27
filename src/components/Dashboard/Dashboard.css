@@ -3,13 +3,13 @@
   color: white;
 }
 #card-design {
-  background: rgb(70, 183, 205);
-  background: linear-gradient(
+  background: #b3b3b3;
+  /* background: linear-gradient(
     90deg,
     rgba(70, 183, 205, 1) 85%,
     rgba(46, 75, 235, 1) 100%,
     rgba(38, 63, 205, 1) 100%
-  );
+  ); */
   color: white;
 }
 #monthwise-chart {

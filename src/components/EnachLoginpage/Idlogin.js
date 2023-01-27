@@ -57,7 +57,7 @@ const Idlogin = () => {
   const nameHasError = employeeIdIsTouched && !nameValid;
   const passwordHasError = passwordIsTouched && !passwordValid;
   const onChangeEmployeeID = (event) => {
-    setEmployeeId(event.target.value.toUpperCase());
+    setEmployeeId(event.target.value);
   };
   const onChangePassword = (event) => {
     setPassword(event.target.value);
@@ -87,7 +87,7 @@ const Idlogin = () => {
           dispatch(loginAction.updateEmployeeIDScreen(false));
           dispatch(loginAction.updateLogin(true));
           dispatch(BranchAction.updateBranch(userBranches.data.branch_details));
-          navigate("/stlap/home/dashboard", { replace: true });
+          navigate("/stlap/home/dashboard",{replace:true});
         } else {
           setErrorMessage(userBranches.data.error_msg);
           openAlertHandler();
@@ -116,6 +116,7 @@ const Idlogin = () => {
   };
   const employeeBlurHandler = () => {
     setEmployeeIdIsTouched(true);
+    setEmployeeId(employeeID.toUpperCase());
   };
   const passwordBlurHandler = () => {
     setPasswordIsTouched(true);
@@ -140,7 +141,7 @@ const Idlogin = () => {
       <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
         <LockIcon sx={{ color: "#004a92" }} />
         <Typography variant="body" sx={{ color: "#004a92", fontWeight: 700 }}>
-          LMS Login
+          Login to Sundaram Home
         </Typography>
       </Box>
       <Grid container spacing={1} sx={{ marginTop: "1.5rem" }}>
@@ -150,7 +151,7 @@ const Idlogin = () => {
               <InputLabel
                 sx={{ color: "#004a92", fontWeight: 550, fontSize: "14px" }}
               >
-                User ID
+                Employee ID
               </InputLabel>
             </Grid>
             <Grid item xs={12}>

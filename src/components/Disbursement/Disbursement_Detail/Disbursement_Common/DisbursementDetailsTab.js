@@ -328,14 +328,15 @@ const DisbursementDetailsTab = (props) => {
     // we need to remove twice since relaced space shouldbe removed
     formattedValue = String(formattedValue).replace(/[^\u0000-\u007F]+/, "");
     let finalValue = String(formattedValue).replace(regExpString, " ");
-    finalValue = finalValue.trim();
-    // remove the starting space, comma, dot at starting position of string only.
-    finalValue = finalValue.replace(/,+/g, ",");
-    finalValue = finalValue.replace(/,/, "");
-    finalValue = finalValue.replace(/\.+/g, ".");
-    finalValue = finalValue.replace(/./, "");
     finalValue = finalValue.replace(/\s+/g, " ");
-    finalValue = finalValue.trim();
+    finalValue = finalValue.trimStart();
+    // remove the starting space, comma, dot at starting position of string only.
+    if (finalValue.startsWith(",") || finalValue.startsWith(".")) {
+      finalValue = finalValue.replace(/,+/g, ",");
+      finalValue = finalValue.replace(/,/, "");
+      finalValue = finalValue.replace(/\.+/g, ".");
+      finalValue = finalValue.replace(/\./, "");
+    }
     props.dispatchEvent({
       type: typeValue,
       value: finalValue,
