@@ -10,17 +10,16 @@ import {
   ExpandLess,
   ExpandMore,
   LogoutTwoTone,
-  PublishedWithChangesTwoTone,
 } from "@mui/icons-material";
-import NachRetrieval from "../Nach/NachRetrieval";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import PersonIcon from "@mui/icons-material/Person";
 import AddModeratorTwoToneIcon from "@mui/icons-material/AddModeratorTwoTone";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import CreateTwoToneIcon from "@mui/icons-material/CreateTwoTone";
+import GetAppIcon from "@mui/icons-material/GetApp";
 import ListAltTwoToneIcon from "@mui/icons-material/ListAltTwoTone";
 import MenuIcon from "@mui/icons-material/Menu";
+import PersonIcon from "@mui/icons-material/Person";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import {
   Chip,
@@ -31,7 +30,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
-import GetAppIcon from "@mui/icons-material/GetApp";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -60,23 +58,25 @@ import Process from "../Demo_Disbursement/Process";
 import VoucherAuthorisation from "../Demo_Disbursement/VoucherAuthorisation";
 import VoucherCancel from "../Demo_Disbursement/VoucherCancel";
 import VoucherGeneration from "../Demo_Disbursement/VoucherGeneration";
+import RepaymentStructure from "../Disbursement/Disbursement_Detail/Disbursement_Common/RepaymentStructure";
 import DisbursementCreate from "../Disbursement/Disbursement_Detail/Disbursement_Create/DisbursementCreate";
 import DisbursementModify from "../Disbursement/Disbursement_Detail/Disbursement_Modify/DisbursementModify";
 import DisbursementView from "../Disbursement/Disbursement_Detail/Disbursement_View/DisbursementView";
 import DisbursementApprovalList from "../Disbursement/Disbursement_List/DisbursementApprovalList";
 import DisbursementCreatePortal from "../Disbursement/Disbursement_List/DisbursementCreatePortal";
 import DisbursementRequestList from "../Disbursement/Disbursement_List/DisbursementRequestList";
+import EnachRegistration from "../Enach/EnachRegistration";
 import NachApproval from "../Nach/NachApproval";
 import NachMandate from "../Nach/NachMandate";
-import EnachRegistration from "../Enach/EnachRegistration";
+import NachRetrieval from "../Nach/NachRetrieval";
 import Verification from "../Nach/Verification";
 import ParameterMaintenance from "../ParameterMaintenance/ParameterMaintenance";
-import { BranchAction } from "../Store/Branch";
-import store from "../Store/index";
-import "./PageLayout.css";
 import Posting from "../Report/Posting";
 import Repayment from "../Report/Repayment";
 import Retrival from "../Report/Retrival";
+import { BranchAction } from "../Store/Branch";
+import store from "../Store/index";
+import "./PageLayout.css";
 
 const drawerWidth = 300;
 
@@ -1099,6 +1099,11 @@ export default function Pagelayout() {
                 screenTitle="Disbursement Request View"
               />
             }
+          />
+
+          <Route
+            path={`${search}/stlap/home/disbursement/repaymentStructure`}
+            element={<RepaymentStructure />}
           />
 
           <Route

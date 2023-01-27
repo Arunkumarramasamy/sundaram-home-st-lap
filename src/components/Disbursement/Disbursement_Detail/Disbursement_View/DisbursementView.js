@@ -364,7 +364,14 @@ const DisbursementView = (props) => {
                 target.style.color = "white";
               }}
               variant="contained"
-              onClick={() => {}}
+              onClick={() => {
+                const dataValue = { ...disbursementDetailTabValue };
+                dataValue.screenMode = props.screenMode;
+                navigate("/stlap/home/disbursement/repaymentStructure", {
+                  replace: true,
+                  state: dataValue,
+                });
+              }}
             >
               Repayment Structure
             </CustomButton>
