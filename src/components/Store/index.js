@@ -5,6 +5,8 @@ import NachStore from "./NachStore";
 import Branch from "./Branch";
 import storage from "redux-persist/lib/storage";
 import NachFilterReducer from "./NachFilterReducer";
+import VerificationModalReducer from "./VerificationModalReducer";
+import NachApprovalReducer from "./NachApprovalReducer";
 import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 const persistConfig = {
@@ -19,6 +21,8 @@ const store = configureStore({
     mob: MobileLogin,
     nach: NachStore,
     nachFilter: NachFilterReducer,
+    nachVerification: VerificationModalReducer,
+    nachApproval: NachApprovalReducer,
   },
   middleware: [thunk],
 });
