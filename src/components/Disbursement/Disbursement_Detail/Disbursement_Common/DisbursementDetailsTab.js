@@ -334,6 +334,7 @@ const DisbursementDetailsTab = (props) => {
     finalValue = finalValue.replace(/,/, "");
     finalValue = finalValue.replace(/\.+/g, ".");
     finalValue = finalValue.replace(/./, "");
+    finalValue = finalValue.replace(/\s+/g, " ");
     finalValue = finalValue.trim();
     props.dispatchEvent({
       type: typeValue,
