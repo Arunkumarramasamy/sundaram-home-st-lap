@@ -48,22 +48,10 @@ const EnachRegistration = () => {
       const response = await axios.post(
         "http://localhost:8080/enach/getApplicants",
         {
-          applicationNum: "string",
+          applicationNum: window.location.pathname.split("=")[1],
         }
       );
       setApplicantNameList(response.data);
-      // setBranch(response["branch"]);
-      // setEmiAmout(response["emiAmount"]);
-      // setAccountNumber(response["accountNumber"]);
-      // setAccountType(response["accountType"]);
-      // setBankName(response["bankName"]);
-      // setDebitType(response["debitType"]);
-      // setFrequency(response["frequency"]);
-      // setIfscCode(response["ifscCode"]);
-      // setMailId(response["mailID"]);
-      // setMobileNumber(response["mobileNumber"]);
-      // setNachAmount(response["nachAmount"]);
-      // setMandateEndDate(response["endDate"]);
     } catch {
       console.log("Network Error");
     }
@@ -78,19 +66,18 @@ const EnachRegistration = () => {
           applicantName: "string",
         }
       );
-      // setApplicantNameList(response.data);
       setBranch(response.data.losData["branch"]);
-      setEmiAmout(response.data.losData["emiAmount"]);
-      setAccountNumber(response.data.losData["accountNumber"]);
-      setAccountType(response.data.losData["accountType"]);
-      setBankName(response.data.losData["bankName"]);
-      setDebitType(response.data.losData["debitType"]);
-      setFrequency(response.data.losData["frequency"]);
-      setIfscCode(response.data.losData["ifscCode"]);
+      setEmiAmout(response.data.nachAmount["emiAmount"]);
+      setAccountNumber(response.data.bankDetails["bankAccountNum"]);
+      setAccountType(response.data.bankDetails["bankAccountType"]);
+      setBankName(response.data.bankDetails["bankName"]);
+      setDebitType("Maxi Amount");
+      setFrequency("As and when Required");
+      setIfscCode(response.data.bankDetails["ifscCode"]);
       setMailId(response.data.losData["emailId"]);
       setMobileNumber(response.data.losData["mobileNumber"]);
       setNachAmount(response.data.losData["nachAmount"]);
-      setMandateEndDate(response.data.losData["endDate"]);
+      setMandateEndDate("Until Cancelled");
     } catch {
       console.log("Network Error");
     }

@@ -1158,7 +1158,7 @@ export default function Pagelayout() {
             element={<AccrualWaiver />}
           />
           <Route
-            path={`${search}/stlap/home/eNachRegisteration`}
+            path={`${search}/stlap/home/eNachRegisteration/:id`}
             element={<EnachRegistration />}
           />
           <Route path={`${search}/stlap/home/posting`} element={<Posting />} />
