@@ -103,11 +103,18 @@ const NachMandate = () => {
 
   //Field Validation
   const frequencyIsValid =
-    FilteredData.frequency !== "" && FilteredData.frequency !== undefined;
+    FilteredData.frequency !== "" &&
+    FilteredData.frequency !== null &&
+    FilteredData.frequency !== undefined;
   const debitTypeIsValid =
-    FilteredData.debitType !== "" && FilteredData.debitType !== undefined;
+    FilteredData.debitType !== "" &&
+    FilteredData.debitType !== null &&
+    FilteredData.debitType !== undefined;
   const FBDIsValid = FilteredData.fbd !== "";
-  const mandateStartDateIsValid = FilteredData.mandateStartDate !== "";
+  const mandateStartDateIsValid =
+    FilteredData.mandateStartDate !== "" &&
+    FilteredData.mandateStartDate !== null &&
+    FilteredData.mandateStartDate !== undefined;
   const firstNachBillingDateIsValid = FilteredData.firstNachBillingDate !== "";
 
   //Has Error
